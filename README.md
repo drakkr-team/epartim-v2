@@ -21,7 +21,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](#)
 [![Turborepo](https://img.shields.io/badge/Turborepo-2.9-EF4444?style=flat-square&logo=turborepo&logoColor=white)](#)
 [![Biome](https://img.shields.io/badge/Biome-2.4-60A5FA?style=flat-square&logo=biome&logoColor=white)](#)
-[![CI](https://img.shields.io/github/actions/workflow/status/eloitsme/e5.stack/ci.yml?style=flat-square&label=CI)](.github/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/eloitsme/epartim/ci.yml?style=flat-square&label=CI)](.github/workflows/ci.yml)
 
 *AdonisJS API, TanStack Start web app, and shared UI packages connected by Tuyau and pnpm workspaces.*
 
@@ -33,7 +33,7 @@
 
 ## Overview
 
-**e5.stack** is a pnpm/Turborepo workspace with an **AdonisJS** JSON API, a **TanStack Start** React app, and split UI packages for React components and generated Tailwind CSS. The web app consumes the API through **Tuyau**, so route definitions generate the typed client surface used by React Query hooks.
+**epartim** is a pnpm/Turborepo workspace with an **AdonisJS** JSON API, a **TanStack Start** React app, and split UI packages for React components and generated Tailwind CSS. The web app consumes the API through **Tuyau**, so route definitions generate the typed client surface used by React Query hooks.
 
 ## Features
 
@@ -47,7 +47,7 @@
 ## Project Structure
 
 ```text
-e5.stack/
+epartim/
 ├── apps/
 │   ├── api/                 # AdonisJS API, queue worker, Docker Compose sidecars
 │   └── web/                 # TanStack Start app, Tuyau client, French i18n build
@@ -84,8 +84,8 @@ e5.stack/
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/eloitsme/e5.stack.git
-   cd e5.stack
+   git clone https://github.com/eloitsme/epartim.git
+   cd epartim
    ```
 
 2. Install dependencies:
