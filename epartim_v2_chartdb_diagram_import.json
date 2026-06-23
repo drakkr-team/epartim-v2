@@ -1,0 +1,6127 @@
+{
+  "id": "epartim_v2_import",
+  "name": "epartim_v2_target_schema",
+  "databaseType": "postgresql",
+  "tables": [
+    {
+      "id": "tbl_85",
+      "name": "networks",
+      "schema": "public",
+      "x": 100,
+      "y": 100,
+      "fields": [
+        {
+          "id": "fld_80",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_81",
+          "name": "name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_82",
+          "name": "amundi_org_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_83",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_84",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_1",
+          "name": "networks_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_80"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_92",
+      "name": "firms",
+      "schema": "public",
+      "x": 430,
+      "y": 100,
+      "fields": [
+        {
+          "id": "fld_86",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_87",
+          "name": "network_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_88",
+          "name": "name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_89",
+          "name": "amundi_org_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_90",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_91",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_2",
+          "name": "firms_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_86"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_104",
+      "name": "users",
+      "schema": "public",
+      "x": 760,
+      "y": 100,
+      "fields": [
+        {
+          "id": "fld_93",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_94",
+          "name": "firm_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_95",
+          "name": "email",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_96",
+          "name": "password",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_97",
+          "name": "first_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_98",
+          "name": "last_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_99",
+          "name": "mobile_phone",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_100",
+          "name": "status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_101",
+          "name": "amundi_user_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_102",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_103",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_3",
+          "name": "users_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_93"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_4",
+          "name": "uniq_users_email",
+          "unique": true,
+          "fieldIds": [
+            "fld_95"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_110",
+      "name": "roles",
+      "schema": "public",
+      "x": 1090,
+      "y": 100,
+      "fields": [
+        {
+          "id": "fld_105",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_106",
+          "name": "code",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_107",
+          "name": "label",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_108",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_109",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_5",
+          "name": "roles_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_105"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_6",
+          "name": "uniq_roles_code",
+          "unique": true,
+          "fieldIds": [
+            "fld_106"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_116",
+      "name": "user_roles",
+      "schema": "public",
+      "x": 1420,
+      "y": 100,
+      "fields": [
+        {
+          "id": "fld_111",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_112",
+          "name": "user_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_113",
+          "name": "role_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_114",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_115",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_7",
+          "name": "user_roles_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_111"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_126",
+      "name": "user_commission_settings",
+      "schema": "public",
+      "x": 100,
+      "y": 530,
+      "fields": [
+        {
+          "id": "fld_117",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_118",
+          "name": "user_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_119",
+          "name": "commission_referent_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_120",
+          "name": "short_term_rate",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_121",
+          "name": "middle_term_rate",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_122",
+          "name": "long_term_rate",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_123",
+          "name": "sienna_rate",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_124",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_125",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_9",
+          "name": "user_commission_settings_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_117"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_10",
+          "name": "uniq_user_commission_settings_user_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_118"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_138",
+      "name": "subscriptions",
+      "schema": "public",
+      "x": 430,
+      "y": 530,
+      "fields": [
+        {
+          "id": "fld_127",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_128",
+          "name": "user_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_129",
+          "name": "status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_130",
+          "name": "current_step",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_131",
+          "name": "refusal_reason",
+          "type": {
+            "id": "text",
+            "name": "text"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_132",
+          "name": "submitted_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_133",
+          "name": "approved_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_134",
+          "name": "completed_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_135",
+          "name": "status_updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_136",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_137",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_11",
+          "name": "subscriptions_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_127"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_12",
+          "name": "idx_subscriptions_user_id",
+          "unique": false,
+          "fieldIds": [
+            "fld_128"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_13",
+          "name": "idx_subscriptions_status",
+          "unique": false,
+          "fieldIds": [
+            "fld_129"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_14",
+          "name": "idx_subscriptions_current_step",
+          "unique": false,
+          "fieldIds": [
+            "fld_130"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_146",
+      "name": "subscription_steps",
+      "schema": "public",
+      "x": 760,
+      "y": 530,
+      "fields": [
+        {
+          "id": "fld_139",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_140",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_141",
+          "name": "step_code",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_142",
+          "name": "status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_143",
+          "name": "validated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_144",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_145",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_15",
+          "name": "subscription_steps_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_139"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_154",
+      "name": "subscription_status_events",
+      "schema": "public",
+      "x": 1090,
+      "y": 530,
+      "fields": [
+        {
+          "id": "fld_147",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_148",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_149",
+          "name": "from_status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_150",
+          "name": "to_status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_151",
+          "name": "reason",
+          "type": {
+            "id": "text",
+            "name": "text"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_152",
+          "name": "created_by_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_153",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_17",
+          "name": "subscription_status_events_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_147"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_173",
+      "name": "subscription_company_profiles",
+      "schema": "public",
+      "x": 1420,
+      "y": 530,
+      "fields": [
+        {
+          "id": "fld_155",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_156",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_157",
+          "name": "siret",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_158",
+          "name": "siren",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_159",
+          "name": "naf",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_160",
+          "name": "corporate_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_161",
+          "name": "legal_form",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_162",
+          "name": "company_headcount",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_163",
+          "name": "tax_country",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_164",
+          "name": "address_line_1",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_165",
+          "name": "address_line_2",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_166",
+          "name": "address_line_3",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_167",
+          "name": "postal_code",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_168",
+          "name": "city",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_169",
+          "name": "country",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_170",
+          "name": "financial_year_closing_day",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_171",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_172",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_18",
+          "name": "subscription_company_profiles_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_155"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_19",
+          "name": "uniq_subscription_company_profiles_subscription_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_156"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_189",
+      "name": "subscription_contacts",
+      "schema": "public",
+      "x": 100,
+      "y": 960,
+      "fields": [
+        {
+          "id": "fld_174",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_175",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_176",
+          "name": "kind",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_177",
+          "name": "person_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_178",
+          "name": "civility",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_179",
+          "name": "first_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_180",
+          "name": "last_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_181",
+          "name": "company_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_182",
+          "name": "function",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_183",
+          "name": "email",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_184",
+          "name": "mobile_phone",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_185",
+          "name": "amundi_portal_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_186",
+          "name": "is_signatory_on_kbis",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_187",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_188",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_20",
+          "name": "subscription_contacts_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_174"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_21",
+          "name": "idx_subscription_contacts_subscription_id",
+          "unique": false,
+          "fieldIds": [
+            "fld_175"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_22",
+          "name": "idx_subscription_contacts_kind",
+          "unique": false,
+          "fieldIds": [
+            "fld_176"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_198",
+      "name": "subscription_bank_accounts",
+      "schema": "public",
+      "x": 430,
+      "y": 960,
+      "fields": [
+        {
+          "id": "fld_190",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_191",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_192",
+          "name": "iban",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_193",
+          "name": "bic",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_194",
+          "name": "payment_method",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_195",
+          "name": "sepa_signature_date",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_196",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_197",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_23",
+          "name": "subscription_bank_accounts_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_190"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_24",
+          "name": "uniq_subscription_bank_accounts_subscription_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_191"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_210",
+      "name": "subscription_pricing",
+      "schema": "public",
+      "x": 760,
+      "y": 960,
+      "fields": [
+        {
+          "id": "fld_199",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_200",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_201",
+          "name": "package_fees",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_202",
+          "name": "subscription_fees_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_203",
+          "name": "subscription_fees_currency",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_204",
+          "name": "year_support_cost_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_205",
+          "name": "year_support_cost_currency",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_206",
+          "name": "entrance_fees_rate",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_207",
+          "name": "entrance_fees_from",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_208",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_209",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_25",
+          "name": "subscription_pricing_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_199"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_26",
+          "name": "uniq_subscription_pricing_subscription_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_200"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_228",
+      "name": "subscription_kyc_profiles",
+      "schema": "public",
+      "x": 1090,
+      "y": 960,
+      "fields": [
+        {
+          "id": "fld_211",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_212",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_213",
+          "name": "regulated_activity",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_214",
+          "name": "regulated_activity_reference",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_215",
+          "name": "listed_company",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_216",
+          "name": "listed_company_reference",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_217",
+          "name": "bic_id",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_218",
+          "name": "bearer_bonds_structure",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_219",
+          "name": "bearer_bonds_structure_percentage",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_220",
+          "name": "country_of_activity",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_221",
+          "name": "country_of_activity_reference",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_222",
+          "name": "country_provider",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_223",
+          "name": "country_provider_reference",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_224",
+          "name": "main_markets",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_225",
+          "name": "main_markets_reference",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_226",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_227",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_27",
+          "name": "subscription_kyc_profiles_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_211"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_28",
+          "name": "uniq_subscription_kyc_profiles_subscription_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_212"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_244",
+      "name": "beneficial_owners",
+      "schema": "public",
+      "x": 1420,
+      "y": 960,
+      "fields": [
+        {
+          "id": "fld_229",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_230",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_231",
+          "name": "kind",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_232",
+          "name": "name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_233",
+          "name": "function",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_234",
+          "name": "shareholding_percentage",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_235",
+          "name": "siren",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_236",
+          "name": "birth_city",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_237",
+          "name": "birth_date",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_238",
+          "name": "nationality",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_239",
+          "name": "tax_country",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_240",
+          "name": "permanent_address",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_241",
+          "name": "postal_address",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_242",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_243",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_29",
+          "name": "beneficial_owners_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_229"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_250",
+      "name": "beneficial_owner_roles",
+      "schema": "public",
+      "x": 100,
+      "y": 1390,
+      "fields": [
+        {
+          "id": "fld_245",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_246",
+          "name": "beneficial_owner_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_247",
+          "name": "role_code",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_248",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_249",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_30",
+          "name": "beneficial_owner_roles_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_245"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_263",
+      "name": "subscription_plans",
+      "schema": "public",
+      "x": 430,
+      "y": 1390,
+      "fields": [
+        {
+          "id": "fld_251",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_252",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_253",
+          "name": "plan_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_254",
+          "name": "subscription_method",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_255",
+          "name": "existing_arrangement",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_256",
+          "name": "transfer_amount",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_257",
+          "name": "system_of_matching",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_258",
+          "name": "calculation_method",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_259",
+          "name": "limited_period_start",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_260",
+          "name": "limited_period_end",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_261",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_262",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_32",
+          "name": "subscription_plans_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_251"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_270",
+      "name": "subscription_existing_agreements",
+      "schema": "public",
+      "x": 760,
+      "y": 1390,
+      "fields": [
+        {
+          "id": "fld_264",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_265",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_266",
+          "name": "agreement_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_267",
+          "name": "details",
+          "type": {
+            "id": "text",
+            "name": "text"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_268",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_269",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_34",
+          "name": "subscription_existing_agreements_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_264"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_283",
+      "name": "contribution_rules",
+      "schema": "public",
+      "x": 1090,
+      "y": 1390,
+      "fields": [
+        {
+          "id": "fld_271",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_272",
+          "name": "subscription_plan_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_273",
+          "name": "rule_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_274",
+          "name": "source_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_275",
+          "name": "limit_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_276",
+          "name": "percentage",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_277",
+          "name": "max_percentage",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_278",
+          "name": "amount_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_279",
+          "name": "amount_currency",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_280",
+          "name": "calculation_method",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_281",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_282",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_36",
+          "name": "contribution_rules_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_271"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_37",
+          "name": "idx_contribution_rules_subscription_plan_id",
+          "unique": false,
+          "fieldIds": [
+            "fld_272"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_38",
+          "name": "idx_contribution_rules_rule_type",
+          "unique": false,
+          "fieldIds": [
+            "fld_273"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_39",
+          "name": "idx_contribution_rules_source_type",
+          "unique": false,
+          "fieldIds": [
+            "fld_274"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_295",
+      "name": "contribution_rule_tiers",
+      "schema": "public",
+      "x": 1420,
+      "y": 1390,
+      "fields": [
+        {
+          "id": "fld_284",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_285",
+          "name": "contribution_rule_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_286",
+          "name": "position",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_287",
+          "name": "starts_at_month",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_288",
+          "name": "ends_at_month",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_289",
+          "name": "greater_than",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_290",
+          "name": "percentage",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_291",
+          "name": "amount_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_292",
+          "name": "amount_currency",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_293",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_294",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_40",
+          "name": "contribution_rule_tiers_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_284"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_308",
+      "name": "voluntary_payment_rules",
+      "schema": "public",
+      "x": 100,
+      "y": 1820,
+      "fields": [
+        {
+          "id": "fld_296",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_297",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_298",
+          "name": "effective_date_start",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_299",
+          "name": "effective_date_end",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_300",
+          "name": "minimum_seniority",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_301",
+          "name": "duration",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_302",
+          "name": "formula",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_303",
+          "name": "salary_proportion_percentage",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_304",
+          "name": "salary_proportion_with_seniority_percentage",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_305",
+          "name": "egalitary_percentage",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_306",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_307",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_41",
+          "name": "voluntary_payment_rules_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_296"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_42",
+          "name": "uniq_voluntary_payment_rules_subscription_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_297"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_318",
+      "name": "files",
+      "schema": "public",
+      "x": 430,
+      "y": 1820,
+      "fields": [
+        {
+          "id": "fld_309",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_310",
+          "name": "disk",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_311",
+          "name": "key",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_312",
+          "name": "filename",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_313",
+          "name": "content_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_314",
+          "name": "size",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_315",
+          "name": "checksum",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_316",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_317",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_43",
+          "name": "files_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_309"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_327",
+      "name": "subscription_documents",
+      "schema": "public",
+      "x": 760,
+      "y": 1820,
+      "fields": [
+        {
+          "id": "fld_319",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_320",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_321",
+          "name": "file_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_322",
+          "name": "document_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_323",
+          "name": "status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_324",
+          "name": "signature_date",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_325",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_326",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_45",
+          "name": "subscription_documents_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_319"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_46",
+          "name": "idx_subscription_documents_subscription_id",
+          "unique": false,
+          "fieldIds": [
+            "fld_320"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_47",
+          "name": "idx_subscription_documents_document_type",
+          "unique": false,
+          "fieldIds": [
+            "fld_322"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_48",
+          "name": "idx_subscription_documents_status",
+          "unique": false,
+          "fieldIds": [
+            "fld_323"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_337",
+      "name": "signature_envelopes",
+      "schema": "public",
+      "x": 1090,
+      "y": 1820,
+      "fields": [
+        {
+          "id": "fld_328",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_329",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_330",
+          "name": "provider",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_331",
+          "name": "provider_envelope_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_332",
+          "name": "document_group",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_333",
+          "name": "status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_334",
+          "name": "majority_required",
+          "type": {
+            "id": "boolean",
+            "name": "boolean"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_335",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_336",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_49",
+          "name": "signature_envelopes_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_328"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_349",
+      "name": "signature_recipients",
+      "schema": "public",
+      "x": 1420,
+      "y": 1820,
+      "fields": [
+        {
+          "id": "fld_338",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_339",
+          "name": "signature_envelope_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_340",
+          "name": "recipient_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_341",
+          "name": "email",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_342",
+          "name": "first_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_343",
+          "name": "last_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_344",
+          "name": "role",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_345",
+          "name": "signing_order",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_346",
+          "name": "signed_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_347",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_348",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_51",
+          "name": "signature_recipients_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_338"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_357",
+      "name": "signature_documents",
+      "schema": "public",
+      "x": 100,
+      "y": 2250,
+      "fields": [
+        {
+          "id": "fld_350",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_351",
+          "name": "signature_envelope_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_352",
+          "name": "subscription_document_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_353",
+          "name": "provider_document_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_354",
+          "name": "anchor_prefix",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_355",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_356",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_52",
+          "name": "signature_documents_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_350"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_368",
+      "name": "companies",
+      "schema": "public",
+      "x": 430,
+      "y": 2250,
+      "fields": [
+        {
+          "id": "fld_358",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_359",
+          "name": "subscription_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_360",
+          "name": "user_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_361",
+          "name": "amundi_company_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_362",
+          "name": "siren",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_363",
+          "name": "name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_364",
+          "name": "status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_365",
+          "name": "archived_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_366",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_367",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_53",
+          "name": "companies_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_358"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_54",
+          "name": "idx_companies_siren",
+          "unique": false,
+          "fieldIds": [
+            "fld_362"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_55",
+          "name": "idx_companies_name",
+          "unique": false,
+          "fieldIds": [
+            "fld_363"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_56",
+          "name": "idx_companies_status",
+          "unique": false,
+          "fieldIds": [
+            "fld_364"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_57",
+          "name": "uniq_companies_amundi_company_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_361"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_385",
+      "name": "company_contacts",
+      "schema": "public",
+      "x": 760,
+      "y": 2250,
+      "fields": [
+        {
+          "id": "fld_369",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_370",
+          "name": "company_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_371",
+          "name": "kind",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_372",
+          "name": "civility",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_373",
+          "name": "first_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_374",
+          "name": "last_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_375",
+          "name": "email",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_376",
+          "name": "phone",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_377",
+          "name": "address_line_1",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_378",
+          "name": "address_line_2",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_379",
+          "name": "address_line_3",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_380",
+          "name": "postal_code",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_381",
+          "name": "city",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_382",
+          "name": "country",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_383",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_384",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_58",
+          "name": "company_contacts_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_369"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_59",
+          "name": "idx_company_contacts_company_id",
+          "unique": false,
+          "fieldIds": [
+            "fld_370"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_60",
+          "name": "idx_company_contacts_kind",
+          "unique": false,
+          "fieldIds": [
+            "fld_371"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_395",
+      "name": "company_bank_accounts",
+      "schema": "public",
+      "x": 1090,
+      "y": 2250,
+      "fields": [
+        {
+          "id": "fld_386",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_387",
+          "name": "company_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_388",
+          "name": "iban",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_389",
+          "name": "bic",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_390",
+          "name": "sepa_mandate_umr",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_391",
+          "name": "sepa_mandate_status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_392",
+          "name": "sepa_mandate_expiration_date",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_393",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_394",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_61",
+          "name": "company_bank_accounts_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_386"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_62",
+          "name": "uniq_company_bank_accounts_company_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_387"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_411",
+      "name": "company_amundi_accounts",
+      "schema": "public",
+      "x": 1420,
+      "y": 2250,
+      "fields": [
+        {
+          "id": "fld_396",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_397",
+          "name": "company_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": true,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_398",
+          "name": "offer_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_399",
+          "name": "offer",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_400",
+          "name": "external_ref",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_401",
+          "name": "amundi_user_id",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_402",
+          "name": "amundi_user_first_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_403",
+          "name": "amundi_user_last_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_404",
+          "name": "amundi_firm_code",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_405",
+          "name": "amundi_firm_name",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_406",
+          "name": "entry_date",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_407",
+          "name": "signature_date",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_408",
+          "name": "closing_contract_date",
+          "type": {
+            "id": "date",
+            "name": "date"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_409",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_410",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_63",
+          "name": "company_amundi_accounts_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_396"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_64",
+          "name": "uniq_company_amundi_accounts_company_id",
+          "unique": true,
+          "fieldIds": [
+            "fld_397"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_420",
+      "name": "company_positions",
+      "schema": "public",
+      "x": 100,
+      "y": 2680,
+      "fields": [
+        {
+          "id": "fld_412",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_413",
+          "name": "company_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_414",
+          "name": "term",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_415",
+          "name": "amount_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_416",
+          "name": "amount_currency",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_417",
+          "name": "imported_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_418",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_419",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_65",
+          "name": "company_positions_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_412"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_66",
+          "name": "idx_company_positions_company_id",
+          "unique": false,
+          "fieldIds": [
+            "fld_413"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_67",
+          "name": "idx_company_positions_term",
+          "unique": false,
+          "fieldIds": [
+            "fld_414"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_68",
+          "name": "idx_company_positions_imported_at",
+          "unique": false,
+          "fieldIds": [
+            "fld_417"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_432",
+      "name": "company_operations",
+      "schema": "public",
+      "x": 430,
+      "y": 2680,
+      "fields": [
+        {
+          "id": "fld_421",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_422",
+          "name": "company_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_423",
+          "name": "operation_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_424",
+          "name": "direction",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_425",
+          "name": "term",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_426",
+          "name": "amount_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_427",
+          "name": "amount_currency",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_428",
+          "name": "operated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_429",
+          "name": "raw_payload",
+          "type": {
+            "id": "jsonb",
+            "name": "jsonb"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_430",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_431",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_69",
+          "name": "company_operations_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_421"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_70",
+          "name": "idx_company_operations_company_id",
+          "unique": false,
+          "fieldIds": [
+            "fld_422"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_71",
+          "name": "idx_company_operations_operation_type",
+          "unique": false,
+          "fieldIds": [
+            "fld_423"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_72",
+          "name": "idx_company_operations_operated_at",
+          "unique": false,
+          "fieldIds": [
+            "fld_428"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_440",
+      "name": "commission_periods",
+      "schema": "public",
+      "x": 760,
+      "y": 2680,
+      "fields": [
+        {
+          "id": "fld_433",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_434",
+          "name": "year",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_435",
+          "name": "quarter",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_436",
+          "name": "status",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_437",
+          "name": "validated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_438",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_439",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_73",
+          "name": "commission_periods_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_433"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_451",
+      "name": "commissions",
+      "schema": "public",
+      "x": 1090,
+      "y": 2680,
+      "fields": [
+        {
+          "id": "fld_441",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_442",
+          "name": "company_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_443",
+          "name": "commission_period_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_444",
+          "name": "user_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_445",
+          "name": "firm_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_446",
+          "name": "network_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_447",
+          "name": "total_amount_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_448",
+          "name": "total_amount_currency",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_449",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_450",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_75",
+          "name": "commissions_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_441"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "tbl_462",
+      "name": "commission_lines",
+      "schema": "public",
+      "x": 1420,
+      "y": 2680,
+      "fields": [
+        {
+          "id": "fld_452",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_453",
+          "name": "commission_id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_454",
+          "name": "line_type",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_455",
+          "name": "label",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_456",
+          "name": "base_amount_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_457",
+          "name": "rate",
+          "type": {
+            "id": "decimal",
+            "name": "decimal"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_458",
+          "name": "amount_cents",
+          "type": {
+            "id": "integer",
+            "name": "integer"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_459",
+          "name": "amount_currency",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1781096712059,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "fld_460",
+          "name": "created_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        },
+        {
+          "id": "fld_461",
+          "name": "updated_at",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": false,
+          "createdAt": 1781096712059
+        }
+      ],
+      "indexes": [
+        {
+          "id": "idx_77",
+          "name": "commission_lines_pkey",
+          "unique": true,
+          "fieldIds": [
+            "fld_452"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree",
+          "isPrimaryKey": true
+        },
+        {
+          "id": "idx_78",
+          "name": "idx_commission_lines_commission_id",
+          "unique": false,
+          "fieldIds": [
+            "fld_453"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        },
+        {
+          "id": "idx_79",
+          "name": "idx_commission_lines_line_type",
+          "unique": false,
+          "fieldIds": [
+            "fld_454"
+          ],
+          "createdAt": 1781096712059,
+          "type": "btree"
+        }
+      ],
+      "color": "#8eb7ff",
+      "isView": false,
+      "isMaterializedView": false,
+      "createdAt": 1781096712059
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel_463",
+      "name": "fk_firms_network_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_92",
+      "targetSchema": "public",
+      "targetTableId": "tbl_85",
+      "sourceFieldId": "fld_87",
+      "targetFieldId": "fld_80",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_464",
+      "name": "fk_users_firm_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_104",
+      "targetSchema": "public",
+      "targetTableId": "tbl_92",
+      "sourceFieldId": "fld_94",
+      "targetFieldId": "fld_86",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_465",
+      "name": "fk_user_roles_user_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_116",
+      "targetSchema": "public",
+      "targetTableId": "tbl_104",
+      "sourceFieldId": "fld_112",
+      "targetFieldId": "fld_93",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_466",
+      "name": "fk_user_roles_role_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_116",
+      "targetSchema": "public",
+      "targetTableId": "tbl_110",
+      "sourceFieldId": "fld_113",
+      "targetFieldId": "fld_105",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_467",
+      "name": "fk_user_commission_settings_user_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_126",
+      "targetSchema": "public",
+      "targetTableId": "tbl_104",
+      "sourceFieldId": "fld_118",
+      "targetFieldId": "fld_93",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_468",
+      "name": "fk_user_commission_settings_commission_referent_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_126",
+      "targetSchema": "public",
+      "targetTableId": "tbl_104",
+      "sourceFieldId": "fld_119",
+      "targetFieldId": "fld_93",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_469",
+      "name": "fk_subscriptions_user_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_138",
+      "targetSchema": "public",
+      "targetTableId": "tbl_104",
+      "sourceFieldId": "fld_128",
+      "targetFieldId": "fld_93",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_470",
+      "name": "fk_subscription_steps_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_146",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_140",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_471",
+      "name": "fk_subscription_status_events_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_154",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_148",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_472",
+      "name": "fk_subscription_status_events_created_by_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_154",
+      "targetSchema": "public",
+      "targetTableId": "tbl_104",
+      "sourceFieldId": "fld_152",
+      "targetFieldId": "fld_93",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_473",
+      "name": "fk_subscription_company_profiles_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_173",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_156",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_474",
+      "name": "fk_subscription_contacts_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_189",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_175",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_475",
+      "name": "fk_subscription_bank_accounts_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_198",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_191",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_476",
+      "name": "fk_subscription_pricing_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_210",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_200",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_477",
+      "name": "fk_subscription_kyc_profiles_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_228",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_212",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_478",
+      "name": "fk_beneficial_owners_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_244",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_230",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_479",
+      "name": "fk_beneficial_owner_roles_beneficial_owner_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_250",
+      "targetSchema": "public",
+      "targetTableId": "tbl_244",
+      "sourceFieldId": "fld_246",
+      "targetFieldId": "fld_229",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_480",
+      "name": "fk_subscription_plans_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_263",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_252",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_481",
+      "name": "fk_subscription_existing_agreements_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_270",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_265",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_482",
+      "name": "fk_contribution_rules_subscription_plan_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_283",
+      "targetSchema": "public",
+      "targetTableId": "tbl_263",
+      "sourceFieldId": "fld_272",
+      "targetFieldId": "fld_251",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_483",
+      "name": "fk_contribution_rule_tiers_contribution_rule_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_295",
+      "targetSchema": "public",
+      "targetTableId": "tbl_283",
+      "sourceFieldId": "fld_285",
+      "targetFieldId": "fld_271",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_484",
+      "name": "fk_voluntary_payment_rules_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_308",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_297",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_485",
+      "name": "fk_subscription_documents_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_327",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_320",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_486",
+      "name": "fk_subscription_documents_file_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_327",
+      "targetSchema": "public",
+      "targetTableId": "tbl_318",
+      "sourceFieldId": "fld_321",
+      "targetFieldId": "fld_309",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_487",
+      "name": "fk_signature_envelopes_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_337",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_329",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_488",
+      "name": "fk_signature_recipients_signature_envelope_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_349",
+      "targetSchema": "public",
+      "targetTableId": "tbl_337",
+      "sourceFieldId": "fld_339",
+      "targetFieldId": "fld_328",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_489",
+      "name": "fk_signature_documents_signature_envelope_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_357",
+      "targetSchema": "public",
+      "targetTableId": "tbl_337",
+      "sourceFieldId": "fld_351",
+      "targetFieldId": "fld_328",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_490",
+      "name": "fk_signature_documents_subscription_document_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_357",
+      "targetSchema": "public",
+      "targetTableId": "tbl_327",
+      "sourceFieldId": "fld_352",
+      "targetFieldId": "fld_319",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_491",
+      "name": "fk_companies_subscription_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_368",
+      "targetSchema": "public",
+      "targetTableId": "tbl_138",
+      "sourceFieldId": "fld_359",
+      "targetFieldId": "fld_127",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_492",
+      "name": "fk_companies_user_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_368",
+      "targetSchema": "public",
+      "targetTableId": "tbl_104",
+      "sourceFieldId": "fld_360",
+      "targetFieldId": "fld_93",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_493",
+      "name": "fk_company_contacts_company_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_385",
+      "targetSchema": "public",
+      "targetTableId": "tbl_368",
+      "sourceFieldId": "fld_370",
+      "targetFieldId": "fld_358",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_494",
+      "name": "fk_company_bank_accounts_company_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_395",
+      "targetSchema": "public",
+      "targetTableId": "tbl_368",
+      "sourceFieldId": "fld_387",
+      "targetFieldId": "fld_358",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_495",
+      "name": "fk_company_amundi_accounts_company_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_411",
+      "targetSchema": "public",
+      "targetTableId": "tbl_368",
+      "sourceFieldId": "fld_397",
+      "targetFieldId": "fld_358",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_496",
+      "name": "fk_company_positions_company_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_420",
+      "targetSchema": "public",
+      "targetTableId": "tbl_368",
+      "sourceFieldId": "fld_413",
+      "targetFieldId": "fld_358",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_497",
+      "name": "fk_company_operations_company_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_432",
+      "targetSchema": "public",
+      "targetTableId": "tbl_368",
+      "sourceFieldId": "fld_422",
+      "targetFieldId": "fld_358",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_498",
+      "name": "fk_commissions_company_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_451",
+      "targetSchema": "public",
+      "targetTableId": "tbl_368",
+      "sourceFieldId": "fld_442",
+      "targetFieldId": "fld_358",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_499",
+      "name": "fk_commissions_commission_period_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_451",
+      "targetSchema": "public",
+      "targetTableId": "tbl_440",
+      "sourceFieldId": "fld_443",
+      "targetFieldId": "fld_433",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_500",
+      "name": "fk_commissions_user_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_451",
+      "targetSchema": "public",
+      "targetTableId": "tbl_104",
+      "sourceFieldId": "fld_444",
+      "targetFieldId": "fld_93",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_501",
+      "name": "fk_commissions_firm_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_451",
+      "targetSchema": "public",
+      "targetTableId": "tbl_92",
+      "sourceFieldId": "fld_445",
+      "targetFieldId": "fld_86",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_502",
+      "name": "fk_commissions_network_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_451",
+      "targetSchema": "public",
+      "targetTableId": "tbl_85",
+      "sourceFieldId": "fld_446",
+      "targetFieldId": "fld_80",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    },
+    {
+      "id": "rel_503",
+      "name": "fk_commission_lines_commission_id",
+      "sourceSchema": "public",
+      "sourceTableId": "tbl_462",
+      "targetSchema": "public",
+      "targetTableId": "tbl_451",
+      "sourceFieldId": "fld_453",
+      "targetFieldId": "fld_441",
+      "sourceCardinality": "many",
+      "targetCardinality": "one",
+      "createdAt": 1781096712059
+    }
+  ],
+  "dependencies": [],
+  "areas": [],
+  "customTypes": [],
+  "notes": [],
+  "createdAt": "2026-06-10T13:05:12.059Z",
+  "updatedAt": "2026-06-10T13:05:12.059Z"
+}
