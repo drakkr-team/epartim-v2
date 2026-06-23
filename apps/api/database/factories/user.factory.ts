@@ -1,4 +1,5 @@
 import factory from "@adonisjs/lucid/factories";
+
 import User from "#models/user";
 
 export const UserFactory = factory

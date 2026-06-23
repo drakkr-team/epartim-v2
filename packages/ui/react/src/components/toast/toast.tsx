@@ -1,12 +1,14 @@
-import { Toaster, type ToasterProps } from "sonner";
+import { Toaster } from "sonner";
+
 import { CircleCheckIcon, CircleXIcon, InfoIcon, TriangleAlertIcon } from "../../icons";
 import { Spinner } from "../spinner";
 
-export type ToastProviderProps = Pick<ToasterProps, "position">;
+export function ToastProvider() {
+	const isMobile = typeof window !== "undefined" ? window.innerWidth < 640 : false;
 
-export function ToastProvider(props: ToastProviderProps) {
 	return (
 		<Toaster
+			position={isMobile ? "top-center" : "bottom-right"}
 			icons={{
 				info: <InfoIcon className="text-info-9" />,
 				error: <CircleXIcon className="text-error-9" />,
@@ -28,7 +30,6 @@ export function ToastProvider(props: ToastProviderProps) {
 					warning: "bg-linear-to-br from-warning-3 to-75% to-neutral-1",
 				},
 			}}
-			{...props}
 		/>
 	);
 }

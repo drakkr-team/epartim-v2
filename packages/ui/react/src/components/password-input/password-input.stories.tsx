@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { SearchIcon } from "../../icons";
 import { PasswordInput } from "./index";
 

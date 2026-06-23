@@ -1,6 +1,7 @@
 import { createTuyau } from "@tuyau/core/client";
 import { createTuyauReactQueryClient } from "@tuyau/react-query";
 import { superjson } from "@tuyau/superjson/plugin";
+
 import { registry } from "@workspace/api/registry";
 
 export const client = createTuyau({

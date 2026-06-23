@@ -1,5 +1,7 @@
-import { Card } from "@workspace/ui-react/components/card";
 import { useTranslation } from "react-i18next";
+
+import { Card } from "@workspace/ui-react/components/card";
+
 import {
 	type UseUpdateProfileFormParams,
 	useUpdateProfileForm,

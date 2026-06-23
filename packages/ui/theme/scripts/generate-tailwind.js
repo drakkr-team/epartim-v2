@@ -1,6 +1,7 @@
 import { writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { colors, fonts } from "../src/tokens.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

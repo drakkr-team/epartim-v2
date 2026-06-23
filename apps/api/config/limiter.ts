@@ -1,4 +1,5 @@
 import { defineConfig, stores } from "@adonisjs/limiter";
+
 import env from "#start/env";
 
 const limiterConfig = defineConfig({

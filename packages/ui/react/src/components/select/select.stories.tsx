@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Fragment } from "react/jsx-runtime";
+
 import { Select } from "./index";
 
 const OPTIONS = [
@@ -40,174 +41,82 @@ const meta: Meta<typeof Select> = {
 		Separator: Select.Separator,
 	},
 	argTypes: {
-		name: {
-			description: "Identifies the field when a form is submitted.",
-			control: "text",
-			type: "string",
-		},
 		defaultValue: {
 			description: "The initial value of the select.",
-			control: "text",
 			table: {
 				type: {
-					summary: "Union",
-					detail: "Value | Value[] | null | undefined",
+					summary: "Value | Value[] | null | undefined",
 				},
 			},
 		},
 		value: {
 			description: "The value of the select.",
-			control: "text",
 			table: {
 				type: {
-					summary: "Union",
-					detail: "Value | Value[] | null | undefined",
+					summary: "Value | Value[] | null | undefined",
 				},
 			},
 		},
 		onValueChange: {
 			description: "Event handler called when the value of the select changes.",
-			table: {
-				type: {
-					summary: "function",
-				},
-			},
+			type: "function",
 		},
 		defaultOpen: {
 			description: "Whether the select popup is initially open.",
-			control: "boolean",
 			type: "boolean",
-			table: { defaultValue: { summary: "false" } },
 		},
 		open: {
 			description: "Whether the select popup is currently open.",
-			control: "boolean",
 			type: "boolean",
 		},
 		onOpenChange: {
 			description: "Event handler called when the select popup is opened or closed.",
-			table: {
-				type: {
-					summary: "function",
-				},
-			},
+			type: "function",
 		},
 		highlightItemOnHover: {
 			description:
 				"Whether moving the pointer over items should highlight them. Disabling this prop allows CSS :hover to be differentiated from the :focus (data-highlighted) state.",
-			control: "boolean",
 			type: "boolean",
 			table: {
 				defaultValue: { summary: "true" },
 			},
 		},
-		actionsRef: {
-			description: "A ref to imperative actions.",
-			table: {
-				type: {
-					summary: "React.RefObject<Select.Root.Actions | null> | undefined",
-				},
-			},
-		},
 		isItemEqualToValue: {
 			description:
 				"Custom comparison logic used to determine if a select item value matches the current selected value. Useful when item values are objects without matching referentially. Defaults to Object.is comparison.",
-			table: {
-				type: {
-					summary: "((itemValue: Value, value: Value) => boolean)| undefined",
-				},
-			},
+			type: "function",
 		},
 		itemToStringLabel: {
 			description:
 				"When the item values are objects (<Select.Option value={object}>), this function converts the object value to a string representation for display in the trigger. If the shape of the object is { value, label }, the label will be used automatically without needing to specify this prop.",
-			table: {
-				type: {
-					summary: "((itemValue: Value) => string) | undefined",
-				},
-			},
+			type: "function",
 		},
 		itemToStringValue: {
 			description:
 				"When the item values are objects (<Select.Option value={object}>), this function converts the object value to a string representation for form submission. If the shape of the object is { value, label }, the value will be used automatically without needing to specify this prop.",
-			table: {
-				type: {
-					summary: "((itemValue: Value) => string) | undefined",
-				},
-			},
+			type: "function",
 		},
 		items: {
 			description:
 				"Data structure of the items rendered in the select popup. When specified, <Select.Value> renders the label of the selected item instead of the raw value.",
 			table: {
 				type: {
-					summary: "Union",
-					detail: "Record<string, ReactNode> | {label: ReactNode, value: any}[] | undefined",
+					summary: "Record<string, ReactNode> | {label: ReactNode, value: any}[] | undefined",
 				},
-			},
-		},
-		modal: {
-			description: "Determines if the select enters a modal state when open.",
-			control: "boolean",
-			type: "boolean",
-			table: {
-				defaultValue: { summary: "true" },
 			},
 		},
 		multiple: {
 			description: "Whether multiple items can be selected.",
-			control: "boolean",
 			type: "boolean",
-			table: {
-				defaultValue: { summary: "false" },
-			},
 		},
 		onOpenChangeComplete: {
 			description:
 				"Event handler called after any animations complete when the select popup is opened or closed.",
-			table: {
-				type: {
-					summary: "function",
-				},
-			},
+			type: "function",
 		},
 		disabled: {
 			description: "Whether the component should ignore user interaction.",
-			control: "boolean",
 			type: "boolean",
-			table: {
-				defaultValue: { summary: "false" },
-			},
-		},
-		readOnly: {
-			description:
-				"Whether the user should be unable to choose a different option from the select popup.",
-			control: "boolean",
-			type: "boolean",
-			table: {
-				defaultValue: { summary: "false" },
-			},
-		},
-		required: {
-			description: "Whether the user must choose a value before submitting a form.",
-			control: "boolean",
-			type: "boolean",
-			table: {
-				defaultValue: { summary: "false" },
-			},
-		},
-		inputRef: {
-			description: "A ref to access the hidden input element.",
-			table: {
-				type: {
-					summary: "React.Ref<HTMLInputElement> | undefined",
-				},
-			},
-		},
-		id: {
-			description: "The id of the Select.",
-			control: "text",
-			type: "string",
 		},
 	},
 };
@@ -221,7 +130,7 @@ export const Default: Story = {
 	},
 	render: (args) => (
 		<Select {...args}>
-			<Select.Input className="w-52">
+			<Select.Input className="w-[min(205px,calc(100svw-2rem))]">
 				<Select.Value placeholder="Select an option" />
 			</Select.Input>
 
@@ -245,7 +154,7 @@ export const Multiple: Story = {
 	},
 	render: (args) => (
 		<Select {...args}>
-			<Select.Input className="w-52">
+			<Select.Input className="w-[min(205px,calc(100svw-2rem))]">
 				<Select.Value>
 					{(values: number[]) => {
 						if (values.length === 0) {
@@ -279,7 +188,7 @@ export const Grouped: Story = {
 	},
 	render: (args) => (
 		<Select {...args}>
-			<Select.Input className="w-52">
+			<Select.Input className="w-[min(205px,calc(100svw-2rem))]">
 				<Select.Value placeholder="Select an option" />
 			</Select.Input>
 

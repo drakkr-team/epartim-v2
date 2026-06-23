@@ -1,6 +1,7 @@
 import { Input as InputPrimitive } from "@base-ui/react/input";
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "tailwind-variants";
+
 import { useElementSize } from "../../hooks/use-element-size";
 
 export type InputRootProps = InputPrimitive.Props & {
@@ -24,7 +25,7 @@ export function InputRoot(props: InputRootProps) {
 			<InputPrimitive
 				className={cn(
 					// Default
-					"h-9 w-full flex-1 rounded-lg border border-neutral-7 bg-neutral-1 px-2 text-start text-base text-neutral-12 outline-none ring-primary-7 transition sm:text-sm",
+					"h-10 w-full flex-1 rounded-lg border border-neutral-7 bg-neutral-1 px-2 text-start text-base text-neutral-12 outline-none ring-primary-7 transition sm:h-9 sm:text-sm",
 					// Placeholder
 					"placeholder:text-neutral-9",
 					// Hover

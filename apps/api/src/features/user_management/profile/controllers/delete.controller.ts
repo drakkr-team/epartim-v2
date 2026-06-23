@@ -1,5 +1,6 @@
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
+
 import DeleteProfilePolicy from "#features/user_management/profile/policies/delete.policy";
 import ProfileService from "#features/user_management/profile/services/profile.service";
 

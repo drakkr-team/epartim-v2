@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { LaptopMinimalIcon, LogOutIcon, MoonIcon, SunIcon } from "../../icons";
 import { Button } from "../button";
 import { Menu } from "./index";

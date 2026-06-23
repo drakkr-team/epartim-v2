@@ -1,5 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, HeadContent, Scripts } from "@tanstack/react-router";
+
 import { Providers } from "#/providers";
 import "#/styles/globals.css";
 import "#/libs/i18n/config";
@@ -28,8 +29,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="bg-neutral-2 antialiased">
-				<Providers>{children}</Providers>
+			<body className="relative bg-neutral-2 antialiased">
+				<div className="isolate">
+					<Providers>{children}</Providers>
+				</div>
+
 				<Scripts />
 			</body>
 		</html>

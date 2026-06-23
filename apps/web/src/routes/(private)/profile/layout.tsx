@@ -1,7 +1,8 @@
 import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+
 import { Tabs } from "@workspace/ui-react/components/tabs";
 import { FingerprintPatternIcon, ShieldIcon, UserIcon } from "@workspace/ui-react/icons";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/(private)/profile")({
 	component: Layout,

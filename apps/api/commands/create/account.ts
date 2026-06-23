@@ -1,6 +1,7 @@
 import { BaseCommand } from "@adonisjs/core/ace";
 import type { CommandOptions } from "@adonisjs/core/types/ace";
 import vine from "@vinejs/vine";
+
 import { UserFactory } from "#database/factories/user.factory";
 
 export default class CreateAccount extends BaseCommand {

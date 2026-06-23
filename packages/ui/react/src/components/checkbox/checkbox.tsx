@@ -1,5 +1,6 @@
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
 import { cn } from "tailwind-variants";
+
 import { CheckIcon, MinusIcon } from "../../icons";
 
 export type CheckboxRootProps = CheckboxPrimitive.Root.Props;
@@ -11,7 +12,7 @@ export function CheckboxRoot(props: CheckboxRootProps) {
 		<CheckboxPrimitive.Root
 			className={cn(
 				// Default
-				"flex size-4 items-center justify-center rounded-sm border border-neutral-7 bg-neutral-1 text-neutral-1 outline-none ring-primary-7 transition dark:text-neutral-12",
+				"flex size-5 items-center justify-center rounded-md border border-neutral-7 bg-neutral-1 text-neutral-1 outline-none ring-primary-7 transition dark:text-neutral-12",
 				// Hover
 				"hover:not-data-disabled:border-neutral-8 hover:not-data-disabled:bg-neutral-2",
 				// Focus
@@ -38,7 +39,7 @@ export function CheckboxRoot(props: CheckboxRootProps) {
 			{...rest}
 		>
 			<CheckboxPrimitive.Indicator
-				className="size-3 stroke-3 transition data-ending-style:scale-0 data-starting-style:scale-0 data-ending-style:opacity-0 data-starting-style:opacity-0"
+				className="size-4 stroke-3 transition data-ending-style:scale-0 data-starting-style:scale-0 data-ending-style:opacity-0 data-starting-style:opacity-0"
 				render={(props, state) => {
 					if (state.indeterminate) {
 						return <MinusIcon {...props} />;

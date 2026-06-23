@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
+
 import { LoginForm } from "#/features/user_management/authentication/components/login-form";
 
 const searchParamsSchema = z.object({

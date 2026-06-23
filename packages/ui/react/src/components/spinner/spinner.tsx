@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cn } from "tailwind-variants";
+
 import { LoaderCircleIcon } from "../../icons";
 
 export type SpinnerRootProps = ComponentProps<typeof LoaderCircleIcon>;

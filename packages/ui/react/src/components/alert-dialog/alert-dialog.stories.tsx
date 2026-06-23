@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { Button } from "../button";
 import { AlertDialog } from "./index";
 
@@ -62,10 +63,10 @@ export const Default: Story = {
 				<AlertDialog.Trigger render={<Button />}>Open Alert Dialog</AlertDialog.Trigger>
 				<AlertDialog.Content className="flex flex-col gap-9 sm:max-w-lg">
 					<div className="grid gap-2">
-						<AlertDialog.Title className="font-bold text-2xl">
+						<AlertDialog.Title className="font-bold text-2xl text-neutral-12">
 							Lorem ipsum dolor sit amet.
 						</AlertDialog.Title>
-						<AlertDialog.Description className="text-neutral-10 text-sm">
+						<AlertDialog.Description className="text-neutral-11 text-sm">
 							Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, beatae. Nihil,
 							pariatur! Sequi iste officiis quos omnis perferendis, adipisci eos repudiandae est
 							delectus blanditiis unde enim aut magnam nemo iure!

@@ -1,6 +1,8 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { cn, tv, type VariantProps } from "tailwind-variants";
+
 import { CheckIcon, ChevronRightIcon } from "../../icons";
+import { ScrollArea } from "../scroll-area";
 
 export type MenuRootProps = MenuPrimitive.Root.Props;
 
@@ -17,15 +19,19 @@ export function MenuTrigger(props: MenuTriggerProps) {
 export type MenuContentProps = MenuPrimitive.Positioner.Props;
 
 export function MenuContent(props: MenuContentProps) {
-	const { children, className, sideOffset = 4, ...rest } = props;
+	const { children, className, sideOffset = 4, collisionPadding = 16, ...rest } = props;
 
 	return (
 		<MenuPrimitive.Portal>
-			<MenuPrimitive.Positioner sideOffset={sideOffset} {...rest}>
+			<MenuPrimitive.Positioner
+				sideOffset={sideOffset}
+				collisionPadding={collisionPadding}
+				{...rest}
+			>
 				<MenuPrimitive.Popup
 					className={cn(
 						// Default
-						"origin-(--transform-origin) rounded-lg border border-neutral-6 bg-neutral-1 py-1 shadow shadow-neutral-5 outline-none blur-none transition",
+						"max-w-(--available-width) origin-(--transform-origin) rounded-lg border border-neutral-6 bg-neutral-1 py-1 shadow shadow-neutral-5 outline-none blur-none transition",
 						// Starting Animation
 						"data-starting-style:data-[side=inline-end]:-translate-x-1 data-starting-style:data-[side=inline-start]:translate-x-1 data-starting-style:data-[side=left]:translate-x-1 data-starting-style:data-[side=right]:-translate-x-1 data-starting-style:data-[side=bottom]:-translate-y-1 data-starting-style:data-[side=top]:translate-y-1 data-starting-style:scale-95 data-starting-style:opacity-0 data-starting-style:blur-xs",
 						// Ending Animation
@@ -34,7 +40,9 @@ export function MenuContent(props: MenuContentProps) {
 						className,
 					)}
 				>
-					{children}
+					<ScrollArea>
+						<div className="max-h-(--available-height)">{children}</div>
+					</ScrollArea>
 				</MenuPrimitive.Popup>
 			</MenuPrimitive.Positioner>
 		</MenuPrimitive.Portal>

@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+
 import LoginPolicy from "#features/user_management/authentication/policies/login.policy";
 
 test.group("Features / User Management / Authentication / Policies / Login Policy", () => {

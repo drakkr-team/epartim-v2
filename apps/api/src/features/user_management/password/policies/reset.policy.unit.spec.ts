@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+
 import ResetPolicy from "#features/user_management/password/policies/reset.policy";
 
 test.group("Features / User Management / Password / Policies / Reset Policy", () => {

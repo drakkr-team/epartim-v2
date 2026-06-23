@@ -1,4 +1,5 @@
 import { defineConfig, drivers } from "@adonisjs/core/encryption";
+
 import env from "#start/env";
 
 const encryptionConfig = defineConfig({

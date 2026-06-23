@@ -1,5 +1,6 @@
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
 import { useState } from "react";
+
 import { EyeIcon, EyeOffIcon } from "../../icons";
 import { Button } from "../button";
 import { Input, type InputProps } from "../input";

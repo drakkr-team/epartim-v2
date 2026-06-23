@@ -1,4 +1,5 @@
 import type { QueryClient } from "@tanstack/react-query";
+
 import { api } from "#/libs/tuyau";
 
 export async function isAuthenticated(queryClient: QueryClient) {

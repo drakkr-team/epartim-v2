@@ -1,6 +1,7 @@
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
+
 import UpdateProfilePolicy from "#features/user_management/profile/policies/update.policy";
 import UserPresenter from "#presenters/user.presenter";
 import { UpdateUserSchema } from "#validators/user.validator";

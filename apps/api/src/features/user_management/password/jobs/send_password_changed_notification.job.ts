@@ -1,6 +1,7 @@
 import mail from "@adonisjs/mail/services/main";
 import { Job } from "@adonisjs/queue";
 import type { JobOptions } from "@adonisjs/queue/types";
+
 import PasswordChangedNotificationMail from "#features/user_management/password/mails/password_changed_notifiction.mail";
 import User from "#models/user";
 

@@ -1,8 +1,10 @@
 import { Link as RouterLink } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+
 import { Field } from "@workspace/ui-react/components/field";
 import { Link } from "@workspace/ui-react/components/link";
 import { PasswordInput } from "@workspace/ui-react/components/password-input";
-import { useTranslation } from "react-i18next";
+
 import {
 	type UseLoginFormParams,
 	useLoginForm,

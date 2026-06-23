@@ -1,5 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+
 import { UpdateProfileForm } from "#/features/user_management/profile/components/update-form";
 import { api } from "#/libs/tuyau";
 

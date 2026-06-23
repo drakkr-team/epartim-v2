@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+
 import { UserFactory } from "#database/factories/user.factory";
 
 test.group("Features / User Management / Authentication / Controllers / Logout Controller", () => {

@@ -60,9 +60,9 @@ const buttonVariants = tv({
 			],
 		},
 		size: {
-			md: "h-9 rounded-lg px-3 text-sm [&_svg]:size-4",
-			"icon-sm": "size-6 rounded-md text-xs [&_svg]:size-4",
-			"icon-md": "size-9 rounded-lg text-sm [&_svg]:size-4",
+			md: "h-10 rounded-lg px-3 text-sm sm:h-9 [&_svg]:size-4",
+			"icon-sm": "size-7 rounded-md text-xs sm:size-6 [&_svg]:size-4",
+			"icon-md": "size-9 rounded-lg text-sm sm:size-9 [&_svg]:size-4",
 		},
 	},
 	defaultVariants: {

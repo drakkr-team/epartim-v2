@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+
 import ForgotPolicy from "#features/user_management/password/policies/forgot.policy";
 
 test.group("Features / User Management / Password / Policies / Forgot Policy", () => {

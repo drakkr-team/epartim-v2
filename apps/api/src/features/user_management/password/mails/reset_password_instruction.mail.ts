@@ -1,4 +1,5 @@
 import { BaseMail } from "@adonisjs/mail";
+
 import User from "#models/user";
 
 export default class ResetPasswordInstructionMail extends BaseMail {

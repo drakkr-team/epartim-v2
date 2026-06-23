@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+
 import { UserFactory } from "#database/factories/user.factory";
 import ResetPasswordInstructionMail from "#features/user_management/password/mails/reset_password_instruction.mail";
 

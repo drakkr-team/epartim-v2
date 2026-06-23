@@ -1,5 +1,6 @@
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs";
 import { cn } from "tailwind-variants";
+
 import { ScrollArea } from "../scroll-area";
 
 export type TabsRootProps = TabsPrimitive.Root.Props;
@@ -32,7 +33,7 @@ export function TabsTab(props: TabsTabProps) {
 		<TabsPrimitive.Tab
 			className={cn(
 				// Default
-				"mb-2 inline-flex h-9 w-fit shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-lg px-6 font-medium text-neutral-12 text-sm outline-none transition [&_svg]:size-4",
+				"mb-2 inline-flex h-10 w-fit shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-lg px-6 font-medium text-neutral-12 text-sm outline-none transition sm:h-9 [&_svg]:size-4",
 				// Hover
 				"hover:not-data-disabled:bg-neutral-3",
 				// Focus

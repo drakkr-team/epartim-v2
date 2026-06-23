@@ -1,5 +1,6 @@
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import { cn } from "tailwind-variants";
+
 import { CheckIcon, ChevronsUpDownIcon } from "../../icons";
 import { ScrollArea } from "../scroll-area";
 
@@ -23,13 +24,21 @@ export function SelectInput(props: SelectInputProps) {
 		<SelectPrimitive.Trigger
 			className={cn(
 				// Default
-				"inline-flex h-9 items-center justify-between gap-2 rounded-lg border border-neutral-7 bg-neutral-1 px-2 outline-none ring-primary-7 transition",
+				"inline-flex h-10 items-center justify-between gap-2 rounded-lg border border-neutral-7 bg-neutral-1 px-2 outline-none ring-primary-7 transition sm:h-9",
 				// Hover
 				"hover:not-disabled:border-neutral-8",
 				// Focus
 				"focus-visible:border-primary-8 focus-visible:ring-3 focus-visible:hover:border-primary-8",
 				// Popup open
 				"data-popup-open:border-primary-8 data-popup-open:ring-3 data-popup-open:hover:border-primary-8",
+				// Invalid
+				"data-invalid:border-error-7 data-invalid:ring-error-7",
+				// Invalid Hover
+				"data-invalid:hover:not-data-disabled:border-error-8",
+				// Invalid Focus
+				"data-invalid:focus-visible:border-error-8 data-invalid:hover:border-error-8",
+				// Invalid Popup open
+				"data-invalid:data-popup-open:border-error-8 data-invalid:data-popup-open:hover:border-error-8",
 				// Disabled
 				"data-disabled:cursor-not-allowed data-disabled:opacity-50",
 				// Overwrite
@@ -73,7 +82,7 @@ export function SelectDropdown(props: SelectDropdownProps) {
 		children,
 		className,
 		align = "start",
-		sideOffset = 4,
+		sideOffset = 8,
 		collisionPadding = 16,
 		...rest
 	} = props;
@@ -91,7 +100,7 @@ export function SelectDropdown(props: SelectDropdownProps) {
 				<SelectPrimitive.Popup
 					className={cn(
 						// Default
-						"min-w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) rounded-lg border border-neutral-6 bg-neutral-1 shadow shadow-neutral-5 transition",
+						"grid max-h-[min(24rem,var(--available-height))] min-w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) grid-rows-1 rounded-lg border border-neutral-6 bg-neutral-1 shadow shadow-neutral-5 outline-none transition",
 						// Starting Animation
 						"data-starting-style:data-[side=inline-end]:-translate-x-1 data-starting-style:data-[side=inline-start]:translate-x-1 data-starting-style:data-[side=left]:translate-x-1 data-starting-style:data-[side=right]:-translate-x-1 data-starting-style:data-[side=bottom]:-translate-y-1 data-starting-style:data-[side=top]:translate-y-1 data-starting-style:scale-95 data-starting-style:opacity-0 data-starting-style:blur-xs",
 						// Ending Animation
@@ -101,9 +110,7 @@ export function SelectDropdown(props: SelectDropdownProps) {
 					)}
 				>
 					<ScrollArea>
-						<SelectPrimitive.List className="max-h-[min(24rem,var(--available-height))] py-1">
-							{children}
-						</SelectPrimitive.List>
+						<SelectPrimitive.List className="py-1 outline-none">{children}</SelectPrimitive.List>
 					</ScrollArea>
 				</SelectPrimitive.Popup>
 			</SelectPrimitive.Positioner>

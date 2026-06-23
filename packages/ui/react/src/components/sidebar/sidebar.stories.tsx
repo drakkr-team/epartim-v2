@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { Sidebar } from "./index";
 
 const meta: Meta<typeof Sidebar> = {

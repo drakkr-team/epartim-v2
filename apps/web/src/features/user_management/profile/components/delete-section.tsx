@@ -1,5 +1,7 @@
-import { Button } from "@workspace/ui-react/components/button";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@workspace/ui-react/components/button";
+
 import { DeleteProfileConfirmationDialog } from "#/features/user_management/profile/components/delete-confirmation-dialog";
 
 export function DeleteProfileSection() {

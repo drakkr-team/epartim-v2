@@ -1,5 +1,6 @@
 import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
+
 import { UserFactory } from "#database/factories/user.factory";
 import SendPasswordChangedNotification from "#features/user_management/password/jobs/send_password_changed_notification.job";
 import User from "#models/user";

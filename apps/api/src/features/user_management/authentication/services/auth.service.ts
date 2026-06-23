@@ -1,5 +1,6 @@
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
+
 import User from "#models/user";
 
 @inject()

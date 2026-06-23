@@ -1,5 +1,6 @@
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
+
 import SendAccountDeletedNotification from "#features/user_management/profile/jobs/send_account_deleted_notification.job";
 
 @inject()

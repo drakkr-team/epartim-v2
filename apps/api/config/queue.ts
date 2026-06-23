@@ -1,4 +1,5 @@
 import { defineConfig, drivers } from "@adonisjs/queue";
+
 import env from "#start/env";
 
 export default defineConfig({

@@ -1,5 +1,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
+
 import { Avatar } from "@workspace/ui-react/components/avatar";
 import { Menu } from "@workspace/ui-react/components/menu";
 import { Spinner } from "@workspace/ui-react/components/spinner";
@@ -12,8 +15,7 @@ import {
 	SunIcon,
 	UserIcon,
 } from "@workspace/ui-react/icons";
-import { useTheme } from "next-themes";
-import { useTranslation } from "react-i18next";
+
 import { useLogoutMutation } from "#/features/user_management/authentication/hooks/use-logout-mutation";
 import { api } from "#/libs/tuyau";
 

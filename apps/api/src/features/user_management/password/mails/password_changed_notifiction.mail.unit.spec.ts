@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+
 import { UserFactory } from "#database/factories/user.factory";
 import PasswordChangedNotificationMail from "#features/user_management/password/mails/password_changed_notifiction.mail";
 

@@ -1,5 +1,6 @@
 import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
+
 import { UserFactory } from "#database/factories/user.factory";
 import SendResetPasswordInstruction from "#features/user_management/password/jobs/send_reset_password_instruction.job";
 

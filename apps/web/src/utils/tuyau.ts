@@ -1,4 +1,5 @@
 import type { TuyauError } from "@tuyau/core/client";
+
 import { type ExternalToast, toast } from "@workspace/ui-react/components/toast";
 
 export function toastifyTuyauError(

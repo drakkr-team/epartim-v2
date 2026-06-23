@@ -25,7 +25,17 @@ ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/api/node_modules ./apps/api/node_modules
+COPY --from=builder /app/packages ./packages
 COPY --from=builder /app/apps/api/build ./apps/api
-EXPOSE 8080
+WORKDIR /app/apps/api
 
-ENTRYPOINT ["sh", "-c", "node apps/api/ace migration:run --force && node apps/api/bin/server.js"]
+FROM runner AS worker
+ENTRYPOINT ["sh", "-c", "node ace queue:work --queue=$QUEUE_NAMES"]
+
+FROM runner AS server
+EXPOSE 8080
+ENTRYPOINT ["sh", "-c", "node ace migration:run --force && node bin/server.js"]
+
+FROM runner AS both
+EXPOSE 8080
+ENTRYPOINT ["sh", "-c", "node ace migration:run --force && node bin/server.js & node ace queue:work --queue=$QUEUE_NAMES"]

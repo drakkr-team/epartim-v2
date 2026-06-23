@@ -1,5 +1,6 @@
 import { defineConfig } from "@adonisjs/core/http";
 import app from "@adonisjs/core/services/app";
+
 import env from "#start/env";
 
 export const http = defineConfig({
