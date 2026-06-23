@@ -27,3 +27,7 @@ tmp/
 
 # Oh My OpenAgent
 .omo
+
+# IDEs
+.vscode
+.idea

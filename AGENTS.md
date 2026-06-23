@@ -11,7 +11,7 @@ pnpm/Turbo TypeScript monorepo with an AdonisJS API, TanStack Start web app, and
 ## STRUCTURE
 
 ```text
-e5.stack/
+epartim/
 ├── apps/api/              # AdonisJS API; feature-first user management; Tuyau/Adonis codegen
 ├── apps/web/              # TanStack Start app; file routes, Tuyau client, compiled French i18n
 ├── packages/ui/react/     # Storybook-backed React UI package; components/icons/hooks exports

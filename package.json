@@ -1,6 +1,6 @@
 {
-	"name": "e5.stack",
-	"author": "elowanaud",
+	"name": "epartim",
+	"author": "drakkar",
 	"scripts": {
 		"build": "turbo build",
 		"dev": "turbo dev",
