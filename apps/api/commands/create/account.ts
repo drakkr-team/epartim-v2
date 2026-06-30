@@ -12,12 +12,10 @@ export default class CreateAccount extends BaseCommand {
 		startApp: true,
 	};
 
-	name: string | null = null;
 	email: string | null = null;
 	password: string | null = null;
 
 	async interact() {
-		this.name = await this.prompt.ask("Enter full name for the new account:");
 		this.email = await this.prompt.ask("Enter email for the new account:", {
 			validate: async (email) => {
 				const [error] = await vine
@@ -42,12 +40,11 @@ export default class CreateAccount extends BaseCommand {
 	}
 
 	async run() {
-		if (!this.email || !this.password || !this.name) {
-			return this.logger.error("Full name, email, and password are required to create an account.");
+		if (!this.email || !this.password) {
+			return this.logger.error("Email and password are required to create an account.");
 		}
 
 		await UserFactory.merge({
-			name: this.name,
 			email: this.email,
 			password: this.password,
 		}).create();

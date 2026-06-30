@@ -41,6 +41,7 @@ export default await Env.create(new URL("../", import.meta.url), {
 	SMTP_PORT: Env.schema.number.optionalWhen(process.env.MAILER_DRIVER !== "local"),
 
 	// Redis Config
+	REDIS_CONNECTION: Env.schema.enum(["main", "test"] as const),
 	REDIS_HOST: Env.schema.string({ format: "host" }),
 	REDIS_PORT: Env.schema.number(),
 	REDIS_PASSWORD: Env.schema.string.optional(),

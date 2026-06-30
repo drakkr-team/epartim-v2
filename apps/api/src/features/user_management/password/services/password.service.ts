@@ -1,20 +1,19 @@
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
-import { DateTime } from "luxon";
 
+import InvalidTokenException from "#exceptions/invalid_token.exception";
 import InvalidCredentialsException from "#features/user_management/authentication/exceptions/invalid_credentials.exception";
 import SendPasswordChangedNotification from "#features/user_management/password/jobs/send_password_changed_notification.job";
 import SendResetPasswordInstruction from "#features/user_management/password/jobs/send_reset_password_instruction.job";
 import User from "#models/user";
-import { UserTokenType } from "#models/user_token";
-import UserTokenService from "#services/user_token.service";
+import OtpService from "#services/otp.service";
 import env from "#start/env";
 
 @inject()
 export default class PasswordService {
 	constructor(
 		protected ctx: HttpContext,
-		protected userTokenService: UserTokenService,
+		protected otpService: OtpService<{ userId: number }>,
 	) {}
 
 	async update(params: { currentPassword: string; newPassword: string }) {
@@ -22,10 +21,7 @@ export default class PasswordService {
 
 		const user = this.ctx.auth.user!;
 		const isValidCredentials = await user.verifyPassword(currentPassword);
-
-		if (!isValidCredentials) {
-			throw new InvalidCredentialsException();
-		}
+		if (!isValidCredentials) throw new InvalidCredentialsException();
 
 		await user.merge({ password: newPassword }).save();
 		await SendPasswordChangedNotification.dispatch({
@@ -39,10 +35,11 @@ export default class PasswordService {
 		const user = await User.findBy("email", email);
 		if (!user) return;
 
-		const token = await this.userTokenService.generate({
-			user,
-			type: UserTokenType.RESET_PASSWORD,
-			expiresAt: DateTime.now().plus({ hours: 1 }),
+		const token = await this.otpService.generate({
+			type: "alphanumeric",
+			length: 32,
+			expireIn: 60 * 15, // 15 minutes
+			data: { userId: user.id },
 		});
 
 		const resetPasswordUrl = new URL("/reset-password", env.get("FRONTEND_URL"));
@@ -54,12 +51,11 @@ export default class PasswordService {
 	async reset(params: { token: string; newPassword: string }) {
 		const { token, newPassword } = params;
 
-		const user = await this.userTokenService.verify({
-			token,
-			type: UserTokenType.RESET_PASSWORD,
-		});
+		const { userId } = await this.otpService.verify(token);
 
-		await this.userTokenService.revokeAll({ user, type: UserTokenType.RESET_PASSWORD });
+		const user = await User.find(userId);
+		if (!user) throw new InvalidTokenException();
+
 		await user.merge({ password: newPassword }).save();
 
 		await SendPasswordChangedNotification.dispatch({

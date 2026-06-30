@@ -1,12 +1,10 @@
 import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
-import { DateTime } from "luxon";
 
 import { UserFactory } from "#database/factories/user.factory";
 import SendPasswordChangedNotification from "#features/user_management/password/jobs/send_password_changed_notification.job";
 import User from "#models/user";
-import { UserTokenType } from "#models/user_token";
-import UserTokenService from "#services/user_token.service";
+import OtpService from "#services/otp.service";
 
 test.group("Features / User Management / Password / Controllers / Reset Controller", (group) => {
 	group.each.teardown(() => {
@@ -18,15 +16,16 @@ test.group("Features / User Management / Password / Controllers / Reset Controll
 		assert,
 	}) => {
 		const fakeQueueManager = QueueManager.fake();
-		const userTokenService = new UserTokenService();
+		const otpService = new OtpService<{ userId: number }>();
 
 		const password = "password";
 		const newPassword = "newpassword";
 		const user = await UserFactory.merge({ password }).create();
-		const token = await userTokenService.generate({
-			user,
-			type: UserTokenType.RESET_PASSWORD,
-			expiresAt: DateTime.now().plus({ hours: 1 }),
+		const token = await otpService.generate({
+			type: "alphanumeric",
+			length: 32,
+			expireIn: 60 * 15, // 15 minutes
+			data: { userId: user.id },
 		});
 
 		const response = await client.visit("user_management.password.reset").json({
@@ -45,13 +44,14 @@ test.group("Features / User Management / Password / Controllers / Reset Controll
 	test("it should respond with E_INVALID_TOKEN when already used token is provided", async ({
 		client,
 	}) => {
-		const userTokenService = new UserTokenService();
+		const otpService = new OtpService<{ userId: number }>();
 
 		const user = await UserFactory.create();
-		const token = await userTokenService.generate({
-			user,
-			type: UserTokenType.RESET_PASSWORD,
-			expiresAt: DateTime.now().plus({ hours: 1 }),
+		const token = await otpService.generate({
+			type: "alphanumeric",
+			length: 32,
+			expireIn: 60 * 15, // 15 minutes
+			data: { userId: user.id },
 		});
 
 		await client.visit("user_management.password.reset").json({
@@ -72,14 +72,16 @@ test.group("Features / User Management / Password / Controllers / Reset Controll
 	test("it should respond with E_INVALID_TOKEN when expired token is provided", async ({
 		client,
 	}) => {
-		const userTokenService = new UserTokenService();
+		const otpService = new OtpService<{ userId: number }>();
 
 		const user = await UserFactory.create();
-		const token = await userTokenService.generate({
-			user,
-			type: UserTokenType.RESET_PASSWORD,
-			expiresAt: DateTime.now().minus({ hours: 1 }),
+		const token = await otpService.generate({
+			type: "alphanumeric",
+			length: 32,
+			expireIn: 1, // 1 seconds
+			data: { userId: user.id },
 		});
+		await new Promise((resolve) => setTimeout(resolve, 1000)); // wait for 1 seconds to ensure the token is expired
 
 		const response = await client.visit("user_management.password.reset").json({
 			token,
