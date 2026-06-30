@@ -1,0 +1,8 @@
+{
+	"admin": {
+		"dashboard": {
+			"title": "Administration",
+			"description": "Socle admin dedie aux comptes, invitations, roles, cabinets et reseaux."
+		}
+	}
+}
