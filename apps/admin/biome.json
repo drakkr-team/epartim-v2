@@ -1,0 +1,50 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
+	"root": false,
+	"extends": "//",
+	"files": {
+		"includes": [
+			"**",
+			"!.tanstack",
+			"!**/routeTree.gen.ts",
+			"!dist",
+			"!.output",
+			"!src/libs/i18n/build/*.json"
+		]
+	},
+	"linter": {
+		"domains": {
+			"react": "recommended",
+			"tailwind": "recommended"
+		},
+		"rules": {
+			"nursery": {
+				"useSortedClasses": {
+					"level": "warn",
+					"fix": "safe",
+					"options": {
+						"functions": ["cn", "tv"]
+					}
+				}
+			},
+			"style": {
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"patterns": [
+							{
+								"group": ["./**", "../**"],
+								"message": "Use alias imports instead of relative imports."
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	}
+}
