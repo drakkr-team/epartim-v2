@@ -4,7 +4,7 @@ export default class extends BaseSchema {
 	protected tableName = "user_invitations";
 
 	async up() {
-		await this.schema.createTable(this.tableName, (table) => {
+		this.schema.createTable(this.tableName, (table) => {
 			table.increments("id").notNullable();
 			table
 				.integer("user_id")
@@ -34,7 +34,7 @@ export default class extends BaseSchema {
 			table.index(["email"], "idx_user_invitations_email");
 		});
 
-		await this.schema.raw(`
+		this.schema.raw(`
 			CREATE UNIQUE INDEX "uniq_user_invitations_active_user_id"
 			ON "${this.tableName}" ("user_id")
 			WHERE "accepted_at" IS NULL AND "revoked_at" IS NULL
@@ -42,6 +42,6 @@ export default class extends BaseSchema {
 	}
 
 	async down() {
-		await this.schema.dropTable(this.tableName);
+		this.schema.dropTable(this.tableName);
 	}
 }
