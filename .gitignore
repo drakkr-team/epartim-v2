@@ -24,7 +24,6 @@ tmp/
 
 # Misc
 .DS_Store
-epartim_v2_chartdb_*.json
 
 # Oh My OpenAgent
 .omo
