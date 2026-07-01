@@ -7,6 +7,9 @@ const dbConfig = defineConfig({
 	connections: {
 		postgres: {
 			client: "pg",
+			seeders: {
+				paths: ["./database/seeders/main"],
+			},
 			connection: {
 				host: env.get("DB_HOST"),
 				port: env.get("DB_PORT"),
