@@ -1,6 +1,6 @@
 import { SwitchRoot } from "./switch";
 
-export { Switch as SwitchPrimitive } from "@base-ui/react/switch";
+export { Switch as SwitchHeadless } from "@base-ui/react/switch";
 
 export const Switch = Object.assign(SwitchRoot, {});
 

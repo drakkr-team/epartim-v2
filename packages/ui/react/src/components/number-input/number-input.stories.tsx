@@ -28,6 +28,9 @@ const meta: Meta<typeof NumberInput> = {
 		onValueCommitted: {
 			type: "function",
 		},
+		onBlur: {
+			type: "function",
+		},
 		allowOutOfRange: {
 			type: "boolean",
 		},

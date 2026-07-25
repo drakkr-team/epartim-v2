@@ -1,53 +1,50 @@
-import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
+import { Switch as SwitchHeadless } from "@base-ui/react/switch";
 import { cn, cx } from "tailwind-variants";
 
-export type SwitchRootProps = SwitchPrimitive.Root.Props;
+export type SwitchRootProps = Pick<
+	SwitchHeadless.Root.Props,
+	| "name"
+	| "defaultChecked"
+	| "checked"
+	| "onCheckedChange"
+	| "onBlur"
+	| "value"
+	| "form"
+	| "nativeButton"
+	| "uncheckedValue"
+	| "disabled"
+	| "readOnly"
+	| "required"
+	| "inputRef"
+	| "id"
+	| "className"
+	| "style"
+	| "render"
+>;
 
 export function SwitchRoot(props: SwitchRootProps) {
 	const { className, ...rest } = props;
 
 	return (
-		<SwitchPrimitive.Root
+		<SwitchHeadless.Root
 			className={cn(
-				// Default
-				"group flex h-5 w-9 rounded-full border border-neutral-7 bg-neutral-3 outline-none ring-primary-7 transition",
-				// Hover
-				"hover:not-data-disabled:border-neutral-8 hover:not-data-disabled:bg-neutral-4",
-				// Focus
-				"focus-visible:ring-3",
-				// Checked
+				"group flex h-6 w-9 items-center rounded-full border-2 outline-none ring-primary-8 transition",
+				"data-unchecked:border-neutral-9 data-unchecked:bg-neutral-9",
+				"data-unchecked:hover:not-disabled:border-neutral-10 data-unchecked:hover:not-disabled:bg-neutral-10",
 				"data-checked:border-primary-9 data-checked:bg-primary-9",
-				// Checked Hover
 				"data-checked:hover:not-disabled:border-primary-10 data-checked:hover:not-disabled:bg-primary-10",
-				// Invalid
-				"data-invalid:border-error-7",
-				// Invalid Hover
-				"data-invalid:hover:not-disabled:border-error-8",
-				// Invalid Focus
-				"data-invalid:focus-visible:ring-error-7",
-				// Disabled
+				"focus-visible:ring-3",
 				"data-disabled:cursor-not-allowed data-disabled:opacity-50",
-				// Overwrite
 				className,
 			)}
 			{...rest}
 		>
-			<SwitchPrimitive.Thumb
+			<SwitchHeadless.Thumb
 				className={cx(
-					// Default
-					"aspect-square h-full rounded-full bg-neutral-1 ring ring-neutral-7 transition dark:bg-neutral-12",
-					// Hover
-					"group-hover:not-data-disabled:ring-neutral-8",
-					// Checked
-					"data-checked:translate-x-4 data-checked:ring-primary-9",
-					// Checked Hover
-					"data-checked:group-hover:not-data-disabled:ring-primary-10",
-					// Invalid
-					"data-invalid:ring-error-7",
-					// Invalid Hover
-					"data-invalid:group-hover:not-data-disabled:ring-error-8",
+					"aspect-square h-full rounded-full bg-neutral-1 transition dark:bg-neutral-12",
+					"data-checked:translate-x-3",
 				)}
 			/>
-		</SwitchPrimitive.Root>
+		</SwitchHeadless.Root>
 	);
 }
