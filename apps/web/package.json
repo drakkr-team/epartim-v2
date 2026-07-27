@@ -31,7 +31,7 @@
 		"react": "19.2.7",
 		"react-dom": "19.2.7",
 		"react-i18next": "17.0.10",
-		"tailwind-variants": "3.2.2",
+		"tailwind-variants": "3.3.0",
 		"zod": "4.4.3"
 	},
 	"devDependencies": {
