@@ -62,7 +62,7 @@ export function MenuSubmenuTrigger(props: MenuSubmenuTriggerProps) {
 				"mx-1 flex cursor-default select-none items-center gap-2 rounded-md px-3 py-1.5 text-neutral-12 text-sm outline-none [&_svg]:size-4",
 				"hover:not-data-disabled:bg-neutral-3",
 				"data-highlighted:not-data-disabled:bg-neutral-3",
-				"data-popup-open:bg-neutral-3",
+				"data-popup-open:bg-neutral-4",
 				"data-disabled:cursor-not-allowed data-disabled:opacity-50",
 				className,
 			)}
@@ -114,11 +114,13 @@ const menuItemVariants = tv({
 				"text-neutral-12",
 				"hover:not-data-disabled:bg-neutral-3",
 				"data-highlighted:not-data-disabled:bg-neutral-3",
+				"active:not-data-disabled:bg-neutral-4!",
 			],
 			destructive: [
 				"text-error-9",
 				"hover:not-data-disabled:bg-error-3",
 				"data-highlighted:not-data-disabled:bg-error-3",
+				"active:not-data-disabled:bg-error-4!",
 			],
 		},
 	},
@@ -151,6 +153,7 @@ export function MenuCheckboxItem(props: MenuCheckboxItemProps) {
 				"mx-1 flex cursor-pointer select-none items-center gap-2 rounded-md px-3 py-1.5 text-neutral-12 text-sm outline-none [&_svg]:size-4",
 				"hover:not-data-disabled:bg-neutral-3",
 				"data-highlighted:not-data-disabled:bg-neutral-3",
+				"active:not-data-disabled:bg-neutral-4!",
 				"data-disabled:cursor-not-allowed data-disabled:opacity-50",
 				className,
 			)}
@@ -189,6 +192,7 @@ export function MenuRadioItem(props: MenuRadioItemProps) {
 				"mx-1 flex cursor-pointer select-none items-center gap-2 rounded-md px-3 py-1.5 text-neutral-12 text-sm outline-none [&_svg]:size-4",
 				"hover:not-data-disabled:bg-neutral-3",
 				"data-highlighted:not-data-disabled:bg-neutral-3",
+				"active:not-data-disabled:bg-neutral-4!",
 				"data-disabled:cursor-not-allowed data-disabled:opacity-50",
 				className,
 			)}
