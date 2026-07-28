@@ -1,5 +1,5 @@
 import { Tooltip } from "@base-ui/react/tooltip";
-import { cn } from "tailwind-variants";
+import { cn, cx } from "tailwind-variants";
 
 export type TooltipProviderProps = Tooltip.Provider.Props;
 
@@ -22,7 +22,7 @@ export function TooltipTrigger(props: TooltipTriggerProps) {
 export type TooltipContentProps = Tooltip.Positioner.Props;
 
 export function TooltipContent(props: TooltipContentProps) {
-	const { children, className, sideOffset = 4, ...rest } = props;
+	const { children, className, sideOffset = 6, ...rest } = props;
 
 	return (
 		<Tooltip.Portal>
@@ -36,6 +36,16 @@ export function TooltipContent(props: TooltipContentProps) {
 						className,
 					)}
 				>
+					<Tooltip.Arrow
+						className={cx(
+							"relative block h-1.5 w-3 overflow-clip",
+							"before:transform-[translate(-50%,50%)_rotate(45deg)] before:absolute before:bottom-0 before:left-1/2 before:h-[calc(6px*sqrt(2))] before:w-[calc(6px*sqrt(2))] before:bg-neutral-12 before:shadow before:shadow-neutral-5 before:content-['']",
+							"data-[side=bottom]:-top-1.5 data-[side=top]:rotate-180",
+							"data-[side=left]:-right-2.25 data-[side=right]:-rotate-90",
+							"data-[side=top]:-bottom-1.5",
+							"data-[side=right]:-left-2.25 data-[side=left]:rotate-90",
+						)}
+					/>
 					{children}
 				</Tooltip.Popup>
 			</Tooltip.Positioner>
