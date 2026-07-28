@@ -34,10 +34,9 @@ export function TabsTab(props: TabsTabProps) {
 			className={cn(
 				"mb-2 inline-flex h-10 w-fit shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-lg px-6 font-medium text-neutral-12 text-sm outline-none transition sm:h-9 [&_svg]:size-4",
 				"hover:not-data-disabled:bg-neutral-3",
-				"focus-visible:bg-neutral-3",
-				"data-active:bg-neutral-3",
-				"data-active:hover:not-data-disabled:bg-neutral-4",
-				"data-active:focus-visible:bg-neutral-4",
+				"focus-visible:bg-neutral-3!",
+				"data-active:bg-neutral-4",
+				"active:not-data-disabled:bg-neutral-4!",
 				"data-disabled:cursor-not-allowed data-disabled:opacity-50",
 				className,
 			)}
