@@ -1,4 +1,4 @@
-import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
+import { Avatar as AvatarHeadless } from "@base-ui/react/avatar";
 import { cn, tv, type VariantProps } from "tailwind-variants";
 
 const avatarVariants = tv({
@@ -15,7 +15,7 @@ const avatarVariants = tv({
 	},
 });
 
-export type AvatarRootProps = Omit<AvatarPrimitive.Root.Props, "className"> &
+export type AvatarRootProps = Omit<AvatarHeadless.Root.Props, "className"> &
 	VariantProps<typeof avatarVariants> & {
 		className?: string;
 	};
@@ -23,29 +23,19 @@ export type AvatarRootProps = Omit<AvatarPrimitive.Root.Props, "className"> &
 export function AvatarRoot(props: AvatarRootProps) {
 	const { size, className, ...rest } = props;
 
-	return <AvatarPrimitive.Root className={avatarVariants({ size, className })} {...rest} />;
+	return <AvatarHeadless.Root className={avatarVariants({ size, className })} {...rest} />;
 }
 
-export type AvatarImageProps = AvatarPrimitive.Image.Props;
+export type AvatarImageProps = AvatarHeadless.Image.Props;
 
 export function AvatarImage(props: AvatarImageProps) {
 	const { className, ...rest } = props;
 
-	return (
-		<AvatarPrimitive.Image
-			className={cn(
-				// Default
-				"size-full object-cover",
-				// Override
-				className,
-			)}
-			{...rest}
-		/>
-	);
+	return <AvatarHeadless.Image className={cn("size-full object-cover", className)} {...rest} />;
 }
 
-export type AvatarFallbackProps = AvatarPrimitive.Fallback.Props;
+export type AvatarFallbackProps = AvatarHeadless.Fallback.Props;
 
 export function AvatarFallback(props: AvatarFallbackProps) {
-	return <AvatarPrimitive.Fallback {...props} />;
+	return <AvatarHeadless.Fallback {...props} />;
 }

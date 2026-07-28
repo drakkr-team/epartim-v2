@@ -13,7 +13,7 @@ import {
 	MenuTrigger,
 } from "./menu";
 
-export { Menu as MenuPrimitive } from "@base-ui/react/menu";
+export { Menu as MenuHeadless } from "@base-ui/react/menu";
 
 export const Menu = Object.assign(MenuRoot, {
 	Trigger: MenuTrigger,

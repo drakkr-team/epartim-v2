@@ -7,7 +7,7 @@ import { CheckIcon, MinusIcon } from "../../icons";
 const checkboxVariants = tv({
 	slots: {
 		rootVariants: [
-			"relative flex cursor-pointer items-center justify-center border outline-none ring-primary-8 transition",
+			"relative flex cursor-pointer items-center justify-center border outline-none ring-primary-7 transition",
 			"data-unchecked:border-neutral-7 data-unchecked:bg-neutral-1 data-unchecked:text-transparent",
 			"data-unchecked:hover:not-data-disabled:border-neutral-8 data-unchecked:hover:not-data-disabled:bg-neutral-2",
 			"data-checked:border-primary-9 data-checked:bg-primary-9 data-checked:text-neutral-1 data-checked:dark:text-neutral-12",
@@ -46,28 +46,7 @@ const checkboxVariants = tv({
 const { rootVariants, indicatorVariants } = checkboxVariants();
 
 export type CheckboxRootProps = VariantProps<typeof checkboxVariants> &
-	Pick<
-		CheckboxHeadless.Root.Props,
-		| "name"
-		| "defaultChecked"
-		| "checked"
-		| "onCheckedChange"
-		| "indeterminate"
-		| "onBlur"
-		| "value"
-		| "form"
-		| "nativeButton"
-		| "parent"
-		| "uncheckedValue"
-		| "disabled"
-		| "readOnly"
-		| "required"
-		| "inputRef"
-		| "id"
-		| "className"
-		| "style"
-		| "render"
-	>;
+	Omit<CheckboxHeadless.Root.Props, "children">;
 
 export function CheckboxRoot(props: CheckboxRootProps) {
 	const { size, className, ...rest } = props;
@@ -91,19 +70,7 @@ export function CheckboxRoot(props: CheckboxRootProps) {
 	);
 }
 
-export type CheckboxGroupProps = Pick<
-	CheckboxGroupHeadless.Props,
-	| "defaultValue"
-	| "value"
-	| "onValueChange"
-	| "allValues"
-	| "disabled"
-	| "id"
-	| "className"
-	| "style"
-	| "render"
-	| "children"
->;
+export type CheckboxGroupProps = CheckboxGroupHeadless.Props;
 
 export function CheckboxGroup(props: CheckboxGroupProps) {
 	return <CheckboxGroupHeadless {...props} />;

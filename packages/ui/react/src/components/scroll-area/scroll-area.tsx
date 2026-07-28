@@ -1,4 +1,4 @@
-import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
+import { ScrollArea as ScrollAreaHeadless } from "@base-ui/react/scroll-area";
 import { tv, type VariantProps } from "tailwind-variants";
 
 const ScrollAreaVariant = tv({
@@ -29,39 +29,39 @@ const ScrollAreaVariant = tv({
 
 const { root, scrollbar, thumb, viewport } = ScrollAreaVariant();
 
-export type ScrollAreaRootProps = ScrollAreaPrimitive.Root.Props &
+export type ScrollAreaRootProps = ScrollAreaHeadless.Root.Props &
 	VariantProps<typeof ScrollAreaVariant>;
 
 export function ScrollAreaRoot(props: ScrollAreaRootProps) {
 	const { children, variant, className, ...rest } = props;
 
 	return (
-		<ScrollAreaPrimitive.Root
+		<ScrollAreaHeadless.Root
 			className={root({ variant, className: className?.toString() })}
 			{...rest}
 		>
-			<ScrollAreaPrimitive.Viewport className={viewport({ variant })}>
+			<ScrollAreaHeadless.Viewport className={viewport({ variant })}>
 				{children}
-			</ScrollAreaPrimitive.Viewport>
+			</ScrollAreaHeadless.Viewport>
 
 			{variant !== "gradient" && (
 				<>
-					<ScrollAreaPrimitive.Scrollbar
+					<ScrollAreaHeadless.Scrollbar
 						orientation="vertical"
 						className={scrollbar({ variant, className: "w-0.75 data-has-overflow-y:block" })}
 					>
-						<ScrollAreaPrimitive.Thumb className={thumb({ variant, className: "w-full" })} />
-					</ScrollAreaPrimitive.Scrollbar>
+						<ScrollAreaHeadless.Thumb className={thumb({ variant, className: "w-full" })} />
+					</ScrollAreaHeadless.Scrollbar>
 
-					<ScrollAreaPrimitive.Scrollbar
+					<ScrollAreaHeadless.Scrollbar
 						orientation="horizontal"
 						className={scrollbar({ variant, className: "h-0.75 data-has-overflow-x:block" })}
 					>
-						<ScrollAreaPrimitive.Thumb className={thumb({ variant, className: "h-full" })} />
-					</ScrollAreaPrimitive.Scrollbar>
-					<ScrollAreaPrimitive.Corner />
+						<ScrollAreaHeadless.Thumb className={thumb({ variant, className: "h-full" })} />
+					</ScrollAreaHeadless.Scrollbar>
+					<ScrollAreaHeadless.Corner />
 				</>
 			)}
-		</ScrollAreaPrimitive.Root>
+		</ScrollAreaHeadless.Root>
 	);
 }

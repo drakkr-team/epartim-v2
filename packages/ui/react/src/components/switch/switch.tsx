@@ -1,26 +1,7 @@
 import { Switch as SwitchHeadless } from "@base-ui/react/switch";
 import { cn, cx } from "tailwind-variants";
 
-export type SwitchRootProps = Pick<
-	SwitchHeadless.Root.Props,
-	| "name"
-	| "defaultChecked"
-	| "checked"
-	| "onCheckedChange"
-	| "onBlur"
-	| "value"
-	| "form"
-	| "nativeButton"
-	| "uncheckedValue"
-	| "disabled"
-	| "readOnly"
-	| "required"
-	| "inputRef"
-	| "id"
-	| "className"
-	| "style"
-	| "render"
->;
+export type SwitchRootProps = Omit<SwitchHeadless.Root.Props, "children">;
 
 export function SwitchRoot(props: SwitchRootProps) {
 	const { className, ...rest } = props;
@@ -28,7 +9,7 @@ export function SwitchRoot(props: SwitchRootProps) {
 	return (
 		<SwitchHeadless.Root
 			className={cn(
-				"group relative flex h-6 w-9 cursor-pointer items-center rounded-full border-2 outline-none ring-primary-8 transition",
+				"group relative flex h-6 w-9 cursor-pointer items-center rounded-full border-2 outline-none ring-primary-7 transition",
 				"data-unchecked:border-neutral-9 data-unchecked:bg-neutral-9",
 				"data-unchecked:hover:not-disabled:border-neutral-10 data-unchecked:hover:not-disabled:bg-neutral-10",
 				"data-checked:border-primary-9 data-checked:bg-primary-9",

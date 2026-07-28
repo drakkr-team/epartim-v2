@@ -14,7 +14,7 @@ import {
 	ComboboxValue,
 } from "./combobox";
 
-export { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
+export { Combobox as ComboboxHeadless } from "@base-ui/react/combobox";
 
 export const Combobox = Object.assign(ComboboxRoot, {
 	Input: ComboboxInput,
