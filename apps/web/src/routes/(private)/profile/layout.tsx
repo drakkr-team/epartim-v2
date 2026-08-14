@@ -38,7 +38,7 @@ function Layout() {
 
 	return (
 		<section className="mx-auto grid max-w-5xl gap-8">
-			<h1 className="mb-4 font-serif text-5xl text-primary-11">{t("title")}</h1>
+			<h1 className="mb-4 text-5xl text-primary-11">{t("title")}</h1>
 
 			<Tabs value={location.pathname}>
 				<Tabs.List>

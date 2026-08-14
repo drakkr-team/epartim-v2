@@ -11,7 +11,7 @@ function DashboardPage() {
 				<p className="font-semibold text-gold-11 text-xs uppercase tracking-[0.18em]">
 					Administration
 				</p>
-				<h1 className="mt-2 font-bold font-display text-4xl text-primary-12 tracking-tight">
+				<h1 className="mt-2 font-bold text-4xl text-primary-12 tracking-tight">
 					Pilotage de la plateforme
 				</h1>
 				<p className="mt-2 max-w-2xl text-neutral-11">

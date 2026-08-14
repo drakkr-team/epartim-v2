@@ -35,9 +35,7 @@ function UsersPage() {
 					<p className="font-semibold text-gold-11 text-xs uppercase tracking-[0.18em]">
 						Administration
 					</p>
-					<h1 className="mt-2 font-bold font-display text-4xl text-primary-12 tracking-tight">
-						Utilisateurs
-					</h1>
+					<h1 className="mt-2 font-bold text-4xl text-primary-12 tracking-tight">Utilisateurs</h1>
 					<p className="mt-1 text-neutral-11">Gérez les comptes, rôles et invitations.</p>
 				</div>
 				<Button render={<Link to="/users/new" />} variant="primary">
