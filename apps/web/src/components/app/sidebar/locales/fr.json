@@ -1,0 +1,13 @@
+{
+	"components.app.sidebar.index": {
+		"navigation": {
+			"label": "Navigation principale",
+			"group": {
+				"operations": "Mes opérations"
+			},
+			"item": {
+				"client-portfolio": "Portefeuille client"
+			}
+		}
+	}
+}
