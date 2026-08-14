@@ -64,6 +64,7 @@ epartim/
 - API imports use package `imports` aliases: `#start/*`, `#features/*`, `#models/*`, `#generated/*`, etc.
 - Web imports use `#/*` for `apps/web/src/*`.
 - Web route files are `layout.tsx` and `page.tsx`; route groups use parentheses.
+- The admin must use the same shared visual theme as the web app: fonts, color tokens, theme mode, sidebar language, and page surfaces. Reuse `@workspace/ui-theme` and `@workspace/ui-react`; do not introduce an admin-only visual system.
 - UI component folders use `component.tsx`, `index.ts`, `component.stories.tsx`.
 - `apps/web` runs `i18n:build` on `postinstall`; `dev` runs Vite on port 3000 plus the locale watcher.
 - No `.editorconfig`, `.eslintrc`, or `tailwind.config` files exist; Biome is the single lint/format source.
