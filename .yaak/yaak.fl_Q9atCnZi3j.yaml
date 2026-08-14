@@ -1,0 +1,31 @@
+type: folder
+model: folder
+id: fl_Q9atCnZi3j
+createdAt: 2026-08-14T08:58:47.279445
+updatedAt: 2026-08-14T08:58:47.279486
+workspaceId: wk_W95zdiewKu
+folderId: null
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Authentification
+sortPriority: 0.0
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0
+settingRequestMessageSize:
+  enabled: false
+  value: 0

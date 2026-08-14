@@ -6,7 +6,7 @@ Piloter le cycle complet d'authentification des utilisateurs hors dashboard admi
 
 ## Perimetre
 
-- Invitation interne des utilisateurs hors admin.
+- Creation de la fiche utilisateur par un administrateur, suivie d'une invitation interne.
 - Activation de compte avec definition du mot de passe.
 - Connexion email et mot de passe.
 - Session utilisateur et protection des pages privees.
@@ -39,5 +39,5 @@ Piloter le cycle complet d'authentification des utilisateurs hors dashboard admi
 
 - Le cycle invitation, activation, connexion, deconnexion et reset est documente et testable.
 - Les pages publiques et privees sont clairement separees.
-- Un utilisateur hors admin arrive sur l'espace distributeur apres connexion.
+- Un utilisateur hors admin arrive sur `/dashboard` apres connexion sans destination demandee.
 - Les ecarts volontaires avec la v1 sont explicites.

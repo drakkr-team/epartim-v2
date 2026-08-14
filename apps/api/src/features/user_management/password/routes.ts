@@ -2,17 +2,19 @@ import router from "@adonisjs/core/services/router";
 
 import { controllers } from "#generated/controllers";
 import { middleware } from "#start/kernel";
-import { brutForceLimiter } from "#start/limiter";
 
 router
 	.group(() => {
 		router
 			.group(() => {
-				router.post("/forgot", [controllers.features.userManagement.password.Forgot]);
-				router.post("/reset", [controllers.features.userManagement.password.Reset]);
+				router
+					.post("/forgot", [controllers.features.userManagement.password.Forgot])
+					.use(middleware.authAttempt({ identifier: "email", scope: "password-forgot" }));
+				router
+					.post("/reset", [controllers.features.userManagement.password.Reset])
+					.use(middleware.authAttempt({ identifier: "token", scope: "password-reset" }));
 			})
-			.use(middleware.guest())
-			.use(brutForceLimiter);
+			.use(middleware.guest());
 
 		router
 			.group(() => {

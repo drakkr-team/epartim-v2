@@ -26,19 +26,122 @@ export class FileSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
-export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'id', 'name', 'password', 'updatedAt'] as const
-  $columns = UserSchema.$columns
+export class FirmSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'networkId', 'updatedAt'] as const
+  $columns = FirmSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
-  @column()
-  declare email: string
   @column({ isPrimary: true })
   declare id: number
   @column()
   declare name: string
+  @column()
+  declare networkId: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class NetworkSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'updatedAt'] as const
+  $columns = NetworkSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class RoleSchema extends BaseModel {
+  static $columns = ['code', 'createdAt', 'id', 'name', 'updatedAt'] as const
+  $columns = RoleSchema.$columns
+  @column()
+  declare code: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class UserInvitationSchema extends BaseModel {
+  static $columns = ['acceptedAt', 'createdAt', 'email', 'expiresAt', 'id', 'invitedByUserId', 'revokedAt', 'sentAt', 'tokenHash', 'updatedAt', 'userId'] as const
+  $columns = UserInvitationSchema.$columns
+  @column.dateTime()
+  declare acceptedAt: DateTime | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string
+  @column.dateTime()
+  declare expiresAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare invitedByUserId: number | null
+  @column.dateTime()
+  declare revokedAt: DateTime | null
+  @column.dateTime()
+  declare sentAt: DateTime | null
+  @column()
+  declare tokenHash: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+  @column()
+  declare userId: number
+}
+
+export class UserRoleSchema extends BaseModel {
+  static $columns = ['roleId', 'userId'] as const
+  $columns = UserRoleSchema.$columns
+  @column()
+  declare roleId: number
+  @column({ isPrimary: true })
+  declare userId: number
+}
+
+export class UserSchema extends BaseModel {
+  static $columns = ['amundiEmployeeType', 'amundiUserId', 'authVersion', 'createdAt', 'disabledAt', 'email', 'firmId', 'firstName', 'id', 'lastLoginAt', 'lastName', 'mobilePhone', 'name', 'networkId', 'partnershipProvider', 'password', 'status', 'updatedAt'] as const
+  $columns = UserSchema.$columns
+  @column()
+  declare amundiEmployeeType: string | null
+  @column()
+  declare amundiUserId: string | null
+  @column()
+  declare authVersion: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare disabledAt: DateTime | null
+  @column()
+  declare email: string
+  @column()
+  declare firmId: number | null
+  @column()
+  declare firstName: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime()
+  declare lastLoginAt: DateTime | null
+  @column()
+  declare lastName: string | null
+  @column()
+  declare mobilePhone: string | null
+  @column()
+  declare name: string
+  @column()
+  declare networkId: number | null
+  @column()
+  declare partnershipProvider: string | null
   @column({ serializeAs: null })
-  declare password: string
+  declare password: string | null
+  @column()
+  declare status: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

@@ -6,7 +6,10 @@ import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 const config = defineConfig({
-	resolve: { tsconfigPaths: true },
+	resolve: {
+		dedupe: ["react", "react-dom"],
+		tsconfigPaths: true,
+	},
 	plugins: [
 		devtools(),
 		tailwindcss(),

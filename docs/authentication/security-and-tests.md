@@ -8,8 +8,7 @@
 - Stocker les tokens d'invitation et reset uniquement sous forme hashee.
 - Marquer les tokens de reset comme utilises.
 - Revoquer l'invitation precedente lors d'un renvoi.
-- Appliquer un rate limit sur login.
-- Appliquer un rate limit sur forgot password.
+- Appliquer un rate limit de 10 tentatives par minute sur login, forgot password et reset, par IP et par identifiant.
 - Ne jamais exposer `users.password`.
 - Ne jamais exposer la raison precise d'un echec de login public.
 

@@ -8,7 +8,7 @@ import { TanstackDevtoolsProvider } from "#/providers/tanstack-devtools";
 
 export function Providers({ children }: PropsWithChildren) {
 	return (
-		<ThemeProvider disableTransitionOnChange>
+		<ThemeProvider disableTransitionOnChange forcedTheme="light">
 			<Tooltip.Provider>
 				{children}
 				<TanstackDevtoolsProvider />

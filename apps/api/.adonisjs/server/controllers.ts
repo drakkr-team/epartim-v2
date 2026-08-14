@@ -6,6 +6,18 @@
 export const controllers = {
   features: {
     userManagement: {
+      administration: {
+        AcceptInvitation: () => import('#src/features/user_management/administration/controllers/accept_invitation.controller'),
+        CancelInvitation: () => import('#src/features/user_management/administration/controllers/cancel_invitation.controller'),
+        CreateUser: () => import('#src/features/user_management/administration/controllers/create_user.controller'),
+        DisableUser: () => import('#src/features/user_management/administration/controllers/disable_user.controller'),
+        ListUsers: () => import('#src/features/user_management/administration/controllers/list_users.controller'),
+        ReactivateUser: () => import('#src/features/user_management/administration/controllers/reactivate_user.controller'),
+        ResendInvitation: () => import('#src/features/user_management/administration/controllers/resend_invitation.controller'),
+        UpdateUser: () => import('#src/features/user_management/administration/controllers/update_user.controller'),
+        UserOptions: () => import('#src/features/user_management/administration/controllers/user_options.controller'),
+        ViewUser: () => import('#src/features/user_management/administration/controllers/view_user.controller'),
+      },
       authentication: {
         Login: () => import('#src/features/user_management/authentication/controllers/login.controller'),
         Logout: () => import('#src/features/user_management/authentication/controllers/logout.controller'),

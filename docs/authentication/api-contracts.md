@@ -152,7 +152,7 @@ Reponse succes :
 
 ## Invitation a ajouter
 
-`POST /user-management/invitations`
+`POST /admin/users`
 
 Reserve a une action interne.
 
@@ -171,7 +171,7 @@ Payload cible :
 
 ## Renvoi d'invitation a ajouter
 
-`POST /user-management/invitations/:id/resend`
+`POST /admin/users/:id/invitations/resend`
 
 Regle :
 
@@ -181,7 +181,7 @@ Regle :
 
 ## Activation a ajouter
 
-`POST /user-management/invitations/accept`
+`POST /admin/invitations/accept`
 
 Payload cible :
 

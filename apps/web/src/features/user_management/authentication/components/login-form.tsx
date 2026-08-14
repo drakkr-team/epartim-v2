@@ -21,7 +21,7 @@ export function LoginForm(props: LoginFormProps) {
 
 	return (
 		<form
-			className="grid gap-4"
+			className="grid gap-4 [&_input]:h-10 [&_input]:rounded-xl [&_input]:border-brand-line-strong [&_input]:bg-brand-surface [&_input]:px-3 [&_input]:text-brand-navy [&_label]:font-semibold [&_label]:text-[11px] [&_label]:text-brand-ink-soft [&_label]:uppercase [&_label]:tracking-[0.1em]"
 			onSubmit={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -43,7 +43,10 @@ export function LoginForm(props: LoginFormProps) {
 						<Field name={field.name} invalid={isInvalid} className="flex flex-col gap-1">
 							<div className="flex items-end justify-between">
 								<Field.Label htmlFor={field.name}>{t("field.password.label")}</Field.Label>
-								<Link render={<RouterLink to="/forgot-password" />} className="text-xs">
+								<Link
+									render={<RouterLink to="/forgot-password" />}
+									className="text-brand-ink-muted text-xs"
+								>
 									{t("action.forgotPassword")}
 								</Link>
 							</div>
@@ -61,7 +64,12 @@ export function LoginForm(props: LoginFormProps) {
 			</form.AppField>
 
 			<form.AppForm>
-				<form.SubmitButton variant="primary">{t("action.login")}</form.SubmitButton>
+				<form.SubmitButton
+					className="mt-2 h-10 w-full justify-center rounded-xl bg-brand-gold text-brand-navy hover:not-data-disabled:bg-brand-gold-hover sm:h-10"
+					variant="primary"
+				>
+					{t("action.login")}
+				</form.SubmitButton>
 			</form.AppForm>
 		</form>
 	);

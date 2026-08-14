@@ -3,15 +3,17 @@ interface Fonts {
 }
 
 export const fonts: Fonts = {
-	sans: '"Inter", "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+	sans: '"Montserrat", "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
 	serif:
-		'"Libre Caslon Display", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"',
-	mono: '"ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"',
+		'"Cormorant Garamond", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"',
+	display:
+		'"Cormorant Garamond", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"',
+	mono: '"JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"',
 };
 
 interface Colors {
 	[key: string]: {
-		[key: number]: {
+		[key: number | string]: {
 			light: string;
 			dark: string;
 		};
@@ -34,18 +36,30 @@ export const colors: Colors = {
 		12: { light: "#211f26", dark: "#eeeef0" },
 	},
 	primary: {
-		1: { light: "#fdfcfe", dark: "#14121f" },
-		2: { light: "#faf8ff", dark: "#1b1525" },
-		3: { light: "#f4f0fe", dark: "#291f43" },
-		4: { light: "#ebe4ff", dark: "#33255b" },
-		5: { light: "#e1d9ff", dark: "#3c2e69" },
-		6: { light: "#d4cafe", dark: "#473876" },
-		7: { light: "#c2b5f5", dark: "#56468b" },
-		8: { light: "#aa99ec", dark: "#6958ad" },
-		9: { light: "#6e56cf", dark: "#6e56cf" },
-		10: { light: "#654dc4", dark: "#7d66d9" },
-		11: { light: "#6550b9", dark: "#baa7ff" },
-		12: { light: "#2f265f", dark: "#e2ddfe" },
+		1: { light: "#fdfdfe", dark: "#11131f" },
+		2: { light: "#f7f9ff", dark: "#141726" },
+		3: { light: "#edf2fe", dark: "#182449" },
+		4: { light: "#e1e9ff", dark: "#1d2e62" },
+		5: { light: "#d2deff", dark: "#253974" },
+		6: { light: "#c1d0ff", dark: "#304384" },
+		7: { light: "#abbdf9", dark: "#3a4f97" },
+		8: { light: "#8da4ef", dark: "#435db1" },
+		9: { light: "#3e63dd", dark: "#3e63dd" },
+		10: { light: "#3358d4", dark: "#5472e4" },
+		11: { light: "#3a5bc7", dark: "#9eb1ff" },
+		12: { light: "#1f2d5c", dark: "#d6e1ff" },
+	},
+	brand: {
+		shell: { light: "#f7f4ed", dark: "#f7f4ed" },
+		surface: { light: "#ffffff", dark: "#ffffff" },
+		navy: { light: "#111839", dark: "#111839" },
+		"ink-muted": { light: "#5a6485", dark: "#5a6485" },
+		"ink-soft": { light: "#8892a8", dark: "#8892a8" },
+		line: { light: "#e8e7e0", dark: "#e8e7e0" },
+		"line-strong": { light: "#d4d3cc", dark: "#d4d3cc" },
+		gold: { light: "#d9a25f", dark: "#d9a25f" },
+		"gold-hover": { light: "#c8934e", dark: "#c8934e" },
+		"gold-strong": { light: "#b8853f", dark: "#b8853f" },
 	},
 	info: {
 		1: { light: "#fbfdff", dark: "#0d1520" },

@@ -1,0 +1,33 @@
+type: http_request
+model: http_request
+id: rq_PqH3Ru6iuJ
+createdAt: 2026-08-14T08:59:16.482255
+updatedAt: 2026-08-14T08:59:16.482257
+workspaceId: wk_W95zdiewKu
+folderId: fl_7vxowBRN2E
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: POST
+name: Créer un utilisateur
+sortPriority: 0.0
+url: http://localhost:3333/admin/users
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0
