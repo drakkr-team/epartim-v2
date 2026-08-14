@@ -4,7 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Tabs } from "@workspace/ui-react/components/tabs";
 import { FingerprintPatternIcon, ShieldIcon, UserIcon } from "@workspace/ui-react/icons";
 
+import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
+
 export const Route = createFileRoute("/(private)/profile")({
+	staticData: {
+		breadcrumb: { labelKey: "profile", to: "/profile" },
+	} satisfies BreadcrumbStaticData,
 	component: Layout,
 });
 
@@ -32,7 +37,7 @@ function Layout() {
 	];
 
 	return (
-		<main className="mx-auto grid max-w-5xl gap-8">
+		<section className="mx-auto grid max-w-5xl gap-8">
 			<h1 className="mb-4 font-serif text-5xl text-primary-11">{t("title")}</h1>
 
 			<Tabs value={location.pathname}>
@@ -52,6 +57,6 @@ function Layout() {
 			</Tabs>
 
 			<Outlet />
-		</main>
+		</section>
 	);
 }

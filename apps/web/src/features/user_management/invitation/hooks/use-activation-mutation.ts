@@ -17,7 +17,7 @@ export function useActivationMutation() {
 			onSuccess: () => {
 				queryClient.removeQueries({ queryKey: api.userManagement.profile.view.pathKey() });
 				toast.success(t("success.title"), { description: t("success.description") });
-				navigate({ to: "/dashboard" });
+				navigate({ to: "/client-portfolio" });
 			},
 			onError: (error) => {
 				toastifyTuyauError(error, {

@@ -4,8 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Card } from "@workspace/ui-react/components/card";
 
 import { DeleteProfileSection } from "#/features/user_management/profile/components/delete-section";
+import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
 export const Route = createFileRoute("/(private)/profile/privacy/")({
+	staticData: {
+		breadcrumb: { labelKey: "profile-privacy", to: "/profile/privacy" },
+	} satisfies BreadcrumbStaticData,
 	component: Page,
 });
 

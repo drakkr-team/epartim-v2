@@ -9,7 +9,7 @@ export function SidebarRoot(props: SidebarRootProps) {
 	return (
 		<aside
 			className={cn(
-				"fixed top-0 left-0 grid h-svh w-72 grid-rows-[auto_1fr_auto] border-neutral-7 border-r bg-neutral-1",
+				"grid h-svh w-72 shrink-0 grid-rows-[auto_1fr_auto] border-neutral-7 border-r bg-neutral-1",
 				className,
 			)}
 			{...rest}
@@ -22,15 +22,15 @@ export type SidebarHeaderProps = ComponentProps<"header">;
 export function SidebarHeader(props: SidebarHeaderProps) {
 	const { className, ...rest } = props;
 
-	return <header className={cn("row-span-1 p-2", className)} {...rest} />;
+	return <header className={cn("p-2", className)} {...rest} />;
 }
 
-export type SidebarBodyProps = ComponentProps<"main">;
+export type SidebarBodyProps = ComponentProps<"div">;
 
 export function SidebarBody(props: SidebarBodyProps) {
 	const { className, ...rest } = props;
 
-	return <main className={cn("row-span-2 overflow-auto p-2", className)} {...rest} />;
+	return <div className={cn("overflow-auto p-2", className)} {...rest} />;
 }
 
 export type SidebarFooterProps = ComponentProps<"footer">;
@@ -38,5 +38,40 @@ export type SidebarFooterProps = ComponentProps<"footer">;
 export function SidebarFooter(props: SidebarFooterProps) {
 	const { className, ...rest } = props;
 
-	return <footer className={cn("row-span-3 mt-auto p-2", className)} {...rest} />;
+	return <footer className={cn("mt-auto p-2", className)} {...rest} />;
+}
+
+export type SidebarGroupProps = ComponentProps<"section">;
+
+export function SidebarGroup(props: SidebarGroupProps) {
+	const { className, ...rest } = props;
+
+	return <section className={cn("flex flex-col", className)} {...rest} />;
+}
+
+export type SidebarGroupLabelProps = ComponentProps<"p">;
+
+export function SidebarGroupLabel(props: SidebarGroupLabelProps) {
+	const { className, ...rest } = props;
+
+	return <p className={cn("px-3", className)} {...rest} />;
+}
+
+export type SidebarItemProps = ComponentProps<"span"> & {
+	active?: boolean;
+};
+
+export function SidebarItem(props: SidebarItemProps) {
+	const { active, className, ...rest } = props;
+
+	return (
+		<span
+			data-active={active || undefined}
+			className={cn(
+				"flex h-10 w-full items-center gap-3 rounded-lg px-3 transition-colors [&_svg]:size-5",
+				className,
+			)}
+			{...rest}
+		/>
+	);
 }

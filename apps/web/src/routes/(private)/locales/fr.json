@@ -1,0 +1,9 @@
+{
+	"routes.(private)": {
+		"operations": "Mes opérations",
+		"client-portfolio": "Portefeuille client",
+		"profile": "Mon profil",
+		"profile-security": "Sécurité",
+		"profile-privacy": "Données personnelles"
+	}
+}

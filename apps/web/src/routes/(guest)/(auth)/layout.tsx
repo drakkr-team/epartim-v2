@@ -9,7 +9,7 @@ export const Route = createFileRoute("/(guest)/(auth)")({
 			throw redirect({ href: import.meta.env.VITE_ADMIN_URL });
 		}
 		if (user) {
-			throw redirect({ to: "/dashboard" });
+			throw redirect({ to: "/client-portfolio" });
 		}
 	},
 	component: Layout,
