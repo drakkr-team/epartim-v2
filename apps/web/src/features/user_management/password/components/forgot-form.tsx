@@ -16,7 +16,7 @@ export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
 
 	return (
 		<form
-			className="grid gap-4"
+			className="grid gap-4 [&_input]:h-10 [&_input]:rounded-xl [&_input]:border-brand-line-strong [&_input]:bg-brand-surface [&_input]:px-3 [&_input]:text-brand-navy [&_label]:font-semibold [&_label]:text-[11px] [&_label]:text-brand-ink-soft [&_label]:uppercase [&_label]:tracking-[0.1em]"
 			onSubmit={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -31,7 +31,12 @@ export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
 			</form.AppField>
 
 			<form.AppForm>
-				<form.SubmitButton variant="primary">{t("action.sendResetEmail")}</form.SubmitButton>
+				<form.SubmitButton
+					className="mt-2 h-10 w-full justify-center rounded-xl bg-brand-gold text-brand-navy hover:not-data-disabled:bg-brand-gold-hover sm:h-10"
+					variant="primary"
+				>
+					{t("action.sendResetEmail")}
+				</form.SubmitButton>
 			</form.AppForm>
 		</form>
 	);
