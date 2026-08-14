@@ -5,7 +5,7 @@ import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
 export const Route = createFileRoute("/(private)/(operations)/client-portfolio/")({
 	staticData: {
-		breadcrumb: { labelKey: "client-portfolio" },
+		breadcrumb: { labelKey: "client-portfolio", to: "/client-portfolio" },
 	} satisfies BreadcrumbStaticData,
 	component: ClientPortfolioPage,
 });

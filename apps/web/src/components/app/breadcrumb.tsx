@@ -16,7 +16,7 @@ export function Breadcrumb() {
 							{
 								id: match.id,
 								labelKey: staticData.breadcrumb.labelKey,
-								to: staticData.breadcrumb.to ?? match.pathname,
+								to: staticData.breadcrumb.to,
 							},
 						]
 					: [];
@@ -42,7 +42,7 @@ export function Breadcrumb() {
 							{!isCurrentPage ? (
 								<Link
 									className="text-brand-ink-muted transition-colors hover:text-brand-navy focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-4"
-									to={match.to as never}
+									to={match.to}
 								>
 									{tRoute(match.labelKey, match.labelKey)}
 								</Link>

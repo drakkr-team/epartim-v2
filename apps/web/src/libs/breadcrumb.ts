@@ -1,7 +1,11 @@
+import type { FileRoutesByTo } from "#/routeTree.gen";
+
+export type BreadcrumbTarget = keyof FileRoutesByTo;
+
 export interface BreadcrumbStaticData {
 	breadcrumb: {
 		labelKey: string;
-		to?: string;
+		to: BreadcrumbTarget;
 	};
 }
 

@@ -8,7 +8,7 @@ import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
 export const Route = createFileRoute("/(private)/profile/privacy/")({
 	staticData: {
-		breadcrumb: { labelKey: "profile-privacy" },
+		breadcrumb: { labelKey: "profile-privacy", to: "/profile/privacy" },
 	} satisfies BreadcrumbStaticData,
 	component: Page,
 });
