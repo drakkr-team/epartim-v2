@@ -2,17 +2,30 @@ type: http_request
 model: http_request
 id: rq_vLNJECp4GP
 createdAt: 2026-08-14T08:59:15.644063
-updatedAt: 2026-08-14T08:59:15.644066
+updatedAt: 2026-08-14T10:00:43.599810
 workspaceId: wk_W95zdiewKu
-folderId: fl_7vxowBRN2E
+folderId: fl_Dd4srAE6nm
 authentication: {}
 authenticationType: null
-body: {}
-bodyType: null
+body:
+  text: |-
+    {
+      "token": "${[ INVITATION_TOKEN ]}",
+      "password": "${[ faker.string.alphanumeric(options=b64'ewogICJtYXgiOiAzMiwKICAibWluIjogOAp9') ]}"
+    }
+bodyType: application/json
 description: ''
-headers: []
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
 method: POST
-name: Accepter une invitation
+name: Accept Invitation
 sortPriority: 0.0
 url: http://localhost:3333/admin/invitations/accept
 urlParameters: []

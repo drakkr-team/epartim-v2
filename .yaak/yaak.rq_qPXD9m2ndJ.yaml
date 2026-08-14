@@ -2,17 +2,29 @@ type: http_request
 model: http_request
 id: rq_qPXD9m2ndJ
 createdAt: 2026-08-14T08:59:13.998333
-updatedAt: 2026-08-14T08:59:13.998336
+updatedAt: 2026-08-14T10:03:57.426574
 workspaceId: wk_W95zdiewKu
 folderId: fl_5Xoe9fCJbn
 authentication: {}
 authenticationType: null
-body: {}
-bodyType: null
+body:
+  text: |-
+    {
+      "email": "arjun_paucek-wisoky@gmail.com"
+    }
+bodyType: application/json
 description: ''
-headers: []
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
 method: POST
-name: Mot de passe oublié
+name: Forgot Password
 sortPriority: 0.0
 url: http://localhost:3333/user-management/password/forgot
 urlParameters: []
