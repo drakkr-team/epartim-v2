@@ -1,12 +1,58 @@
 import { withAuthFinder } from "@adonisjs/auth/mixins/lucid";
 import { compose } from "@adonisjs/core/helpers";
 import hash from "@adonisjs/core/services/hash";
+import { column, hasMany } from "@adonisjs/lucid/orm";
+import type { HasMany } from "@adonisjs/lucid/types/relations";
+import { DateTime } from "luxon";
 
 import { UserSchema } from "#database/schema";
+import UserInvitation from "#models/user_invitation";
 
 const authFinder = withAuthFinder(() => hash.use("scrypt"), {
 	uids: ["email"],
 	passwordColumnName: "password",
 });
 
-export default class User extends compose(UserSchema, authFinder) {}
+export const USER_STATUSES = ["invited", "active", "disabled"] as const;
+
+export type UserStatus = (typeof USER_STATUSES)[number];
+
+export default class User extends compose(UserSchema, authFinder) {
+	@column()
+	declare firmId: number | null;
+
+	@column()
+	declare firstName: string | null;
+
+	@column()
+	declare lastName: string | null;
+
+	@column()
+	declare mobilePhone: string | null;
+
+	@column()
+	declare status: UserStatus;
+
+	@column()
+	declare amundiUserId: string | null;
+
+	@column()
+	declare amundiEmployeeType: string | null;
+
+	@column()
+	declare partnershipProvider: string | null;
+
+	@column.dateTime()
+	declare lastLoginAt: DateTime | null;
+
+	@column.dateTime()
+	declare disabledAt: DateTime | null;
+
+	@hasMany(() => UserInvitation)
+	declare invitations: HasMany<typeof UserInvitation>;
+
+	@hasMany(() => UserInvitation, {
+		foreignKey: "invitedByUserId",
+	})
+	declare sentInvitations: HasMany<typeof UserInvitation>;
+}
