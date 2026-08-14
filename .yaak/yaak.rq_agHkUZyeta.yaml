@@ -1,0 +1,33 @@
+type: http_request
+model: http_request
+id: rq_agHkUZyeta
+createdAt: 2026-08-14T08:59:14.815837
+updatedAt: 2026-08-14T08:59:14.815840
+workspaceId: wk_W95zdiewKu
+folderId: fl_993SfoocwS
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Consulter le profil
+sortPriority: 0.0
+url: http://localhost:3333/user-management/profile
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

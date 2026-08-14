@@ -1,0 +1,33 @@
+type: http_request
+model: http_request
+id: rq_D8mtWhDLRn
+createdAt: 2026-08-14T08:59:03.702173
+updatedAt: 2026-08-14T08:59:03.702175
+workspaceId: wk_W95zdiewKu
+folderId: fl_Q9atCnZi3j
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: POST
+name: Connexion
+sortPriority: 0.0
+url: http://localhost:3333/user-management/authentication/login
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0
