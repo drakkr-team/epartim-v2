@@ -19,9 +19,11 @@ export const Route = createFileRoute("/(private)")({
 
 function Layout() {
 	return (
-		<div className="ml-72 p-4 pt-8">
+		<div className="flex min-h-svh bg-brand-shell">
 			<Sidebar />
-			<Outlet />
+			<main className="min-w-0 flex-1 p-4 pt-8">
+				<Outlet />
+			</main>
 		</div>
 	);
 }

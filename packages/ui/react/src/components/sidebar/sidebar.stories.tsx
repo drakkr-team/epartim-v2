@@ -8,6 +8,9 @@ const meta: Meta<typeof Sidebar> = {
 		Header: Sidebar.Header,
 		Body: Sidebar.Body,
 		Footer: Sidebar.Footer,
+		Group: Sidebar.Group,
+		GroupLabel: Sidebar.GroupLabel,
+		Item: Sidebar.Item,
 	},
 	title: "Sidebar",
 	parameters: {
@@ -22,7 +25,13 @@ export const Default: Story = {
 	render: () => (
 		<Sidebar>
 			<Sidebar.Header></Sidebar.Header>
-			<Sidebar.Body></Sidebar.Body>
+			<Sidebar.Body>
+				<Sidebar.Group>
+					<Sidebar.GroupLabel></Sidebar.GroupLabel>
+					<Sidebar.Item></Sidebar.Item>
+					<Sidebar.Item active></Sidebar.Item>
+				</Sidebar.Group>
+			</Sidebar.Body>
 			<Sidebar.Footer></Sidebar.Footer>
 		</Sidebar>
 	),

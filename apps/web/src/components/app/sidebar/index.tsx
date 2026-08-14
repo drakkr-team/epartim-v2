@@ -1,15 +1,68 @@
+import { Link } from "@tanstack/react-router";
+
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
+import { WalletCardsIcon } from "@workspace/ui-react/icons";
 
 import { SidebarUserMenu } from "#/components/app/sidebar/user-menu";
 
+const navigation = [
+	{
+		label: "Mes opérations",
+		items: [
+			{
+				label: "Portefeuille client",
+				to: "/dashboard",
+				icon: WalletCardsIcon,
+			},
+		],
+	},
+];
+
 export function Sidebar() {
 	return (
-		<UiSidebar>
-			<UiSidebar.Header></UiSidebar.Header>
+		<UiSidebar className="w-64 border-r-0 bg-brand-navy text-primary-1">
+			<UiSidebar.Header className="px-6 pt-10 pb-4">
+				<Link className="inline-flex font-bold text-2xl tracking-[-0.06em]" to="/dashboard">
+					epartim<span className="text-brand-gold">.</span>
+				</Link>
+			</UiSidebar.Header>
 
-			<UiSidebar.Body></UiSidebar.Body>
+			<UiSidebar.Body className="px-4 pt-0 pb-6">
+				<nav aria-label="Navigation principale">
+					{navigation.map((group) => (
+						<UiSidebar.Group className="mt-5" key={group.label}>
+							<UiSidebar.GroupLabel className="font-semibold text-brand-gold text-xs uppercase tracking-[0.2em]">
+								{group.label}
+							</UiSidebar.GroupLabel>
+							<div className="mt-2 grid gap-1">
+								{group.items.map((item) => {
+									const Icon = item.icon;
 
-			<UiSidebar.Footer>
+									return (
+										<Link activeOptions={{ exact: true }} key={item.to} to={item.to}>
+											{({ isActive }) => (
+												<UiSidebar.Item
+													active={isActive}
+													className={`text-xs ${
+														isActive
+															? "relative bg-primary-5/15 font-semibold text-brand-gold before:absolute before:inset-y-2 before:left-0 before:w-0.5 before:rounded-r before:bg-brand-gold"
+															: "text-primary-6 hover:bg-primary-5/10 hover:text-primary-1 focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-2"
+													}`}
+												>
+													<Icon aria-hidden="true" />
+													{item.label}
+												</UiSidebar.Item>
+											)}
+										</Link>
+									);
+								})}
+							</div>
+						</UiSidebar.Group>
+					))}
+				</nav>
+			</UiSidebar.Body>
+
+			<UiSidebar.Footer className="border-primary-4/15 border-t px-6 py-6">
 				<SidebarUserMenu />
 			</UiSidebar.Footer>
 		</UiSidebar>

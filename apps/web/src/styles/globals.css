@@ -3,4 +3,8 @@
 @import "tailwindcss";
 @import "@workspace/ui-theme/tailwind";
 
+@theme {
+	--text-2xs: 10px;
+}
+
 @source "../../node_modules/@workspace/ui-react";
