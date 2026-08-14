@@ -1,0 +1,9 @@
+{
+	"routes.(private).(operations).client-portfolio": {
+		"description": "Vos entreprises clientes, leurs réseaux de distribution et leurs encours sous gestion.",
+		"action": {
+			"export": "Exporter",
+			"new-subscription": "Nouvelle souscription"
+		}
+	}
+}
