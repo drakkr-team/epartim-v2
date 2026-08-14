@@ -19,14 +19,10 @@ export function useLoginMutation(params?: UseLoginMutationParams) {
 
 	return useMutation(
 		api.userManagement.authentication.login.mutationOptions({
-			onSuccess: (user) => {
+			onSuccess: () => {
 				queryClient.removeQueries({
 					queryKey: api.userManagement.profile.view.pathKey(),
 				});
-				if (user.roles.includes("administrator") && import.meta.env.VITE_ADMIN_URL) {
-					window.location.assign(import.meta.env.VITE_ADMIN_URL);
-					return;
-				}
 				navigate({ to: redirectTo });
 			},
 			onError: (error) => {

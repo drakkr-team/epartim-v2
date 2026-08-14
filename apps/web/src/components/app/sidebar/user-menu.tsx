@@ -23,7 +23,7 @@ export function SidebarUserMenu() {
 			<Menu>
 				<Menu.Trigger
 					aria-label={t("action.profile")}
-					className="rounded-full outline-none ring-brand-gold transition hover:brightness-95 focus-visible:ring-3 data-popup-open:ring-2"
+					className="rounded-full outline-none ring-brand-gold transition hover:brightness-95 focus-visible:ring-3"
 				>
 					<Avatar className="size-9 bg-brand-gold font-semibold text-brand-navy" size="lg">
 						<Avatar.Fallback>{currentUser.name.slice(0, 2).toUpperCase()}</Avatar.Fallback>

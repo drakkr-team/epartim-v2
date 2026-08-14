@@ -5,9 +5,6 @@ import { getCurrentUser } from "#/utils/auth";
 export const Route = createFileRoute("/(guest)/(auth)")({
 	beforeLoad: async ({ context }) => {
 		const user = await getCurrentUser(context.queryClient);
-		if (user?.roles.includes("administrator") && import.meta.env.VITE_ADMIN_URL) {
-			throw redirect({ href: import.meta.env.VITE_ADMIN_URL });
-		}
 		if (user) {
 			throw redirect({ to: "/client-portfolio" });
 		}
