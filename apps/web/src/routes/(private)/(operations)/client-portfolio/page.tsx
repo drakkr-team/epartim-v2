@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
+import { Button } from "@workspace/ui-react/components/button";
+import { DownloadIcon, PlusIcon } from "@workspace/ui-react/icons";
+
+import { PageHeader } from "#/components/app/page-header";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
 export const Route = createFileRoute("/(private)/(operations)/client-portfolio/")({
@@ -11,11 +15,26 @@ export const Route = createFileRoute("/(private)/(operations)/client-portfolio/"
 });
 
 function ClientPortfolioPage() {
-	const { t } = useTranslation("routes.(private)");
+	const { t: tRoute } = useTranslation("routes.(private)");
+	const { t } = useTranslation("routes.(private).(operations).client-portfolio");
 
 	return (
-		<div>
-			<h1 className="font-bold text-4xl">{t("client-portfolio")}</h1>
-		</div>
+		<PageHeader
+			actions={
+				<>
+					<Button className="border-brand-line-strong bg-brand-surface text-brand-navy hover:border-brand-line-strong hover:bg-brand-surface">
+						<DownloadIcon />
+						{t("action.export")}
+					</Button>
+					<Button className="bg-brand-gold text-brand-navy hover:bg-brand-gold-hover">
+						<PlusIcon />
+						{t("action.new-subscription")}
+					</Button>
+				</>
+			}
+			description={t("description")}
+			section={tRoute("operations")}
+			title={tRoute("client-portfolio")}
+		/>
 	);
 }
