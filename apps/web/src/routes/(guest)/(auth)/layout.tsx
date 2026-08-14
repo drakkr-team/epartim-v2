@@ -1,11 +1,15 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-import { isAuthenticated } from "#/utils/auth";
+import { getCurrentUser } from "#/utils/auth";
 
 export const Route = createFileRoute("/(guest)/(auth)")({
 	beforeLoad: async ({ context }) => {
-		if (await isAuthenticated(context.queryClient)) {
-			throw redirect({ to: "/" });
+		const user = await getCurrentUser(context.queryClient);
+		if (user?.roles.includes("administrator") && import.meta.env.VITE_ADMIN_URL) {
+			throw redirect({ href: import.meta.env.VITE_ADMIN_URL });
+		}
+		if (user) {
+			throw redirect({ to: "/dashboard" });
 		}
 	},
 	component: Layout,

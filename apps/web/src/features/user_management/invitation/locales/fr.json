@@ -1,0 +1,46 @@
+{
+	"features.user_management.invitation.components.activation-form": {
+		"field": {
+			"password": { "label": "Mot de passe" },
+			"passwordConfirmation": { "label": "Confirmer le mot de passe" }
+		},
+		"action": { "activate": "Activer mon compte" }
+	},
+	"features.user_management.invitation.hooks.use-activation-form": {
+		"validation": {
+			"password": {
+				"required": "Le mot de passe est requis.",
+				"min": "Le mot de passe doit comporter au moins 8 caractères.",
+				"max": "Le mot de passe ne doit pas dépasser 32 caractères."
+			},
+			"passwordConfirmation": {
+				"required": "La confirmation du mot de passe est requise.",
+				"mismatch": "Les mots de passe ne correspondent pas."
+			}
+		}
+	},
+	"features.user_management.invitation.hooks.use-activation-mutation": {
+		"success": {
+			"title": "Compte activé.",
+			"description": "Votre compte est prêt."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Une erreur réseau est survenue.",
+				"description": "Veuillez réessayer."
+			},
+			"E_VALIDATION": {
+				"title": "Mot de passe invalide.",
+				"description": "Veuillez vérifier les informations saisies."
+			},
+			"E_INVALID_TOKEN": {
+				"title": "Lien d’activation invalide.",
+				"description": "Ce lien a expiré ou n’est plus valide. Contactez votre administrateur."
+			},
+			"E_UNEXPECTED": {
+				"title": "Une erreur inattendue est survenue.",
+				"description": "Veuillez réessayer."
+			}
+		}
+	}
+}

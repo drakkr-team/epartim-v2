@@ -3,13 +3,14 @@ import { createHash } from "node:crypto";
 import { BaseSeeder } from "@adonisjs/lucid/seeders";
 import { DateTime } from "luxon";
 
+import Role from "#models/role";
 import User from "#models/user";
 
 export default class UserSeeder extends BaseSeeder {
 	static environment = ["manual"];
 
 	async run() {
-		await User.updateOrCreate(
+		const admin = await User.updateOrCreate(
 			{ email: "admin@example.com" },
 			{
 				name: "Admin Epartim",
@@ -21,6 +22,8 @@ export default class UserSeeder extends BaseSeeder {
 				amundiEmployeeType: "conseiller_pdf",
 			},
 		);
+		const administratorRole = await Role.findByOrFail("code", "administrator");
+		await admin.related("roles").sync([administratorRole.id]);
 
 		const now = DateTime.now().toJSDate();
 

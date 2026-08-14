@@ -6,10 +6,10 @@ Permettre a un utilisateur hors admin invite d'activer son compte et de definir 
 
 ## Perimetre fonctionnel
 
-- Creation d'une invitation par une action interne.
+- Creation de la fiche par un administrateur depuis `/users`, avec envoi immediat de l'invitation.
 - Envoi d'un lien d'activation.
 - Expiration du lien apres sept jours.
-- Page d'activation accessible sans session.
+- Page d'activation `/activate-account` accessible sans session.
 - Saisie du mot de passe et de sa confirmation.
 - Acceptation de l'invitation.
 - Connexion automatique apres activation reussie.
@@ -23,6 +23,7 @@ Permettre a un utilisateur hors admin invite d'activer son compte et de definir 
 - Le mot de passe est defini par l'utilisateur pendant l'activation.
 - Une invitation expiree ne doit pas activer le compte.
 - Le renvoi de lien concerne uniquement les invitations non acceptees.
+- Un lien invalide, expire ou deja utilise invite l'utilisateur a contacter son administrateur.
 
 ## Hors perimetre initial
 

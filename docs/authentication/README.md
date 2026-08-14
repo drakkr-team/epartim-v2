@@ -7,10 +7,11 @@ du projet Adonis existant, sans recopier les colonnes Devise de la v1 Rails.
 
 ## Perimetre initial
 
-- Invitation interne des utilisateurs hors admin.
+- Création des utilisateurs et invitation interne depuis l'administration.
 - Activation de compte avec definition du mot de passe.
 - Connexion email et mot de passe.
 - Session utilisateur pour l'espace connecte.
+- Connexion unique depuis l'application principale, avec redirection vers l'application adaptee au role.
 - Protection des routes privees.
 - Deconnexion.
 - Reinitialisation de mot de passe pour les comptes actifs.
@@ -37,6 +38,7 @@ du projet Adonis existant, sans recopier les colonnes Devise de la v1 Rails.
 - Les roles metier sont portes par `roles` et `user_roles`.
 - Le perimetre commercial est derive du rattachement cabinet/reseau.
 - Le reset de mot de passe repond toujours de maniere generique cote public.
+- Les tentatives de connexion et de reset sont limitees a 10 par minute, par IP et par identifiant.
 
 ## Documents
 
@@ -71,3 +73,16 @@ Regles techniques :
 - Stocker les invitations et les resets dans des tables dediees.
 - Stocker uniquement des hashes de tokens applicatifs.
 - Garder les reponses auth en JSON.
+- L'application d'administration ne possede pas de page de connexion : elle utilise la session creee par l'application principale et verifie le role administrateur cote API.
+
+## Premier administrateur
+
+Le premier compte administrateur est cree explicitement au deploiement, apres les migrations :
+
+```bash
+BOOTSTRAP_ADMIN_EMAIL=admin@example.com \
+BOOTSTRAP_ADMIN_PASSWORD='un-mot-de-passe-fort' \
+pnpm --filter @workspace/api bootstrap:admin
+```
+
+Les administrateurs suivants sont crees depuis `/users` dans l'application d'administration.

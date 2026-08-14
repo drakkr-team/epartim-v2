@@ -33,7 +33,7 @@ export default class PasswordService {
 
 	async forgot(email: string) {
 		const user = await User.findBy("email", email);
-		if (!user) return;
+		if (user?.status !== "active") return;
 
 		const token = await this.otpService.generate({
 			type: "alphanumeric",

@@ -10,7 +10,7 @@ type UseLoginMutationParams = {
 };
 
 export function useLoginMutation(params?: UseLoginMutationParams) {
-	const { redirectTo = "/" } = params ?? {};
+	const { redirectTo = "/dashboard" } = params ?? {};
 
 	const { t } = useTranslation("features.user_management.authentication.hooks.use-login-mutation");
 
@@ -19,10 +19,14 @@ export function useLoginMutation(params?: UseLoginMutationParams) {
 
 	return useMutation(
 		api.userManagement.authentication.login.mutationOptions({
-			onSuccess: () => {
+			onSuccess: (user) => {
 				queryClient.removeQueries({
 					queryKey: api.userManagement.profile.view.pathKey(),
 				});
+				if (user.roles.includes("administrator") && import.meta.env.VITE_ADMIN_URL) {
+					window.location.assign(import.meta.env.VITE_ADMIN_URL);
+					return;
+				}
 				navigate({ to: redirectTo });
 			},
 			onError: (error) => {

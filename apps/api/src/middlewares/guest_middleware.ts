@@ -12,7 +12,16 @@ export default class GuestMiddleware {
 	) {
 		for (const guard of options.guards || [ctx.auth.defaultGuard]) {
 			if (await ctx.auth.use(guard).check()) {
-				throw new GuestOnlyException();
+				const user = ctx.auth.user!;
+				const authVersion = ctx.session.get("authVersion");
+				if (
+					user.status === "active" &&
+					(authVersion === undefined || authVersion === user.authVersion)
+				) {
+					throw new GuestOnlyException();
+				}
+
+				await ctx.auth.use(guard).logout();
 			}
 		}
 

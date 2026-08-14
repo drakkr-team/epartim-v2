@@ -10,49 +10,72 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as adminLayoutRouteImport } from './routes/(admin)/layout'
-import { Route as LoginPageRouteImport } from './routes/login/page'
+import { Route as adminUsersPageRouteImport } from './routes/(admin)/users/page'
 import { Route as admindashboardPageRouteImport } from './routes/(admin)/(dashboard)/page'
+import { Route as adminUsersNewPageRouteImport } from './routes/(admin)/users/new/page'
+import { Route as adminUsersIdPageRouteImport } from './routes/(admin)/users/$id/page'
 
 const adminLayoutRoute = adminLayoutRouteImport.update({
   id: '/(admin)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginPageRoute = LoginPageRouteImport.update({
-  id: '/login/',
-  path: '/login/',
-  getParentRoute: () => rootRouteImport,
+const adminUsersPageRoute = adminUsersPageRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => adminLayoutRoute,
 } as any)
 const admindashboardPageRoute = admindashboardPageRouteImport.update({
   id: '/(dashboard)/',
   path: '/',
   getParentRoute: () => adminLayoutRoute,
 } as any)
+const adminUsersNewPageRoute = adminUsersNewPageRouteImport.update({
+  id: '/users/new/',
+  path: '/users/new/',
+  getParentRoute: () => adminLayoutRoute,
+} as any)
+const adminUsersIdPageRoute = adminUsersIdPageRouteImport.update({
+  id: '/users/$id/',
+  path: '/users/$id/',
+  getParentRoute: () => adminLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/login/': typeof LoginPageRoute
   '/': typeof admindashboardPageRoute
+  '/users/': typeof adminUsersPageRoute
+  '/users/$id/': typeof adminUsersIdPageRoute
+  '/users/new/': typeof adminUsersNewPageRoute
 }
 export interface FileRoutesByTo {
-  '/login': typeof LoginPageRoute
   '/': typeof admindashboardPageRoute
+  '/users': typeof adminUsersPageRoute
+  '/users/$id': typeof adminUsersIdPageRoute
+  '/users/new': typeof adminUsersNewPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(admin)': typeof adminLayoutRouteWithChildren
-  '/login/': typeof LoginPageRoute
   '/(admin)/(dashboard)/': typeof admindashboardPageRoute
+  '/(admin)/users/': typeof adminUsersPageRoute
+  '/(admin)/users/$id/': typeof adminUsersIdPageRoute
+  '/(admin)/users/new/': typeof adminUsersNewPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login/' | '/'
+  fullPaths: '/' | '/users/' | '/users/$id/' | '/users/new/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
-  id: '__root__' | '/(admin)' | '/login/' | '/(admin)/(dashboard)/'
+  to: '/' | '/users' | '/users/$id' | '/users/new'
+  id:
+    | '__root__'
+    | '/(admin)'
+    | '/(admin)/(dashboard)/'
+    | '/(admin)/users/'
+    | '/(admin)/users/$id/'
+    | '/(admin)/users/new/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   adminLayoutRoute: typeof adminLayoutRouteWithChildren
-  LoginPageRoute: typeof LoginPageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -64,12 +87,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login/': {
-      id: '/login/'
-      path: '/login'
-      fullPath: '/login/'
-      preLoaderRoute: typeof LoginPageRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(admin)/users/': {
+      id: '/(admin)/users/'
+      path: '/users'
+      fullPath: '/users/'
+      preLoaderRoute: typeof adminUsersPageRouteImport
+      parentRoute: typeof adminLayoutRoute
     }
     '/(admin)/(dashboard)/': {
       id: '/(admin)/(dashboard)/'
@@ -78,15 +101,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof admindashboardPageRouteImport
       parentRoute: typeof adminLayoutRoute
     }
+    '/(admin)/users/new/': {
+      id: '/(admin)/users/new/'
+      path: '/users/new'
+      fullPath: '/users/new/'
+      preLoaderRoute: typeof adminUsersNewPageRouteImport
+      parentRoute: typeof adminLayoutRoute
+    }
+    '/(admin)/users/$id/': {
+      id: '/(admin)/users/$id/'
+      path: '/users/$id'
+      fullPath: '/users/$id/'
+      preLoaderRoute: typeof adminUsersIdPageRouteImport
+      parentRoute: typeof adminLayoutRoute
+    }
   }
 }
 
 interface adminLayoutRouteChildren {
   admindashboardPageRoute: typeof admindashboardPageRoute
+  adminUsersPageRoute: typeof adminUsersPageRoute
+  adminUsersIdPageRoute: typeof adminUsersIdPageRoute
+  adminUsersNewPageRoute: typeof adminUsersNewPageRoute
 }
 
 const adminLayoutRouteChildren: adminLayoutRouteChildren = {
   admindashboardPageRoute: admindashboardPageRoute,
+  adminUsersPageRoute: adminUsersPageRoute,
+  adminUsersIdPageRoute: adminUsersIdPageRoute,
+  adminUsersNewPageRoute: adminUsersNewPageRoute,
 }
 
 const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(
@@ -95,7 +138,6 @@ const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   adminLayoutRoute: adminLayoutRouteWithChildren,
-  LoginPageRoute: LoginPageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

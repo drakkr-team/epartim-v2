@@ -60,10 +60,10 @@ export function CheckboxRoot(props: CheckboxRootProps) {
 				className={indicatorVariants({ size })}
 				render={(props, state) => {
 					if (state.indeterminate) {
-						return <MinusIcon {...props} />;
+						return <MinusIcon className={props.className} />;
 					}
 
-					return <CheckIcon {...props} />;
+					return <CheckIcon className={props.className} />;
 				}}
 			/>
 		</CheckboxHeadless.Root>

@@ -3,10 +3,6 @@ import type { PropsWithChildren } from "react";
 const navigationItems = [
 	{ label: "Tableau de bord", href: "/" },
 	{ label: "Utilisateurs", href: "/users" },
-	{ label: "Invitations", href: "/invitations" },
-	{ label: "Roles", href: "/roles" },
-	{ label: "Cabinets", href: "/firms" },
-	{ label: "Reseaux", href: "/networks" },
 ];
 
 export function AdminShell({ children }: PropsWithChildren) {

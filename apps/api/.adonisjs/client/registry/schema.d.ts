@@ -19,6 +19,150 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'user_management.authentication.login': {
+    methods: ["POST"]
+    pattern: '/user-management/authentication/login'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/user_management/authentication/controllers/login.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/user_management/authentication/controllers/login.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/login.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/login.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user_management.authentication.logout': {
+    methods: ["DELETE"]
+    pattern: '/user-management/authentication/logout'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/logout.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/logout.controller').default['handle']>>>
+    }
+  }
+  'admin.accept_invitation': {
+    methods: ["POST"]
+    pattern: '/admin/invitations/accept'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/user_management/administration/controllers/accept_invitation.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/user_management/administration/controllers/accept_invitation.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/accept_invitation.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/accept_invitation.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.user_options': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/users/options'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/user_options.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/user_options.controller').default['handle']>>>
+    }
+  }
+  'admin.list_users': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/users'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/list_users.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/list_users.controller').default['handle']>>>
+    }
+  }
+  'admin.create_user': {
+    methods: ["POST"]
+    pattern: '/admin/users'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/user_management/administration/controllers/create_user.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/user_management/administration/controllers/create_user.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/create_user.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/create_user.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.view_user': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/users/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/view_user.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/view_user.controller').default['handle']>>>
+    }
+  }
+  'admin.update_user': {
+    methods: ["PUT"]
+    pattern: '/admin/users/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/user_management/administration/controllers/update_user.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/user_management/administration/controllers/update_user.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/update_user.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/update_user.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.resend_invitation': {
+    methods: ["POST"]
+    pattern: '/admin/users/:id/invitations/resend'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/resend_invitation.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/resend_invitation.controller').default['handle']>>>
+    }
+  }
+  'admin.cancel_invitation': {
+    methods: ["POST"]
+    pattern: '/admin/users/:id/invitations/cancel'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/cancel_invitation.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/cancel_invitation.controller').default['handle']>>>
+    }
+  }
+  'admin.disable_user': {
+    methods: ["POST"]
+    pattern: '/admin/users/:id/disable'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/disable_user.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/disable_user.controller').default['handle']>>>
+    }
+  }
+  'admin.reactivate_user': {
+    methods: ["POST"]
+    pattern: '/admin/users/:id/reactivate'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/reactivate_user.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/controllers/reactivate_user.controller').default['handle']>>>
+    }
+  }
   'user_management.profile.view': {
     methods: ["GET","HEAD"]
     pattern: '/user-management/profile'
@@ -53,30 +197,6 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/profile/controllers/delete.controller').default['handle']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/profile/controllers/delete.controller').default['handle']>>>
-    }
-  }
-  'user_management.authentication.login': {
-    methods: ["POST"]
-    pattern: '/user-management/authentication/login'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/user_management/authentication/controllers/login.controller').default)['payloadSchema']>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#src/features/user_management/authentication/controllers/login.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/login.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/login.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'user_management.authentication.logout': {
-    methods: ["DELETE"]
-    pattern: '/user-management/authentication/logout'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/logout.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/logout.controller').default['handle']>>>
     }
   }
   'user_management.password.forgot': {
