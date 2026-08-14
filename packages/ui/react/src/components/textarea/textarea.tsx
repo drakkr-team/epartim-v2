@@ -54,33 +54,19 @@ export function TextareaRoot(props: TextareaRootProps) {
 			<textarea
 				ref={mergedRef}
 				className={cn(
-					// Default
 					"w-full flex-1 resize-y rounded-lg border border-neutral-7 bg-neutral-1 p-2 text-start text-base text-neutral-12 outline-none ring-primary-7 transition sm:text-sm",
-					// Placeholder
 					"placeholder:text-neutral-9",
-					// Hover
 					"hover:not-data-disabled:border-neutral-8",
-					// Focus
 					"focus-visible:border-primary-8 focus-visible:ring-3 focus-visible:hover:border-primary-8",
-					// Popup open
 					"data-popup-open:border-primary-8 data-popup-open:ring-3 data-popup-open:hover:border-primary-8",
-					// Disabled
 					"data-disabled:cursor-not-allowed",
-					// Invalid
 					"data-invalid:border-error-7 data-invalid:ring-error-7",
-					// Invalid Hover
 					"data-invalid:hover:not-data-disabled:border-error-8",
-					// Invalid Focus
 					"data-invalid:focus-visible:border-error-8 data-invalid:hover:border-error-8",
-					// Invalid Popup open
 					"data-invalid:data-popup-open:border-error-8 data-invalid:data-popup-open:hover:border-error-8",
-					// With top slot
 					topSlot && "pt-[calc(1rem+var(--top-slot-height))]",
-					// With bottom slot
 					bottomSlot && "pb-[calc(1rem+var(--bottom-slot-height))]",
-					// Auto resize
 					autoResize && "resize-none overflow-hidden",
-					// Overwrite
 					className,
 				)}
 				style={

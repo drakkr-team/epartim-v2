@@ -6,7 +6,7 @@ concurrency:
   cancel-in-progress: true
 
 env: 
-  BIOME_VERSION: 2.5.0
+  BIOME_VERSION: 2.5.6
   NODE_VERSION: 24
   PNPM_VERSION: 10.33.2
   TURBO_TELEMETRY_DISABLED: 1
@@ -185,7 +185,7 @@ jobs:
 
   automerge:
     name: "🤖 Automerge Dependabot PR"
-    needs: [build]
+    needs: [build, test]
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
 

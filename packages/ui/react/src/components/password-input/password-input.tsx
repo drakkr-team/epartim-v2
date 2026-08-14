@@ -1,4 +1,4 @@
-import { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
+import { Toggle as ToggleHeadless } from "@base-ui/react/toggle";
 import { useState } from "react";
 
 import { EyeIcon, EyeOffIcon } from "../../icons";
@@ -8,7 +8,7 @@ import { Input, type InputProps } from "../input";
 export type PasswordInputRootProps = Omit<InputProps, "type" | "rightSlot"> & {
 	defaultVisible?: boolean;
 	visible?: boolean;
-	onVisibilityChange?: (visible: boolean, event: TogglePrimitive.ChangeEventDetails) => void;
+	onVisibilityChange?: (visible: boolean, event: ToggleHeadless.ChangeEventDetails) => void;
 };
 
 export function PasswordInputRoot(props: PasswordInputRootProps) {
@@ -18,7 +18,7 @@ export function PasswordInputRoot(props: PasswordInputRootProps) {
 	const [unControlledVisible, setUnControlledVisible] = useState(defaultVisible ?? false);
 	const hisPasswordVisible = isControlled ? visible : unControlledVisible;
 
-	const handleOnVisibilityChange: TogglePrimitive.Props["onPressedChange"] = (visible, event) => {
+	const handleOnVisibilityChange: ToggleHeadless.Props["onPressedChange"] = (visible, event) => {
 		if (!isControlled) {
 			setUnControlledVisible(visible);
 		}
@@ -26,7 +26,7 @@ export function PasswordInputRoot(props: PasswordInputRootProps) {
 	};
 
 	const Toggler = () => (
-		<TogglePrimitive
+		<ToggleHeadless
 			className="pointer-events-auto"
 			tabIndex={-1}
 			defaultPressed={defaultVisible}

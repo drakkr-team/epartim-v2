@@ -7,7 +7,7 @@ import {
 	DialogTrigger,
 } from "./dialog";
 
-export { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
+export { Dialog as DialogHeadless } from "@base-ui/react/dialog";
 
 export const Dialog = Object.assign(DialogRoot, {
 	Trigger: DialogTrigger,

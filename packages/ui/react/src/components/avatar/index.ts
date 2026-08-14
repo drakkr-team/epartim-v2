@@ -1,6 +1,6 @@
 import { AvatarFallback, AvatarImage, AvatarRoot } from "./avatar";
 
-export { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
+export { Avatar as AvatarHeadless } from "@base-ui/react/avatar";
 
 export const Avatar = Object.assign(AvatarRoot, {
 	Image: AvatarImage,

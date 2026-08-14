@@ -1,44 +1,66 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { Switch } from "./index";
+import { NumberInput } from "./index";
 
-const meta: Meta<typeof Switch> = {
-	title: "Switch",
+const meta: Meta<typeof NumberInput> = {
+	title: "Number Input",
 	parameters: {
 		docs: {
 			description: {
-				component: "https://base-ui.com/react/components/switch",
+				component: "https://base-ui.com/react/components/number-field",
 			},
 		},
 	},
-	component: Switch,
+	component: NumberInput,
 	argTypes: {
 		name: {
 			type: "string",
 		},
-		defaultChecked: {
-			type: "boolean",
+		defaultValue: {
+			type: "number",
 		},
-		checked: {
-			type: "boolean",
+		value: {
+			type: "number",
 		},
-		onCheckedChange: {
+		onValueChange: {
+			type: "function",
+		},
+		onValueCommitted: {
 			type: "function",
 		},
 		onBlur: {
 			type: "function",
 		},
-		value: {
-			type: "string",
+		allowOutOfRange: {
+			type: "boolean",
 		},
 		form: {
 			type: "string",
 		},
-		nativeButton: {
+		locale: {},
+		snapOnStep: {
 			type: "boolean",
 		},
-		uncheckedValue: {
-			type: "string",
+		step: {
+			type: "number",
+		},
+		smallStep: {
+			type: "number",
+		},
+		largeStep: {
+			type: "number",
+		},
+		min: {
+			type: "number",
+		},
+		max: {
+			type: "number",
+		},
+		allowWheelScrub: {
+			type: "boolean",
+		},
+		format: {
+			type: "function",
 		},
 		disabled: {
 			type: "boolean",

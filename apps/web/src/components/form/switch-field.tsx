@@ -10,7 +10,7 @@ type SwitchFieldProps = {
 	disabled?: boolean;
 	inputProps?: Omit<
 		SwitchProps,
-		"id" | "name" | "checked" | "disabled" | "onCheckedChange" | "onBlur" | "aria-invalid"
+		"id" | "name" | "checked" | "disabled" | "onCheckedChange" | "onBlur"
 	>;
 };
 
@@ -31,7 +31,6 @@ export function SwitchField(props: SwitchFieldProps) {
 				id={field.name}
 				name={field.name}
 				checked={field.state.value}
-				aria-invalid={isInvalid}
 				disabled={disabled}
 				onCheckedChange={(checked) => field.handleChange(checked)}
 				onBlur={field.handleBlur}

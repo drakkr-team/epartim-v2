@@ -11,8 +11,8 @@
 		"adonis": "cd apps/api/ && node ace"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.0",
-		"turbo": "2.10.0"
+		"@biomejs/biome": "2.5.6",
+		"turbo": "2.10.8"
 	},
 	"packageManager": "pnpm@10.33.2",
 	"engines": {

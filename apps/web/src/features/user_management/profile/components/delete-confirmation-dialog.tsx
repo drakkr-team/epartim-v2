@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import {
 	AlertDialog,
-	AlertDialogPrimitive,
+	AlertDialogHeadless,
 	type AlertDialogTriggerProps,
 } from "@workspace/ui-react/components/alert-dialog";
 import { Button } from "@workspace/ui-react/components/button";
@@ -21,7 +21,7 @@ export function DeleteProfileConfirmationDialog(props: DeleteProfileConfirmation
 		"features.user_management.profile.components.delete-confirmation-dialog",
 	);
 
-	const alertDialogHandler = AlertDialogPrimitive.createHandle();
+	const alertDialogHandler = AlertDialogHeadless.createHandle();
 	const { mutateAsync: deleteProfile, isPending: isDeleting } = useDeleteProfileMutation();
 
 	const handleDelete = async () => {

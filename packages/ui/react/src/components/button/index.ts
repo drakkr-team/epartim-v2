@@ -1,6 +1,6 @@
 import { ButtonRoot } from "./button";
 
-export { Button as ButtonPrimitive } from "@base-ui/react/button";
+export { Button as ButtonHeadless } from "@base-ui/react/button";
 
 export const Button = Object.assign(ButtonRoot, {});
 

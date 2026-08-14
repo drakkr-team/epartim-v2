@@ -11,7 +11,7 @@ import {
 	AutocompleteSeparator,
 } from "./autocomplete";
 
-export { Autocomplete as AutocompletePrimitive } from "@base-ui/react/autocomplete";
+export { Autocomplete as AutocompleteHeadless } from "@base-ui/react/autocomplete";
 
 export const Autocomplete = Object.assign(AutocompleteRoot, {
 	Input: AutocompleteInput,

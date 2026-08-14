@@ -24,9 +24,7 @@ export default class OtpService<Data = unknown> {
 	async verify(otp: string) {
 		const hashedOtp = this.#createHash(otp);
 		const data = await redis.getdel(`otp:${hashedOtp}`);
-		if (!data) {
-			throw new InvalidTokenException();
-		}
+		if (!data) throw new InvalidTokenException();
 
 		return JSON.parse(data) as Data;
 	}
@@ -35,6 +33,7 @@ export default class OtpService<Data = unknown> {
 		if (type === "numeric") {
 			const min = 10 ** (length - 1);
 			const max = 10 ** length - 1;
+
 			return String(Math.floor(Math.random() * (max - min + 1)) + min);
 		}
 

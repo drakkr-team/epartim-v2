@@ -9,7 +9,7 @@ import {
 	SelectValue,
 } from "./select";
 
-export { Select as SelectPrimitive } from "@base-ui/react/select";
+export { Select as SelectHeadless } from "@base-ui/react/select";
 
 export const Select = Object.assign(SelectRoot, {
 	Input: SelectInput,
