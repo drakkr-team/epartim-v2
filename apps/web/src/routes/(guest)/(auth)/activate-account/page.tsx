@@ -21,7 +21,9 @@ function Page() {
 
 	return (
 		<>
-			<h1 className="mb-4 font-serif text-4xl text-primary-11 sm:text-5xl">{t("title")}</h1>
+			<h1 className="mb-4 font-bold font-display text-3xl text-primary-12 leading-tight">
+				{t("title")}
+			</h1>
 			<p className="mb-9 text-neutral-11">{t("description")}</p>
 			<ActivationForm token={token} />
 		</>

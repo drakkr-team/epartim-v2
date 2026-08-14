@@ -4,9 +4,10 @@
  */
 
 @theme inline {
-	--font-sans: "Inter", "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-	--font-serif: "Libre Caslon Display", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
-	--font-mono: "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
+	--font-sans: "Montserrat", "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-serif: "Cormorant Garamond", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
+	--font-display: "Cormorant Garamond", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
+	--font-mono: "JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
 
 	--color-*: initial;
 
@@ -35,6 +36,17 @@
 	--color-primary-10: var(--primary-10);
 	--color-primary-11: var(--primary-11);
 	--color-primary-12: var(--primary-12);
+
+	--color-brand-shell: var(--brand-shell);
+	--color-brand-surface: var(--brand-surface);
+	--color-brand-navy: var(--brand-navy);
+	--color-brand-ink-muted: var(--brand-ink-muted);
+	--color-brand-ink-soft: var(--brand-ink-soft);
+	--color-brand-line: var(--brand-line);
+	--color-brand-line-strong: var(--brand-line-strong);
+	--color-brand-gold: var(--brand-gold);
+	--color-brand-gold-hover: var(--brand-gold-hover);
+	--color-brand-gold-strong: var(--brand-gold-strong);
 
 	--color-info-1: var(--info-1);
 	--color-info-2: var(--info-2);
@@ -519,18 +531,29 @@
 	--neutral-11: #65636d;
 	--neutral-12: #211f26;
 
-	--primary-1: #fdfcfe;
-	--primary-2: #faf8ff;
-	--primary-3: #f4f0fe;
-	--primary-4: #ebe4ff;
-	--primary-5: #e1d9ff;
-	--primary-6: #d4cafe;
-	--primary-7: #c2b5f5;
-	--primary-8: #aa99ec;
-	--primary-9: #6e56cf;
-	--primary-10: #654dc4;
-	--primary-11: #6550b9;
-	--primary-12: #2f265f;
+	--primary-1: #fdfdfe;
+	--primary-2: #f7f9ff;
+	--primary-3: #edf2fe;
+	--primary-4: #e1e9ff;
+	--primary-5: #d2deff;
+	--primary-6: #c1d0ff;
+	--primary-7: #abbdf9;
+	--primary-8: #8da4ef;
+	--primary-9: #3e63dd;
+	--primary-10: #3358d4;
+	--primary-11: #3a5bc7;
+	--primary-12: #1f2d5c;
+
+	--brand-shell: #f7f4ed;
+	--brand-surface: #ffffff;
+	--brand-navy: #111839;
+	--brand-ink-muted: #5a6485;
+	--brand-ink-soft: #8892a8;
+	--brand-line: #e8e7e0;
+	--brand-line-strong: #d4d3cc;
+	--brand-gold: #d9a25f;
+	--brand-gold-hover: #c8934e;
+	--brand-gold-strong: #b8853f;
 
 	--info-1: #fbfdff;
 	--info-2: #f4faff;
@@ -1003,18 +1026,29 @@
 	--neutral-11: #b5b2bc;
 	--neutral-12: #eeeef0;
 
-	--primary-1: #14121f;
-	--primary-2: #1b1525;
-	--primary-3: #291f43;
-	--primary-4: #33255b;
-	--primary-5: #3c2e69;
-	--primary-6: #473876;
-	--primary-7: #56468b;
-	--primary-8: #6958ad;
-	--primary-9: #6e56cf;
-	--primary-10: #7d66d9;
-	--primary-11: #baa7ff;
-	--primary-12: #e2ddfe;
+	--primary-1: #11131f;
+	--primary-2: #141726;
+	--primary-3: #182449;
+	--primary-4: #1d2e62;
+	--primary-5: #253974;
+	--primary-6: #304384;
+	--primary-7: #3a4f97;
+	--primary-8: #435db1;
+	--primary-9: #3e63dd;
+	--primary-10: #5472e4;
+	--primary-11: #9eb1ff;
+	--primary-12: #d6e1ff;
+
+	--brand-shell: #f7f4ed;
+	--brand-surface: #ffffff;
+	--brand-navy: #111839;
+	--brand-ink-muted: #5a6485;
+	--brand-ink-soft: #8892a8;
+	--brand-line: #e8e7e0;
+	--brand-line-strong: #d4d3cc;
+	--brand-gold: #d9a25f;
+	--brand-gold-hover: #c8934e;
+	--brand-gold-strong: #b8853f;
 
 	--info-1: #0d1520;
 	--info-2: #111927;

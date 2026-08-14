@@ -39,7 +39,9 @@ function Page() {
 
 	return (
 		<>
-			<h1 className="mb-9 font-serif text-5xl text-primary-11">{t("title")}</h1>
+			<h1 className="mb-6 font-bold font-display text-3xl text-primary-12 leading-tight">
+				{t("title")}
+			</h1>
 
 			<ResetPasswordForm token={token} />
 		</>

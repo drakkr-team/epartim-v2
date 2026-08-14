@@ -33,7 +33,7 @@ function UserPage() {
 				<Link className="text-neutral-11 text-sm hover:underline" to="/users">
 					← Utilisateurs
 				</Link>
-				<h1 className="mt-3 font-semibold text-2xl text-neutral-12">
+				<h1 className="mt-3 font-bold font-display text-4xl text-primary-12 tracking-tight">
 					{user.firstName} {user.lastName}
 				</h1>
 				<p className="mt-1 text-neutral-11">{user.email}</p>
@@ -61,7 +61,9 @@ function UserPage() {
 			</div>
 
 			<div>
-				<h2 className="mb-4 font-semibold text-lg text-neutral-12">Informations utilisateur</h2>
+				<h2 className="mb-4 font-bold font-display text-2xl text-primary-12">
+					Informations utilisateur
+				</h2>
 				<UserForm user={user} />
 			</div>
 		</section>

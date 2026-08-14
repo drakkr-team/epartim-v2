@@ -11,7 +11,9 @@ function NewUserPage() {
 				<Link className="text-neutral-11 text-sm hover:underline" to="/users">
 					← Utilisateurs
 				</Link>
-				<h1 className="mt-3 font-semibold text-2xl text-neutral-12">Inviter un utilisateur</h1>
+				<h1 className="mt-3 font-bold font-display text-4xl text-primary-12 tracking-tight">
+					Inviter un utilisateur
+				</h1>
 				<p className="mt-1 text-neutral-11">
 					La fiche est créée et le lien d’activation est envoyé immédiatement.
 				</p>

@@ -30,9 +30,14 @@ function UsersPage() {
 
 	return (
 		<section className="space-y-6">
-			<header className="flex items-center justify-between gap-4">
+			<header className="flex items-end justify-between gap-4 border-primary-12/10 border-b pb-5">
 				<div>
-					<h1 className="font-semibold text-2xl text-neutral-12">Utilisateurs</h1>
+					<p className="font-semibold text-gold-11 text-xs uppercase tracking-[0.18em]">
+						Administration
+					</p>
+					<h1 className="mt-2 font-bold font-display text-4xl text-primary-12 tracking-tight">
+						Utilisateurs
+					</h1>
 					<p className="mt-1 text-neutral-11">Gérez les comptes, rôles et invitations.</p>
 				</div>
 				<Button render={<Link to="/users/new" />} variant="primary">
