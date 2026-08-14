@@ -14,7 +14,7 @@ export function Sidebar() {
 			items: [
 				{
 					label: t("navigation.item.client-portfolio"),
-					to: "/dashboard",
+					to: "/client-portfolio",
 					icon: WalletCardsIcon,
 				},
 			],
@@ -24,7 +24,7 @@ export function Sidebar() {
 	return (
 		<UiSidebar className="w-64 border-r-0 bg-brand-navy text-primary-1">
 			<UiSidebar.Header className="px-6 pt-10 pb-4">
-				<Link className="inline-flex font-bold text-2xl tracking-[-0.06em]" to="/dashboard">
+				<Link className="inline-flex font-bold text-2xl tracking-[-0.06em]" to="/client-portfolio">
 					epartim<span className="text-brand-gold">.</span>
 				</Link>
 			</UiSidebar.Header>

@@ -10,7 +10,7 @@ type UseLoginMutationParams = {
 };
 
 export function useLoginMutation(params?: UseLoginMutationParams) {
-	const { redirectTo = "/dashboard" } = params ?? {};
+	const { redirectTo = "/client-portfolio" } = params ?? {};
 
 	const { t } = useTranslation("features.user_management.authentication.hooks.use-login-mutation");
 
