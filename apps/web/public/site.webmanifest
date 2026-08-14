@@ -1,6 +1,6 @@
 {
-	"name": "E.5 Stack",
-	"short_name": "E.5 Stack",
+	"name": "Epartim",
+	"short_name": "Epartim",
 	"icons": [
 		{ "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
 		{ "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
