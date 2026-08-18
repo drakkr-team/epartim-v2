@@ -5,10 +5,10 @@ import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import { DateTime } from "luxon";
 
 import EmailAlreadyExistsException from "#exceptions/email_already_exists.exception";
-import ForbiddenUserOperationException from "#exceptions/forbidden_user_operation.exception";
 import InvalidUserAssignmentException from "#exceptions/invalid_user_assignment.exception";
 import InvalidUserStateException from "#exceptions/invalid_user_state.exception";
 import SendAccountInvitation from "#features/user_management/administration/jobs/send_account_invitation.job";
+import AdminUser from "#models/admin_user";
 import Firm from "#models/firm";
 import Network from "#models/network";
 import Role, { type RoleCode } from "#models/role";
@@ -60,7 +60,7 @@ export default class AdminUserService {
 			.firstOrFail();
 	}
 
-	async create(input: Required<Pick<UserInput, "email">> & UserInput, invitedBy: User) {
+	async create(input: Required<Pick<UserInput, "email">> & UserInput, invitedBy: AdminUser) {
 		const email = input.email.trim().toLowerCase();
 		if (await User.findBy("email", email)) {
 			throw new EmailAlreadyExistsException();
@@ -97,18 +97,8 @@ export default class AdminUserService {
 		}
 	}
 
-	async update(user: User, input: UserInput, actor: User) {
+	async update(user: User, input: UserInput) {
 		const assignment = await this.resolveAssignment(input);
-		const currentRole = user.roles[0]?.code ?? (await user.related("roles").query().first())?.code;
-
-		if (
-			actor.id === user.id &&
-			(currentRole !== input.roleCode ||
-				user.firmId !== assignment.firmId ||
-				user.networkId !== assignment.networkId)
-		) {
-			throw new ForbiddenUserOperationException();
-		}
 
 		user.merge({
 			name: `${input.firstName} ${input.lastName}`,
@@ -124,7 +114,7 @@ export default class AdminUserService {
 		return user;
 	}
 
-	async resend(user: User, invitedBy: User) {
+	async resend(user: User, invitedBy: AdminUser) {
 		if (user.status !== "invited") throw new InvalidUserStateException();
 
 		const transaction = await db.transaction();
@@ -149,10 +139,8 @@ export default class AdminUserService {
 			.update({ revokedAt: DateTime.now() });
 	}
 
-	async disable(user: User, actor: User) {
-		if (user.status !== "active" || user.id === actor.id)
-			throw new ForbiddenUserOperationException();
-		if (await this.isLastActiveAdministrator(user)) throw new ForbiddenUserOperationException();
+	async disable(user: User) {
+		if (user.status !== "active") throw new InvalidUserStateException();
 
 		await user
 			.merge({ status: "disabled", disabledAt: DateTime.now(), authVersion: user.authVersion + 1 })
@@ -169,12 +157,7 @@ export default class AdminUserService {
 
 	async options() {
 		const [roles, firms, networks] = await Promise.all([
-			Role.query().whereIn("code", [
-				"administrator",
-				"commercial",
-				"network_manager",
-				"distributor",
-			]),
+			Role.query().whereIn("code", ["commercial", "network_manager", "distributor"]),
 			Firm.query().preload("network").orderBy("name"),
 			Network.query().orderBy("name"),
 		]);
@@ -186,7 +169,7 @@ export default class AdminUserService {
 		const role = await Role.findBy("code", input.roleCode);
 		if (!role) throw new InvalidUserAssignmentException();
 
-		if (["administrator", "commercial"].includes(input.roleCode)) {
+		if (input.roleCode === "commercial") {
 			if (input.firmId || input.networkId) throw new InvalidUserAssignmentException();
 			return { role, firmId: null, networkId: null };
 		}
@@ -209,7 +192,7 @@ export default class AdminUserService {
 
 	private async createInvitation(
 		user: User,
-		invitedBy: User,
+		invitedBy: AdminUser,
 		transaction: TransactionClientContract,
 	) {
 		await UserInvitation.query({ client: transaction })
@@ -223,7 +206,7 @@ export default class AdminUserService {
 		invitation.useTransaction(transaction);
 		invitation.fill({
 			userId: user.id,
-			invitedByUserId: invitedBy.id,
+			invitedByAdminUserId: invitedBy.id,
 			tokenHash: createHash("sha256").update(token).digest("hex"),
 			email: user.email,
 			sentAt: DateTime.now(),
@@ -239,17 +222,5 @@ export default class AdminUserService {
 		const activationUrl = new URL("/activate-account", env.get("FRONTEND_URL"));
 		activationUrl.searchParams.set("token", invitation.$extras.clearToken as string);
 		await SendAccountInvitation.dispatch({ user, activationUrl });
-	}
-
-	private async isLastActiveAdministrator(user: User) {
-		const role = await user.related("roles").query().where("code", "administrator").first();
-		if (!role) return false;
-
-		const administrators = await User.query()
-			.where("status", "active")
-			.whereHas("roles", (roleQuery) => roleQuery.where("code", "administrator"))
-			.count("id as total");
-
-		return Number(administrators[0].$extras.total) <= 1;
 	}
 }

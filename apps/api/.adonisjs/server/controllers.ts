@@ -7,6 +7,11 @@ export const controllers = {
   features: {
     userManagement: {
       administration: {
+        authentication: {
+          Login: () => import('#src/features/user_management/administration/authentication/controllers/login.controller'),
+          Logout: () => import('#src/features/user_management/administration/authentication/controllers/logout.controller'),
+          ViewCurrentUser: () => import('#src/features/user_management/administration/authentication/controllers/view_current_user.controller'),
+        },
         AcceptInvitation: () => import('#src/features/user_management/administration/controllers/accept_invitation.controller'),
         CancelInvitation: () => import('#src/features/user_management/administration/controllers/cancel_invitation.controller'),
         CreateUser: () => import('#src/features/user_management/administration/controllers/create_user.controller'),

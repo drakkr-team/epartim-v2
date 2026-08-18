@@ -7,6 +7,9 @@ export type ScannedRoutes = {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'user_management.authentication.login': { paramsTuple?: []; params?: {} }
     'user_management.authentication.logout': { paramsTuple?: []; params?: {} }
+    'admin.authentication.login': { paramsTuple?: []; params?: {} }
+    'admin.authentication.logout': { paramsTuple?: []; params?: {} }
+    'admin.authentication.view_current_user': { paramsTuple?: []; params?: {} }
     'admin.accept_invitation': { paramsTuple?: []; params?: {} }
     'admin.user_options': { paramsTuple?: []; params?: {} }
     'admin.list_users': { paramsTuple?: []; params?: {} }
@@ -26,6 +29,7 @@ export type ScannedRoutes = {
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'admin.authentication.view_current_user': { paramsTuple?: []; params?: {} }
     'admin.user_options': { paramsTuple?: []; params?: {} }
     'admin.list_users': { paramsTuple?: []; params?: {} }
     'admin.view_user': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -33,6 +37,7 @@ export type ScannedRoutes = {
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'admin.authentication.view_current_user': { paramsTuple?: []; params?: {} }
     'admin.user_options': { paramsTuple?: []; params?: {} }
     'admin.list_users': { paramsTuple?: []; params?: {} }
     'admin.view_user': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -40,6 +45,7 @@ export type ScannedRoutes = {
   }
   POST: {
     'user_management.authentication.login': { paramsTuple?: []; params?: {} }
+    'admin.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.accept_invitation': { paramsTuple?: []; params?: {} }
     'admin.create_user': { paramsTuple?: []; params?: {} }
     'admin.resend_invitation': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -51,6 +57,7 @@ export type ScannedRoutes = {
   }
   DELETE: {
     'user_management.authentication.logout': { paramsTuple?: []; params?: {} }
+    'admin.authentication.logout': { paramsTuple?: []; params?: {} }
     'user_management.profile.delete': { paramsTuple?: []; params?: {} }
   }
   PUT: {

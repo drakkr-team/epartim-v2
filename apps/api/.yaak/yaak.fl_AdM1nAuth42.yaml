@@ -1,0 +1,13 @@
+type: folder
+model: folder
+id: fl_AdM1nAuth42
+createdAt: 2026-08-18T10:00:00.000000
+updatedAt: 2026-08-18T10:00:00.000000
+workspaceId: wk_bpdV78RkSs
+folderId: fl_AdM1nRoot42
+authentication: {}
+authenticationType: null
+description: Administration session endpoints.
+headers: []
+name: Authentication
+sortPriority: 0.0

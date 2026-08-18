@@ -14,6 +14,7 @@ test.group("Features / User Management / Administration / Controllers / Accept I
 		await UserInvitation.create({
 			userId: user.id,
 			invitedByUserId: null,
+			invitedByAdminUserId: null,
 			email: user.email,
 			tokenHash: createHash("sha256").update(token).digest("hex"),
 			sentAt: DateTime.now(),

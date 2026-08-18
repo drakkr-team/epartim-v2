@@ -1,0 +1,35 @@
+type: http_request
+model: http_request
+id: rq_AdMUpdateUser42
+createdAt: 2026-08-18T10:00:00.000000
+updatedAt: 2026-08-18T10:00:00.000000
+workspaceId: wk_bpdV78RkSs
+folderId: fl_AdM1nUsers42
+authentication: {}
+authenticationType: null
+body:
+  form:
+  - enabled: true
+    id: AdmUpdateFirst42
+    name: firstName
+    value: ${[ faker.person.firstName() ]}
+  - enabled: true
+    id: AdmUpdateLast42
+    name: lastName
+    value: ${[ faker.person.lastName() ]}
+  - enabled: true
+    id: AdmUpdateRole42
+    name: roleCode
+    value: commercial
+bodyType: multipart/form-data
+description: Updates a web account. Requires an administration session.
+headers:
+- enabled: true
+  name: Content-Type
+  value: multipart/form-data
+  id: AdmUpdateHead42
+method: PUT
+name: Update User
+sortPriority: 4000.0
+url: ${[ BASE_URL ]}/admin/users/${[ USER_ID ]}
+urlParameters: []

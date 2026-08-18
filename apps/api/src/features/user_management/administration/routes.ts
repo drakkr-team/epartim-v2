@@ -33,8 +33,7 @@ router
 					controllers.features.userManagement.administration.ReactivateUser,
 				]);
 			})
-			.use(middleware.auth({ guards: ["web"] }))
-			.use(middleware.admin());
+			.use(middleware.auth({ guards: ["admin"] }));
 	})
 	.prefix("/admin")
 	.as("admin");

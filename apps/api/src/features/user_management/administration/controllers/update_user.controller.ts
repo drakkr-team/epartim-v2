@@ -13,10 +13,10 @@ export default class UpdateUserController {
 		private userPresenter: UserPresenter,
 	) {}
 
-	async handle({ request, auth }: HttpContext) {
+	async handle({ request }: HttpContext) {
 		const payload = await request.validateUsing(UpdateUserController.payloadSchema);
 		const user = await this.adminUserService.find(Number(request.param("id")));
-		await this.adminUserService.update(user, payload, auth.user!);
+		await this.adminUserService.update(user, payload);
 		return this.userPresenter.toJSON(user);
 	}
 

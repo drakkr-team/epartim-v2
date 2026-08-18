@@ -8,6 +8,7 @@ import { DateTime } from "luxon";
 import InvalidTokenException from "#exceptions/invalid_token.exception";
 import InvalidUserStateException from "#exceptions/invalid_user_state.exception";
 import UserInvitation from "#models/user_invitation";
+import { authVersionSessionKey } from "#services/auth_session.service";
 
 @inject()
 export default class InvitationActivationService {
@@ -36,7 +37,7 @@ export default class InvitationActivationService {
 			await transaction.commit();
 
 			await this.ctx.auth.use("web").login(invitation.user);
-			this.ctx.session.put("authVersion", invitation.user.authVersion);
+			this.ctx.session.put(authVersionSessionKey("web"), invitation.user.authVersion);
 
 			return invitation.user;
 		} catch (error) {

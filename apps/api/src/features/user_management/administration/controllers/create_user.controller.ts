@@ -15,7 +15,7 @@ export default class CreateUserController {
 
 	async handle({ request, auth }: HttpContext) {
 		const payload = await request.validateUsing(CreateUserController.payloadSchema);
-		const user = await this.adminUserService.create(payload, auth.user!);
+		const user = await this.adminUserService.create(payload, auth.use("admin").user!);
 		return this.userPresenter.toJSON(user);
 	}
 

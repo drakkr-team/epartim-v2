@@ -24,6 +24,24 @@ const routes = {
     tokens: [{"old":"/user-management/authentication/logout","type":0,"val":"user-management","end":""},{"old":"/user-management/authentication/logout","type":0,"val":"authentication","end":""},{"old":"/user-management/authentication/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['user_management.authentication.logout']['types'],
   },
+  'admin.authentication.login': {
+    methods: ["POST"],
+    pattern: '/admin/authentication/login',
+    tokens: [{"old":"/admin/authentication/login","type":0,"val":"admin","end":""},{"old":"/admin/authentication/login","type":0,"val":"authentication","end":""},{"old":"/admin/authentication/login","type":0,"val":"login","end":""}],
+    types: placeholder as Registry['admin.authentication.login']['types'],
+  },
+  'admin.authentication.logout': {
+    methods: ["DELETE"],
+    pattern: '/admin/authentication/logout',
+    tokens: [{"old":"/admin/authentication/logout","type":0,"val":"admin","end":""},{"old":"/admin/authentication/logout","type":0,"val":"authentication","end":""},{"old":"/admin/authentication/logout","type":0,"val":"logout","end":""}],
+    types: placeholder as Registry['admin.authentication.logout']['types'],
+  },
+  'admin.authentication.view_current_user': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/authentication/me',
+    tokens: [{"old":"/admin/authentication/me","type":0,"val":"admin","end":""},{"old":"/admin/authentication/me","type":0,"val":"authentication","end":""},{"old":"/admin/authentication/me","type":0,"val":"me","end":""}],
+    types: placeholder as Registry['admin.authentication.view_current_user']['types'],
+  },
   'admin.accept_invitation': {
     methods: ["POST"],
     pattern: '/admin/invitations/accept',

@@ -2,11 +2,15 @@ import type { QueryClient } from "@tanstack/react-query";
 
 import { api } from "#/libs/tuyau";
 
-export async function isAdministrator(queryClient: QueryClient) {
+export async function getCurrentAdmin(queryClient: QueryClient) {
 	try {
-		const user = await queryClient.ensureQueryData(api.userManagement.profile.view.queryOptions());
-		return user.roles.includes("administrator");
+		return await queryClient.ensureQueryData(
+			api.admin.authentication.viewCurrentUser.queryOptions(),
+		);
 	} catch (_error) {
-		return false;
+		queryClient.removeQueries({
+			queryKey: api.admin.authentication.viewCurrentUser.queryKey(),
+		});
+		return null;
 	}
 }

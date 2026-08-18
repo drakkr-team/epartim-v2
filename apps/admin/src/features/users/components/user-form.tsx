@@ -76,7 +76,7 @@ export function UserForm({ user }: { user?: EditableUser }) {
 					firstName,
 					lastName,
 					mobilePhone: mobilePhone || null,
-					roleCode: roleCode as "administrator" | "commercial" | "network_manager" | "distributor",
+					roleCode: roleCode as "commercial" | "network_manager" | "distributor",
 					firmId: needsFirm && firmId ? Number(firmId) : null,
 					networkId: needsNetwork && networkId ? Number(networkId) : null,
 				};

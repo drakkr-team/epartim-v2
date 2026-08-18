@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_AdMCancelInvite42
+createdAt: 2026-08-18T10:00:00.000000
+updatedAt: 2026-08-18T10:00:00.000000
+workspaceId: wk_bpdV78RkSs
+folderId: fl_AdM1nUsers42
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: Cancels a web account invitation. Requires an administration session.
+headers: []
+method: POST
+name: Cancel Invitation
+sortPriority: 6000.0
+url: ${[ BASE_URL ]}/admin/users/${[ USER_ID ]}/invitations/cancel
+urlParameters: []

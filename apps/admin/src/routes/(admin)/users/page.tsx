@@ -19,10 +19,7 @@ function UsersPage() {
 	const filteredUsers = users.filter((user) => {
 		return (
 			(!status || user.status === status) &&
-			(!role ||
-				user.roles.includes(
-					role as "administrator" | "commercial" | "network_manager" | "distributor",
-				)) &&
+			(!role || user.roles.includes(role as "commercial" | "network_manager" | "distributor")) &&
 			(!firmId || user.firm?.id === Number(firmId)) &&
 			(!networkId || user.network?.id === Number(networkId))
 		);

@@ -43,6 +43,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/authentication/controllers/logout.controller').default['handle']>>>
     }
   }
+  'admin.authentication.login': {
+    methods: ["POST"]
+    pattern: '/admin/authentication/login'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/user_management/administration/authentication/controllers/login.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/user_management/administration/authentication/controllers/login.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/authentication/controllers/login.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/authentication/controllers/login.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.authentication.logout': {
+    methods: ["DELETE"]
+    pattern: '/admin/authentication/logout'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/authentication/controllers/logout.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/authentication/controllers/logout.controller').default['handle']>>>
+    }
+  }
+  'admin.authentication.view_current_user': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/authentication/me'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/user_management/administration/authentication/controllers/view_current_user.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/user_management/administration/authentication/controllers/view_current_user.controller').default['handle']>>>
+    }
+  }
   'admin.accept_invitation': {
     methods: ["POST"]
     pattern: '/admin/invitations/accept'

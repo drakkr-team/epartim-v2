@@ -3,27 +3,25 @@ import { createHash } from "node:crypto";
 import { BaseSeeder } from "@adonisjs/lucid/seeders";
 import { DateTime } from "luxon";
 
-import Role from "#models/role";
+import AdminUser from "#models/admin_user";
 import User from "#models/user";
 
 export default class UserSeeder extends BaseSeeder {
 	static environment = ["manual"];
 
 	async run() {
-		const admin = await User.updateOrCreate(
-			{ email: "admin@example.com" },
+		await User.updateOrCreate(
+			{ email: "user@example.com" },
 			{
-				name: "Admin Epartim",
-				email: "admin@example.com",
+				name: "Utilisateur Epartim",
+				email: "user@example.com",
 				password: "password123",
-				firstName: "Admin",
+				firstName: "Utilisateur",
 				lastName: "Epartim",
 				status: "active",
 				amundiEmployeeType: "conseiller_pdf",
 			},
 		);
-		const administratorRole = await Role.findByOrFail("code", "administrator");
-		await admin.related("roles").sync([administratorRole.id]);
 
 		const now = DateTime.now().toJSDate();
 
@@ -58,6 +56,7 @@ export default class UserSeeder extends BaseSeeder {
 	private async seedInvitation() {
 		const now = DateTime.now().toJSDate();
 		const invitationTokenHash = createHash("sha256").update("dev-invitation-token").digest("hex");
+		const administrator = await AdminUser.findBy("email", "admin@example.com");
 
 		const invitedUser = await this.client
 			.getWriteClient()
@@ -87,6 +86,7 @@ export default class UserSeeder extends BaseSeeder {
 			.insert({
 				user_id: invitedUser.id,
 				invited_by_user_id: null,
+				invited_by_admin_user_id: administrator?.id ?? null,
 				token_hash: invitationTokenHash,
 				email: "invited@example.com",
 				sent_at: now,
@@ -97,6 +97,7 @@ export default class UserSeeder extends BaseSeeder {
 			.onConflict("token_hash")
 			.merge({
 				email: "invited@example.com",
+				invited_by_admin_user_id: administrator?.id ?? null,
 				sent_at: now,
 				expires_at: DateTime.now().plus({ days: 7 }).toJSDate(),
 				accepted_at: null,

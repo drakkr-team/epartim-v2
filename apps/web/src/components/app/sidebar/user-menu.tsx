@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Avatar } from "@workspace/ui-react/components/avatar";
 import { Menu } from "@workspace/ui-react/components/menu";
 import { Spinner } from "@workspace/ui-react/components/spinner";
-import { LogOutIcon, ShieldCheckIcon, UserIcon } from "@workspace/ui-react/icons";
+import { LogOutIcon, UserIcon } from "@workspace/ui-react/icons";
 
 import { useLogoutMutation } from "#/features/user_management/authentication/hooks/use-logout-mutation";
 import { api } from "#/libs/tuyau";
@@ -16,8 +16,6 @@ export function SidebarUserMenu() {
 	const { data: currentUser } = useSuspenseQuery(api.userManagement.profile.view.queryOptions());
 
 	const { mutate: logout, isPending: isLoggingOut } = useLogoutMutation();
-	const isAdministrator = currentUser.roles.includes("administrator");
-
 	return (
 		<div className="grid w-full grid-cols-[auto_1fr] items-center gap-2">
 			<Menu>
@@ -35,12 +33,6 @@ export function SidebarUserMenu() {
 						<UserIcon />
 						{t("action.profile")}
 					</Menu.Item>
-					{isAdministrator ? (
-						<Menu.Item nativeButton={false} render={<a href={import.meta.env.VITE_ADMIN_URL} />}>
-							<ShieldCheckIcon />
-							{t("action.administration")}
-						</Menu.Item>
-					) : null}
 					<Menu.Item
 						variant="destructive"
 						closeOnClick={false}

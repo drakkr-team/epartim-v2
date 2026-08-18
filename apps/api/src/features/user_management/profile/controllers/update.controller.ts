@@ -13,7 +13,7 @@ export default class UpdateProfileController {
 	async handle({ request, auth, bouncer }: HttpContext) {
 		await bouncer.with(UpdateProfilePolicy).authorize("handle");
 
-		const user = auth.user!;
+		const user = auth.use("web").user!;
 
 		const payload = await request.validateUsing(UpdateProfileController.payloadSchema);
 

@@ -13,7 +13,7 @@ export default class ResendInvitationController {
 
 	async handle({ request, auth }: HttpContext) {
 		const user = await this.adminUserService.find(Number(request.param("id")));
-		const invitation = await this.adminUserService.resend(user, auth.user!);
+		const invitation = await this.adminUserService.resend(user, auth.use("admin").user!);
 		return this.userInvitationPresenter.toJSON(invitation);
 	}
 }

@@ -7,9 +7,9 @@ import AdminUserService from "#features/user_management/administration/services/
 export default class DisableUserController {
 	constructor(private adminUserService: AdminUserService) {}
 
-	async handle({ request, auth }: HttpContext) {
+	async handle({ request }: HttpContext) {
 		const user = await this.adminUserService.find(Number(request.param("id")));
-		await this.adminUserService.disable(user, auth.user!);
+		await this.adminUserService.disable(user);
 		return null;
 	}
 }

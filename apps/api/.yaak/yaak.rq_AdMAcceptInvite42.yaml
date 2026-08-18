@@ -1,0 +1,31 @@
+type: http_request
+model: http_request
+id: rq_AdMAcceptInvite42
+createdAt: 2026-08-18T10:00:00.000000
+updatedAt: 2026-08-18T10:00:00.000000
+workspaceId: wk_bpdV78RkSs
+folderId: fl_AdM1nUsers42
+authentication: {}
+authenticationType: null
+body:
+  form:
+  - enabled: true
+    id: AdmAcceptToken42
+    name: token
+    value: ${[ USER_INVITATION_TOKEN ]}
+  - enabled: true
+    id: AdmAcceptPass42
+    name: password
+    value: ${[ USER_PASSWORD_CREDENTIAL ]}
+bodyType: multipart/form-data
+description: Activates a web account invitation without an administration session.
+headers:
+- enabled: true
+  name: Content-Type
+  value: multipart/form-data
+  id: AdmAcceptHead42
+method: POST
+name: Accept Invitation
+sortPriority: 9000.0
+url: ${[ BASE_URL ]}/admin/invitations/accept
+urlParameters: []

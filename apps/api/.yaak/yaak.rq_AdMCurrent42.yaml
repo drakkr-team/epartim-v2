@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_AdMCurrent42
+createdAt: 2026-08-18T10:00:00.000000
+updatedAt: 2026-08-18T10:00:00.000000
+workspaceId: wk_bpdV78RkSs
+folderId: fl_AdM1nAuth42
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: Returns the current administration account and requires an administration session.
+headers: []
+method: GET
+name: Current User
+sortPriority: 2000.0
+url: ${[ BASE_URL ]}/admin/authentication/me
+urlParameters: []

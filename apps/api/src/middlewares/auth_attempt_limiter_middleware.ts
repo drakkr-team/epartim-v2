@@ -10,7 +10,7 @@ export default class AuthAttemptLimiterMiddleware {
 		next: NextFn,
 		options: {
 			identifier: "email" | "uid" | "token";
-			scope: "login" | "password-forgot" | "password-reset";
+			scope: "login" | "admin-login" | "password-forgot" | "password-reset";
 		},
 	) {
 		const identifier = String(ctx.request.input(options.identifier) || "")

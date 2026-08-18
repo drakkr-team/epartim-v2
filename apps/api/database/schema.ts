@@ -7,6 +7,29 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AdminUserSchema extends BaseModel {
+  static $columns = ['authVersion', 'createdAt', 'disabledAt', 'email', 'id', 'name', 'password', 'status', 'updatedAt'] as const
+  $columns = AdminUserSchema.$columns
+  @column()
+  declare authVersion: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare disabledAt: DateTime | null
+  @column()
+  declare email: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column({ serializeAs: null })
+  declare password: string
+  @column()
+  declare status: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class FileSchema extends BaseModel {
   static $columns = ['createdAt', 'id', 'key', 'name', 'size', 'type', 'updatedAt'] as const
   $columns = FileSchema.$columns
@@ -70,7 +93,7 @@ export class RoleSchema extends BaseModel {
 }
 
 export class UserInvitationSchema extends BaseModel {
-  static $columns = ['acceptedAt', 'createdAt', 'email', 'expiresAt', 'id', 'invitedByUserId', 'revokedAt', 'sentAt', 'tokenHash', 'updatedAt', 'userId'] as const
+  static $columns = ['acceptedAt', 'createdAt', 'email', 'expiresAt', 'id', 'invitedByAdminUserId', 'invitedByUserId', 'revokedAt', 'sentAt', 'tokenHash', 'updatedAt', 'userId'] as const
   $columns = UserInvitationSchema.$columns
   @column.dateTime()
   declare acceptedAt: DateTime | null
@@ -82,6 +105,8 @@ export class UserInvitationSchema extends BaseModel {
   declare expiresAt: DateTime
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare invitedByAdminUserId: number | null
   @column()
   declare invitedByUserId: number | null
   @column.dateTime()

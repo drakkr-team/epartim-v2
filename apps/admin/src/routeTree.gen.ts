@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as adminLayoutRouteImport } from './routes/(admin)/layout'
+import { Route as LoginPageRouteImport } from './routes/login/page'
 import { Route as adminUsersPageRouteImport } from './routes/(admin)/users/page'
 import { Route as admindashboardPageRouteImport } from './routes/(admin)/(dashboard)/page'
 import { Route as adminUsersNewPageRouteImport } from './routes/(admin)/users/new/page'
@@ -17,6 +18,11 @@ import { Route as adminUsersIdPageRouteImport } from './routes/(admin)/users/$id
 
 const adminLayoutRoute = adminLayoutRouteImport.update({
   id: '/(admin)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginPageRoute = LoginPageRouteImport.update({
+  id: '/login/',
+  path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const adminUsersPageRoute = adminUsersPageRouteImport.update({
@@ -41,12 +47,14 @@ const adminUsersIdPageRoute = adminUsersIdPageRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/login/': typeof LoginPageRoute
   '/': typeof admindashboardPageRoute
   '/users/': typeof adminUsersPageRoute
   '/users/$id/': typeof adminUsersIdPageRoute
   '/users/new/': typeof adminUsersNewPageRoute
 }
 export interface FileRoutesByTo {
+  '/login': typeof LoginPageRoute
   '/': typeof admindashboardPageRoute
   '/users': typeof adminUsersPageRoute
   '/users/$id': typeof adminUsersIdPageRoute
@@ -55,6 +63,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(admin)': typeof adminLayoutRouteWithChildren
+  '/login/': typeof LoginPageRoute
   '/(admin)/(dashboard)/': typeof admindashboardPageRoute
   '/(admin)/users/': typeof adminUsersPageRoute
   '/(admin)/users/$id/': typeof adminUsersIdPageRoute
@@ -62,12 +71,13 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/users/' | '/users/$id/' | '/users/new/'
+  fullPaths: '/login/' | '/' | '/users/' | '/users/$id/' | '/users/new/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/users' | '/users/$id' | '/users/new'
+  to: '/login' | '/' | '/users' | '/users/$id' | '/users/new'
   id:
     | '__root__'
     | '/(admin)'
+    | '/login/'
     | '/(admin)/(dashboard)/'
     | '/(admin)/users/'
     | '/(admin)/users/$id/'
@@ -76,6 +86,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   adminLayoutRoute: typeof adminLayoutRouteWithChildren
+  LoginPageRoute: typeof LoginPageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,6 +96,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof adminLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login/'
+      preLoaderRoute: typeof LoginPageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(admin)/users/': {
@@ -138,6 +156,7 @@ const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   adminLayoutRoute: adminLayoutRouteWithChildren,
+  LoginPageRoute: LoginPageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

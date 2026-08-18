@@ -4,12 +4,7 @@ import { DateTime } from "luxon";
 
 import User from "#models/user";
 
-export const ROLE_CODES = [
-	"administrator",
-	"commercial",
-	"network_manager",
-	"distributor",
-] as const;
+export const ROLE_CODES = ["commercial", "network_manager", "distributor"] as const;
 
 export type RoleCode = (typeof ROLE_CODES)[number];
 

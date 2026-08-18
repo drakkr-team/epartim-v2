@@ -3,6 +3,7 @@ import type { HttpContext } from "@adonisjs/core/http";
 import type { NextFn } from "@adonisjs/core/types/http";
 
 import GuestOnlyException from "#exceptions/guest_only.exception";
+import { authVersionSessionKey } from "#services/auth_session.service";
 
 export default class GuestMiddleware {
 	async handle(
@@ -13,7 +14,7 @@ export default class GuestMiddleware {
 		for (const guard of options.guards || [ctx.auth.defaultGuard]) {
 			if (await ctx.auth.use(guard).check()) {
 				const user = ctx.auth.user!;
-				const authVersion = ctx.session.get("authVersion");
+				const authVersion = ctx.session.get(authVersionSessionKey(guard));
 				if (
 					user.status === "active" &&
 					(authVersion === undefined || authVersion === user.authVersion)

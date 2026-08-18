@@ -8,7 +8,7 @@ export default class ProfileService {
 	constructor(protected ctx: HttpContext) {}
 
 	async delete() {
-		const user = this.ctx.auth.user!;
+		const user = this.ctx.auth.use("web").user!;
 
 		await user.delete();
 		await SendAccountDeletedNotification.dispatch({ user });

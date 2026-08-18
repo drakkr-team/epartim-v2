@@ -11,7 +11,7 @@ export default class ViewProfileController {
 	async handle({ auth, bouncer }: HttpContext) {
 		await bouncer.with(ViewProfilePolicy).authorize("handle");
 
-		const user = auth.user!;
+		const user = auth.use("web").user!;
 
 		return this.userPresenter.toJSON(user);
 	}

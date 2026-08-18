@@ -3,18 +3,17 @@ import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
 import SendAccountInvitation from "#features/user_management/administration/jobs/send_account_invitation.job";
-import Role from "#models/role";
+import AdminUser from "#models/admin_user";
 import User from "#models/user";
 import UserInvitation from "#models/user_invitation";
 
 async function createAdministrator() {
-	const user = await UserFactory.create();
-	const role = await Role.firstOrCreate(
-		{ code: "administrator" },
-		{ code: "administrator", name: "Administrateur" },
-	);
-	await user.related("roles").sync([role.id]);
-	return user;
+	return AdminUser.create({
+		name: "Administrateur Epartim",
+		email: "administrator@example.com",
+		password: "password",
+		status: "active",
+	});
 }
 
 test.group("Features / User Management / Administration / Controllers / Create User", (group) => {

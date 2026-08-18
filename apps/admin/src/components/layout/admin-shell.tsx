@@ -1,8 +1,12 @@
-import { Link } from "@tanstack/react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link, useNavigate } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 
+import { Button } from "@workspace/ui-react/components/button";
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
-import { LayoutDashboardIcon, UsersIcon } from "@workspace/ui-react/icons";
+import { LayoutDashboardIcon, LogOutIcon, UsersIcon } from "@workspace/ui-react/icons";
+
+import { api } from "#/libs/tuyau";
 
 const navigationItems = [
 	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon },
@@ -10,6 +14,19 @@ const navigationItems = [
 ];
 
 export function AdminShell({ children }: PropsWithChildren) {
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+	const { mutate: logout, isPending: isLoggingOut } = useMutation(
+		api.admin.authentication.logout.mutationOptions({
+			onSuccess: () => {
+				queryClient.removeQueries({
+					queryKey: api.admin.authentication.viewCurrentUser.pathKey(),
+				});
+				navigate({ to: "/login" });
+			},
+		}),
+	);
+
 	return (
 		<div className="flex min-h-svh bg-brand-shell text-neutral-12">
 			<UiSidebar className="w-64 border-r-0 bg-brand-navy text-primary-1">
@@ -54,6 +71,18 @@ export function AdminShell({ children }: PropsWithChildren) {
 						</UiSidebar.Group>
 					</nav>
 				</UiSidebar.Body>
+
+				<UiSidebar.Footer className="px-4 pb-6">
+					<Button
+						className="w-full justify-start text-primary-6 hover:bg-primary-5/10 hover:text-primary-1"
+						disabled={isLoggingOut}
+						onClick={() => logout({})}
+						variant="ghost"
+					>
+						<LogOutIcon />
+						Déconnexion
+					</Button>
+				</UiSidebar.Footer>
 			</UiSidebar>
 
 			<main className="min-w-0 flex-1 p-4 pt-8 sm:p-8 lg:p-12">{children}</main>

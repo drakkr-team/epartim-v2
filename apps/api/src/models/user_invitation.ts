@@ -2,6 +2,7 @@ import { BaseModel, belongsTo, column } from "@adonisjs/lucid/orm";
 import type { BelongsTo } from "@adonisjs/lucid/types/relations";
 import { DateTime } from "luxon";
 
+import AdminUser from "#models/admin_user";
 import User from "#models/user";
 
 export default class UserInvitation extends BaseModel {
@@ -13,6 +14,9 @@ export default class UserInvitation extends BaseModel {
 
 	@column()
 	declare invitedByUserId: number | null;
+
+	@column()
+	declare invitedByAdminUserId: number | null;
 
 	@column({ serializeAs: null })
 	declare tokenHash: string;
@@ -45,4 +49,7 @@ export default class UserInvitation extends BaseModel {
 		foreignKey: "invitedByUserId",
 	})
 	declare invitedByUser: BelongsTo<typeof User>;
+
+	@belongsTo(() => AdminUser)
+	declare invitedByAdminUser: BelongsTo<typeof AdminUser>;
 }

@@ -24,6 +24,11 @@ export interface ApiDefinition {
     }
   }
   admin: {
+    authentication: {
+      login: typeof routes['admin.authentication.login']
+      logout: typeof routes['admin.authentication.logout']
+      viewCurrentUser: typeof routes['admin.authentication.view_current_user']
+    }
     acceptInvitation: typeof routes['admin.accept_invitation']
     userOptions: typeof routes['admin.user_options']
     listUsers: typeof routes['admin.list_users']
