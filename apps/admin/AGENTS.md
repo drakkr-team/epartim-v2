@@ -14,5 +14,6 @@ Dedicated TanStack Start application for internal administration.
 - Do not write CRUD screens that edit sensitive fields directly.
 - Protect admin screens in the router and enforce authorization again in the API.
 - Keep the admin visually identical to the web app: use the shared theme tokens, fonts, theme mode, sidebar conventions, and shared UI components. Content uses the shared default sans-serif font (Montserrat); only use alternate shared fonts when the equivalent web component does. Do not create admin-specific colors or typography.
+- For components equivalent to the web app, mirror its folder structure and naming. For example, keep the admin sidebar under `src/components/app/sidebar`, isolate its user actions in dedicated subcomponents, and let route layouts compose the sidebar and page content.
 - Use feature folders under `src/features`.
 - Keep generated files untouched: `src/routeTree.gen.ts`, `src/libs/i18n/build/**`.
