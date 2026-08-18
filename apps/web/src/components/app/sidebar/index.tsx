@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
-import { WalletCardsIcon } from "@workspace/ui-react/icons";
+import { FilePenLineIcon, WalletCardsIcon } from "@workspace/ui-react/icons";
 
 import { SidebarUserMenu } from "#/components/app/sidebar/user-menu";
 
@@ -16,6 +16,11 @@ export function Sidebar() {
 					label: t("navigation.item.client-portfolio"),
 					to: "/client-portfolio",
 					icon: WalletCardsIcon,
+				},
+				{
+					label: t("navigation.item.subscriptions"),
+					to: "/souscriptions",
+					icon: FilePenLineIcon,
 				},
 			],
 		},
