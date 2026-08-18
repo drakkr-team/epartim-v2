@@ -13,13 +13,6 @@ export default class extends BaseSchema {
 				.references("id")
 				.inTable("users")
 				.onDelete("CASCADE");
-			table
-				.integer("invited_by_user_id")
-				.unsigned()
-				.nullable()
-				.references("id")
-				.inTable("users")
-				.onDelete("SET NULL");
 			table.string("token_hash").notNullable().unique();
 			table.string("email", 254).notNullable();
 			table.timestamp("sent_at").nullable();
@@ -30,7 +23,6 @@ export default class extends BaseSchema {
 			table.timestamps(true, true);
 
 			table.index(["user_id"], "idx_user_invitations_user_id");
-			table.index(["invited_by_user_id"], "idx_user_invitations_invited_by_user_id");
 			table.index(["email"], "idx_user_invitations_email");
 		});
 

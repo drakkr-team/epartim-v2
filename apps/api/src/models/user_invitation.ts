@@ -13,9 +13,6 @@ export default class UserInvitation extends BaseModel {
 	declare userId: number;
 
 	@column()
-	declare invitedByUserId: number | null;
-
-	@column()
 	declare invitedByAdminUserId: number | null;
 
 	@column({ serializeAs: null })
@@ -44,11 +41,6 @@ export default class UserInvitation extends BaseModel {
 
 	@belongsTo(() => User)
 	declare user: BelongsTo<typeof User>;
-
-	@belongsTo(() => User, {
-		foreignKey: "invitedByUserId",
-	})
-	declare invitedByUser: BelongsTo<typeof User>;
 
 	@belongsTo(() => AdminUser)
 	declare invitedByAdminUser: BelongsTo<typeof AdminUser>;

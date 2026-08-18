@@ -68,9 +68,4 @@ export default class User extends compose(UserSchema, authFinder) {
 
 	@hasMany(() => UserInvitation)
 	declare invitations: HasMany<typeof UserInvitation>;
-
-	@hasMany(() => UserInvitation, {
-		foreignKey: "invitedByUserId",
-	})
-	declare sentInvitations: HasMany<typeof UserInvitation>;
 }

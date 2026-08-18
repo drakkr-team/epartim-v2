@@ -85,7 +85,6 @@ export default class UserSeeder extends BaseSeeder {
 			.table("user_invitations")
 			.insert({
 				user_id: invitedUser.id,
-				invited_by_user_id: null,
 				invited_by_admin_user_id: administrator?.id ?? null,
 				token_hash: invitationTokenHash,
 				email: "invited@example.com",

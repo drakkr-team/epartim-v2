@@ -133,7 +133,7 @@ Invitation d'activation d'un compte.
 | --- | --- | --- |
 | id | bigint | primary key |
 | user_id | bigint | not null, FK `users.id`, `ON DELETE CASCADE` |
-| invited_by_user_id | bigint | nullable, FK `users.id`, `ON DELETE SET NULL` |
+| invited_by_admin_user_id | bigint | nullable, FK `admin_users.id`, `ON DELETE SET NULL` |
 | token_hash | varchar | not null, unique |
 | email | varchar(254) | not null |
 | sent_at | timestamp | nullable |

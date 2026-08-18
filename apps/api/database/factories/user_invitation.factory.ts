@@ -13,7 +13,6 @@ export const UserInvitationFactory = factory
 		};
 	})
 	.relation("user", () => UserFactory)
-	.relation("invitedByUser", () => UserFactory)
 	.state("sent", (invitation) => {
 		invitation.sentAt = DateTime.now();
 	})
