@@ -25,14 +25,18 @@ test.group("Features / User Management / Administration / Controllers / Create U
 		const fakeQueueManager = QueueManager.fake();
 		const administrator = await createAdministrator();
 
-		const response = await client.visit("admin.create_user").loginAs(administrator).json({
-			email: "new-user@example.com",
-			firstName: "Jane",
-			lastName: "Doe",
-			roleCode: "commercial",
-			firmId: null,
-			networkId: null,
-		});
+		const response = await client
+			.visit("admin.create_user")
+			.withGuard("admin")
+			.loginAs(administrator)
+			.json({
+				email: "new-user@example.com",
+				firstName: "Jane",
+				lastName: "Doe",
+				roleCode: "commercial",
+				firmId: null,
+				networkId: null,
+			});
 
 		response.assertOk();
 		const user = await User.findByOrFail("email", "new-user@example.com");
