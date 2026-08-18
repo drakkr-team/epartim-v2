@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
@@ -17,6 +17,7 @@ export const Route = createFileRoute("/(private)/(operations)/client-portfolio/"
 function ClientPortfolioPage() {
 	const { t: tRoute } = useTranslation("routes.(private)");
 	const { t } = useTranslation("routes.(private).(operations).client-portfolio");
+	const navigate = useNavigate();
 
 	return (
 		<PageHeader
@@ -26,7 +27,15 @@ function ClientPortfolioPage() {
 						<DownloadIcon />
 						{t("action.export")}
 					</Button>
-					<Button className="bg-brand-gold text-brand-navy hover:bg-brand-gold-hover">
+					<Button
+						className="bg-brand-gold text-brand-navy hover:bg-brand-gold-hover"
+						onClick={() =>
+							navigate({
+								to: "/souscription/$id",
+								params: { id: crypto.randomUUID() },
+							})
+						}
+					>
 						<PlusIcon />
 						{t("action.new-subscription")}
 					</Button>

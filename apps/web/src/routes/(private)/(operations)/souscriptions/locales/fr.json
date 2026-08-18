@@ -1,0 +1,8 @@
+{
+	"routes.(private).(operations).souscriptions": {
+		"description": "Suivez vos bulletins de souscription entreprise (BSE) en cours et consultez vos contrats signés.",
+		"action": {
+			"new-subscription": "Nouvelle souscription"
+		}
+	}
+}

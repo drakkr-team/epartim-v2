@@ -6,7 +6,8 @@
 				"operations": "Mes opérations"
 			},
 			"item": {
-				"client-portfolio": "Portefeuille client"
+				"client-portfolio": "Portefeuille client",
+				"subscriptions": "Souscriptions"
 			}
 		}
 	}
