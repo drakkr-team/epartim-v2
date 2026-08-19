@@ -4,12 +4,12 @@ id: fl_993SfoocwS
 createdAt: 2026-08-14T08:58:47.854539
 updatedAt: 2026-08-14T08:58:47.854542
 workspaceId: wk_W95zdiewKu
-folderId: null
+folderId: fl_WebRoot42
 authentication: {}
 authenticationType: null
 description: ''
 headers: []
-name: Profil
+name: Profile
 sortPriority: 0.0
 settingSendCookies:
   enabled: false

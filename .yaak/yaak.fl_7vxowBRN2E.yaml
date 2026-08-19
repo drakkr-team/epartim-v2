@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 description: ''
 headers: []
-name: Administration
+name: Admin
 sortPriority: 0.0
 settingSendCookies:
   enabled: false

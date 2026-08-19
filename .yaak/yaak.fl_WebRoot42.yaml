@@ -1,0 +1,13 @@
+type: folder
+model: folder
+id: fl_WebRoot42
+createdAt: 2026-08-19T00:00:00.000000
+updatedAt: 2026-08-19T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: null
+authentication: {}
+authenticationType: null
+description: Public and authenticated web application endpoints.
+headers: []
+name: Web
+sortPriority: 1000.0

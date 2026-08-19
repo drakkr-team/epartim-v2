@@ -4,12 +4,12 @@ id: fl_Q9atCnZi3j
 createdAt: 2026-08-14T08:58:47.279445
 updatedAt: 2026-08-14T08:58:47.279486
 workspaceId: wk_W95zdiewKu
-folderId: null
+folderId: fl_WebRoot42
 authentication: {}
 authenticationType: null
 description: ''
 headers: []
-name: Authentification
+name: Authentication
 sortPriority: 0.0
 settingSendCookies:
   enabled: false

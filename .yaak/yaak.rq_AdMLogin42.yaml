@@ -1,33 +1,33 @@
 type: http_request
 model: http_request
-id: rq_gKzFrKxDSF
-createdAt: 2026-05-18T13:46:35.574536
-updatedAt: 2026-06-07T08:45:20.324691
-workspaceId: wk_bpdV78RkSs
-folderId: fl_Nx4w5zFUM4
+id: rq_AdMLogin42
+createdAt: 2026-08-18T10:00:00.000000
+updatedAt: 2026-08-18T10:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_AdM1nAuth42
 authentication: {}
 authenticationType: null
 body:
   form:
   - enabled: true
-    id: EyP3EfBAE7
-    name: name
-    value: ${[ faker.person.fullName() ]}
+    id: AdmLoginUid42
+    name: uid
+    value: ${[ ADMIN_UID_CREDENTIAL ]}
   - enabled: true
-    id: AMiIHx30K5
-    name: ''
-    value: ''
+    id: AdmLoginPass42
+    name: password
+    value: ${[ ADMIN_PASSWORD_CREDENTIAL ]}
 bodyType: multipart/form-data
-description: ''
+description: Creates an administration session with private credentials.
 headers:
 - enabled: true
   name: Content-Type
   value: multipart/form-data
-  id: 4pBw7ZHkTj
-method: PUT
-name: Update
-sortPriority: -1185152311070.6665
-url: ${[ BASE_URL ]}/user-management/profile
+  id: AdmLoginHead42
+method: POST
+name: Login
+sortPriority: 0.0
+url: http://localhost:3333/admin/authentication/login
 urlParameters: []
 settingSendCookies:
   enabled: false
