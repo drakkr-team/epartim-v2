@@ -1,19 +1,20 @@
 # PROJECT KNOWLEDGE BASE
 
-**Generated:** 2026-06-07
-**Commit:** e24c544
-**Branch:** main
+**Generated:** 2026-08-20
+**Commit:** dbe3bf7
+**Branch:** chore/context
 
 ## OVERVIEW
 
-pnpm/Turbo TypeScript monorepo with an AdonisJS API, TanStack Start web app, and split UI packages for React components plus generated Tailwind theme CSS.
+pnpm/Turbo TypeScript monorepo with an AdonisJS API, separate TanStack Start client/admin apps, shared React components, and generated Tailwind theme CSS.
 
 ## STRUCTURE
 
 ```text
 epartim/
-├── apps/api/              # AdonisJS API; feature-first user management; Tuyau/Adonis codegen
-├── apps/web/              # TanStack Start app; file routes, Tuyau client, compiled French i18n
+├── apps/api/              # AdonisJS API; admin/client feature trees; Tuyau/Adonis codegen
+├── apps/client/           # customer TanStack Start app; operations/profile routes
+├── apps/admin/            # internal TanStack Start app; protected user administration
 ├── packages/ui/react/     # Storybook-backed React UI package; components/icons/hooks exports
 ├── packages/ui/theme/     # token source + generated checked-in Tailwind CSS
 ├── package.json           # root Turbo scripts; pnpm@10.33.2; Node 24
@@ -30,29 +31,28 @@ epartim/
 | API runtime / CLI | `apps/api/bin/server.ts`, `apps/api/bin/console.ts`, `apps/api/adonisrc.ts` | `ace.js` is generated. |
 | API routes | `apps/api/start/routes.ts`, `apps/api/src/features/**/routes.ts` | Feature routes import `#generated/controllers`. |
 | API auth/session/mail/queue | `apps/api/config/*.ts`, `apps/api/start/kernel.ts`, `apps/api/src/exceptions/handler.ts` | JSON-only behavior is middleware-enforced; mail jobs use queue `emails`. |
-| Web routes | `apps/web/src/routes/**/{layout,page}.tsx`, `apps/web/src/router.tsx` | `routeTree.gen.ts` is generated. |
-| Web API client | `apps/web/src/libs/tuyau.ts`, `@workspace/api/registry` | Registry comes from the API build hooks. |
-| Web forms | `apps/web/src/libs/form.ts`, `apps/web/src/components/form/*` | TanStack Form components registered centrally. |
-| Web profile routes | `apps/web/src/routes/(private)/profile/**` | Tabs: profile, security, privacy. |
-| Web password forms | `apps/web/src/features/user_management/password/**` | Forgot/reset guest forms and authenticated security-tab update form. |
-| Web profile | `apps/web/src/features/user_management/profile/**` | Update/delete forms, hooks, mutations, and confirmation dialog. |
-| Web translations | `apps/web/scripts/compile-locales.js`, `apps/web/src/**/locales/fr.json` | Build output is generated under `src/libs/i18n/build`. |
+| Client routes | `apps/client/src/routes/**/{layout,page}.tsx`, `apps/client/src/router.tsx` | Guest/private groups plus operations and profile; route tree is generated. |
+| Admin routes | `apps/admin/src/routes/**/{layout,page}.tsx`, `apps/admin/src/router.tsx` | Admin guard, dashboard, users; route tree is generated. |
+| Frontend API clients | `apps/{client,admin}/src/libs/tuyau.ts`, `@workspace/api/registry` | Client selects user-management routes; admin selects admin routes. |
+| Client forms | `apps/client/src/libs/form.ts`, `apps/client/src/components/form/*` | TanStack Form components registered centrally. |
+| Frontend translations | `apps/{client,admin}/scripts/compile-locales.js`, `src/**/locales/fr.json` | Generated bundles live under each app's `src/libs/i18n/build`. |
+| Admin user workflows | `apps/admin/src/features/users`, `apps/api/src/features/admin/users` | UI actions are authorization-enforced again in the API. |
 | React UI components | `packages/ui/react/src/components/*`, `packages/ui/react/src/components/AGENTS.md` | Folder-per-component with story + barrel. |
 | Theme tokens | `packages/ui/theme/src/tokens.ts` | Source of truth for `tailwind.css`. |
-| Docker / CI | `.github/workflows/ci.yml`, `apps/*/Dockerfile` | CI runs code-quality, affected typecheck/build; test job is commented out. |
+| Docker / CI | `.github/workflows/ci.yml`, `apps/*/Dockerfile` | CI runs code quality plus affected typecheck, tests, and builds. |
 
 ## CODE MAP
 
 | Symbol / module | Type | Location | Role |
 |-----------------|------|----------|------|
-| `getRouter` | function | `apps/web/src/router.tsx` | Creates QueryClient-backed TanStack router. |
-| `Providers` | component | `apps/web/src/providers/index.tsx` | Theme + TanStack devtools shell. |
-| `api` | client | `apps/web/src/libs/tuyau.ts` | Typed API query/mutation surface. |
-| `useAppForm` | hook factory | `apps/web/src/libs/form.ts` | App-standard form wrapper. |
+| `getRouter` | function | `apps/{client,admin}/src/router.tsx` | Creates each QueryClient-backed TanStack router. |
+| `api` | client | `apps/{client,admin}/src/libs/tuyau.ts` | Typed client/admin query and mutation surfaces. |
+| `useAppForm` | hook factory | `apps/client/src/libs/form.ts` | Client-standard form wrapper. |
 | `User` | model | `apps/api/src/models/user.ts` | Auth model; `toJSON()` hides password. |
-| `UserTokenService` | service | `apps/api/src/services/user_token.service.ts` | Token generate/verify/revoke workflow. |
+| `AdminUserService` | service | `apps/api/src/features/admin/users/services/admin_user.service.ts` | User lifecycle and invitation workflow. |
+| `OtpService` | service | `apps/api/src/services/otp.service.ts` | Shared password-token workflow. |
 | `middleware` | registry | `apps/api/start/kernel.ts` | Named auth/guest middleware. |
-| `SidebarUserMenu` | component | `apps/web/src/components/app/sidebar/user-menu.tsx` | Current user query, theme menu, logout action. |
+| `DataTable` | component | `apps/client/src/components/app/data-table.tsx` | Generic compound table state and rendering. |
 | `Button`, `Menu`, etc. | components | `packages/ui/react/src/components/*/index.ts` | Public UI exports. |
 | `colors`, `fonts` | tokens | `packages/ui/theme/src/tokens.ts` | Theme generation input. |
 
@@ -62,19 +62,19 @@ epartim/
 - Package manager is `pnpm@10.33.2`; Node engine is `24`; `.npmrc` enforces engine strictness.
 - Workspace package imports use `@workspace/*`.
 - API imports use package `imports` aliases: `#start/*`, `#features/*`, `#models/*`, `#generated/*`, etc.
-- Web imports use `#/*` for `apps/web/src/*`.
-- Web route files are `layout.tsx` and `page.tsx`; route groups use parentheses.
-- The admin must use the same shared visual theme as the web app: fonts, color tokens, theme mode, sidebar language, and page surfaces. Admin content uses the default shared sans-serif font (Montserrat); only use alternate shared fonts when the equivalent web component does. Reuse `@workspace/ui-theme` and `@workspace/ui-react`; do not introduce an admin-only visual system.
+- Frontend imports use `#/*` for each app's `src/*`; package imports use `@workspace/*`.
+- Client/admin route files are `layout.tsx` and `page.tsx`; route groups use parentheses.
+- Admin reuses the client visual system: shared Montserrat default, color tokens, theme mode, sidebar language, and page surfaces. Do not introduce admin-only colors or typography.
 - UI component folders use `component.tsx`, `index.ts`, `component.stories.tsx`.
-- `apps/web` runs `i18n:build` on `postinstall`; `dev` runs Vite on port 3000 plus the locale watcher.
+- Client and admin run `i18n:build` on `postinstall`; dev ports are 3000 and 3001.
 - No `.editorconfig`, `.eslintrc`, or `tailwind.config` files exist; Biome is the single lint/format source.
-- API `tsconfig.json` inherits strictness from `@adonisjs/tsconfig` preset; web/ui packages set `strict: true` locally.
+- API `tsconfig.json` inherits strictness from `@adonisjs/tsconfig`; client/admin/UI packages set `strict: true` locally.
 - API-specific Biome allows non-null assertions and value imports used as types.
-- Web Biome enables `useSortedClasses` for `cn`/`cva`; UI React Biome enables it for `tv`.
+- Client/admin Biome enable React/Tailwind rules and alias-only imports; UI React sorts classes used by `tv`.
 
 ## ANTI-PATTERNS (THIS PROJECT)
 
-- Do not edit generated files: `apps/api/.adonisjs/**`, `apps/api/database/schema.ts`, `apps/api/ace.js`, `apps/web/src/routeTree.gen.ts`, `apps/web/src/libs/i18n/build/**`, `packages/ui/theme/src/tailwind.css`.
+- Do not edit generated files: `apps/api/.adonisjs/**`, `apps/api/database/schema.ts`, `apps/api/ace.js`, `apps/{client,admin}/src/routeTree.gen.ts`, `apps/{client,admin}/src/libs/i18n/build/**`, `packages/ui/theme/src/tailwind.css`.
 - Do not send responses from `apps/api/src/exceptions/handler.ts` `report()`.
 - Preserve `apps/api/src/middlewares/force_json_response.middleware.ts`; it forces `Accept: application/json`.
 - Do not normalize existing typoed API mail filename casually: `password_changed_notifiction.mail.ts` is referenced by current code.
@@ -82,16 +82,16 @@ epartim/
 
 ## UNIQUE STYLES
 
-- API feature modules are colocated by domain under `src/features/user_management` instead of a flat controller/service tree.
-- Web mirrors backend domain names in feature paths and i18n namespaces.
-- Web profile UI is route-tabbed: `/profile`, `/profile/security`, `/profile/privacy`.
+- API feature modules are colocated under `src/features/{admin,client}` instead of a flat controller/service tree.
+- Client mirrors backend domain names in feature paths and i18n namespaces.
+- Client profile UI is route-tabbed: `/profile`, `/profile/security`, `/profile/privacy`.
 - Theme package checks in generated CSS; edit tokens, then regenerate.
 - Storybook is dev-only for UI React; there is no package build script there.
 - API dev is "composed": Turbo runs `dev` with `docker-compose` and `worker` alongside the server.
-- Web dev uses `concurrently` for Vite port 3000 plus locale watcher.
+- Client/admin dev use `concurrently` for Vite plus locale watchers.
 - CI uses `--affected` for typecheck and build; `TURBO_SCM_BASE` is explicitly set in CI for PR diffs.
 - API Docker image runs DB migrations in `ENTRYPOINT` before server start.
-- Web Docker image is static-only nginx serving `dist/client`; `VITE_API_BASE_URL` is baked at build time.
+- Client/admin Docker images are static nginx builds with `VITE_API_BASE_URL` baked in.
 
 ## COMMANDS
 
@@ -106,8 +106,10 @@ pnpm adonis
 pnpm --filter @workspace/api dev
 pnpm --filter @workspace/api worker
 pnpm --filter @workspace/api docker-compose
-pnpm --filter @workspace/web dev
-pnpm --filter @workspace/web preview
+pnpm --filter @workspace/client dev
+pnpm --filter @workspace/client preview
+pnpm --filter @workspace/admin dev
+pnpm --filter @workspace/admin preview
 pnpm --filter @workspace/ui-react dev
 pnpm --filter @workspace/ui-theme generate:tailwind
 ```
@@ -117,11 +119,12 @@ pnpm --filter @workspace/ui-theme generate:tailwind
 - The versioned Yaak workspace lives in `.yaak/`. Add every new or changed API route to Yaak, keeping its method, path, parameters, request body, and authentication requirements aligned with the implementation. Use English names for Yaak folders and requests; use Faker for generated test data, and private Yaak variables for real account IDs, credentials, and tokens. Never store credentials or tokens in a shared Yaak environment.
 - Root `turbo dev` is persistent and uncached.
 - API `dev` depends on `docker-compose` and `worker` sidecar tasks.
-- `@workspace/api/registry` is generated by Adonis/Tuyau during API build; web type-safety depends on it.
+- `@workspace/api/registry` is generated by Adonis/Tuyau during API build; both frontends depend on it.
 - `@workspace/ui-theme/tailwind.css` is generated from `src/tokens.ts`; run `generate:tailwind` after token edits.
 - `@workspace/ui-react` has no build script; apps consume its source exports directly.
-- Build order: Turbo `^build` ensures API registry and theme CSS are generated before web build.
+- Build order: Turbo `^build` generates the API registry and theme CSS before frontend builds.
 - API/Japa tests now live beside user-management controllers, policies, jobs, and mails as `*.unit.spec.ts` / `*.e2e.spec.ts`.
-- TypeScript LSP is not installed in this environment; codemap came from direct reads, rg, ast-grep, and Biome LSP status.
-- CI test job is present but commented out.
+- TypeScript LSP and the local ast-grep binary were unavailable; the code map was cross-checked through direct reads and parallel structural exploration.
+- CI's test job is active; only the API package currently contributes a test script.
+- `apps/client/Dockerfile` still references obsolete `@workspace/web` and `apps/web` paths; container builds remain at risk until corrected.
 - No `Makefile` exists in the repo.

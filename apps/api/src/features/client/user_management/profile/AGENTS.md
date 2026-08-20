@@ -1,34 +1,65 @@
-# apps/api/src/features/user_management/profile KNOWLEDGE BASE
+# Client profile API
 
-## OVERVIEW
+## Scope
 
-Authenticated profile view/update/delete feature with policy checks, user presentation, and queued account-deleted mail.
+- This feature owns client profile view, update, and deletion flows.
+- `routes.ts` registers the profile HTTP surface.
+- Controllers orchestrate requests; services own profile workflow work.
+- Policies guard view, update, and delete independently.
+- Keep changes within this feature unless a shared contract must change.
 
-## WHERE TO LOOK
+## View
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Routes | `routes.ts` | Authenticated `GET`, `PUT`, `DELETE /user_management/profile`. |
-| Controllers | `controllers/*.controller.ts` | View/update/delete handlers with policy checks. |
-| Workflow service | `services/profile.service.ts` | Deletes current user, dispatches mail job, logs out web guard. |
-| Policies | `policies/*.policy.ts` | Bouncer gates for view/update/delete. |
-| Job | `jobs/send_account_deleted_notification.job.ts` | Queue `emails`; sends account-deleted mail. |
-| Mail | `mails/account_deleted_notification.*` | Mail class plus Edge/MJML template. |
+- `view.controller.ts` handles profile retrieval.
+- Run `view.policy.ts` before returning profile data.
+- Read the authenticated user from `auth.user!`.
+- Return the user through `UserPresenter`.
 
-## CONVENTIONS
+## Update
 
-- Routes use `middleware.auth({ guards: ["client"] })` at group level.
-- View/update responses use `UserPresenter` or `user.toJSON()` to control user shape.
-- Delete flow lives in `ProfileService.delete()` so mail dispatch and logout stay together.
-- Update payload uses `UpdateUserSchema` from `#validators/user.validator`.
+- `update.controller.ts` handles profile mutations.
+- Run `update.policy.ts` before changing profile data.
+- Validate with shared `UpdateUserSchema`.
+- Merge validated values into the authenticated user and save.
+- Return the updated user through `UserPresenter`.
+
+## Delete
+
+- `delete.controller.ts` handles account/profile deletion.
+- Run `delete.policy.ts` before starting deletion.
+- Delegate the deletion workflow to `ProfileService`.
+- Do not send account-deletion email in the controller.
+- Return `null` after the workflow completes.
+
+## Serialization
+
+- Treat serialized profile fields as a public API contract.
+- Use `UserPresenter` for view and update responses.
+- Never return raw persistence models when presenter shape matters.
+- Exclude credentials, tokens, secrets, and internal-only fields.
+- Keep field names stable across view and update responses.
+- Preserve the project's existing date serialization convention.
+- Avoid response-only transformations in `ProfileService`.
+
+## Service workflow
+
+- `ProfileService` owns profile persistence and workflow sequencing.
+- The service resolves the current user from injected `HttpContext`.
+- Delete the user before dispatching the notification job.
+- Dispatch the notification before logging out the `client` guard.
+- Keep authorization in policies.
+
+## Queue and mail
+
+- `send_account_deleted_notification.job.ts` owns queued deletion notification delivery.
+- Enqueue the job only after deletion reaches its safe completion point.
+- Keep the HTTP request free of mail transport work.
+- Existing job payload is the deleted `User` model.
+- `account_deleted_notification.mail.ts` defines the notification message.
+- `account_deleted_notification.html.edge` renders its HTML body.
+- Keep recipient data, subject data, and template data aligned.
 
 ## ANTI-PATTERNS
 
-- Do not return raw user data when presenter/toJSON shape matters.
-- Do not delete accounts directly in controllers; keep side effects in `ProfileService`.
-- Do not remove profile cache invalidation on the web consumer when changing route names.
-
-## NOTES
-
-- Delete returns `null` after service completion.
-- Account-deleted notification runs after `user.delete()` through the queue job.
+- Do not return raw users, delete directly in controllers, or reorder delete/dispatch/logout.
+- Do not move mail transport work out of the queue job.

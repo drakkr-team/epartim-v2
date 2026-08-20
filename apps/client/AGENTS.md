@@ -1,72 +1,74 @@
-# apps/web KNOWLEDGE BASE
+# apps/client GUIDE
 
-## OVERVIEW
+## SCOPE
 
-TanStack Start app with file routes, React Query, Tuyau API client, TanStack Form wrappers, next-themes, nginx static deployment, and generated French i18n bundle.
+- Customer-facing TanStack Start application.
+- Package name: `@workspace/client`.
+- Source alias: `#/` maps to `src/*`.
+- Keep guidance local to this app; do not duplicate repository guidance.
 
-## WHERE TO LOOK
+## ROUTING
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Build/dev setup | `package.json`, `vite.config.ts`, `tsconfig.json` | Vite plugin sets route tokens to `layout` and `page`. |
-| Router | `src/router.tsx`, `src/routes/__root.tsx` | Router owns QueryClient context and SSR query integration. |
-| Auth gates | `src/routes/(private)/layout.tsx`, `src/routes/(guest)/(auth)/layout.tsx` | `beforeLoad` redirects via `isAuthenticated`. |
-| API client | `src/libs/tuyau.ts` | Uses `@workspace/api/registry`, SuperJSON, credentials include. |
-| Forms | `src/libs/form.ts`, `src/components/form/*` | App fields registered once, reused by features. |
-| Login flow | `src/features/user_management/authentication/**` | Hooks own mutations, redirects, error mapping, form setup. |
-| Password recovery | `src/routes/(guest)/(auth)/forgot-password/page.tsx`, `src/routes/(guest)/(auth)/reset-password/page.tsx` | Forgot/reset password pages using feature form hooks. |
-| Profile tabs | `src/routes/(private)/profile/{layout,page}.tsx`, `src/routes/(private)/profile/{security,privacy}/page.tsx` | Tabs for profile, security, privacy. |
-| i18n | `scripts/compile-locales.js`, `src/**/locales/fr.json`, `src/libs/i18n/config.ts` | Source locales compile to `src/libs/i18n/build/fr.json`. |
-| Providers | `src/providers/*`, `src/routes/__root.tsx` | Theme provider plus TanStack devtools. |
-| App shell | `src/components/app/sidebar/*` | Authenticated sidebar, current user query, theme menu, logout UI. |
-| Deployment | `Dockerfile`, `nginx.conf` | Vite output served from nginx with SPA fallback. |
+- File routes live in `src/routes`.
+- Vite config uses `layout` as the route token.
+- Vite config uses `page` as the index token.
+- Route groups use parenthesized directories.
+- `src/routeTree.gen.ts` is generated; never edit it.
+- `src/routes/__root.tsx` imports global styles and i18n configuration.
+- `src/router.tsx` creates the QueryClient-backed router.
+- Router defaults include intent preloading and scroll restoration.
 
-## STRUCTURE
+## ACCESS AREAS
 
-```text
-apps/web/src/
-├── components/          # app, form, pages buckets
-├── features/            # domain slices mirroring backend names
-├── libs/                # form, i18n, Tuyau client
-├── providers/           # theme/devtools providers
-├── routes/              # TanStack file routes using layout/page tokens
-├── styles/              # imports @workspace/ui-theme/tailwind
-└── utils/               # auth and Tuyau error helpers
-```
+- Guest authentication routes live under `(guest)/(auth)`.
+- Guest flows: login, activation, password recovery, and password reset.
+- Private routes live under `(private)`.
+- Private home is `(private)/page.tsx`.
+- Keep access boundaries in the relevant route layouts.
+- Operations routes nest under `(private)/(operations)`.
+- Operations include client portfolio and souscriptions.
+- Souscription detail uses the `$id` dynamic route.
+- Profile routes nest under `(private)/profile`.
+- Profile tabs: profile, security, and privacy.
+- Preserve the route-tabbed profile structure.
 
-## CONVENTIONS
+## FEATURES AND FORMS
 
-- Route files are `layout.tsx` and `page.tsx`; route groups use `(private)`, `(guest)`, `(auth)`.
-- Private/guest access is enforced in route `beforeLoad`, not inside page components.
-- Profile settings are route-tabbed: `/profile`, `/profile/security`, `/profile/privacy`.
-- Use `api.*.queryOptions()` / `mutationOptions()` from `src/libs/tuyau.ts`.
-- Clear `api.userManagement.profile.view.pathKey()` cache after login/logout.
-- Use `useAppForm` from `src/libs/form.ts` for forms so shared field components are available.
-- Translation namespaces mirror feature/component paths.
-- `#/` alias points to `src/*`.
+- User-management features live in `src/features/user_management`.
+- Authentication owns login and logout hooks/components.
+- Invitation owns account-activation hooks/components.
+- Password owns forgot, reset, and update flows.
+- Profile owns update and deletion flows.
+- Build client forms with `useAppForm` from `src/libs/form.ts`.
+- Registered fields: text, password, textarea, number, switch, checkbox.
+- Use registered `SubmitButton` through the app form API.
+- Reuse feature-local hooks rather than duplicating mutation setup in routes.
 
-## ANTI-PATTERNS
+## API DATA
 
-- Do not edit `src/routeTree.gen.ts` or `src/libs/i18n/build/fr.json` manually.
-- Do not add route files with default TanStack names if `vite.config.ts` route tokens still expect `layout` / `page`.
-- `src/utils/tuyau.ts` currently logs errors with `console.error`; treat toast UX as unfinished.
-- Existing locale typos (`descritpion`, `componoent.pages.unexpected`) are real keys; fix with coordinated key updates only.
+- Use `api` from `src/libs/tuyau.ts` for typed API operations.
+- Tuyau uses the generated `@workspace/api/registry`.
+- The client base URL is `VITE_API_BASE_URL`.
+- Requests send `Accept: application/json` and include credentials.
+- SuperJSON is configured as the Tuyau plugin.
+- Use Tuyau React Query query/mutation options with the app router QueryClient.
 
-## COMMANDS
+## I18N
 
-```bash
-pnpm --filter @workspace/web dev
-pnpm --filter @workspace/web build
-pnpm --filter @workspace/web preview
-pnpm --filter @workspace/web typecheck
-pnpm --filter @workspace/web i18n:build
-pnpm --filter @workspace/web i18n:dev
-```
+- French is the configured application language.
+- Source translations are colocated as `locales/fr.json`.
+- Build translations with `pnpm i18n:build`.
+- Watch translations with `pnpm i18n:dev`.
+- Generated bundle: `src/libs/i18n/build/fr.json`.
+- Never edit the generated bundle directly.
+- `postinstall` runs the locale build.
 
-## NOTES
+## ANTI-PATTERNS AND COMMANDS
 
-- `dev` runs Vite on port 3000 plus the locale watcher.
-- `postinstall` generates i18n output automatically.
-- `biome.json` excludes `.tanstack`, `routeTree.gen.ts`, `.output`, and generated locale JSON.
-- Root document imports globals and i18n config before rendering providers.
-- Docker build bakes `VITE_API_BASE_URL`; nginx serves `dist/client` with `_shell.html` fallback.
+- Development command: `pnpm --filter @workspace/client dev`.
+- Client development server runs Vite on port 3000.
+- Validate types with `pnpm --filter @workspace/client typecheck`.
+- Build with `pnpm --filter @workspace/client build`.
+- `apps/client/Dockerfile` still prunes `@workspace/web` and copies `apps/web`; treat container builds as broken until corrected.
+- Correct Docker paths must target `@workspace/client`, `apps/client/nginx.conf`, and `apps/client/dist/client`.
+- Do not copy the admin app's direct-query or local-state form style into client features.

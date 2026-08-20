@@ -1,38 +1,63 @@
-# apps/api/src/features/user_management KNOWLEDGE BASE
+# apps/api/src/features/admin/admin_management KNOWLEDGE BASE
 
 ## OVERVIEW
 
-User account domain split into authentication, password, and profile feature modules. Routes are exposed under `/user_management/*` and consumed through Tuyau paths.
+Admin account management is split into authentication, password, and profile
+modules. `../routes.ts` imports this feature; this feature's `routes.ts` imports
+all three module route files. The HTTP base path is `/admin/admin-management`,
+not `/user_management`.
 
 ## STRUCTURE
 
 ```text
-user_management/
-├── authentication/       # login/logout, auth guards, auth exceptions
-├── password/             # forgot/reset/update password, token mail flow
-└── profile/              # view/update/delete authenticated profile
+admin_management/
+├── authentication/       # login/logout and session lifecycle
+├── password/             # forgot/reset/update password flows
+└── profile/              # authenticated profile view/update/delete
 ```
 
-## WHERE TO LOOK
+## ROUTES AND NAMESPACES
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Login/logout | `authentication/` | Session auth service; routes prefix `/user_management/authentication`. |
-| Password reset/update | `password/` | Uses `UserTokenService`, mailer, env app URL; routes prefix `/user_management/password`. |
-| Current user profile | `profile/` | View/update/delete profile; routes prefix `/user_management/profile`. |
-| Shared user payloads | `../../validators/user.validator.ts` | Imported by password/profile controllers. |
-| User model shape | `../../models/user.ts` | `toJSON()` controls API user response. |
+| Module | HTTP prefix | Route namespace | Controller namespace |
+|---|---|---|---|
+| Authentication | `/admin/admin-management/authentication` | `admin.admin_management.authentication` | `controllers.features.admin.adminManagement.authentication` |
+| Password | `/admin/admin-management/password` | `admin.admin_management.password` | `controllers.features.admin.adminManagement.password` |
+| Profile | `/admin/admin-management/profile` | `admin.admin_management.profile` | `controllers.features.admin.adminManagement.profile` |
 
-## CONVENTIONS
+- Authentication exposes guest-only `POST /login` and client-authenticated
+  `DELETE /logout`.
+- Password exposes guest-only `POST /forgot` and `POST /reset`, plus
+  client-authenticated `PUT /` for changing the current password.
+- Profile exposes client-authenticated `GET /`, `PUT /`, and `DELETE /`.
+- Route aliases use underscores in `admin_management`; URL segments use the
+  hyphenated `admin-management` spelling.
 
-- Route groups use names matching Tuyau client paths: `admin.admin_management.authentication.*`, `admin.admin_management.password.*`, `admin.admin_management.profile.*`.
-- Authenticated routes use `middleware.auth({ guards: ["client"] })` when guard specificity matters.
-- Guest-only auth/password routes use `middleware.guest()`.
-- Keep feature-specific exceptions inside the feature folder.
-- Keep profile deletion mail orchestration in the profile service/job pair.
+## GUARDS AND AUTHORIZATION
+
+- Login is wrapped in `middleware.guest()` and
+  `middleware.authAttempt({ identifier: "uid", scope: "login" })`.
+- Forgot/reset share `middleware.guest()` and use `authAttempt` with `email` /
+  `password-forgot` and `token` / `password-reset`, respectively.
+- Logout, password update, and every profile route use
+  `middleware.auth({ guards: ["client"] })`.
+- Each controller also authorizes its matching feature policy through Bouncer;
+  keep route middleware and controller policy checks symmetric when adding an
+  account-management operation.
+
+## COMPOSITION
+
+- Authentication delegates session work to `authentication/services/auth.service.ts`.
+- Password controllers validate payloads, then delegate reset/update workflows
+  and mail dispatch to `password/services/password.service.ts` and its jobs.
+- Profile view/update present users with `UserPresenter`; deletion delegates to
+  `profile/services/profile.service.ts` so account deletion and its notification
+  stay together.
+- Password and profile password/profile payload validation comes from
+  `#validators/user.validator` where the controller imports it.
 
 ## ANTI-PATTERNS
 
-- Do not move feature controllers to `src/controllers`; the generated registry indexes them from `src`.
-- Do not return raw `User` instances when profile/user JSON shape matters; use `user.toJSON()`.
-- Do not rename route groups without checking the web Tuyau consumers.
+- Do not copy user-management paths, aliases, or controller namespaces here.
+- Do not weaken `client` guard selection or replace guest routes with client auth.
+- Do not move service side effects, mail dispatch, or Bouncer authorization into
+  unrelated modules.
