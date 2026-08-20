@@ -20,7 +20,7 @@ export const Route = createFileRoute("/(private)")({
 
 function Layout() {
 	return (
-		<div className="flex min-h-svh bg-brand-shell">
+		<div className="flex min-h-svh bg-secondary-2">
 			<Sidebar />
 			<main className="min-w-0 flex-1">
 				<Breadcrumb />
