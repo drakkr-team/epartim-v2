@@ -7,6 +7,23 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AddressSchema extends BaseModel {
+  static $columns = ['city', 'id', 'lineOne', 'lineThree', 'lineTwo', 'zip'] as const
+  $columns = AddressSchema.$columns
+  @column()
+  declare city: string
+  @column({ isPrimary: true })
+  declare id: bigint | number
+  @column()
+  declare lineOne: string
+  @column()
+  declare lineThree: string | null
+  @column()
+  declare lineTwo: string | null
+  @column()
+  declare zip: string
+}
+
 export class FileSchema extends BaseModel {
   static $columns = ['createdAt', 'id', 'key', 'name', 'size', 'type', 'updatedAt'] as const
   $columns = FileSchema.$columns
@@ -22,6 +39,54 @@ export class FileSchema extends BaseModel {
   declare size: number
   @column()
   declare type: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class FirmSchema extends BaseModel {
+  static $columns = ['addressId', 'amundiOrgId', 'bic', 'createdAt', 'iban', 'id', 'name', 'networkId', 'orias', 'paymentDetailsId', 'updatedAt'] as const
+  $columns = FirmSchema.$columns
+  @column()
+  declare addressId: bigint | number
+  @column()
+  declare amundiOrgId: string | null
+  @column()
+  declare bic: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare iban: string
+  @column({ isPrimary: true })
+  declare id: bigint | number
+  @column()
+  declare name: string
+  @column()
+  declare networkId: bigint | number | null
+  @column()
+  declare orias: string
+  @column()
+  declare paymentDetailsId: bigint | number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class NetworkSchema extends BaseModel {
+  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'paymentDetailsId', 'updatedAt'] as const
+  $columns = NetworkSchema.$columns
+  @column()
+  declare addressId: bigint | number | null
+  @column()
+  declare amundiOrgId: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare goCode: bigint | number | null
+  @column({ isPrimary: true })
+  declare id: bigint | number
+  @column()
+  declare name: string
+  @column()
+  declare paymentDetailsId: bigint | number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
