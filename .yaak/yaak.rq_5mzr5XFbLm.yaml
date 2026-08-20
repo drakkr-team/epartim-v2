@@ -14,7 +14,7 @@ headers: []
 method: DELETE
 name: Déconnexion
 sortPriority: 0.0
-url: http://localhost:3333/user-management/authentication/logout
+url: http://localhost:3333/client/user-management/authentication/logout
 urlParameters: []
 settingSendCookies:
   enabled: false
