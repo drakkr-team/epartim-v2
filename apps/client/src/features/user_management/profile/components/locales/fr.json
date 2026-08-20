@@ -18,7 +18,10 @@
 		"title": "Informations générales",
 		"description": "Mettez à jour les informations générales de votre profil.",
 		"fields": {
-			"name": {
+			"firstName": {
+				"label": "Prénom"
+			},
+			"lastName": {
 				"label": "Nom"
 			}
 		},

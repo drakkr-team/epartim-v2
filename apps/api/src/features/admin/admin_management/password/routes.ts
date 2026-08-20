@@ -2,6 +2,7 @@ import router from "@adonisjs/core/services/router";
 
 import { controllers } from "#generated/controllers";
 import { middleware } from "#start/kernel";
+import { brutForceLimiter } from "#start/limiter";
 
 router
 	.group(() => {
@@ -10,7 +11,8 @@ router
 				router.post("/forgot", [controllers.features.admin.adminManagement.password.Forgot]);
 				router.post("/reset", [controllers.features.admin.adminManagement.password.Reset]);
 			})
-			.use(middleware.guest({ guards: ["admin"] }));
+			.use(middleware.guest({ guards: ["admin"] }))
+			.use(brutForceLimiter);
 	})
 	.prefix("admin/admin-management/password")
 	.as("admin.admin_management.password");

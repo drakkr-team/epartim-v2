@@ -6,7 +6,7 @@ import PasswordChangedNotificationMail from "#features/admin/admin_management/pa
 import Admin from "#models/admin";
 
 interface Payload {
-	admin: Admin
+	admin: Admin;
 	loginUrl: URL;
 }
 

@@ -118,12 +118,6 @@ worker qui traite la file `emails`.
 | API | `http://localhost:3333` |
 | Boîte mail smtp4dev | `http://localhost:5001` |
 
-Pour créer le premier administrateur :
-
-```bash
-pnpm --filter @workspace/api bootstrap:admin
-```
-
 > [!WARNING]
 > Les valeurs des fichiers `.env.example` sont réservées au développement local. N'utilisez
 > jamais de secrets, de données personnelles, de fichiers partenaires ou d'informations issues
