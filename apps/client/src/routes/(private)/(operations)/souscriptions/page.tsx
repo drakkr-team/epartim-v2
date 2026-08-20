@@ -23,7 +23,7 @@ function SubscriptionsPage() {
 		<PageHeader
 			actions={
 				<Button
-					className="bg-brand-gold text-brand-navy hover:bg-brand-gold-hover"
+					className="bg-secondary-9 text-primary-12 hover:bg-secondary-10"
 					onClick={() =>
 						navigate({
 							to: "/souscription/$id",

@@ -26,7 +26,7 @@ export function Breadcrumb() {
 	return (
 		<nav
 			aria-label={t("label")}
-			className="border-brand-line border-b px-4 py-4 sm:px-8 sm:py-5 lg:px-12"
+			className="border-neutral-4 border-b px-4 py-4 sm:px-8 sm:py-5 lg:px-12"
 		>
 			<ol className="flex flex-wrap items-center gap-y-2 text-base sm:text-xs">
 				{breadcrumbMatches.map((match, index) => {
@@ -35,13 +35,13 @@ export function Breadcrumb() {
 					return (
 						<li className="flex items-center" key={match.id}>
 							{index > 0 && (
-								<span aria-hidden="true" className="mx-3 text-brand-ink-soft">
+								<span aria-hidden="true" className="mx-3 text-neutral-9">
 									/
 								</span>
 							)}
 							{!isCurrentPage ? (
 								<Link
-									className="text-brand-ink-muted transition-colors hover:text-brand-navy focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-4"
+									className="text-neutral-11 transition-colors hover:text-primary-12 focus-visible:outline-2 focus-visible:outline-secondary-9 focus-visible:outline-offset-4"
 									to={match.to}
 								>
 									{tRoute(match.labelKey, match.labelKey)}
@@ -49,7 +49,7 @@ export function Breadcrumb() {
 							) : (
 								<span
 									aria-current={isCurrentPage ? "page" : undefined}
-									className="font-semibold text-brand-navy"
+									className="font-semibold text-primary-12"
 								>
 									{tRoute(match.labelKey, match.labelKey)}
 								</span>

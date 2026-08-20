@@ -23,12 +23,12 @@ function ClientPortfolioPage() {
 		<PageHeader
 			actions={
 				<>
-					<Button className="border-brand-line-strong bg-brand-surface text-brand-navy hover:border-brand-line-strong hover:bg-brand-surface">
+					<Button className="border-neutral-6 bg-neutral-1 text-primary-12 hover:border-neutral-6 hover:bg-neutral-1">
 						<DownloadIcon />
 						{t("action.export")}
 					</Button>
 					<Button
-						className="bg-brand-gold text-brand-navy hover:bg-brand-gold-hover"
+						className="bg-secondary-9 text-primary-12 hover:bg-secondary-10"
 						onClick={() =>
 							navigate({
 								to: "/souscription/$id",
