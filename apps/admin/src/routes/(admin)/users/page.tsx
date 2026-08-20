@@ -10,8 +10,8 @@ import { api } from "#/libs/tuyau";
 export const Route = createFileRoute("/(admin)/users/")({ component: UsersPage });
 
 function UsersPage() {
-	const { data: users = [], isLoading } = useQuery(api.admin.listUsers.queryOptions());
-	const { data: options } = useQuery(api.admin.userOptions.queryOptions());
+	const { data: users = [], isLoading } = useQuery(api.listUsers.queryOptions());
+	const { data: options } = useQuery(api.userOptions.queryOptions());
 	const [status, setStatus] = useState("");
 	const [role, setRole] = useState("");
 	const [firmId, setFirmId] = useState("");

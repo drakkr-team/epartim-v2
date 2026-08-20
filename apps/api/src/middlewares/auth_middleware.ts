@@ -20,7 +20,7 @@ export default class AuthMiddleware {
 			user.status !== "active" ||
 			(authVersion !== undefined && authVersion !== user.authVersion)
 		) {
-			await ctx.auth.use("web").logout();
+			await ctx.auth.use("client").logout();
 			throw new UnauthenticatedException();
 		}
 

@@ -22,7 +22,7 @@ type EditableUser = {
 export function UserForm({ user }: { user?: EditableUser }) {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
-	const { data: options } = useQuery(api.admin.userOptions.queryOptions());
+	const { data: options } = useQuery(api.userOptions.queryOptions());
 	const [email, setEmail] = useState(user?.email || "");
 	const [firstName, setFirstName] = useState(user?.firstName || "");
 	const [lastName, setLastName] = useState(user?.lastName || "");
@@ -42,9 +42,9 @@ export function UserForm({ user }: { user?: EditableUser }) {
 	}, [user]);
 
 	const invalidateUsers = () =>
-		queryClient.invalidateQueries({ queryKey: api.admin.listUsers.pathKey() });
+		queryClient.invalidateQueries({ queryKey: api.listUsers.pathKey() });
 	const create = useMutation(
-		api.admin.createUser.mutationOptions({
+		api.createUser.mutationOptions({
 			onSuccess: (createdUser) => {
 				invalidateUsers();
 				toast.success("Invitation envoyée");
@@ -54,7 +54,7 @@ export function UserForm({ user }: { user?: EditableUser }) {
 		}),
 	);
 	const update = useMutation(
-		api.admin.updateUser.mutationOptions({
+		api.updateUser.mutationOptions({
 			onSuccess: () => {
 				invalidateUsers();
 				toast.success("Utilisateur mis à jour");

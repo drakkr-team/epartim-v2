@@ -18,7 +18,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_DATABASE}_test
     ports:
-        - ${DB_TEST_PORT:-5433}:5432
+        - ${DB_TEST_PORT}:5432
     volumes:
       - postgresql-testing:/var/lib/postgresql/data
 
