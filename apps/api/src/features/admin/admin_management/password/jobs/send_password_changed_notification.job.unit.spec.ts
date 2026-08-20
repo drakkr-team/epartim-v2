@@ -2,8 +2,8 @@ import mail from "@adonisjs/mail/services/main";
 import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
-import SendPasswordChangedNotification from "#features/user_management/password/jobs/send_password_changed_notification.job";
-import PasswordChangedNotificationMail from "#features/user_management/password/mails/password_changed_notifiction.mail";
+import SendPasswordChangedNotification from "#features/admin/admin_management/password/jobs/send_password_changed_notification.job";
+import PasswordChangedNotificationMail from "#features/admin/admin_management/password/mails/password_changed_notifiction.mail";
 
 test.group(
 	"Features / User Management / Password / Jobs / Send Password Changed Notification",

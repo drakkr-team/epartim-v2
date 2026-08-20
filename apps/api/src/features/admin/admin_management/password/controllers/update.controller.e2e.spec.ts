@@ -2,7 +2,7 @@ import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
-import SendPasswordChangedNotification from "#features/user_management/password/jobs/send_password_changed_notification.job";
+import SendPasswordChangedNotification from "#features/admin/admin_management/password/jobs/send_password_changed_notification.job";
 import User from "#models/user";
 
 test.group("Features / User Management / Password / Controllers / Update Controller", (group) => {
@@ -20,10 +20,13 @@ test.group("Features / User Management / Password / Controllers / Update Control
 		const newPassword = "newpassword123";
 		const user = await UserFactory.merge({ password: currentPassword }).create();
 
-		const response = await client.visit("user_management.password.update").loginAs(user).json({
-			currentPassword,
-			newPassword,
-		});
+		const response = await client
+			.visit("admin.admin_management.password.update")
+			.loginAs(user)
+			.json({
+				currentPassword,
+				newPassword,
+			});
 
 		response.assertNoContent();
 
@@ -42,10 +45,13 @@ test.group("Features / User Management / Password / Controllers / Update Control
 		const newPassword = "newpassword123";
 		const user = await UserFactory.merge({ password: currentPassword }).create();
 
-		const response = await client.visit("user_management.password.update").loginAs(user).json({
-			currentPassword: wrongCurrentPassword,
-			newPassword,
-		});
+		const response = await client
+			.visit("admin.admin_management.password.update")
+			.loginAs(user)
+			.json({
+				currentPassword: wrongCurrentPassword,
+				newPassword,
+			});
 
 		response.assertBadRequest();
 		response.assertBodyContains({
@@ -56,7 +62,7 @@ test.group("Features / User Management / Password / Controllers / Update Control
 	test("it should respond with E_UNAUTHENTICATED when the user is not authenticated", async ({
 		client,
 	}) => {
-		const response = await client.visit("user_management.password.update").json({
+		const response = await client.visit("admin.admin_management.password.update").json({
 			currentPassword: "password123",
 			newPassword: "newpassword123",
 		});

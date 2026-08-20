@@ -11,7 +11,7 @@ Session authentication feature for login/logout. Custom auth, guest, and silent 
 | Routes | `routes.ts` | `/user_management/authentication/login` guest-only; `/user_management/authentication/logout` authenticated. |
 | Login controller | `controllers/login.controller.ts` | Validates credentials then delegates to service. |
 | Logout controller | `controllers/logout.controller.ts` | Delegates to service. |
-| Session service | `services/auth.service.ts` | Owns `auth.use("web").attempt/logout`. |
+| Session service | `services/auth.service.ts` | Owns `auth.use("client").attempt/logout`. |
 | Middleware | `apps/api/src/middlewares/{auth,guest,silent_auth}_middleware.ts` | Registered in `start/kernel.ts`. |
 | Exceptions | `exceptions/*.ts` | Auth error codes consumed by clients. |
 

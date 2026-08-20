@@ -1,6 +1,6 @@
 import { test } from "@japa/runner";
 
-import LogoutPolicy from "#features/user_management/authentication/policies/logout.policy";
+import LogoutPolicy from "#features/client/user_management/authentication/policies/logout.policy";
 
 test.group("Features / User Management / Authentication / Policies / Logout Policy", () => {
 	test("it should allow everyone to logout", async ({ assert }) => {

@@ -7,33 +7,39 @@ router
 	.group(() => {
 		router
 			.post("/invitations/accept", [
-				controllers.features.userManagement.administration.AcceptInvitation,
+				controllers.features.admin.users.AcceptInvitation,
 			])
 			.use(middleware.guest());
 
 		router
 			.group(() => {
 				router.get("/users/options", [
-					controllers.features.userManagement.administration.UserOptions,
+					controllers.features.admin.users.UserOptions,
 				]);
-				router.get("/users", [controllers.features.userManagement.administration.ListUsers]);
-				router.post("/users", [controllers.features.userManagement.administration.CreateUser]);
-				router.get("/users/:id", [controllers.features.userManagement.administration.ViewUser]);
-				router.put("/users/:id", [controllers.features.userManagement.administration.UpdateUser]);
+				router.get("/users", [controllers.features.admin.users.ListUsers]);
+				router.post("/users", [
+					controllers.features.admin.users.CreateUser,
+				]);
+				router.get("/users/:id", [
+					controllers.features.admin.users.ViewUser,
+				]);
+				router.put("/users/:id", [
+					controllers.features.admin.users.UpdateUser,
+				]);
 				router.post("/users/:id/invitations/resend", [
-					controllers.features.userManagement.administration.ResendInvitation,
+					controllers.features.admin.users.ResendInvitation,
 				]);
 				router.post("/users/:id/invitations/cancel", [
-					controllers.features.userManagement.administration.CancelInvitation,
+					controllers.features.admin.users.CancelInvitation,
 				]);
 				router.post("/users/:id/disable", [
-					controllers.features.userManagement.administration.DisableUser,
+					controllers.features.admin.users.DisableUser,
 				]);
 				router.post("/users/:id/reactivate", [
-					controllers.features.userManagement.administration.ReactivateUser,
+					controllers.features.admin.users.ReactivateUser,
 				]);
 			})
-			.use(middleware.auth({ guards: ["web"] }))
+			.use(middleware.auth({ guards: ["client"] }))
 			.use(middleware.admin());
 	})
 	.prefix("/admin")

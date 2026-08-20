@@ -2,7 +2,7 @@ import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
-import SendResetPasswordInstruction from "#features/user_management/password/jobs/send_reset_password_instruction.job";
+import SendResetPasswordInstruction from "#features/client/user_management/password/jobs/send_reset_password_instruction.job";
 
 test.group("Features / User Management / Password / Controllers / Forgot Controller", (group) => {
 	group.each.teardown(() => {
@@ -16,7 +16,7 @@ test.group("Features / User Management / Password / Controllers / Forgot Control
 
 		const user = await UserFactory.merge({ password: "password" }).create();
 
-		const response = await client.visit("user_management.password.forgot").json({
+		const response = await client.visit("client.user_management.password.forgot").json({
 			email: user.email,
 		});
 
@@ -29,7 +29,7 @@ test.group("Features / User Management / Password / Controllers / Forgot Control
 	}) => {
 		const fakeQueueManager = QueueManager.fake();
 
-		const response = await client.visit("user_management.password.forgot").json({
+		const response = await client.visit("client.user_management.password.forgot").json({
 			email: "missing@example.com",
 		});
 
@@ -42,9 +42,12 @@ test.group("Features / User Management / Password / Controllers / Forgot Control
 	}) => {
 		const user = await UserFactory.create();
 
-		const response = await client.visit("user_management.password.forgot").loginAs(user).json({
-			email: user.email,
-		});
+		const response = await client
+			.visit("client.user_management.password.forgot")
+			.loginAs(user)
+			.json({
+				email: user.email,
+			});
 
 		response.assertForbidden();
 		response.assertBodyContains({

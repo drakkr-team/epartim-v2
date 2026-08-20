@@ -17,7 +17,7 @@ Authenticated profile view/update/delete feature with policy checks, user presen
 
 ## CONVENTIONS
 
-- Routes use `middleware.auth({ guards: ["web"] })` at group level.
+- Routes use `middleware.auth({ guards: ["client"] })` at group level.
 - View/update responses use `UserPresenter` or `user.toJSON()` to control user shape.
 - Delete flow lives in `ProfileService.delete()` so mail dispatch and logout stay together.
 - Update payload uses `UpdateUserSchema` from `#validators/user.validator`.

@@ -2,8 +2,8 @@ import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
-import ResetPolicy from "#features/user_management/password/policies/reset.policy";
-import PasswordService from "#features/user_management/password/services/password.service";
+import ResetPolicy from "#features/client/user_management/password/policies/reset.policy";
+import PasswordService from "#features/client/user_management/password/services/password.service";
 import { UserPasswordValidator } from "#validators/user.validator";
 
 @inject()

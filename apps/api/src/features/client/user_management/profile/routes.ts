@@ -5,10 +5,10 @@ import { middleware } from "#start/kernel";
 
 router
 	.group(() => {
-		router.get("/", [controllers.features.userManagement.profile.View]);
-		router.put("/", [controllers.features.userManagement.profile.Update]);
-		router.delete("/", [controllers.features.userManagement.profile.Delete]);
+		router.get("/", [controllers.features.client.userManagement.profile.View]);
+		router.put("/", [controllers.features.client.userManagement.profile.Update]);
+		router.delete("/", [controllers.features.client.userManagement.profile.Delete]);
 	})
-	.use(middleware.auth({ guards: ["web"] }))
-	.prefix("/user-management/profile")
-	.as("user_management.profile");
+	.use(middleware.auth({ guards: ["client"] }))
+	.prefix("/client/user-management/profile")
+	.as("client.user_management.profile");

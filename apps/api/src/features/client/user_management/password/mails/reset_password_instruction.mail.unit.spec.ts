@@ -1,7 +1,7 @@
 import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
-import ResetPasswordInstructionMail from "#features/user_management/password/mails/reset_password_instruction.mail";
+import ResetPasswordInstructionMail from "#features/client/user_management/password/mails/reset_password_instruction.mail";
 
 test.group(
 	"Features / User Management / Password / Mails / Reset Password Instruction Mail",

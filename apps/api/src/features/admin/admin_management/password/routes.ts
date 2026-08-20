@@ -8,19 +8,19 @@ router
 		router
 			.group(() => {
 				router
-					.post("/forgot", [controllers.features.userManagement.password.Forgot])
+					.post("/forgot", [controllers.features.admin.adminManagement.password.Forgot])
 					.use(middleware.authAttempt({ identifier: "email", scope: "password-forgot" }));
 				router
-					.post("/reset", [controllers.features.userManagement.password.Reset])
+					.post("/reset", [controllers.features.admin.adminManagement.password.Reset])
 					.use(middleware.authAttempt({ identifier: "token", scope: "password-reset" }));
 			})
 			.use(middleware.guest());
 
 		router
 			.group(() => {
-				router.put("/", [controllers.features.userManagement.password.Update]);
+				router.put("/", [controllers.features.admin.adminManagement.password.Update]);
 			})
-			.use(middleware.auth({ guards: ["web"] }));
+			.use(middleware.auth({ guards: ["client"] }));
 	})
-	.prefix("/user-management/password")
-	.as("user_management.password");
+	.prefix("admin/admin-management/password")
+	.as("admin.admin_management.password");

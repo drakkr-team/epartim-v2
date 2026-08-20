@@ -1,10 +1,10 @@
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 
+import InvalidCredentialsException from "#exceptions/invalid_credentials.exception";
 import InvalidTokenException from "#exceptions/invalid_token.exception";
-import InvalidCredentialsException from "#features/user_management/authentication/exceptions/invalid_credentials.exception";
-import SendPasswordChangedNotification from "#features/user_management/password/jobs/send_password_changed_notification.job";
-import SendResetPasswordInstruction from "#features/user_management/password/jobs/send_reset_password_instruction.job";
+import SendPasswordChangedNotification from "#features/admin/admin_management/password/jobs/send_password_changed_notification.job";
+import SendResetPasswordInstruction from "#features/admin/admin_management/password/jobs/send_reset_password_instruction.job";
 import User from "#models/user";
 import OtpService from "#services/otp.service";
 import env from "#start/env";
@@ -28,7 +28,7 @@ export default class PasswordService {
 			user,
 			loginUrl: new URL("/login", env.get("FRONTEND_URL")),
 		});
-		await this.ctx.auth.use("web").logout();
+		await this.ctx.auth.use("client").logout();
 	}
 
 	async forgot(email: string) {

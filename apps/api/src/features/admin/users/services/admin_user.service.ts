@@ -8,7 +8,7 @@ import EmailAlreadyExistsException from "#exceptions/email_already_exists.except
 import ForbiddenUserOperationException from "#exceptions/forbidden_user_operation.exception";
 import InvalidUserAssignmentException from "#exceptions/invalid_user_assignment.exception";
 import InvalidUserStateException from "#exceptions/invalid_user_state.exception";
-import SendAccountInvitation from "#features/user_management/administration/jobs/send_account_invitation.job";
+import SendAccountInvitation from "#features/admin/users/jobs/send_account_invitation.job";
 import Firm from "#models/firm";
 import Network from "#models/network";
 import Role, { type RoleCode } from "#models/role";

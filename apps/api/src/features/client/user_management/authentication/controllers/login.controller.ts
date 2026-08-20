@@ -2,8 +2,8 @@ import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
-import LoginPolicy from "#features/user_management/authentication/policies/login.policy";
-import AuthService from "#features/user_management/authentication/services/auth.service";
+import LoginPolicy from "#features/client/user_management/authentication/policies/login.policy";
+import AuthService from "#features/client/user_management/authentication/services/auth.service";
 import UserPresenter from "#presenters/user.presenter";
 
 @inject()

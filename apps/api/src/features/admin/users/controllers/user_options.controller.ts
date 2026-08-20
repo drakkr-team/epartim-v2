@@ -1,7 +1,7 @@
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 
-import AdminUserService from "#features/user_management/administration/services/admin_user.service";
+import AdminUserService from "#features/admin/users/services/admin_user.service";
 
 @inject()
 export default class UserOptionsController {

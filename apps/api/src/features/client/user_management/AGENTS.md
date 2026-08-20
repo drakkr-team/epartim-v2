@@ -25,8 +25,8 @@ user_management/
 
 ## CONVENTIONS
 
-- Route groups use names matching Tuyau client paths: `user_management.authentication.*`, `user_management.password.*`, `user_management.profile.*`.
-- Authenticated routes use `middleware.auth({ guards: ["web"] })` when guard specificity matters.
+- Route groups use names matching Tuyau client paths: `client.user_management.authentication.*`, `client.user_management.password.*`, `client.user_management.profile.*`.
+- Authenticated routes use `middleware.auth({ guards: ["client"] })` when guard specificity matters.
 - Guest-only auth/password routes use `middleware.guest()`.
 - Keep feature-specific exceptions inside the feature folder.
 - Keep profile deletion mail orchestration in the profile service/job pair.

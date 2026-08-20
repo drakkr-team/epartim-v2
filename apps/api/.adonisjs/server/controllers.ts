@@ -5,32 +5,52 @@
 
 export const controllers = {
   features: {
-    userManagement: {
-      administration: {
-        AcceptInvitation: () => import('#src/features/user_management/administration/controllers/accept_invitation.controller'),
-        CancelInvitation: () => import('#src/features/user_management/administration/controllers/cancel_invitation.controller'),
-        CreateUser: () => import('#src/features/user_management/administration/controllers/create_user.controller'),
-        DisableUser: () => import('#src/features/user_management/administration/controllers/disable_user.controller'),
-        ListUsers: () => import('#src/features/user_management/administration/controllers/list_users.controller'),
-        ReactivateUser: () => import('#src/features/user_management/administration/controllers/reactivate_user.controller'),
-        ResendInvitation: () => import('#src/features/user_management/administration/controllers/resend_invitation.controller'),
-        UpdateUser: () => import('#src/features/user_management/administration/controllers/update_user.controller'),
-        UserOptions: () => import('#src/features/user_management/administration/controllers/user_options.controller'),
-        ViewUser: () => import('#src/features/user_management/administration/controllers/view_user.controller'),
+    admin: {
+      adminManagement: {
+        authentication: {
+          Login: () => import('#src/features/admin/admin_management/authentication/controllers/login.controller'),
+          Logout: () => import('#src/features/admin/admin_management/authentication/controllers/logout.controller'),
+        },
+        password: {
+          Forgot: () => import('#src/features/admin/admin_management/password/controllers/forgot.controller'),
+          Reset: () => import('#src/features/admin/admin_management/password/controllers/reset.controller'),
+          Update: () => import('#src/features/admin/admin_management/password/controllers/update.controller'),
+        },
+        profile: {
+          Delete: () => import('#src/features/admin/admin_management/profile/controllers/delete.controller'),
+          Update: () => import('#src/features/admin/admin_management/profile/controllers/update.controller'),
+          View: () => import('#src/features/admin/admin_management/profile/controllers/view.controller'),
+        },
       },
-      authentication: {
-        Login: () => import('#src/features/user_management/authentication/controllers/login.controller'),
-        Logout: () => import('#src/features/user_management/authentication/controllers/logout.controller'),
+      users: {
+        AcceptInvitation: () => import('#src/features/admin/users/controllers/accept_invitation.controller'),
+        CancelInvitation: () => import('#src/features/admin/users/controllers/cancel_invitation.controller'),
+        CreateUser: () => import('#src/features/admin/users/controllers/create_user.controller'),
+        DisableUser: () => import('#src/features/admin/users/controllers/disable_user.controller'),
+        ListUsers: () => import('#src/features/admin/users/controllers/list_users.controller'),
+        ReactivateUser: () => import('#src/features/admin/users/controllers/reactivate_user.controller'),
+        ResendInvitation: () => import('#src/features/admin/users/controllers/resend_invitation.controller'),
+        UpdateUser: () => import('#src/features/admin/users/controllers/update_user.controller'),
+        UserOptions: () => import('#src/features/admin/users/controllers/user_options.controller'),
+        ViewUser: () => import('#src/features/admin/users/controllers/view_user.controller'),
       },
-      password: {
-        Forgot: () => import('#src/features/user_management/password/controllers/forgot.controller'),
-        Reset: () => import('#src/features/user_management/password/controllers/reset.controller'),
-        Update: () => import('#src/features/user_management/password/controllers/update.controller'),
-      },
-      profile: {
-        Delete: () => import('#src/features/user_management/profile/controllers/delete.controller'),
-        Update: () => import('#src/features/user_management/profile/controllers/update.controller'),
-        View: () => import('#src/features/user_management/profile/controllers/view.controller'),
+    },
+    client: {
+      userManagement: {
+        authentication: {
+          Login: () => import('#src/features/client/user_management/authentication/controllers/login.controller'),
+          Logout: () => import('#src/features/client/user_management/authentication/controllers/logout.controller'),
+        },
+        password: {
+          Forgot: () => import('#src/features/client/user_management/password/controllers/forgot.controller'),
+          Reset: () => import('#src/features/client/user_management/password/controllers/reset.controller'),
+          Update: () => import('#src/features/client/user_management/password/controllers/update.controller'),
+        },
+        profile: {
+          Delete: () => import('#src/features/client/user_management/profile/controllers/delete.controller'),
+          Update: () => import('#src/features/client/user_management/profile/controllers/update.controller'),
+          View: () => import('#src/features/client/user_management/profile/controllers/view.controller'),
+        },
       },
     },
   },

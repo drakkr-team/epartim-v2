@@ -2,7 +2,7 @@ import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
-import SendPasswordChangedNotification from "#features/user_management/password/jobs/send_password_changed_notification.job";
+import SendPasswordChangedNotification from "#features/client/user_management/password/jobs/send_password_changed_notification.job";
 import User from "#models/user";
 import OtpService from "#services/otp.service";
 
@@ -28,7 +28,7 @@ test.group("Features / User Management / Password / Controllers / Reset Controll
 			data: { userId: user.id },
 		});
 
-		const response = await client.visit("user_management.password.reset").json({
+		const response = await client.visit("client.user_management.password.reset").json({
 			token,
 			newPassword,
 		});
@@ -54,11 +54,11 @@ test.group("Features / User Management / Password / Controllers / Reset Controll
 			data: { userId: user.id },
 		});
 
-		await client.visit("user_management.password.reset").json({
+		await client.visit("client.user_management.password.reset").json({
 			token,
 			newPassword: "supersecret",
 		});
-		const response = await client.visit("user_management.password.reset").json({
+		const response = await client.visit("client.user_management.password.reset").json({
 			token,
 			newPassword: "supersecret",
 		});
@@ -83,7 +83,7 @@ test.group("Features / User Management / Password / Controllers / Reset Controll
 		});
 		await new Promise((resolve) => setTimeout(resolve, 1000)); // wait for 1 seconds to ensure the token is expired
 
-		const response = await client.visit("user_management.password.reset").json({
+		const response = await client.visit("client.user_management.password.reset").json({
 			token,
 			newPassword: "supersecret",
 		});
@@ -97,7 +97,7 @@ test.group("Features / User Management / Password / Controllers / Reset Controll
 	test("it should respond with E_INVALID_TOKEN when invalid token is provided", async ({
 		client,
 	}) => {
-		const response = await client.visit("user_management.password.reset").json({
+		const response = await client.visit("client.user_management.password.reset").json({
 			token: "not-a-valid-token",
 			newPassword: "newpassword",
 		});
@@ -113,10 +113,13 @@ test.group("Features / User Management / Password / Controllers / Reset Controll
 	}) => {
 		const user = await UserFactory.create();
 
-		const response = await client.visit("user_management.password.reset").loginAs(user).json({
-			token: "valid-token",
-			newPassword: "newpassword",
-		});
+		const response = await client
+			.visit("client.user_management.password.reset")
+			.loginAs(user)
+			.json({
+				token: "valid-token",
+				newPassword: "newpassword",
+			});
 
 		response.assertForbidden();
 		response.assertBodyContains({

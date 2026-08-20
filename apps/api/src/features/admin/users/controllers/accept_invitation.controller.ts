@@ -2,7 +2,7 @@ import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
-import InvitationActivationService from "#features/user_management/administration/services/invitation_activation.service";
+import InvitationActivationService from "#features/admin/users/services/invitation_activation.service";
 import UserPresenter from "#presenters/user.presenter";
 import { UserPasswordValidator } from "#validators/user.validator";
 

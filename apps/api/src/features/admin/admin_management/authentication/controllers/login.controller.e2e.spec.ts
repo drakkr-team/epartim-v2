@@ -8,7 +8,7 @@ test.group("Features / User Management / Authentication / Controllers / Login Co
 		const password = "password";
 		const user = await UserFactory.merge({ email, password }).create();
 
-		const response = await client.visit("user_management.authentication.login").json({
+		const response = await client.visit("admin.admin_management.authentication.login").json({
 			uid: email,
 			password,
 		});
@@ -22,7 +22,7 @@ test.group("Features / User Management / Authentication / Controllers / Login Co
 	test("it should respond with E_INVALID_CREDENTIALS code if credentials are invalid", async ({
 		client,
 	}) => {
-		const response = await client.visit("user_management.authentication.login").json({
+		const response = await client.visit("admin.admin_management.authentication.login").json({
 			uid: "invalid@example.com",
 			password: "invalidpassword",
 		});
@@ -38,10 +38,13 @@ test.group("Features / User Management / Authentication / Controllers / Login Co
 	}) => {
 		const user = await UserFactory.create();
 
-		const response = await client.visit("user_management.authentication.login").loginAs(user).json({
-			uid: user.email,
-			password: "password",
-		});
+		const response = await client
+			.visit("admin.admin_management.authentication.login")
+			.loginAs(user)
+			.json({
+				uid: user.email,
+				password: "password",
+			});
 
 		response.assertForbidden();
 		response.assertBodyContains({

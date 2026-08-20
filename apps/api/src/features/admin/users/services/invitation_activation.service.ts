@@ -35,7 +35,7 @@ export default class InvitationActivationService {
 			await invitation.merge({ acceptedAt: DateTime.now() }).save();
 			await transaction.commit();
 
-			await this.ctx.auth.use("web").login(invitation.user);
+			await this.ctx.auth.use("client").login(invitation.user);
 			this.ctx.session.put("authVersion", invitation.user.authVersion);
 
 			return invitation.user;

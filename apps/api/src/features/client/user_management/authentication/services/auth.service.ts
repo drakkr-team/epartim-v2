@@ -1,7 +1,7 @@
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 
-import InvalidCredentialsException from "#features/user_management/authentication/exceptions/invalid_credentials.exception";
+import InvalidCredentialsException from "#exceptions/invalid_credentials.exception";
 import User from "#models/user";
 
 @inject()
@@ -27,13 +27,13 @@ export default class AuthService {
 			}
 		}
 
-		await this.ctx.auth.use("web").login(user);
+		await this.ctx.auth.use("client").login(user);
 		this.ctx.session.put("authVersion", user.authVersion);
 
 		return user;
 	}
 
 	async logout() {
-		await this.ctx.auth.use("web").logout();
+		await this.ctx.auth.use("client").logout();
 	}
 }

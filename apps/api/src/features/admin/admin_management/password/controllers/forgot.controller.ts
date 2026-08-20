@@ -2,8 +2,8 @@ import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
-import ForgotPolicy from "#features/user_management/password/policies/forgot.policy";
-import PasswordService from "#features/user_management/password/services/password.service";
+import ForgotPolicy from "#features/admin/admin_management/password/policies/forgot.policy";
+import PasswordService from "#features/admin/admin_management/password/services/password.service";
 
 @inject()
 export default class ForgotPasswordController {

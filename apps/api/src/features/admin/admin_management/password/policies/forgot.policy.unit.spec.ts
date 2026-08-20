@@ -1,6 +1,6 @@
 import { test } from "@japa/runner";
 
-import ForgotPolicy from "#features/user_management/password/policies/forgot.policy";
+import ForgotPolicy from "#features/admin/admin_management/password/policies/forgot.policy";
 
 test.group("Features / User Management / Password / Policies / Forgot Policy", () => {
 	test("it should allow everyone", async ({ assert }) => {

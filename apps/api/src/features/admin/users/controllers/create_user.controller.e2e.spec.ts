@@ -2,7 +2,7 @@ import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
-import SendAccountInvitation from "#features/user_management/administration/jobs/send_account_invitation.job";
+import SendAccountInvitation from "#features/admin/users/jobs/send_account_invitation.job";
 import Role from "#models/role";
 import User from "#models/user";
 import UserInvitation from "#models/user_invitation";
