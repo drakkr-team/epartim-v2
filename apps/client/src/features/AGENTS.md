@@ -1,4 +1,4 @@
-# apps/web/src/features KNOWLEDGE BASE
+# apps/client/src/features KNOWLEDGE BASE
 
 ## OVERVIEW
 
@@ -29,6 +29,6 @@ Frontend feature modules. Current domain mirrors the API domain: `user_managemen
 
 ## NOTES
 
-- Current feature code covers authentication, password, and profile flows; route composition lives outside `features`.
+- Current feature code covers authentication, invitation, password, and profile flows; route composition lives outside `features`.
 - Add one AGENTS file per domain or concrete feature when new conventions appear.
 - Keep API domain spelling (`user_management`) aligned with backend paths.

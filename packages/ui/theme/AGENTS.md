@@ -1,46 +1,69 @@
-# packages/ui/theme KNOWLEDGE BASE
+# Theme package
 
-## OVERVIEW
+## Purpose
 
-Theme token package where `src/tokens.ts` is the editable source of truth and `src/tailwind.css` is generated Tailwind 4 CSS.
+- Shared design-token package.
+- Owns fonts and color scales.
+- Exposes token data and generated Tailwind CSS.
+- Package name: `@workspace/ui-theme`.
+- ESM package.
 
-## WHERE TO LOOK
+## Public API
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Public exports | `package.json` | Exposes `./tokens` and `./tailwind`. |
-| Token source | `src/tokens.ts` | Fonts plus color scales with light/dark values. |
-| CSS generator | `scripts/generate-tailwind.js` | Validates token shape and writes CSS. |
-| Generated CSS | `src/tailwind.css` | Checked in; do not edit manually. |
-| Watch mode | `package.json` | `dev` watches `src/tokens.ts` and regenerates CSS. |
-| Formatter scope | `biome.json` | Package-level Biome config. |
+- `@workspace/ui-theme/tokens` exports `fonts` and `colors`.
+- `@workspace/ui-theme/tailwind` resolves to generated `src/tailwind.css`.
+- Keep these two export paths stable.
+- Consumers must not import package internals.
 
-## CONVENTIONS
+## Source boundary
 
-- Add/edit theme values in `src/tokens.ts`, then regenerate CSS.
-- Use `pnpm --filter @workspace/ui-theme dev` while editing tokens for watch regeneration.
-- Color token shape is `{ [scale]: { [step]: { light, dark } } }`.
-- Fonts are string tokens under `fonts`.
-- Generated CSS defines `@theme inline`, resets `--color-*`, emits light `:root`, dark `[data-theme="dark"]`, and reduced-motion rules.
-- Consumers import `@workspace/ui-theme/tailwind` for CSS and `@workspace/ui-theme/tokens` for token data.
+- Edit `src/tokens.ts` for token changes.
+- `fonts` values must be strings.
+- `colors` is color -> scale -> `{ light, dark }`.
+- Numeric and named scale keys are supported.
+- Add both theme values for every color token.
+- Token names become CSS custom-property suffixes.
+
+## Generated boundary
+
+- `src/tailwind.css` is generated and checked in.
+- Never edit `src/tailwind.css` manually.
+- `scripts/generate-tailwind.js` validates tokens before writing CSS.
+- It emits `@theme inline` font and color utilities.
+- It emits light `:root` values.
+- It emits dark `[data-theme="dark"]` values.
+- It emits the Tailwind `dark` custom variant.
+- It emits reduced-motion defaults.
+- Regenerate after every `tokens.ts` edit.
+- Command: `pnpm --filter @workspace/ui-theme generate:tailwind`.
+- Watch command: `pnpm --filter @workspace/ui-theme dev`.
+- Package build is the generator.
+
+## Consumers
+
+- `apps/client/src/styles/globals.css` imports `@workspace/ui-theme/tailwind`.
+- Client imports Tailwind before the theme stylesheet.
+- Client scans `@workspace/ui-react` with `@source`.
+- `apps/admin/src/styles/globals.css` imports `@workspace/ui-theme/tailwind`.
+- Admin follows the same Tailwind import order and UI-react source scan.
+- `packages/ui/react/src/globals.css` also imports the generated stylesheet.
+- Keep client and admin on the shared visual token system.
+
+## API Edge use
+
+- `apps/api/start/view.ts` imports `colors` and `fonts` from `@workspace/ui-theme/tokens`.
+- It registers both as Edge globals: `colors` and `fonts`.
+- Edge templates consume token data, not `tailwind.css`.
+- Preserve token names and value shapes used by templates.
+
+## Verification
+
+- Run `pnpm --filter @workspace/ui-theme generate:tailwind` after token edits.
+- Run `pnpm --filter @workspace/ui-theme typecheck` for TypeScript changes.
+- Inspect client, admin, and API Edge consumers before changing exports.
 
 ## ANTI-PATTERNS
 
-- Do not edit `src/tailwind.css` manually.
-- Do not add token values that fail generator validation: fonts must be strings; colors need both `light` and `dark` strings.
-- Do not change export paths without checking `apps/web/src/styles/globals.css`, `packages/ui/react/src/globals.css`, and `apps/api/start/view.ts`.
-
-## COMMANDS
-
-```bash
-pnpm --filter @workspace/ui-theme generate:tailwind
-pnpm --filter @workspace/ui-theme build
-pnpm --filter @workspace/ui-theme dev
-pnpm --filter @workspace/ui-theme typecheck
-```
-
-## NOTES
-
-- This package has the only >500-line editable source file found: `src/tokens.ts`.
-- `build` is just `pnpm generate:tailwind`.
-- Web and Storybook visual output depend on regenerated CSS being current.
+- Do not edit generated CSS or import package internals.
+- Do not add incomplete light/dark color pairs.
+- Do not change token names or export paths without checking all three consumer surfaces.

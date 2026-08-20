@@ -1,58 +1,73 @@
-# apps/api KNOWLEDGE BASE
+# API MAP
 
-## OVERVIEW
+- Package: `@workspace/api`, AdonisJS 7, ESM TypeScript.
+- Runtime entrypoints: `bin/server.ts`, `bin/console.ts`, `bin/test.ts`.
+- `adonisrc.ts` preloads `#start/routes`, `#start/kernel`, and `#start/view`.
+- Init hooks index `src/**/*.controller.ts`, generate Tuyau registry, then generate data types.
+- `start/routes.ts` imports both `#features/admin/routes` and `#features/client/routes`.
+- Add a feature route module, then import it through its tree's route index.
+- `start/kernel.ts` installs container bindings, forced JSON, and CORS server middleware.
+- Router middleware: session, body parser, auth init, silent auth, SuperJSON, bouncer, limiter.
+- Named middleware: `auth`, `authAttempt`, `admin`, `guest`.
+- `start/view.ts` exposes shared theme `fonts` and `colors` to Edge mail templates.
+## Package map
 
-AdonisJS 7 API package with session auth, Lucid models, feature-first user management, queued mail jobs, Tuyau registry generation, and Japa test bootstrap.
+- `config/`: Adonis runtime adapters, all reading validated `#start/env` values.
+- `database/migrations/`: schema changes; `database/schema.ts` is generated.
+- `database/seeders/main/`: normal seeding; bootstrap admin has its dedicated script.
+- `src/models/`: Lucid models; `src/presenters/`: response-shaping helpers.
+- `src/services/`: cross-feature services such as OTP and files.
+- `src/validators/`: shared Vine validation schemas.
+- `src/middlewares/`: application and named middleware implementations.
+- `src/exceptions/handler.ts`: exception rendering; `report()` must not send responses.
+- `src/views/`: shared Edge email layout and components.
+- `src/features/`: HTTP code, grouped first by audience then by domain.
+## Configuration
 
-## WHERE TO LOOK
+- `config/auth.ts`: one `client` session guard backed by `User`; no remember-me tokens.
+- `config/database.ts`: PostgreSQL connection and main seeders.
+- `config/session.ts`: `adonis-session`, seven-day, HTTP-only, lax cookie session.
+- `config/cors.ts`: credentials enabled; development permits all origins.
+- `config/queue.ts`: Redis or sync; jobs discovered under `**/jobs/**/*.job.ts`.
+- Mail jobs use queue `emails`; run the worker for asynchronous delivery.
+- `config/mail.ts`: SMTP transport and configured sender.
+- `config/drive.ts`: private filesystem uploads at `/uploads` or private S3.
+- `.env`, `.env.example`, and `.env.test` supply runtime and test configuration.
+## Route trees
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Boot / app wiring | `adonisrc.ts`, `start/routes.ts`, `start/kernel.ts`, `start/view.ts` | `adonisrc.ts` preloads start files and runs registry hooks. |
-| HTTP runtime | `bin/server.ts` | Package `start` uses built `bin/server.js`. |
-| Ace CLI | `bin/console.ts`, `ace.js` | `ace.js` is generated/overwritten. |
-| Tests | `bin/test.ts`, `bootstrap.ts`, `adonisrc.ts`, `.env.test` | Suites: unit and e2e; specs live beside user-management feature code. |
-| Routes | `src/features/user_management/*/routes.ts` | Imported by `start/routes.ts`. |
-| Controllers | `src/features/**/controllers/*.controller.ts` | Generated registry consumed as `#generated/controllers`. |
-| Auth/session | `config/auth.ts`, `config/session.ts`, `start/kernel.ts` | Custom auth/guest middleware in feature folder. |
-| Models/schema | `src/models/*`, `database/migrations/*`, `database/schema.ts` | `database/schema.ts` is generated. |
-| Validation | `src/validators/user.validator.ts` | Shared by profile/password controllers. |
-| Mail/queue | `config/mail.ts`, `config/queue.ts`, `src/features/user_management/*/{jobs,mails}/*` | Mail jobs dispatch on queue `emails`. |
-| Local services | `docker-compose.yml` | Postgres, Redis, smtp4dev mail UI. |
+- Admin tree: `src/features/admin/`, imported by `src/features/admin/routes.ts`.
+- Admin account modules: `admin_management/{authentication,password,profile}`.
+- Admin account prefixes are `admin/admin-management/{authentication,password,profile}`.
+- Admin users module: `admin/users/`, declared below `/admin`.
+- Admin user management requires `auth({ guards: ["client"] })` and `admin()`.
+- Admin invitation acceptance is guest-only; keep it under `admin/users/routes.ts`.
+- Client tree: `src/features/client/`, imported by `src/features/client/routes.ts`.
+- Client account modules: `user_management/{authentication,password,profile}`.
+- Client prefixes begin `/client/user-management/`.
+- Authentication handles login/logout; password handles forgot/reset/update; profile handles self-service CRUD.
+- Use `guest()` for login, forgot, and reset; use the `client` auth guard for protected routes.
+- Throttle login, forgot, and reset with `authAttempt` and their existing scopes.
+- Route handlers reference `controllers` from `#generated/controllers`, never direct controller imports.
+- Preserve route names: Tuyau clients derive their typed surface from generated route metadata.
+## Tests and conventions
 
-## STRUCTURE
-
-```text
-apps/api/
-├── bin/                 # server, console, test entrypoints
-├── config/              # Adonis config; imports #start/env
-├── database/            # migrations, factories, generated schema
-├── start/               # routes/kernel/env/view boot files
-├── src/features/        # feature-first HTTP code
-├── src/models/          # Lucid models extending generated schemas
-├── src/presenters/      # API response shaping helpers
-├── src/services/        # cross-feature services
-└── bootstrap.ts         # Japa plugins, DB setup, HTTP server setup
-```
-
-## CONVENTIONS
-
-- Feature routes use `router.group().prefix().as()` and controllers from `#generated/controllers`.
-- Controllers expose `handle()`; payload schemas are static `vine.create(...)` where needed.
-- Injectable services use `@inject()` when they depend on context/services.
-- Feature jobs extend `Job` and put email work on queue `emails`.
-- Custom exceptions extend `Exception`; app handler maps Adonis auth errors to local exceptions.
-- Tests are colocated as `*.unit.spec.ts` and `*.e2e.spec.ts`; e2e suites start the HTTP server via `bootstrap.ts`.
-- API-specific Biome allows non-null assertions and value imports used as types.
-
+- Active Japa tests are colocated in both admin and client feature trees.
+- Controller HTTP cases use `*.e2e.spec.ts`; policies, jobs, and mails use `*.unit.spec.ts`.
+- `adonisrc.ts` discovers those two suffixes across the package.
+- `bootstrap.ts` migrates then truncates the test database; e2e suites start the HTTP server.
+- Keep tests beside the implementation they exercise, not in a separate legacy test tree.
+- Controllers conventionally expose `handle()`; use static `vine.create(...)` payload schemas where needed.
+- Use `@inject()` for services with dependencies.
+- Feature jobs extend `Job`; keep feature mail templates and mail classes colocated.
+- Use package aliases (`#features/*`, `#models/*`, `#services/*`, `#start/*`), not deep relatives.
 ## ANTI-PATTERNS
 
-- Do not edit `ace.js`, `.adonisjs/**`, or `database/schema.ts` manually.
-- Do not bypass `force_json_response.middleware.ts`; clients expect JSON errors/responses.
-- Do not send a response from `src/exceptions/handler.ts` `report()`.
-- Do not rename `password_changed_notifiction.mail.ts` without updating current imports and generated registries.
-
-## COMMANDS
+- Do not edit `ace.js`, `.adonisjs/**`, generated controller registries, or `database/schema.ts`.
+- Do not bypass `force_json_response.middleware.ts`; API consumers require JSON responses and errors.
+- Do not move feature controllers into `src/controllers`; indexing scans feature code under `src`.
+- Do not rename `password_changed_notifiction.mail.ts` casually; existing imports use that spelling.
+- Do not rename routes without checking generated Tuyau consumers and updating `.yaak` route records.
+## Commands
 
 ```bash
 pnpm --filter @workspace/api dev
@@ -61,11 +76,5 @@ pnpm --filter @workspace/api test
 pnpm --filter @workspace/api typecheck
 pnpm --filter @workspace/api build
 pnpm --filter @workspace/api docker-compose
+pnpm --filter @workspace/api bootstrap:admin
 ```
-
-## NOTES
-
-- `dev` is wired in Turbo with `docker-compose` and `worker` sidecars.
-- Compose services are `postgresql`, `redis`, and `mailtrap` (`smtp4dev`).
-- Docker runtime runs migrations in `ENTRYPOINT` before `bin/server.js`.
-- `@workspace/api/registry` exports `.adonisjs/client/registry/index.ts` for the web app.
