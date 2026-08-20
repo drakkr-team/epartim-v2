@@ -26,7 +26,7 @@ headers:
 method: POST
 name: Forgot Password
 sortPriority: 0.0
-url: http://localhost:3333/user-management/password/forgot
+url: http://localhost:3333/client/user-management/password/forgot
 urlParameters: []
 settingSendCookies:
   enabled: false
