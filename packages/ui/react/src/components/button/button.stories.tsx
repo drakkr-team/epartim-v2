@@ -3,7 +3,13 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PlusIcon } from "../../icons";
 import { Button, type ButtonProps } from "./index";
 
-const BUTTON_VARIANTS: ButtonProps["variant"][] = ["default", "primary", "ghost", "destructive"];
+const BUTTON_VARIANTS: ButtonProps["variant"][] = [
+	"default",
+	"primary",
+	"secondary",
+	"ghost",
+	"destructive",
+];
 const BUTTON_SIZES: ButtonProps["size"][] = ["md", "icon-sm", "icon-md"];
 
 const meta: Meta<typeof Button> = {
