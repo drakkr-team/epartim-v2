@@ -14,7 +14,7 @@ headers: []
 method: POST
 name: Réinitialiser le mot de passe
 sortPriority: 0.0
-url: http://localhost:3333/user-management/password/reset
+url: http://localhost:3333/client/user-management/password/reset
 urlParameters: []
 settingSendCookies:
   enabled: false
