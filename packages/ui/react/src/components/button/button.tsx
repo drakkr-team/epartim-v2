@@ -24,6 +24,14 @@ const buttonVariants = tv({
 				"focus-visible:ring-3",
 				"data-disabled:opacity-50",
 			],
+			secondary: [
+				"bg-secondary-9 text-secondary-1 ring-secondary-7",
+				"hover:not-data-disabled:bg-secondary-10",
+				"active:not-data-disabled:bg-secondary-11!",
+				"data-popup-open:bg-secondary-11!",
+				"focus-visible:ring-3",
+				"data-disabled:opacity-50",
+			],
 			ghost: [
 				"bg-transparent text-neutral-12 ring-neutral-7",
 				"hover:not-data-disabled:bg-neutral-3",
