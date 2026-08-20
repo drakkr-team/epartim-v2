@@ -4,7 +4,7 @@ import { UserFactory } from "#database/factories/user.factory";
 
 test.group("Features / User Management / Authentication / Controllers / Login Controller", () => {
 	test("it should successfully login the user with correct credentials", async ({ client }) => {
-		const email = "test@example.com";
+		const email = "test2@example.com";
 		const password = "password";
 		const user = await UserFactory.merge({ email, password }).create();
 
