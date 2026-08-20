@@ -8,6 +8,4 @@ export type File = Awaited<ReturnType<typeof import("#presenters/file.presenter"
 
 export type Pagination = Awaited<ReturnType<typeof import("#presenters/pagination.presenter").default.prototype.toJSON>>;
 
-export type UserInvitation = Awaited<ReturnType<typeof import("#presenters/user_invitation.presenter").default.prototype.toJSON>>;
-
 export type User = Awaited<ReturnType<typeof import("#presenters/user.presenter").default.prototype.toJSON>>;

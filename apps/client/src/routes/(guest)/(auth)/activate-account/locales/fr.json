@@ -1,7 +1,0 @@
-{
-	"routes.(guest).(auth).activate-account": {
-		"title": "Activez votre compte",
-		"description": "Choisissez un mot de passe pour accéder à votre espace.",
-		"missing-token": "Ce lien d’activation est invalide. Contactez votre administrateur."
-	}
-}
