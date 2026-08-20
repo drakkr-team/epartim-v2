@@ -12,7 +12,7 @@ export default class PasswordChangedNotificationMail extends BaseMail {
 	prepare() {
 		this.message.to(this.params.user.email);
 		this.message.htmlView(
-			"../features/user_management/password/mails/password_changed_notification.html",
+			"../features/client/user_management/password/mails/password_changed_notification.html",
 			{
 				user: this.params.user,
 				loginUrl: this.params.loginUrl,

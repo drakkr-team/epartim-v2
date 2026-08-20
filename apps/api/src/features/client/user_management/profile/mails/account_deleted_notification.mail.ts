@@ -14,7 +14,7 @@ export default class AccountDeletedNotificationMail extends BaseMail {
 
 		this.message.to(user.email);
 		this.message.htmlView(
-			"../features/user_management/profile/mails/account_deleted_notification.html",
+			"../features/client/user_management/profile/mails/account_deleted_notification.html",
 			{
 				user,
 			},

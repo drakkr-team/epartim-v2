@@ -12,7 +12,7 @@ export default class ResetPasswordInstructionMail extends BaseMail {
 	prepare() {
 		this.message.to(this.params.user.email);
 		this.message.htmlView(
-			"../features/user_management/password/mails/reset_password_instruction.html",
+			"../features/client/user_management/password/mails/reset_password_instruction.html",
 			{
 				user: this.params.user,
 				resetPasswordUrl: this.params.resetPasswordUrl.toString(),

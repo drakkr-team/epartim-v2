@@ -12,7 +12,7 @@ export default class AccountInvitationMail extends BaseMail {
 	prepare() {
 		this.message.to(this.params.user.email);
 		this.message.htmlView(
-			"../features/user_management/administration/mails/account_invitation.html",
+			"../features/admin/admin_management/administration/mails/account_invitation.html",
 			{
 				user: this.params.user,
 				activationUrl: this.params.activationUrl.toString(),
