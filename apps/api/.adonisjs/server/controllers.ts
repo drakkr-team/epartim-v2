@@ -14,11 +14,8 @@ export const controllers = {
         password: {
           Forgot: () => import('#src/features/admin/admin_management/password/controllers/forgot.controller'),
           Reset: () => import('#src/features/admin/admin_management/password/controllers/reset.controller'),
-          Update: () => import('#src/features/admin/admin_management/password/controllers/update.controller'),
         },
         profile: {
-          Delete: () => import('#src/features/admin/admin_management/profile/controllers/delete.controller'),
-          Update: () => import('#src/features/admin/admin_management/profile/controllers/update.controller'),
           View: () => import('#src/features/admin/admin_management/profile/controllers/view.controller'),
         },
       },

@@ -1,22 +1,22 @@
 import mail from "@adonisjs/mail/services/main";
 import { test } from "@japa/runner";
 
-import { UserFactory } from "#database/factories/user.factory";
+import { AdminFactory } from "#database/factories/admin.factory";
 import SendPasswordChangedNotification from "#features/admin/admin_management/password/jobs/send_password_changed_notification.job";
 import PasswordChangedNotificationMail from "#features/admin/admin_management/password/mails/password_changed_notifiction.mail";
 
 test.group(
-	"Features / User Management / Password / Jobs / Send Password Changed Notification",
+	"Features / Admin / Admin Management / Password / Jobs / Send Password Changed Notification",
 	() => {
 		test("it should send the password changed notification email", async () => {
 			const fakeMailer = mail.fake();
 
-			const user = await UserFactory.create();
+			const admin = await AdminFactory.create();
 			const loginUrl = new URL("https://app.example.test/login");
 
 			const job = new SendPasswordChangedNotification();
 			job.$hydrate(
-				{ user, loginUrl },
+				{ admin, loginUrl },
 				{
 					jobId: "test",
 					name: SendPasswordChangedNotification.name,
@@ -30,7 +30,7 @@ test.group(
 			await job.execute();
 
 			fakeMailer.mails.assertSent(PasswordChangedNotificationMail, ({ message }) => {
-				return message.hasTo(user.email);
+				return message.hasTo(admin.email);
 			});
 		});
 	},

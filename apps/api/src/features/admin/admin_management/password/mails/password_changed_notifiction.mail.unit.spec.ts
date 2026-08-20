@@ -1,21 +1,21 @@
 import { test } from "@japa/runner";
 
-import { UserFactory } from "#database/factories/user.factory";
+import { AdminFactory } from "#database/factories/admin.factory";
 import PasswordChangedNotificationMail from "#features/admin/admin_management/password/mails/password_changed_notifiction.mail";
 
 test.group(
-	"Features / User Management / Password / Mails / Password Changed Notification Mail",
+	"Features / Admin / Admin Management / Password / Mails / Password Changed Notification Mail",
 	() => {
 		test("it should render the password changed notification email", async () => {
-			const user = await UserFactory.create();
+			const admin = await AdminFactory.create();
 			const loginUrl = new URL("https://app.example.test/login");
-			const email = new PasswordChangedNotificationMail({ user, loginUrl });
+			const email = new PasswordChangedNotificationMail({ admin, loginUrl });
 
 			await email.buildWithContents();
 
-			email.message.assertTo(user.email);
+			email.message.assertTo(admin.email);
 
-			email.message.assertHtmlIncludes(user.name);
+			email.message.assertHtmlIncludes(admin.name);
 			email.message.assertHtmlIncludes(loginUrl.toString());
 		});
 	},

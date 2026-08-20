@@ -1,24 +1,30 @@
 import { test } from "@japa/runner";
 
-import { UserFactory } from "#database/factories/user.factory";
+import { AdminFactory } from "#database/factories/admin.factory";
 
-test.group("Features / User Management / Authentication / Controllers / Logout Controller", () => {
-	test("it should logout the user successfully", async ({ client }) => {
-		const user = await UserFactory.create();
+test.group(
+	"Features / Admin / Admin Management / Authentication / Controllers / Logout Controller",
+	() => {
+		test("it should logout the admin successfully", async ({ client }) => {
+			const admin = await AdminFactory.create();
 
-		const response = await client
-			.visit("admin.admin_management.authentication.logout")
-			.loginAs(user);
+			const response = await client
+				.visit("admin.admin_management.authentication.logout")
+				.withGuard("admin")
+				.loginAs(admin);
 
-		response.assertNoContent();
-	});
-
-	test("it should respond with E_UNAUTHENTICATED code if not authenticated", async ({ client }) => {
-		const response = await client.visit("admin.admin_management.authentication.logout");
-
-		response.assertUnauthorized();
-		response.assertBodyContains({
-			code: "E_UNAUTHENTICATED",
+			response.assertNoContent();
 		});
-	});
-});
+
+		test("it should respond with E_UNAUTHENTICATED code if not authenticated", async ({
+			client,
+		}) => {
+			const response = await client.visit("admin.admin_management.authentication.logout");
+
+			response.assertUnauthorized();
+			response.assertBodyContains({
+				code: "E_UNAUTHENTICATED",
+			});
+		});
+	},
+);

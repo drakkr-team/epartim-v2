@@ -12,6 +12,7 @@ export default await Env.create(new URL("../", import.meta.url), {
 
 	// Frontend Config
 	FRONTEND_URL: Env.schema.string({ format: "url", tld: app.inProduction }),
+	ADMIN_URL: Env.schema.string({ format: "url", tld: app.inProduction }),
 
 	// Bootstrap administrator
 	BOOTSTRAP_ADMIN_EMAIL: Env.schema.string.optional(),

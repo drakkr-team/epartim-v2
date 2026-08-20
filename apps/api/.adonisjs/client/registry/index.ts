@@ -54,12 +54,6 @@ const routes = {
     tokens: [{"old":"/admin/admin-management/password/reset","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/password/reset","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/password/reset","type":0,"val":"password","end":""},{"old":"/admin/admin-management/password/reset","type":0,"val":"reset","end":""}],
     types: placeholder as Registry['admin.admin_management.password.reset']['types'],
   },
-  'admin.admin_management.password.update': {
-    methods: ["PUT"],
-    pattern: '/admin/admin-management/password',
-    tokens: [{"old":"/admin/admin-management/password","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/password","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/password","type":0,"val":"password","end":""}],
-    types: placeholder as Registry['admin.admin_management.password.update']['types'],
-  },
   'admin.accept_invitation': {
     methods: ["POST"],
     pattern: '/admin/invitations/accept',

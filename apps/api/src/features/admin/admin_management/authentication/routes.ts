@@ -7,11 +7,11 @@ router
 	.group(() => {
 		router
 			.post("/login", [controllers.features.admin.adminManagement.authentication.Login])
-			.use(middleware.guest())
+			.use(middleware.guest({ guards: ["admin"] }))
 			.use(middleware.authAttempt({ identifier: "uid", scope: "login" }));
 		router
 			.delete("/logout", [controllers.features.admin.adminManagement.authentication.Logout])
-			.use(middleware.auth({ guards: ["client"] }));
+			.use(middleware.auth({ guards: ["admin"] }));
 	})
 	.prefix("admin/admin-management/authentication")
 	.as("admin.admin_management.authentication");

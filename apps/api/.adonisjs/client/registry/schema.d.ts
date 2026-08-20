@@ -103,18 +103,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admin_management/password/controllers/reset.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'admin.admin_management.password.update': {
-    methods: ["PUT"]
-    pattern: '/admin/admin-management/password'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/admin/admin_management/password/controllers/update.controller').default)['payloadSchema']>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/admin_management/password/controllers/update.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/admin_management/password/controllers/update.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admin_management/password/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'admin.accept_invitation': {
     methods: ["POST"]
     pattern: '/admin/invitations/accept'

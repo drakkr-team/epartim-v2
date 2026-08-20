@@ -21,7 +21,6 @@ export interface ApiDefinition {
       password: {
         forgot: typeof routes['admin.admin_management.password.forgot']
         reset: typeof routes['admin.admin_management.password.reset']
-        update: typeof routes['admin.admin_management.password.update']
       }
     }
     acceptInvitation: typeof routes['admin.accept_invitation']

@@ -6,9 +6,7 @@ import { middleware } from "#start/kernel";
 router
 	.group(() => {
 		router.get("/", [controllers.features.admin.adminManagement.profile.View]);
-		router.put("/", [controllers.features.admin.adminManagement.profile.Update]);
-		router.delete("/", [controllers.features.admin.adminManagement.profile.Delete]);
 	})
-	.use(middleware.auth({ guards: ["client"] }))
+	.use(middleware.auth({ guards: ["admin"] }))
 	.prefix("admin/admin-management/profile")
 	.as("admin.admin_management.profile");

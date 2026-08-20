@@ -1,6 +1,6 @@
 import { BaseMail } from "@adonisjs/mail";
 
-import User from "#models/user";
+import Admin from "#models/admin";
 
 export default class ResetPasswordInstructionMail extends BaseMail {
 	subject = "Réinitialisation de votre mot de passe";
@@ -10,11 +10,11 @@ export default class ResetPasswordInstructionMail extends BaseMail {
 	}
 
 	prepare() {
-		this.message.to(this.params.user.email);
+		this.message.to(this.params.admin.email);
 		this.message.htmlView(
 			"../features/admin/admin_management/password/mails/reset_password_instruction.html",
 			{
-				user: this.params.user,
+				admin: this.params.admin,
 				resetPasswordUrl: this.params.resetPasswordUrl.toString(),
 			},
 		);
@@ -22,6 +22,6 @@ export default class ResetPasswordInstructionMail extends BaseMail {
 }
 
 type ResetPasswordInstructionMailDTO = {
-	user: User;
+	admin: Admin;
 	resetPasswordUrl: URL;
 };

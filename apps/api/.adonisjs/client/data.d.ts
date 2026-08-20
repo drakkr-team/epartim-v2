@@ -4,6 +4,8 @@
 */
 /// <reference path="./manifest.d.ts" />
 
+export type Admin = Awaited<ReturnType<typeof import("#presenters/admin.presenter").default.prototype.toJSON>>;
+
 export type File = Awaited<ReturnType<typeof import("#presenters/file.presenter").default.prototype.toJSON>>;
 
 export type Pagination = Awaited<ReturnType<typeof import("#presenters/pagination.presenter").default.prototype.toJSON>>;

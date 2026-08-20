@@ -3,10 +3,10 @@ import { Job } from "@adonisjs/queue";
 import type { JobOptions } from "@adonisjs/queue/types";
 
 import PasswordChangedNotificationMail from "#features/admin/admin_management/password/mails/password_changed_notifiction.mail";
-import User from "#models/user";
+import Admin from "#models/admin";
 
 interface Payload {
-	user: User;
+	admin: Admin
 	loginUrl: URL;
 }
 
@@ -16,8 +16,8 @@ export default class SendPasswordChangedNotification extends Job<Payload> {
 	};
 
 	async execute() {
-		const { user, loginUrl } = this.payload;
+		const { admin, loginUrl } = this.payload;
 
-		await mail.send(new PasswordChangedNotificationMail({ user, loginUrl }));
+		await mail.send(new PasswordChangedNotificationMail({ admin, loginUrl }));
 	}
 }

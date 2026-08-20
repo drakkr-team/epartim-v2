@@ -17,7 +17,7 @@ async function createAdministrator() {
 	return user;
 }
 
-test.group("Features / User Management / Administration / Controllers / Create User", (group) => {
+test.group("Features / Admin / Users / Controllers / Create User Controller", (group) => {
 	group.each.teardown(() => {
 		QueueManager.restore();
 	});

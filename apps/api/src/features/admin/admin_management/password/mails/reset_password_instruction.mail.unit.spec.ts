@@ -1,21 +1,21 @@
 import { test } from "@japa/runner";
 
-import { UserFactory } from "#database/factories/user.factory";
+import { AdminFactory } from "#database/factories/admin.factory";
 import ResetPasswordInstructionMail from "#features/admin/admin_management/password/mails/reset_password_instruction.mail";
 
 test.group(
-	"Features / User Management / Password / Mails / Reset Password Instruction Mail",
+	"Features / Admin / Admin Management / Password / Mails / Reset Password Instruction Mail",
 	() => {
 		test("it should render the reset password instruction email", async () => {
-			const user = await UserFactory.create();
+			const admin = await AdminFactory.create();
 			const resetPasswordUrl = new URL("https://app.example.test/reset-password?token=test-token");
-			const email = new ResetPasswordInstructionMail({ user, resetPasswordUrl });
+			const email = new ResetPasswordInstructionMail({ admin, resetPasswordUrl });
 
 			await email.buildWithContents();
 
-			email.message.assertTo(user.email);
+			email.message.assertTo(admin.email);
 
-			email.message.assertHtmlIncludes(user.name);
+			email.message.assertHtmlIncludes(admin.name);
 			email.message.assertHtmlIncludes(resetPasswordUrl.toString());
 		});
 	},

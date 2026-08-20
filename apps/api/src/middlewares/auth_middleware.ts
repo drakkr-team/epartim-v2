@@ -3,6 +3,7 @@ import type { HttpContext } from "@adonisjs/core/http";
 import type { NextFn } from "@adonisjs/core/types/http";
 
 import UnauthenticatedException from "#exceptions/unauthenticated.exception";
+import User from "#models/user";
 
 export default class AuthMiddleware {
 	async handle(
@@ -14,13 +15,19 @@ export default class AuthMiddleware {
 	) {
 		await ctx.auth.authenticateUsing(options.guards);
 		const user = ctx.auth.user!;
+
+		if (!(user instanceof User)) {
+			return next();
+		}
+
 		const authVersion = ctx.session.get("authVersion");
+		const guard = options.guards?.[0] ?? ctx.auth.defaultGuard;
 
 		if (
 			user.status !== "active" ||
 			(authVersion !== undefined && authVersion !== user.authVersion)
 		) {
-			await ctx.auth.use("client").logout();
+			await ctx.auth.use(guard).logout();
 			throw new UnauthenticatedException();
 		}
 

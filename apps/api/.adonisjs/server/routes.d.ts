@@ -12,7 +12,6 @@ export type ScannedRoutes = {
     'admin.admin_management.profile.delete': { paramsTuple?: []; params?: {} }
     'admin.admin_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.admin_management.password.reset': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.password.update': { paramsTuple?: []; params?: {} }
     'admin.accept_invitation': { paramsTuple?: []; params?: {} }
     'admin.user_options': { paramsTuple?: []; params?: {} }
     'admin.list_users': { paramsTuple?: []; params?: {} }
@@ -70,7 +69,6 @@ export type ScannedRoutes = {
   }
   PUT: {
     'admin.admin_management.profile.update': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.password.update': { paramsTuple?: []; params?: {} }
     'admin.update_user': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.user_management.password.update': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.update': { paramsTuple?: []; params?: {} }

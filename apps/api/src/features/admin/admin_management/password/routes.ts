@@ -7,20 +7,10 @@ router
 	.group(() => {
 		router
 			.group(() => {
-				router
-					.post("/forgot", [controllers.features.admin.adminManagement.password.Forgot])
-					.use(middleware.authAttempt({ identifier: "email", scope: "password-forgot" }));
-				router
-					.post("/reset", [controllers.features.admin.adminManagement.password.Reset])
-					.use(middleware.authAttempt({ identifier: "token", scope: "password-reset" }));
+				router.post("/forgot", [controllers.features.admin.adminManagement.password.Forgot]);
+				router.post("/reset", [controllers.features.admin.adminManagement.password.Reset]);
 			})
-			.use(middleware.guest());
-
-		router
-			.group(() => {
-				router.put("/", [controllers.features.admin.adminManagement.password.Update]);
-			})
-			.use(middleware.auth({ guards: ["client"] }));
+			.use(middleware.guest({ guards: ["admin"] }));
 	})
 	.prefix("admin/admin-management/password")
 	.as("admin.admin_management.password");

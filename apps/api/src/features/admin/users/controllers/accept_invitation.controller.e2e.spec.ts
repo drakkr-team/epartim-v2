@@ -7,7 +7,7 @@ import { UserFactory } from "#database/factories/user.factory";
 import User from "#models/user";
 import UserInvitation from "#models/user_invitation";
 
-test.group("Features / User Management / Administration / Controllers / Accept Invitation", () => {
+test.group("Features / Admin / Users / Controllers / Accept Invitation Controller", () => {
 	test("it activates an invited user and creates a session", async ({ client, assert }) => {
 		const user = await UserFactory.apply("invited").create();
 		const token = "activation-token";

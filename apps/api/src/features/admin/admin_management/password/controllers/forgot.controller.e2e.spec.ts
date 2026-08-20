@@ -1,57 +1,61 @@
 import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
 
-import { UserFactory } from "#database/factories/user.factory";
+import { AdminFactory } from "#database/factories/admin.factory";
 import SendResetPasswordInstruction from "#features/admin/admin_management/password/jobs/send_reset_password_instruction.job";
 
-test.group("Features / User Management / Password / Controllers / Forgot Controller", (group) => {
-	group.each.teardown(() => {
-		QueueManager.restore();
-	});
-
-	test("it should respond with no content and push a reset password job for an existing email", async ({
-		client,
-	}) => {
-		const fakeQueueManager = QueueManager.fake();
-
-		const user = await UserFactory.merge({ password: "password" }).create();
-
-		const response = await client.visit("admin.admin_management.password.forgot").json({
-			email: user.email,
+test.group(
+	"Features / Admin / Admin Management / Password / Controllers / Forgot Controller",
+	(group) => {
+		group.each.teardown(() => {
+			QueueManager.restore();
 		});
 
-		response.assertNoContent();
-		fakeQueueManager.assertPushed(SendResetPasswordInstruction);
-	});
+		test("it should respond with no content and push a reset password job for an existing email", async ({
+			client,
+		}) => {
+			const fakeQueueManager = QueueManager.fake();
 
-	test("it should respond with no content and not push a reset password job for a missing email", async ({
-		client,
-	}) => {
-		const fakeQueueManager = QueueManager.fake();
+			const admin = await AdminFactory.create();
 
-		const response = await client.visit("admin.admin_management.password.forgot").json({
-			email: "missing@example.com",
-		});
-
-		response.assertNoContent();
-		fakeQueueManager.assertNotPushed(SendResetPasswordInstruction);
-	});
-
-	test("it should respond with E_GUEST_ONLY code if the user is already authenticated", async ({
-		client,
-	}) => {
-		const user = await UserFactory.create();
-
-		const response = await client
-			.visit("admin.admin_management.password.forgot")
-			.loginAs(user)
-			.json({
-				email: user.email,
+			const response = await client.visit("admin.admin_management.password.forgot").json({
+				email: admin.email,
 			});
 
-		response.assertForbidden();
-		response.assertBodyContains({
-			code: "E_GUEST_ONLY",
+			response.assertNoContent();
+			fakeQueueManager.assertPushed(SendResetPasswordInstruction);
 		});
-	});
-});
+
+		test("it should respond with no content and not push a reset password job for a missing email", async ({
+			client,
+		}) => {
+			const fakeQueueManager = QueueManager.fake();
+
+			const response = await client.visit("admin.admin_management.password.forgot").json({
+				email: "missing@example.com",
+			});
+
+			response.assertNoContent();
+			fakeQueueManager.assertNotPushed(SendResetPasswordInstruction);
+		});
+
+		test("it should respond with E_GUEST_ONLY code if the admin is already authenticated", async ({
+			client,
+		}) => {
+			const admin = await AdminFactory.create();
+
+			const response = await client
+				.visit("admin.admin_management.password.forgot")
+				.withGuard("admin")
+				.loginAs(admin)
+				.json({
+					email: admin.email,
+				});
+
+			response.assertForbidden();
+			response.assertBodyContains({
+				code: "E_GUEST_ONLY",
+			});
+		});
+	},
+);

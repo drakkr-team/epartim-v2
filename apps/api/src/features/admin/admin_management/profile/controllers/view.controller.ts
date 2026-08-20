@@ -2,17 +2,18 @@ import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 
 import ViewProfilePolicy from "#features/admin/admin_management/profile/policies/view.policy";
-import UserPresenter from "#presenters/user.presenter";
+import Admin from "#models/admin";
+import AdminPresenter from "#presenters/admin.presenter";
 
 @inject()
 export default class ViewProfileController {
-	constructor(protected userPresenter: UserPresenter) {}
+	constructor(protected adminPresenter: AdminPresenter) {}
 
 	async handle({ auth, bouncer }: HttpContext) {
 		await bouncer.with(ViewProfilePolicy).authorize("handle");
 
-		const user = auth.user!;
+		const admin = auth.user as Admin;
 
-		return this.userPresenter.toJSON(user);
+		return this.adminPresenter.toJSON(admin);
 	}
 }
