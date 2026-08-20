@@ -1,4 +1,4 @@
-# apps/web/src/features/user_management/profile KNOWLEDGE BASE
+# apps/client/src/features/user_management/profile KNOWLEDGE BASE
 
 ## OVERVIEW
 
@@ -14,8 +14,8 @@ Authenticated profile management feature for updating user name and deleting the
 | Delete confirmation | `components/delete-confirmation-dialog.tsx` | Destructive action confirmation dialog. |
 | Delete mutation | `hooks/use-delete-mutation.ts` | Calls `api.userManagement.profile.delete`; removes queries and navigates to `/login`. |
 | Translations | `locales/fr.json` | Copy for profile hooks and components. |
-| Profile route | `../../../routes/(private)/profile/page.tsx` | Renders update form. |
-| Privacy route | `../../../routes/(private)/profile/privacy/page.tsx` | Renders delete-account section. |
+| Profile route | `../../../routes/(private)/profile/page.tsx` | Loads current user and renders the update form. |
+| Privacy route | `../../../routes/(private)/profile/privacy/page.tsx` | Renders the delete-account section. |
 
 ## CONVENTIONS
 
@@ -32,6 +32,7 @@ Authenticated profile management feature for updating user name and deleting the
 - Do not hardcode API paths; use `api.userManagement.profile.*.mutationOptions()`.
 - Do not bypass `useAppForm`; field components are registered centrally.
 - Do not forget to invalidate or remove profile cache after update/delete.
+- Do not move irreversible-account confirmation into a generic route shell.
 
 ## NOTES
 

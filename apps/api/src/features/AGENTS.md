@@ -1,34 +1,70 @@
-# apps/api/src/features KNOWLEDGE BASE
+# API FEATURE ROUTE MAP
 
-## OVERVIEW
+## Domain split
 
-Feature-first HTTP modules for the API. Current domain: `user_management`; keep this file as domain-boundary guidance only.
+- `src/features/admin` is the internal administration API.
+- `src/features/client` is the customer-facing API.
+- Do not place staff user administration under `client`.
+- Do not place customer account flows under `admin`.
+- Admin account management lives at `admin/admin_management`.
+- Client account management lives at `client/user_management`.
+- Their authentication, profile, and password flows are parallel, not shared route files.
+- Admin user lifecycle operations live separately in `admin/users`.
 
-## WHERE TO LOOK
+## Route composition
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Domain routes | `user_management/*/routes.ts` | Imported by `apps/api/start/routes.ts`. |
-| Generated route targets | `#generated/controllers` | Do not hand-edit generated registry files. |
-| Cross-feature validators | `../validators/user.validator.ts` | Shared by profile/password controllers. |
-| Auth middleware registry | `apps/api/start/kernel.ts` | Named `auth` / `guest` middleware comes from this tree. |
-| Feature docs | `user_management/*/AGENTS.md` | Concrete feature rules live below the domain. |
+- `start/routes.ts` imports only `#features/admin/routes` and `#features/client/routes`.
+- `admin/routes.ts` composes `admin_management/routes` and `users/routes`.
+- `client/routes.ts` composes `user_management/routes`.
+- `admin/admin_management/routes.ts` composes authentication, profile, and password routes.
+- `client/user_management/routes.ts` composes authentication, profile, and password routes.
+- Keep leaf route declarations beside their feature controllers.
+- Import a new leaf route through every required domain aggregator.
+- A route omitted from an aggregator is not registered.
 
-## CONVENTIONS
+## Public route namespaces
 
-- Keep domain folders under `src/features/<domain>/<feature>`.
-- Put route declarations inside each feature folder, then import them from `start/routes.ts`.
-- Prefer feature-local controllers, services, exceptions, middleware, and mails over flat app folders.
-- Route handlers should use generated controller imports, not direct controller imports.
+- Admin authentication: `/admin/admin-management/authentication`.
+- Admin profile: `/admin/admin-management/profile`.
+- Admin password: `/admin/admin-management/password`.
+- Admin user administration: `/admin/users`.
+- Invitation acceptance: `/admin/invitations/accept`.
+- Client authentication: `/client/user-management/authentication`.
+- Client profile: `/client/user-management/profile`.
+- Client password: `/client/user-management/password`.
+- Preserve route-name namespaces: `admin.*` and `client.*`.
+- Management subdomains use `admin_management` and `user_management` in route names.
+
+## Controllers and middleware
+
+- Route targets come from `#generated/controllers`.
+- Controller registry paths mirror feature directories in camel case.
+- Example: `admin/admin_management` maps through `controllers.features.admin.adminManagement`.
+- Example: client user management maps through `controllers.features.client.userManagement`.
+- Do not direct-import a controller into a route file.
+- Do not hand-edit generated controller registry output.
+- Fix controller source placement or naming, then regenerate the registry.
+- Login routes require `guest()` and `authAttempt({ identifier: "uid", scope: "login" })`.
+- Logout routes require `auth({ guards: ["client"] })`.
+- Forgot-password and reset-password routes are guest-only.
+- Forgot attempts use email and `password-forgot` scope.
+- Reset attempts use token and `password-reset` scope.
+- Password update routes require the `client` auth guard.
+- Profile view, update, and deletion routes require the `client` auth guard.
+- `/admin/invitations/accept` is guest-only.
+- Admin `/users` operations require the `client` guard and `admin()` middleware.
+- Do not infer admin authorization from the `/admin` prefix alone.
+
+## Tests
+
+- Colocate controller HTTP coverage as `*.controller.e2e.spec.ts`.
+- Colocate policy coverage as `*.policy.unit.spec.ts`.
+- Keep password job and mail tests beside their jobs and mails.
+- Existing admin and client authentication/password tests follow this layout.
+- Add route-behavior coverage in the owning admin or client feature, never at `src/features` root.
 
 ## ANTI-PATTERNS
 
-- Do not add code directly at `src/features` root except domain-level guidance.
-- Do not bypass `start/routes.ts`; feature route files must be explicitly imported there.
-- Do not edit `.adonisjs/server/controllers.ts` to fix missing generated routes; fix source names and regenerate.
-
-## NOTES
-
-- Current generated controller names are derived from files below `user_management`.
-- Add new domains beside `user_management`, not inside it, when they are not account-related.
-- Keep feature-local AGENTS files only where routes, jobs, mail, or cache behavior differ from this root.
+- Do not register leaf routes directly from `start/routes.ts`; preserve the composition chain.
+- Do not infer admin authorization from URL prefixes; apply `admin()` explicitly.
+- Do not hand-edit generated controller registries to fix source naming.

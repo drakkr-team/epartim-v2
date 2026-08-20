@@ -1,208 +1,241 @@
-<!-- prettier-ignore -->
 <div align="center">
 
-<pre>
-███████╗███████╗   ███████╗████████╗ █████╗  ██████╗██╗  ██╗
-██╔════╝██╔════╝   ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-█████╗  ███████╗   ███████╗   ██║   ███████║██║     █████╔╝ 
-██╔══╝  ╚════██║   ╚════██║   ██║   ██╔══██║██║     ██╔═██╗ 
-███████╗███████║██╗███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
-</pre>
+# EPARTIM
 
-**A modern TypeScript monorepo for typed API and web application development.**
+<!-- markdownlint-disable MD013 -->
 
-[![Node.js](https://img.shields.io/badge/Node.js-24.x-43853D?style=flat-square&logo=node.js&logoColor=white)](#)
-[![pnpm](https://img.shields.io/badge/pnpm-10.33.2-f69220?style=flat-square&logo=pnpm&logoColor=white)](#)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-007ACC?style=flat-square&logo=typescript&logoColor=white)](#)
-[![AdonisJS](https://img.shields.io/badge/AdonisJS-7.3-220052?style=flat-square&logo=AdonisJS&logoColor=white)](#)
-[![TanStack Start](https://img.shields.io/badge/TanStack_Start-1.168-FF4154?style=flat-square&logo=react-query&logoColor=white)](#)
-[![React](https://img.shields.io/badge/React-19.2-20232A?style=flat-square&logo=react&logoColor=61DAFB)](#)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](#)
-[![Turborepo](https://img.shields.io/badge/Turborepo-2.9-EF4444?style=flat-square&logo=turborepo&logoColor=white)](#)
-[![Biome](https://img.shields.io/badge/Biome-2.4-60A5FA?style=flat-square&logo=biome&logoColor=white)](#)
-[![CI](https://img.shields.io/github/actions/workflow/status/eloitsme/epartim/ci.yml?style=flat-square&label=CI)](.github/workflows/ci.yml)
-
-*AdonisJS API, TanStack Start web app, and shared UI packages connected by Tuyau and pnpm workspaces.*
-
-[Overview](#overview) • [Stack](#stack) • [Getting Started](#getting-started) • [Commands](#commands) • [Testing](#testing) • [Architecture](#architecture)
+[Vue d'ensemble](#vue-densemble) · [Démarrage](#démarrage-rapide) ·
+[Architecture](#architecture) · [Commandes](#commandes-utiles) ·
+[Documentation](#documentation-métier-et-technique)
 
 </div>
 
 ---
 
-## Overview
+## Vue d'ensemble
 
-**epartim** is a pnpm/Turborepo workspace with an **AdonisJS** JSON API, a **TanStack Start** React app, and split UI packages for React components and generated Tailwind CSS. The web app consumes the API through **Tuyau**, so route definitions generate the typed client surface used by React Query hooks.
+epartim accompagne les entreprises dans la mise en place de dispositifs d'épargne salariale :
+PEI, PER COL-I, participation, intéressement et prime de partage de la valeur. Sa plateforme
+partenaires « Go ! » relie les équipes epartim, les cabinets et conseillers distributeurs, les
+entreprises souscriptrices et les opérateurs financiers.
 
-## Features
+Ce monorepo construit la **V2 de cette plateforme** autour de trois surfaces :
 
-- **Typed API Client:** Tuyau exposes generated API query and mutation helpers from the Adonis route registry.
-- **Feature-First API:** User-management code is grouped by domain under `apps/api/src/features/user_management`.
-- **TanStack Start Web App:** File routes use custom `layout.tsx` and `page.tsx` tokens, plus route groups for guest/private flows.
-- **Profile Settings Flow:** Authenticated profile UI is tabbed across `/profile`, `/profile/security`, and `/profile/privacy`.
-- **Shared UI Packages:** `@workspace/ui-react` provides Storybook-backed components; `@workspace/ui-theme` generates checked-in Tailwind CSS from tokens.
-- **French i18n Build:** Source `locales/fr.json` files compile into a generated web bundle during install and development.
+- une application client pour les partenaires ;
+- une administration interne pour piloter les utilisateurs et leurs accès ;
+- une API JSON partagée, typée de bout en bout avec Tuyau.
 
-## Project Structure
+Le contexte métier couvre également les bulletins de souscription électroniques (**BSE**), les
+flux apporteurs et EER avec **Amundi**, les commissions **AXA** et la signature électronique.
+
+> [!IMPORTANT]
+> Le code actuel implémente principalement l'authentification, le cycle de vie des comptes et
+> l'administration des utilisateurs. Les parcours BSE, les échanges Amundi et le calcul des
+> commissions AXA sont documentés comme cible métier, mais ne doivent pas être considérés comme
+> entièrement implémentés dans ce dépôt.
+
+## Architecture
 
 ```text
 epartim/
 ├── apps/
-│   ├── api/                 # AdonisJS API, queue worker, Docker Compose sidecars
-│   └── web/                 # TanStack Start app, Tuyau client, French i18n build
+│   ├── api/                 # API AdonisJS, PostgreSQL, files Redis, e-mails et tests
+│   ├── client/              # Application partenaires TanStack Start — port 3000
+│   └── admin/               # Administration TanStack Start — port 3001
 ├── packages/
 │   └── ui/
-│       ├── react/           # @workspace/ui-react, Storybook component package
-│       └── theme/           # @workspace/ui-theme, token source + generated CSS
-├── biome.json               # Biome formatting, linting, organize imports
-├── package.json             # Root scripts, Node/pnpm pins
-├── pnpm-workspace.yaml      # Workspace globs: apps/*, packages/**
-└── turbo.json               # Turbo task graph
+│       ├── react/           # Composants React partagés et Storybook
+│       └── theme/           # Tokens et CSS Tailwind généré
+├── docs/                    # Spécifications métier et techniques de la V2
+├── package.json             # Scripts racine et versions Node.js/pnpm
+├── pnpm-workspace.yaml      # Définition des workspaces
+└── turbo.json               # Graphe de tâches Turborepo
 ```
 
-## Stack
+```mermaid
+flowchart LR
+    Client["Application partenaire<br/>TanStack Start"]
+    Admin["Administration<br/>TanStack Start"]
+    API["API JSON<br/>AdonisJS"]
+    DB[(PostgreSQL)]
+    Redis[(Redis)]
+    SMTP["Serveur SMTP"]
 
-| Area | Technologies |
-| :--- | :--- |
-| **Core** | TypeScript 6.0.3, Node 24, pnpm 10.33.2, Turborepo 2.9.16 |
-| **API** | AdonisJS 7.3.4, Lucid, Bouncer, Session Auth, Queue, Mail, Tuyau, Japa |
-| **Web** | React 19.2.7, TanStack Start 1.168.20, TanStack Router, TanStack Query, TanStack Form, Vite 8.0.16 |
-| **UI** | Tailwind CSS 4.3.0, Base UI, tailwind-variants, lucide-react, sonner, Storybook 10.4.2 |
-| **Tooling** | Biome 2.4.16, Docker, GitHub Actions |
+    Client -->|"Tuyau + cookies"| API
+    Admin -->|"Tuyau + cookies"| API
+    API --> DB
+    API --> Redis
+    Redis -->|"worker emails"| SMTP
+```
 
-## Getting Started
+| Domaine | Technologies principales |
+| --- | --- |
+| Monorepo | Node.js 24, pnpm 10.33.2, Turborepo |
+| API | TypeScript, AdonisJS 7, Lucid, Bouncer, VineJS, Tuyau |
+| Frontends | React 19, TanStack Start, Router, Query et Form, Vite |
+| Interface | Tailwind CSS 4, Base UI, Storybook, thème partagé |
+| Données | PostgreSQL 15, Redis 7 |
+| Qualité | Biome, TypeScript, Japa, GitHub Actions |
 
-### Prerequisites
+L'API suit une architecture **feature-first** séparée par audience (`admin` et `client`). Les
+contrôleurs, services, policies, jobs, mails et tests restent proches du domaine qu'ils servent.
+Les deux frontends consomment le registre de routes généré par l'API au lieu de maintenir un
+client HTTP séparé.
 
-- **Node.js** `24` (`.npmrc` enforces engine strictness)
-- **pnpm** `10.33.2`
-- **Docker & Docker Compose** for the API database, Redis, and mail sidecars
+## Démarrage rapide
+
+### Prérequis
+
+- [Node.js](https://nodejs.org/) `24`
+- [pnpm](https://pnpm.io/) `10.33.2`
+- [Docker](https://www.docker.com/) avec Docker Compose
 
 ### Installation
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/eloitsme/epartim.git
-   cd epartim
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   pnpm install
-   ```
-
-   `apps/web` runs `i18n:build` during `postinstall`, generating the French i18n bundle.
-
-3. Configure the API environment from `apps/api/.env.example`, then start Docker.
-
-4. Start development:
-
-   ```bash
-   pnpm dev
-   ```
-
-> [!NOTE]
-> Root `pnpm dev` runs Turbo. The API dev task also starts `docker-compose` and the email queue worker; the web dev task runs Vite on port `3000` plus the locale watcher.
-
-## Commands
-
-Run root commands from the repository root:
-
-| Command | Description |
-| :--- | :--- |
-| `pnpm dev` | Starts the Turbo development graph. |
-| `pnpm build` | Builds the workspace with dependency ordering. |
-| `pnpm typecheck` | Runs workspace TypeScript checks. |
-| `pnpm test` | Runs Turbo tests across packages; currently API/Japa only. |
-| `pnpm code-quality` | Runs Biome checks. |
-| `pnpm code-quality:fix` | Runs Biome safe fixes. |
-| `pnpm adonis` | Forwards to the API Ace CLI. |
-
-## Testing
-
-API tests are colocated with user-management feature code and run through Japa:
-
-- `*.unit.spec.ts` covers policies, jobs, and mails.
-- `*.e2e.spec.ts` covers HTTP controllers with the Japa API client.
-- `apps/api/bootstrap.ts` runs database migrations/truncation and starts the HTTP server for e2e suites.
-
-Run all workspace tests with `pnpm test`, or target the API with `pnpm --filter @workspace/api test`. The CI test job is present but currently commented out.
-
-### Targeted Execution
-
-Use pnpm filters when working on one surface:
+Depuis la racine du dépôt :
 
 ```bash
-pnpm --filter @workspace/api dev
-pnpm --filter @workspace/api worker
-pnpm --filter @workspace/api docker-compose
-pnpm --filter @workspace/api test
+corepack enable
+pnpm install
 
-pnpm --filter @workspace/web dev
-pnpm --filter @workspace/web preview
-pnpm --filter @workspace/web i18n:build
+cp apps/api/.env.example apps/api/.env
+cp apps/client/.env.example apps/client/.env
+cp apps/admin/.env.example apps/admin/.env
 
-pnpm --filter @workspace/ui-react dev
-pnpm --filter @workspace/ui-react typecheck
-
-pnpm --filter @workspace/ui-theme dev
-pnpm --filter @workspace/ui-theme generate:tailwind
-pnpm --filter @workspace/ui-theme build
+pnpm adonis generate:key
+docker compose --env-file apps/api/.env -f apps/api/docker-compose.yml up -d
+pnpm adonis migration:run
+pnpm dev
 ```
 
-## Architecture
+`pnpm dev` lance le graphe Turborepo. Pour l'API, il démarre également Docker Compose et le
+worker qui traite la file `emails`.
 
-<details>
-<summary><strong>API</strong></summary>
+| Service | Adresse locale |
+| --- | --- |
+| Application partenaire | `http://localhost:3000` |
+| Administration | `http://localhost:3001` |
+| API | `http://localhost:3333` |
+| Boîte mail smtp4dev | `http://localhost:5001` |
 
-- Boot files live in `apps/api/start`; runtime entries are `bin/server.ts`, `bin/console.ts`, and `bin/test.ts`.
-- Routes are imported from `apps/api/start/routes.ts`, then declared inside feature modules under `src/features/user_management/*/routes.ts`.
-- Generated Adonis/Tuyau artifacts power controller imports and the `@workspace/api/registry` client export.
-- Mail side effects run through queue jobs on queue `emails`; local compose services are Postgres, Redis, and smtp4dev.
+Pour créer le premier administrateur :
 
-</details>
+```bash
+pnpm --filter @workspace/api bootstrap:admin
+```
 
-<details>
-<summary><strong>Web</strong></summary>
+> [!WARNING]
+> Les valeurs des fichiers `.env.example` sont réservées au développement local. N'utilisez
+> jamais de secrets, de données personnelles, de fichiers partenaires ou d'informations issues
+> du dossier privé `context/` dans les fixtures, les captures ou la documentation versionnée.
 
-- TanStack Start uses `src/routes` with `layout.tsx` and `page.tsx` route tokens from `vite.config.ts`.
-- `src/router.tsx` wires the QueryClient, generated route tree, and SSR query integration.
-- Feature folders mirror backend domain names; route files compose feature components.
-- The profile section is route-tabbed: profile update, password security, and privacy/delete account.
+## Configuration
 
-</details>
+Les fichiers d'exemple constituent la référence :
 
-<details>
-<summary><strong>UI & Theme</strong></summary>
+- [`apps/api/.env.example`](apps/api/.env.example) : serveur, sessions, PostgreSQL, SMTP, Redis,
+  files de tâches, limiteur et stockage ;
+- [`apps/client/.env.example`](apps/client/.env.example) : URL de l'API et de l'administration ;
+- [`apps/admin/.env.example`](apps/admin/.env.example) : URL de l'API et de l'application client.
 
-- `@workspace/ui-react` exports `components/*`, `icons`, and `hooks/*`; it has Storybook and typecheck scripts, but no build script.
-- `@workspace/ui-theme` exports `tokens` and `tailwind`; edit `src/tokens.ts`, then regenerate `src/tailwind.css`.
-- Web and Storybook both import the generated Tailwind CSS from the theme package.
+Les requêtes frontend utilisent des cookies de session. Les origines des applications et la
+configuration CORS de l'API doivent donc rester cohérentes.
 
-</details>
+## Commandes utiles
 
-## Generated Files
+### Workspace
 
-Do not edit generated files manually:
+| Commande | Description |
+| --- | --- |
+| `pnpm dev` | Lance les applications et services de développement. |
+| `pnpm build` | Construit le workspace selon les dépendances Turbo. |
+| `pnpm typecheck` | Vérifie les types TypeScript. |
+| `pnpm test` | Exécute les tests disponibles dans le workspace. |
+| `pnpm code-quality` | Contrôle le formatage, le lint et les imports avec Biome. |
+| `pnpm code-quality:fix` | Applique les corrections sûres de Biome. |
+| `pnpm adonis <commande>` | Exécute une commande Ace dans l'API. |
+
+### Cibles individuelles
+
+```bash
+# API
+pnpm --filter @workspace/api dev
+pnpm --filter @workspace/api worker
+pnpm --filter @workspace/api test
+pnpm --filter @workspace/api typecheck
+
+# Applications
+pnpm --filter @workspace/client dev
+pnpm --filter @workspace/admin dev
+
+# Design system
+pnpm --filter @workspace/ui-react dev
+pnpm --filter @workspace/ui-theme generate:tailwind
+```
+
+> [!NOTE]
+> Les e-mails d'invitation, de réinitialisation, de changement de mot de passe et de suppression
+> de compte sont asynchrones. Le worker `emails` doit être actif pour qu'ils soient envoyés.
+
+## Tests et qualité
+
+Les tests API sont colocalisés avec les fonctionnalités :
+
+- `*.unit.spec.ts` pour les policies, jobs et mails ;
+- `*.e2e.spec.ts` pour les contrôleurs HTTP ;
+- `apps/api/bootstrap.ts` pour préparer la base de test et démarrer le serveur.
+
+La CI GitHub Actions exécute :
+
+1. les contrôles Biome ;
+2. les typechecks affectés ;
+3. les tests avec PostgreSQL et Redis ;
+4. les builds affectés.
+
+Avant d'ouvrir une pull request :
+
+```bash
+pnpm code-quality
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+## Fichiers générés
+
+Ne modifiez pas manuellement :
 
 - `apps/api/.adonisjs/**`
 - `apps/api/ace.js`
 - `apps/api/database/schema.ts`
-- `apps/web/src/routeTree.gen.ts`
-- `apps/web/src/libs/i18n/build/**`
+- `apps/client/src/routeTree.gen.ts`
+- `apps/admin/src/routeTree.gen.ts`
+- `apps/client/src/libs/i18n/build/**`
+- `apps/admin/src/libs/i18n/build/**`
 - `packages/ui/theme/src/tailwind.css`
 
-## CI & Deployment
+Les registres AdonisJS/Tuyau sont générés pendant le build de l'API, les bundles de traduction
+pendant l'installation et le développement des frontends, et le CSS Tailwind depuis
+`packages/ui/theme/src/tokens.ts`.
 
-GitHub Actions runs on pull requests. The active pipeline runs Biome, affected typecheck, and affected build; the test job exists but is currently commented out.
+## Déploiement
 
-The API Docker image prunes/builds the API package, exposes `8080`, then runs migrations before `node apps/api/bin/server.js`. The web Docker image builds with `VITE_API_BASE_URL` and serves `apps/web/dist/client` through nginx on port `80`.
+Chaque application dispose de son propre `Dockerfile` :
 
----
+- l'API est compilée avec AdonisJS, exécute les migrations au démarrage et expose le port `8080` ;
+- le client et l'administration produisent des applications statiques servies par Nginx sur le
+  port `80` ;
+- `VITE_API_BASE_URL` est injectée à la construction des frontends.
 
-<div align="center">
-  <i>Built with pnpm, Turbo, and the modern TypeScript web stack.</i>
-</div>
+## Documentation métier et technique
+
+Le dossier [`docs/`](docs/README.md) formalise la cible de reconstruction. Il complète le code,
+mais ne prouve pas à lui seul qu'une fonctionnalité est déjà disponible.
+
+- [Authentification et accès](docs/authentication/README.md)
+- [Acteurs, rôles et périmètres](docs/actors-and-access/README.md)
+- [Parcours BSE](docs/bse/README.md)
+- [Schéma de données cible](docs/database/schema.md)
+
+Le contexte opérationnel privé a servi à restituer le vocabulaire et les enjeux métier de ce
+README. Il ne doit pas être publié ni utilisé comme source de données de développement.

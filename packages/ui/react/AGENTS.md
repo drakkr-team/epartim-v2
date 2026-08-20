@@ -1,58 +1,62 @@
-# packages/ui/react KNOWLEDGE BASE
+# @workspace/ui-react
 
-## OVERVIEW
+## Scope
 
-React 19 UI component package with Base UI wrappers, composite components, Tailwind 4 tokens, tailwind-variants, lucide icons, sonner toasts, and Storybook docs.
+- Private React 19 UI workspace package.
+- ESM package; source is consumed directly.
+- No package build script.
+- TypeScript runs in strict, no-emit bundler mode.
+- Keep package guidance here; component authoring rules live in `src/components/AGENTS.md`.
 
-## WHERE TO LOOK
+## Public API
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Public exports | `package.json` | Exposes `components/*`, `icons`, `providers/*`, `hooks/*`; no `src/providers` files exist today. |
-| Storybook | `.storybook/main.ts`, `.storybook/preview.ts` | Centered layout, data-theme decorator, autodocs. |
-| Global CSS | `src/globals.css` | Imports Tailwind and `@workspace/ui-theme/tailwind`. |
-| Icons | `src/icons.ts` | Re-exports `lucide-react`. |
-| Shared hook | `src/hooks/use-element-size.ts` | Used by input slot sizing. |
-| Components | `src/components/*`, `src/components/AGENTS.md` | Folder-per-component implementation + barrel + story. |
-
-## STRUCTURE
-
-```text
-src/components/button/
-├── button.tsx
-├── button.stories.tsx
-└── index.ts
-```
-
-Same shape applies to alert-dialog, avatar, button, card, dialog, field, input, link, menu, password-input, scroll-area, sidebar, skeleton, spinner, switch, tabs, toast.
-
-## CONVENTIONS
-
-- Wrap Base UI primitives where useful; `toast`, `sidebar`, `card`, and `link` are composite/custom surfaces.
-- Export public component APIs from `index.ts`; many components use `Object.assign(Root, { Sub })`.
-- Type root props as primitive props plus `VariantProps<typeof variants>` when using `tv`.
-- Styling uses Tailwind utility strings through `tv`/`cn`, data attributes, and theme token names.
-- Stories colocate with components and use `Meta` / `StoryObj` from `@storybook/react-vite`.
-- Component public imports should go through `@workspace/ui-react/components/<name>`.
+- Import components only from `@workspace/ui-react/components/<name>`.
+- The `./components/*` export resolves to each component folder's `index.ts`.
+- Public component subpaths: `alert-dialog`, `autocomplete`, `avatar`, `button`, `card`.
+- Also: `checkbox`, `combobox`, `dialog`, `field`, `input`, `link`, `menu`.
+- Also: `number-input`, `password-input`, `scroll-area`, `select`, `sidebar`.
+- Also: `skeleton`, `spinner`, `switch`, `table`, `tabs`, `textarea`, `toast`, `tooltip`.
+- Each component barrel exports its named UI surface and its public prop types.
+- Base UI wrappers additionally expose their intentionally named `*Headless` aliases.
+- `@workspace/ui-react/components/toast` exports `toast`, `ExternalToast`, and `ToastProvider`.
+- `@workspace/ui-react/icons` re-exports all `lucide-react` icons.
+- `@workspace/ui-react/hooks/use-element-size` exports `useElementSize`.
+- `@workspace/ui-react/hooks/use-merge-refs` exports `useMergeRefs`.
 
 ## ANTI-PATTERNS
 
-- Do not import implementation files from consumers; use package export subpaths.
-- Do not bypass `src/globals.css` theme import in Storybook/app styling.
-- `className?.toString()` appears in current components; preserve behavior unless intentionally cleaning it up.
-- Password input has typo-ish internal state names; rename only with a focused cleanup.
+- Do not import component implementation files from consuming apps.
+- Do not invent unexported package entry points.
 
-## COMMANDS
+## Styling and tooling
+
+- `src/globals.css` imports Tailwind and `@workspace/ui-theme/tailwind`.
+- Storybook loads that global stylesheet; retain it when changing preview setup.
+- Vite uses React, React Compiler via Babel, and Tailwind plugins.
+- Package Biome enables recommended React and Tailwind domains.
+- Biome safely sorts Tailwind classes passed to `tv` and `cn`.
+- Keep source compatible with React 19, React DOM 19, Tailwind 4, and the UI theme peer dependency.
+
+## Storybook QA
+
+- Stories are discovered from `src/**/*.stories.@(js|jsx|mjs|ts|tsx)`.
+- There are 25 colocated component stories and 25 component barrels.
+- Docs and themes addons are enabled; docs default to `Documentation`.
+- Autodocs are globally tagged on.
+- Preview uses the centered layout and disables the backgrounds toolbar.
+- `on*` args are wired to the actions panel.
+- Theme decorators set `data-theme` to `light` or `dark`.
+- Theme decorators also apply the neutral background utility classes.
+- Manually inspect changed stories in both theme modes.
+- Exercise visible variants, disabled states, keyboard behavior, overlays, and responsive layout as applicable.
+
+## Commands
 
 ```bash
 pnpm --filter @workspace/ui-react dev
 pnpm --filter @workspace/ui-react typecheck
+pnpm --filter @workspace/ui-react exec biome check .
 ```
 
-## NOTES
-
-- There is no `build` script for this package today.
-- Biome Tailwind class sorting is configured for `tv`.
-- Storybook docs are the primary manual QA surface for components.
-- `package.json` currently advertises `./providers/*`, but there is no `src/providers` directory.
-- Component-folder rules live in `src/components/AGENTS.md`; keep package-level docs focused on exports/package behavior.
+- `dev` starts Storybook on port 6006 without opening a browser.
+- This package defines no build or test script.

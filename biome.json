@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!.turbo", "!node_modules"]
+		"includes": ["**", "!.turbo", "!node_modules", "!.context", "!.omo"]
 	},
 	"formatter": {
 		"enabled": true,
