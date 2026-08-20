@@ -1,5 +1,6 @@
 import factory from "@adonisjs/lucid/factories";
 
+import { AddressFactory } from "#database/factories/address.factory";
 import Firm from "#models/firm";
 
 export const FirmFactory = factory
@@ -13,4 +14,5 @@ export const FirmFactory = factory
 		orias: faker.string.numeric(8),
 		paymentDetailsId: null,
 	}))
+	.relation("address", () => AddressFactory)
 	.build();

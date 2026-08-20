@@ -1,13 +1,18 @@
+import app from "@adonisjs/core/services/app";
 import { BaseSeeder } from "@adonisjs/lucid/seeders";
 
-import ProjectSeeder from "#database/seeders/main/project_seeder";
-
 export default class extends BaseSeeder {
-	static environment = ["development"];
+	private async seed(SeederModule: { default: typeof BaseSeeder }) {
+		const Seeder = SeederModule.default;
+
+		if (Seeder.environment && !Seeder.environment.includes(app.nodeEnvironment)) {
+			return;
+		}
+
+		await new Seeder(this.client).run();
+	}
 
 	async run() {
-		for (const Seeder of [ProjectSeeder]) {
-			await new Seeder(this.client).run();
-		}
+		await this.seed(await import("#database/seeders/network_seeder"));
 	}
 }
