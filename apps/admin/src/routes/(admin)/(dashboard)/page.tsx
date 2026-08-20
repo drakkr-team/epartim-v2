@@ -15,7 +15,7 @@ function DashboardPage() {
 					Pilotage de la plateforme
 				</h1>
 				<p className="mt-2 max-w-2xl text-neutral-11">
-					Espace d’administration en cours de construction.
+					Socle admin dedie aux comptes, invitations, roles, cabinets et reseaux.
 				</p>
 			</div>
 		</section>
