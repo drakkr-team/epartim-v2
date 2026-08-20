@@ -21,11 +21,11 @@ function Page() {
 	return (
 		<>
 			<header className="mb-6">
-				<p className="font-semibold text-[10.5px] text-brand-gold-strong uppercase tracking-[0.18em]">
+				<p className="font-semibold text-[10.5px] text-secondary-11 uppercase tracking-[0.18em]">
 					{t("eyebrow")}
 				</p>
-				<h1 className="mt-1.5 font-bold text-[26px] text-brand-navy leading-tight">{t("title")}</h1>
-				<p className="mt-1.5 text-[13px] text-brand-ink-muted leading-snug">{t("description")}</p>
+				<h1 className="mt-1.5 font-bold text-[26px] text-primary-12 leading-tight">{t("title")}</h1>
+				<p className="mt-1.5 text-[13px] text-neutral-11 leading-snug">{t("description")}</p>
 			</header>
 
 			<LoginForm redirectTo={redirectTo} />
