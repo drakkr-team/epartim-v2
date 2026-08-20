@@ -9,3 +9,9 @@ export type File = Awaited<ReturnType<typeof import("#presenters/file.presenter"
 export type Pagination = Awaited<ReturnType<typeof import("#presenters/pagination.presenter").default.prototype.toJSON>>;
 
 export type User = Awaited<ReturnType<typeof import("#presenters/user.presenter").default.prototype.toJSON>>;
+
+export type Address = Awaited<ReturnType<typeof import("#presenters/address.presenter").default.prototype.toJSON>>;
+
+export type Firm = Awaited<ReturnType<typeof import("#presenters/firm.presenter").default.prototype.toJSON>>;
+
+export type Network = Awaited<ReturnType<typeof import("#presenters/network.presenter").default.prototype.toJSON>>;
