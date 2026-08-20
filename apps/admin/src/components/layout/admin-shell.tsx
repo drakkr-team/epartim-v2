@@ -12,8 +12,8 @@ const navigationItems = [
 export function AdminShell({ children }: PropsWithChildren) {
 	return (
 		<div className="flex min-h-svh bg-secondary-2 text-neutral-12">
-			<UiSidebar className="w-64 border-r-0 bg-primary-12 text-primary-1">
-				<UiSidebar.Header className="px-6 pt-10 pb-4">
+			<UiSidebar>
+				<UiSidebar.Header>
 					<Link className="inline-flex font-bold text-2xl tracking-[-0.06em]" to="/">
 						epartim<span className="text-secondary-9">.</span>
 					</Link>
@@ -22,12 +22,10 @@ export function AdminShell({ children }: PropsWithChildren) {
 					</p>
 				</UiSidebar.Header>
 
-				<UiSidebar.Body className="px-4 pt-0 pb-6">
+				<UiSidebar.Body>
 					<nav aria-label="Navigation principale">
-						<UiSidebar.Group className="mt-5">
-							<UiSidebar.GroupLabel className="font-semibold text-secondary-9 text-xs uppercase tracking-[0.2em]">
-								Gestion
-							</UiSidebar.GroupLabel>
+						<UiSidebar.Group>
+							<UiSidebar.GroupLabel>Gestion</UiSidebar.GroupLabel>
 							<div className="mt-2 grid gap-1">
 								{navigationItems.map((item) => {
 									const Icon = item.icon;
@@ -35,14 +33,7 @@ export function AdminShell({ children }: PropsWithChildren) {
 									return (
 										<Link activeOptions={{ exact: true }} key={item.to} to={item.to}>
 											{({ isActive }) => (
-												<UiSidebar.Item
-													active={isActive}
-													className={`text-xs ${
-														isActive
-															? "relative bg-primary-5/15 font-semibold text-secondary-9 before:absolute before:inset-y-2 before:left-0 before:w-0.5 before:rounded-r before:bg-secondary-9"
-															: "text-primary-6 hover:bg-primary-5/10 hover:text-primary-1 focus-visible:outline-2 focus-visible:outline-secondary-9 focus-visible:outline-offset-2"
-													}`}
-												>
+												<UiSidebar.Item active={isActive}>
 													<Icon aria-hidden="true" />
 													{item.label}
 												</UiSidebar.Item>
