@@ -1,15 +1,14 @@
 import { withAuthFinder } from "@adonisjs/auth/mixins/lucid";
 import { compose } from "@adonisjs/core/helpers";
 import hash from "@adonisjs/core/services/hash";
-import { belongsTo, column, hasMany, manyToMany } from "@adonisjs/lucid/orm";
-import type { BelongsTo, HasMany, ManyToMany } from "@adonisjs/lucid/types/relations";
+import { belongsTo, column, manyToMany } from "@adonisjs/lucid/orm";
+import type { BelongsTo, ManyToMany } from "@adonisjs/lucid/types/relations";
 import { DateTime } from "luxon";
 
 import { UserSchema } from "#database/schema";
 import Firm from "#models/firm";
 import Network from "#models/network";
 import Role from "#models/role";
-import UserInvitation from "#models/user_invitation";
 
 const authFinder = withAuthFinder(() => hash.use("scrypt"), {
 	uids: ["email"],
@@ -65,12 +64,4 @@ export default class User extends compose(UserSchema, authFinder) {
 
 	@manyToMany(() => Role, { pivotTable: "user_roles" })
 	declare roles: ManyToMany<typeof Role>;
-
-	@hasMany(() => UserInvitation)
-	declare invitations: HasMany<typeof UserInvitation>;
-
-	@hasMany(() => UserInvitation, {
-		foreignKey: "invitedByUserId",
-	})
-	declare sentInvitations: HasMany<typeof UserInvitation>;
 }

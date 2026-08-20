@@ -1,47 +1,57 @@
-import { createHash } from "node:crypto";
-
 import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 import db from "@adonisjs/lucid/services/db";
-import { DateTime } from "luxon";
 
 import InvalidTokenException from "#exceptions/invalid_token.exception";
 import InvalidUserStateException from "#exceptions/invalid_user_state.exception";
-import UserInvitation from "#models/user_invitation";
+import UserInvitationStoreService from "#features/admin/users/services/user_invitation_store.service";
+import User from "#models/user";
 
 @inject()
 export default class InvitationActivationService {
-	constructor(private ctx: HttpContext) {}
+	constructor(
+		private ctx: HttpContext,
+		private userInvitationStore: UserInvitationStoreService,
+	) {}
 
 	async accept(token: string, password: string) {
+		const invitation = await this.userInvitationStore.consume(token);
+		if (!invitation) throw new InvalidTokenException();
+
 		const transaction = await db.transaction();
+		let committed = false;
 		try {
-			const tokenHash = createHash("sha256").update(token).digest("hex");
-			const invitation = await UserInvitation.query({ client: transaction })
-				.where("token_hash", tokenHash)
-				.whereNull("accepted_at")
-				.whereNull("revoked_at")
-				.where("expires_at", ">", DateTime.now().toSQL()!)
-				.preload("user")
+			const user = await User.query({ client: transaction })
+				.where("id", invitation.userId)
 				.forUpdate()
 				.first();
 
-			if (!invitation) throw new InvalidTokenException();
-			if (invitation.user.status !== "invited") throw new InvalidUserStateException();
+			if (!user) throw new InvalidTokenException();
+			if (user.status !== "invited") throw new InvalidUserStateException();
 
-			invitation.user.useTransaction(transaction);
-			await invitation.user.merge({ password, status: "active" }).save();
-			invitation.useTransaction(transaction);
-			await invitation.merge({ acceptedAt: DateTime.now() }).save();
+			user.useTransaction(transaction);
+			await user.merge({ password, status: "active" }).save();
 			await transaction.commit();
-
-			await this.ctx.auth.use("client").login(invitation.user);
-			this.ctx.session.put("authVersion", invitation.user.authVersion);
-
-			return invitation.user;
+			committed = true;
 		} catch (error) {
-			await transaction.rollback();
+			if (!committed) {
+				await transaction.rollback();
+			}
+			if (
+				!committed &&
+				!(error instanceof InvalidTokenException) &&
+				!(error instanceof InvalidUserStateException)
+			) {
+				await this.userInvitationStore.restore(invitation);
+			}
 			throw error;
 		}
+
+		await this.userInvitationStore.invalidate(invitation);
+		const user = await User.findOrFail(invitation.userId);
+		await this.ctx.auth.use("client").login(user);
+		this.ctx.session.put("authVersion", user.authVersion);
+
+		return user;
 	}
 }

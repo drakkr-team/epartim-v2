@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { BaseSeeder } from "@adonisjs/lucid/seeders";
 import { DateTime } from "luxon";
 
+import UserInvitationStoreService from "#features/admin/users/services/user_invitation_store.service";
 import Role from "#models/role";
 import User from "#models/user";
 
@@ -56,8 +57,9 @@ export default class UserSeeder extends BaseSeeder {
 	}
 
 	private async seedInvitation() {
-		const now = DateTime.now().toJSDate();
+		const now = DateTime.now();
 		const invitationTokenHash = createHash("sha256").update("dev-invitation-token").digest("hex");
+		const invitationStore = new UserInvitationStoreService();
 
 		const invitedUser = await this.client
 			.getWriteClient()
@@ -69,39 +71,14 @@ export default class UserSeeder extends BaseSeeder {
 			return;
 		}
 
-		await this.client
-			.getWriteClient()
-			.table("user_invitations")
-			.where("user_id", invitedUser.id)
-			.whereNull("accepted_at")
-			.whereNull("revoked_at")
-			.whereNot("token_hash", invitationTokenHash)
-			.update({
-				revoked_at: now,
-				updated_at: now,
-			});
-
-		await this.client
-			.getWriteClient()
-			.table("user_invitations")
-			.insert({
-				user_id: invitedUser.id,
-				invited_by_user_id: null,
-				token_hash: invitationTokenHash,
-				email: "invited@example.com",
-				sent_at: now,
-				expires_at: DateTime.now().plus({ days: 7 }).toJSDate(),
-				created_at: now,
-				updated_at: now,
-			})
-			.onConflict("token_hash")
-			.merge({
-				email: "invited@example.com",
-				sent_at: now,
-				expires_at: DateTime.now().plus({ days: 7 }).toJSDate(),
-				accepted_at: null,
-				revoked_at: null,
-				updated_at: now,
-			});
+		await invitationStore.invalidateByUserId(invitedUser.id);
+		await invitationStore.restore({
+			userId: invitedUser.id,
+			invitedByUserId: null,
+			email: "invited@example.com",
+			tokenHash: invitationTokenHash,
+			sentAt: now.toISO()!,
+			expiresAt: now.plus({ days: 7 }).toISO()!,
+		});
 	}
 }

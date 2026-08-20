@@ -1,7 +1,7 @@
-import type UserInvitation from "#models/user_invitation";
+import type { UserInvitationView } from "#features/admin/users/services/user_invitation_store.service";
 
 export default class UserInvitationPresenter {
-	toJSON(invitation: UserInvitation | null) {
+	toJSON(invitation: UserInvitationView | null) {
 		if (!invitation) return null;
 
 		return {

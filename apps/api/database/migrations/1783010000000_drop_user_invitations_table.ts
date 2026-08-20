@@ -4,6 +4,10 @@ export default class extends BaseSchema {
 	protected tableName = "user_invitations";
 
 	async up() {
+		this.schema.dropTableIfExists(this.tableName);
+	}
+
+	async down() {
 		this.schema.createTable(this.tableName, (table) => {
 			table.increments("id").notNullable();
 			table
@@ -39,9 +43,5 @@ export default class extends BaseSchema {
 			ON "${this.tableName}" ("user_id")
 			WHERE "accepted_at" IS NULL AND "revoked_at" IS NULL
 		`);
-	}
-
-	async down() {
-		this.schema.dropTableIfExists(this.tableName);
 	}
 }

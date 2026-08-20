@@ -1,7 +1,5 @@
-import { createHash, randomBytes } from "node:crypto";
-
+import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
-import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import { DateTime } from "luxon";
 
 import EmailAlreadyExistsException from "#exceptions/email_already_exists.exception";
@@ -9,11 +7,13 @@ import ForbiddenUserOperationException from "#exceptions/forbidden_user_operatio
 import InvalidUserAssignmentException from "#exceptions/invalid_user_assignment.exception";
 import InvalidUserStateException from "#exceptions/invalid_user_state.exception";
 import SendAccountInvitation from "#features/admin/users/jobs/send_account_invitation.job";
+import UserInvitationStoreService, {
+	type CreatedUserInvitation,
+} from "#features/admin/users/services/user_invitation_store.service";
 import Firm from "#models/firm";
 import Network from "#models/network";
 import Role, { type RoleCode } from "#models/role";
 import User from "#models/user";
-import UserInvitation from "#models/user_invitation";
 import env from "#start/env";
 
 export type UserInput = {
@@ -26,13 +26,15 @@ export type UserInput = {
 	networkId?: number | null;
 };
 
+@inject()
 export default class AdminUserService {
+	constructor(private userInvitationStore: UserInvitationStoreService) {}
+
 	async list(filters: { status?: string; role?: string; firmId?: number; networkId?: number }) {
 		const query = User.query()
 			.preload("roles")
 			.preload("firm", (firmQuery) => firmQuery.preload("network"))
-			.preload("network")
-			.preload("invitations", (invitationQuery) => invitationQuery.orderBy("created_at", "desc"));
+			.preload("network");
 
 		if (filters.status) query.where("status", filters.status);
 		if (filters.firmId) query.where("firm_id", filters.firmId);
@@ -56,7 +58,6 @@ export default class AdminUserService {
 			.preload("roles")
 			.preload("firm", (firmQuery) => firmQuery.preload("network"))
 			.preload("network")
-			.preload("invitations", (invitationQuery) => invitationQuery.orderBy("created_at", "desc"))
 			.firstOrFail();
 	}
 
@@ -68,6 +69,7 @@ export default class AdminUserService {
 
 		const assignment = await this.resolveAssignment(input);
 		const transaction = await db.transaction();
+		let committed = false;
 
 		try {
 			const user = new User();
@@ -86,13 +88,16 @@ export default class AdminUserService {
 			await user.save();
 			await user.related("roles").sync([assignment.role.id]);
 
-			const invitation = await this.createInvitation(user, invitedBy, transaction);
 			await transaction.commit();
+			committed = true;
+			const invitation = await this.createInvitation(user, invitedBy);
 			await this.dispatchInvitation(user, invitation);
 
 			return user;
 		} catch (error) {
-			await transaction.rollback();
+			if (!committed) {
+				await transaction.rollback();
+			}
 			throw error;
 		}
 	}
@@ -127,26 +132,15 @@ export default class AdminUserService {
 	async resend(user: User, invitedBy: User) {
 		if (user.status !== "invited") throw new InvalidUserStateException();
 
-		const transaction = await db.transaction();
-		try {
-			const invitation = await this.createInvitation(user, invitedBy, transaction);
-			await transaction.commit();
-			await this.dispatchInvitation(user, invitation);
-			return invitation;
-		} catch (error) {
-			await transaction.rollback();
-			throw error;
-		}
+		const invitation = await this.createInvitation(user, invitedBy);
+		await this.dispatchInvitation(user, invitation);
+		return this.userInvitationStore.toView(invitation);
 	}
 
 	async cancelInvitation(user: User) {
 		if (user.status !== "invited") throw new InvalidUserStateException();
 
-		await UserInvitation.query()
-			.where("user_id", user.id)
-			.whereNull("accepted_at")
-			.whereNull("revoked_at")
-			.update({ revokedAt: DateTime.now() });
+		await this.userInvitationStore.invalidateByUserId(user.id);
 	}
 
 	async disable(user: User, actor: User) {
@@ -207,37 +201,27 @@ export default class AdminUserService {
 		return { role, firmId: firm.id, networkId: null };
 	}
 
-	private async createInvitation(
-		user: User,
-		invitedBy: User,
-		transaction: TransactionClientContract,
-	) {
-		await UserInvitation.query({ client: transaction })
-			.where("user_id", user.id)
-			.whereNull("accepted_at")
-			.whereNull("revoked_at")
-			.update({ revokedAt: DateTime.now() });
-
-		const token = randomBytes(32).toString("base64url");
-		const invitation = new UserInvitation();
-		invitation.useTransaction(transaction);
-		invitation.fill({
-			userId: user.id,
-			invitedByUserId: invitedBy.id,
-			tokenHash: createHash("sha256").update(token).digest("hex"),
-			email: user.email,
-			sentAt: DateTime.now(),
-			expiresAt: DateTime.now().plus({ days: 7 }),
-		});
-		await invitation.save();
-
-		invitation.$extras.clearToken = token;
-		return invitation;
+	async getInvitation(userId: number) {
+		return this.userInvitationStore.toView(await this.userInvitationStore.getByUserId(userId));
 	}
 
-	private async dispatchInvitation(user: User, invitation: UserInvitation) {
+	async getInvitations(userIds: number[]) {
+		const invitations = await this.userInvitationStore.getByUserIds(userIds);
+		return new Map(
+			userIds.map((userId) => [
+				userId,
+				this.userInvitationStore.toView(invitations.get(userId) ?? null),
+			]),
+		);
+	}
+
+	private async createInvitation(user: User, invitedBy: User) {
+		return this.userInvitationStore.create(user, invitedBy.id);
+	}
+
+	private async dispatchInvitation(user: User, invitation: CreatedUserInvitation) {
 		const activationUrl = new URL("/activate-account", env.get("FRONTEND_URL"));
-		activationUrl.searchParams.set("token", invitation.$extras.clearToken as string);
+		activationUrl.searchParams.set("token", invitation.clearToken);
 		await SendAccountInvitation.dispatch({ user, activationUrl });
 	}
 

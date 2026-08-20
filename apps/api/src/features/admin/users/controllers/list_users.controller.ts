@@ -21,11 +21,12 @@ export default class ListUsersController {
 			firmId: filters.firmId ? Number(filters.firmId) : undefined,
 			networkId: filters.networkId ? Number(filters.networkId) : undefined,
 		});
+		const invitations = await this.adminUserService.getInvitations(users.map((user) => user.id));
 
 		return Promise.all(
 			users.map(async (user) => ({
 				...(await this.userPresenter.toJSON(user)),
-				invitation: this.userInvitationPresenter.toJSON(user.invitations[0] || null),
+				invitation: this.userInvitationPresenter.toJSON(invitations.get(user.id) ?? null),
 			})),
 		);
 	}

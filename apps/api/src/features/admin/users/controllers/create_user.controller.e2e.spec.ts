@@ -3,9 +3,9 @@ import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
 import SendAccountInvitation from "#features/admin/users/jobs/send_account_invitation.job";
+import UserInvitationStoreService from "#features/admin/users/services/user_invitation_store.service";
 import Role from "#models/role";
 import User from "#models/user";
-import UserInvitation from "#models/user_invitation";
 
 async function createAdministrator() {
 	const user = await UserFactory.create();
@@ -24,6 +24,7 @@ test.group("Features / User Management / Administration / Controllers / Create U
 
 	test("it creates an invited user and queues an activation email", async ({ client, assert }) => {
 		const fakeQueueManager = QueueManager.fake();
+		const invitationStore = new UserInvitationStoreService();
 		const administrator = await createAdministrator();
 
 		const response = await client.visit("admin.create_user").loginAs(administrator).json({
@@ -38,7 +39,7 @@ test.group("Features / User Management / Administration / Controllers / Create U
 		response.assertOk();
 		const user = await User.findByOrFail("email", "new-user@example.com");
 		assert.equal(user.status, "invited");
-		assert.isNotNull(await UserInvitation.findBy("userId", user.id));
+		assert.isNotNull(await invitationStore.getByUserId(user.id));
 		fakeQueueManager.assertPushed(SendAccountInvitation);
 	});
 

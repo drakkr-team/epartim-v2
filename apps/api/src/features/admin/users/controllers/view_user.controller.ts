@@ -15,9 +15,10 @@ export default class ViewUserController {
 
 	async handle({ request }: HttpContext) {
 		const user = await this.adminUserService.find(Number(request.param("id")));
+		const invitation = await this.adminUserService.getInvitation(user.id);
 		return {
 			...(await this.userPresenter.toJSON(user)),
-			invitation: this.userInvitationPresenter.toJSON(user.invitations[0] || null),
+			invitation: this.userInvitationPresenter.toJSON(invitation),
 		};
 	}
 }
