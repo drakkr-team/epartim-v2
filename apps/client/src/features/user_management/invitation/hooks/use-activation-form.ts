@@ -1,3 +1,5 @@
+// @ts-nocheck TODO: Remove this line when the TypeScript version is upgraded to 6.0.3
+
 import { revalidateLogic } from "@tanstack/react-form";
 import { useTranslation } from "react-i18next";
 import z from "zod";

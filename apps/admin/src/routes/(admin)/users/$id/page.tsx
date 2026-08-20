@@ -11,17 +11,15 @@ export const Route = createFileRoute("/(admin)/users/$id/")({ component: UserPag
 function UserPage() {
 	const { id } = Route.useParams();
 	const queryClient = useQueryClient();
-	const userQuery = useQuery(api.admin.viewUser.queryOptions({ params: { id } }));
+	const userQuery = useQuery(api.viewUser.queryOptions({ params: { id } }));
 	const invalidate = () => {
-		queryClient.invalidateQueries({ queryKey: api.admin.viewUser.pathKey() });
-		queryClient.invalidateQueries({ queryKey: api.admin.listUsers.pathKey() });
+		queryClient.invalidateQueries({ queryKey: api.viewUser.pathKey() });
+		queryClient.invalidateQueries({ queryKey: api.listUsers.pathKey() });
 	};
-	const resend = useMutation(api.admin.resendInvitation.mutationOptions({ onSuccess: invalidate }));
-	const cancel = useMutation(api.admin.cancelInvitation.mutationOptions({ onSuccess: invalidate }));
-	const disable = useMutation(api.admin.disableUser.mutationOptions({ onSuccess: invalidate }));
-	const reactivate = useMutation(
-		api.admin.reactivateUser.mutationOptions({ onSuccess: invalidate }),
-	);
+	const resend = useMutation(api.resendInvitation.mutationOptions({ onSuccess: invalidate }));
+	const cancel = useMutation(api.cancelInvitation.mutationOptions({ onSuccess: invalidate }));
+	const disable = useMutation(api.disableUser.mutationOptions({ onSuccess: invalidate }));
+	const reactivate = useMutation(api.reactivateUser.mutationOptions({ onSuccess: invalidate }));
 	const user = userQuery.data;
 
 	if (userQuery.isLoading) return <p className="text-neutral-11">Chargement…</p>;
