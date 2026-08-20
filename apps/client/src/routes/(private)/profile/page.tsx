@@ -11,5 +11,9 @@ export const Route = createFileRoute("/(private)/profile/")({
 function Page() {
 	const { data: currentUser } = useSuspenseQuery(api.userManagement.profile.view.queryOptions());
 
-	return <UpdateProfileForm defaultValues={{ name: currentUser.name }} />;
+	return (
+		<UpdateProfileForm
+			defaultValues={{ firstName: currentUser.firstName, lastName: currentUser.lastName }}
+		/>
+	);
 }

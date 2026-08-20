@@ -2,12 +2,9 @@ import { Link } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
-import { LayoutDashboardIcon, UsersIcon } from "@workspace/ui-react/icons";
+import { LayoutDashboardIcon } from "@workspace/ui-react/icons";
 
-const navigationItems = [
-	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon },
-	{ label: "Utilisateurs", to: "/users", icon: UsersIcon },
-];
+const navigationItems = [{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon }];
 
 export function AdminShell({ children }: PropsWithChildren) {
 	return (

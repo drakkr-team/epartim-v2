@@ -7,7 +7,8 @@ import { useAppForm } from "#/libs/form";
 
 export type UseUpdateProfileFormParams = {
 	defaultValues?: {
-		name?: string;
+		firstName?: string;
+		lastName?: string;
 	};
 };
 
@@ -19,7 +20,11 @@ export function useUpdateProfileForm(params?: UseUpdateProfileFormParams) {
 	const { mutateAsync: updateProfile } = useUpdateProfileMutation();
 
 	const schema = z.object({
-		name: z
+		firstName: z
+			.string({ error: t("validation.name.required") })
+			.min(2, { error: t("validation.name.min", { min: 2 }) })
+			.max(254, { error: t("validation.name.max", { max: 254 }) }),
+		lastName: z
 			.string({ error: t("validation.name.required") })
 			.min(2, { error: t("validation.name.min", { min: 2 }) })
 			.max(254, { error: t("validation.name.max", { max: 254 }) }),
@@ -27,7 +32,8 @@ export function useUpdateProfileForm(params?: UseUpdateProfileFormParams) {
 
 	return useAppForm({
 		defaultValues: {
-			name: "",
+			firstName: "",
+			lastName: "",
 			...defaultValues,
 		},
 		validationLogic: revalidateLogic(),

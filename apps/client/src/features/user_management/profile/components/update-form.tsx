@@ -43,8 +43,11 @@ export function UpdateProfileForm(props: UpdateProfileFormProps) {
 			</Card.Header>
 
 			<Card.Content className="grid max-w-96 gap-4">
-				<form.AppField name="name">
-					{(field) => <field.TextField label={t("fields.name.label")} />}
+				<form.AppField name="firstName">
+					{(field) => <field.TextField label={t("fields.firstName.label")} />}
+				</form.AppField>
+				<form.AppField name="lastName">
+					{(field) => <field.TextField label={t("fields.lastName.label")} />}
 				</form.AppField>
 			</Card.Content>
 		</Card>
