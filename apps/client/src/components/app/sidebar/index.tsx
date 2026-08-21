@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
+import { Logo } from "@workspace/ui-react/components/logo";
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
 import { FilePenLineIcon, WalletCardsIcon } from "@workspace/ui-react/icons";
 
@@ -29,9 +30,7 @@ export function Sidebar() {
 	return (
 		<UiSidebar>
 			<UiSidebar.Header>
-				<Link className="inline-flex font-bold text-2xl tracking-[-0.06em]" to="/client-portfolio">
-					epartim<span className="text-secondary-9">.</span>
-				</Link>
+					<Logo className="h-8 w-auto" />
 			</UiSidebar.Header>
 
 			<UiSidebar.Body>
