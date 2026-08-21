@@ -5,7 +5,7 @@ import vine from "@vinejs/vine";
 import UpdateUserPolicy from "#features/admin/users/policies/update.policy";
 import User from "#models/user";
 import UserPresenter from "#presenters/user.presenter";
-import { UpdateUserSchema } from "#validators/user.validator";
+import { UpdateAdminUserSchema } from "#validators/user.validator";
 
 @inject()
 export default class UpdateUserController {
@@ -24,5 +24,5 @@ export default class UpdateUserController {
 		return this.userPresenter.toJSON(user);
 	}
 
-	static payloadSchema = vine.create(UpdateUserSchema);
+	static payloadSchema = vine.create(UpdateAdminUserSchema);
 }

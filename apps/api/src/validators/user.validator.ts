@@ -10,7 +10,12 @@ export const CreateUserSchema = vine.object({
 	email: vine.string().trim().toLowerCase().email().maxLength(254),
 });
 
-export const UpdateUserSchema = vine.object({
+export const UpdateAdminUserSchema = vine.object({
 	firstName: UserNameSchema,
 	lastName: UserNameSchema,
+});
+
+export const UpdateUserSchema = vine.object({
+	firstName: UserNameSchema.optional(),
+	lastName: UserNameSchema.optional(),
 });
