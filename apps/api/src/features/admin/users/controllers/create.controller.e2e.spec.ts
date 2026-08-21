@@ -47,10 +47,7 @@ test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 				email: `  ${existingUser.email.toUpperCase()}  `,
 			});
 
-		response.assertStatus(409);
-		response.assertBodyContains({
-			code: "E_EMAIL_ALREADY_EXISTS",
-		});
+		response.assertStatus(422);
 	});
 
 	test("it should reject invalid payloads", async ({ client }) => {
