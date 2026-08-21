@@ -28,7 +28,7 @@ headers:
 method: POST
 name: Create user
 sortPriority: 0.0
-url: http://localhost:3333/admin/user-management/users
+url: http://localhost:3333/admin/users
 urlParameters: []
 settingSendCookies:
   enabled: false

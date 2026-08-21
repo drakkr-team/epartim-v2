@@ -18,7 +18,7 @@ headers:
 method: GET
 name: List users
 sortPriority: 0.0
-url: http://localhost:3333/admin/user-management/users
+url: http://localhost:3333/admin/users
 urlParameters:
 - enabled: true
   name: page
@@ -29,11 +29,11 @@ urlParameters:
   value: '20'
   id: null
 - enabled: true
-  name: sortBy
+  name: orderBy
   value: createdAt_desc
   id: null
 - enabled: false
-  name: search
+  name: q
   value: ''
   id: null
 settingSendCookies:

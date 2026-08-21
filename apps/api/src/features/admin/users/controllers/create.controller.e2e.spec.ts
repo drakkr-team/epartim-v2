@@ -5,7 +5,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import User from "#models/user";
 
-test.group("Features / Admin / User Management / Users / Controllers / Create Controller", () => {
+test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 	test("it should create a user with normalized fields", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.create();
 		const payload = {
@@ -16,7 +16,7 @@ test.group("Features / Admin / User Management / Users / Controllers / Create Co
 		};
 
 		const response = await client
-			.post("/admin/user-management/users")
+			.post("/admin/users")
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
 			.json(payload as Pick<typeof payload, "firstName" | "lastName" | "email">);
@@ -38,7 +38,7 @@ test.group("Features / Admin / User Management / Users / Controllers / Create Co
 		const existingUser = await UserFactory.merge({ email: "existing@example.com" }).create();
 
 		const response = await client
-			.visit("admin.user_management.users.create")
+			.visit("admin.users.create")
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
 			.json({
@@ -57,7 +57,7 @@ test.group("Features / Admin / User Management / Users / Controllers / Create Co
 		const authenticatedAdmin = await AdminFactory.create();
 
 		const response = await client
-			.visit("admin.user_management.users.create")
+			.visit("admin.users.create")
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
 			.json({
@@ -70,7 +70,7 @@ test.group("Features / Admin / User Management / Users / Controllers / Create Co
 	});
 
 	test("it should require admin authentication", async ({ client }) => {
-		const response = await client.visit("admin.user_management.users.create").json({
+		const response = await client.visit("admin.users.create").json({
 			firstName: "New",
 			lastName: "User",
 			email: "new.user@example.com",

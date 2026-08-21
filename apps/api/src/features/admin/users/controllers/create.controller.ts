@@ -5,7 +5,7 @@ import { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
 import EmailAlreadyExistsException from "#exceptions/email_already_exists.exception";
-import CreateUserPolicy from "#features/admin/user_management/users/policies/create.policy";
+import CreateUserPolicy from "#features/admin/users/policies/create.policy";
 import User from "#models/user";
 import UserPresenter from "#presenters/user.presenter";
 import { CreateUserSchema } from "#validators/user.validator";

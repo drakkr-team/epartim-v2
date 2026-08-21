@@ -18,35 +18,35 @@ const routes = {
     tokens: [{"old":"/admin/admin-management/profile","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/profile","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/profile","type":0,"val":"profile","end":""}],
     types: placeholder as Registry['admin.admin_management.profile.view']['types'],
   },
-  'admin.user_management.users.list': {
+  'admin.users.list': {
     methods: ["GET","HEAD"],
-    pattern: '/admin/user-management/users',
-    tokens: [{"old":"/admin/user-management/users","type":0,"val":"admin","end":""},{"old":"/admin/user-management/users","type":0,"val":"user-management","end":""},{"old":"/admin/user-management/users","type":0,"val":"users","end":""}],
-    types: placeholder as Registry['admin.user_management.users.list']['types'],
+    pattern: '/admin/users',
+    tokens: [{"old":"/admin/users","type":0,"val":"admin","end":""},{"old":"/admin/users","type":0,"val":"users","end":""}],
+    types: placeholder as Registry['admin.users.list']['types'],
   },
-  'admin.user_management.users.create': {
+  'admin.users.create': {
     methods: ["POST"],
-    pattern: '/admin/user-management/users',
-    tokens: [{"old":"/admin/user-management/users","type":0,"val":"admin","end":""},{"old":"/admin/user-management/users","type":0,"val":"user-management","end":""},{"old":"/admin/user-management/users","type":0,"val":"users","end":""}],
-    types: placeholder as Registry['admin.user_management.users.create']['types'],
+    pattern: '/admin/users',
+    tokens: [{"old":"/admin/users","type":0,"val":"admin","end":""},{"old":"/admin/users","type":0,"val":"users","end":""}],
+    types: placeholder as Registry['admin.users.create']['types'],
   },
-  'admin.user_management.users.view': {
+  'admin.users.view': {
     methods: ["GET","HEAD"],
-    pattern: '/admin/user-management/users/:id',
-    tokens: [{"old":"/admin/user-management/users/:id","type":0,"val":"admin","end":""},{"old":"/admin/user-management/users/:id","type":0,"val":"user-management","end":""},{"old":"/admin/user-management/users/:id","type":0,"val":"users","end":""},{"old":"/admin/user-management/users/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['admin.user_management.users.view']['types'],
+    pattern: '/admin/users/:userId',
+    tokens: [{"old":"/admin/users/:userId","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId","type":0,"val":"users","end":""},{"old":"/admin/users/:userId","type":1,"val":"userId","end":""}],
+    types: placeholder as Registry['admin.users.view']['types'],
   },
-  'admin.user_management.users.update': {
+  'admin.users.update': {
     methods: ["PATCH"],
-    pattern: '/admin/user-management/users/:id',
-    tokens: [{"old":"/admin/user-management/users/:id","type":0,"val":"admin","end":""},{"old":"/admin/user-management/users/:id","type":0,"val":"user-management","end":""},{"old":"/admin/user-management/users/:id","type":0,"val":"users","end":""},{"old":"/admin/user-management/users/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['admin.user_management.users.update']['types'],
+    pattern: '/admin/users/:userId',
+    tokens: [{"old":"/admin/users/:userId","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId","type":0,"val":"users","end":""},{"old":"/admin/users/:userId","type":1,"val":"userId","end":""}],
+    types: placeholder as Registry['admin.users.update']['types'],
   },
-  'admin.user_management.users.delete': {
+  'admin.users.delete': {
     methods: ["DELETE"],
-    pattern: '/admin/user-management/users/:id',
-    tokens: [{"old":"/admin/user-management/users/:id","type":0,"val":"admin","end":""},{"old":"/admin/user-management/users/:id","type":0,"val":"user-management","end":""},{"old":"/admin/user-management/users/:id","type":0,"val":"users","end":""},{"old":"/admin/user-management/users/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['admin.user_management.users.delete']['types'],
+    pattern: '/admin/users/:userId',
+    tokens: [{"old":"/admin/users/:userId","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId","type":0,"val":"users","end":""},{"old":"/admin/users/:userId","type":1,"val":"userId","end":""}],
+    types: placeholder as Registry['admin.users.delete']['types'],
   },
   'client.user_management.profile.view': {
     methods: ["GET","HEAD"],

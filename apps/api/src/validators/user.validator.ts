@@ -10,28 +10,6 @@ export const CreateUserSchema = vine.object({
 	email: vine.string().trim().toLowerCase().email().maxLength(254),
 });
 
-export const UserSortOptions = [
-	"id_asc",
-	"id_desc",
-	"firstName_asc",
-	"firstName_desc",
-	"lastName_asc",
-	"lastName_desc",
-	"email_asc",
-	"email_desc",
-	"createdAt_asc",
-	"createdAt_desc",
-	"updatedAt_asc",
-	"updatedAt_desc",
-] as const;
-
-export const ListUsersSchema = vine.object({
-	page: vine.number().min(1).optional(),
-	perPage: vine.number().min(1).optional(),
-	search: vine.string().trim().optional(),
-	sortBy: vine.enum(UserSortOptions).optional(),
-});
-
 export const UpdateManagedUserSchema = vine.object({
 	firstName: UserNameSchema,
 	lastName: UserNameSchema,

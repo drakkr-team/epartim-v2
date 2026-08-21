@@ -4,7 +4,7 @@ import Admin from "#models/admin";
 import User from "#models/user";
 
 export default class DeleteUserPolicy extends BasePolicy {
-	handle(_authenticatedAccount: Admin | User, _targetUser: User) {
-		return true;
+	handle(currentUser: Admin | User, _userId: number | string) {
+		return currentUser instanceof Admin;
 	}
 }

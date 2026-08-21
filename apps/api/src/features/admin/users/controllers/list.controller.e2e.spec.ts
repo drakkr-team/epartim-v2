@@ -4,7 +4,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import User from "#models/user";
 
-test.group("Features / Admin / User Management / Users / Controllers / List Controller", () => {
+test.group("Features / Admin / Users / Controllers / List Controller", () => {
 	test("it should paginate every user with the documented defaults", async ({ client, assert }) => {
 		const existingUserCount = (await User.all()).length;
 		const authenticatedAdmin = await AdminFactory.create();
@@ -12,7 +12,7 @@ test.group("Features / Admin / User Management / Users / Controllers / List Cont
 		const expectedTotal = existingUserCount + 21;
 
 		const response = await client
-			.visit("admin.user_management.users.list")
+			.visit("admin.users.list")
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin);
 
@@ -24,6 +24,7 @@ test.group("Features / Admin / User Management / Users / Controllers / List Cont
 				currentPage: 1,
 				firstPage: 1,
 				lastPage: Math.ceil(expectedTotal / 20),
+				canCreate: true,
 			},
 		});
 		assert.lengthOf(response.body().data, 20);
@@ -32,26 +33,26 @@ test.group("Features / Admin / User Management / Users / Controllers / List Cont
 	test("it should search names and emails case-insensitively", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.create();
 		const firstNameMatch = await UserFactory.merge({
-			firstName: "Alpha",
+			firstName: "UserSearchUnique",
 			lastName: "Manager",
 			email: "unrelated@example.com",
 		}).create();
 		const lastNameMatch = await UserFactory.merge({
 			firstName: "Unrelated",
-			lastName: "Alpha",
+			lastName: "UserSearchUnique",
 			email: "another@example.com",
 		}).create();
 		const emailMatch = await UserFactory.merge({
 			firstName: "Unrelated",
 			lastName: "User",
-			email: "alpha@example.com",
+			email: "usersearchunique@example.com",
 		}).create();
 
 		const response = await client
-			.visit("admin.user_management.users.list")
+			.visit("admin.users.list")
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
-			.qs({ search: "  ALPHA  ", perPage: 100 });
+			.qs({ q: "  USERSEARCHUNIQUE  ", perPage: 100 });
 
 		response.assertOk();
 		assert.sameMembers(
@@ -69,15 +70,15 @@ test.group("Features / Admin / User Management / Users / Controllers / List Cont
 		const second = await UserFactory.merge({ firstName: "Same", lastName: "Bravo" }).create();
 		const targetIds = [String(first.id), String(second.id)];
 
-		for (const [sortBy, expectedIds] of [
+		for (const [orderBy, expectedIds] of [
 			["firstName_asc", targetIds],
 			["firstName_desc", [...targetIds].reverse()],
 		] as const) {
 			const response = await client
-				.visit("admin.user_management.users.list")
+				.visit("admin.users.list")
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin)
-				.qs({ sortBy, perPage: 100 });
+				.qs({ orderBy, perPage: 100 });
 
 			assert.deepEqual(
 				response
@@ -89,12 +90,12 @@ test.group("Features / Admin / User Management / Users / Controllers / List Cont
 		}
 	});
 
-	test("it should reject invalid pagination and sorting parameters", async ({ client }) => {
+	test("it should reject invalid pagination parameters", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.create();
 
-		for (const query of ["page=0", "perPage=0", "sortBy=invalid"]) {
+		for (const query of ["page=0", "perPage=0", "perPage=1.5"]) {
 			const response = await client
-				.get(`/admin/user-management/users?${query}`)
+				.get(`/admin/users?${query}`)
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin);
 
@@ -103,7 +104,7 @@ test.group("Features / Admin / User Management / Users / Controllers / List Cont
 	});
 
 	test("it should require admin authentication", async ({ client }) => {
-		const response = await client.visit("admin.user_management.users.list");
+		const response = await client.visit("admin.users.list");
 
 		response.assertUnauthorized();
 		response.assertBodyContains({

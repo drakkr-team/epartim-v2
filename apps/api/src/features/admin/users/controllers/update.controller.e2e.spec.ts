@@ -3,13 +3,13 @@ import { test } from "@japa/runner";
 import { AdminFactory } from "#database/factories/admin.factory";
 import { UserFactory } from "#database/factories/user.factory";
 
-test.group("Features / Admin / User Management / Users / Controllers / Update Controller", () => {
+test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 	test("it should update and normalize a user name", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.create();
 		const targetUser = await UserFactory.create();
 
 		const response = await client
-			.visit("admin.user_management.users.update", { id: targetUser.id })
+			.visit("admin.users.update", { userId: targetUser.id })
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
 			.json({
@@ -42,7 +42,7 @@ test.group("Features / Admin / User Management / Users / Controllers / Update Co
 		};
 
 		const response = await client
-			.patch(`/admin/user-management/users/${targetUser.id}`)
+			.patch(`/admin/users/${targetUser.id}`)
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
 			.json(payload as Pick<typeof payload, "firstName" | "lastName">);
@@ -61,7 +61,7 @@ test.group("Features / Admin / User Management / Users / Controllers / Update Co
 
 		for (const payload of [{}, { firstName: "Only" }, { firstName: " ", lastName: "User" }]) {
 			const response = await client
-				.patch(`/admin/user-management/users/${targetUser.id}`)
+				.patch(`/admin/users/${targetUser.id}`)
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin)
 				.json(payload);
@@ -75,7 +75,7 @@ test.group("Features / Admin / User Management / Users / Controllers / Update Co
 
 		for (const id of ["999999", "invalid", "0", "-1"]) {
 			const response = await client
-				.patch(`/admin/user-management/users/${id}`)
+				.patch(`/admin/users/${id}`)
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin)
 				.json({ firstName: "Updated", lastName: "User" });
@@ -87,7 +87,7 @@ test.group("Features / Admin / User Management / Users / Controllers / Update Co
 	test("it should require admin authentication", async ({ client }) => {
 		const targetUser = await UserFactory.create();
 		const response = await client
-			.visit("admin.user_management.users.update", { id: targetUser.id })
+			.visit("admin.users.update", { userId: targetUser.id })
 			.json({ firstName: "Updated", lastName: "User" });
 
 		response.assertUnauthorized();

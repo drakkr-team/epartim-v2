@@ -21,14 +21,12 @@ export interface ApiDefinition {
         reset: typeof routes['admin.admin_management.password.reset']
       }
     }
-    userManagement: {
-      users: {
-        list: typeof routes['admin.user_management.users.list']
-        create: typeof routes['admin.user_management.users.create']
-        view: typeof routes['admin.user_management.users.view']
-        update: typeof routes['admin.user_management.users.update']
-        delete: typeof routes['admin.user_management.users.delete']
-      }
+    users: {
+      list: typeof routes['admin.users.list']
+      create: typeof routes['admin.users.create']
+      view: typeof routes['admin.users.view']
+      update: typeof routes['admin.users.update']
+      delete: typeof routes['admin.users.delete']
     }
   }
   client: {

@@ -18,7 +18,7 @@ headers:
 method: GET
 name: View user
 sortPriority: 0.0
-url: http://localhost:3333/admin/user-management/users/${[ USER_ID ]}
+url: http://localhost:3333/admin/users/${[ USER_ID ]}
 urlParameters: []
 settingSendCookies:
   enabled: false
