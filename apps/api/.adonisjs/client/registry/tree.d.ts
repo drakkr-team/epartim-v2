@@ -9,13 +9,6 @@ export interface ApiDefinition {
   }
   admin: {
     adminManagement: {
-      admins: {
-        list: typeof routes['admin.admin_management.admins.list']
-        create: typeof routes['admin.admin_management.admins.create']
-        view: typeof routes['admin.admin_management.admins.view']
-        update: typeof routes['admin.admin_management.admins.update']
-        delete: typeof routes['admin.admin_management.admins.delete']
-      }
       profile: {
         view: typeof routes['admin.admin_management.profile.view']
       }
@@ -27,6 +20,13 @@ export interface ApiDefinition {
         forgot: typeof routes['admin.admin_management.password.forgot']
         reset: typeof routes['admin.admin_management.password.reset']
       }
+    }
+    admins: {
+      list: typeof routes['admin.admins.list']
+      create: typeof routes['admin.admins.create']
+      view: typeof routes['admin.admins.view']
+      update: typeof routes['admin.admins.update']
+      delete: typeof routes['admin.admins.delete']
     }
   }
   client: {

@@ -49,7 +49,7 @@ export class FileSchema extends BaseModel {
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
-  declare id: number
+  declare id: bigint | number
   @column()
   declare key: string
   @column()

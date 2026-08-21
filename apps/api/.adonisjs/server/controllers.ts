@@ -7,13 +7,6 @@ export const controllers = {
   features: {
     admin: {
       adminManagement: {
-        admins: {
-          Create: () => import('#src/features/admin/admin_management/admins/controllers/create.controller'),
-          Delete: () => import('#src/features/admin/admin_management/admins/controllers/delete.controller'),
-          List: () => import('#src/features/admin/admin_management/admins/controllers/list.controller'),
-          Update: () => import('#src/features/admin/admin_management/admins/controllers/update.controller'),
-          View: () => import('#src/features/admin/admin_management/admins/controllers/view.controller'),
-        },
         authentication: {
           Login: () => import('#src/features/admin/admin_management/authentication/controllers/login.controller'),
           Logout: () => import('#src/features/admin/admin_management/authentication/controllers/logout.controller'),
@@ -25,6 +18,13 @@ export const controllers = {
         profile: {
           View: () => import('#src/features/admin/admin_management/profile/controllers/view.controller'),
         },
+      },
+      admins: {
+        Create: () => import('#src/features/admin/admins/controllers/create.controller'),
+        Delete: () => import('#src/features/admin/admins/controllers/delete.controller'),
+        List: () => import('#src/features/admin/admins/controllers/list.controller'),
+        Update: () => import('#src/features/admin/admins/controllers/update.controller'),
+        View: () => import('#src/features/admin/admins/controllers/view.controller'),
       },
     },
     client: {

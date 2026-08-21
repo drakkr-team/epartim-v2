@@ -5,12 +5,12 @@ type ParamValue = string | number | bigint | boolean
 export type ScannedRoutes = {
   ALL: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
-    'admin.admin_management.admins.list': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.admins.create': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.admins.view': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.admin_management.admins.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.admin_management.admins.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
+    'admin.admins.list': { paramsTuple?: []; params?: {} }
+    'admin.admins.create': { paramsTuple?: []; params?: {} }
+    'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
@@ -26,20 +26,20 @@ export type ScannedRoutes = {
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
-    'admin.admin_management.admins.list': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.admins.view': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
+    'admin.admins.list': { paramsTuple?: []; params?: {} }
+    'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
-    'admin.admin_management.admins.list': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.admins.view': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
+    'admin.admins.list': { paramsTuple?: []; params?: {} }
+    'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }
   POST: {
-    'admin.admin_management.admins.create': { paramsTuple?: []; params?: {} }
+    'admin.admins.create': { paramsTuple?: []; params?: {} }
     'admin.admin_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.admin_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.admin_management.password.reset': { paramsTuple?: []; params?: {} }
@@ -48,10 +48,10 @@ export type ScannedRoutes = {
     'client.user_management.password.reset': { paramsTuple?: []; params?: {} }
   }
   PATCH: {
-    'admin.admin_management.admins.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
   }
   DELETE: {
-    'admin.admin_management.admins.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
     'admin.admin_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
