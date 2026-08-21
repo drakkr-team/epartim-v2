@@ -13,7 +13,7 @@
 		"i18n:dev": "nodemon scripts/compile-locales.js --watch '**/locales/**/*.json' -e json -q"
 	},
 	"portless": {
-		"name": "admin",
+		"name": "admin.epartim",
 		"script": "dev:default"
 	},
 	"dependencies": {

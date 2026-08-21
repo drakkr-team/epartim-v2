@@ -17,7 +17,7 @@
 		"docker-compose": "docker compose up --remove-orphans"
 	},
 	"portless": {
-		"name": "api",
+		"name": "api.epartim",
 		"script": "dev:default"
 	},
 	"imports": {

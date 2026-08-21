@@ -13,7 +13,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"portless": {
-		"name": "ui",
+		"name": "ui.epartim",
 		"script": "dev:default"
 	},
 	"peerDependencies": {
