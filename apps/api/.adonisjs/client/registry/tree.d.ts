@@ -12,6 +12,7 @@ export interface ApiDefinition {
       admins: {
         list: typeof routes['admin.admin_management.admins.list']
         create: typeof routes['admin.admin_management.admins.create']
+        view: typeof routes['admin.admin_management.admins.view']
       }
       profile: {
         view: typeof routes['admin.admin_management.profile.view']

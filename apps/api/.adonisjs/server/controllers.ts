@@ -10,6 +10,7 @@ export const controllers = {
         admins: {
           Create: () => import('#src/features/admin/admin_management/admins/controllers/create.controller'),
           List: () => import('#src/features/admin/admin_management/admins/controllers/list.controller'),
+          View: () => import('#src/features/admin/admin_management/admins/controllers/view.controller'),
         },
         authentication: {
           Login: () => import('#src/features/admin/admin_management/authentication/controllers/login.controller'),

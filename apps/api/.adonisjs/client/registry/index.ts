@@ -24,6 +24,12 @@ const routes = {
     tokens: [{"old":"/admin/admin-management/admins","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/admins","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/admins","type":0,"val":"admins","end":""}],
     types: placeholder as Registry['admin.admin_management.admins.create']['types'],
   },
+  'admin.admin_management.admins.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/admin-management/admins/:id',
+    tokens: [{"old":"/admin/admin-management/admins/:id","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/admins/:id","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/admins/:id","type":0,"val":"admins","end":""},{"old":"/admin/admin-management/admins/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['admin.admin_management.admins.view']['types'],
+  },
   'admin.admin_management.profile.view': {
     methods: ["GET","HEAD"],
     pattern: '/admin/admin-management/profile',
