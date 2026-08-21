@@ -5,6 +5,7 @@ type ParamValue = string | number | bigint | boolean
 export type ScannedRoutes = {
   ALL: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'admin.admin_management.admins.create': { paramsTuple?: []; params?: {} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
@@ -29,6 +30,15 @@ export type ScannedRoutes = {
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }
+  POST: {
+    'admin.admin_management.admins.create': { paramsTuple?: []; params?: {} }
+    'admin.admin_management.authentication.login': { paramsTuple?: []; params?: {} }
+    'admin.admin_management.password.forgot': { paramsTuple?: []; params?: {} }
+    'admin.admin_management.password.reset': { paramsTuple?: []; params?: {} }
+    'client.user_management.authentication.login': { paramsTuple?: []; params?: {} }
+    'client.user_management.password.forgot': { paramsTuple?: []; params?: {} }
+    'client.user_management.password.reset': { paramsTuple?: []; params?: {} }
+  }
   PUT: {
     'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.user_management.password.update': { paramsTuple?: []; params?: {} }
@@ -37,14 +47,6 @@ export type ScannedRoutes = {
     'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
     'admin.admin_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
-  }
-  POST: {
-    'admin.admin_management.authentication.login': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.password.forgot': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.password.reset': { paramsTuple?: []; params?: {} }
-    'client.user_management.authentication.login': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.forgot': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.reset': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

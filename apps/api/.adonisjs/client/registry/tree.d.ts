@@ -9,6 +9,9 @@ export interface ApiDefinition {
   }
   admin: {
     adminManagement: {
+      admins: {
+        create: typeof routes['admin.admin_management.admins.create']
+      }
       profile: {
         view: typeof routes['admin.admin_management.profile.view']
       }

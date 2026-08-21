@@ -7,6 +7,9 @@ export const controllers = {
   features: {
     admin: {
       adminManagement: {
+        admins: {
+          Create: () => import('#src/features/admin/admin_management/admins/controllers/create.controller'),
+        },
         authentication: {
           Login: () => import('#src/features/admin/admin_management/authentication/controllers/login.controller'),
           Logout: () => import('#src/features/admin/admin_management/authentication/controllers/logout.controller'),

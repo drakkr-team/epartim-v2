@@ -19,6 +19,18 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'admin.admin_management.admins.create': {
+    methods: ["POST"]
+    pattern: '/admin/admin-management/admins'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/admin_management/admins/controllers/create.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/admin_management/admins/controllers/create.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/admin_management/admins/controllers/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admin_management/admins/controllers/create.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.admin_management.profile.view': {
     methods: ["GET","HEAD"]
     pattern: '/admin/admin-management/profile'

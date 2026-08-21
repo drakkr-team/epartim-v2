@@ -12,6 +12,12 @@ const routes = {
     tokens: [{"old":"/uploads/*","type":0,"val":"uploads","end":""},{"old":"/uploads/*","type":2,"val":"*","end":""}],
     types: placeholder as Registry['drive.fs.serve']['types'],
   },
+  'admin.admin_management.admins.create': {
+    methods: ["POST"],
+    pattern: '/admin/admin-management/admins',
+    tokens: [{"old":"/admin/admin-management/admins","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/admins","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/admins","type":0,"val":"admins","end":""}],
+    types: placeholder as Registry['admin.admin_management.admins.create']['types'],
+  },
   'admin.admin_management.profile.view': {
     methods: ["GET","HEAD"],
     pattern: '/admin/admin-management/profile',
