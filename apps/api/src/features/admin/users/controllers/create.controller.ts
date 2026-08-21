@@ -1,6 +1,5 @@
-import { randomBytes } from "node:crypto";
-
 import { inject } from "@adonisjs/core";
+import stringHelpers from "@adonisjs/core/helpers/string";
 import { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
@@ -20,7 +19,7 @@ export default class CreateUserController {
 
 		const user = await User.create({
 			...payload,
-			password: randomBytes(32).toString("base64url"),
+			password: stringHelpers.generateRandom(32),
 		});
 
 		return response.created(this.userPresenter.toJSON(user));

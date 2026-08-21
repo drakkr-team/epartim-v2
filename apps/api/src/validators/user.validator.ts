@@ -18,7 +18,9 @@ export const UpdateAdminUserSchema = vine.object({
 	lastName: UserNameSchema,
 });
 
-export const UpdateUserSchema = vine.object({
-	firstName: UserNameSchema.optional(),
-	lastName: UserNameSchema.optional(),
-});
+export const UpdateUserSchema = vine
+	.object({
+		firstName: UserNameSchema,
+		lastName: UserNameSchema,
+	})
+	.partial();
