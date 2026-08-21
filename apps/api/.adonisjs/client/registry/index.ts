@@ -48,6 +48,36 @@ const routes = {
     tokens: [{"old":"/admin/admins/:adminId","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId","type":1,"val":"adminId","end":""}],
     types: placeholder as Registry['admin.admins.delete']['types'],
   },
+  'admin.users.list': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/users',
+    tokens: [{"old":"/admin/users","type":0,"val":"admin","end":""},{"old":"/admin/users","type":0,"val":"users","end":""}],
+    types: placeholder as Registry['admin.users.list']['types'],
+  },
+  'admin.users.create': {
+    methods: ["POST"],
+    pattern: '/admin/users',
+    tokens: [{"old":"/admin/users","type":0,"val":"admin","end":""},{"old":"/admin/users","type":0,"val":"users","end":""}],
+    types: placeholder as Registry['admin.users.create']['types'],
+  },
+  'admin.users.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/users/:userId',
+    tokens: [{"old":"/admin/users/:userId","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId","type":0,"val":"users","end":""},{"old":"/admin/users/:userId","type":1,"val":"userId","end":""}],
+    types: placeholder as Registry['admin.users.view']['types'],
+  },
+  'admin.users.update': {
+    methods: ["PATCH"],
+    pattern: '/admin/users/:userId',
+    tokens: [{"old":"/admin/users/:userId","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId","type":0,"val":"users","end":""},{"old":"/admin/users/:userId","type":1,"val":"userId","end":""}],
+    types: placeholder as Registry['admin.users.update']['types'],
+  },
+  'admin.users.delete': {
+    methods: ["DELETE"],
+    pattern: '/admin/users/:userId',
+    tokens: [{"old":"/admin/users/:userId","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId","type":0,"val":"users","end":""},{"old":"/admin/users/:userId","type":1,"val":"userId","end":""}],
+    types: placeholder as Registry['admin.users.delete']['types'],
+  },
   'client.user_management.profile.view': {
     methods: ["GET","HEAD"],
     pattern: '/client/user-management/profile',

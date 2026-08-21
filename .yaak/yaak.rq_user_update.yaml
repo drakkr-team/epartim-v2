@@ -1,0 +1,46 @@
+type: http_request
+model: http_request
+id: rq_user_update
+createdAt: 2026-08-21T00:00:00.000000
+updatedAt: 2026-08-21T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_users
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "firstName": "${[ faker.person.firstName() ]}",
+      "lastName": "${[ faker.person.lastName() ]}"
+    }
+bodyType: application/json
+description: Set USER_ID in your private Yaak environment.
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: PATCH
+name: Update user
+sortPriority: 0.0
+url: http://localhost:3333/admin/users/${[ USER_ID ]}
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

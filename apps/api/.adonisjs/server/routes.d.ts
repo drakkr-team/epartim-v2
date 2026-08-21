@@ -11,6 +11,11 @@ export type ScannedRoutes = {
     'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.users.list': { paramsTuple?: []; params?: {} }
+    'admin.users.create': { paramsTuple?: []; params?: {} }
+    'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
+    'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
+    'admin.users.delete': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
@@ -29,6 +34,8 @@ export type ScannedRoutes = {
     'admin.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'admin.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.users.list': { paramsTuple?: []; params?: {} }
+    'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -36,10 +43,13 @@ export type ScannedRoutes = {
     'admin.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'admin.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.users.list': { paramsTuple?: []; params?: {} }
+    'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'admin.admins.create': { paramsTuple?: []; params?: {} }
+    'admin.users.create': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
@@ -49,9 +59,11 @@ export type ScannedRoutes = {
   }
   PATCH: {
     'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
   }
   DELETE: {
     'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.users.delete': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
