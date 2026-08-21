@@ -1,4 +1,4 @@
-import { ModelQueryBuilderContract } from "@adonisjs/lucid/types/model";
+import type { ModelQueryBuilderContract } from "@adonisjs/lucid/types/model";
 
 import Admin from "#models/admin";
 
