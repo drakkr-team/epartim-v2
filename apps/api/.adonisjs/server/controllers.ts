@@ -19,6 +19,13 @@ export const controllers = {
           View: () => import('#src/features/admin/admin_management/profile/controllers/view.controller'),
         },
       },
+      admins: {
+        Create: () => import('#src/features/admin/admins/controllers/create.controller'),
+        Delete: () => import('#src/features/admin/admins/controllers/delete.controller'),
+        List: () => import('#src/features/admin/admins/controllers/list.controller'),
+        Update: () => import('#src/features/admin/admins/controllers/update.controller'),
+        View: () => import('#src/features/admin/admins/controllers/view.controller'),
+      },
     },
     client: {
       userManagement: {
