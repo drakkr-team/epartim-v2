@@ -9,11 +9,16 @@
 	"scripts": {
 		"start": "node bin/server.js",
 		"build": "node ace build",
-		"dev": "node ace serve --hmr",
+		"dev": "portless",
+		"dev:default": "node ace serve --hmr",
 		"worker": "node ace queue:work --queue=emails",
 		"test": "node ace test",
 		"typecheck": "tsc --noEmit",
 		"docker-compose": "docker compose up --remove-orphans"
+	},
+	"portless": {
+		"name": "api.epartim",
+		"script": "dev:default"
 	},
 	"imports": {
 		"#config/*": "./config/*.js",

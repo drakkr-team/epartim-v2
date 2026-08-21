@@ -8,8 +8,13 @@
 		"./hooks/*": "./src/hooks/*.ts"
 	},
 	"scripts": {
-		"dev": "storybook dev -p 6006 --no-open",
+		"dev": "portless",
+		"dev:default": "storybook dev --no-open",
 		"typecheck": "tsc --noEmit"
+	},
+	"portless": {
+		"name": "ui.epartim",
+		"script": "dev:default"
 	},
 	"peerDependencies": {
 		"@workspace/ui-theme": "workspace:*",
