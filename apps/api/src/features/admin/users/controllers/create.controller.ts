@@ -4,7 +4,6 @@ import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
-import EmailAlreadyExistsException from "#exceptions/email_already_exists.exception";
 import CreateUserPolicy from "#features/admin/users/policies/create.policy";
 import User from "#models/user";
 import UserPresenter from "#presenters/user.presenter";
@@ -18,11 +17,6 @@ export default class CreateUserController {
 		await bouncer.with(CreateUserPolicy).authorize("handle");
 
 		const payload = await request.validateUsing(CreateUserController.payloadSchema);
-		const existingUser = await User.findBy("email", payload.email);
-
-		if (existingUser) {
-			throw new EmailAlreadyExistsException();
-		}
 
 		const user = await User.create({
 			...payload,
