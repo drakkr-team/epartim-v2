@@ -7,7 +7,7 @@ import Admin from "#models/admin";
 export default class AuthService {
 	constructor(protected ctx: HttpContext) {}
 
-	async login(params: { uid: string; password: string; requireAdministrator?: boolean }) {
+	async login(params: { uid: string; password: string }) {
 		const { uid, password } = params;
 
 		const admin = await Admin.verifyCredentials(uid, password);
