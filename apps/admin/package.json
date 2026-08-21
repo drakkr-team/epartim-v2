@@ -5,11 +5,16 @@
 	"scripts": {
 		"postinstall": "pnpm run i18n:build",
 		"build": "vite build",
-		"preview": "vite preview --port 3001",
-		"dev": "concurrently --prefix none \"vite dev --port 3001 --host\" \"pnpm:i18n:dev\"",
+		"preview": "vite preview",
+		"dev": "concurrently --prefix none \"portless\" \"pnpm:i18n:dev\"",
+		"dev:default": "vite dev",
 		"typecheck": "tsc --noEmit",
 		"i18n:build": "node scripts/compile-locales.js",
 		"i18n:dev": "nodemon scripts/compile-locales.js --watch '**/locales/**/*.json' -e json -q"
+	},
+	"portless": {
+		"name": "admin",
+		"script": "dev:default"
 	},
 	"dependencies": {
 		"@tanstack/react-form": "1.33.0",
