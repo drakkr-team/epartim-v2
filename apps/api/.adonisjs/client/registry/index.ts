@@ -18,6 +18,36 @@ const routes = {
     tokens: [{"old":"/admin/account-management/profile","type":0,"val":"admin","end":""},{"old":"/admin/account-management/profile","type":0,"val":"account-management","end":""},{"old":"/admin/account-management/profile","type":0,"val":"profile","end":""}],
     types: placeholder as Registry['admin.account_management.profile.view']['types'],
   },
+  'admin.admins.list': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/admins',
+    tokens: [{"old":"/admin/admins","type":0,"val":"admin","end":""},{"old":"/admin/admins","type":0,"val":"admins","end":""}],
+    types: placeholder as Registry['admin.admins.list']['types'],
+  },
+  'admin.admins.create': {
+    methods: ["POST"],
+    pattern: '/admin/admins',
+    tokens: [{"old":"/admin/admins","type":0,"val":"admin","end":""},{"old":"/admin/admins","type":0,"val":"admins","end":""}],
+    types: placeholder as Registry['admin.admins.create']['types'],
+  },
+  'admin.admins.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/admins/:adminId',
+    tokens: [{"old":"/admin/admins/:adminId","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId","type":1,"val":"adminId","end":""}],
+    types: placeholder as Registry['admin.admins.view']['types'],
+  },
+  'admin.admins.update': {
+    methods: ["PATCH"],
+    pattern: '/admin/admins/:adminId',
+    tokens: [{"old":"/admin/admins/:adminId","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId","type":1,"val":"adminId","end":""}],
+    types: placeholder as Registry['admin.admins.update']['types'],
+  },
+  'admin.admins.delete': {
+    methods: ["DELETE"],
+    pattern: '/admin/admins/:adminId',
+    tokens: [{"old":"/admin/admins/:adminId","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId","type":1,"val":"adminId","end":""}],
+    types: placeholder as Registry['admin.admins.delete']['types'],
+  },
   'client.user_management.profile.view': {
     methods: ["GET","HEAD"],
     pattern: '/client/user-management/profile',
