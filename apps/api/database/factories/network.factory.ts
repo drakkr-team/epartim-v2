@@ -9,7 +9,6 @@ export const NetworkFactory = factory
 		amundiOrgId: faker.string.alphanumeric(12).toUpperCase(),
 		addressId: null,
 		goCode: faker.number.int({ min: 100_000, max: 999_999 }),
-		paymentDetailsId: null,
 	}))
 	.relation("address", () => AddressFactory)
 	.build();

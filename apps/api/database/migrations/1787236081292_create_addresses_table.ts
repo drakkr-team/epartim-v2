@@ -8,9 +8,9 @@ export default class extends BaseSchema {
 			table.bigIncrements("id").notNullable();
 			table.string("line_one", 254).notNullable();
 			table.string("line_two", 254).nullable();
-			table.string("line_three", 254).nullable();
 			table.string("zip", 254).notNullable();
 			table.string("city", 254).notNullable();
+			table.jsonb("coordinates").nullable();
 		});
 	}
 

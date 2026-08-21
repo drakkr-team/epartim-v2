@@ -8,16 +8,16 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class AddressSchema extends BaseModel {
-  static $columns = ['city', 'id', 'lineOne', 'lineThree', 'lineTwo', 'zip'] as const
+  static $columns = ['city', 'coordinates', 'id', 'lineOne', 'lineTwo', 'zip'] as const
   $columns = AddressSchema.$columns
   @column()
   declare city: string
+  @column()
+  declare coordinates: any | null
   @column({ isPrimary: true })
   declare id: bigint | number
   @column()
   declare lineOne: string
-  @column()
-  declare lineThree: string | null
   @column()
   declare lineTwo: string | null
   @column()
@@ -44,7 +44,7 @@ export class FileSchema extends BaseModel {
 }
 
 export class FirmSchema extends BaseModel {
-  static $columns = ['addressId', 'amundiOrgId', 'bic', 'createdAt', 'iban', 'id', 'name', 'networkId', 'orias', 'paymentDetailsId', 'updatedAt'] as const
+  static $columns = ['addressId', 'amundiOrgId', 'bic', 'createdAt', 'iban', 'id', 'name', 'networkId', 'orias', 'updatedAt'] as const
   $columns = FirmSchema.$columns
   @column()
   declare addressId: bigint | number
@@ -64,14 +64,12 @@ export class FirmSchema extends BaseModel {
   declare networkId: bigint | number | null
   @column()
   declare orias: string
-  @column()
-  declare paymentDetailsId: bigint | number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
 
 export class NetworkSchema extends BaseModel {
-  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'paymentDetailsId', 'updatedAt'] as const
+  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'updatedAt'] as const
   $columns = NetworkSchema.$columns
   @column()
   declare addressId: bigint | number | null
@@ -85,8 +83,6 @@ export class NetworkSchema extends BaseModel {
   declare id: bigint | number
   @column()
   declare name: string
-  @column()
-  declare paymentDetailsId: bigint | number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

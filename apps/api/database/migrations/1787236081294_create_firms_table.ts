@@ -24,7 +24,6 @@ export default class extends BaseSchema {
 			table.string("bic", 254).notNullable();
 			table.string("iban", 254).notNullable();
 			table.string("orias", 254).notNullable();
-			table.bigInteger("payment_details_id").nullable();
 			table.timestamps(true, true);
 
 			table.index(["network_id"], "idx_firms_network_id");

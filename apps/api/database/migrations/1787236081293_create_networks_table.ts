@@ -15,7 +15,6 @@ export default class extends BaseSchema {
 				.inTable("addresses")
 				.onDelete("SET NULL");
 			table.bigInteger("go_code").nullable();
-			table.bigInteger("payment_details_id").nullable();
 			table.timestamps(true, true);
 		});
 	}

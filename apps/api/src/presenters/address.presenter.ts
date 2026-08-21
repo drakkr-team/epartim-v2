@@ -7,9 +7,9 @@ export default class AddressPresenter {
 
 			lineOne: address.lineOne,
 			lineTwo: address.lineTwo,
-			lineThree: address.lineThree,
 			zip: address.zip,
 			city: address.city,
+			coordinates: address.coordinates,
 		};
 	}
 }
