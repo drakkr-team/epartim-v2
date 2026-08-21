@@ -20,7 +20,7 @@ export default class extends BaseSchema {
 				.notNullable()
 				.references("id")
 				.inTable("payment_details")
-				.onDelete("RESTRICT");
+				.onDelete("CASCADE");
 			table.timestamps(true, true);
 		});
 	}

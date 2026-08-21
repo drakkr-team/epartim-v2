@@ -20,13 +20,13 @@ export default class extends BaseSchema {
 				.unique()
 				.references("id")
 				.inTable("addresses")
-				.onDelete("RESTRICT");
+				.onDelete("CASCADE");
 			table
 				.bigInteger("payment_details_id")
 				.notNullable()
 				.references("id")
 				.inTable("payment_details")
-				.onDelete("RESTRICT");
+				.onDelete("CASCADE");
 			table.string("orias", 254).notNullable();
 			table.timestamps(true, true);
 
