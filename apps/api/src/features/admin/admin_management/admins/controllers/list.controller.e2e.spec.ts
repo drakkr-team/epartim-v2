@@ -9,8 +9,10 @@ test.group("Features / Admin / Admin Management / Admins / Controllers / List Co
 		client,
 		assert,
 	}) => {
+		const existingAdminCount = (await Admin.all()).length;
 		const authenticatedAdmin = await AdminFactory.create();
 		await AdminFactory.createMany(21);
+		const expectedTotal = existingAdminCount + 22;
 
 		const response = await client
 			.visit("admin.admin_management.admins.list")
@@ -20,11 +22,11 @@ test.group("Features / Admin / Admin Management / Admins / Controllers / List Co
 		response.assertOk();
 		response.assertBodyContains({
 			meta: {
-				total: 22,
+				total: expectedTotal,
 				perPage: 20,
 				currentPage: 1,
 				firstPage: 1,
-				lastPage: 2,
+				lastPage: Math.ceil(expectedTotal / 20),
 			},
 		});
 		assert.lengthOf(response.body().data, 20);
