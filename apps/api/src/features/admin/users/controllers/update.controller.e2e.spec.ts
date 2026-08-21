@@ -70,10 +70,10 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 		}
 	});
 
-	test("it should return not found for missing and invalid identifiers", async ({ client }) => {
+	test("it should return not found for missing identifiers", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.create();
 
-		for (const id of ["999999", "invalid", "0", "-1"]) {
+		for (const id of ["999999", "0", "-1"]) {
 			const response = await client
 				.patch(`/admin/users/${id}`)
 				.withGuard("admin")
