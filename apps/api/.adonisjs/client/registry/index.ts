@@ -36,6 +36,12 @@ const routes = {
     tokens: [{"old":"/admin/admin-management/admins/:id","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/admins/:id","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/admins/:id","type":0,"val":"admins","end":""},{"old":"/admin/admin-management/admins/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['admin.admin_management.admins.update']['types'],
   },
+  'admin.admin_management.admins.delete': {
+    methods: ["DELETE"],
+    pattern: '/admin/admin-management/admins/:id',
+    tokens: [{"old":"/admin/admin-management/admins/:id","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/admins/:id","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/admins/:id","type":0,"val":"admins","end":""},{"old":"/admin/admin-management/admins/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['admin.admin_management.admins.delete']['types'],
+  },
   'admin.admin_management.profile.view': {
     methods: ["GET","HEAD"],
     pattern: '/admin/admin-management/profile',

@@ -9,6 +9,7 @@ router
 		router.post("/", [controllers.features.admin.adminManagement.admins.Create]);
 		router.get("/:id", [controllers.features.admin.adminManagement.admins.View]);
 		router.patch("/:id", [controllers.features.admin.adminManagement.admins.Update]);
+		router.delete("/:id", [controllers.features.admin.adminManagement.admins.Delete]);
 	})
 	.use(middleware.auth({ guards: ["admin"] }))
 	.prefix("admin/admin-management/admins")

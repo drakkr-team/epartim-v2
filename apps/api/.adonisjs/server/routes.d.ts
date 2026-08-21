@@ -9,6 +9,7 @@ export type ScannedRoutes = {
     'admin.admin_management.admins.create': { paramsTuple?: []; params?: {} }
     'admin.admin_management.admins.view': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.admin_management.admins.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.admin_management.admins.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
@@ -49,14 +50,15 @@ export type ScannedRoutes = {
   PATCH: {
     'admin.admin_management.admins.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
-  PUT: {
-    'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.update': { paramsTuple?: []; params?: {} }
-  }
   DELETE: {
+    'admin.admin_management.admins.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
     'admin.admin_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
+  }
+  PUT: {
+    'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
+    'client.user_management.password.update': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

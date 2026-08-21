@@ -14,6 +14,7 @@ export interface ApiDefinition {
         create: typeof routes['admin.admin_management.admins.create']
         view: typeof routes['admin.admin_management.admins.view']
         update: typeof routes['admin.admin_management.admins.update']
+        delete: typeof routes['admin.admin_management.admins.delete']
       }
       profile: {
         view: typeof routes['admin.admin_management.profile.view']
