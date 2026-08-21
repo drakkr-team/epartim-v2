@@ -1,37 +1,43 @@
 # API MAP
 
-- Package: `@workspace/api`, AdonisJS 7, ESM TypeScript.
+## OVERVIEW
+
+- `@workspace/api`: AdonisJS 7, ESM TypeScript, Lucid, Japa, Tuyau, Redis-backed queues.
 - Runtime entrypoints: `bin/server.ts`, `bin/console.ts`, `bin/test.ts`.
-- `start/routes.ts` registers the client user-management routes.
-- Init hooks index controllers, generate the Tuyau registry, then generate data types.
+- `start/routes.ts` composes independent admin and client route trees.
+- `adonisrc.ts` indexes feature controllers and generates the typed frontend registry.
 
-## Current data model
+## FEATURE BOUNDARIES
 
-- `users` is relation-free and contains `id`, `first_name`, `last_name`, `email`, `password`, `created_at` and `updated_at`.
-- `files` is retained from the `e5.stack` base. Do not add a relation from `users` until it is needed.
-- Do not reintroduce firms, networks, roles, invitations or admin tables without an explicit decision.
-- Use schema-builder APIs in migrations; do not write raw SQL.
-- `database/schema.ts` is generated: never edit it manually. Models must extend their generated schema class and declare only relations, hooks, or custom behavior; never redeclare database columns in model files.
+| Domain | Location | Guard / role |
+|---|---|---|
+| Admin account | `src/features/admin/account_management` | Admin login/logout, password recovery, profile view |
+| Admin CRUD | `src/features/admin/admins` | Protected administrator list/create/view/update/delete |
+| Client account | `src/features/client/user_management` | Client auth, password, profile lifecycle |
 
-## Client identity routes
+- Keep routes, controllers, policies, services, jobs, mails, templates, and specs inside their domain.
+- Shared models, presenters, validators, middleware, and services remain under `src/*`.
+- Password flows use `OtpService`; preserve Redis storage and one-time token consumption.
+- Email work is dispatched through feature jobs on the `emails` queue.
 
-- The client API lives in `src/features/client/user_management`.
-- It exposes authentication, profile, password recovery/reset and password update routes below `/client/user-management`.
-- The `client` session guard backs authentication.
-- Use `auth`, `guest` and `authAttempt` middleware only through `#start/kernel`.
-- Password reset tokens use `OtpService`; keep its Redis storage and one-time verification behavior intact.
-- Mails, jobs and Edge templates remain colocated with their feature.
+## DATA AND GENERATED BOUNDARIES
 
-## Conventions
+- Write schema changes as migrations; use schema-builder APIs rather than raw SQL.
+- `database/schema.ts` is generated from migrations and is never a hand-edit target.
+- Models extend generated schema classes; check the generated base before adding persistence fields.
+- Do not edit `ace.js`, `.adonisjs/**`, `build/**`, or generated controller/Tuyau registries.
+- After route/controller changes, run API build or dev to refresh generated registries.
 
-- Route handlers reference controllers from `#generated/controllers`, never direct controller imports.
-- Use package aliases (`#models/*`, `#services/*`, `#start/*`), not deep relatives.
-- Keep controller tests beside the implementation they exercise.
-- Preserve `force_json_response.middleware.ts`; API consumers require JSON responses and errors.
-- Do not edit `ace.js`, `.adonisjs/**`, generated controller registries or `database/schema.ts`.
-- After route changes, run the API dev server or build to regenerate the Tuyau registry.
+## CONVENTIONS
 
-## Commands
+- Route files resolve controllers through `#generated/controllers`.
+- Use aliases such as `#features/*`, `#models/*`, `#presenters/*`, `#services/*`, and `#start/*`.
+- Controllers validate with Vine, authorize with Bouncer, delegate workflows, and return presenters.
+- Keep `*.unit.spec.ts` and `*.e2e.spec.ts` beside the implementation they cover.
+- Preserve `force_json_response.middleware.ts`; consumers require JSON responses and errors.
+- Add every changed HTTP route to `.yaak/` with matching auth, params, and body.
+
+## COMMANDS
 
 ```bash
 pnpm --filter @workspace/api dev

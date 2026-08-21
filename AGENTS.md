@@ -1,8 +1,8 @@
 # PROJECT KNOWLEDGE BASE
 
-**Generated:** 2026-08-20
-**Commit:** dbe3bf7
-**Branch:** chore/context
+**Generated:** 2026-08-21
+**Commit:** ce7525c
+**Branch:** feat/protless
 
 ## OVERVIEW
 
@@ -14,7 +14,7 @@ pnpm/Turbo TypeScript monorepo with an AdonisJS API, separate TanStack Start cli
 epartim/
 ├── apps/api/              # AdonisJS API; admin/client feature trees; Tuyau/Adonis codegen
 ├── apps/client/           # customer TanStack Start app; operations/profile routes
-├── apps/admin/            # internal TanStack Start app; protected user administration
+├── apps/admin/            # internal TanStack Start shell; dashboard + static login
 ├── packages/ui/react/     # Storybook-backed React UI package; components/icons/hooks exports
 ├── packages/ui/theme/     # token source + generated checked-in Tailwind CSS
 ├── package.json           # root Turbo scripts; pnpm@10.33.2; Node 24
@@ -32,11 +32,11 @@ epartim/
 | API routes | `apps/api/start/routes.ts`, `apps/api/src/features/**/routes.ts` | Feature routes import `#generated/controllers`. |
 | API auth/session/mail/queue | `apps/api/config/*.ts`, `apps/api/start/kernel.ts`, `apps/api/src/exceptions/handler.ts` | JSON-only behavior is middleware-enforced; mail jobs use queue `emails`. |
 | Client routes | `apps/client/src/routes/**/{layout,page}.tsx`, `apps/client/src/router.tsx` | Guest/private groups plus operations and profile; route tree is generated. |
-| Admin routes | `apps/admin/src/routes/**/{layout,page}.tsx`, `apps/admin/src/router.tsx` | Admin guard, dashboard, users; route tree is generated. |
-| Frontend API clients | `apps/{client,admin}/src/libs/tuyau.ts`, `@workspace/api/registry` | Client selects user-management routes; admin selects admin routes. |
+| Admin routes | `apps/admin/src/routes/**/{layout,page}.tsx`, `apps/admin/src/router.tsx` | Dashboard shell plus static login; no frontend auth/API integration yet. |
+| Frontend API client | `apps/client/src/libs/tuyau.ts`, `@workspace/api/registry` | Client consumes typed user-management routes; admin is not wired yet. |
 | Client forms | `apps/client/src/libs/form.ts`, `apps/client/src/components/form/*` | TanStack Form components registered centrally. |
 | Frontend translations | `apps/{client,admin}/scripts/compile-locales.js`, `src/**/locales/fr.json` | Generated bundles live under each app's `src/libs/i18n/build`. |
-| Admin user workflows | `apps/admin/src/features/users`, `apps/api/src/features/admin/users` | UI actions are authorization-enforced again in the API. |
+| Admin API workflows | `apps/api/src/features/admin/{account_management,admins}` | Account lifecycle and protected administrator CRUD are separate domains. |
 | React UI components | `packages/ui/react/src/components/*`, `packages/ui/react/src/components/AGENTS.md` | Folder-per-component with story + barrel. |
 | Theme tokens | `packages/ui/theme/src/tokens.ts` | Source of truth for `tailwind.css`. |
 | Docker / CI | `.github/workflows/ci.yml`, `apps/*/Dockerfile` | CI runs code quality plus affected typecheck, tests, and builds. |
@@ -46,10 +46,10 @@ epartim/
 | Symbol / module | Type | Location | Role |
 |-----------------|------|----------|------|
 | `getRouter` | function | `apps/{client,admin}/src/router.tsx` | Creates each QueryClient-backed TanStack router. |
-| `api` | client | `apps/{client,admin}/src/libs/tuyau.ts` | Typed client/admin query and mutation surfaces. |
+| `api` | client | `apps/client/src/libs/tuyau.ts` | Typed client query and mutation surface. |
 | `useAppForm` | hook factory | `apps/client/src/libs/form.ts` | Client-standard form wrapper. |
 | `User` | model | `apps/api/src/models/user.ts` | Auth model; `toJSON()` hides password. |
-| `AdminUserService` | service | `apps/api/src/features/admin/users/services/admin_user.service.ts` | User lifecycle and invitation workflow. |
+| `ListAdminsService` | service | `apps/api/src/features/admin/admins/services/list.service.ts` | Administrator search, sorting, and pagination query. |
 | `OtpService` | service | `apps/api/src/services/otp.service.ts` | Shared password-token workflow. |
 | `middleware` | registry | `apps/api/start/kernel.ts` | Named auth/guest middleware. |
 | `DataTable` | component | `apps/client/src/components/app/data-table.tsx` | Generic compound table state and rendering. |
@@ -78,12 +78,12 @@ epartim/
 - Do not send responses from `apps/api/src/exceptions/handler.ts` `report()`.
 - Preserve `apps/api/src/middlewares/force_json_response.middleware.ts`; it forces `Accept: application/json`.
 - Do not normalize existing typoed API mail filename casually: `password_changed_notifiction.mail.ts` is referenced by current code.
-- Do not bypass `apps/api/src/middlewares/force_json_response.middleware.ts`; clients expect JSON errors/responses.
 
 ## UNIQUE STYLES
 
 - API feature modules are colocated under `src/features/{admin,client}` instead of a flat controller/service tree.
-- Client mirrors backend domain names in feature paths and i18n namespaces.
+- Client mirrors backend user-management domain names in feature paths and i18n namespaces.
+- Admin frontend is currently a static shell; active admin authentication/profile/CRUD behavior exists only in the API.
 - Client profile UI is route-tabbed: `/profile`, `/profile/security`, `/profile/privacy`.
 - Theme package checks in generated CSS; edit tokens, then regenerate.
 - Storybook is dev-only for UI React; there is no package build script there.
@@ -119,11 +119,11 @@ pnpm --filter @workspace/ui-theme generate:tailwind
 - The versioned Yaak workspace lives in `.yaak/`. Add every new or changed API route to Yaak, keeping its method, path, parameters, request body, and authentication requirements aligned with the implementation. Use English names for Yaak folders and requests; use Faker for generated test data, and private Yaak variables for real account IDs, credentials, and tokens. Never store credentials or tokens in a shared Yaak environment.
 - Root `turbo dev` is persistent and uncached.
 - API `dev` depends on `docker-compose` and `worker` sidecar tasks.
-- `@workspace/api/registry` is generated by Adonis/Tuyau during API build; both frontends depend on it.
+- `@workspace/api/registry` is generated by Adonis/Tuyau during API build; client consumes it, while admin only declares the dependency.
 - `@workspace/ui-theme/tailwind.css` is generated from `src/tokens.ts`; run `generate:tailwind` after token edits.
 - `@workspace/ui-react` has no build script; apps consume its source exports directly.
 - Build order: Turbo `^build` generates the API registry and theme CSS before frontend builds.
-- API/Japa tests now live beside user-management controllers, policies, jobs, and mails as `*.unit.spec.ts` / `*.e2e.spec.ts`.
+- API/Japa tests live beside feature controllers, policies, services, jobs, and mails as `*.unit.spec.ts` / `*.e2e.spec.ts`.
 - TypeScript LSP and the local ast-grep binary were unavailable; the code map was cross-checked through direct reads and parallel structural exploration.
 - CI's test job is active; only the API package currently contributes a test script.
 - `apps/client/Dockerfile` still references obsolete `@workspace/web` and `apps/web` paths; container builds remain at risk until corrected.
