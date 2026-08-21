@@ -11,7 +11,7 @@ import OtpService from "#services/otp.service";
 import env from "#start/env";
 
 test.group(
-	"Features / Admin / Admin Management / Password / Controllers / Reset Controller",
+	"Features / Admin / Account Management / Password / Controllers / Reset Controller",
 	(group) => {
 		group.each.teardown(() => {
 			QueueManager.restore();

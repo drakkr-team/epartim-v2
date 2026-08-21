@@ -4,7 +4,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import PasswordChangedNotificationMail from "#features/admin/account_management/password/mails/password_changed_notifiction.mail";
 
 test.group(
-	"Features / Admin / Admin Management / Password / Mails / Password Changed Notification Mail",
+	"Features / Admin / Account Management / Password / Mails / Password Changed Notification Mail",
 	() => {
 		test("it should render the password changed notification email", async () => {
 			const admin = await AdminFactory.create();

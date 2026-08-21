@@ -3,7 +3,7 @@ import { test } from "@japa/runner";
 import { AdminFactory } from "#database/factories/admin.factory";
 
 test.group(
-	"Features / Admin / Admin Management / Authentication / Controllers / Logout Controller",
+	"Features / Admin / Account Management / Authentication / Controllers / Logout Controller",
 	() => {
 		test("it should logout the admin successfully", async ({ client }) => {
 			const admin = await AdminFactory.create();

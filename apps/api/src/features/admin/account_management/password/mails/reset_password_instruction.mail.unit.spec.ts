@@ -4,7 +4,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import ResetPasswordInstructionMail from "#features/admin/account_management/password/mails/reset_password_instruction.mail";
 
 test.group(
-	"Features / Admin / Admin Management / Password / Mails / Reset Password Instruction Mail",
+	"Features / Admin / Account Management / Password / Mails / Reset Password Instruction Mail",
 	() => {
 		test("it should render the reset password instruction email", async () => {
 			const admin = await AdminFactory.create();

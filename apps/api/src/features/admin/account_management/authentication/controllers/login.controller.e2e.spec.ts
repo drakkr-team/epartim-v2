@@ -3,7 +3,7 @@ import { test } from "@japa/runner";
 import { AdminFactory } from "#database/factories/admin.factory";
 
 test.group(
-	"Features / Admin / Admin Management / Authentication / Controllers / Login Controller",
+	"Features / Admin / Account Management / Authentication / Controllers / Login Controller",
 	() => {
 		test("it should successfully login the admin with correct credentials", async ({ client }) => {
 			const email = "test@example.com";

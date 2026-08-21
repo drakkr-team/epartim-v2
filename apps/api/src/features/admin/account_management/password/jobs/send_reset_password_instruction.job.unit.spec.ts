@@ -6,7 +6,7 @@ import SendResetPasswordInstruction from "#features/admin/account_management/pas
 import ResetPasswordInstructionMail from "#features/admin/account_management/password/mails/reset_password_instruction.mail";
 
 test.group(
-	"Features / Admin / Admin Management / Password / Jobs / Send Reset Password Instruction",
+	"Features / Admin / Account Management / Password / Jobs / Send Reset Password Instruction",
 	() => {
 		test("it should send the reset password instruction email", async () => {
 			const fakeMailer = mail.fake();

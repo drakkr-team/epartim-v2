@@ -5,7 +5,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import SendResetPasswordInstruction from "#features/admin/account_management/password/jobs/send_reset_password_instruction.job";
 
 test.group(
-	"Features / Admin / Admin Management / Password / Controllers / Forgot Controller",
+	"Features / Admin / Account Management / Password / Controllers / Forgot Controller",
 	(group) => {
 		group.each.teardown(() => {
 			QueueManager.restore();
