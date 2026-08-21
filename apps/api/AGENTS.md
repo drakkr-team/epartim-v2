@@ -11,7 +11,7 @@
 - `files` is retained from the `e5.stack` base. Do not add a relation from `users` until it is needed.
 - Do not reintroduce firms, networks, roles, invitations or admin tables without an explicit decision.
 - Use schema-builder APIs in migrations; do not write raw SQL.
-- `database/schema.ts` is generated: never edit it manually.
+- `database/schema.ts` is generated: never edit it manually. Models must extend their generated schema class and declare only relations, hooks, or custom behavior; never redeclare database columns in model files.
 
 ## Client identity routes
 

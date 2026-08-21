@@ -7,6 +7,23 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AddressSchema extends BaseModel {
+  static $columns = ['city', 'coordinates', 'id', 'lineOne', 'lineTwo', 'zip'] as const
+  $columns = AddressSchema.$columns
+  @column()
+  declare city: string
+  @column()
+  declare coordinates: any | null
+  @column({ isPrimary: true })
+  declare id: bigint | number
+  @column()
+  declare lineOne: string
+  @column()
+  declare lineTwo: string | null
+  @column()
+  declare zip: string
+}
+
 export class AdminSchema extends BaseModel {
   static $columns = ['activatedAt', 'createdAt', 'email', 'id', 'name', 'password', 'updatedAt'] as const
   $columns = AdminSchema.$columns
@@ -17,7 +34,7 @@ export class AdminSchema extends BaseModel {
   @column()
   declare email: string
   @column({ isPrimary: true })
-  declare id: number
+  declare id: bigint | number
   @column()
   declare name: string
   @column({ serializeAs: null })
@@ -41,6 +58,50 @@ export class FileSchema extends BaseModel {
   declare size: number
   @column()
   declare type: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class FirmSchema extends BaseModel {
+  static $columns = ['addressId', 'amundiOrgId', 'bic', 'createdAt', 'iban', 'id', 'name', 'networkId', 'orias', 'updatedAt'] as const
+  $columns = FirmSchema.$columns
+  @column()
+  declare addressId: bigint | number
+  @column()
+  declare amundiOrgId: string | null
+  @column()
+  declare bic: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare iban: string
+  @column({ isPrimary: true })
+  declare id: bigint | number
+  @column()
+  declare name: string
+  @column()
+  declare networkId: bigint | number | null
+  @column()
+  declare orias: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class NetworkSchema extends BaseModel {
+  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'updatedAt'] as const
+  $columns = NetworkSchema.$columns
+  @column()
+  declare addressId: bigint | number | null
+  @column()
+  declare amundiOrgId: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare goCode: bigint | number | null
+  @column({ isPrimary: true })
+  declare id: bigint | number
+  @column()
+  declare name: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
