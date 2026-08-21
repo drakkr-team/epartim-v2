@@ -5,6 +5,7 @@ import { middleware } from "#start/kernel";
 
 router
 	.group(() => {
+		router.get("/", [controllers.features.admin.adminManagement.admins.List]);
 		router.post("/", [controllers.features.admin.adminManagement.admins.Create]);
 	})
 	.use(middleware.auth({ guards: ["admin"] }))

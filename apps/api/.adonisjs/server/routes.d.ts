@@ -5,6 +5,7 @@ type ParamValue = string | number | bigint | boolean
 export type ScannedRoutes = {
   ALL: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'admin.admin_management.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admin_management.admins.create': { paramsTuple?: []; params?: {} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
@@ -22,11 +23,13 @@ export type ScannedRoutes = {
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'admin.admin_management.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'admin.admin_management.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }

@@ -10,6 +10,7 @@ export interface ApiDefinition {
   admin: {
     adminManagement: {
       admins: {
+        list: typeof routes['admin.admin_management.admins.list']
         create: typeof routes['admin.admin_management.admins.create']
       }
       profile: {
