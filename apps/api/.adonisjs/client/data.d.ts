@@ -4,16 +4,18 @@
 */
 /// <reference path="./manifest.d.ts" />
 
+export type Address = Awaited<ReturnType<typeof import("#presenters/address.presenter").default.prototype.toJSON>>;
+
 export type Admin = Awaited<ReturnType<typeof import("#presenters/admin.presenter").default.prototype.toJSON>>;
 
 export type File = Awaited<ReturnType<typeof import("#presenters/file.presenter").default.prototype.toJSON>>;
+
+export type Firm = Awaited<ReturnType<typeof import("#presenters/firm.presenter").default.prototype.toJSON>>;
+
+export type Network = Awaited<ReturnType<typeof import("#presenters/network.presenter").default.prototype.toJSON>>;
 
 export type Pagination = Awaited<ReturnType<typeof import("#presenters/pagination.presenter").default.prototype.toJSON>>;
 
 export type User = Awaited<ReturnType<typeof import("#presenters/user.presenter").default.prototype.toJSON>>;
 
-export type Address = Awaited<ReturnType<typeof import("#presenters/address.presenter").default.prototype.toJSON>>;
-
-export type Firm = Awaited<ReturnType<typeof import("#presenters/firm.presenter").default.prototype.toJSON>>;
-
-export type Network = Awaited<ReturnType<typeof import("#presenters/network.presenter").default.prototype.toJSON>>;
+export type PaymentDetail = Awaited<ReturnType<typeof import("#presenters/payment_detail.presenter").default.prototype.toJSON>>;

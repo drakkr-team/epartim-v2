@@ -9,6 +9,7 @@ export default class NetworkPresenter {
 			amundiOrgId: network.amundiOrgId,
 			addressId: network.addressId,
 			goCode: network.goCode,
+			paymentDetailsId: network.paymentDetailsId,
 
 			createdAt: network.createdAt.toJSDate(),
 			updatedAt: network.updatedAt.toJSDate(),
