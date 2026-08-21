@@ -6,6 +6,9 @@ import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 const config = defineConfig({
+	server: {
+		port: process.env.PORT ? Number(process.env.PORT) : undefined,
+	},
 	resolve: {
 		dedupe: ["react", "react-dom"],
 		tsconfigPaths: true,
