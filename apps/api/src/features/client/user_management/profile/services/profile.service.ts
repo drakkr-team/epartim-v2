@@ -2,13 +2,14 @@ import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 
 import SendAccountDeletedNotification from "#features/client/user_management/profile/jobs/send_account_deleted_notification.job";
+import User from "#models/user";
 
 @inject()
 export default class ProfileService {
 	constructor(protected ctx: HttpContext) {}
 
 	async delete() {
-		const user = this.ctx.auth.user!;
+		const user = this.ctx.auth.user as User;
 
 		await user.delete();
 		await SendAccountDeletedNotification.dispatch({ user });

@@ -12,6 +12,54 @@ const routes = {
     tokens: [{"old":"/uploads/*","type":0,"val":"uploads","end":""},{"old":"/uploads/*","type":2,"val":"*","end":""}],
     types: placeholder as Registry['drive.fs.serve']['types'],
   },
+  'admin.admin_management.profile.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/admin-management/profile',
+    tokens: [{"old":"/admin/admin-management/profile","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/profile","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['admin.admin_management.profile.view']['types'],
+  },
+  'client.user_management.profile.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/client/user-management/profile',
+    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['client.user_management.profile.view']['types'],
+  },
+  'client.user_management.profile.update': {
+    methods: ["PUT"],
+    pattern: '/client/user-management/profile',
+    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['client.user_management.profile.update']['types'],
+  },
+  'client.user_management.profile.delete': {
+    methods: ["DELETE"],
+    pattern: '/client/user-management/profile',
+    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['client.user_management.profile.delete']['types'],
+  },
+  'admin.admin_management.authentication.login': {
+    methods: ["POST"],
+    pattern: '/admin/admin-management/authentication/login',
+    tokens: [{"old":"/admin/admin-management/authentication/login","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/authentication/login","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/authentication/login","type":0,"val":"authentication","end":""},{"old":"/admin/admin-management/authentication/login","type":0,"val":"login","end":""}],
+    types: placeholder as Registry['admin.admin_management.authentication.login']['types'],
+  },
+  'admin.admin_management.authentication.logout': {
+    methods: ["DELETE"],
+    pattern: '/admin/admin-management/authentication/logout',
+    tokens: [{"old":"/admin/admin-management/authentication/logout","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/authentication/logout","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/authentication/logout","type":0,"val":"authentication","end":""},{"old":"/admin/admin-management/authentication/logout","type":0,"val":"logout","end":""}],
+    types: placeholder as Registry['admin.admin_management.authentication.logout']['types'],
+  },
+  'admin.admin_management.password.forgot': {
+    methods: ["POST"],
+    pattern: '/admin/admin-management/password/forgot',
+    tokens: [{"old":"/admin/admin-management/password/forgot","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/password/forgot","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/password/forgot","type":0,"val":"password","end":""},{"old":"/admin/admin-management/password/forgot","type":0,"val":"forgot","end":""}],
+    types: placeholder as Registry['admin.admin_management.password.forgot']['types'],
+  },
+  'admin.admin_management.password.reset': {
+    methods: ["POST"],
+    pattern: '/admin/admin-management/password/reset',
+    tokens: [{"old":"/admin/admin-management/password/reset","type":0,"val":"admin","end":""},{"old":"/admin/admin-management/password/reset","type":0,"val":"admin-management","end":""},{"old":"/admin/admin-management/password/reset","type":0,"val":"password","end":""},{"old":"/admin/admin-management/password/reset","type":0,"val":"reset","end":""}],
+    types: placeholder as Registry['admin.admin_management.password.reset']['types'],
+  },
   'client.user_management.authentication.login': {
     methods: ["POST"],
     pattern: '/client/user-management/authentication/login',
@@ -41,24 +89,6 @@ const routes = {
     pattern: '/client/user-management/password',
     tokens: [{"old":"/client/user-management/password","type":0,"val":"client","end":""},{"old":"/client/user-management/password","type":0,"val":"user-management","end":""},{"old":"/client/user-management/password","type":0,"val":"password","end":""}],
     types: placeholder as Registry['client.user_management.password.update']['types'],
-  },
-  'client.user_management.profile.view': {
-    methods: ["GET","HEAD"],
-    pattern: '/client/user-management/profile',
-    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
-    types: placeholder as Registry['client.user_management.profile.view']['types'],
-  },
-  'client.user_management.profile.update': {
-    methods: ["PUT"],
-    pattern: '/client/user-management/profile',
-    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
-    types: placeholder as Registry['client.user_management.profile.update']['types'],
-  },
-  'client.user_management.profile.delete': {
-    methods: ["DELETE"],
-    pattern: '/client/user-management/profile',
-    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
-    types: placeholder as Registry['client.user_management.profile.delete']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

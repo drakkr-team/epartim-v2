@@ -19,7 +19,7 @@ export default class PasswordService {
 	async update(params: { currentPassword: string; newPassword: string }) {
 		const { currentPassword, newPassword } = params;
 
-		const user = this.ctx.auth.user!;
+		const user = this.ctx.auth.user as User;
 		const isValidCredentials = await user.verifyPassword(currentPassword);
 		if (!isValidCredentials) throw new InvalidCredentialsException();
 
