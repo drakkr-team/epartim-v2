@@ -6,6 +6,11 @@ export type ScannedRoutes = {
   ALL: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
+    'admin.user_management.users.list': { paramsTuple?: []; params?: {} }
+    'admin.user_management.users.create': { paramsTuple?: []; params?: {} }
+    'admin.user_management.users.view': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.user_management.users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.user_management.users.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
@@ -22,29 +27,38 @@ export type ScannedRoutes = {
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
+    'admin.user_management.users.list': { paramsTuple?: []; params?: {} }
+    'admin.user_management.users.view': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'admin.admin_management.profile.view': { paramsTuple?: []; params?: {} }
+    'admin.user_management.users.list': { paramsTuple?: []; params?: {} }
+    'admin.user_management.users.view': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
   }
-  PUT: {
-    'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.update': { paramsTuple?: []; params?: {} }
-  }
-  DELETE: {
-    'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
-    'admin.admin_management.authentication.logout': { paramsTuple?: []; params?: {} }
-    'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
-  }
   POST: {
+    'admin.user_management.users.create': { paramsTuple?: []; params?: {} }
     'admin.admin_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.admin_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.admin_management.password.reset': { paramsTuple?: []; params?: {} }
     'client.user_management.authentication.login': { paramsTuple?: []; params?: {} }
     'client.user_management.password.forgot': { paramsTuple?: []; params?: {} }
     'client.user_management.password.reset': { paramsTuple?: []; params?: {} }
+  }
+  PATCH: {
+    'admin.user_management.users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+  }
+  DELETE: {
+    'admin.user_management.users.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
+    'admin.admin_management.authentication.logout': { paramsTuple?: []; params?: {} }
+    'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
+  }
+  PUT: {
+    'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
+    'client.user_management.password.update': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {
