@@ -128,3 +128,8 @@ pnpm --filter @workspace/ui-theme generate:tailwind
 - CI's test job is active; only the API package currently contributes a test script.
 - `apps/client/Dockerfile` still references obsolete `@workspace/web` and `apps/web` paths; container builds remain at risk until corrected.
 - No `Makefile` exists in the repo.
+
+## SHARED SKILLS
+
+- Reusable, project-wide agent workflows live in `skills/<name>/SKILL.md`.
+- When a request explicitly names a skill or clearly matches its description, read the relevant `SKILL.md` before acting.
