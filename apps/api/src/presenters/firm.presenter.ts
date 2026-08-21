@@ -9,6 +9,7 @@ export default class FirmPresenter {
 			amundiOrgId: firm.amundiOrgId,
 			networkId: firm.networkId,
 			addressId: firm.addressId,
+			paymentDetailsId: firm.paymentDetailsId,
 			orias: firm.orias,
 
 			createdAt: firm.createdAt.toJSDate(),

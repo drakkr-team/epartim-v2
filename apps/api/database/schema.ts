@@ -63,18 +63,14 @@ export class FileSchema extends BaseModel {
 }
 
 export class FirmSchema extends BaseModel {
-  static $columns = ['addressId', 'amundiOrgId', 'bic', 'createdAt', 'iban', 'id', 'name', 'networkId', 'orias', 'updatedAt'] as const
+  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'id', 'name', 'networkId', 'orias', 'paymentDetailsId', 'updatedAt'] as const
   $columns = FirmSchema.$columns
   @column()
   declare addressId: bigint | number
   @column()
   declare amundiOrgId: string | null
-  @column()
-  declare bic: string
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
-  @column()
-  declare iban: string
   @column({ isPrimary: true })
   declare id: bigint | number
   @column()
@@ -83,12 +79,14 @@ export class FirmSchema extends BaseModel {
   declare networkId: bigint | number | null
   @column()
   declare orias: string
+  @column()
+  declare paymentDetailsId: bigint | number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
 
 export class NetworkSchema extends BaseModel {
-  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'updatedAt'] as const
+  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'paymentDetailsId', 'updatedAt'] as const
   $columns = NetworkSchema.$columns
   @column()
   declare addressId: bigint | number | null
@@ -102,8 +100,21 @@ export class NetworkSchema extends BaseModel {
   declare id: bigint | number
   @column()
   declare name: string
+  @column()
+  declare paymentDetailsId: bigint | number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+}
+
+export class PaymentDetailSchema extends BaseModel {
+  static $columns = ['bic', 'iban', 'id'] as const
+  $columns = PaymentDetailSchema.$columns
+  @column()
+  declare bic: string
+  @column()
+  declare iban: string
+  @column({ isPrimary: true })
+  declare id: bigint | number
 }
 
 export class UserSchema extends BaseModel {
