@@ -7,9 +7,9 @@ export default class ListAdminsService {
 		const { q, orderBy } = params;
 
 		return Admin.query()
-			.orderBy("created_at", "desc")
 			.if(q, (query) => this.#searchQuery(query, q!))
-			.if(orderBy, (query) => this.#orderByQuery(query, orderBy!));
+			.if(orderBy, (query) => this.#orderByQuery(query, orderBy!))
+			.orderBy("created_at", "desc");
 	}
 
 	#orderByQuery(query: ModelQueryBuilderContract<typeof Admin>, orderBy: string) {
