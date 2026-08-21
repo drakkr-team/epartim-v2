@@ -30,7 +30,7 @@ export function Sidebar() {
 	return (
 		<UiSidebar>
 			<UiSidebar.Header>
-					<Logo className="h-8 w-auto" />
+				<Logo className="h-8 w-auto" />
 			</UiSidebar.Header>
 
 			<UiSidebar.Body>

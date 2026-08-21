@@ -12,7 +12,7 @@ export function AdminShell({ children }: PropsWithChildren) {
 		<div className="flex min-h-svh bg-secondary-2 text-neutral-12">
 			<UiSidebar>
 				<UiSidebar.Header>
-						<Logo className="h-8 w-auto" />
+					<Logo className="h-8 w-auto" />
 					<p className="mt-1 font-semibold text-secondary-9 text-xs uppercase tracking-[0.2em]">
 						Administration
 					</p>
