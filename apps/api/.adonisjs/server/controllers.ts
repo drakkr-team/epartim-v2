@@ -6,17 +6,17 @@
 export const controllers = {
   features: {
     admin: {
-      adminManagement: {
+      accountManagement: {
         authentication: {
-          Login: () => import('#src/features/admin/admin_management/authentication/controllers/login.controller'),
-          Logout: () => import('#src/features/admin/admin_management/authentication/controllers/logout.controller'),
+          Login: () => import('#src/features/admin/account_management/authentication/controllers/login.controller'),
+          Logout: () => import('#src/features/admin/account_management/authentication/controllers/logout.controller'),
         },
         password: {
-          Forgot: () => import('#src/features/admin/admin_management/password/controllers/forgot.controller'),
-          Reset: () => import('#src/features/admin/admin_management/password/controllers/reset.controller'),
+          Forgot: () => import('#src/features/admin/account_management/password/controllers/forgot.controller'),
+          Reset: () => import('#src/features/admin/account_management/password/controllers/reset.controller'),
         },
         profile: {
-          View: () => import('#src/features/admin/admin_management/profile/controllers/view.controller'),
+          View: () => import('#src/features/admin/account_management/profile/controllers/view.controller'),
         },
       },
     },
