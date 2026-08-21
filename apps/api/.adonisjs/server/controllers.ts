@@ -5,6 +5,21 @@
 
 export const controllers = {
   features: {
+    admin: {
+      adminManagement: {
+        authentication: {
+          Login: () => import('#src/features/admin/admin_management/authentication/controllers/login.controller'),
+          Logout: () => import('#src/features/admin/admin_management/authentication/controllers/logout.controller'),
+        },
+        password: {
+          Forgot: () => import('#src/features/admin/admin_management/password/controllers/forgot.controller'),
+          Reset: () => import('#src/features/admin/admin_management/password/controllers/reset.controller'),
+        },
+        profile: {
+          View: () => import('#src/features/admin/admin_management/profile/controllers/view.controller'),
+        },
+      },
+    },
     client: {
       userManagement: {
         authentication: {

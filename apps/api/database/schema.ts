@@ -24,6 +24,25 @@ export class AddressSchema extends BaseModel {
   declare zip: string
 }
 
+export class AdminSchema extends BaseModel {
+  static $columns = ['activatedAt', 'createdAt', 'email', 'id', 'name', 'password', 'updatedAt'] as const
+  $columns = AdminSchema.$columns
+  @column.dateTime()
+  declare activatedAt: DateTime | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string
+  @column({ isPrimary: true })
+  declare id: bigint | number
+  @column()
+  declare name: string
+  @column({ serializeAs: null })
+  declare password: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class FileSchema extends BaseModel {
   static $columns = ['createdAt', 'id', 'key', 'name', 'size', 'type', 'updatedAt'] as const
   $columns = FileSchema.$columns

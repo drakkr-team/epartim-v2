@@ -1,6 +1,6 @@
 import { BaseMail } from "@adonisjs/mail";
 
-import User from "#models/user";
+import Admin from "#models/admin";
 
 export default class PasswordChangedNotificationMail extends BaseMail {
 	subject = "Votre mot de passe a été modifié";
@@ -10,11 +10,11 @@ export default class PasswordChangedNotificationMail extends BaseMail {
 	}
 
 	prepare() {
-		this.message.to(this.params.user.email);
+		this.message.to(this.params.admin.email);
 		this.message.htmlView(
 			"../features/admin/admin_management/password/mails/password_changed_notification.html",
 			{
-				user: this.params.user,
+				admin: this.params.admin,
 				loginUrl: this.params.loginUrl,
 			},
 		);
@@ -22,6 +22,6 @@ export default class PasswordChangedNotificationMail extends BaseMail {
 }
 
 type PasswordChangedNotificationMailDTO = {
-	user: User;
+	admin: Admin;
 	loginUrl: URL;
 };

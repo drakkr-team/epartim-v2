@@ -12,6 +12,7 @@ export default await Env.create(new URL("../", import.meta.url), {
 
 	// Frontend Config
 	FRONTEND_URL: Env.schema.string({ format: "url", tld: app.inProduction }),
+	ADMIN_URL: Env.schema.string({ format: "url", tld: app.inProduction }),
 
 	// Cookie Config
 	COOKIE_DOMAIN: Env.schema.string.optionalWhen(process.env.NODE_ENV !== "production"),

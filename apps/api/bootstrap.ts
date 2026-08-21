@@ -1,6 +1,7 @@
 import { authApiClient } from "@adonisjs/auth/plugins/api_client";
 import app from "@adonisjs/core/services/app";
 import testUtils from "@adonisjs/core/services/test_utils";
+import limiter from "@adonisjs/limiter/services/main";
 import { sessionApiClient } from "@adonisjs/session/plugins/api_client";
 import { apiClient } from "@japa/api-client";
 import { assert } from "@japa/assert";
@@ -29,6 +30,12 @@ export const runnerHooks: Required<Pick<Config, "setup" | "teardown">> = {
 
 export const configureSuite: Config["configureSuite"] = (suite) => {
 	if (["browser", "functional", "e2e"].includes(suite.name)) {
+		suite.onGroup((group) => {
+			group.each.setup(() => {
+				return () => limiter.clear();
+			});
+		});
+
 		return suite.setup(() => testUtils.httpServer().start());
 	}
 };
