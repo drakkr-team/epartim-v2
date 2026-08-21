@@ -28,3 +28,7 @@ export const ListAdminsSchema = vine.object({
 	search: vine.string().trim().optional(),
 	sortBy: vine.enum(AdminSortOptions).optional(),
 });
+
+export const UpdateAdminSchema = vine.object({
+	name: AdminNameSchema,
+});

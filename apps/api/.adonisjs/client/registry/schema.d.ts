@@ -55,6 +55,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admin_management/admins/controllers/view.controller').default['handle']>>>
     }
   }
+  'admin.admin_management.admins.update': {
+    methods: ["PATCH"]
+    pattern: '/admin/admin-management/admins/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/admin_management/admins/controllers/update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/admin_management/admins/controllers/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/admin_management/admins/controllers/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admin_management/admins/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.admin_management.profile.view': {
     methods: ["GET","HEAD"]
     pattern: '/admin/admin-management/profile'
