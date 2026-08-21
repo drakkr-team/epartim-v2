@@ -8,17 +8,17 @@ export interface ApiDefinition {
     }
   }
   admin: {
-    adminManagement: {
+    accountManagement: {
       profile: {
-        view: typeof routes['admin.admin_management.profile.view']
+        view: typeof routes['admin.account_management.profile.view']
       }
       authentication: {
-        login: typeof routes['admin.admin_management.authentication.login']
-        logout: typeof routes['admin.admin_management.authentication.logout']
+        login: typeof routes['admin.account_management.authentication.login']
+        logout: typeof routes['admin.account_management.authentication.logout']
       }
       password: {
-        forgot: typeof routes['admin.admin_management.password.forgot']
-        reset: typeof routes['admin.admin_management.password.reset']
+        forgot: typeof routes['admin.account_management.password.forgot']
+        reset: typeof routes['admin.account_management.password.reset']
       }
     }
     admins: {
