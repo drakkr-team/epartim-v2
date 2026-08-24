@@ -40,6 +40,6 @@
 
 	// i18n-ally Settings
 	"i18n-ally.enabledFrameworks": ["react-i18next"],
-	"i18n-ally.localesPaths": ["apps/web/src/libs/i18n/build"],
+	"i18n-ally.localesPaths": ["apps/client/src/libs/i18n/build", "apps/admin/src/libs/i18n/build"],
 	"i18n-ally.displayLanguage": "fr"
 }
