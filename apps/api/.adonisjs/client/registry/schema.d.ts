@@ -91,6 +91,66 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admins/controllers/delete.controller').default['handle']>>>
     }
   }
+  'admin.users.list': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/users'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#src/features/admin/users/controllers/list.controller').default)['querySchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/list.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/list.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.users.create': {
+    methods: ["POST"]
+    pattern: '/admin/users'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/users/controllers/create.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/users/controllers/create.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/create.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.users.view': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/users/:userId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { userId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/view.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/view.controller').default['handle']>>>
+    }
+  }
+  'admin.users.update': {
+    methods: ["PATCH"]
+    pattern: '/admin/users/:userId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/users/controllers/update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { userId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/users/controllers/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.users.delete': {
+    methods: ["DELETE"]
+    pattern: '/admin/users/:userId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { userId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/delete.controller').default['handle']>>>
+    }
+  }
   'client.user_management.profile.view': {
     methods: ["GET","HEAD"]
     pattern: '/client/user-management/profile'

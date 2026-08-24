@@ -1,0 +1,53 @@
+type: http_request
+model: http_request
+id: rq_user_list
+createdAt: 2026-08-21T00:00:00.000000
+updatedAt: 2026-08-21T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_users
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers:
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: GET
+name: List users
+sortPriority: 0.0
+url: http://localhost:3333/admin/users
+urlParameters:
+- enabled: true
+  name: page
+  value: '1'
+  id: null
+- enabled: true
+  name: perPage
+  value: '20'
+  id: null
+- enabled: true
+  name: orderBy
+  value: createdAt_desc
+  id: null
+- enabled: false
+  name: q
+  value: ''
+  id: null
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0
