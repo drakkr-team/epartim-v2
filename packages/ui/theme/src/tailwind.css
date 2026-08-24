@@ -4,10 +4,8 @@
  */
 
 @theme inline {
-	--font-sans: "Montserrat", "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-	--font-serif: "Cormorant Garamond", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
-	--font-display: "Cormorant Garamond", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
-	--font-mono: "JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
+	--font-sans: "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-serif: "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
 
 	--color-*: initial;
 
@@ -520,44 +518,44 @@
 
 :root {
 
-	--neutral-1: #fdfcfd;
-	--neutral-2: #faf9fb;
-	--neutral-3: #f2eff3;
-	--neutral-4: #eae7ec;
-	--neutral-5: #e3dfe6;
-	--neutral-6: #dbd8e0;
-	--neutral-7: #d0cdd7;
-	--neutral-8: #bcbac7;
-	--neutral-9: #8e8c99;
-	--neutral-10: #84828e;
-	--neutral-11: #65636d;
-	--neutral-12: #211f26;
+	--neutral-1: #fcfcfd;
+	--neutral-2: #f9f9fb;
+	--neutral-3: #f0f0f3;
+	--neutral-4: #e8e8ec;
+	--neutral-5: #e0e1e6;
+	--neutral-6: #d9d9e0;
+	--neutral-7: #cdced6;
+	--neutral-8: #b9bbc6;
+	--neutral-9: #8b8d98;
+	--neutral-10: #80838d;
+	--neutral-11: #60646c;
+	--neutral-12: #1c2024;
 
-	--primary-1: #f9fcff;
-	--primary-2: #f4f9ff;
-	--primary-3: #e8f0ff;
-	--primary-4: #dde8ff;
-	--primary-5: #d4e1ff;
-	--primary-6: #c9d9ff;
-	--primary-7: #bacdff;
-	--primary-8: #a2b9fb;
-	--primary-9: #070e2e;
-	--primary-10: #1e284b;
-	--primary-11: #4f6198;
-	--primary-12: #131d3e;
+	--primary-1: #fefdfc;
+	--primary-2: #fff9f0;
+	--primary-3: #ffeed6;
+	--primary-4: #ffe3be;
+	--primary-5: #ffd8a6;
+	--primary-6: #f7cc9b;
+	--primary-7: #e9bb86;
+	--primary-8: #daa360;
+	--primary-9: #d9a25f;
+	--primary-10: #d29546;
+	--primary-11: #956219;
+	--primary-12: #443625;
 
-	--secondary-1: #fefdfc;
-	--secondary-2: #fff9f0;
-	--secondary-3: #ffeed6;
-	--secondary-4: #ffe3be;
-	--secondary-5: #ffd8a6;
-	--secondary-6: #f7cc9b;
-	--secondary-7: #e9bb86;
-	--secondary-8: #daa360;
-	--secondary-9: #d9a25f;
-	--secondary-10: #d29546;
-	--secondary-11: #956219;
-	--secondary-12: #443625;
+	--secondary-1: #f9fcff;
+	--secondary-2: #f4f9ff;
+	--secondary-3: #e8f0ff;
+	--secondary-4: #dde8ff;
+	--secondary-5: #d4e1ff;
+	--secondary-6: #c9d9ff;
+	--secondary-7: #bacdff;
+	--secondary-8: #a2b9fb;
+	--secondary-9: #070e2e;
+	--secondary-10: #1e284b;
+	--secondary-11: #4f6198;
+	--secondary-12: #131d3e;
 
 	--info-1: #fbfdff;
 	--info-2: #f4faff;
@@ -1017,44 +1015,44 @@
 
 [data-theme="dark"] {
 
-	--neutral-1: #121113;
-	--neutral-2: #1a191b;
-	--neutral-3: #232225;
-	--neutral-4: #2b292d;
-	--neutral-5: #323035;
-	--neutral-6: #3c393f;
-	--neutral-7: #49474e;
-	--neutral-8: #625f69;
-	--neutral-9: #6f6d78;
-	--neutral-10: #7c7a85;
-	--neutral-11: #b5b2bc;
-	--neutral-12: #eeeef0;
+	--neutral-1: #111113;
+	--neutral-2: #18191b;
+	--neutral-3: #212225;
+	--neutral-4: #272a2d;
+	--neutral-5: #2e3135;
+	--neutral-6: #363a3f;
+	--neutral-7: #43484e;
+	--neutral-8: #5a6169;
+	--neutral-9: #696e77;
+	--neutral-10: #777b84;
+	--neutral-11: #b0b4ba;
+	--neutral-12: #edeef0;
 
-	--primary-1: #060d2d;
-	--primary-2: #0a133b;
-	--primary-3: #142056;
-	--primary-4: #1f2d63;
-	--primary-5: #293970;
-	--primary-6: #34457e;
-	--primary-7: #41548e;
-	--primary-8: #5164a0;
-	--primary-9: #6277b4;
-	--primary-10: #5669a5;
-	--primary-11: #9cb3f5;
-	--primary-12: #d0e0ff;
+	--primary-1: #13110d;
+	--primary-2: #1c1813;
+	--primary-3: #2b2115;
+	--primary-4: #382713;
+	--primary-5: #453016;
+	--primary-6: #543b1d;
+	--primary-7: #684b26;
+	--primary-8: #865f2e;
+	--primary-9: #d9a25f;
+	--primary-10: #cd9754;
+	--primary-11: #e9b16e;
+	--primary-12: #f9e0c3;
 
-	--secondary-1: #13110d;
-	--secondary-2: #1c1813;
-	--secondary-3: #2b2115;
-	--secondary-4: #382713;
-	--secondary-5: #453016;
-	--secondary-6: #543b1d;
-	--secondary-7: #684b26;
-	--secondary-8: #865f2e;
-	--secondary-9: #d9a25f;
-	--secondary-10: #cd9754;
-	--secondary-11: #e9b16e;
-	--secondary-12: #f9e0c3;
+	--secondary-1: #060d2d;
+	--secondary-2: #0a133b;
+	--secondary-3: #142056;
+	--secondary-4: #1f2d63;
+	--secondary-5: #293970;
+	--secondary-6: #34457e;
+	--secondary-7: #41548e;
+	--secondary-8: #5164a0;
+	--secondary-9: #6277b4;
+	--secondary-10: #5669a5;
+	--secondary-11: #9cb3f5;
+	--secondary-12: #d0e0ff;
 
 	--info-1: #0d1520;
 	--info-2: #111927;

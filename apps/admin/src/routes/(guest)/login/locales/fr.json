@@ -1,0 +1,7 @@
+{
+	"routes.(guest).login": {
+		"headline": "Espace administration",
+		"title": "Connexion",
+		"description": "Accédez à votre espace d'administration."
+	}
+}

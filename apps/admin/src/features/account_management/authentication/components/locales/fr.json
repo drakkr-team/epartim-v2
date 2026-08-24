@@ -1,0 +1,16 @@
+{
+	"features.account_management.authentication.components.login-form": {
+		"field": {
+			"email": {
+				"label": "Adresse email"
+			},
+			"password": {
+				"label": "Mot de passe"
+			}
+		},
+		"action": {
+			"forgotPassword": "Mot de passe oublié ?",
+			"login": "Se connecter"
+		}
+	}
+}

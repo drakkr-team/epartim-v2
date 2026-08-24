@@ -3,12 +3,8 @@ interface Fonts {
 }
 
 export const fonts: Fonts = {
-	sans: '"Montserrat", "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-	serif:
-		'"Cormorant Garamond", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"',
-	display:
-		'"Cormorant Garamond", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"',
-	mono: '"JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"',
+	sans: '"ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+	serif: '"ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"',
 };
 
 interface Colors {
@@ -22,34 +18,20 @@ interface Colors {
 
 export const colors: Colors = {
 	neutral: {
-		1: { light: "#fdfcfd", dark: "#121113" },
-		2: { light: "#faf9fb", dark: "#1a191b" },
-		3: { light: "#f2eff3", dark: "#232225" },
-		4: { light: "#eae7ec", dark: "#2b292d" },
-		5: { light: "#e3dfe6", dark: "#323035" },
-		6: { light: "#dbd8e0", dark: "#3c393f" },
-		7: { light: "#d0cdd7", dark: "#49474e" },
-		8: { light: "#bcbac7", dark: "#625f69" },
-		9: { light: "#8e8c99", dark: "#6f6d78" },
-		10: { light: "#84828e", dark: "#7c7a85" },
-		11: { light: "#65636d", dark: "#b5b2bc" },
-		12: { light: "#211f26", dark: "#eeeef0" },
+		1: { light: "#fcfcfd", dark: "#111113" },
+		2: { light: "#f9f9fb", dark: "#18191b" },
+		3: { light: "#f0f0f3", dark: "#212225" },
+		4: { light: "#e8e8ec", dark: "#272a2d" },
+		5: { light: "#e0e1e6", dark: "#2e3135" },
+		6: { light: "#d9d9e0", dark: "#363a3f" },
+		7: { light: "#cdced6", dark: "#43484e" },
+		8: { light: "#b9bbc6", dark: "#5a6169" },
+		9: { light: "#8b8d98", dark: "#696e77" },
+		10: { light: "#80838d", dark: "#777b84" },
+		11: { light: "#60646c", dark: "#b0b4ba" },
+		12: { light: "#1c2024", dark: "#edeef0" },
 	},
 	primary: {
-		1: { light: "#f9fcff", dark: "#060d2d" },
-		2: { light: "#f4f9ff", dark: "#0a133b" },
-		3: { light: "#e8f0ff", dark: "#142056" },
-		4: { light: "#dde8ff", dark: "#1f2d63" },
-		5: { light: "#d4e1ff", dark: "#293970" },
-		6: { light: "#c9d9ff", dark: "#34457e" },
-		7: { light: "#bacdff", dark: "#41548e" },
-		8: { light: "#a2b9fb", dark: "#5164a0" },
-		9: { light: "#070e2e", dark: "#6277b4" },
-		10: { light: "#1e284b", dark: "#5669a5" },
-		11: { light: "#4f6198", dark: "#9cb3f5" },
-		12: { light: "#131d3e", dark: "#d0e0ff" },
-	},
-	secondary: {
 		1: { light: "#fefdfc", dark: "#13110d" },
 		2: { light: "#fff9f0", dark: "#1c1813" },
 		3: { light: "#ffeed6", dark: "#2b2115" },
@@ -62,6 +44,20 @@ export const colors: Colors = {
 		10: { light: "#d29546", dark: "#cd9754" },
 		11: { light: "#956219", dark: "#e9b16e" },
 		12: { light: "#443625", dark: "#f9e0c3" },
+	},
+	secondary: {
+		1: { light: "#f9fcff", dark: "#060d2d" },
+		2: { light: "#f4f9ff", dark: "#0a133b" },
+		3: { light: "#e8f0ff", dark: "#142056" },
+		4: { light: "#dde8ff", dark: "#1f2d63" },
+		5: { light: "#d4e1ff", dark: "#293970" },
+		6: { light: "#c9d9ff", dark: "#34457e" },
+		7: { light: "#bacdff", dark: "#41548e" },
+		8: { light: "#a2b9fb", dark: "#5164a0" },
+		9: { light: "#070e2e", dark: "#6277b4" },
+		10: { light: "#1e284b", dark: "#5669a5" },
+		11: { light: "#4f6198", dark: "#9cb3f5" },
+		12: { light: "#131d3e", dark: "#d0e0ff" },
 	},
 	info: {
 		1: { light: "#fbfdff", dark: "#0d1520" },

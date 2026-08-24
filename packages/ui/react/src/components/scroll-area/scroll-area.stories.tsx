@@ -51,7 +51,7 @@ export const Default: Story = {
 					<div
 						// biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here because the list is static and will not change.
 						key={i}
-						className="flex size-24 items-center justify-center rounded-lg bg-neutral-3 text-neutral-12 text-sm"
+						className="flex size-24 items-center justify-center rounded-md bg-neutral-3 text-neutral-12 text-sm"
 					>
 						{i + 1}
 					</div>

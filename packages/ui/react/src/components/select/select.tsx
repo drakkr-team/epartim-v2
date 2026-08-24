@@ -23,7 +23,7 @@ export function SelectInput(props: SelectInputProps) {
 	return (
 		<SelectHeadless.Trigger
 			className={cn(
-				"inline-flex h-10 items-center justify-between gap-2 rounded-lg border border-neutral-7 bg-neutral-1 px-2 outline-none ring-primary-7 transition sm:h-9",
+				"inline-flex h-10 items-center justify-between gap-2 rounded-md border border-neutral-7 bg-neutral-1 px-2 outline-none ring-primary-7 transition sm:h-9",
 				"hover:not-disabled:border-neutral-8",
 				"focus-visible:border-primary-8 focus-visible:ring-3 focus-visible:hover:border-primary-8",
 				"data-popup-open:border-primary-8 data-popup-open:ring-3 data-popup-open:hover:border-primary-8",
@@ -86,7 +86,7 @@ export function SelectDropdown(props: SelectDropdownProps) {
 			>
 				<SelectHeadless.Popup
 					className={cn(
-						"grid max-h-[min(24rem,var(--available-height))] min-w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) grid-rows-1 rounded-lg border border-neutral-6 bg-neutral-1 shadow shadow-neutral-5 outline-none transition",
+						"grid max-h-[min(24rem,var(--available-height))] min-w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) grid-rows-1 rounded-md border border-neutral-6 bg-neutral-1 shadow shadow-neutral-5 outline-none transition",
 						"data-starting-style:data-[side=inline-end]:-translate-x-1 data-starting-style:data-[side=inline-start]:translate-x-1 data-starting-style:data-[side=left]:translate-x-1 data-starting-style:data-[side=right]:-translate-x-1 data-starting-style:data-[side=bottom]:-translate-y-1 data-starting-style:data-[side=top]:translate-y-1 data-starting-style:scale-95 data-starting-style:opacity-0 data-starting-style:blur-xs",
 						"data-ending-style:data-[side=inline-end]:-translate-x-1 data-ending-style:data-[side=inline-start]:translate-x-1 data-ending-style:data-[side=left]:translate-x-1 data-ending-style:data-[side=right]:-translate-x-1 data-ending-style:data-[side=bottom]:-translate-y-1 data-ending-style:data-[side=top]:translate-y-1 data-ending-style:scale-95 data-ending-style:opacity-0 data-ending-style:blur-xs",
 						className,

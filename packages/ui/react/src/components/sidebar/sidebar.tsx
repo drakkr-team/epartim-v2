@@ -78,7 +78,7 @@ export function SidebarItem(props: SidebarItemProps) {
 		<span
 			data-active={active || undefined}
 			className={cn(
-				"flex h-10 w-full items-center gap-3 rounded-lg px-3 text-primary-6 text-xs transition-colors hover:bg-primary-5/10 hover:text-primary-1 focus-visible:outline-2 focus-visible:outline-secondary-9 focus-visible:outline-offset-2 [&_svg]:size-5",
+				"flex h-10 w-full items-center gap-3 rounded-md px-3 text-primary-6 text-xs transition-colors hover:bg-primary-5/10 hover:text-primary-1 focus-visible:outline-2 focus-visible:outline-secondary-9 focus-visible:outline-offset-2 [&_svg]:size-5",
 				active &&
 					"relative bg-primary-5/15 font-semibold text-secondary-9 before:absolute before:inset-y-2 before:left-0 before:w-0.5 before:rounded-r before:bg-secondary-9",
 				className,

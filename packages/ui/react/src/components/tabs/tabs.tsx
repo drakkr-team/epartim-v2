@@ -32,7 +32,7 @@ export function TabsTab(props: TabsTabProps) {
 	return (
 		<TabsHeadless.Tab
 			className={cn(
-				"mb-2 inline-flex h-10 w-fit shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-lg px-6 font-medium text-neutral-12 text-sm outline-none transition sm:h-9 [&_svg]:size-4",
+				"mb-2 inline-flex h-10 w-fit shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-md px-6 font-medium text-neutral-12 text-sm outline-none transition sm:h-9 [&_svg]:size-4",
 				"hover:not-data-disabled:bg-neutral-3",
 				"focus-visible:bg-neutral-3!",
 				"data-active:bg-neutral-4",

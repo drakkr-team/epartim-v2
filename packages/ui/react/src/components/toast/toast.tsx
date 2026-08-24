@@ -20,7 +20,7 @@ export function ToastProvider() {
 				unstyled: true,
 				classNames: {
 					toast:
-						"bg-neutral-1 select-none border border-neutral-6 rounded-lg p-3 grid grid-cols-[auto_1fr_auto] gap-2 shadow shadow-neutral-5",
+						"bg-neutral-1 select-none border border-neutral-6 rounded-md p-3 grid grid-cols-[auto_1fr_auto] gap-2 shadow shadow-neutral-5",
 					title: "text-sm font-medium text-neutral-12",
 					description: "text-xs text-neutral-11",
 					icon: "relative size-5 flex items-center justify-center",
