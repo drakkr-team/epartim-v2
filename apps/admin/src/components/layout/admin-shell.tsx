@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 
+import { Logo } from "@workspace/ui-react/components/logo";
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
 import { LayoutDashboardIcon } from "@workspace/ui-react/icons";
 
@@ -11,9 +12,7 @@ export function AdminShell({ children }: PropsWithChildren) {
 		<div className="flex min-h-svh bg-secondary-2 text-neutral-12">
 			<UiSidebar>
 				<UiSidebar.Header>
-					<Link className="inline-flex font-bold text-2xl tracking-[-0.06em]" to="/">
-						epartim<span className="text-secondary-9">.</span>
-					</Link>
+					<Logo className="h-8 w-auto" />
 					<p className="mt-1 font-semibold text-secondary-9 text-xs uppercase tracking-[0.2em]">
 						Administration
 					</p>
