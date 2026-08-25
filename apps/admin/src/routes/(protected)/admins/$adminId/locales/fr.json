@@ -1,0 +1,19 @@
+{
+	"routes.(protected).admins.$adminId": {
+		"headline": "Gestion des accès",
+		"title": "Administrateur",
+		"description": "Consultez et gérez les informations de l'administrateur pour gérer votre application.",
+		"action": {
+			"edit": "Modifier",
+			"delete": "Supprimer"
+		},
+		"field": {
+			"id": "Id",
+			"name": "Nom",
+			"email": "Adresse e-mail",
+			"activatedAt": "Activé le",
+			"createdAt": "Créé le",
+			"updatedAt": "Mis à jour le"
+		}
+	}
+}

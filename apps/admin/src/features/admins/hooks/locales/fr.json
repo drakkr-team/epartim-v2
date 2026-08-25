@@ -1,0 +1,101 @@
+{
+	"features.admins.hooks.use-table": {
+		"header": {
+			"id": "Id",
+			"email": "Email",
+			"name": "Nom",
+			"activatedAt": "Activé le",
+			"createdAt": "Créé le",
+			"updatedAt": "Mis à jour le"
+		}
+	},
+
+	"features.admins.hooks.use-form": {
+		"validation": {
+			"name": {
+				"required": "Le nom est requis.",
+				"max": "Le nom ne peut pas dépasser {max} caractères."
+			},
+			"email": {
+				"email": "Veuillez entrer un email valide.",
+				"max": "L'email ne peut pas dépasser {max} caractères.",
+				"database.unique": "Cet email est déjà utilisé. Veuillez en choisir un autre."
+			}
+		}
+	},
+
+	"features.admins.hooks.use-create-mutation": {
+		"success": {
+			"title": "Administrateur créé avec succès",
+			"description": "L'administrateur {{name}} a été créé avec succès."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Erreur de réseau",
+				"description": "Une erreur de réseau s'est produite. Veuillez vérifier votre connexion et réessayer."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Non autorisé",
+				"description": "Vous n'êtes pas autorisé à créer un administrateur. Veuillez contacter votre administrateur système."
+			},
+			"E_VALIDATION": {
+				"title": "Erreur de validation",
+				"description": "Les données fournies sont invalides. Veuillez vérifier les champs et réessayer."
+			},
+			"E_UNEXPECTED": {
+				"title": "Erreur inattendue",
+				"description": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
+			}
+		}
+	},
+
+	"features.admins.hooks.use-update-mutation": {
+		"success": {
+			"title": "Administrateur mis à jour avec succès",
+			"description": "L'administrateur {{name}} a été mis à jour avec succès."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Erreur de réseau",
+				"description": "Une erreur de réseau s'est produite. Veuillez vérifier votre connexion et réessayer."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Non autorisé",
+				"description": "Vous n'êtes pas autorisé à mettre à jour cet administrateur. Veuillez contacter votre administrateur système."
+			},
+			"E_VALIDATION": {
+				"title": "Erreur de validation",
+				"description": "Les données fournies sont invalides. Veuillez vérifier les champs et réessayer."
+			},
+			"E_UNEXPECTED": {
+				"title": "Erreur inattendue",
+				"description": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
+			}
+		}
+	},
+
+	"features.admins.hooks.use-delete-mutation": {
+		"success": {
+			"title": "Administrateur supprimé avec succès",
+			"description": "L'administrateur a été supprimé avec succès."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Erreur de réseau",
+				"description": "Une erreur de réseau s'est produite. Veuillez vérifier votre connexion et réessayer."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Non autorisé",
+				"description": "Vous n'êtes pas autorisé à supprimer cet administrateur. Veuillez contacter votre administrateur système."
+			},
+			"E_VALIDATION": {
+				"title": "Erreur de validation",
+				"description": "Les données fournies sont invalides. Veuillez vérifier les champs et réessayer."
+			},
+			"E_UNEXPECTED": {
+				"title": "Erreur inattendue",
+				"description": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
+			}
+		}
+	}
+}

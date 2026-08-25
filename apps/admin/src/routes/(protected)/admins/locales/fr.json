@@ -1,0 +1,10 @@
+{
+	"routes.(protected).admins": {
+		"headline": "Gestion des accès",
+		"title": "Administrateurs",
+		"description": "Consultez et gérez les comptes qui accèdent au back-office.",
+		"actions": {
+			"new": "Créer un administrateur"
+		}
+	}
+}

@@ -8,7 +8,6 @@ type TextFieldProps = {
 	description?: string;
 	required?: boolean;
 	disabled?: boolean;
-	error?: string;
 	inputProps?: Omit<
 		InputProps,
 		"id" | "name" | "value" | "onChange" | "onBlur" | "aria-invalid" | "disabled"
@@ -16,11 +15,10 @@ type TextFieldProps = {
 };
 
 export function TextField(props: TextFieldProps) {
-	const { label, description, required, disabled, error, inputProps } = props;
+	const { label, description, required, disabled, inputProps } = props;
 
 	const field = useFieldContext<string>();
-	const hasLocalError = field.state.meta.isTouched && !field.state.meta.isValid;
-	const isInvalid = hasLocalError || error !== undefined;
+	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
 	return (
 		<Field
@@ -45,8 +43,7 @@ export function TextField(props: TextFieldProps) {
 				{...inputProps}
 			/>
 			{description && <Field.Description>{description}</Field.Description>}
-			{error && <Field.Error>{error}</Field.Error>}
-			{hasLocalError &&
+			{isInvalid &&
 				field.state.meta.errors.map((error) => (
 					<Field.Error key={`${error.code}-${error.path}`}>{error.message}</Field.Error>
 				))}
