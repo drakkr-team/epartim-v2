@@ -46,7 +46,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
 	render: (args) => (
 		<ScrollArea className="h-96 w-96 p-0" render={<Card />} {...args}>
-			<Card.Content className="grid grid-cols-[repeat(5,1fr)] gap-4 p-4">
+			<div className="grid grid-cols-[repeat(5,1fr)] gap-4 p-4">
 				{Array.from({ length: 50 }).map((_, i) => (
 					<div
 						// biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here because the list is static and will not change.
@@ -56,7 +56,7 @@ export const Default: Story = {
 						{i + 1}
 					</div>
 				))}
-			</Card.Content>
+			</div>
 		</ScrollArea>
 	),
 };

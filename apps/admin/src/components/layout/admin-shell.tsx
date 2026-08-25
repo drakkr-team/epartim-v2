@@ -3,17 +3,22 @@ import type { PropsWithChildren } from "react";
 
 import { Logo } from "@workspace/ui-react/components/logo";
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
-import { LayoutDashboardIcon } from "@workspace/ui-react/icons";
+import { Spinner } from "@workspace/ui-react/components/spinner";
+import { LayoutDashboardIcon, LogOutIcon } from "@workspace/ui-react/icons";
+
+import { useLogoutMutation } from "#/features/account_management/authentication/hooks/use-logout-mutation";
 
 const navigationItems = [{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon }];
 
 export function AdminShell({ children }: PropsWithChildren) {
+	const { mutateAsync: logout, isPending: isLoggingOut } = useLogoutMutation();
+
 	return (
-		<div className="flex min-h-svh bg-secondary-2 text-neutral-12">
+		<div className="flex min-h-svh text-neutral-12">
 			<UiSidebar>
 				<UiSidebar.Header>
-					<Logo className="h-8 w-auto" />
-					<p className="mt-1 font-semibold text-secondary-9 text-xs uppercase tracking-[0.2em]">
+					<Logo className="h-12 w-auto text-neutral-1" />
+					<p className="mt-1 font-semibold text-primary-9 text-xs uppercase tracking-widest">
 						Administration
 					</p>
 				</UiSidebar.Header>
@@ -41,6 +46,13 @@ export function AdminShell({ children }: PropsWithChildren) {
 						</UiSidebar.Group>
 					</nav>
 				</UiSidebar.Body>
+
+				<UiSidebar.Footer>
+					<UiSidebar.Item onClick={logout} disabled={isLoggingOut}>
+						{isLoggingOut ? <Spinner /> : <LogOutIcon />}
+						Se déconnecter
+					</UiSidebar.Item>
+				</UiSidebar.Footer>
 			</UiSidebar>
 
 			<main className="min-w-0 flex-1 p-4 pt-8 sm:p-8 lg:p-12">{children}</main>

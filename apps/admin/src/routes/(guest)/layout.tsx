@@ -1,5 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
+import { Logo } from "@workspace/ui-react/components/logo";
+
 import { isAuthenticated } from "#/utils/auth";
 
 export const Route = createFileRoute("/(guest)")({
@@ -15,9 +17,7 @@ function Layout() {
 	return (
 		<main className="flex min-h-svh flex-col items-center justify-center">
 			<div className="grid w-full max-w-96">
-				<h3 className="mb-8 text-center font-bold text-2xl text-secondary-12">
-					epartim<span className="text-primary-9">.</span>
-				</h3>
+				<Logo className="mx-auto mb-8 h-16 text-secondary-9" />
 
 				<Outlet />
 			</div>

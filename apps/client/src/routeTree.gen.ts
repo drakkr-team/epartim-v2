@@ -13,16 +13,12 @@ import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
 import { Route as guestauthLayoutRouteImport } from './routes/(guest)/(auth)/layout'
 import { Route as privatePageRouteImport } from './routes/(private)/page'
 import { Route as privateoperationsLayoutRouteImport } from './routes/(private)/(operations)/layout'
-import { Route as privateProfileLayoutRouteImport } from './routes/(private)/profile/layout'
 import { Route as privateoperationsSouscriptionLayoutRouteImport } from './routes/(private)/(operations)/souscription/layout'
-import { Route as privateProfilePageRouteImport } from './routes/(private)/profile/page'
 import { Route as guestauthForgotPasswordPageRouteImport } from './routes/(guest)/(auth)/forgot-password/page'
 import { Route as guestauthLoginPageRouteImport } from './routes/(guest)/(auth)/login/page'
 import { Route as guestauthResetPasswordPageRouteImport } from './routes/(guest)/(auth)/reset-password/page'
 import { Route as privateoperationsClientPortfolioPageRouteImport } from './routes/(private)/(operations)/client-portfolio/page'
 import { Route as privateoperationsSouscriptionsPageRouteImport } from './routes/(private)/(operations)/souscriptions/page'
-import { Route as privateProfilePrivacyPageRouteImport } from './routes/(private)/profile/privacy/page'
-import { Route as privateProfileSecurityPageRouteImport } from './routes/(private)/profile/security/page'
 import { Route as privateoperationsSouscriptionIdPageRouteImport } from './routes/(private)/(operations)/souscription/$id/page'
 
 const privateLayoutRoute = privateLayoutRouteImport.update({
@@ -42,22 +38,12 @@ const privateoperationsLayoutRoute = privateoperationsLayoutRouteImport.update({
   id: '/(operations)',
   getParentRoute: () => privateLayoutRoute,
 } as any)
-const privateProfileLayoutRoute = privateProfileLayoutRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
 const privateoperationsSouscriptionLayoutRoute =
   privateoperationsSouscriptionLayoutRouteImport.update({
     id: '/souscription',
     path: '/souscription',
     getParentRoute: () => privateoperationsLayoutRoute,
   } as any)
-const privateProfilePageRoute = privateProfilePageRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => privateProfileLayoutRoute,
-} as any)
 const guestauthForgotPasswordPageRoute =
   guestauthForgotPasswordPageRouteImport.update({
     id: '/forgot-password/',
@@ -87,18 +73,6 @@ const privateoperationsSouscriptionsPageRoute =
     path: '/souscriptions/',
     getParentRoute: () => privateoperationsLayoutRoute,
   } as any)
-const privateProfilePrivacyPageRoute =
-  privateProfilePrivacyPageRouteImport.update({
-    id: '/privacy/',
-    path: '/privacy/',
-    getParentRoute: () => privateProfileLayoutRoute,
-  } as any)
-const privateProfileSecurityPageRoute =
-  privateProfileSecurityPageRouteImport.update({
-    id: '/security/',
-    path: '/security/',
-    getParentRoute: () => privateProfileLayoutRoute,
-  } as any)
 const privateoperationsSouscriptionIdPageRoute =
   privateoperationsSouscriptionIdPageRouteImport.update({
     id: '/$id/',
@@ -107,30 +81,23 @@ const privateoperationsSouscriptionIdPageRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/profile': typeof privateProfileLayoutRouteWithChildren
   '/': typeof privatePageRoute
   '/souscription': typeof privateoperationsSouscriptionLayoutRouteWithChildren
-  '/profile/': typeof privateProfilePageRoute
   '/forgot-password/': typeof guestauthForgotPasswordPageRoute
   '/login/': typeof guestauthLoginPageRoute
   '/reset-password/': typeof guestauthResetPasswordPageRoute
   '/client-portfolio/': typeof privateoperationsClientPortfolioPageRoute
   '/souscriptions/': typeof privateoperationsSouscriptionsPageRoute
-  '/profile/privacy/': typeof privateProfilePrivacyPageRoute
-  '/profile/security/': typeof privateProfileSecurityPageRoute
   '/souscription/$id/': typeof privateoperationsSouscriptionIdPageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof privatePageRoute
   '/souscription': typeof privateoperationsSouscriptionLayoutRouteWithChildren
-  '/profile': typeof privateProfilePageRoute
   '/forgot-password': typeof guestauthForgotPasswordPageRoute
   '/login': typeof guestauthLoginPageRoute
   '/reset-password': typeof guestauthResetPasswordPageRoute
   '/client-portfolio': typeof privateoperationsClientPortfolioPageRoute
   '/souscriptions': typeof privateoperationsSouscriptionsPageRoute
-  '/profile/privacy': typeof privateProfilePrivacyPageRoute
-  '/profile/security': typeof privateProfileSecurityPageRoute
   '/souscription/$id': typeof privateoperationsSouscriptionIdPageRoute
 }
 export interface FileRoutesById {
@@ -138,63 +105,48 @@ export interface FileRoutesById {
   '/(private)': typeof privateLayoutRouteWithChildren
   '/(guest)/(auth)': typeof guestauthLayoutRouteWithChildren
   '/(private)/(operations)': typeof privateoperationsLayoutRouteWithChildren
-  '/(private)/profile': typeof privateProfileLayoutRouteWithChildren
   '/(private)/': typeof privatePageRoute
   '/(private)/(operations)/souscription': typeof privateoperationsSouscriptionLayoutRouteWithChildren
-  '/(private)/profile/': typeof privateProfilePageRoute
   '/(guest)/(auth)/forgot-password/': typeof guestauthForgotPasswordPageRoute
   '/(guest)/(auth)/login/': typeof guestauthLoginPageRoute
   '/(guest)/(auth)/reset-password/': typeof guestauthResetPasswordPageRoute
   '/(private)/(operations)/client-portfolio/': typeof privateoperationsClientPortfolioPageRoute
   '/(private)/(operations)/souscriptions/': typeof privateoperationsSouscriptionsPageRoute
-  '/(private)/profile/privacy/': typeof privateProfilePrivacyPageRoute
-  '/(private)/profile/security/': typeof privateProfileSecurityPageRoute
   '/(private)/(operations)/souscription/$id/': typeof privateoperationsSouscriptionIdPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/profile'
     | '/'
     | '/souscription'
-    | '/profile/'
     | '/forgot-password/'
     | '/login/'
     | '/reset-password/'
     | '/client-portfolio/'
     | '/souscriptions/'
-    | '/profile/privacy/'
-    | '/profile/security/'
     | '/souscription/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/souscription'
-    | '/profile'
     | '/forgot-password'
     | '/login'
     | '/reset-password'
     | '/client-portfolio'
     | '/souscriptions'
-    | '/profile/privacy'
-    | '/profile/security'
     | '/souscription/$id'
   id:
     | '__root__'
     | '/(private)'
     | '/(guest)/(auth)'
     | '/(private)/(operations)'
-    | '/(private)/profile'
     | '/(private)/'
     | '/(private)/(operations)/souscription'
-    | '/(private)/profile/'
     | '/(guest)/(auth)/forgot-password/'
     | '/(guest)/(auth)/login/'
     | '/(guest)/(auth)/reset-password/'
     | '/(private)/(operations)/client-portfolio/'
     | '/(private)/(operations)/souscriptions/'
-    | '/(private)/profile/privacy/'
-    | '/(private)/profile/security/'
     | '/(private)/(operations)/souscription/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -233,26 +185,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof privateoperationsLayoutRouteImport
       parentRoute: typeof privateLayoutRoute
     }
-    '/(private)/profile': {
-      id: '/(private)/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof privateProfileLayoutRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
     '/(private)/(operations)/souscription': {
       id: '/(private)/(operations)/souscription'
       path: '/souscription'
       fullPath: '/souscription'
       preLoaderRoute: typeof privateoperationsSouscriptionLayoutRouteImport
       parentRoute: typeof privateoperationsLayoutRoute
-    }
-    '/(private)/profile/': {
-      id: '/(private)/profile/'
-      path: '/'
-      fullPath: '/profile/'
-      preLoaderRoute: typeof privateProfilePageRouteImport
-      parentRoute: typeof privateProfileLayoutRoute
     }
     '/(guest)/(auth)/forgot-password/': {
       id: '/(guest)/(auth)/forgot-password/'
@@ -288,20 +226,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/souscriptions/'
       preLoaderRoute: typeof privateoperationsSouscriptionsPageRouteImport
       parentRoute: typeof privateoperationsLayoutRoute
-    }
-    '/(private)/profile/privacy/': {
-      id: '/(private)/profile/privacy/'
-      path: '/privacy'
-      fullPath: '/profile/privacy/'
-      preLoaderRoute: typeof privateProfilePrivacyPageRouteImport
-      parentRoute: typeof privateProfileLayoutRoute
-    }
-    '/(private)/profile/security/': {
-      id: '/(private)/profile/security/'
-      path: '/security'
-      fullPath: '/profile/security/'
-      preLoaderRoute: typeof privateProfileSecurityPageRouteImport
-      parentRoute: typeof privateProfileLayoutRoute
     }
     '/(private)/(operations)/souscription/$id/': {
       id: '/(private)/(operations)/souscription/$id/'
@@ -349,30 +273,13 @@ const privateoperationsLayoutRouteWithChildren =
     privateoperationsLayoutRouteChildren,
   )
 
-interface privateProfileLayoutRouteChildren {
-  privateProfilePageRoute: typeof privateProfilePageRoute
-  privateProfilePrivacyPageRoute: typeof privateProfilePrivacyPageRoute
-  privateProfileSecurityPageRoute: typeof privateProfileSecurityPageRoute
-}
-
-const privateProfileLayoutRouteChildren: privateProfileLayoutRouteChildren = {
-  privateProfilePageRoute: privateProfilePageRoute,
-  privateProfilePrivacyPageRoute: privateProfilePrivacyPageRoute,
-  privateProfileSecurityPageRoute: privateProfileSecurityPageRoute,
-}
-
-const privateProfileLayoutRouteWithChildren =
-  privateProfileLayoutRoute._addFileChildren(privateProfileLayoutRouteChildren)
-
 interface privateLayoutRouteChildren {
   privateoperationsLayoutRoute: typeof privateoperationsLayoutRouteWithChildren
-  privateProfileLayoutRoute: typeof privateProfileLayoutRouteWithChildren
   privatePageRoute: typeof privatePageRoute
 }
 
 const privateLayoutRouteChildren: privateLayoutRouteChildren = {
   privateoperationsLayoutRoute: privateoperationsLayoutRouteWithChildren,
-  privateProfileLayoutRoute: privateProfileLayoutRouteWithChildren,
   privatePageRoute: privatePageRoute,
 }
 

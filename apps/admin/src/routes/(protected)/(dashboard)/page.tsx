@@ -7,11 +7,11 @@ export const Route = createFileRoute("/(protected)/(dashboard)/")({
 function DashboardPage() {
 	return (
 		<section className="space-y-6">
-			<div className="border-primary-12/10 border-b pb-5">
-				<p className="font-semibold text-gold-11 text-xs uppercase tracking-[0.18em]">
+			<div className="border-primary-9 border-b pb-5">
+				<p className="font-semibold text-primary-9 text-xs uppercase tracking-widest">
 					Administration
 				</p>
-				<h1 className="mt-2 font-bold text-4xl text-primary-12 tracking-tight">
+				<h1 className="mt-2 font-bold text-4xl text-neutral-12 tracking-tight">
 					Pilotage de la plateforme
 				</h1>
 				<p className="mt-2 max-w-2xl text-neutral-11">

@@ -1,7 +1,0 @@
-{
-	"routes.(private).profile.privacy": {
-		"delete-profile-section": {
-			"title": "Zone dangereuse"
-		}
-	}
-}
