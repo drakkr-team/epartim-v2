@@ -18,9 +18,6 @@ export function AdminShell({ children }: PropsWithChildren) {
 			<UiSidebar>
 				<UiSidebar.Header>
 					<Logo className="h-12 w-auto text-neutral-1" />
-					<p className="mt-1 font-semibold text-primary-9 text-xs uppercase tracking-widest">
-						Administration
-					</p>
 				</UiSidebar.Header>
 
 				<UiSidebar.Body>

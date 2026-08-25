@@ -72,9 +72,9 @@ export function SidebarItem(props: SidebarItemProps) {
 	return (
 		<button
 			className={cn(
-				"flex h-10 w-full cursor-pointer items-center gap-3 rounded-md px-3 text-neutral-1 text-xs transition-colors hover:bg-secondary-10/50 [&_svg]:size-5",
+				"flex h-10 w-full cursor-pointer items-center gap-3 rounded-md px-3 text-neutral-1/75 text-xs transition-colors hover:bg-secondary-10/50 hover:text-neutral-1 [&_svg]:size-5",
 				active &&
-					"relative bg-secondary-10 font-semibold text-primary-9 before:absolute before:inset-y-2 before:left-0 before:w-0.5 before:rounded-r before:bg-primary-9",
+					"relative bg-secondary-10 font-semibold text-primary-9 before:absolute before:inset-y-2 before:left-0 before:w-0.5 before:rounded-r before:bg-primary-9 hover:text-primary-9",
 				className,
 			)}
 			{...rest}
