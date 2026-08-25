@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as protectedLayoutRouteImport } from './routes/(protected)/layout'
 import { Route as guestLayoutRouteImport } from './routes/(guest)/layout'
 import { Route as protecteddashboardPageRouteImport } from './routes/(protected)/(dashboard)/page'
+import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
 import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
+import { Route as guestForgotPasswordPageRouteImport } from './routes/(guest)/forgot-password/page'
 
 const protectedLayoutRoute = protectedLayoutRouteImport.update({
   id: '/(protected)',
@@ -27,37 +29,55 @@ const protecteddashboardPageRoute = protecteddashboardPageRouteImport.update({
   path: '/',
   getParentRoute: () => protectedLayoutRoute,
 } as any)
+const guestResetPasswordPageRoute = guestResetPasswordPageRouteImport.update({
+  id: '/reset-password/',
+  path: '/reset-password/',
+  getParentRoute: () => guestLayoutRoute,
+} as any)
 const guestLoginPageRoute = guestLoginPageRouteImport.update({
   id: '/login/',
   path: '/login/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
+const guestForgotPasswordPageRoute = guestForgotPasswordPageRouteImport.update({
+  id: '/forgot-password/',
+  path: '/forgot-password/',
+  getParentRoute: () => guestLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/forgot-password/': typeof guestForgotPasswordPageRoute
   '/login/': typeof guestLoginPageRoute
+  '/reset-password/': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
 }
 export interface FileRoutesByTo {
+  '/forgot-password': typeof guestForgotPasswordPageRoute
   '/login': typeof guestLoginPageRoute
+  '/reset-password': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(guest)': typeof guestLayoutRouteWithChildren
   '/(protected)': typeof protectedLayoutRouteWithChildren
+  '/(guest)/forgot-password/': typeof guestForgotPasswordPageRoute
   '/(guest)/login/': typeof guestLoginPageRoute
+  '/(guest)/reset-password/': typeof guestResetPasswordPageRoute
   '/(protected)/(dashboard)/': typeof protecteddashboardPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login/' | '/'
+  fullPaths: '/forgot-password/' | '/login/' | '/reset-password/' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
+  to: '/forgot-password' | '/login' | '/reset-password' | '/'
   id:
     | '__root__'
     | '/(guest)'
     | '/(protected)'
+    | '/(guest)/forgot-password/'
     | '/(guest)/login/'
+    | '/(guest)/reset-password/'
     | '/(protected)/(dashboard)/'
   fileRoutesById: FileRoutesById
 }
@@ -89,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protecteddashboardPageRouteImport
       parentRoute: typeof protectedLayoutRoute
     }
+    '/(guest)/reset-password/': {
+      id: '/(guest)/reset-password/'
+      path: '/reset-password'
+      fullPath: '/reset-password/'
+      preLoaderRoute: typeof guestResetPasswordPageRouteImport
+      parentRoute: typeof guestLayoutRoute
+    }
     '/(guest)/login/': {
       id: '/(guest)/login/'
       path: '/login'
@@ -96,15 +123,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof guestLoginPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
+    '/(guest)/forgot-password/': {
+      id: '/(guest)/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/forgot-password/'
+      preLoaderRoute: typeof guestForgotPasswordPageRouteImport
+      parentRoute: typeof guestLayoutRoute
+    }
   }
 }
 
 interface guestLayoutRouteChildren {
+  guestForgotPasswordPageRoute: typeof guestForgotPasswordPageRoute
   guestLoginPageRoute: typeof guestLoginPageRoute
+  guestResetPasswordPageRoute: typeof guestResetPasswordPageRoute
 }
 
 const guestLayoutRouteChildren: guestLayoutRouteChildren = {
+  guestForgotPasswordPageRoute: guestForgotPasswordPageRoute,
   guestLoginPageRoute: guestLoginPageRoute,
+  guestResetPasswordPageRoute: guestResetPasswordPageRoute,
 }
 
 const guestLayoutRouteWithChildren = guestLayoutRoute._addFileChildren(

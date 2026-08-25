@@ -1,24 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { z } from "zod";
 
 import { Card } from "@workspace/ui-react/components/card";
 
-import { LoginForm } from "#/features/account_management/authentication/components/login-form";
+import { ForgotPasswordForm } from "#/features/account_management/password/components/forgot-form";
 
-const searchParamsSchema = z.object({
-	redirectTo: z.string().optional(),
-});
-
-export const Route = createFileRoute("/(guest)/login/")({
-	validateSearch: searchParamsSchema,
+export const Route = createFileRoute("/(guest)/forgot-password/")({
 	component: Page,
 });
 
 function Page() {
-	const { t } = useTranslation("routes.(guest).login");
-
-	const { redirectTo } = Route.useSearch();
+	const { t } = useTranslation("routes.(guest).forgot-password");
 
 	return (
 		<Card className="grid gap-6 p-8">
@@ -30,7 +22,7 @@ function Page() {
 				<p className="text-neutral-11 text-xs">{t("description")}</p>
 			</header>
 
-			<LoginForm redirectTo={redirectTo} />
+			<ForgotPasswordForm />
 		</Card>
 	);
 }
