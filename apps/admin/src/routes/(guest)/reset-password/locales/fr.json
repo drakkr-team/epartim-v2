@@ -1,0 +1,13 @@
+{
+	"routes.(guest).reset-password": {
+		"headline": "Espace administrateur",
+		"title": "Réinitialisation",
+		"description": "Saisissez votre nouveau mot de passe pour réinitialiser votre compte.",
+		"error": {
+			"invalid-token": {
+				"title": "Lien de réinitialisation invalide",
+				"description": "Le lien de réinitialisation que vous avez utilisé est invalide ou a expiré. Veuillez demander un nouveau lien de réinitialisation."
+			}
+		}
+	}
+}

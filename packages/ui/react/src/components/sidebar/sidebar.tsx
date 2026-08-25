@@ -8,10 +8,7 @@ export function SidebarRoot(props: SidebarRootProps) {
 
 	return (
 		<aside
-			className={cn(
-				"grid h-svh w-64 shrink-0 grid-rows-[auto_1fr_auto] border-r-0 bg-primary-12 text-primary-1",
-				className,
-			)}
+			className={cn("grid h-svh w-64 shrink-0 grid-rows-[auto_1fr_auto] bg-secondary-9", className)}
 			{...rest}
 		/>
 	);
@@ -38,9 +35,7 @@ export type SidebarFooterProps = ComponentProps<"footer">;
 export function SidebarFooter(props: SidebarFooterProps) {
 	const { className, ...rest } = props;
 
-	return (
-		<footer className={cn("mt-auto border-primary-4/15 border-t px-6 py-6", className)} {...rest} />
-	);
+	return <footer className={cn("mt-auto px-6 py-6", className)} {...rest} />;
 }
 
 export type SidebarGroupProps = ComponentProps<"section">;
@@ -59,7 +54,7 @@ export function SidebarGroupLabel(props: SidebarGroupLabelProps) {
 	return (
 		<p
 			className={cn(
-				"px-3 font-semibold text-secondary-9 text-xs uppercase tracking-[0.2em]",
+				"px-3 font-semibold text-2xs text-primary-9 uppercase tracking-widest",
 				className,
 			)}
 			{...rest}
@@ -67,7 +62,7 @@ export function SidebarGroupLabel(props: SidebarGroupLabelProps) {
 	);
 }
 
-export type SidebarItemProps = ComponentProps<"span"> & {
+export type SidebarItemProps = ComponentProps<"button"> & {
 	active?: boolean;
 };
 
@@ -75,12 +70,11 @@ export function SidebarItem(props: SidebarItemProps) {
 	const { active, className, ...rest } = props;
 
 	return (
-		<span
-			data-active={active || undefined}
+		<button
 			className={cn(
-				"flex h-10 w-full items-center gap-3 rounded-lg px-3 text-primary-6 text-xs transition-colors hover:bg-primary-5/10 hover:text-primary-1 focus-visible:outline-2 focus-visible:outline-secondary-9 focus-visible:outline-offset-2 [&_svg]:size-5",
+				"flex h-10 w-full cursor-pointer items-center gap-3 rounded-md px-3 text-neutral-1/75 text-xs transition-colors hover:bg-secondary-10/50 hover:text-neutral-1 [&_svg]:size-5",
 				active &&
-					"relative bg-primary-5/15 font-semibold text-secondary-9 before:absolute before:inset-y-2 before:left-0 before:w-0.5 before:rounded-r before:bg-secondary-9",
+					"relative bg-secondary-10 font-semibold text-primary-9 before:absolute before:inset-y-2 before:left-0 before:w-0.5 before:rounded-r before:bg-primary-9 hover:text-primary-9",
 				className,
 			)}
 			{...rest}

@@ -17,7 +17,7 @@ export function FieldLabel(props: FieldLabelProps) {
 	return (
 		<FieldHeadless.Label
 			className={cn(
-				"font-semibold text-neutral-12 text-sm data-invalid:text-error-11",
+				"font-semibold text-2xs text-neutral-11 uppercase tracking-widest data-invalid:text-error-11",
 				"data-disabled:opacity-50",
 				required && "after:mr-0.5 after:inline-block after:text-error-11 after:content-['*']",
 				className,

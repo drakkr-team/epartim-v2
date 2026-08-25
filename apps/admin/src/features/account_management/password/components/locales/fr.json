@@ -1,0 +1,26 @@
+{
+	"features.account_management.password.components.forgot-form": {
+		"field": {
+			"email": {
+				"label": "Adresse e-mail"
+			}
+		},
+		"action": {
+			"sendResetEmail": "Envoyer l'e-mail de réinitialisation"
+		}
+	},
+
+	"features.account_management.password.components.reset-form": {
+		"field": {
+			"newPassword": {
+				"label": "Nouveau mot de passe"
+			},
+			"newPasswordConfirmation": {
+				"label": "Confirmer le nouveau mot de passe"
+			}
+		},
+		"action": {
+			"resetPassword": "Réinitialiser le mot de passe"
+		}
+	}
+}

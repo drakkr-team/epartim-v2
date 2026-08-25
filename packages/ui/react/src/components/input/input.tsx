@@ -24,7 +24,7 @@ export function InputRoot(props: InputRootProps) {
 			)}
 			<InputHeadless
 				className={cn(
-					"h-10 w-full flex-1 rounded-lg border border-neutral-7 bg-neutral-1 px-2 text-start text-base text-neutral-12 outline-none ring-primary-7 transition sm:h-9 sm:text-sm",
+					"h-10 w-full flex-1 rounded-md border border-neutral-7 bg-neutral-1 px-2 text-start text-base text-neutral-12 outline-none ring-primary-7 transition sm:h-9 sm:text-sm",
 					"placeholder:text-neutral-9",
 					"hover:not-data-disabled:border-neutral-8",
 					"focus-visible:border-primary-8 focus-visible:ring-3 focus-visible:hover:border-primary-8",

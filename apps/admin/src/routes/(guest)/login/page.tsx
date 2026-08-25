@@ -1,40 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { z } from "zod";
 
-import { Button } from "@workspace/ui-react/components/button";
-import { Input } from "@workspace/ui-react/components/input";
+import { Card } from "@workspace/ui-react/components/card";
 
-export const Route = createFileRoute("/(guest)/login/")({
-	component: LoginPage,
+import { LoginForm } from "#/features/account_management/authentication/components/login-form";
+
+const searchParamsSchema = z.object({
+	redirectTo: z.string().optional(),
 });
 
-//TODO: statique, à terminer
+export const Route = createFileRoute("/(guest)/login/")({
+	validateSearch: searchParamsSchema,
+	component: Page,
+});
 
-function LoginPage() {
+function Page() {
+	const { t } = useTranslation("routes.(guest).login");
+
+	const { redirectTo } = Route.useSearch();
+
 	return (
-		<main className="grid min-h-svh place-items-center bg-secondary-2 px-4 py-8">
-			<section className="w-full max-w-md rounded-xl bg-neutral-1 p-6 shadow-sm sm:p-8">
-				<header className="mb-6">
-					<p className="font-semibold text-secondary-11 text-xs uppercase tracking-[0.18em]">
-						Epartim administration
-					</p>
-					<h1 className="mt-1.5 font-bold text-2xl text-primary-12">Connexion</h1>
-					<p className="mt-1.5 text-neutral-11 text-sm">Cet écran sera branché ultérieurement.</p>
-				</header>
+		<Card className="grid gap-6 p-8">
+			<header className="grid gap-1">
+				<h2 className="font-bold text-2xs text-primary-9 uppercase tracking-widest">
+					{t("headline")}
+				</h2>
+				<h1 className="font-bold text-2xl text-secondary-12">{t("title")}</h1>
+				<p className="text-neutral-11 text-xs">{t("description")}</p>
+			</header>
 
-				<form className="grid gap-4" onSubmit={(event) => event.preventDefault()}>
-					<label className="grid gap-1.5 font-medium text-neutral-12 text-sm" htmlFor="email">
-						Adresse e-mail
-						<Input disabled id="email" placeholder="admin@epartim.fr" type="email" />
-					</label>
-					<label className="grid gap-1.5 font-medium text-neutral-12 text-sm" htmlFor="password">
-						Mot de passe
-						<Input disabled id="password" placeholder="••••••••" type="password" />
-					</label>
-					<Button disabled type="submit" variant="primary">
-						Se connecter
-					</Button>
-				</form>
-			</section>
-		</main>
+			<LoginForm redirectTo={redirectTo} />
+		</Card>
 	);
 }

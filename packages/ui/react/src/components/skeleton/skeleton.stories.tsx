@@ -14,8 +14,8 @@ export const Default: Story = {
 	render: (props) => (
 		<div className="grid gap-1">
 			<Skeleton className="size-9 rounded-full" {...props} />
-			<Skeleton className="h-3.5 w-24 rounded-lg" {...props} />
-			<Skeleton className="h-3 w-72 rounded-lg" {...props} />
+			<Skeleton className="h-3.5 w-24 rounded-md" {...props} />
+			<Skeleton className="h-3 w-72 rounded-md" {...props} />
 		</div>
 	),
 };

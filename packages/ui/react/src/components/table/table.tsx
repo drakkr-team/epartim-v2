@@ -7,7 +7,7 @@ export function TableRoot(props: TableRootProps) {
 	const { className, ...rest } = props;
 
 	return (
-		<div className={cn("overflow-auto rounded-lg border border-neutral-7 bg-neutral-1", className)}>
+		<div className={cn("overflow-auto rounded-md border border-neutral-7 bg-neutral-1", className)}>
 			<table className="h-full w-full" {...rest} />
 		</div>
 	);

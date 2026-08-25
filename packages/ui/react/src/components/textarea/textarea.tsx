@@ -54,7 +54,7 @@ export function TextareaRoot(props: TextareaRootProps) {
 			<textarea
 				ref={mergedRef}
 				className={cn(
-					"w-full flex-1 resize-y rounded-lg border border-neutral-7 bg-neutral-1 p-2 text-start text-base text-neutral-12 outline-none ring-primary-7 transition sm:text-sm",
+					"w-full flex-1 resize-y rounded-md border border-neutral-7 bg-neutral-1 p-2 text-start text-base text-neutral-12 outline-none ring-primary-7 transition sm:text-sm",
 					"placeholder:text-neutral-9",
 					"hover:not-data-disabled:border-neutral-8",
 					"focus-visible:border-primary-8 focus-visible:ring-3 focus-visible:hover:border-primary-8",
