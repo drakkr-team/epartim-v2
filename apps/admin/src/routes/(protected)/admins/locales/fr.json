@@ -3,8 +3,14 @@
 		"headline": "Gestion des accès",
 		"title": "Administrateurs",
 		"description": "Consultez et gérez les comptes qui accèdent au back-office.",
+		"empty": {
+			"title": "Aucun administrateur",
+			"title-search": "Aucun administrateur trouvé",
+			"description": "Il n'y a actuellement aucun administrateur dans le système. Vous pouvez en inviter un pour commencer à gérer les accès.",
+			"description-search": "Aucun administrateur trouvé pour la recherche \"{{search}}\"."
+		},
 		"actions": {
-			"new": "Créer un administrateur"
+			"new": "Inviter"
 		}
 	}
 }

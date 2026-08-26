@@ -75,6 +75,25 @@ function Page() {
 				</div>
 
 				<DataTable.Table />
+
+				<DataTable.Empty className="flex flex-col items-center justify-center gap-2 py-16">
+					<h3 className="font-bold text-neutral-12 text-xl">
+						{searchParams.q
+							? t("empty.title-search", { search: searchParams.q })
+							: t("empty.title")}
+					</h3>
+					<p className="text-neutral-11 text-sm">
+						{searchParams.q
+							? t("empty.description-search", { search: searchParams.q })
+							: t("empty.description")}
+					</p>
+					<Button variant="primary" render={<Link to="/admins/new" />}>
+						<PlusIcon />
+						{t("actions.new")}
+					</Button>
+				</DataTable.Empty>
+
+				<DataTable.Pagination />
 			</DataTable>
 		</main>
 	);

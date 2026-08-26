@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,7 +10,14 @@ import { useColumnVisibilityStore } from "#/hooks/use-column-visibility-store";
 import { orderByToSortingSate, sortingStateToOrderBy } from "#/utils/table";
 
 type UseAdminsTableParams = {
-	data: Admin[];
+	data: Array<
+		Admin & {
+			meta: {
+				canUpdate: boolean;
+				canDelete: boolean;
+			};
+		}
+	>;
 	pagination: Pagination;
 	q?: string;
 	orderBy?: string;
@@ -21,13 +28,21 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 
 	const { t } = useTranslation("features.admins.hooks.use-table");
 	const navigate = useNavigate();
+	const router = useRouter();
 	const sorting = orderByToSortingSate(orderBy);
 	const { columnVisibility, setColumnVisibility } = useColumnVisibilityStore({
 		name: "admins-table-column-visibility",
 		defaultValue: {},
 	});
 
-	const columnHelper = createColumnHelper<Admin>();
+	const columnHelper = createColumnHelper<
+		Admin & {
+			meta: {
+				canUpdate: boolean;
+				canDelete: boolean;
+			};
+		}
+	>();
 	const columns = useMemo(
 		() => [
 			columnHelper.accessor("id", {
@@ -54,6 +69,12 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 			columnHelper.display({
 				id: "actions",
 				cell: (cell) => AdminsTableActionCell({ cell }),
+				meta: {
+					classNames: {
+						header: "w-0 p-0",
+						cell: "p-1",
+					},
+				},
 			}),
 		],
 		[columnHelper, t],
@@ -62,7 +83,16 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 	return useReactTable({
 		data,
 		columns,
+		meta: {
+			rows: {
+				onClick: (row) =>
+					navigate({ to: "/admins/$adminId", params: { adminId: row.id.toString() } }),
+				onMouseEnter: (row) =>
+					router.preloadRoute({ to: "/admins/$adminId", params: { adminId: row.id.toString() } }),
+			},
+		},
 		manualSorting: true,
+		manualPagination: true,
 		getCoreRowModel: getCoreRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onGlobalFilterChange: (updaterOrValue) => {
@@ -81,6 +111,20 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 			return navigate({
 				to: ".",
 				search: (prev) => ({ ...prev, orderBy: newOrderBy, page: undefined }),
+			});
+		},
+		onPaginationChange: (updaterOrValue) => {
+			const newPaginationState =
+				typeof updaterOrValue === "function"
+					? updaterOrValue({ pageIndex: pagination.currentPage - 1, pageSize: pagination.perPage })
+					: updaterOrValue;
+
+			return navigate({
+				to: ".",
+				search: (prev: Record<string, unknown>) => ({
+					...prev,
+					page: newPaginationState.pageIndex + 1,
+				}),
 			});
 		},
 		pageCount: pagination.total,

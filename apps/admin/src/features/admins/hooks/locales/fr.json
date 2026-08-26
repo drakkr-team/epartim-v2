@@ -26,8 +26,8 @@
 
 	"features.admins.hooks.use-create-mutation": {
 		"success": {
-			"title": "Administrateur créé avec succès",
-			"description": "L'administrateur {{name}} a été créé avec succès."
+			"title": "Administrateur invité avec succès",
+			"description": "L'administrateur {{name}} a été invité avec succès. Un email d'invitation a été envoyé à {{email}}."
 		},
 		"error": {
 			"E_NETWORK": {

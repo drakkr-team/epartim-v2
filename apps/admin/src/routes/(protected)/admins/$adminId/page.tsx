@@ -1,5 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { TuyauError } from "@tuyau/core/client";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
@@ -16,6 +17,13 @@ export const Route = createFileRoute("/(protected)/admins/$adminId/")({
 			api.admins.view.queryOptions({ params: { adminId: params.adminId } }),
 		);
 	},
+	onError: (error) => {
+		if (error instanceof TuyauError) {
+			if (error.isStatus(404)) {
+				throw notFound();
+			}
+		}
+	},
 	component: Page,
 });
 
@@ -25,6 +33,7 @@ function Page() {
 	const { adminId } = Route.useParams();
 
 	const { data: admin } = useSuspenseQuery(api.admins.view.queryOptions({ params: { adminId } }));
+	const canDoActions = admin.meta.canUpdate || admin.meta.canDelete;
 
 	return (
 		<main className="mx-auto grid max-w-lg gap-9">
@@ -37,22 +46,30 @@ function Page() {
 					<p className="text-neutral-11 text-sm">{t("description")}</p>
 				</div>
 
-				<Menu>
-					<Menu.Trigger render={<Button variant="ghost" size="icon-md" />}>
-						<EllipsisVerticalIcon />
-					</Menu.Trigger>
+				{canDoActions && (
+					<Menu>
+						<Menu.Trigger render={<Button variant="ghost" size="icon-md" />}>
+							<EllipsisVerticalIcon />
+						</Menu.Trigger>
 
-					<Menu.Content align="end">
-						<Menu.Item render={<Link to="/admins/$adminId/edit" params={{ adminId: adminId }} />}>
-							<SquarePenIcon />
-							{t("action.edit")}
-						</Menu.Item>
-						<Menu.Item variant="destructive">
-							<TrashIcon />
-							{t("action.delete")}
-						</Menu.Item>
-					</Menu.Content>
-				</Menu>
+						<Menu.Content align="end">
+							{admin.meta.canUpdate && (
+								<Menu.Item
+									render={<Link to="/admins/$adminId/edit" params={{ adminId: adminId }} />}
+								>
+									<SquarePenIcon />
+									{t("action.edit")}
+								</Menu.Item>
+							)}
+							{admin.meta.canDelete && (
+								<Menu.Item variant="destructive">
+									<TrashIcon />
+									{t("action.delete")}
+								</Menu.Item>
+							)}
+						</Menu.Content>
+					</Menu>
+				)}
 			</header>
 
 			<Card className="grid grid-cols-2 gap-4">

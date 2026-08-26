@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "tailwind-variants";
 
 import { Button } from "@workspace/ui-react/components/button";
+import { Card, type CardProps } from "@workspace/ui-react/components/card";
 import { Input, type InputProps } from "@workspace/ui-react/components/input";
 import { Menu } from "@workspace/ui-react/components/menu";
 import { Table } from "@workspace/ui-react/components/table";
@@ -13,6 +14,8 @@ import {
 	ArrowDownUpIcon,
 	ArrowDownWideNarrowIcon,
 	ArrowUpNarrowWideIcon,
+	ChevronLeftIcon,
+	ChevronRightIcon,
 	SearchIcon,
 	Table2Icon,
 } from "@workspace/ui-react/icons";
@@ -49,6 +52,14 @@ function DataTableTable<TData>() {
 
 	const table = useDataTableContext<TData>();
 
+	table.getHeaderGroups().forEach((headerGroup) => {
+		headerGroup.headers.forEach((header) => {
+			console.log("header", header.column.columnDef.header);
+		});
+	});
+
+	console.log();
+
 	return (
 		<Table>
 			{table.getHeaderGroups().map((headerGroup) => (
@@ -57,9 +68,12 @@ function DataTableTable<TData>() {
 						{headerGroup.headers.map((header) => (
 							<Table.HeaderCell
 								key={header.id}
-								className={cn({
-									"p-1": header.column.getCanSort(),
-								})}
+								className={cn(
+									{
+										"p-1": header.column.getCanSort(),
+									},
+									header.column.columnDef.meta?.classNames?.header,
+								)}
 							>
 								{header.isPlaceholder ||
 								header.column.columnDef.header === undefined ? null : header.column.getCanSort() ? (
@@ -74,9 +88,26 @@ function DataTableTable<TData>() {
 			))}
 			<Table.Body>
 				{table.getRowModel().rows.map((row) => (
-					<Table.Row key={row.id}>
+					<Table.Row
+						key={row.id}
+						interactive={!!table.options.meta?.rows?.onClick}
+						onClick={(event) => {
+							const target = event.target;
+							if (
+								target instanceof Element &&
+								target.closest("a, button, input, select, textarea, [role='checkbox']")
+							) {
+								return;
+							}
+							table.options.meta?.rows?.onClick?.(row.original);
+						}}
+						onMouseEnter={() => table.options.meta?.rows?.onMouseEnter?.(row.original)}
+					>
 						{row.getVisibleCells().map((cell) => (
-							<Table.Cell key={cell.id}>
+							<Table.Cell
+								key={cell.id}
+								className={cn(cell.column.columnDef.meta?.classNames?.cell)}
+							>
 								{flexRender(cell.column.columnDef.cell, cell.getContext())}
 							</Table.Cell>
 						))}
@@ -85,6 +116,16 @@ function DataTableTable<TData>() {
 			</Table.Body>
 		</Table>
 	);
+}
+
+type DataTableEmptyProps = CardProps;
+
+function DataTableEmpty<TData>(props: DataTableEmptyProps) {
+	const table = useDataTableContext<TData>();
+
+	if (table.getRowModel().rows.length > 0) return null;
+
+	return <Card {...props} />;
 }
 
 type DataTableSortButtonProps<TData> = {
@@ -171,8 +212,41 @@ function DataTableSearchInput<TData>(props: DataTableSearchInputProps) {
 	);
 }
 
+function DataTablePagination<TData>() {
+	"use no memo";
+
+	const table = useDataTableContext<TData>();
+
+	return (
+		<div className="flex items-center justify-end gap-2">
+			<Button
+				variant="default"
+				size="icon-md"
+				onClick={() => {
+					table.previousPage();
+				}}
+				disabled={!table.getCanPreviousPage()}
+			>
+				<ChevronLeftIcon />
+			</Button>
+			<Button
+				variant="default"
+				size="icon-md"
+				onClick={() => {
+					table.nextPage();
+				}}
+				disabled={!table.getCanNextPage()}
+			>
+				<ChevronRightIcon />
+			</Button>
+		</div>
+	);
+}
+
 export const DataTable = Object.assign(DataTableRoot, {
 	Table: DataTableTable,
+	Empty: DataTableEmpty,
+	Pagination: DataTablePagination,
 	SearchInput: DataTableSearchInput,
 	ColumnsVisiblitySelector: DataTableColumnsVisiblitySelector,
 });

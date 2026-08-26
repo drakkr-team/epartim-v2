@@ -13,7 +13,7 @@ import {
 } from "@workspace/ui-react/icons";
 
 type AdminsTableActionCellProps = {
-	cell: CellContext<Admin, unknown>;
+	cell: CellContext<Admin & { meta: { canUpdate: boolean; canDelete: boolean } }, unknown>;
 };
 
 export function AdminsTableActionCell({ cell }: AdminsTableActionCellProps) {
@@ -34,16 +34,20 @@ export function AdminsTableActionCell({ cell }: AdminsTableActionCellProps) {
 					<SquareArrowOutUpRightIcon />
 					{t("show")}
 				</Menu.Item>
-				<Menu.Item
-					render={<Link to="/admins/$adminId/edit" params={{ adminId: admin.id.toString() }} />}
-				>
-					<SquarePenIcon />
-					{t("edit")}
-				</Menu.Item>
-				<Menu.Item variant="destructive">
-					<TrashIcon />
-					{t("delete")}
-				</Menu.Item>
+				{admin.meta.canUpdate && (
+					<Menu.Item
+						render={<Link to="/admins/$adminId/edit" params={{ adminId: admin.id.toString() }} />}
+					>
+						<SquarePenIcon />
+						{t("edit")}
+					</Menu.Item>
+				)}
+				{admin.meta.canDelete && (
+					<Menu.Item variant="destructive">
+						<TrashIcon />
+						{t("delete")}
+					</Menu.Item>
+				)}
 			</Menu.Content>
 		</Menu>
 	);

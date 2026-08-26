@@ -1,5 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { TuyauError } from "@tuyau/core/client";
 import { useTranslation } from "react-i18next";
 
 import { Card } from "@workspace/ui-react/components/card";
@@ -12,6 +13,13 @@ export const Route = createFileRoute("/(protected)/admins/$adminId/edit/")({
 		await context.queryClient.ensureQueryData(
 			api.admins.view.queryOptions({ params: { adminId: params.adminId } }),
 		);
+	},
+	onError: (error) => {
+		if (error instanceof TuyauError) {
+			if (error.isStatus(404)) {
+				throw notFound();
+			}
+		}
 	},
 	component: Page,
 });
