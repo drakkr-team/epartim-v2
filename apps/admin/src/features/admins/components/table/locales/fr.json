@@ -1,6 +1,6 @@
 {
 	"features.admins.components.table.action-cell": {
-		"show": "Voir",
+		"show": "Consulter",
 		"edit": "Modifier",
 		"delete": "Supprimer"
 	}

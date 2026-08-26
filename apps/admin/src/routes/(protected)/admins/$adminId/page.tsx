@@ -90,7 +90,9 @@ function Page() {
 
 				<Field>
 					<Field.Label>{t("field.activatedAt")}</Field.Label>
-					<p className="text-neutral-12 text-sm">{admin.activatedAt?.toLocaleDateString()}</p>
+					<p className="text-neutral-12 text-sm">
+						{admin.activatedAt?.toLocaleDateString() ?? t("status.pendingActivation")}
+					</p>
 				</Field>
 
 				<Field>

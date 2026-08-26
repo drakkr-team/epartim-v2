@@ -63,7 +63,7 @@ function Page() {
 
 			<DataTable table={table}>
 				<div className="flex items-center justify-between gap-4">
-					<DataTable.SearchInput />
+					<DataTable.SearchInput placeholder={t("search.placeholder")} />
 
 					<div className="flex items-center gap-2">
 						<Button variant="primary" render={<Link to="/admins/new" />}>

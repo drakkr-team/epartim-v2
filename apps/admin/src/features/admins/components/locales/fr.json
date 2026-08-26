@@ -5,12 +5,12 @@
 				"label": "Nom"
 			},
 			"email": {
-				"label": "Adresse email"
+				"label": "Adresse e-mail"
 			}
 		},
 		"action": {
-			"create": "Inviter",
-			"update": "Mettre à jour"
+			"create": "Envoyer l'invitation",
+			"update": "Enregistrer les modifications"
 		}
 	}
 }

@@ -56,7 +56,7 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 			}),
 			columnHelper.accessor("activatedAt", {
 				header: t("header.activatedAt"),
-				cell: (props) => props.getValue()?.toLocaleDateString(),
+				cell: (props) => props.getValue()?.toLocaleDateString() ?? t("status.pendingActivation"),
 			}),
 			columnHelper.accessor("createdAt", {
 				header: t("header.createdAt"),

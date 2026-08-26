@@ -2,6 +2,6 @@
 	"routes.(protected).admins.$adminId.edit": {
 		"headline": "Gestion des accès",
 		"title": "Modifier l'administrateur",
-		"description": "Modifiez les informations de l'administrateur pour gérer votre application."
+		"description": "Modifiez le nom de cet administrateur."
 	}
 }
