@@ -40,7 +40,7 @@ export function TableRow(props: TableRowProps) {
 		<tr
 			className={cn(
 				{
-					"cursor-pointer hover:bg-neutral-3": interactive,
+					"cursor-pointer hover:bg-neutral-3/50": interactive,
 				},
 				className,
 			)}
@@ -61,7 +61,7 @@ export function TableCell(props: TableCellProps) {
 			className={cn(
 				"truncate px-4 py-3 text-start text-neutral-12 text-sm",
 				{
-					"cursor-pointer hover:bg-neutral-3": interactive,
+					"cursor-pointer hover:bg-neutral-3/50": interactive,
 				},
 				className,
 			)}

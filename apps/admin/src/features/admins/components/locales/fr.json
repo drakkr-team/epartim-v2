@@ -1,0 +1,16 @@
+{
+	"features.admins.components.form": {
+		"field": {
+			"name": {
+				"label": "Nom"
+			},
+			"email": {
+				"label": "Adresse e-mail"
+			}
+		},
+		"action": {
+			"create": "Envoyer l'invitation",
+			"update": "Enregistrer les modifications"
+		}
+	}
+}

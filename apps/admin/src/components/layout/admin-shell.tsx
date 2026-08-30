@@ -4,11 +4,14 @@ import type { PropsWithChildren } from "react";
 import { Logo } from "@workspace/ui-react/components/logo";
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
 import { Spinner } from "@workspace/ui-react/components/spinner";
-import { LayoutDashboardIcon, LogOutIcon } from "@workspace/ui-react/icons";
+import { LayoutDashboardIcon, LogOutIcon, UserShieldIcon } from "@workspace/ui-react/icons";
 
 import { useLogoutMutation } from "#/features/account_management/authentication/hooks/use-logout-mutation";
 
-const navigationItems = [{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon }];
+const navigationItems = [
+	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon, exact: true },
+	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
+] as const;
 
 export function AdminShell({ children }: PropsWithChildren) {
 	const { mutateAsync: logout, isPending: isLoggingOut } = useLogoutMutation();
@@ -29,10 +32,10 @@ export function AdminShell({ children }: PropsWithChildren) {
 									const Icon = item.icon;
 
 									return (
-										<Link activeOptions={{ exact: true }} key={item.to} to={item.to}>
+										<Link activeOptions={{ exact: item.exact }} key={item.to} to={item.to}>
 											{({ isActive }) => (
 												<UiSidebar.Item active={isActive}>
-													<Icon aria-hidden="true" />
+													<Icon />
 													{item.label}
 												</UiSidebar.Item>
 											)}
@@ -52,7 +55,7 @@ export function AdminShell({ children }: PropsWithChildren) {
 				</UiSidebar.Footer>
 			</UiSidebar>
 
-			<main className="min-w-0 flex-1 p-4 pt-8 sm:p-8 lg:p-12">{children}</main>
+			<div className="ml-64 flex-1 p-4 pt-8 sm:p-8 sm:pt-12">{children}</div>
 		</div>
 	);
 }

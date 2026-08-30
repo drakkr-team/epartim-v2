@@ -1,0 +1,19 @@
+{
+	"routes.(protected).admins": {
+		"headline": "Gestion des accès",
+		"title": "Administrateurs",
+		"description": "Gérez les comptes autorisés à accéder à l'espace d'administration.",
+		"search": {
+			"placeholder": "Rechercher..."
+		},
+		"empty": {
+			"title": "Aucun administrateur",
+			"title-search": "Aucun résultat",
+			"description": "Aucun administrateur n'a encore été invité. Invitez-en un pour commencer à gérer les accès.",
+			"description-search": "Aucun administrateur ne correspond à « {{search}} »."
+		},
+		"actions": {
+			"new": "Inviter un administrateur"
+		}
+	}
+}

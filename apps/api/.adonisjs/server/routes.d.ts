@@ -57,9 +57,10 @@ export type ScannedRoutes = {
     'client.user_management.password.forgot': { paramsTuple?: []; params?: {} }
     'client.user_management.password.reset': { paramsTuple?: []; params?: {} }
   }
-  PATCH: {
+  PUT: {
     'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
-    'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
+    'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
+    'client.user_management.password.update': { paramsTuple?: []; params?: {} }
   }
   DELETE: {
     'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
@@ -68,9 +69,8 @@ export type ScannedRoutes = {
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
   }
-  PUT: {
-    'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.update': { paramsTuple?: []; params?: {} }
+  PATCH: {
+    'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

@@ -1,0 +1,7 @@
+{
+	"routes.(protected).admins.new": {
+		"headline": "Gestion des accès",
+		"title": "Inviter un administrateur",
+		"description": "Renseignez son nom et son adresse e-mail pour lui envoyer une invitation."
+	}
+}

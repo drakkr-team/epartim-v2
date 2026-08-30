@@ -8,7 +8,7 @@ router
 		router.get("/", [controllers.features.admin.admins.List]);
 		router.post("/", [controllers.features.admin.admins.Create]);
 		router.get("/:adminId", [controllers.features.admin.admins.View]);
-		router.patch("/:adminId", [controllers.features.admin.admins.Update]);
+		router.put("/:adminId", [controllers.features.admin.admins.Update]);
 		router.delete("/:adminId", [controllers.features.admin.admins.Delete]);
 	})
 	.use(middleware.auth({ guards: ["admin"] }))
