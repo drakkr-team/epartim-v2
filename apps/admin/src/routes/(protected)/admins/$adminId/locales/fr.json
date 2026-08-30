@@ -1,0 +1,22 @@
+{
+	"routes.(protected).admins.$adminId": {
+		"headline": "Gestion des accès",
+		"title": "Administrateur",
+		"description": "Consultez les informations de cet administrateur.",
+		"action": {
+			"edit": "Modifier",
+			"delete": "Supprimer"
+		},
+		"field": {
+			"id": "ID",
+			"name": "Nom",
+			"email": "Adresse e-mail",
+			"activatedAt": "Activé le",
+			"createdAt": "Créé le",
+			"updatedAt": "Mis à jour le"
+		},
+		"status": {
+			"pendingActivation": "En attente d'activation"
+		}
+	}
+}

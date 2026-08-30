@@ -68,7 +68,7 @@ export interface Registry {
     }
   }
   'admin.admins.update': {
-    methods: ["PATCH"]
+    methods: ["PUT"]
     pattern: '/admin/admins/:adminId'
     types: {
       body: ExtractBody<InferInput<(typeof import('#src/features/admin/admins/controllers/update.controller').default)['payloadSchema']>>

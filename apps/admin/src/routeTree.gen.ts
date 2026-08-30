@@ -11,10 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as protectedLayoutRouteImport } from './routes/(protected)/layout'
 import { Route as guestLayoutRouteImport } from './routes/(guest)/layout'
+import { Route as protectedAdminsPageRouteImport } from './routes/(protected)/admins/page'
 import { Route as protecteddashboardPageRouteImport } from './routes/(protected)/(dashboard)/page'
 import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
 import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
 import { Route as guestForgotPasswordPageRouteImport } from './routes/(guest)/forgot-password/page'
+import { Route as protectedAdminsNewPageRouteImport } from './routes/(protected)/admins/new/page'
+import { Route as protectedAdminsAdminIdPageRouteImport } from './routes/(protected)/admins/$adminId/page'
+import { Route as protectedAdminsAdminIdEditPageRouteImport } from './routes/(protected)/admins/$adminId/edit/page'
 
 const protectedLayoutRoute = protectedLayoutRouteImport.update({
   id: '/(protected)',
@@ -23,6 +27,11 @@ const protectedLayoutRoute = protectedLayoutRouteImport.update({
 const guestLayoutRoute = guestLayoutRouteImport.update({
   id: '/(guest)',
   getParentRoute: () => rootRouteImport,
+} as any)
+const protectedAdminsPageRoute = protectedAdminsPageRouteImport.update({
+  id: '/admins/',
+  path: '/admins/',
+  getParentRoute: () => protectedLayoutRoute,
 } as any)
 const protecteddashboardPageRoute = protecteddashboardPageRouteImport.update({
   id: '/(dashboard)/',
@@ -44,18 +53,43 @@ const guestForgotPasswordPageRoute = guestForgotPasswordPageRouteImport.update({
   path: '/forgot-password/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
+const protectedAdminsNewPageRoute = protectedAdminsNewPageRouteImport.update({
+  id: '/admins/new/',
+  path: '/admins/new/',
+  getParentRoute: () => protectedLayoutRoute,
+} as any)
+const protectedAdminsAdminIdPageRoute =
+  protectedAdminsAdminIdPageRouteImport.update({
+    id: '/admins/$adminId/',
+    path: '/admins/$adminId/',
+    getParentRoute: () => protectedLayoutRoute,
+  } as any)
+const protectedAdminsAdminIdEditPageRoute =
+  protectedAdminsAdminIdEditPageRouteImport.update({
+    id: '/admins/$adminId/edit/',
+    path: '/admins/$adminId/edit/',
+    getParentRoute: () => protectedLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/forgot-password/': typeof guestForgotPasswordPageRoute
   '/login/': typeof guestLoginPageRoute
   '/reset-password/': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
+  '/admins/': typeof protectedAdminsPageRoute
+  '/admins/$adminId/': typeof protectedAdminsAdminIdPageRoute
+  '/admins/new/': typeof protectedAdminsNewPageRoute
+  '/admins/$adminId/edit/': typeof protectedAdminsAdminIdEditPageRoute
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof guestForgotPasswordPageRoute
   '/login': typeof guestLoginPageRoute
   '/reset-password': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
+  '/admins': typeof protectedAdminsPageRoute
+  '/admins/$adminId': typeof protectedAdminsAdminIdPageRoute
+  '/admins/new': typeof protectedAdminsNewPageRoute
+  '/admins/$adminId/edit': typeof protectedAdminsAdminIdEditPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -65,12 +99,32 @@ export interface FileRoutesById {
   '/(guest)/login/': typeof guestLoginPageRoute
   '/(guest)/reset-password/': typeof guestResetPasswordPageRoute
   '/(protected)/(dashboard)/': typeof protecteddashboardPageRoute
+  '/(protected)/admins/': typeof protectedAdminsPageRoute
+  '/(protected)/admins/$adminId/': typeof protectedAdminsAdminIdPageRoute
+  '/(protected)/admins/new/': typeof protectedAdminsNewPageRoute
+  '/(protected)/admins/$adminId/edit/': typeof protectedAdminsAdminIdEditPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/forgot-password/' | '/login/' | '/reset-password/' | '/'
+  fullPaths:
+    | '/forgot-password/'
+    | '/login/'
+    | '/reset-password/'
+    | '/'
+    | '/admins/'
+    | '/admins/$adminId/'
+    | '/admins/new/'
+    | '/admins/$adminId/edit/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/forgot-password' | '/login' | '/reset-password' | '/'
+  to:
+    | '/forgot-password'
+    | '/login'
+    | '/reset-password'
+    | '/'
+    | '/admins'
+    | '/admins/$adminId'
+    | '/admins/new'
+    | '/admins/$adminId/edit'
   id:
     | '__root__'
     | '/(guest)'
@@ -79,6 +133,10 @@ export interface FileRouteTypes {
     | '/(guest)/login/'
     | '/(guest)/reset-password/'
     | '/(protected)/(dashboard)/'
+    | '/(protected)/admins/'
+    | '/(protected)/admins/$adminId/'
+    | '/(protected)/admins/new/'
+    | '/(protected)/admins/$adminId/edit/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -101,6 +159,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof guestLayoutRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(protected)/admins/': {
+      id: '/(protected)/admins/'
+      path: '/admins'
+      fullPath: '/admins/'
+      preLoaderRoute: typeof protectedAdminsPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
     }
     '/(protected)/(dashboard)/': {
       id: '/(protected)/(dashboard)/'
@@ -130,6 +195,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof guestForgotPasswordPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
+    '/(protected)/admins/new/': {
+      id: '/(protected)/admins/new/'
+      path: '/admins/new'
+      fullPath: '/admins/new/'
+      preLoaderRoute: typeof protectedAdminsNewPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
+    }
+    '/(protected)/admins/$adminId/': {
+      id: '/(protected)/admins/$adminId/'
+      path: '/admins/$adminId'
+      fullPath: '/admins/$adminId/'
+      preLoaderRoute: typeof protectedAdminsAdminIdPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
+    }
+    '/(protected)/admins/$adminId/edit/': {
+      id: '/(protected)/admins/$adminId/edit/'
+      path: '/admins/$adminId/edit'
+      fullPath: '/admins/$adminId/edit/'
+      preLoaderRoute: typeof protectedAdminsAdminIdEditPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
+    }
   }
 }
 
@@ -151,10 +237,18 @@ const guestLayoutRouteWithChildren = guestLayoutRoute._addFileChildren(
 
 interface protectedLayoutRouteChildren {
   protecteddashboardPageRoute: typeof protecteddashboardPageRoute
+  protectedAdminsPageRoute: typeof protectedAdminsPageRoute
+  protectedAdminsAdminIdPageRoute: typeof protectedAdminsAdminIdPageRoute
+  protectedAdminsNewPageRoute: typeof protectedAdminsNewPageRoute
+  protectedAdminsAdminIdEditPageRoute: typeof protectedAdminsAdminIdEditPageRoute
 }
 
 const protectedLayoutRouteChildren: protectedLayoutRouteChildren = {
   protecteddashboardPageRoute: protecteddashboardPageRoute,
+  protectedAdminsPageRoute: protectedAdminsPageRoute,
+  protectedAdminsAdminIdPageRoute: protectedAdminsAdminIdPageRoute,
+  protectedAdminsNewPageRoute: protectedAdminsNewPageRoute,
+  protectedAdminsAdminIdEditPageRoute: protectedAdminsAdminIdEditPageRoute,
 }
 
 const protectedLayoutRouteWithChildren = protectedLayoutRoute._addFileChildren(

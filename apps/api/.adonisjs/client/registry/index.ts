@@ -37,7 +37,7 @@ const routes = {
     types: placeholder as Registry['admin.admins.view']['types'],
   },
   'admin.admins.update': {
-    methods: ["PATCH"],
+    methods: ["PUT"],
     pattern: '/admin/admins/:adminId',
     tokens: [{"old":"/admin/admins/:adminId","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId","type":1,"val":"adminId","end":""}],
     types: placeholder as Registry['admin.admins.update']['types'],

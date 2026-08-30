@@ -8,7 +8,10 @@ export function SidebarRoot(props: SidebarRootProps) {
 
 	return (
 		<aside
-			className={cn("grid h-svh w-64 shrink-0 grid-rows-[auto_1fr_auto] bg-secondary-9", className)}
+			className={cn(
+				"fixed top-0 left-0 grid h-svh w-64 shrink-0 grid-rows-[auto_1fr_auto] bg-secondary-9",
+				className,
+			)}
 			{...rest}
 		/>
 	);

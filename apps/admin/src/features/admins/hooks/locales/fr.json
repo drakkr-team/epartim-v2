@@ -1,0 +1,104 @@
+{
+	"features.admins.hooks.use-table": {
+		"header": {
+			"id": "ID",
+			"email": "Adresse e-mail",
+			"name": "Nom",
+			"activatedAt": "Activé le",
+			"createdAt": "Créé le",
+			"updatedAt": "Mis à jour le"
+		},
+		"status": {
+			"pendingActivation": "En attente d'activation"
+		}
+	},
+
+	"features.admins.hooks.use-form": {
+		"validation": {
+			"name": {
+				"required": "Le nom est requis.",
+				"max": "Le nom doit contenir au maximum {{max}} caractères."
+			},
+			"email": {
+				"email": "Saisissez une adresse e-mail valide.",
+				"max": "L'adresse e-mail doit contenir au maximum {{max}} caractères.",
+				"database.unique": "Cette adresse e-mail est déjà utilisée. Veuillez en choisir une autre."
+			}
+		}
+	},
+
+	"features.admins.hooks.use-create-mutation": {
+		"success": {
+			"title": "Invitation envoyée",
+			"description": "L'invitation de {{name}} a bien été envoyée."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation d'inviter un administrateur. Contactez votre administrateur système si nécessaire."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
+	},
+
+	"features.admins.hooks.use-update-mutation": {
+		"success": {
+			"title": "Modifications enregistrées",
+			"description": "Les informations de {{name}} ont bien été mises à jour."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de modifier cet administrateur. Contactez votre administrateur système si nécessaire."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
+	},
+
+	"features.admins.hooks.use-delete-mutation": {
+		"success": {
+			"title": "Administrateur supprimé",
+			"description": "Le compte administrateur a bien été supprimé."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de supprimer cet administrateur. Contactez votre administrateur système si nécessaire."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
+	}
+}
