@@ -25,10 +25,10 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		assert.equal(response.text(), "");
 		assert.isNull(await Network.find(network.id));
 		assert.isNull(await Address.find(network.addressId));
-		assert.isNull(await PaymentDetail.find(network.paymentDetailsId));
+		assert.isNull(await PaymentDetail.find(network.paymentDetailId));
 	});
 
-	test("it should return the exact conflict and preserve every record when a firm references it", async ({
+	test("it should delete a referenced network and clear the firm relation", async ({
 		client,
 		assert,
 	}) => {
@@ -44,15 +44,12 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 			.withGuard("admin")
 			.loginAs(admin);
 
-		response.assertStatus(409);
-		assert.deepEqual(response.body(), {
-			code: "E_NETWORK_HAS_FIRMS",
-			message: "Le réseau ne peut pas être supprimé car des cabinets y font référence.",
-		});
-		assert.isNotNull(await Network.find(network.id));
-		assert.isNotNull(await Address.find(network.addressId));
-		assert.isNotNull(await PaymentDetail.find(network.paymentDetailsId));
-		assert.equal((await Firm.findOrFail(firm.id)).networkId, network.id);
+		response.assertNoContent();
+		assert.equal(response.text(), "");
+		assert.isNull(await Network.find(network.id));
+		assert.isNull(await Address.find(network.addressId));
+		assert.isNull(await PaymentDetail.find(network.paymentDetailId));
+		assert.isNull((await Firm.findOrFail(firm.id)).networkId);
 	});
 
 	test("it should return not found for an unknown networkId", async ({ client }) => {

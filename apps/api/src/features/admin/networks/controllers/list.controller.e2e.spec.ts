@@ -4,7 +4,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
 
 test.group("Features / Admin / Networks / Controllers / List Controller", () => {
-	test("it should return the exact metadata and expanded relation contract", async ({
+	test("it should return pagination, action metadata, and relation identifiers", async ({
 		client,
 		assert,
 	}) => {
@@ -22,11 +22,26 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 
 		response.assertOk();
 		const body = response.body();
-		assert.deepEqual(Object.keys(body.meta).sort(), ["canCreate", "page", "perPage", "total"]);
+		assert.deepEqual(Object.keys(body.meta).sort(), [
+			"canCreate",
+			"currentPage",
+			"firstPage",
+			"hasMorePages",
+			"hasPages",
+			"isEmpty",
+			"lastPage",
+			"perPage",
+			"total",
+		]);
 		assert.deepEqual(body.meta, {
-			page: 1,
 			perPage: 20,
+			currentPage: 1,
 			total: 1,
+			firstPage: 1,
+			lastPage: 1,
+			isEmpty: false,
+			hasPages: false,
+			hasMorePages: false,
 			canCreate: true,
 		});
 		assert.lengthOf(body.data, 1);
@@ -36,9 +51,9 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 			canDelete: true,
 		});
 		assert.equal(body.data[0].addressId, network.addressId);
-		assert.equal(body.data[0].address.id, network.addressId);
-		assert.equal(body.data[0].paymentDetailsId, network.paymentDetailsId);
-		assert.equal(body.data[0].paymentDetails.id, network.paymentDetailsId);
+		assert.equal(body.data[0].paymentDetailId, network.paymentDetailId);
+		assert.notProperty(body.data[0], "address");
+		assert.notProperty(body.data[0], "paymentDetails");
 		assert.property(body.data[0], "createdAt");
 		assert.property(body.data[0], "updatedAt");
 	});
@@ -68,7 +83,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 
 		pageResponse.assertOk();
 		pageResponse.assertBodyContains({
-			meta: { page: 2, perPage: 1, total: 2 },
+			meta: { currentPage: 2, perPage: 1, total: 2 },
 			data: [{ id: second.id }],
 		});
 
@@ -83,15 +98,12 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 		assert.deepEqual(hiddenFieldResponse.body().data, []);
 	});
 
-	test("it should reject invalid pagination and sorting options", async ({ client }) => {
+	test("it should reject invalid pagination and ignore unknown sorting options", async ({
+		client,
+	}) => {
 		const admin = await AdminFactory.create();
 
-		for (const query of [
-			{ page: 0 },
-			{ perPage: 1.5 },
-			{ orderBy: "address_asc" },
-			{ orderBy: "name_sideways" },
-		]) {
+		for (const query of [{ page: 0 }, { perPage: 1.5 }]) {
 			const response = await client
 				.get("/admin/networks")
 				.withGuard("admin")
@@ -99,6 +111,16 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 				.qs(query);
 
 			response.assertStatus(422);
+		}
+
+		for (const orderBy of ["address_asc", "name_sideways"]) {
+			const response = await client
+				.get("/admin/networks")
+				.withGuard("admin")
+				.loginAs(admin)
+				.qs({ orderBy });
+
+			response.assertOk();
 		}
 	});
 

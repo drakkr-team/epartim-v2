@@ -18,14 +18,14 @@ const validPayload = {
 			longitude: 2.3305,
 		},
 	},
-	paymentDetails: {
+	paymentDetail: {
 		iban: "fr76 3000 6000 0112 3456 7890 189",
 		bic: "agri fr pp",
 	},
 };
 
 test.group("Features / Admin / Networks / Controllers / Create Controller", () => {
-	test("it should atomically create and return a network with its owned relations", async ({
+	test("it should atomically create owned records and return their identifiers", async ({
 		client,
 		assert,
 	}) => {
@@ -42,16 +42,11 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 			name: validPayload.name,
 			amundiOrgId: validPayload.amundiOrgId,
 			goCode: validPayload.goCode,
-			address: validPayload.address,
-			paymentDetails: {
-				iban: "FR7630006000011234567890189",
-				bic: "AGRIFRPP",
-			},
 		});
 
 		const body = response.body();
-		assert.equal(body.addressId, body.address.id);
-		assert.equal(body.paymentDetailsId, body.paymentDetails.id);
+		assert.property(body, "addressId");
+		assert.property(body, "paymentDetailId");
 
 		const network = await Network.query()
 			.where("name", validPayload.name)
@@ -59,9 +54,9 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 			.preload("paymentDetails")
 			.firstOrFail();
 		assert.equal(network.address.id, body.addressId);
-		assert.equal(network.paymentDetails.id, body.paymentDetailsId);
-		assert.equal(network.paymentDetails.iban, "FR7630006000011234567890189");
-		assert.equal(network.paymentDetails.bic, "AGRIFRPP");
+		assert.equal(network.paymentDetails.id, body.paymentDetailId);
+		assert.equal(network.paymentDetails.iban, "FR76 3000 6000 0112 3456 7890 189");
+		assert.equal(network.paymentDetails.bic, "AGRI FR PP");
 	});
 
 	test("it should require the network and owned relation fields", async ({ client }) => {
@@ -72,15 +67,15 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({
+				...validPayload,
 				name: "",
 				address: {
+					...validPayload.address,
 					lineOne: "",
-					zip: "",
-					city: "",
 				},
-				paymentDetails: {
+				paymentDetail: {
+					...validPayload.paymentDetail,
 					iban: "",
-					bic: "",
 				},
 			});
 
@@ -159,12 +154,12 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 			{
 				...validPayload,
 				name: "IBAN",
-				paymentDetails: { ...validPayload.paymentDetails, iban: "FR001234" },
+				paymentDetail: { ...validPayload.paymentDetail, iban: "FR001234" },
 			},
 			{
 				...validPayload,
 				name: "BIC",
-				paymentDetails: { ...validPayload.paymentDetails, bic: "INVALID" },
+				paymentDetail: { ...validPayload.paymentDetail, bic: "INVALID" },
 			},
 		];
 

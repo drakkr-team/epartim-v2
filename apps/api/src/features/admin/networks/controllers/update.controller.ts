@@ -19,24 +19,28 @@ export default class UpdateNetworkController {
 
 		await bouncer.with(UpdateNetworkPolicy).authorize("handle");
 
-		const payload = await request.validateUsing(UpdateNetworkController.payloadSchema);
+		const {
+			address: addressPayload,
+			paymentDetail: paymentDetailPayload,
+			...networkPayload
+		} = await request.validateUsing(UpdateNetworkController.payloadSchema);
 
 		const network = await Network.findOrFail(networkId);
 
 		await db.transaction(async (trx) => {
-			if (payload.address) {
+			if (addressPayload) {
 				const address = await Address.findOrFail(network.addressId, { client: trx });
-				await address.useTransaction(trx).merge(payload.address).save();
+				await address.useTransaction(trx).merge(addressPayload).save();
 			}
 
-			if (payload.paymentDetail) {
+			if (paymentDetailPayload) {
 				const paymentDetail = await PaymentDetail.findOrFail(network.paymentDetailId, {
 					client: trx,
 				});
-				await paymentDetail.useTransaction(trx).merge(payload.paymentDetail).save();
+				await paymentDetail.useTransaction(trx).merge(paymentDetailPayload).save();
 			}
 
-			network.useTransaction(trx).merge(payload).save();
+			await network.useTransaction(trx).merge(networkPayload).save();
 		});
 
 		return this.networkPresenter.toJSON(network);

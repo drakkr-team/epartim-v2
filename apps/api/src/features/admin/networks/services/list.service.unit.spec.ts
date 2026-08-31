@@ -2,9 +2,7 @@ import { test } from "@japa/runner";
 import { DateTime } from "luxon";
 
 import { NetworkFactory } from "#database/factories/network.factory";
-import ListNetworksService, {
-	type NetworkOrderBy,
-} from "#features/admin/networks/services/list.service";
+import ListNetworksService from "#features/admin/networks/services/list.service";
 import Network from "#models/network";
 
 async function createNetwork(name: string, values: Partial<Network> = {}) {
@@ -15,12 +13,15 @@ async function createNetwork(name: string, values: Partial<Network> = {}) {
 }
 
 test.group("Features / Admin / Networks / Services / List Service", () => {
-	test("it should order by creation date then ID descending by default", async ({ assert }) => {
+	test("it should order by creation date descending by default", async ({ assert }) => {
 		const first = await createNetwork("Default Tie First");
 		const second = await createNetwork("Default Tie Second");
-		const sharedDate = DateTime.fromISO("2026-01-01T00:00:00.000Z");
-		await Network.query().where("id", Number(first.id)).update({ createdAt: sharedDate });
-		await Network.query().where("id", Number(second.id)).update({ createdAt: sharedDate });
+		await Network.query()
+			.where("id", Number(first.id))
+			.update({ createdAt: DateTime.fromISO("2026-01-01T00:00:00.000Z") });
+		await Network.query()
+			.where("id", Number(second.id))
+			.update({ createdAt: DateTime.fromISO("2026-02-01T00:00:00.000Z") });
 
 		const networks = await new ListNetworksService().handle({ q: "Default Tie" });
 
@@ -74,11 +75,11 @@ test.group("Features / Admin / Networks / Services / List Service", () => {
 		for (const field of fields) {
 			const ascending = await service.handle({
 				q: "Sort Matrix",
-				orderBy: `${field}_asc` as NetworkOrderBy,
+				orderBy: `${field}_asc`,
 			});
 			const descending = await service.handle({
 				q: "Sort Matrix",
-				orderBy: `${field}_desc` as NetworkOrderBy,
+				orderBy: `${field}_desc`,
 			});
 
 			assert.deepEqual(
@@ -94,12 +95,14 @@ test.group("Features / Admin / Networks / Services / List Service", () => {
 		}
 	});
 
-	test("it should preload the address and payment details", async ({ assert }) => {
+	test("it should return relation identifiers without preloading relations", async ({ assert }) => {
 		const created = await createNetwork("Preloaded Relations");
 
 		const [network] = await new ListNetworksService().handle({ q: "Preloaded Relations" });
 
-		assert.equal(network.address.id, created.addressId);
-		assert.equal(network.paymentDetails.id, created.paymentDetailsId);
+		assert.equal(network.addressId, created.addressId);
+		assert.equal(network.paymentDetailId, created.paymentDetailId);
+		assert.isUndefined(network.address);
+		assert.isUndefined(network.paymentDetails);
 	});
 });

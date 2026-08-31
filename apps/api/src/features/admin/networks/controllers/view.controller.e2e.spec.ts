@@ -4,7 +4,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
 
 test.group("Features / Admin / Networks / Controllers / View Controller", () => {
-	test("it should return a network with its relations and exact action metadata", async ({
+	test("it should return a network with relation identifiers and action metadata", async ({
 		client,
 		assert,
 	}) => {
@@ -20,9 +20,10 @@ test.group("Features / Admin / Networks / Controllers / View Controller", () => 
 		const body = response.body();
 		assert.equal(body.id, network.id);
 		assert.equal(body.addressId, network.addressId);
+		assert.equal(body.paymentDetailId, network.paymentDetailId);
 		assert.equal(body.address.id, network.addressId);
-		assert.equal(body.paymentDetailsId, network.paymentDetailsId);
-		assert.equal(body.paymentDetails.id, network.paymentDetailsId);
+		assert.equal(body.paymentDetail.id, network.paymentDetailId);
+		assert.notProperty(body, "paymentDetails");
 		assert.property(body, "createdAt");
 		assert.property(body, "updatedAt");
 		assert.deepEqual(Object.keys(body.meta).sort(), ["canDelete", "canUpdate"]);

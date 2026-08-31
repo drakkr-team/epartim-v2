@@ -17,7 +17,7 @@ async function createUpdateFixture(name: string, amundiOrgId: string) {
 		zip: "75001",
 		city: "Paris",
 	});
-	await PaymentDetail.query().where("id", String(network.paymentDetailsId)).update({
+	await PaymentDetail.query().where("id", String(network.paymentDetailId)).update({
 		iban: "FR7630006000011234567890189",
 		bic: "AGRIFRPP",
 	});
@@ -38,8 +38,17 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 			.loginAs(admin)
 			.json({
 				name: "Updated Network",
-				address: { city: "Lyon" },
-				paymentDetails: { iban: "fr76 3000 6000 0112 3456 7890 189" },
+				address: {
+					lineOne: "10 Original Street",
+					lineTwo: "Original floor",
+					zip: "75001",
+					city: "Lyon",
+					coordinates: { latitude: 45.764, longitude: 4.8357 },
+				},
+				paymentDetail: {
+					iban: "fr76 3000 6000 0112 3456 7890 189",
+					bic: "agri fr pp",
+				},
 			});
 
 		response.assertOk();
@@ -48,17 +57,7 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 			name: "Updated Network",
 			amundiOrgId: "AMUNDI-ORIGINAL",
 			addressId: network.addressId,
-			paymentDetailsId: network.paymentDetailsId,
-			address: {
-				lineOne: "10 Original Street",
-				lineTwo: "Original floor",
-				zip: "75001",
-				city: "Lyon",
-			},
-			paymentDetails: {
-				iban: "FR7630006000011234567890189",
-				bic: "AGRIFRPP",
-			},
+			paymentDetailId: network.paymentDetailId,
 		});
 		assert.equal(String(response.body().goCode), "112000");
 
@@ -68,12 +67,13 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 			.preload("paymentDetails")
 			.firstOrFail();
 		assert.equal(persisted.address.id, network.addressId);
-		assert.equal(persisted.paymentDetails.id, network.paymentDetailsId);
+		assert.equal(persisted.address.city, "Lyon");
+		assert.equal(persisted.paymentDetails.id, network.paymentDetailId);
+		assert.equal(persisted.paymentDetails.iban, "FR76 3000 6000 0112 3456 7890 189");
+		assert.equal(persisted.paymentDetails.bic, "AGRI FR PP");
 	});
 
-	test("it should distinguish explicit nulls and allow unchanged unique values", async ({
-		client,
-	}) => {
+	test("it should distinguish explicit nulls from omitted unique values", async ({ client }) => {
 		const admin = await AdminFactory.create();
 		const network = await createUpdateFixture("Same Unique Network", "AMUNDI-SAME");
 
@@ -82,7 +82,6 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({
-				name: network.name,
 				amundiOrgId: null,
 				goCode: null,
 			});
@@ -113,30 +112,46 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		}
 	});
 
-	test("it should reject payloads without modifiable fields", async ({ client }) => {
+	test("it should allow a no-op payload", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
 		const network = await createUpdateFixture("Empty Payload Target", "AMUNDI-EMPTY");
 
-		for (const payload of [{}, { address: {} }, { paymentDetails: {} }, { addressId: 999 }]) {
-			const response = await client
-				.visit("admin.networks.update", { networkId: network.id })
-				.withGuard("admin")
-				.loginAs(admin)
-				.json(payload);
+		const response = await client
+			.visit("admin.networks.update", { networkId: network.id })
+			.withGuard("admin")
+			.loginAs(admin)
+			.json({});
 
-			response.assertStatus(422);
-		}
+		response.assertOk();
+		assert.equal(response.body().addressId, network.addressId);
+		assert.equal(response.body().paymentDetailId, network.paymentDetailId);
 	});
 
 	test("it should reject invalid partial values", async ({ client }) => {
 		const admin = await AdminFactory.create();
 		const network = await createUpdateFixture("Validation Target", "AMUNDI-VALIDATION");
 		const invalidPayloads = [
-			{ name: "" },
 			{ goCode: 1.5 },
-			{ address: { coordinates: { latitude: 91, longitude: 0 } } },
-			{ paymentDetails: { iban: "FR001234" } },
-			{ paymentDetails: { bic: "INVALID" } },
+			{
+				address: {
+					lineOne: "10 Validation Street",
+					zip: "75001",
+					city: "Paris",
+					coordinates: { latitude: 91, longitude: 0 },
+				},
+			},
+			{
+				paymentDetail: {
+					iban: "FR001234",
+					bic: "AGRIFRPP",
+				},
+			},
+			{
+				paymentDetail: {
+					iban: "FR7630006000011234567890189",
+					bic: "INVALID",
+				},
+			},
 		];
 
 		for (const payload of invalidPayloads) {

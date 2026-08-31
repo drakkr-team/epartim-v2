@@ -10,7 +10,7 @@ export default class Network extends NetworkSchema {
 	@belongsTo(() => Address)
 	declare address: BelongsTo<typeof Address>;
 
-	@belongsTo(() => PaymentDetail, { foreignKey: "paymentDetailsId" })
+	@belongsTo(() => PaymentDetail)
 	declare paymentDetails: BelongsTo<typeof PaymentDetail>;
 
 	@hasMany(() => Firm)
