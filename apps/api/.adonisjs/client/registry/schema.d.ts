@@ -115,6 +115,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/create.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'admin.networks.view': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/networks/:networkId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { networkId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/view.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/view.controller').default['handle']>>>
+    }
+  }
   'admin.users.list': {
     methods: ["GET","HEAD"]
     pattern: '/admin/users'
