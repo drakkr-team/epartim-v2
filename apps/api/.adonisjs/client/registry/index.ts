@@ -48,6 +48,12 @@ const routes = {
     tokens: [{"old":"/admin/admins/:adminId","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId","type":1,"val":"adminId","end":""}],
     types: placeholder as Registry['admin.admins.delete']['types'],
   },
+  'admin.firms.list': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/firms',
+    tokens: [{"old":"/admin/firms","type":0,"val":"admin","end":""},{"old":"/admin/firms","type":0,"val":"firms","end":""}],
+    types: placeholder as Registry['admin.firms.list']['types'],
+  },
   'admin.networks.list': {
     methods: ["GET","HEAD"],
     pattern: '/admin/networks',

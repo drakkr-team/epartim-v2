@@ -28,6 +28,9 @@ export interface ApiDefinition {
       update: typeof routes['admin.admins.update']
       delete: typeof routes['admin.admins.delete']
     }
+    firms: {
+      list: typeof routes['admin.firms.list']
+    }
     networks: {
       list: typeof routes['admin.networks.list']
       create: typeof routes['admin.networks.create']
