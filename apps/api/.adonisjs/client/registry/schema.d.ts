@@ -115,6 +115,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/view.controller').default['handle']>>>
     }
   }
+  'admin.firms.update': {
+    methods: ["PUT"]
+    pattern: '/admin/firms/:firmId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/firms/controllers/update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { firmId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/firms/controllers/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.networks.list': {
     methods: ["GET","HEAD"]
     pattern: '/admin/networks'

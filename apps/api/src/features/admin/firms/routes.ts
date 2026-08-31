@@ -7,6 +7,7 @@ router
 	.group(() => {
 		router.get("/", [controllers.features.admin.firms.List]);
 		router.get("/:firmId", [controllers.features.admin.firms.View]);
+		router.put("/:firmId", [controllers.features.admin.firms.Update]);
 	})
 	.use(middleware.auth({ guards: ["admin"] }))
 	.prefix("admin/firms")

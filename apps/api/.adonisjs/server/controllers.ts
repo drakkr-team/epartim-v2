@@ -28,6 +28,7 @@ export const controllers = {
       },
       firms: {
         List: () => import('#src/features/admin/firms/controllers/list.controller'),
+        Update: () => import('#src/features/admin/firms/controllers/update.controller'),
         View: () => import('#src/features/admin/firms/controllers/view.controller'),
       },
       networks: {
