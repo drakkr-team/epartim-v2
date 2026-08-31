@@ -28,6 +28,7 @@ export function PasswordInputRoot(props: PasswordInputRootProps) {
 	const Toggler = () => (
 		<ToggleHeadless
 			className="pointer-events-auto"
+			tabIndex={-1}
 			defaultPressed={defaultVisible}
 			pressed={visible}
 			onPressedChange={handleOnVisibilityChange}
@@ -36,14 +37,14 @@ export function PasswordInputRoot(props: PasswordInputRootProps) {
 				if (state.pressed) {
 					return (
 						<Button variant="ghost" size="icon-sm" {...props}>
-							<EyeIcon aria-hidden="true" />
+							<EyeIcon />
 						</Button>
 					);
 				}
 
 				return (
 					<Button variant="ghost" size="icon-sm" {...props}>
-						<EyeOffIcon aria-hidden="true" />
+						<EyeOffIcon />
 					</Button>
 				);
 			}}
