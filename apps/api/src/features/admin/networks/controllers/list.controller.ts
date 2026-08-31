@@ -8,13 +8,15 @@ import ListNetworksPolicy from "#features/admin/networks/policies/list.policy";
 import UpdateNetworkPolicy from "#features/admin/networks/policies/update.policy";
 import ListNetworksService from "#features/admin/networks/services/list.service";
 import NetworkPresenter from "#presenters/network.presenter";
-import { ListNetworksQuerySchema } from "#validators/network.validator";
+import PaginationPresenter from "#presenters/pagination.presenter";
+import { PaginationValidator } from "#validators/pagination.validator";
 
 @inject()
 export default class ListNetworksController {
 	constructor(
-		private listNetworksService: ListNetworksService,
-		private networkPresenter: NetworkPresenter,
+		protected listNetworksService: ListNetworksService,
+		protected networkPresenter: NetworkPresenter,
+		protected paginationPresenter: PaginationPresenter,
 	) {}
 
 	async handle({ request, bouncer }: HttpContext) {
@@ -26,29 +28,29 @@ export default class ListNetworksController {
 			q,
 			orderBy,
 		} = await request.validateUsing(ListNetworksController.querySchema);
+
 		const networks = await this.listNetworksService.handle({ q, orderBy }).paginate(page, perPage);
-		const [canCreate, canUpdate, canDelete] = await Promise.all([
-			bouncer.with(CreateNetworkPolicy).allows("handle"),
-			bouncer.with(UpdateNetworkPolicy).allows("handle"),
-			bouncer.with(DeleteNetworkPolicy).allows("handle"),
-		]);
 
 		return {
 			meta: {
-				page: networks.currentPage,
-				perPage: networks.perPage,
-				total: networks.total,
-				canCreate,
+				...this.paginationPresenter.toJSON(networks),
+				canCreate: await bouncer.with(CreateNetworkPolicy).allows("handle"),
 			},
-			data: networks.all().map((network) => ({
-				...this.networkPresenter.toJSON(network),
-				meta: {
-					canUpdate,
-					canDelete,
-				},
-			})),
+			data: await Promise.all(
+				networks.all().map(async (network) => ({
+					...this.networkPresenter.toJSON(network),
+					meta: {
+						canUpdate: await bouncer.with(UpdateNetworkPolicy).allows("handle"),
+						canDelete: await bouncer.with(DeleteNetworkPolicy).allows("handle"),
+					},
+				})),
+			),
 		};
 	}
 
-	static querySchema = vine.create(ListNetworksQuerySchema);
+	static querySchema = vine.create({
+		...PaginationValidator.getProperties(),
+		q: vine.string().optional(),
+		orderBy: vine.string().optional(),
+	});
 }

@@ -6,21 +6,24 @@ export default class extends BaseSchema {
 	async up() {
 		this.schema.createTable(this.tableName, (table) => {
 			table.bigIncrements("id").notNullable();
+
 			table.string("name", 254).notNullable().unique();
 			table.string("amundi_org_id", 254).nullable().unique();
+			table.bigInteger("go_code").nullable();
+
 			table
 				.bigInteger("address_id")
-				.nullable()
+				.notNullable()
 				.references("id")
 				.inTable("addresses")
-				.onDelete("SET NULL");
-			table.bigInteger("go_code").nullable();
+				.onDelete("RESTRICT");
 			table
-				.bigInteger("payment_details_id")
+				.bigInteger("payment_detail_id")
 				.notNullable()
 				.references("id")
 				.inTable("payment_details")
-				.onDelete("CASCADE");
+				.onDelete("RESTRICT");
+
 			table.timestamps(true, true);
 		});
 	}
