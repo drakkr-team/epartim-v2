@@ -85,7 +85,7 @@ importers:
         version: 4.4.3
       zustand:
         specifier: 5.0.15
-        version: 5.0.15(@types/react@19.2.17)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8))
+        version: 5.0.15(@types/react@19.2.18)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8))
     devDependencies:
       '@rolldown/plugin-babel':
         specifier: 0.2.3
@@ -98,10 +98,10 @@ importers:
         version: 0.8.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(vite@8.0.16(@types/node@24.12.2)(esbuild@0.28.1)(jiti@2.7.0))
       '@tanstack/react-devtools':
         specifier: 0.10.7
-        version: 0.10.7(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.12)
+        version: 0.10.7(@types/react-dom@19.2.3(@types/react@19.2.18))(@types/react@19.2.18)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.12)
       '@tanstack/react-form-devtools':
         specifier: 0.2.34
-        version: 0.2.34(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
+        version: 0.2.34(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
       '@tanstack/react-query-devtools':
         specifier: 5.102.8
         version: 5.102.8(@tanstack/react-query@5.101.4(react@19.2.8))(react@19.2.8)
@@ -112,11 +112,11 @@ importers:
         specifier: '24'
         version: 24.12.2
       '@types/react':
-        specifier: 19.2.17
-        version: 19.2.17
+        specifier: 19.2.18
+        version: 19.2.18
       '@types/react-dom':
         specifier: 19.2.3
-        version: 19.2.3(@types/react@19.2.17)
+        version: 19.2.3(@types/react@19.2.18)
       '@vitejs/plugin-react':
         specifier: 6.0.2
         version: 6.0.2(@rolldown/plugin-babel@0.2.3(@babel/core@7.29.7)(@babel/runtime@7.29.7)(rolldown@1.2.4)(vite@8.0.16(@types/node@24.12.2)(esbuild@0.28.1)(jiti@2.7.0)))(babel-plugin-react-compiler@1.0.0)(vite@8.0.16(@types/node@24.12.2)(esbuild@0.28.1)(jiti@2.7.0))
@@ -3237,9 +3237,6 @@ packages:
     resolution: {integrity: sha512-Bsc+QHgp+P/F02XDzNCY9jnZNCUuLki36KT7VKrTXXLdHf+vHMNZnW1rVu5DNW/rCK+fya3DATySbLM4yhtKUw==}
     peerDependencies:
       '@types/react': ^19.2.0
-
-  '@types/react@19.2.17':
-    resolution: {integrity: sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==}
 
   '@types/react@19.2.18':
     resolution: {integrity: sha512-AnzbBERsrLKtk2XSfTbYRLjQPdy116Sty4q+T+Bp3IC4l6jNBvreVPAHmpq9qhXQM7CXZPjLVmGMw9sy+hxQ3w==}
@@ -8330,12 +8327,6 @@ snapshots:
     transitivePeerDependencies:
       - csstype
 
-  '@tanstack/devtools-utils@0.4.0(@types/react@19.2.17)(react@19.2.8)(solid-js@1.9.12)':
-    optionalDependencies:
-      '@types/react': 19.2.17
-      react: 19.2.8
-      solid-js: 1.9.12
-
   '@tanstack/devtools-utils@0.4.0(@types/react@19.2.18)(react@19.2.8)(solid-js@1.9.12)':
     optionalDependencies:
       '@types/react': 19.2.18
@@ -8409,22 +8400,6 @@ snapshots:
       '@tanstack/pacer-lite': 0.1.1
       '@tanstack/store': 0.11.1
 
-  '@tanstack/form-devtools@0.2.34(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
-    dependencies:
-      '@tanstack/devtools-ui': 0.5.3(csstype@3.2.3)(solid-js@1.9.12)
-      '@tanstack/devtools-utils': 0.4.0(@types/react@19.2.17)(react@19.2.8)(solid-js@1.9.12)
-      '@tanstack/form-core': 1.33.5
-      clsx: 2.1.1
-      dayjs: 1.11.23
-      goober: 2.1.19(csstype@3.2.3)
-      solid-js: 1.9.12
-    transitivePeerDependencies:
-      - '@types/react'
-      - csstype
-      - preact
-      - react
-      - vue
-
   '@tanstack/form-devtools@0.2.34(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
     dependencies:
       '@tanstack/devtools-ui': 0.5.3(csstype@3.2.3)(solid-js@1.9.12)
@@ -8456,11 +8431,11 @@ snapshots:
 
   '@tanstack/query-devtools@5.102.8': {}
 
-  '@tanstack/react-devtools@0.10.7(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.12)':
+  '@tanstack/react-devtools@0.10.7(@types/react-dom@19.2.3(@types/react@19.2.18))(@types/react@19.2.18)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.12)':
     dependencies:
       '@tanstack/devtools': 0.12.4(csstype@3.2.3)(solid-js@1.9.12)
-      '@types/react': 19.2.17
-      '@types/react-dom': 19.2.3(@types/react@19.2.17)
+      '@types/react': 19.2.18
+      '@types/react-dom': 19.2.3(@types/react@19.2.18)
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
     transitivePeerDependencies:
@@ -8481,18 +8456,6 @@ snapshots:
       - csstype
       - solid-js
       - utf-8-validate
-
-  '@tanstack/react-form-devtools@0.2.34(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
-    dependencies:
-      '@tanstack/devtools-utils': 0.4.0(@types/react@19.2.17)(react@19.2.8)(solid-js@1.9.12)
-      '@tanstack/form-devtools': 0.2.34(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
-      react: 19.2.8
-    transitivePeerDependencies:
-      - '@types/react'
-      - csstype
-      - preact
-      - solid-js
-      - vue
 
   '@tanstack/react-form-devtools@0.2.34(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
     dependencies:
@@ -9149,17 +9112,13 @@ snapshots:
 
   '@types/pluralize@0.0.33': {}
 
-  '@types/react-dom@19.2.3(@types/react@19.2.17)':
+  '@types/react-dom@19.2.3(@types/react@19.2.18)':
     dependencies:
-      '@types/react': 19.2.17
+      '@types/react': 19.2.18
 
   '@types/react-dom@19.2.4(@types/react@19.2.18)':
     dependencies:
       '@types/react': 19.2.18
-
-  '@types/react@19.2.17':
-    dependencies:
-      csstype: 3.2.3
 
   '@types/react@19.2.18':
     dependencies:
@@ -12423,8 +12382,8 @@ snapshots:
 
   zod@4.4.3: {}
 
-  zustand@5.0.15(@types/react@19.2.17)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8)):
+  zustand@5.0.15(@types/react@19.2.18)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8)):
     optionalDependencies:
-      '@types/react': 19.2.17
+      '@types/react': 19.2.18
       react: 19.2.8
       use-sync-external-store: 1.6.0(react@19.2.8)
