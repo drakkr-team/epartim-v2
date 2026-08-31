@@ -45,7 +45,7 @@
 		"@tanstack/devtools-vite": "0.8.3",
 		"@tanstack/react-devtools": "0.10.9",
 		"@tanstack/react-form-devtools": "0.2.32",
-		"@tanstack/react-query-devtools": "5.101.4",
+		"@tanstack/react-query-devtools": "5.102.8",
 		"@tanstack/react-router-devtools": "1.167.1",
 		"@types/node": "24",
 		"@types/react": "19.2.18",
