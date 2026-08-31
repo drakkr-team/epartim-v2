@@ -89,7 +89,7 @@ export class NetworkSchema extends BaseModel {
   static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'paymentDetailsId', 'updatedAt'] as const
   $columns = NetworkSchema.$columns
   @column()
-  declare addressId: bigint | number | null
+  declare addressId: bigint | number
   @column()
   declare amundiOrgId: string | null
   @column.dateTime({ autoCreate: true })

@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+
 import { test } from "@japa/runner";
 
 import { NetworkFactory } from "#database/factories/network.factory";
@@ -6,7 +8,7 @@ import NetworkPresenter from "#presenters/network.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
 
 test.group("Presenters / Network Presenter", () => {
-	test("it should preserve relation IDs and expand the owned relations", async ({ assert }) => {
+	test("it should preserve relation IDs and expand the owned relations", async () => {
 		const network = await NetworkFactory.with("address").with("paymentDetails").create();
 		await network.load("address");
 		await network.load("paymentDetails");
