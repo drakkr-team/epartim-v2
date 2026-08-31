@@ -70,3 +70,30 @@ export const ListNetworksQuerySchema = vine.object({
 	q: vine.string().trim().minLength(1).optional(),
 	orderBy: vine.enum(NetworkOrderByOptions).optional(),
 });
+
+export const UpdateNetworkSchema = vine.object({
+	name: vine.string().trim().minLength(1).maxLength(254).optional(),
+	amundiOrgId: vine.string().trim().minLength(1).maxLength(254).nullable().optional(),
+	goCode: vine.number().withoutDecimals().nullable().optional(),
+	address: vine
+		.object({
+			lineOne: vine.string().trim().minLength(1).maxLength(254).optional(),
+			lineTwo: vine.string().trim().minLength(1).maxLength(254).nullable().optional(),
+			zip: vine.string().trim().minLength(1).maxLength(254).optional(),
+			city: vine.string().trim().minLength(1).maxLength(254).optional(),
+			coordinates: vine
+				.object({
+					latitude: vine.number().min(-90).max(90),
+					longitude: vine.number().min(-180).max(180),
+				})
+				.nullable()
+				.optional(),
+		})
+		.optional(),
+	paymentDetails: vine
+		.object({
+			iban: vine.string().trim().minLength(1).maxLength(254).optional(),
+			bic: vine.string().trim().minLength(1).maxLength(254).optional(),
+		})
+		.optional(),
+});

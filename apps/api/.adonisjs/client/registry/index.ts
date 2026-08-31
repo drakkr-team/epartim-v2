@@ -66,6 +66,12 @@ const routes = {
     tokens: [{"old":"/admin/networks/:networkId","type":0,"val":"admin","end":""},{"old":"/admin/networks/:networkId","type":0,"val":"networks","end":""},{"old":"/admin/networks/:networkId","type":1,"val":"networkId","end":""}],
     types: placeholder as Registry['admin.networks.view']['types'],
   },
+  'admin.networks.update': {
+    methods: ["PUT"],
+    pattern: '/admin/networks/:networkId',
+    tokens: [{"old":"/admin/networks/:networkId","type":0,"val":"admin","end":""},{"old":"/admin/networks/:networkId","type":0,"val":"networks","end":""},{"old":"/admin/networks/:networkId","type":1,"val":"networkId","end":""}],
+    types: placeholder as Registry['admin.networks.update']['types'],
+  },
   'admin.users.list': {
     methods: ["GET","HEAD"],
     pattern: '/admin/users',

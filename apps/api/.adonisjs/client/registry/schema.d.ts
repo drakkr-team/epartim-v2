@@ -127,6 +127,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/view.controller').default['handle']>>>
     }
   }
+  'admin.networks.update': {
+    methods: ["PUT"]
+    pattern: '/admin/networks/:networkId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/networks/controllers/update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { networkId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/networks/controllers/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.users.list': {
     methods: ["GET","HEAD"]
     pattern: '/admin/users'

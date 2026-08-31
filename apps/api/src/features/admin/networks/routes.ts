@@ -8,6 +8,7 @@ router
 		router.get("/", [controllers.features.admin.networks.List]);
 		router.post("/", [controllers.features.admin.networks.Create]);
 		router.get("/:networkId", [controllers.features.admin.networks.View]);
+		router.put("/:networkId", [controllers.features.admin.networks.Update]);
 	})
 	.use(middleware.auth({ guards: ["admin"] }))
 	.prefix("admin/networks")

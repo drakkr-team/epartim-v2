@@ -14,6 +14,7 @@ export type ScannedRoutes = {
     'admin.networks.list': { paramsTuple?: []; params?: {} }
     'admin.networks.create': { paramsTuple?: []; params?: {} }
     'admin.networks.view': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
+    'admin.networks.update': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.create': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
@@ -67,6 +68,7 @@ export type ScannedRoutes = {
   }
   PUT: {
     'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.networks.update': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.account_management.password.update': { paramsTuple?: []; params?: {} }
   }
