@@ -1,0 +1,37 @@
+type: http_request
+model: http_request
+id: rq_network_delete
+createdAt: 2026-08-31T00:00:00.000000
+updatedAt: 2026-08-31T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_networks
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: Set NETWORK_ID in your private Yaak environment.
+headers:
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: DELETE
+name: Delete network
+sortPriority: 4000.0
+url: http://localhost:3333/admin/networks/${[ NETWORK_ID ]}
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

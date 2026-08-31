@@ -6,6 +6,7 @@ import { errors as limiterErrors } from "@adonisjs/limiter";
 
 import GuestOnlyException from "#exceptions/guest_only.exception";
 import InvalidCredentialsException from "#exceptions/invalid_credentials.exception";
+import NetworkHasFirmsException from "#exceptions/network_has_firms.exception";
 import TooManyRequestsException from "#exceptions/too_many_requests.exception";
 import UnauthenticatedException from "#exceptions/unauthenticated.exception";
 
@@ -40,6 +41,13 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 			throw new TooManyRequestsException();
 		}
 
+		if (error instanceof NetworkHasFirmsException) {
+			return ctx.response.status(NetworkHasFirmsException.status).send({
+				code: NetworkHasFirmsException.code,
+				message: NetworkHasFirmsException.message,
+			});
+		}
+
 		return super.handle(error, ctx);
 	}
 
@@ -54,7 +62,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 	}
 
 	protected shouldReport(error: HttpError) {
-		if (error instanceof GuestOnlyException) {
+		if (error instanceof GuestOnlyException || error instanceof NetworkHasFirmsException) {
 			return false;
 		}
 

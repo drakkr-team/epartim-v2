@@ -33,6 +33,7 @@ export interface ApiDefinition {
       create: typeof routes['admin.networks.create']
       view: typeof routes['admin.networks.view']
       update: typeof routes['admin.networks.update']
+      delete: typeof routes['admin.networks.delete']
     }
     users: {
       list: typeof routes['admin.users.list']

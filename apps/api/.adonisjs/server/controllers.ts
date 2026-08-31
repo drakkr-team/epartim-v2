@@ -28,6 +28,7 @@ export const controllers = {
       },
       networks: {
         Create: () => import('#src/features/admin/networks/controllers/create.controller'),
+        Delete: () => import('#src/features/admin/networks/controllers/delete.controller'),
         List: () => import('#src/features/admin/networks/controllers/list.controller'),
         Update: () => import('#src/features/admin/networks/controllers/update.controller'),
         View: () => import('#src/features/admin/networks/controllers/view.controller'),

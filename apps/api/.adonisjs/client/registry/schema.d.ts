@@ -139,6 +139,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'admin.networks.delete': {
+    methods: ["DELETE"]
+    pattern: '/admin/networks/:networkId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { networkId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/delete.controller').default['handle']>>>
+    }
+  }
   'admin.users.list': {
     methods: ["GET","HEAD"]
     pattern: '/admin/users'
