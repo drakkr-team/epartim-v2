@@ -30,6 +30,7 @@ export interface ApiDefinition {
     }
     firms: {
       list: typeof routes['admin.firms.list']
+      view: typeof routes['admin.firms.view']
     }
     networks: {
       list: typeof routes['admin.networks.list']

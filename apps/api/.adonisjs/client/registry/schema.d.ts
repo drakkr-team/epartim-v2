@@ -103,6 +103,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/list.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'admin.firms.view': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/firms/:firmId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { firmId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/view.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/view.controller').default['handle']>>>
+    }
+  }
   'admin.networks.list': {
     methods: ["GET","HEAD"]
     pattern: '/admin/networks'
