@@ -9,38 +9,28 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as protectedLayoutRouteImport } from './routes/(protected)/layout'
 import { Route as guestLayoutRouteImport } from './routes/(guest)/layout'
-import { Route as protectedAdminsPageRouteImport } from './routes/(protected)/admins/page'
-import { Route as protecteddashboardPageRouteImport } from './routes/(protected)/(dashboard)/page'
-import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
-import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
+import { Route as protectedLayoutRouteImport } from './routes/(protected)/layout'
 import { Route as guestForgotPasswordPageRouteImport } from './routes/(guest)/forgot-password/page'
-import { Route as protectedAdminsNewPageRouteImport } from './routes/(protected)/admins/new/page'
+import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
+import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
+import { Route as protecteddashboardPageRouteImport } from './routes/(protected)/(dashboard)/page'
+import { Route as protectedAdminsPageRouteImport } from './routes/(protected)/admins/page'
 import { Route as protectedAdminsAdminIdPageRouteImport } from './routes/(protected)/admins/$adminId/page'
+import { Route as protectedAdminsNewPageRouteImport } from './routes/(protected)/admins/new/page'
 import { Route as protectedAdminsAdminIdEditPageRouteImport } from './routes/(protected)/admins/$adminId/edit/page'
 
-const protectedLayoutRoute = protectedLayoutRouteImport.update({
-  id: '/(protected)',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const guestLayoutRoute = guestLayoutRouteImport.update({
   id: '/(guest)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const protectedAdminsPageRoute = protectedAdminsPageRouteImport.update({
-  id: '/admins/',
-  path: '/admins/',
-  getParentRoute: () => protectedLayoutRoute,
+const protectedLayoutRoute = protectedLayoutRouteImport.update({
+  id: '/(protected)',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const protecteddashboardPageRoute = protecteddashboardPageRouteImport.update({
-  id: '/(dashboard)/',
-  path: '/',
-  getParentRoute: () => protectedLayoutRoute,
-} as any)
-const guestResetPasswordPageRoute = guestResetPasswordPageRouteImport.update({
-  id: '/reset-password/',
-  path: '/reset-password/',
+const guestForgotPasswordPageRoute = guestForgotPasswordPageRouteImport.update({
+  id: '/forgot-password/',
+  path: '/forgot-password/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
 const guestLoginPageRoute = guestLoginPageRouteImport.update({
@@ -48,14 +38,19 @@ const guestLoginPageRoute = guestLoginPageRouteImport.update({
   path: '/login/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
-const guestForgotPasswordPageRoute = guestForgotPasswordPageRouteImport.update({
-  id: '/forgot-password/',
-  path: '/forgot-password/',
+const guestResetPasswordPageRoute = guestResetPasswordPageRouteImport.update({
+  id: '/reset-password/',
+  path: '/reset-password/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
-const protectedAdminsNewPageRoute = protectedAdminsNewPageRouteImport.update({
-  id: '/admins/new/',
-  path: '/admins/new/',
+const protecteddashboardPageRoute = protecteddashboardPageRouteImport.update({
+  id: '/(dashboard)/',
+  path: '/',
+  getParentRoute: () => protectedLayoutRoute,
+} as any)
+const protectedAdminsPageRoute = protectedAdminsPageRouteImport.update({
+  id: '/admins/',
+  path: '/admins/',
   getParentRoute: () => protectedLayoutRoute,
 } as any)
 const protectedAdminsAdminIdPageRoute =
@@ -64,6 +59,11 @@ const protectedAdminsAdminIdPageRoute =
     path: '/admins/$adminId/',
     getParentRoute: () => protectedLayoutRoute,
   } as any)
+const protectedAdminsNewPageRoute = protectedAdminsNewPageRouteImport.update({
+  id: '/admins/new/',
+  path: '/admins/new/',
+  getParentRoute: () => protectedLayoutRoute,
+} as any)
 const protectedAdminsAdminIdEditPageRoute =
   protectedAdminsAdminIdEditPageRouteImport.update({
     id: '/admins/$adminId/edit/',
@@ -146,13 +146,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/(protected)': {
-      id: '/(protected)'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof protectedLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(guest)': {
       id: '/(guest)'
       path: ''
@@ -160,25 +153,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof guestLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(protected)/admins/': {
-      id: '/(protected)/admins/'
-      path: '/admins'
-      fullPath: '/admins/'
-      preLoaderRoute: typeof protectedAdminsPageRouteImport
-      parentRoute: typeof protectedLayoutRoute
+    '/(protected)': {
+      id: '/(protected)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof protectedLayoutRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(protected)/(dashboard)/': {
-      id: '/(protected)/(dashboard)/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof protecteddashboardPageRouteImport
-      parentRoute: typeof protectedLayoutRoute
-    }
-    '/(guest)/reset-password/': {
-      id: '/(guest)/reset-password/'
-      path: '/reset-password'
-      fullPath: '/reset-password/'
-      preLoaderRoute: typeof guestResetPasswordPageRouteImport
+    '/(guest)/forgot-password/': {
+      id: '/(guest)/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/forgot-password/'
+      preLoaderRoute: typeof guestForgotPasswordPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
     '/(guest)/login/': {
@@ -188,18 +174,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof guestLoginPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
-    '/(guest)/forgot-password/': {
-      id: '/(guest)/forgot-password/'
-      path: '/forgot-password'
-      fullPath: '/forgot-password/'
-      preLoaderRoute: typeof guestForgotPasswordPageRouteImport
+    '/(guest)/reset-password/': {
+      id: '/(guest)/reset-password/'
+      path: '/reset-password'
+      fullPath: '/reset-password/'
+      preLoaderRoute: typeof guestResetPasswordPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
-    '/(protected)/admins/new/': {
-      id: '/(protected)/admins/new/'
-      path: '/admins/new'
-      fullPath: '/admins/new/'
-      preLoaderRoute: typeof protectedAdminsNewPageRouteImport
+    '/(protected)/(dashboard)/': {
+      id: '/(protected)/(dashboard)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof protecteddashboardPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
+    }
+    '/(protected)/admins/': {
+      id: '/(protected)/admins/'
+      path: '/admins'
+      fullPath: '/admins/'
+      preLoaderRoute: typeof protectedAdminsPageRouteImport
       parentRoute: typeof protectedLayoutRoute
     }
     '/(protected)/admins/$adminId/': {
@@ -207,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/admins/$adminId'
       fullPath: '/admins/$adminId/'
       preLoaderRoute: typeof protectedAdminsAdminIdPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
+    }
+    '/(protected)/admins/new/': {
+      id: '/(protected)/admins/new/'
+      path: '/admins/new'
+      fullPath: '/admins/new/'
+      preLoaderRoute: typeof protectedAdminsNewPageRouteImport
       parentRoute: typeof protectedLayoutRoute
     }
     '/(protected)/admins/$adminId/edit/': {
