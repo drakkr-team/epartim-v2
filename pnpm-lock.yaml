@@ -100,8 +100,8 @@ importers:
         specifier: 0.10.7
         version: 0.10.7(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.12)
       '@tanstack/react-form-devtools':
-        specifier: 0.2.29
-        version: 0.2.29(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
+        specifier: 0.2.34
+        version: 0.2.34(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
       '@tanstack/react-query-devtools':
         specifier: 5.102.8
         version: 5.102.8(@tanstack/react-query@5.101.4(react@19.2.8))(react@19.2.8)
@@ -164,7 +164,7 @@ importers:
         version: 22.4.2(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@adonisjs/core@7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1))(@vinejs/vine@4.4.0)(luxon@3.7.2)(pg@8.23.0)
       '@adonisjs/mail':
         specifier: 10.4.0
-        version: 10.4.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@adonisjs/core@7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1))(@types/luxon@3.7.3)(@types/node@24.12.2)(dayjs@1.11.21)(edge.js@6.5.1)(luxon@3.7.2)(mjml@5.4.0(relateurl@0.2.7)(svgo@4.0.1)(typescript@6.0.3))
+        version: 10.4.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@adonisjs/core@7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1))(@types/luxon@3.7.3)(@types/node@24.12.2)(dayjs@1.11.23)(edge.js@6.5.1)(luxon@3.7.2)(mjml@5.4.0(relateurl@0.2.7)(svgo@4.0.1)(typescript@6.0.3))
       '@adonisjs/queue':
         specifier: 0.6.2
         version: 0.6.2(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@adonisjs/core@7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1))(@adonisjs/lucid@22.4.2(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@adonisjs/core@7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1))(@vinejs/vine@4.4.0)(luxon@3.7.2)(pg@8.23.0))(@adonisjs/redis@10.0.0(@adonisjs/core@7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1)))(ioredis@5.10.1)(knex@3.2.9(pg@8.23.0))
@@ -324,8 +324,8 @@ importers:
         specifier: 0.10.9
         version: 0.10.9(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.12)
       '@tanstack/react-form-devtools':
-        specifier: 0.2.32
-        version: 0.2.32(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
+        specifier: 0.2.34
+        version: 0.2.34(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
       '@tanstack/react-query-devtools':
         specifier: 5.102.8
         version: 5.102.8(@tanstack/react-query@5.101.4(react@19.2.8))(react@19.2.8)
@@ -2618,12 +2618,6 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@tanstack/devtools-ui@0.5.2':
-    resolution: {integrity: sha512-GtaMk8kaGZ9ZdR8Pu5RAfcse/ZrxzH/xsAIFtHMapLs2VMqSPFfb1NvIDO1MAAfUcub8Ix8XKQEP0uYSPzoFKw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      solid-js: '>=1.9.7'
-
   '@tanstack/devtools-ui@0.5.3':
     resolution: {integrity: sha512-iJjwWtdXhUGpeHyyW9+3NhXhmlVFhh3v3UBNKCouykG9UFXEtneVVNXgSRpd70DeYJFmvKOY19LafKRI5/cM7A==}
     engines: {node: '>=18'}
@@ -2686,22 +2680,11 @@ packages:
     peerDependencies:
       solid-js: '>=1.9.7'
 
-  '@tanstack/form-core@1.33.0':
-    resolution: {integrity: sha512-AV4Pw9Dk4orFsuPBcDssfWMJFs+yMYBae7zZ4oTqrCf4ftNGQKxvrQRZeqKHG6A4TkiLeSvf2kzIjcVkrW7E6w==}
-
-  '@tanstack/form-core@1.33.3':
-    resolution: {integrity: sha512-htLxe/50GpUxbi2arJleh6uQkw72UOy+3Q0d1AadO3lfBTjs1e51GzyrKk/w8I7qXSkaSnF/JbYlyE+cwbJGNw==}
-
   '@tanstack/form-core@1.33.5':
     resolution: {integrity: sha512-3dfx9MBP0aq5sXKteikG629X9oviptrQj0IFRk9YGcb+lB7Kv5x8S17oOSk1wUWgjQZ4xVJEMbKwOAODymocgA==}
 
-  '@tanstack/form-devtools@0.2.29':
-    resolution: {integrity: sha512-1HLwhmmPKn0/NxI9sXsSn64G/jtcIoPeMUe7AA5/i4MXKk9h2wfpOLRO74XSzbB/sUs3D0oCjoRfWylGSHL0WQ==}
-    peerDependencies:
-      solid-js: '>=1.9.9'
-
-  '@tanstack/form-devtools@0.2.32':
-    resolution: {integrity: sha512-eJX7L7KH0nAYEExg6sWcwYT8fv0vrFUivmw0PKNnDU1hw6juLUjvur4vcaNrLLt/0edimnuIHUgfQyVEaH/jKg==}
+  '@tanstack/form-devtools@0.2.34':
+    resolution: {integrity: sha512-AqKQDO9lr8dCYh4cp6bYNhqlut8dH6bQFFXWEhX1+0EI4lsom1scO+L6yapQQAy/K/KS3EvjXRLrGu2cHFMTPg==}
     peerDependencies:
       solid-js: '>=1.9.9'
 
@@ -2745,13 +2728,8 @@ packages:
       react: '>=16.8'
       react-dom: '>=16.8'
 
-  '@tanstack/react-form-devtools@0.2.29':
-    resolution: {integrity: sha512-Dn0ohhUZaFvgwqZkPhJID1uDyThtbXE+lCRobOK1Vphc4vZp0+uashWHuRLF9CC+Eu0zugcWEeoU/41ihwjfsw==}
-    peerDependencies:
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-
-  '@tanstack/react-form-devtools@0.2.32':
-    resolution: {integrity: sha512-QpoNvwFIlJPzTrwIV/Lw6/yr+8IqGUEqAAaBwhlZwGKWgm9YYsxcJoFxZXReL84+BM0rQbkJ2EDNzjkqb4SJ3A==}
+  '@tanstack/react-form-devtools@0.2.34':
+    resolution: {integrity: sha512-Sg+6nuTNqXnODPtUJDn/WZmLznNxilIK3hFqeXzKVnzfdzUKczJr5PnXXh3J6SZj+QjveJdvwC2M6Rm2oIypoA==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -3741,8 +3719,8 @@ packages:
   dayjs@1.11.20:
     resolution: {integrity: sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==}
 
-  dayjs@1.11.21:
-    resolution: {integrity: sha512-98IT+HOahAisibz/yjKbzuOBwYcjJ7BCLPzARyHiyEBmRz4fatF+KPJszEHXsGYjUG234aH/cOjW1wwTbKUZlA==}
+  dayjs@1.11.23:
+    resolution: {integrity: sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==}
 
   debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -6646,14 +6624,14 @@ snapshots:
       - supports-color
       - tedious
 
-  '@adonisjs/mail@10.4.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@adonisjs/core@7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1))(@types/luxon@3.7.3)(@types/node@24.12.2)(dayjs@1.11.21)(edge.js@6.5.1)(luxon@3.7.2)(mjml@5.4.0(relateurl@0.2.7)(svgo@4.0.1)(typescript@6.0.3))':
+  '@adonisjs/mail@10.4.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@adonisjs/core@7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1))(@types/luxon@3.7.3)(@types/node@24.12.2)(dayjs@1.11.23)(edge.js@6.5.1)(luxon@3.7.2)(mjml@5.4.0(relateurl@0.2.7)(svgo@4.0.1)(typescript@6.0.3))':
     dependencies:
       '@adonisjs/core': 7.5.0(@adonisjs/assembler@8.4.0(typescript@6.0.3))(@vinejs/vine@4.4.0)(edge.js@6.5.1)(pino-pretty@13.1.3)(youch@4.1.1)
       '@poppinss/macroable': 1.1.2
       '@poppinss/object-builder': 1.1.0
       '@types/nodemailer': 8.0.1
       fastq: 1.20.1
-      ical-generator: 11.1.0(@types/luxon@3.7.3)(@types/node@24.12.2)(dayjs@1.11.21)(luxon@3.7.2)
+      ical-generator: 11.1.0(@types/luxon@3.7.3)(@types/node@24.12.2)(dayjs@1.11.23)(luxon@3.7.2)
       ky: 2.0.2
       nodemailer: 9.0.5
     optionalDependencies:
@@ -8317,19 +8295,10 @@ snapshots:
 
   '@tanstack/devtools-event-client@0.5.0': {}
 
-  '@tanstack/devtools-ui@0.5.2(csstype@3.2.3)(solid-js@1.9.12)':
-    dependencies:
-      clsx: 2.1.1
-      dayjs: 1.11.21
-      goober: 2.1.19(csstype@3.2.3)
-      solid-js: 1.9.12
-    transitivePeerDependencies:
-      - csstype
-
   '@tanstack/devtools-ui@0.5.3(csstype@3.2.3)(solid-js@1.9.12)':
     dependencies:
       clsx: 2.1.1
-      dayjs: 1.11.21
+      dayjs: 1.11.23
       goober: 2.1.19(csstype@3.2.3)
       solid-js: 1.9.12
     transitivePeerDependencies:
@@ -8338,7 +8307,7 @@ snapshots:
   '@tanstack/devtools-ui@0.6.0(csstype@3.2.3)(solid-js@1.9.12)':
     dependencies:
       clsx: 2.1.1
-      dayjs: 1.11.21
+      dayjs: 1.11.23
       goober: 2.1.19(csstype@3.2.3)
       solid-js: 1.9.12
     transitivePeerDependencies:
@@ -8417,31 +8386,19 @@ snapshots:
       - csstype
       - utf-8-validate
 
-  '@tanstack/form-core@1.33.0':
-    dependencies:
-      '@tanstack/devtools-event-client': 0.4.4
-      '@tanstack/pacer-lite': 0.1.1
-      '@tanstack/store': 0.11.1
-
-  '@tanstack/form-core@1.33.3':
-    dependencies:
-      '@tanstack/devtools-event-client': 0.4.4
-      '@tanstack/pacer-lite': 0.1.1
-      '@tanstack/store': 0.11.1
-
   '@tanstack/form-core@1.33.5':
     dependencies:
       '@tanstack/devtools-event-client': 0.4.4
       '@tanstack/pacer-lite': 0.1.1
       '@tanstack/store': 0.11.1
 
-  '@tanstack/form-devtools@0.2.29(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
+  '@tanstack/form-devtools@0.2.34(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
     dependencies:
-      '@tanstack/devtools-ui': 0.5.2(csstype@3.2.3)(solid-js@1.9.12)
+      '@tanstack/devtools-ui': 0.5.3(csstype@3.2.3)(solid-js@1.9.12)
       '@tanstack/devtools-utils': 0.4.0(@types/react@19.2.17)(react@19.2.8)(solid-js@1.9.12)
-      '@tanstack/form-core': 1.33.0
+      '@tanstack/form-core': 1.33.5
       clsx: 2.1.1
-      dayjs: 1.11.21
+      dayjs: 1.11.23
       goober: 2.1.19(csstype@3.2.3)
       solid-js: 1.9.12
     transitivePeerDependencies:
@@ -8451,13 +8408,13 @@ snapshots:
       - react
       - vue
 
-  '@tanstack/form-devtools@0.2.32(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
+  '@tanstack/form-devtools@0.2.34(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
     dependencies:
       '@tanstack/devtools-ui': 0.5.3(csstype@3.2.3)(solid-js@1.9.12)
       '@tanstack/devtools-utils': 0.4.0(@types/react@19.2.18)(react@19.2.8)(solid-js@1.9.12)
-      '@tanstack/form-core': 1.33.3
+      '@tanstack/form-core': 1.33.5
       clsx: 2.1.1
-      dayjs: 1.11.21
+      dayjs: 1.11.23
       goober: 2.1.19(csstype@3.2.3)
       solid-js: 1.9.12
     transitivePeerDependencies:
@@ -8508,10 +8465,10 @@ snapshots:
       - solid-js
       - utf-8-validate
 
-  '@tanstack/react-form-devtools@0.2.29(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
+  '@tanstack/react-form-devtools@0.2.34(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
     dependencies:
       '@tanstack/devtools-utils': 0.4.0(@types/react@19.2.17)(react@19.2.8)(solid-js@1.9.12)
-      '@tanstack/form-devtools': 0.2.29(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
+      '@tanstack/form-devtools': 0.2.34(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
       react: 19.2.8
     transitivePeerDependencies:
       - '@types/react'
@@ -8520,10 +8477,10 @@ snapshots:
       - solid-js
       - vue
 
-  '@tanstack/react-form-devtools@0.2.32(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
+  '@tanstack/react-form-devtools@0.2.34(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)':
     dependencies:
       '@tanstack/devtools-utils': 0.4.0(@types/react@19.2.18)(react@19.2.8)(solid-js@1.9.12)
-      '@tanstack/form-devtools': 0.2.32(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
+      '@tanstack/form-devtools': 0.2.34(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.12)
       react: 19.2.8
     transitivePeerDependencies:
       - '@types/react'
@@ -9675,7 +9632,7 @@ snapshots:
 
   dayjs@1.11.20: {}
 
-  dayjs@1.11.21: {}
+  dayjs@1.11.23: {}
 
   debug@4.3.4:
     dependencies:
@@ -10211,11 +10168,11 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  ical-generator@11.1.0(@types/luxon@3.7.3)(@types/node@24.12.2)(dayjs@1.11.21)(luxon@3.7.2):
+  ical-generator@11.1.0(@types/luxon@3.7.3)(@types/node@24.12.2)(dayjs@1.11.23)(luxon@3.7.2):
     optionalDependencies:
       '@types/luxon': 3.7.3
       '@types/node': 24.12.2
-      dayjs: 1.11.21
+      dayjs: 1.11.23
       luxon: 3.7.2
 
   iconv-lite@0.6.3:
