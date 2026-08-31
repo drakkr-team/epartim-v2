@@ -6,9 +6,9 @@
 - `admin/account_management/password`: admin forgot/reset password flows.
 - `admin/account_management/profile`: authenticated admin profile view.
 - `admin/admins`: protected administrator list/create/view/update/delete.
-- `client/user_management/authentication`: login and logout.
-- `client/user_management/password`: forgot, reset and authenticated password update.
-- `client/user_management/profile`: view, update and delete the authenticated user.
+- `client/account_management/authentication`: login and logout.
+- `client/account_management/password`: forgot, reset and authenticated password update.
+- `client/account_management/profile`: view, update and delete the authenticated user.
 
 ## Where to look
 

@@ -1,0 +1,7 @@
+{
+	"routes.(guest).login": {
+		"headline": "Espace distributeur",
+		"title": "Connexion",
+		"description": "Accédez à votre espace de distribution d’épargne salariale."
+	}
+}

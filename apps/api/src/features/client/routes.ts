@@ -1,1 +1,1 @@
-import "#features/client/user_management/routes";
+import "#features/client/account_management/routes";

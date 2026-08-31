@@ -1,8 +1,8 @@
 # Client features
 
-- `user_management/authentication` owns login and logout hooks and UI.
-- `user_management/password` owns forgot, reset and password update flows.
-- `user_management/profile` owns profile update and deletion flows.
+- `account_management/authentication` owns login and logout hooks and UI.
+- `account_management/password` owns forgot, reset and password update flows.
+- `account_management/profile` owns profile update and deletion flows.
 
 Keep components, hooks and source translations under their domain feature. Route files remain in `src/routes` and compose those features.
 

@@ -78,23 +78,23 @@ const routes = {
     tokens: [{"old":"/admin/users/:userId","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId","type":0,"val":"users","end":""},{"old":"/admin/users/:userId","type":1,"val":"userId","end":""}],
     types: placeholder as Registry['admin.users.delete']['types'],
   },
-  'client.user_management.profile.view': {
+  'client.account_management.profile.view': {
     methods: ["GET","HEAD"],
-    pattern: '/client/user-management/profile',
-    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
-    types: placeholder as Registry['client.user_management.profile.view']['types'],
+    pattern: '/client/account-management/profile',
+    tokens: [{"old":"/client/account-management/profile","type":0,"val":"client","end":""},{"old":"/client/account-management/profile","type":0,"val":"account-management","end":""},{"old":"/client/account-management/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['client.account_management.profile.view']['types'],
   },
-  'client.user_management.profile.update': {
+  'client.account_management.profile.update': {
     methods: ["PUT"],
-    pattern: '/client/user-management/profile',
-    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
-    types: placeholder as Registry['client.user_management.profile.update']['types'],
+    pattern: '/client/account-management/profile',
+    tokens: [{"old":"/client/account-management/profile","type":0,"val":"client","end":""},{"old":"/client/account-management/profile","type":0,"val":"account-management","end":""},{"old":"/client/account-management/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['client.account_management.profile.update']['types'],
   },
-  'client.user_management.profile.delete': {
+  'client.account_management.profile.delete': {
     methods: ["DELETE"],
-    pattern: '/client/user-management/profile',
-    tokens: [{"old":"/client/user-management/profile","type":0,"val":"client","end":""},{"old":"/client/user-management/profile","type":0,"val":"user-management","end":""},{"old":"/client/user-management/profile","type":0,"val":"profile","end":""}],
-    types: placeholder as Registry['client.user_management.profile.delete']['types'],
+    pattern: '/client/account-management/profile',
+    tokens: [{"old":"/client/account-management/profile","type":0,"val":"client","end":""},{"old":"/client/account-management/profile","type":0,"val":"account-management","end":""},{"old":"/client/account-management/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['client.account_management.profile.delete']['types'],
   },
   'admin.account_management.authentication.login': {
     methods: ["POST"],
@@ -120,35 +120,35 @@ const routes = {
     tokens: [{"old":"/admin/account-management/password/reset","type":0,"val":"admin","end":""},{"old":"/admin/account-management/password/reset","type":0,"val":"account-management","end":""},{"old":"/admin/account-management/password/reset","type":0,"val":"password","end":""},{"old":"/admin/account-management/password/reset","type":0,"val":"reset","end":""}],
     types: placeholder as Registry['admin.account_management.password.reset']['types'],
   },
-  'client.user_management.authentication.login': {
+  'client.account_management.authentication.login': {
     methods: ["POST"],
-    pattern: '/client/user-management/authentication/login',
-    tokens: [{"old":"/client/user-management/authentication/login","type":0,"val":"client","end":""},{"old":"/client/user-management/authentication/login","type":0,"val":"user-management","end":""},{"old":"/client/user-management/authentication/login","type":0,"val":"authentication","end":""},{"old":"/client/user-management/authentication/login","type":0,"val":"login","end":""}],
-    types: placeholder as Registry['client.user_management.authentication.login']['types'],
+    pattern: '/client/account-management/authentication/login',
+    tokens: [{"old":"/client/account-management/authentication/login","type":0,"val":"client","end":""},{"old":"/client/account-management/authentication/login","type":0,"val":"account-management","end":""},{"old":"/client/account-management/authentication/login","type":0,"val":"authentication","end":""},{"old":"/client/account-management/authentication/login","type":0,"val":"login","end":""}],
+    types: placeholder as Registry['client.account_management.authentication.login']['types'],
   },
-  'client.user_management.authentication.logout': {
+  'client.account_management.authentication.logout': {
     methods: ["DELETE"],
-    pattern: '/client/user-management/authentication/logout',
-    tokens: [{"old":"/client/user-management/authentication/logout","type":0,"val":"client","end":""},{"old":"/client/user-management/authentication/logout","type":0,"val":"user-management","end":""},{"old":"/client/user-management/authentication/logout","type":0,"val":"authentication","end":""},{"old":"/client/user-management/authentication/logout","type":0,"val":"logout","end":""}],
-    types: placeholder as Registry['client.user_management.authentication.logout']['types'],
+    pattern: '/client/account-management/authentication/logout',
+    tokens: [{"old":"/client/account-management/authentication/logout","type":0,"val":"client","end":""},{"old":"/client/account-management/authentication/logout","type":0,"val":"account-management","end":""},{"old":"/client/account-management/authentication/logout","type":0,"val":"authentication","end":""},{"old":"/client/account-management/authentication/logout","type":0,"val":"logout","end":""}],
+    types: placeholder as Registry['client.account_management.authentication.logout']['types'],
   },
-  'client.user_management.password.forgot': {
+  'client.account_management.password.forgot': {
     methods: ["POST"],
-    pattern: '/client/user-management/password/forgot',
-    tokens: [{"old":"/client/user-management/password/forgot","type":0,"val":"client","end":""},{"old":"/client/user-management/password/forgot","type":0,"val":"user-management","end":""},{"old":"/client/user-management/password/forgot","type":0,"val":"password","end":""},{"old":"/client/user-management/password/forgot","type":0,"val":"forgot","end":""}],
-    types: placeholder as Registry['client.user_management.password.forgot']['types'],
+    pattern: '/client/account-management/password/forgot',
+    tokens: [{"old":"/client/account-management/password/forgot","type":0,"val":"client","end":""},{"old":"/client/account-management/password/forgot","type":0,"val":"account-management","end":""},{"old":"/client/account-management/password/forgot","type":0,"val":"password","end":""},{"old":"/client/account-management/password/forgot","type":0,"val":"forgot","end":""}],
+    types: placeholder as Registry['client.account_management.password.forgot']['types'],
   },
-  'client.user_management.password.reset': {
+  'client.account_management.password.reset': {
     methods: ["POST"],
-    pattern: '/client/user-management/password/reset',
-    tokens: [{"old":"/client/user-management/password/reset","type":0,"val":"client","end":""},{"old":"/client/user-management/password/reset","type":0,"val":"user-management","end":""},{"old":"/client/user-management/password/reset","type":0,"val":"password","end":""},{"old":"/client/user-management/password/reset","type":0,"val":"reset","end":""}],
-    types: placeholder as Registry['client.user_management.password.reset']['types'],
+    pattern: '/client/account-management/password/reset',
+    tokens: [{"old":"/client/account-management/password/reset","type":0,"val":"client","end":""},{"old":"/client/account-management/password/reset","type":0,"val":"account-management","end":""},{"old":"/client/account-management/password/reset","type":0,"val":"password","end":""},{"old":"/client/account-management/password/reset","type":0,"val":"reset","end":""}],
+    types: placeholder as Registry['client.account_management.password.reset']['types'],
   },
-  'client.user_management.password.update': {
+  'client.account_management.password.update': {
     methods: ["PUT"],
-    pattern: '/client/user-management/password',
-    tokens: [{"old":"/client/user-management/password","type":0,"val":"client","end":""},{"old":"/client/user-management/password","type":0,"val":"user-management","end":""},{"old":"/client/user-management/password","type":0,"val":"password","end":""}],
-    types: placeholder as Registry['client.user_management.password.update']['types'],
+    pattern: '/client/account-management/password',
+    tokens: [{"old":"/client/account-management/password","type":0,"val":"client","end":""},{"old":"/client/account-management/password","type":0,"val":"account-management","end":""},{"old":"/client/account-management/password","type":0,"val":"password","end":""}],
+    types: placeholder as Registry['client.account_management.password.update']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

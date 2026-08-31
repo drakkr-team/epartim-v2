@@ -16,18 +16,18 @@ export type ScannedRoutes = {
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'admin.users.delete': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
-    'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
-    'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
-    'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
+    'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
+    'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
-    'client.user_management.authentication.login': { paramsTuple?: []; params?: {} }
-    'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.forgot': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.reset': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.update': { paramsTuple?: []; params?: {} }
+    'client.account_management.authentication.login': { paramsTuple?: []; params?: {} }
+    'client.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
+    'client.account_management.password.forgot': { paramsTuple?: []; params?: {} }
+    'client.account_management.password.reset': { paramsTuple?: []; params?: {} }
+    'client.account_management.password.update': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
@@ -36,7 +36,7 @@ export type ScannedRoutes = {
     'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
-    'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
@@ -45,7 +45,7 @@ export type ScannedRoutes = {
     'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
-    'client.user_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'admin.admins.create': { paramsTuple?: []; params?: {} }
@@ -53,21 +53,21 @@ export type ScannedRoutes = {
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
-    'client.user_management.authentication.login': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.forgot': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.reset': { paramsTuple?: []; params?: {} }
+    'client.account_management.authentication.login': { paramsTuple?: []; params?: {} }
+    'client.account_management.password.forgot': { paramsTuple?: []; params?: {} }
+    'client.account_management.password.reset': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
-    'client.user_management.profile.update': { paramsTuple?: []; params?: {} }
-    'client.user_management.password.update': { paramsTuple?: []; params?: {} }
+    'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
+    'client.account_management.password.update': { paramsTuple?: []; params?: {} }
   }
   DELETE: {
     'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.users.delete': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
-    'client.user_management.profile.delete': { paramsTuple?: []; params?: {} }
+    'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
-    'client.user_management.authentication.logout': { paramsTuple?: []; params?: {} }
+    'client.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
   }
   PATCH: {
     'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }

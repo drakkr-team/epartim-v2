@@ -1,7 +1,0 @@
-{
-	"routes.(guest).(auth).login": {
-		"eyebrow": "Espace distributeur",
-		"title": "Connexion",
-		"description": "Accédez à votre espace de distribution d’épargne salariale."
-	}
-}

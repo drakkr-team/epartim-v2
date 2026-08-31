@@ -8,11 +8,11 @@
 
 ## Current routes and features
 
-- Guest routes under `(guest)/(auth)` provide login, password recovery and password reset.
+- Guest routes under `(guest)` provide login, password recovery and password reset.
 - Private routes are protected through the `(private)` layout.
 - Profile routes provide general information, security and privacy screens.
-- Client identity hooks live under `src/features/user_management` and use the typed Tuyau client in `src/libs/tuyau.ts`.
-- The sidebar user menu remains visual-only until its final product behavior is decided; do not attach actions to it without an explicit request.
+- Client identity hooks live under `src/features/account_management` and use the typed Tuyau client in `src/libs/tuyau.ts`.
+- The sidebar user menu owns the authenticated logout action.
 
 ## Conventions
 
