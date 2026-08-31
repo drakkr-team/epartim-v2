@@ -15,7 +15,7 @@ function Page() {
 	return (
 		<Card className="grid gap-6 p-8">
 			<header className="grid gap-1">
-				<h2 className="font-bold text-2xs text-primary-11 uppercase tracking-widest">
+				<h2 className="font-bold text-2xs text-primary-9 uppercase tracking-widest">
 					{t("headline")}
 				</h2>
 				<h1 className="font-bold text-2xl text-secondary-12">{t("title")}</h1>

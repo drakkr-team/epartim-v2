@@ -1,5 +1,4 @@
 import { revalidateLogic } from "@tanstack/react-form";
-import { TuyauError } from "@tuyau/core/client";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -33,11 +32,7 @@ export function useForgotPasswordForm(params?: UseForgotPasswordFormParams) {
 			onDynamic: schema,
 		},
 		onSubmit: async ({ value }) => {
-			try {
-				await forgotPassword({ body: value });
-			} catch (error) {
-				if (!(error instanceof TuyauError)) throw error;
-			}
+			await forgotPassword({ body: value });
 		},
 	});
 }

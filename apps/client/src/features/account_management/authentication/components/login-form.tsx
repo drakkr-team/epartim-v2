@@ -43,10 +43,7 @@ export function LoginForm(props: LoginFormProps) {
 						<Field name={field.name} invalid={isInvalid} className="flex flex-col gap-1">
 							<div className="flex items-end justify-between">
 								<Field.Label htmlFor={field.name}>{t("field.password.label")}</Field.Label>
-								<Link
-									className="text-primary-11 text-xs"
-									render={<RouterLink to="/forgot-password" />}
-								>
+								<Link className="text-xs" render={<RouterLink to="/forgot-password" />}>
 									{t("action.forgotPassword")}
 								</Link>
 							</div>
@@ -54,8 +51,6 @@ export function LoginForm(props: LoginFormProps) {
 								id={field.name}
 								name={field.name}
 								value={field.state.value}
-								showPasswordLabel={t("action.showPassword")}
-								hidePasswordLabel={t("action.hidePassword")}
 								aria-invalid={isInvalid}
 								onChange={(e) => field.handleChange(e.target.value)}
 								onBlur={field.handleBlur}
@@ -66,10 +61,7 @@ export function LoginForm(props: LoginFormProps) {
 			</form.AppField>
 
 			<form.AppForm>
-				<form.SubmitButton
-					className="mt-2 text-secondary-12 active:not-data-disabled:bg-primary-10!"
-					variant="primary"
-				>
+				<form.SubmitButton className="mt-2" variant="primary">
 					{t("action.login")}
 				</form.SubmitButton>
 			</form.AppForm>

@@ -4,7 +4,7 @@ import { Breadcrumb } from "#/components/app/breadcrumb";
 import { Sidebar } from "#/components/app/sidebar";
 import { isAuthenticated } from "#/utils/auth";
 
-export const Route = createFileRoute("/(private)")({
+export const Route = createFileRoute("/(protected)")({
 	beforeLoad: async ({ context, location }) => {
 		if (!(await isAuthenticated(context.queryClient))) {
 			throw redirect({

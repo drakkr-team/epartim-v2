@@ -1,5 +1,4 @@
 import { revalidateLogic } from "@tanstack/react-form";
-import { TuyauError } from "@tuyau/core/client";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -47,11 +46,7 @@ export function useResetPasswordForm(params: UseResetPasswordFormParams) {
 			onDynamic: schema,
 		},
 		onSubmit: async ({ value }) => {
-			try {
-				await resetPassword({ body: { token, newPassword: value.newPassword } });
-			} catch (error) {
-				if (!(error instanceof TuyauError)) throw error;
-			}
+			await resetPassword({ body: { token, ...value } });
 		},
 	});
 }

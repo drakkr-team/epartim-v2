@@ -4,9 +4,9 @@ import vine from "@vinejs/vine";
 
 import { UserFactory } from "#database/factories/user.factory";
 
-export default class CreateAccount extends BaseCommand {
-	static commandName = "create:account";
-	static description = "Create a new account";
+export default class CreateUser extends BaseCommand {
+	static commandName = "create:user";
+	static description = "Create a new user";
 
 	static options: CommandOptions = {
 		startApp: true,
@@ -16,7 +16,7 @@ export default class CreateAccount extends BaseCommand {
 	password: string | null = null;
 
 	async interact() {
-		this.email = await this.prompt.ask("Enter email for the new account:", {
+		this.email = await this.prompt.ask("Enter email for the new user:", {
 			validate: async (email) => {
 				const [error] = await vine
 					.create(
@@ -36,12 +36,12 @@ export default class CreateAccount extends BaseCommand {
 				return true;
 			},
 		});
-		this.password = await this.prompt.secure("Enter password for the new account:");
+		this.password = await this.prompt.secure("Enter password for the new user:");
 	}
 
 	async run() {
 		if (!this.email || !this.password) {
-			return this.logger.error("Email and password are required to create an account.");
+			return this.logger.error("Email and password are required to create an user.");
 		}
 
 		await UserFactory.merge({
@@ -49,6 +49,6 @@ export default class CreateAccount extends BaseCommand {
 			password: this.password,
 		}).create();
 
-		this.logger.success(`Account created successfully for ${this.email}`);
+		this.logger.success(`User created successfully for ${this.email}`);
 	}
 }

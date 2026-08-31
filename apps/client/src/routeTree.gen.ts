@@ -10,34 +10,35 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as guestLayoutRouteImport } from './routes/(guest)/layout'
-import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
-import { Route as privatePageRouteImport } from './routes/(private)/page'
-import { Route as privateoperationsLayoutRouteImport } from './routes/(private)/(operations)/layout'
+import { Route as protectedLayoutRouteImport } from './routes/(protected)/layout'
+import { Route as protectedPageRouteImport } from './routes/(protected)/page'
+import { Route as protectedoperationsLayoutRouteImport } from './routes/(protected)/(operations)/layout'
 import { Route as guestForgotPasswordPageRouteImport } from './routes/(guest)/forgot-password/page'
 import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
 import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
-import { Route as privateoperationsSouscriptionLayoutRouteImport } from './routes/(private)/(operations)/souscription/layout'
-import { Route as privateoperationsClientPortfolioPageRouteImport } from './routes/(private)/(operations)/client-portfolio/page'
-import { Route as privateoperationsSouscriptionsPageRouteImport } from './routes/(private)/(operations)/souscriptions/page'
-import { Route as privateoperationsSouscriptionIdPageRouteImport } from './routes/(private)/(operations)/souscription/$id/page'
+import { Route as protectedoperationsSouscriptionLayoutRouteImport } from './routes/(protected)/(operations)/souscription/layout'
+import { Route as protectedoperationsClientPortfolioPageRouteImport } from './routes/(protected)/(operations)/client-portfolio/page'
+import { Route as protectedoperationsSouscriptionsPageRouteImport } from './routes/(protected)/(operations)/souscriptions/page'
+import { Route as protectedoperationsSouscriptionIdPageRouteImport } from './routes/(protected)/(operations)/souscription/$id/page'
 
 const guestLayoutRoute = guestLayoutRouteImport.update({
   id: '/(guest)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const privateLayoutRoute = privateLayoutRouteImport.update({
-  id: '/(private)',
+const protectedLayoutRoute = protectedLayoutRouteImport.update({
+  id: '/(protected)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const privatePageRoute = privatePageRouteImport.update({
+const protectedPageRoute = protectedPageRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => privateLayoutRoute,
+  getParentRoute: () => protectedLayoutRoute,
 } as any)
-const privateoperationsLayoutRoute = privateoperationsLayoutRouteImport.update({
-  id: '/(operations)',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
+const protectedoperationsLayoutRoute =
+  protectedoperationsLayoutRouteImport.update({
+    id: '/(operations)',
+    getParentRoute: () => protectedLayoutRoute,
+  } as any)
 const guestForgotPasswordPageRoute = guestForgotPasswordPageRouteImport.update({
   id: '/forgot-password/',
   path: '/forgot-password/',
@@ -53,64 +54,64 @@ const guestResetPasswordPageRoute = guestResetPasswordPageRouteImport.update({
   path: '/reset-password/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
-const privateoperationsSouscriptionLayoutRoute =
-  privateoperationsSouscriptionLayoutRouteImport.update({
+const protectedoperationsSouscriptionLayoutRoute =
+  protectedoperationsSouscriptionLayoutRouteImport.update({
     id: '/souscription',
     path: '/souscription',
-    getParentRoute: () => privateoperationsLayoutRoute,
+    getParentRoute: () => protectedoperationsLayoutRoute,
   } as any)
-const privateoperationsClientPortfolioPageRoute =
-  privateoperationsClientPortfolioPageRouteImport.update({
+const protectedoperationsClientPortfolioPageRoute =
+  protectedoperationsClientPortfolioPageRouteImport.update({
     id: '/client-portfolio/',
     path: '/client-portfolio/',
-    getParentRoute: () => privateoperationsLayoutRoute,
+    getParentRoute: () => protectedoperationsLayoutRoute,
   } as any)
-const privateoperationsSouscriptionsPageRoute =
-  privateoperationsSouscriptionsPageRouteImport.update({
+const protectedoperationsSouscriptionsPageRoute =
+  protectedoperationsSouscriptionsPageRouteImport.update({
     id: '/souscriptions/',
     path: '/souscriptions/',
-    getParentRoute: () => privateoperationsLayoutRoute,
+    getParentRoute: () => protectedoperationsLayoutRoute,
   } as any)
-const privateoperationsSouscriptionIdPageRoute =
-  privateoperationsSouscriptionIdPageRouteImport.update({
+const protectedoperationsSouscriptionIdPageRoute =
+  protectedoperationsSouscriptionIdPageRouteImport.update({
     id: '/$id/',
     path: '/$id/',
-    getParentRoute: () => privateoperationsSouscriptionLayoutRoute,
+    getParentRoute: () => protectedoperationsSouscriptionLayoutRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof privatePageRoute
-  '/souscription': typeof privateoperationsSouscriptionLayoutRouteWithChildren
+  '/': typeof protectedPageRoute
+  '/souscription': typeof protectedoperationsSouscriptionLayoutRouteWithChildren
   '/forgot-password/': typeof guestForgotPasswordPageRoute
   '/login/': typeof guestLoginPageRoute
   '/reset-password/': typeof guestResetPasswordPageRoute
-  '/client-portfolio/': typeof privateoperationsClientPortfolioPageRoute
-  '/souscriptions/': typeof privateoperationsSouscriptionsPageRoute
-  '/souscription/$id/': typeof privateoperationsSouscriptionIdPageRoute
+  '/client-portfolio/': typeof protectedoperationsClientPortfolioPageRoute
+  '/souscriptions/': typeof protectedoperationsSouscriptionsPageRoute
+  '/souscription/$id/': typeof protectedoperationsSouscriptionIdPageRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof privatePageRoute
-  '/souscription': typeof privateoperationsSouscriptionLayoutRouteWithChildren
+  '/': typeof protectedPageRoute
+  '/souscription': typeof protectedoperationsSouscriptionLayoutRouteWithChildren
   '/forgot-password': typeof guestForgotPasswordPageRoute
   '/login': typeof guestLoginPageRoute
   '/reset-password': typeof guestResetPasswordPageRoute
-  '/client-portfolio': typeof privateoperationsClientPortfolioPageRoute
-  '/souscriptions': typeof privateoperationsSouscriptionsPageRoute
-  '/souscription/$id': typeof privateoperationsSouscriptionIdPageRoute
+  '/client-portfolio': typeof protectedoperationsClientPortfolioPageRoute
+  '/souscriptions': typeof protectedoperationsSouscriptionsPageRoute
+  '/souscription/$id': typeof protectedoperationsSouscriptionIdPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(guest)': typeof guestLayoutRouteWithChildren
-  '/(private)': typeof privateLayoutRouteWithChildren
-  '/(private)/(operations)': typeof privateoperationsLayoutRouteWithChildren
-  '/(private)/': typeof privatePageRoute
-  '/(private)/(operations)/souscription': typeof privateoperationsSouscriptionLayoutRouteWithChildren
+  '/(protected)': typeof protectedLayoutRouteWithChildren
+  '/(protected)/(operations)': typeof protectedoperationsLayoutRouteWithChildren
+  '/(protected)/': typeof protectedPageRoute
+  '/(protected)/(operations)/souscription': typeof protectedoperationsSouscriptionLayoutRouteWithChildren
   '/(guest)/forgot-password/': typeof guestForgotPasswordPageRoute
   '/(guest)/login/': typeof guestLoginPageRoute
   '/(guest)/reset-password/': typeof guestResetPasswordPageRoute
-  '/(private)/(operations)/client-portfolio/': typeof privateoperationsClientPortfolioPageRoute
-  '/(private)/(operations)/souscriptions/': typeof privateoperationsSouscriptionsPageRoute
-  '/(private)/(operations)/souscription/$id/': typeof privateoperationsSouscriptionIdPageRoute
+  '/(protected)/(operations)/client-portfolio/': typeof protectedoperationsClientPortfolioPageRoute
+  '/(protected)/(operations)/souscriptions/': typeof protectedoperationsSouscriptionsPageRoute
+  '/(protected)/(operations)/souscription/$id/': typeof protectedoperationsSouscriptionIdPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -136,21 +137,21 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(guest)'
-    | '/(private)'
-    | '/(private)/(operations)'
-    | '/(private)/'
-    | '/(private)/(operations)/souscription'
+    | '/(protected)'
+    | '/(protected)/(operations)'
+    | '/(protected)/'
+    | '/(protected)/(operations)/souscription'
     | '/(guest)/forgot-password/'
     | '/(guest)/login/'
     | '/(guest)/reset-password/'
-    | '/(private)/(operations)/client-portfolio/'
-    | '/(private)/(operations)/souscriptions/'
-    | '/(private)/(operations)/souscription/$id/'
+    | '/(protected)/(operations)/client-portfolio/'
+    | '/(protected)/(operations)/souscriptions/'
+    | '/(protected)/(operations)/souscription/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   guestLayoutRoute: typeof guestLayoutRouteWithChildren
-  privateLayoutRoute: typeof privateLayoutRouteWithChildren
+  protectedLayoutRoute: typeof protectedLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -162,26 +163,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof guestLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(private)': {
-      id: '/(private)'
+    '/(protected)': {
+      id: '/(protected)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof privateLayoutRouteImport
+      preLoaderRoute: typeof protectedLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(private)/': {
-      id: '/(private)/'
+    '/(protected)/': {
+      id: '/(protected)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof privatePageRouteImport
-      parentRoute: typeof privateLayoutRoute
+      preLoaderRoute: typeof protectedPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
     }
-    '/(private)/(operations)': {
-      id: '/(private)/(operations)'
+    '/(protected)/(operations)': {
+      id: '/(protected)/(operations)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof privateoperationsLayoutRouteImport
-      parentRoute: typeof privateLayoutRoute
+      preLoaderRoute: typeof protectedoperationsLayoutRouteImport
+      parentRoute: typeof protectedLayoutRoute
     }
     '/(guest)/forgot-password/': {
       id: '/(guest)/forgot-password/'
@@ -204,33 +205,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof guestResetPasswordPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
-    '/(private)/(operations)/souscription': {
-      id: '/(private)/(operations)/souscription'
+    '/(protected)/(operations)/souscription': {
+      id: '/(protected)/(operations)/souscription'
       path: '/souscription'
       fullPath: '/souscription'
-      preLoaderRoute: typeof privateoperationsSouscriptionLayoutRouteImport
-      parentRoute: typeof privateoperationsLayoutRoute
+      preLoaderRoute: typeof protectedoperationsSouscriptionLayoutRouteImport
+      parentRoute: typeof protectedoperationsLayoutRoute
     }
-    '/(private)/(operations)/client-portfolio/': {
-      id: '/(private)/(operations)/client-portfolio/'
+    '/(protected)/(operations)/client-portfolio/': {
+      id: '/(protected)/(operations)/client-portfolio/'
       path: '/client-portfolio'
       fullPath: '/client-portfolio/'
-      preLoaderRoute: typeof privateoperationsClientPortfolioPageRouteImport
-      parentRoute: typeof privateoperationsLayoutRoute
+      preLoaderRoute: typeof protectedoperationsClientPortfolioPageRouteImport
+      parentRoute: typeof protectedoperationsLayoutRoute
     }
-    '/(private)/(operations)/souscriptions/': {
-      id: '/(private)/(operations)/souscriptions/'
+    '/(protected)/(operations)/souscriptions/': {
+      id: '/(protected)/(operations)/souscriptions/'
       path: '/souscriptions'
       fullPath: '/souscriptions/'
-      preLoaderRoute: typeof privateoperationsSouscriptionsPageRouteImport
-      parentRoute: typeof privateoperationsLayoutRoute
+      preLoaderRoute: typeof protectedoperationsSouscriptionsPageRouteImport
+      parentRoute: typeof protectedoperationsLayoutRoute
     }
-    '/(private)/(operations)/souscription/$id/': {
-      id: '/(private)/(operations)/souscription/$id/'
+    '/(protected)/(operations)/souscription/$id/': {
+      id: '/(protected)/(operations)/souscription/$id/'
       path: '/$id'
       fullPath: '/souscription/$id/'
-      preLoaderRoute: typeof privateoperationsSouscriptionIdPageRouteImport
-      parentRoute: typeof privateoperationsSouscriptionLayoutRoute
+      preLoaderRoute: typeof protectedoperationsSouscriptionIdPageRouteImport
+      parentRoute: typeof protectedoperationsSouscriptionLayoutRoute
     }
   }
 }
@@ -251,59 +252,59 @@ const guestLayoutRouteWithChildren = guestLayoutRoute._addFileChildren(
   guestLayoutRouteChildren,
 )
 
-interface privateoperationsSouscriptionLayoutRouteChildren {
-  privateoperationsSouscriptionIdPageRoute: typeof privateoperationsSouscriptionIdPageRoute
+interface protectedoperationsSouscriptionLayoutRouteChildren {
+  protectedoperationsSouscriptionIdPageRoute: typeof protectedoperationsSouscriptionIdPageRoute
 }
 
-const privateoperationsSouscriptionLayoutRouteChildren: privateoperationsSouscriptionLayoutRouteChildren =
+const protectedoperationsSouscriptionLayoutRouteChildren: protectedoperationsSouscriptionLayoutRouteChildren =
   {
-    privateoperationsSouscriptionIdPageRoute:
-      privateoperationsSouscriptionIdPageRoute,
+    protectedoperationsSouscriptionIdPageRoute:
+      protectedoperationsSouscriptionIdPageRoute,
   }
 
-const privateoperationsSouscriptionLayoutRouteWithChildren =
-  privateoperationsSouscriptionLayoutRoute._addFileChildren(
-    privateoperationsSouscriptionLayoutRouteChildren,
+const protectedoperationsSouscriptionLayoutRouteWithChildren =
+  protectedoperationsSouscriptionLayoutRoute._addFileChildren(
+    protectedoperationsSouscriptionLayoutRouteChildren,
   )
 
-interface privateoperationsLayoutRouteChildren {
-  privateoperationsSouscriptionLayoutRoute: typeof privateoperationsSouscriptionLayoutRouteWithChildren
-  privateoperationsClientPortfolioPageRoute: typeof privateoperationsClientPortfolioPageRoute
-  privateoperationsSouscriptionsPageRoute: typeof privateoperationsSouscriptionsPageRoute
+interface protectedoperationsLayoutRouteChildren {
+  protectedoperationsSouscriptionLayoutRoute: typeof protectedoperationsSouscriptionLayoutRouteWithChildren
+  protectedoperationsClientPortfolioPageRoute: typeof protectedoperationsClientPortfolioPageRoute
+  protectedoperationsSouscriptionsPageRoute: typeof protectedoperationsSouscriptionsPageRoute
 }
 
-const privateoperationsLayoutRouteChildren: privateoperationsLayoutRouteChildren =
+const protectedoperationsLayoutRouteChildren: protectedoperationsLayoutRouteChildren =
   {
-    privateoperationsSouscriptionLayoutRoute:
-      privateoperationsSouscriptionLayoutRouteWithChildren,
-    privateoperationsClientPortfolioPageRoute:
-      privateoperationsClientPortfolioPageRoute,
-    privateoperationsSouscriptionsPageRoute:
-      privateoperationsSouscriptionsPageRoute,
+    protectedoperationsSouscriptionLayoutRoute:
+      protectedoperationsSouscriptionLayoutRouteWithChildren,
+    protectedoperationsClientPortfolioPageRoute:
+      protectedoperationsClientPortfolioPageRoute,
+    protectedoperationsSouscriptionsPageRoute:
+      protectedoperationsSouscriptionsPageRoute,
   }
 
-const privateoperationsLayoutRouteWithChildren =
-  privateoperationsLayoutRoute._addFileChildren(
-    privateoperationsLayoutRouteChildren,
+const protectedoperationsLayoutRouteWithChildren =
+  protectedoperationsLayoutRoute._addFileChildren(
+    protectedoperationsLayoutRouteChildren,
   )
 
-interface privateLayoutRouteChildren {
-  privateoperationsLayoutRoute: typeof privateoperationsLayoutRouteWithChildren
-  privatePageRoute: typeof privatePageRoute
+interface protectedLayoutRouteChildren {
+  protectedoperationsLayoutRoute: typeof protectedoperationsLayoutRouteWithChildren
+  protectedPageRoute: typeof protectedPageRoute
 }
 
-const privateLayoutRouteChildren: privateLayoutRouteChildren = {
-  privateoperationsLayoutRoute: privateoperationsLayoutRouteWithChildren,
-  privatePageRoute: privatePageRoute,
+const protectedLayoutRouteChildren: protectedLayoutRouteChildren = {
+  protectedoperationsLayoutRoute: protectedoperationsLayoutRouteWithChildren,
+  protectedPageRoute: protectedPageRoute,
 }
 
-const privateLayoutRouteWithChildren = privateLayoutRoute._addFileChildren(
-  privateLayoutRouteChildren,
+const protectedLayoutRouteWithChildren = protectedLayoutRoute._addFileChildren(
+  protectedLayoutRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   guestLayoutRoute: guestLayoutRouteWithChildren,
-  privateLayoutRoute: privateLayoutRouteWithChildren,
+  protectedLayoutRoute: protectedLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

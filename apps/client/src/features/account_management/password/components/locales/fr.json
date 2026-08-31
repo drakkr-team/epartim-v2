@@ -39,8 +39,6 @@
 			}
 		},
 		"action": {
-			"showPassword": "Afficher le mot de passe",
-			"hidePassword": "Masquer le mot de passe",
 			"resetPassword": "Réinitialiser le mot de passe"
 		}
 	}

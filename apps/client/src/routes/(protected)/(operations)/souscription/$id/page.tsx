@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { PageHeader } from "#/components/app/page-header";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
-export const Route = createFileRoute("/(private)/(operations)/souscription/$id/")({
+export const Route = createFileRoute("/(protected)/(operations)/souscription/$id/")({
 	staticData: {
 		breadcrumb: { labelKey: "new-subscription", to: "/souscription/$id" },
 	} satisfies BreadcrumbStaticData,

@@ -31,10 +31,7 @@ export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
 			</form.AppField>
 
 			<form.AppForm>
-				<form.SubmitButton
-					className="mt-2 text-secondary-12 active:not-data-disabled:bg-primary-10!"
-					variant="primary"
-				>
+				<form.SubmitButton className="mt-2" variant="primary">
 					{t("action.sendResetEmail")}
 				</form.SubmitButton>
 			</form.AppForm>

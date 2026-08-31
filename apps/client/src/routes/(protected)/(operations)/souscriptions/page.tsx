@@ -7,7 +7,7 @@ import { PlusIcon } from "@workspace/ui-react/icons";
 import { PageHeader } from "#/components/app/page-header";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
-export const Route = createFileRoute("/(private)/(operations)/souscriptions/")({
+export const Route = createFileRoute("/(protected)/(operations)/souscriptions/")({
 	staticData: {
 		breadcrumb: { labelKey: "subscriptions", to: "/souscriptions" },
 	} satisfies BreadcrumbStaticData,

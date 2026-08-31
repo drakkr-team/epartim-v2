@@ -30,8 +30,6 @@ export function ResetPasswordForm(props: ResetPasswordFormProps) {
 						label={t("field.newPassword.label")}
 						inputProps={{
 							autoComplete: "new-password",
-							showPasswordLabel: t("action.showPassword"),
-							hidePasswordLabel: t("action.hidePassword"),
 						}}
 					/>
 				)}
@@ -43,18 +41,13 @@ export function ResetPasswordForm(props: ResetPasswordFormProps) {
 						label={t("field.newPasswordConfirmation.label")}
 						inputProps={{
 							autoComplete: "new-password",
-							showPasswordLabel: t("action.showPassword"),
-							hidePasswordLabel: t("action.hidePassword"),
 						}}
 					/>
 				)}
 			</form.AppField>
 
 			<form.AppForm>
-				<form.SubmitButton
-					className="mt-2 text-secondary-12 active:not-data-disabled:bg-primary-10!"
-					variant="primary"
-				>
+				<form.SubmitButton className="mt-2" variant="primary">
 					{t("action.resetPassword")}
 				</form.SubmitButton>
 			</form.AppForm>

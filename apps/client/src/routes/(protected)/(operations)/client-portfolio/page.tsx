@@ -7,7 +7,7 @@ import { DownloadIcon, PlusIcon } from "@workspace/ui-react/icons";
 import { PageHeader } from "#/components/app/page-header";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
-export const Route = createFileRoute("/(private)/(operations)/client-portfolio/")({
+export const Route = createFileRoute("/(protected)/(operations)/client-portfolio/")({
 	staticData: {
 		breadcrumb: { labelKey: "client-portfolio", to: "/client-portfolio" },
 	} satisfies BreadcrumbStaticData,
