@@ -79,7 +79,7 @@ importers:
         version: 17.0.8(i18next@26.4.0(typescript@6.0.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.3)
       tailwind-variants:
         specifier: 3.3.1
-        version: 3.3.1(tailwind-merge@3.5.0)(tailwindcss@4.3.1)
+        version: 3.3.1(tailwind-merge@3.5.0)(tailwindcss@4.3.3)
       zod:
         specifier: 4.4.3
         version: 4.4.3
@@ -130,8 +130,8 @@ importers:
         specifier: 3.1.14
         version: 3.1.14
       tailwindcss:
-        specifier: 4.3.1
-        version: 4.3.1
+        specifier: 4.3.3
+        version: 4.3.3
       typescript:
         specifier: 6.0.3
         version: 6.0.3
@@ -12076,11 +12076,6 @@ snapshots:
 
   tailwind-merge@3.5.0:
     optional: true
-
-  tailwind-variants@3.3.1(tailwind-merge@3.5.0)(tailwindcss@4.3.1):
-    optionalDependencies:
-      tailwind-merge: 3.5.0
-      tailwindcss: 4.3.1
 
   tailwind-variants@3.3.1(tailwind-merge@3.5.0)(tailwindcss@4.3.3):
     optionalDependencies:
