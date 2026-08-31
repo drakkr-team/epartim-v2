@@ -14,7 +14,7 @@ headers: []
 method: DELETE
 name: Supprimer le profil
 sortPriority: 0.0
-url: http://localhost:3333/client/user-management/profile
+url: http://localhost:3333/client/account-management/profile
 urlParameters: []
 settingSendCookies:
   enabled: false

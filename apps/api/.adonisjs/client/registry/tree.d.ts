@@ -37,20 +37,20 @@ export interface ApiDefinition {
     }
   }
   client: {
-    userManagement: {
+    accountManagement: {
       profile: {
-        view: typeof routes['client.user_management.profile.view']
-        update: typeof routes['client.user_management.profile.update']
-        delete: typeof routes['client.user_management.profile.delete']
+        view: typeof routes['client.account_management.profile.view']
+        update: typeof routes['client.account_management.profile.update']
+        delete: typeof routes['client.account_management.profile.delete']
       }
       authentication: {
-        login: typeof routes['client.user_management.authentication.login']
-        logout: typeof routes['client.user_management.authentication.logout']
+        login: typeof routes['client.account_management.authentication.login']
+        logout: typeof routes['client.account_management.authentication.logout']
       }
       password: {
-        forgot: typeof routes['client.user_management.password.forgot']
-        reset: typeof routes['client.user_management.password.reset']
-        update: typeof routes['client.user_management.password.update']
+        forgot: typeof routes['client.account_management.password.forgot']
+        reset: typeof routes['client.account_management.password.reset']
+        update: typeof routes['client.account_management.password.update']
       }
     }
   }

@@ -35,20 +35,20 @@ export const controllers = {
       },
     },
     client: {
-      userManagement: {
+      accountManagement: {
         authentication: {
-          Login: () => import('#src/features/client/user_management/authentication/controllers/login.controller'),
-          Logout: () => import('#src/features/client/user_management/authentication/controllers/logout.controller'),
+          Login: () => import('#src/features/client/account_management/authentication/controllers/login.controller'),
+          Logout: () => import('#src/features/client/account_management/authentication/controllers/logout.controller'),
         },
         password: {
-          Forgot: () => import('#src/features/client/user_management/password/controllers/forgot.controller'),
-          Reset: () => import('#src/features/client/user_management/password/controllers/reset.controller'),
-          Update: () => import('#src/features/client/user_management/password/controllers/update.controller'),
+          Forgot: () => import('#src/features/client/account_management/password/controllers/forgot.controller'),
+          Reset: () => import('#src/features/client/account_management/password/controllers/reset.controller'),
+          Update: () => import('#src/features/client/account_management/password/controllers/update.controller'),
         },
         profile: {
-          Delete: () => import('#src/features/client/user_management/profile/controllers/delete.controller'),
-          Update: () => import('#src/features/client/user_management/profile/controllers/update.controller'),
-          View: () => import('#src/features/client/user_management/profile/controllers/view.controller'),
+          Delete: () => import('#src/features/client/account_management/profile/controllers/delete.controller'),
+          Update: () => import('#src/features/client/account_management/profile/controllers/update.controller'),
+          View: () => import('#src/features/client/account_management/profile/controllers/view.controller'),
         },
       },
     },

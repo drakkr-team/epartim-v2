@@ -151,40 +151,40 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/delete.controller').default['handle']>>>
     }
   }
-  'client.user_management.profile.view': {
+  'client.account_management.profile.view': {
     methods: ["GET","HEAD"]
-    pattern: '/client/user-management/profile'
+    pattern: '/client/account-management/profile'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/user_management/profile/controllers/view.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/user_management/profile/controllers/view.controller').default['handle']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/profile/controllers/view.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/profile/controllers/view.controller').default['handle']>>>
     }
   }
-  'client.user_management.profile.update': {
+  'client.account_management.profile.update': {
     methods: ["PUT"]
-    pattern: '/client/user-management/profile'
+    pattern: '/client/account-management/profile'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/user_management/profile/controllers/update.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/account_management/profile/controllers/update.controller').default)['payloadSchema']>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/user_management/profile/controllers/update.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/user_management/profile/controllers/update.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/user_management/profile/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/account_management/profile/controllers/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/profile/controllers/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/profile/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'client.user_management.profile.delete': {
+  'client.account_management.profile.delete': {
     methods: ["DELETE"]
-    pattern: '/client/user-management/profile'
+    pattern: '/client/account-management/profile'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/user_management/profile/controllers/delete.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/user_management/profile/controllers/delete.controller').default['handle']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/profile/controllers/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/profile/controllers/delete.controller').default['handle']>>>
     }
   }
   'admin.account_management.authentication.login': {
@@ -235,64 +235,64 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/account_management/password/controllers/reset.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'client.user_management.authentication.login': {
+  'client.account_management.authentication.login': {
     methods: ["POST"]
-    pattern: '/client/user-management/authentication/login'
+    pattern: '/client/account-management/authentication/login'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/user_management/authentication/controllers/login.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/account_management/authentication/controllers/login.controller').default)['payloadSchema']>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/user_management/authentication/controllers/login.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/user_management/authentication/controllers/login.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/user_management/authentication/controllers/login.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/account_management/authentication/controllers/login.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/authentication/controllers/login.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/authentication/controllers/login.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'client.user_management.authentication.logout': {
+  'client.account_management.authentication.logout': {
     methods: ["DELETE"]
-    pattern: '/client/user-management/authentication/logout'
+    pattern: '/client/account-management/authentication/logout'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/user_management/authentication/controllers/logout.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/user_management/authentication/controllers/logout.controller').default['handle']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/authentication/controllers/logout.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/authentication/controllers/logout.controller').default['handle']>>>
     }
   }
-  'client.user_management.password.forgot': {
+  'client.account_management.password.forgot': {
     methods: ["POST"]
-    pattern: '/client/user-management/password/forgot'
+    pattern: '/client/account-management/password/forgot'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/user_management/password/controllers/forgot.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/account_management/password/controllers/forgot.controller').default)['payloadSchema']>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/user_management/password/controllers/forgot.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/user_management/password/controllers/forgot.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/user_management/password/controllers/forgot.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/account_management/password/controllers/forgot.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/password/controllers/forgot.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/password/controllers/forgot.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'client.user_management.password.reset': {
+  'client.account_management.password.reset': {
     methods: ["POST"]
-    pattern: '/client/user-management/password/reset'
+    pattern: '/client/account-management/password/reset'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/user_management/password/controllers/reset.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/account_management/password/controllers/reset.controller').default)['payloadSchema']>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/user_management/password/controllers/reset.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/user_management/password/controllers/reset.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/user_management/password/controllers/reset.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/account_management/password/controllers/reset.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/password/controllers/reset.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/password/controllers/reset.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'client.user_management.password.update': {
+  'client.account_management.password.update': {
     methods: ["PUT"]
-    pattern: '/client/user-management/password'
+    pattern: '/client/account-management/password'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/user_management/password/controllers/update.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/account_management/password/controllers/update.controller').default)['payloadSchema']>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/user_management/password/controllers/update.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/user_management/password/controllers/update.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/user_management/password/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/account_management/password/controllers/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/password/controllers/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/password/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
 }

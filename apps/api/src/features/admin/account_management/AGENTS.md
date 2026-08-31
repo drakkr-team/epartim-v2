@@ -35,5 +35,5 @@ account_management/
 ## ANTI-PATTERNS
 
 - Do not document or add profile update/delete or authenticated password update without routes and tests.
-- Do not share client user-management guards, models, policies, or mail assets.
+- Do not share client account-management guards, models, policies, or mail assets.
 - Do not send email inline or bypass policies because middleware already authenticated the request.

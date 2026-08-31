@@ -13,7 +13,7 @@
 |---|---|---|
 | Admin account | `src/features/admin/account_management` | Admin login/logout, password recovery, profile view |
 | Admin CRUD | `src/features/admin/admins` | Protected administrator list/create/view/update/delete |
-| Client account | `src/features/client/user_management` | Client auth, password, profile lifecycle |
+| Client account | `src/features/client/account_management` | Client auth, password, profile lifecycle |
 
 - Keep routes, controllers, policies, services, jobs, mails, templates, and specs inside their domain.
 - Shared models, presenters, validators, middleware, and services remain under `src/*`.
