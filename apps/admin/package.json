@@ -27,7 +27,7 @@
 		"@tanstack/react-router-ssr-query": "1.167.1",
 		"@tanstack/react-start": "1.168.26",
 		"@tanstack/react-table": "8.21.3",
-		"@tanstack/router-plugin": "1.168.18",
+		"@tanstack/router-plugin": "1.168.35",
 		"@tuyau/core": "1.2.2",
 		"@tuyau/react-query": "1.1.0",
 		"@tuyau/superjson": "1.0.0",
