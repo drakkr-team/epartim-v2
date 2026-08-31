@@ -31,7 +31,7 @@
 	"devDependencies": {
 		"@rolldown/plugin-babel": "0.2.3",
 		"@storybook/addon-docs": "10.5.7",
-		"@storybook/addon-themes": "10.5.7",
+		"@storybook/addon-themes": "10.5.10",
 		"@storybook/react-vite": "10.5.7",
 		"@tailwindcss/vite": "4.3.3",
 		"@types/node": "24",
