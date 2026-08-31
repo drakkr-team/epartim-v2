@@ -1,0 +1,61 @@
+type: http_request
+model: http_request
+id: rq_network_create
+createdAt: 2026-08-31T00:00:00.000000
+updatedAt: 2026-08-31T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_networks
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "name": "${[ faker.company.name() ]}",
+      "amundiOrgId": "${[ faker.string.alphanumeric(12) ]}",
+      "goCode": "${[ faker.number.int({ min: 100000, max: 999999 }) ]}",
+      "address": {
+        "lineOne": "${[ faker.location.streetAddress() ]}",
+        "lineTwo": "${[ faker.location.secondaryAddress() ]}",
+        "zip": "${[ faker.location.zipCode() ]}",
+        "city": "${[ faker.location.city() ]}",
+        "coordinates": {
+          "latitude": "${[ faker.location.latitude() ]}",
+          "longitude": "${[ faker.location.longitude() ]}"
+        }
+      },
+      "paymentDetails": {
+        "iban": "${[ faker.finance.iban({ countryCode: 'FR' }) ]}",
+        "bic": "${[ faker.finance.bic() ]}"
+      }
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: POST
+name: Create network
+sortPriority: 0.0
+url: http://localhost:3333/admin/networks
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0
