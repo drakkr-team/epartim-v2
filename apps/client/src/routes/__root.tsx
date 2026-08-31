@@ -25,11 +25,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="fr" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
-			<body className="relative bg-neutral-2 antialiased">
+			<body className="relative bg-primary-2/50 antialiased">
 				<div className="isolate">
 					<Providers>{children}</Providers>
 				</div>

@@ -8,11 +8,21 @@ import { Input, type InputProps } from "../input";
 export type PasswordInputRootProps = Omit<InputProps, "type" | "rightSlot"> & {
 	defaultVisible?: boolean;
 	visible?: boolean;
+	showPasswordLabel?: string;
+	hidePasswordLabel?: string;
 	onVisibilityChange?: (visible: boolean, event: ToggleHeadless.ChangeEventDetails) => void;
 };
 
 export function PasswordInputRoot(props: PasswordInputRootProps) {
-	const { disabled, defaultVisible, visible, onVisibilityChange, ...rest } = props;
+	const {
+		disabled,
+		defaultVisible,
+		visible,
+		showPasswordLabel = "Show password",
+		hidePasswordLabel = "Hide password",
+		onVisibilityChange,
+		...rest
+	} = props;
 
 	const isControlled = visible !== undefined;
 	const [unControlledVisible, setUnControlledVisible] = useState(defaultVisible ?? false);
@@ -28,7 +38,6 @@ export function PasswordInputRoot(props: PasswordInputRootProps) {
 	const Toggler = () => (
 		<ToggleHeadless
 			className="pointer-events-auto"
-			tabIndex={-1}
 			defaultPressed={defaultVisible}
 			pressed={visible}
 			onPressedChange={handleOnVisibilityChange}
@@ -36,15 +45,15 @@ export function PasswordInputRoot(props: PasswordInputRootProps) {
 			render={(props, state) => {
 				if (state.pressed) {
 					return (
-						<Button variant="ghost" size="icon-sm" {...props}>
-							<EyeIcon />
+						<Button variant="ghost" size="icon-sm" {...props} aria-label={hidePasswordLabel}>
+							<EyeIcon aria-hidden="true" />
 						</Button>
 					);
 				}
 
 				return (
-					<Button variant="ghost" size="icon-sm" {...props}>
-						<EyeOffIcon />
+					<Button variant="ghost" size="icon-sm" {...props} aria-label={showPasswordLabel}>
+						<EyeOffIcon aria-hidden="true" />
 					</Button>
 				);
 			}}

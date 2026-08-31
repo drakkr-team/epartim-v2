@@ -28,7 +28,7 @@ export function PasswordField(props: PasswordFieldProps) {
 			name={field.name}
 			invalid={isInvalid}
 			disabled={disabled}
-			className="flex flex-col gap-1"
+			className="flex flex-col gap-2"
 		>
 			{label && (
 				<Field.Label htmlFor={field.name} required={required}>

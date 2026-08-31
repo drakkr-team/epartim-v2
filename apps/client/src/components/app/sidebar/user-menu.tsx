@@ -1,7 +1,13 @@
 import { Avatar } from "@workspace/ui-react/components/avatar";
 import { Menu } from "@workspace/ui-react/components/menu";
+import { Spinner } from "@workspace/ui-react/components/spinner";
+import { LogOutIcon } from "@workspace/ui-react/icons";
+
+import { useLogoutMutation } from "#/features/account_management/authentication/hooks/use-logout-mutation";
 
 export function SidebarUserMenu() {
+	const { mutateAsync: logout, isPending: isLoggingOut } = useLogoutMutation();
+
 	return (
 		<div className="grid w-full grid-cols-[auto_1fr] items-center gap-2">
 			<Menu>
@@ -16,7 +22,8 @@ export function SidebarUserMenu() {
 
 				<Menu.Content align="start" side="right">
 					<Menu.Item disabled>Mon profil</Menu.Item>
-					<Menu.Item disabled variant="destructive">
+					<Menu.Item disabled={isLoggingOut} onClick={() => logout({})} variant="destructive">
+						{isLoggingOut ? <Spinner /> : <LogOutIcon />}
 						Se déconnecter
 					</Menu.Item>
 				</Menu.Content>
