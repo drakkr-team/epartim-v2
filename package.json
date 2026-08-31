@@ -12,7 +12,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.6",
-		"portless": "0.15.5",
+		"portless": "0.15.6",
 		"turbo": "2.10.8"
 	},
 	"packageManager": "pnpm@10.33.2",
