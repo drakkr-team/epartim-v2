@@ -1,3 +1,6 @@
 packages:
   - "apps/*"
   - "packages/**"
+
+overrides:
+  jsonschema: 1.4.1
