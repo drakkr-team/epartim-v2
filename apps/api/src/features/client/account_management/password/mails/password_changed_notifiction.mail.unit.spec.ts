@@ -4,7 +4,7 @@ import { UserFactory } from "#database/factories/user.factory";
 import PasswordChangedNotificationMail from "#features/client/account_management/password/mails/password_changed_notifiction.mail";
 
 test.group(
-	"Features / User Management / Password / Mails / Password Changed Notification Mail",
+	"Features / Account Management / Password / Mails / Password Changed Notification Mail",
 	() => {
 		test("it should render the password changed notification email", async () => {
 			const user = await UserFactory.create();

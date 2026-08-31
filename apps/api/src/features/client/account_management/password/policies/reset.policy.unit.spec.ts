@@ -2,7 +2,7 @@ import { test } from "@japa/runner";
 
 import ResetPolicy from "#features/client/account_management/password/policies/reset.policy";
 
-test.group("Features / User Management / Password / Policies / Reset Policy", () => {
+test.group("Features / Account Management / Password / Policies / Reset Policy", () => {
 	test("it should allow everyone", async ({ assert }) => {
 		const resetPolicy = new ResetPolicy();
 		const canHandle = await resetPolicy.handle();

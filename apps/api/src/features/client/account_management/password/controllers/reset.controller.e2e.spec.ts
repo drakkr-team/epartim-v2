@@ -6,7 +6,7 @@ import SendPasswordChangedNotification from "#features/client/account_management
 import User from "#models/user";
 import OtpService from "#services/otp.service";
 
-test.group("Features / User Management / Password / Controllers / Reset Controller", (group) => {
+test.group("Features / Account Management / Password / Controllers / Reset Controller", (group) => {
 	group.each.teardown(() => {
 		QueueManager.restore();
 	});

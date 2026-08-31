@@ -2,7 +2,7 @@ import { test } from "@japa/runner";
 
 import LogoutPolicy from "#features/client/account_management/authentication/policies/logout.policy";
 
-test.group("Features / User Management / Authentication / Policies / Logout Policy", () => {
+test.group("Features / Account Management / Authentication / Policies / Logout Policy", () => {
 	test("it should allow everyone to logout", async ({ assert }) => {
 		const logoutPolicy = new LogoutPolicy();
 		const canLogout = logoutPolicy.handle();

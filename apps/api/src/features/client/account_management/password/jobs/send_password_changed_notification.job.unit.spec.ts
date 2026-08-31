@@ -6,7 +6,7 @@ import SendPasswordChangedNotification from "#features/client/account_management
 import PasswordChangedNotificationMail from "#features/client/account_management/password/mails/password_changed_notifiction.mail";
 
 test.group(
-	"Features / User Management / Password / Jobs / Send Password Changed Notification",
+	"Features / Account Management / Password / Jobs / Send Password Changed Notification",
 	() => {
 		test("it should send the password changed notification email", async () => {
 			const fakeMailer = mail.fake();
