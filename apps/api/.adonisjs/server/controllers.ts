@@ -27,6 +27,7 @@ export const controllers = {
         View: () => import('#src/features/admin/admins/controllers/view.controller'),
       },
       firms: {
+        Delete: () => import('#src/features/admin/firms/controllers/delete.controller'),
         List: () => import('#src/features/admin/firms/controllers/list.controller'),
         Update: () => import('#src/features/admin/firms/controllers/update.controller'),
         View: () => import('#src/features/admin/firms/controllers/view.controller'),
