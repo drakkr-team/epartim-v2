@@ -29,6 +29,7 @@ export interface ApiDefinition {
       delete: typeof routes['admin.admins.delete']
     }
     networks: {
+      list: typeof routes['admin.networks.list']
       create: typeof routes['admin.networks.create']
     }
     users: {

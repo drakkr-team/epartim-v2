@@ -91,6 +91,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admins/controllers/delete.controller').default['handle']>>>
     }
   }
+  'admin.networks.list': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/networks'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#src/features/admin/networks/controllers/list.controller').default)['querySchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/list.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/list.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.networks.create': {
     methods: ["POST"]
     pattern: '/admin/networks'
