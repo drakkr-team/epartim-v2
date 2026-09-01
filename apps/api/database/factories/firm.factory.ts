@@ -8,8 +8,7 @@ import Firm from "#models/firm";
 export const FirmFactory = factory
 	.define(Firm, ({ faker }) => ({
 		name: faker.company.name(),
-		amundiOrgId: faker.string.alphanumeric(12).toUpperCase(),
-		addressId: faker.number.int({ min: 1, max: 999_999 }),
+		amundiOrgId: faker.helpers.maybe(() => faker.string.alphanumeric(12).toUpperCase()),
 		orias: faker.string.numeric(8),
 	}))
 	.relation("address", () => AddressFactory)

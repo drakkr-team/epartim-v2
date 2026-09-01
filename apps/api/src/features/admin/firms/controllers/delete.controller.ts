@@ -9,9 +9,11 @@ export default class DeleteFirmController {
 	constructor(protected deleteFirmService: DeleteFirmService) {}
 
 	async handle({ params, response, bouncer }: HttpContext) {
+		const { firmId } = params;
+
 		await bouncer.with(DeleteFirmPolicy).authorize("handle");
 
-		await this.deleteFirmService.handle(params.firmId);
+		await this.deleteFirmService.handle(firmId);
 
 		return response.noContent();
 	}

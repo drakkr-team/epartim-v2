@@ -2,62 +2,38 @@ import type { ModelQueryBuilderContract } from "@adonisjs/lucid/types/model";
 
 import Firm from "#models/firm";
 
-export const FirmOrderByValues = [
-	"id_asc",
-	"id_desc",
-	"name_asc",
-	"name_desc",
-	"amundiOrgId_asc",
-	"amundiOrgId_desc",
-	"orias_asc",
-	"orias_desc",
-	"networkId_asc",
-	"networkId_desc",
-	"createdAt_asc",
-	"createdAt_desc",
-	"updatedAt_asc",
-	"updatedAt_desc",
-] as const;
-
-const FirmOrderBy = {
-	id_asc: { column: "id", direction: "asc" },
-	id_desc: { column: "id", direction: "desc" },
-	name_asc: { column: "name", direction: "asc" },
-	name_desc: { column: "name", direction: "desc" },
-	amundiOrgId_asc: { column: "amundi_org_id", direction: "asc" },
-	amundiOrgId_desc: { column: "amundi_org_id", direction: "desc" },
-	orias_asc: { column: "orias", direction: "asc" },
-	orias_desc: { column: "orias", direction: "desc" },
-	networkId_asc: { column: "network_id", direction: "asc" },
-	networkId_desc: { column: "network_id", direction: "desc" },
-	createdAt_asc: { column: "created_at", direction: "asc" },
-	createdAt_desc: { column: "created_at", direction: "desc" },
-	updatedAt_asc: { column: "updated_at", direction: "asc" },
-	updatedAt_desc: { column: "updated_at", direction: "desc" },
-} as const;
-
-export type FirmOrderByValue = (typeof FirmOrderByValues)[number];
-
 export default class ListFirmsService {
-	handle(params: { q?: string; networkId?: number; orderBy?: FirmOrderByValue }) {
-		const query = Firm.query().preload("address").preload("paymentDetails");
+	handle(params: { q?: string; orderBy?: string; networkId?: number }) {
+		const { q, orderBy, networkId } = params;
 
-		if (params.q) {
-			this.#searchQuery(query, params.q);
-		}
+		return Firm.query()
+			.if(q, (query) => this.#searchQuery(query, q!))
+			.if(networkId, (query) => query.where("firms.network_id", networkId!))
+			.if(orderBy, (query) => this.#orderByQuery(query, orderBy!))
+			.orderBy("created_at", "desc");
+	}
 
-		if (params.networkId !== undefined) {
-			query.where("firms.network_id", params.networkId);
-		}
+	#orderByQuery(query: ModelQueryBuilderContract<typeof Firm>, orderBy: string) {
+		const options = [
+			{ id: "id_asc", value: { column: "id", order: "asc" } },
+			{ id: "id_desc", value: { column: "id", order: "desc" } },
+			{ id: "name_asc", value: { column: "name", order: "asc" } },
+			{ id: "name_desc", value: { column: "name", order: "desc" } },
+			{ id: "amundiOrgId_asc", value: { column: "amundi_org_id", order: "asc" } },
+			{ id: "amundiOrgId_desc", value: { column: "amundi_org_id", order: "desc" } },
+			{ id: "orias_asc", value: { column: "orias", order: "asc" } },
+			{ id: "orias_desc", value: { column: "orias", order: "desc" } },
+			{ id: "networkId_asc", value: { column: "network_id", order: "asc" } },
+			{ id: "networkId_desc", value: { column: "network_id", order: "desc" } },
+			{ id: "createdAt_asc", value: { column: "created_at", order: "asc" } },
+			{ id: "createdAt_desc", value: { column: "created_at", order: "desc" } },
+			{ id: "updatedAt_asc", value: { column: "updated_at", order: "asc" } },
+			{ id: "updatedAt_desc", value: { column: "updated_at", order: "desc" } },
+		] as const;
 
-		if (params.orderBy) {
-			const orderBy = FirmOrderBy[params.orderBy];
-			query.orderBy(orderBy.column, orderBy.direction);
-		} else {
-			query.orderBy("created_at", "desc").orderBy("id", "desc");
-		}
+		const option = options.find((option) => option.id === orderBy);
 
-		return query;
+		return query.if(option, (query) => query.orderBy(option!.value.column, option!.value.order));
 	}
 
 	#searchQuery(query: ModelQueryBuilderContract<typeof Firm>, search: string) {

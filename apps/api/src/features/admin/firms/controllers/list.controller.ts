@@ -6,7 +6,7 @@ import CreateFirmPolicy from "#features/admin/firms/policies/create.policy";
 import DeleteFirmPolicy from "#features/admin/firms/policies/delete.policy";
 import ListFirmsPolicy from "#features/admin/firms/policies/list.policy";
 import UpdateFirmPolicy from "#features/admin/firms/policies/update.policy";
-import ListFirmsService, { FirmOrderByValues } from "#features/admin/firms/services/list.service";
+import ListFirmsService from "#features/admin/firms/services/list.service";
 import FirmPresenter from "#presenters/firm.presenter";
 import PaginationPresenter from "#presenters/pagination.presenter";
 import { PaginationValidator } from "#validators/pagination.validator";
@@ -54,7 +54,7 @@ export default class ListFirmsController {
 	static querySchema = vine.create({
 		...PaginationValidator.getProperties(),
 		q: vine.string().optional(),
-		networkId: vine.number().positive().withoutDecimals().optional(),
-		orderBy: vine.enum(FirmOrderByValues).optional(),
+		orderBy: vine.string().optional(),
+		networkId: vine.number().optional(),
 	});
 }

@@ -11,7 +11,7 @@ export default class extends BaseSchema {
 			table.string("line_two", 254).nullable();
 			table.string("zip", 254).notNullable();
 			table.string("city", 254).notNullable();
-			table.jsonb("coordinates").notNullable();
+			table.jsonb("coordinates").nullable();
 
 			table.timestamps(true, true);
 		});
