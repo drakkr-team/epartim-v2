@@ -11,7 +11,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 		const admin = await AdminFactory.create();
 		const network = await NetworkFactory.merge({ name: "List Contract Network" })
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
 		const response = await client
@@ -53,7 +53,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 		assert.equal(body.data[0].addressId, network.addressId);
 		assert.equal(body.data[0].paymentDetailId, network.paymentDetailId);
 		assert.notProperty(body.data[0], "address");
-		assert.notProperty(body.data[0], "paymentDetails");
+		assert.notProperty(body.data[0], "paymentDetail");
 		assert.property(body.data[0], "createdAt");
 		assert.property(body.data[0], "updatedAt");
 	});
@@ -65,14 +65,14 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 			amundiOrgId: "HIDDEN-ONE",
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 		const second = await NetworkFactory.merge({
 			name: "NameOnly Match Two",
 			amundiOrgId: "HIDDEN-TWO",
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
 		const pageResponse = await client

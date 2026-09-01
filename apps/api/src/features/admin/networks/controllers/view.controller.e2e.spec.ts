@@ -9,7 +9,7 @@ test.group("Features / Admin / Networks / Controllers / View Controller", () => 
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
 			.visit("admin.networks.view", { networkId: network.id })

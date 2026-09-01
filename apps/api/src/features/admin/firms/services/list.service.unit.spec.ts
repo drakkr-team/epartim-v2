@@ -9,19 +9,22 @@ import Firm from "#models/firm";
 async function createFirm(name: string, values: Partial<Firm> = {}) {
 	return FirmFactory.merge({ name, ...values })
 		.with("address")
-		.with("paymentDetails")
+		.with("paymentDetail")
 		.create();
 }
 
 test.group("Features / Admin / Firms / Services / List Service", () => {
-	test("it should order by creation date then id descending by default", async ({ assert }) => {
-		const first = await createFirm("Default Firm Tie First", { orias: "20000001" });
-		const second = await createFirm("Default Firm Tie Second", { orias: "20000002" });
-		const createdAt = DateTime.fromISO("2026-01-01T00:00:00.000Z");
-		await Firm.query().where("id", Number(first.id)).update({ createdAt });
-		await Firm.query().where("id", Number(second.id)).update({ createdAt });
+	test("it should order by creation date descending by default", async ({ assert }) => {
+		const first = await createFirm("Default Firm First", { orias: "20000001" });
+		const second = await createFirm("Default Firm Second", { orias: "20000002" });
+		await Firm.query()
+			.where("id", Number(first.id))
+			.update({ createdAt: DateTime.fromISO("2026-01-01T00:00:00.000Z") });
+		await Firm.query()
+			.where("id", Number(second.id))
+			.update({ createdAt: DateTime.fromISO("2026-02-01T00:00:00.000Z") });
 
-		const firms = await new ListFirmsService().handle({ q: "Default Firm Tie" });
+		const firms = await new ListFirmsService().handle({ q: "Default Firm" });
 
 		assert.deepEqual(
 			firms.map((firm) => firm.id),
@@ -48,7 +51,7 @@ test.group("Features / Admin / Firms / Services / List Service", () => {
 	});
 
 	test("it should filter by network identifier", async ({ assert }) => {
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const matching = await createFirm("Matching Network Firm", {
 			networkId: network.id,
 			orias: "20000005",
@@ -64,8 +67,8 @@ test.group("Features / Admin / Firms / Services / List Service", () => {
 	});
 
 	test("it should support both directions for every whitelisted sort field", async ({ assert }) => {
-		const firstNetwork = await NetworkFactory.with("address").with("paymentDetails").create();
-		const secondNetwork = await NetworkFactory.with("address").with("paymentDetails").create();
+		const firstNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
+		const secondNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
 		const first = await createFirm("Sort Firm Alpha", {
 			amundiOrgId: "FIRM-AMUNDI-A",
 			orias: "30000001",
@@ -122,8 +125,8 @@ test.group("Features / Admin / Firms / Services / List Service", () => {
 		}
 	});
 
-	test("it should preload owned relations without preloading the network", async ({ assert }) => {
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+	test("it should return firms without preloading relations", async ({ assert }) => {
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const created = await createFirm("Preloaded Firm Relations", {
 			networkId: network.id,
 			orias: "40000001",
@@ -131,8 +134,10 @@ test.group("Features / Admin / Firms / Services / List Service", () => {
 
 		const [firm] = await new ListFirmsService().handle({ q: "Preloaded Firm Relations" });
 
-		assert.equal(firm.address.id, created.addressId);
-		assert.equal(firm.paymentDetails.id, created.paymentDetailsId);
+		assert.equal(firm.addressId, created.addressId);
+		assert.equal(firm.paymentDetailId, created.paymentDetailId);
+		assert.isUndefined(firm.address);
+		assert.isUndefined(firm.paymentDetail);
 		assert.isUndefined(firm.network);
 	});
 });

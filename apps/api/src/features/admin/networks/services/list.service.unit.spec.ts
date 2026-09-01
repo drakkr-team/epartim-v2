@@ -8,7 +8,7 @@ import Network from "#models/network";
 async function createNetwork(name: string, values: Partial<Network> = {}) {
 	return NetworkFactory.merge({ name, ...values })
 		.with("address")
-		.with("paymentDetails")
+		.with("paymentDetail")
 		.create();
 }
 
@@ -103,6 +103,6 @@ test.group("Features / Admin / Networks / Services / List Service", () => {
 		assert.equal(network.addressId, created.addressId);
 		assert.equal(network.paymentDetailId, created.paymentDetailId);
 		assert.isUndefined(network.address);
-		assert.isUndefined(network.paymentDetails);
+		assert.isUndefined(network.paymentDetail);
 	});
 });

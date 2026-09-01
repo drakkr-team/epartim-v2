@@ -13,5 +13,5 @@ export const FirmFactory = factory
 	}))
 	.relation("address", () => AddressFactory)
 	.relation("network", () => NetworkFactory)
-	.relation("paymentDetails", () => PaymentDetailFactory)
+	.relation("paymentDetail", () => PaymentDetailFactory)
 	.build();

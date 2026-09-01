@@ -10,13 +10,13 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const firm = await FirmFactory.merge({
 			name: "Viewed Firm",
 			networkId: network.id,
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
 		const response = await client.get(`/admin/firms/${firm.id}`).withGuard("admin").loginAs(admin);
@@ -26,9 +26,9 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 		assert.equal(body.id, firm.id);
 		assert.equal(body.networkId, network.id);
 		assert.equal(body.addressId, firm.addressId);
-		assert.equal(body.paymentDetailsId, firm.paymentDetailsId);
+		assert.equal(body.paymentDetailId, firm.paymentDetailId);
 		assert.equal(body.address.id, firm.addressId);
-		assert.equal(body.paymentDetails.id, firm.paymentDetailsId);
+		assert.equal(body.paymentDetail.id, firm.paymentDetailId);
 		assert.notProperty(body, "network");
 		assert.deepEqual(body.meta, {
 			canUpdate: true,

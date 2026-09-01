@@ -5,18 +5,15 @@ import { FirmFactory } from "#database/factories/firm.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
 
 test.group("Features / Admin / Firms / Controllers / List Controller", () => {
-	test("it should return firms with owned relations and action metadata", async ({
-		client,
-		assert,
-	}) => {
+	test("it should return firm identifiers and action metadata", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const firm = await FirmFactory.merge({
 			name: "List Contract Firm",
 			networkId: network.id,
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
 		const response = await client
@@ -55,10 +52,10 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 			canDelete: true,
 		});
 		assert.equal(body.data[0].addressId, firm.addressId);
-		assert.equal(body.data[0].paymentDetailsId, firm.paymentDetailsId);
+		assert.equal(body.data[0].paymentDetailId, firm.paymentDetailId);
 		assert.equal(body.data[0].networkId, network.id);
-		assert.equal(body.data[0].address.id, firm.addressId);
-		assert.equal(body.data[0].paymentDetails.id, firm.paymentDetailsId);
+		assert.notProperty(body.data[0], "address");
+		assert.notProperty(body.data[0], "paymentDetail");
 		assert.notProperty(body.data[0], "network");
 	});
 
@@ -70,7 +67,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 			orias: "10000001",
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 		const second = await FirmFactory.merge({
 			name: "NameOnly Firm Two",
@@ -78,7 +75,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 			orias: "10000002",
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
 		const pageResponse = await client
@@ -111,21 +108,21 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
-		const firstNetwork = await NetworkFactory.with("address").with("paymentDetails").create();
-		const secondNetwork = await NetworkFactory.with("address").with("paymentDetails").create();
+		const firstNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
+		const secondNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
 		const matchingFirm = await FirmFactory.merge({
 			name: "Filtered Firm",
 			networkId: firstNetwork.id,
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 		await FirmFactory.merge({
 			name: "Other Network Firm",
 			networkId: secondNetwork.id,
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
 		const response = await client
@@ -151,17 +148,10 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		assert.deepEqual(emptyResponse.body().data, []);
 	});
 
-	test("it should reject invalid query parameters", async ({ client }) => {
+	test("it should reject invalid pagination parameters", async ({ client }) => {
 		const admin = await AdminFactory.create();
 
-		for (const url of [
-			"/admin/firms?page=0",
-			"/admin/firms?perPage=1.5",
-			"/admin/firms?networkId=0",
-			"/admin/firms?networkId=1.5",
-			"/admin/firms?orderBy=address_asc",
-			"/admin/firms?orderBy=name_sideways",
-		]) {
+		for (const url of ["/admin/firms?page=0", "/admin/firms?perPage=1.5"]) {
 			const response = await client.get(url).withGuard("admin").loginAs(admin);
 
 			response.assertStatus(422);

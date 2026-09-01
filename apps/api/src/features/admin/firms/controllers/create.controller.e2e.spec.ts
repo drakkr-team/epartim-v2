@@ -19,7 +19,7 @@ const validPayload = {
 			longitude: 2.3522,
 		},
 	},
-	paymentDetails: {
+	paymentDetail: {
 		iban: "fr76 3000 6000 0112 3456 7890 189",
 		bic: "agri fr pp",
 	},
@@ -43,35 +43,23 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 			name: validPayload.name,
 			amundiOrgId: validPayload.amundiOrgId,
 			orias: validPayload.orias,
-			networkId: null,
-			address: {
-				lineOne: validPayload.address.lineOne,
-				lineTwo: validPayload.address.lineTwo,
-				zip: validPayload.address.zip,
-				city: validPayload.address.city,
-				coordinates: validPayload.address.coordinates,
-			},
-			paymentDetails: {
-				iban: "FR7630006000011234567890189",
-				bic: "AGRIFRPP",
-			},
 		});
 		assert.property(response.body(), "addressId");
-		assert.property(response.body(), "paymentDetailsId");
+		assert.property(response.body(), "paymentDetailId");
 		assert.notProperty(response.body(), "meta");
 
 		const firm = await Firm.query()
 			.where("name", validPayload.name)
 			.preload("address")
-			.preload("paymentDetails")
+			.preload("paymentDetail")
 			.firstOrFail();
 		assert.equal(firm.address.id, response.body().addressId);
-		assert.equal(firm.paymentDetails.id, response.body().paymentDetailsId);
+		assert.equal(firm.paymentDetail.id, response.body().paymentDetailId);
 	});
 
 	test("it should attach an existing network", async ({ client }) => {
 		const admin = await AdminFactory.create();
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
 			.visit("admin.firms.create")
@@ -89,7 +77,10 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		response.assertBodyContains({ networkId: Number(network.id) });
 	});
 
-	test("it should accept optional nullable fields and omitted coordinates", async ({ client }) => {
+	test("it should accept optional nullable fields and omitted coordinates", async ({
+		client,
+		assert,
+	}) => {
 		const admin = await AdminFactory.create();
 		const { coordinates: _, ...address } = validPayload.address;
 
@@ -110,11 +101,11 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 				});
 
 			response.assertCreated();
-			response.assertBodyContains({
-				amundiOrgId: null,
-				networkId: null,
-				address: { coordinates: null },
-			});
+			response.assertBodyContains({ amundiOrgId: null });
+
+			const firm = await Firm.query().where("name", name).preload("address").firstOrFail();
+			assert.isNull(firm.networkId);
+			assert.isNull(firm.address.coordinates);
 		}
 	});
 
@@ -146,13 +137,13 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 				...validPayload,
 				name: "Invalid IBAN",
 				orias: "12345686",
-				paymentDetails: { ...validPayload.paymentDetails, iban: "FR001234" },
+				paymentDetail: { ...validPayload.paymentDetail, iban: "FR001234" },
 			},
 			{
 				...validPayload,
 				name: "Invalid BIC",
 				orias: "12345687",
-				paymentDetails: { ...validPayload.paymentDetails, bic: "INVALID" },
+				paymentDetail: { ...validPayload.paymentDetail, bic: "INVALID" },
 			},
 		];
 
@@ -175,7 +166,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 			orias: "12345688",
 		})
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 		const invalidPayloads = [
 			{ ...validPayload, name: existing.name, orias: "12345689" },

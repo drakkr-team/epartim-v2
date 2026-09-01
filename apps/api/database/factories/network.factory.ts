@@ -11,5 +11,5 @@ export const NetworkFactory = factory
 		goCode: faker.helpers.maybe(() => faker.number.int({ min: 100_000, max: 999_999 })),
 	}))
 	.relation("address", () => AddressFactory)
-	.relation("paymentDetails", () => PaymentDetailFactory)
+	.relation("paymentDetail", () => PaymentDetailFactory)
 	.build();

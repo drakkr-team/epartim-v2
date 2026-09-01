@@ -10,13 +10,13 @@ import PaymentDetail from "#models/payment_detail";
 
 test.group("Features / Admin / Networks / Services / Delete Service", () => {
 	test("it should delete referenced networks and clear the firm relation", async ({ assert }) => {
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const firm = await FirmFactory.merge({ networkId: network.id })
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
-		await new DeleteNetworkService().handle(network);
+		await new DeleteNetworkService().handle(network.id);
 
 		assert.isNull(await Network.find(network.id));
 		assert.isNull(await Address.find(network.addressId));
@@ -29,17 +29,17 @@ test.group("Features / Admin / Networks / Services / Delete Service", () => {
 	}) => {
 		const network = await NetworkFactory.merge({ name: "Rollback Delete Target" })
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 		await NetworkFactory.merge({
 			name: "Rollback Address Reference",
 			amundiOrgId: "ROLLBACK-ADDRESS-REFERENCE",
 			addressId: network.addressId,
 		})
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
-		await assert.rejects(() => new DeleteNetworkService().handle(network));
+		await assert.rejects(() => new DeleteNetworkService().handle(network.id));
 
 		assert.isNotNull(await Network.find(network.id));
 		assert.isNotNull(await Address.find(network.addressId));

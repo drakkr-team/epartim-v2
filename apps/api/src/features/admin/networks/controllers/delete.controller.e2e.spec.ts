@@ -14,7 +14,7 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
 			.visit("admin.networks.delete", { networkId: network.id })
@@ -33,10 +33,10 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
-		const network = await NetworkFactory.with("address").with("paymentDetails").create();
+		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const firm = await FirmFactory.merge({ networkId: network.id })
 			.with("address")
-			.with("paymentDetails")
+			.with("paymentDetail")
 			.create();
 
 		const response = await client

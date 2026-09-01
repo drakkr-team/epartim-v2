@@ -9,7 +9,7 @@ import PaymentDetail from "#models/payment_detail";
 test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 	test("it should physically delete a firm and its owned records", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
-		const firm = await FirmFactory.with("address").with("paymentDetails").create();
+		const firm = await FirmFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
 			.delete(`/admin/firms/${firm.id}`)
@@ -20,7 +20,7 @@ test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 		assert.equal(response.text(), "");
 		assert.isNull(await Firm.find(firm.id));
 		assert.isNull(await Address.find(firm.addressId));
-		assert.isNull(await PaymentDetail.find(firm.paymentDetailsId));
+		assert.isNull(await PaymentDetail.find(firm.paymentDetailId));
 	});
 
 	test("it should return not found for an unknown firmId", async ({ client }) => {
