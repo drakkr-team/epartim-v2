@@ -95,7 +95,9 @@ function DataTableTable<TData>() {
 							const target = event.target;
 							if (
 								target instanceof Element &&
-								target.closest("a, button, input, select, textarea, [role='checkbox']")
+								target.closest(
+									"a, button, input, select, textarea, [role='checkbox'], [role='menuitem'], [role='menuitemcheckbox']",
+								)
 							) {
 								return;
 							}

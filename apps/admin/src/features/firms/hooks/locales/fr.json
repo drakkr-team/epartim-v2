@@ -129,5 +129,29 @@
 				"description": "Réessayez dans quelques instants."
 			}
 		}
+	},
+	"features.firms.hooks.use-delete-mutation": {
+		"success": {
+			"title": "Firme supprimée",
+			"description": "La firme {{name}} a bien été supprimée."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_ROW_NOT_FOUND": {
+				"title": "Firme introuvable",
+				"description": "Cette firme a déjà été supprimée ou n'existe plus."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de supprimer cette firme."
+			},
+			"E_UNEXPECTED": {
+				"title": "Suppression impossible",
+				"description": "La firme n'a pas été supprimée. Réessayez dans quelques instants."
+			}
+		}
 	}
 }

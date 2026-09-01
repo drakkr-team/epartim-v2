@@ -62,5 +62,14 @@
 			"create": "Créer la firme",
 			"update": "Enregistrer les modifications"
 		}
+	},
+	"features.firms.components.delete-dialog": {
+		"title": "Supprimer cette firme ?",
+		"description": "Vous êtes sur le point de supprimer définitivement « {{name}} ».",
+		"consequences": "Cette opération supprimera également son adresse et ses coordonnées bancaires. Elle est définitive et ne peut pas être annulée.",
+		"action": {
+			"cancel": "Annuler",
+			"confirm": "Supprimer définitivement"
+		}
 	}
 }

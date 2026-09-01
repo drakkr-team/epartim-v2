@@ -1,8 +1,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { TuyauError } from "@tuyau/core/client";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import z from "zod";
 
 import { Button } from "@workspace/ui-react/components/button";
 import { Card } from "@workspace/ui-react/components/card";
@@ -16,33 +16,12 @@ import {
 	TrashIcon,
 } from "@workspace/ui-react/icons";
 
+import { DeleteFirmDialog } from "#/features/firms/components/delete-dialog";
+import { firmListOriginSearchSchema } from "#/features/firms/utils/list-origin";
 import { api } from "#/libs/tuyau";
 
-const allowedOriginParams = new Set(["page", "perPage", "q", "networkId", "orderBy"]);
-const listOriginSchema = z
-	.string()
-	.refine((value) => {
-		try {
-			const origin = new URL(value, "https://admin.epartim.invalid");
-			return (
-				origin.origin === "https://admin.epartim.invalid" &&
-				origin.pathname === "/firms" &&
-				origin.hash === "" &&
-				Array.from(origin.searchParams.keys()).every((key) => allowedOriginParams.has(key))
-			);
-		} catch (error) {
-			if (error instanceof TypeError) return false;
-			throw error;
-		}
-	})
-	.optional();
-
-const searchParamsSchema = z.object({
-	from: listOriginSchema,
-});
-
 export const Route = createFileRoute("/(protected)/firms/$firmId/")({
-	validateSearch: searchParamsSchema,
+	validateSearch: firmListOriginSearchSchema,
 	loader: async ({ context, params }) => {
 		await context.queryClient.ensureQueryData(
 			api.firms.view.queryOptions({ params: { firmId: params.firmId } }),
@@ -82,6 +61,7 @@ function Page() {
 	const search = Route.useSearch();
 	const { data: firm } = useSuspenseQuery(api.firms.view.queryOptions({ params: { firmId } }));
 	const canDoActions = firm.meta.canUpdate || firm.meta.canDelete;
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const origin = search.from ?? "/firms";
 
 	return (
@@ -121,7 +101,7 @@ function Page() {
 								</Menu.Item>
 							)}
 							{firm.meta.canDelete && (
-								<Menu.Item variant="destructive">
+								<Menu.Item variant="destructive" onClick={() => setDeleteDialogOpen(true)}>
 									<TrashIcon />
 									{t("action.delete")}
 								</Menu.Item>
@@ -198,6 +178,14 @@ function Page() {
 					</div>
 				</section>
 			</Card>
+
+			<DeleteFirmDialog
+				firmId={firmId}
+				firmName={firm.name}
+				origin={origin}
+				open={deleteDialogOpen}
+				onOpenChange={setDeleteDialogOpen}
+			/>
 		</main>
 	);
 }
