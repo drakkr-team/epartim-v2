@@ -1,3 +1,4 @@
+import { Link, useLocation } from "@tanstack/react-router";
 import type { CellContext } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 
@@ -20,6 +21,8 @@ export function FirmsTableActionCell({ cell }: FirmsTableActionCellProps) {
 	const { t } = useTranslation("features.firms.components.table.action-cell");
 	const firm = cell.row.original;
 	const firmId = firm.id.toString();
+	const location = useLocation();
+	const origin = `${location.pathname}${location.searchStr}`;
 
 	return (
 		<Menu>
@@ -32,7 +35,9 @@ export function FirmsTableActionCell({ cell }: FirmsTableActionCellProps) {
 			</Menu.Trigger>
 
 			<Menu.Content align="end">
-				<Menu.Item render={<a href={`/firms/${firmId}`} />}>
+				<Menu.Item
+					render={<Link to="/firms/$firmId" params={{ firmId }} search={{ from: origin }} />}
+				>
 					<SquareArrowOutUpRightIcon />
 					{t("show")}
 				</Menu.Item>

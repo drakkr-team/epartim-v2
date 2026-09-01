@@ -19,6 +19,7 @@ import { Route as protectedAdminsPageRouteImport } from './routes/(protected)/ad
 import { Route as protectedFirmsPageRouteImport } from './routes/(protected)/firms/page'
 import { Route as protectedAdminsAdminIdPageRouteImport } from './routes/(protected)/admins/$adminId/page'
 import { Route as protectedAdminsNewPageRouteImport } from './routes/(protected)/admins/new/page'
+import { Route as protectedFirmsFirmIdPageRouteImport } from './routes/(protected)/firms/$firmId/page'
 import { Route as protectedFirmsNewPageRouteImport } from './routes/(protected)/firms/new/page'
 import { Route as protectedAdminsAdminIdEditPageRouteImport } from './routes/(protected)/admins/$adminId/edit/page'
 
@@ -71,6 +72,12 @@ const protectedAdminsNewPageRoute = protectedAdminsNewPageRouteImport.update({
   path: '/admins/new/',
   getParentRoute: () => protectedLayoutRoute,
 } as any)
+const protectedFirmsFirmIdPageRoute =
+  protectedFirmsFirmIdPageRouteImport.update({
+    id: '/firms/$firmId/',
+    path: '/firms/$firmId/',
+    getParentRoute: () => protectedLayoutRoute,
+  } as any)
 const protectedFirmsNewPageRoute = protectedFirmsNewPageRouteImport.update({
   id: '/firms/new/',
   path: '/firms/new/',
@@ -92,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/firms/': typeof protectedFirmsPageRoute
   '/admins/$adminId/': typeof protectedAdminsAdminIdPageRoute
   '/admins/new/': typeof protectedAdminsNewPageRoute
+  '/firms/$firmId/': typeof protectedFirmsFirmIdPageRoute
   '/firms/new/': typeof protectedFirmsNewPageRoute
   '/admins/$adminId/edit/': typeof protectedAdminsAdminIdEditPageRoute
 }
@@ -104,6 +112,7 @@ export interface FileRoutesByTo {
   '/firms': typeof protectedFirmsPageRoute
   '/admins/$adminId': typeof protectedAdminsAdminIdPageRoute
   '/admins/new': typeof protectedAdminsNewPageRoute
+  '/firms/$firmId': typeof protectedFirmsFirmIdPageRoute
   '/firms/new': typeof protectedFirmsNewPageRoute
   '/admins/$adminId/edit': typeof protectedAdminsAdminIdEditPageRoute
 }
@@ -119,6 +128,7 @@ export interface FileRoutesById {
   '/(protected)/firms/': typeof protectedFirmsPageRoute
   '/(protected)/admins/$adminId/': typeof protectedAdminsAdminIdPageRoute
   '/(protected)/admins/new/': typeof protectedAdminsNewPageRoute
+  '/(protected)/firms/$firmId/': typeof protectedFirmsFirmIdPageRoute
   '/(protected)/firms/new/': typeof protectedFirmsNewPageRoute
   '/(protected)/admins/$adminId/edit/': typeof protectedAdminsAdminIdEditPageRoute
 }
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/firms/'
     | '/admins/$adminId/'
     | '/admins/new/'
+    | '/firms/$firmId/'
     | '/firms/new/'
     | '/admins/$adminId/edit/'
   fileRoutesByTo: FileRoutesByTo
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/firms'
     | '/admins/$adminId'
     | '/admins/new'
+    | '/firms/$firmId'
     | '/firms/new'
     | '/admins/$adminId/edit'
   id:
@@ -159,6 +171,7 @@ export interface FileRouteTypes {
     | '/(protected)/firms/'
     | '/(protected)/admins/$adminId/'
     | '/(protected)/admins/new/'
+    | '/(protected)/firms/$firmId/'
     | '/(protected)/firms/new/'
     | '/(protected)/admins/$adminId/edit/'
   fileRoutesById: FileRoutesById
@@ -240,6 +253,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedAdminsNewPageRouteImport
       parentRoute: typeof protectedLayoutRoute
     }
+    '/(protected)/firms/$firmId/': {
+      id: '/(protected)/firms/$firmId/'
+      path: '/firms/$firmId'
+      fullPath: '/firms/$firmId/'
+      preLoaderRoute: typeof protectedFirmsFirmIdPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
+    }
     '/(protected)/firms/new/': {
       id: '/(protected)/firms/new/'
       path: '/firms/new'
@@ -279,6 +299,7 @@ interface protectedLayoutRouteChildren {
   protectedFirmsPageRoute: typeof protectedFirmsPageRoute
   protectedAdminsAdminIdPageRoute: typeof protectedAdminsAdminIdPageRoute
   protectedAdminsNewPageRoute: typeof protectedAdminsNewPageRoute
+  protectedFirmsFirmIdPageRoute: typeof protectedFirmsFirmIdPageRoute
   protectedFirmsNewPageRoute: typeof protectedFirmsNewPageRoute
   protectedAdminsAdminIdEditPageRoute: typeof protectedAdminsAdminIdEditPageRoute
 }
@@ -289,6 +310,7 @@ const protectedLayoutRouteChildren: protectedLayoutRouteChildren = {
   protectedFirmsPageRoute: protectedFirmsPageRoute,
   protectedAdminsAdminIdPageRoute: protectedAdminsAdminIdPageRoute,
   protectedAdminsNewPageRoute: protectedAdminsNewPageRoute,
+  protectedFirmsFirmIdPageRoute: protectedFirmsFirmIdPageRoute,
   protectedFirmsNewPageRoute: protectedFirmsNewPageRoute,
   protectedAdminsAdminIdEditPageRoute: protectedAdminsAdminIdEditPageRoute,
 }

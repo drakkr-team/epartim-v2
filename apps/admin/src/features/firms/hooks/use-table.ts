@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useLocation, useNavigate, useRouter } from "@tanstack/react-router";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,24 +23,14 @@ type UseFirmsTableParams = {
 	orderBy?: string;
 };
 
-function prefetchFirmDetails(id: FirmRow["id"]) {
-	const href = `/firms/${id}`;
-
-	if (document.querySelector(`link[rel="prefetch"][href="${href}"]`)) {
-		return;
-	}
-
-	const link = document.createElement("link");
-	link.rel = "prefetch";
-	link.href = href;
-	document.head.appendChild(link);
-}
-
 export function useFirmsTable(params: UseFirmsTableParams) {
 	const { data, pagination, q, orderBy } = params;
 
 	const { t } = useTranslation("features.firms.hooks.use-table");
 	const navigate = useNavigate();
+	const router = useRouter();
+	const location = useLocation();
+	const origin = `${location.pathname}${location.searchStr}`;
 	const sorting = orderByToSortingSate(orderBy);
 	const { columnVisibility, setColumnVisibility } = useColumnVisibilityStore({
 		name: "firms-table-column-visibility",
@@ -89,8 +79,18 @@ export function useFirmsTable(params: UseFirmsTableParams) {
 		columns,
 		meta: {
 			rows: {
-				onClick: (row) => window.location.assign(`/firms/${row.id}`),
-				onMouseEnter: (row) => prefetchFirmDetails(row.id),
+				onClick: (row) =>
+					navigate({
+						to: "/firms/$firmId",
+						params: { firmId: row.id.toString() },
+						search: { from: origin },
+					}),
+				onMouseEnter: (row) =>
+					router.preloadRoute({
+						to: "/firms/$firmId",
+						params: { firmId: row.id.toString() },
+						search: { from: origin },
+					}),
 			},
 		},
 		manualSorting: true,
