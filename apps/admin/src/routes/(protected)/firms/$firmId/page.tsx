@@ -6,22 +6,15 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
 import { Card } from "@workspace/ui-react/components/card";
-import { Field } from "@workspace/ui-react/components/field";
 import { Menu } from "@workspace/ui-react/components/menu";
-import { Spinner } from "@workspace/ui-react/components/spinner";
-import {
-	ArrowLeftIcon,
-	EllipsisVerticalIcon,
-	SquarePenIcon,
-	TrashIcon,
-} from "@workspace/ui-react/icons";
+import { EllipsisVerticalIcon, SquarePenIcon, TrashIcon } from "@workspace/ui-react/icons";
 
+import { DetailField } from "#/components/app/detail-field";
 import { DeleteFirmDialog } from "#/features/firms/components/delete-dialog";
-import { firmListOriginSearchSchema } from "#/features/firms/utils/list-origin";
+import { humanizeIBAN } from "#/helpers/iban";
 import { api } from "#/libs/tuyau";
 
 export const Route = createFileRoute("/(protected)/firms/$firmId/")({
-	validateSearch: firmListOriginSearchSchema,
 	loader: async ({ context, params }) => {
 		await context.queryClient.ensureQueryData(
 			api.firms.view.queryOptions({ params: { firmId: params.firmId } }),
@@ -32,65 +25,32 @@ export const Route = createFileRoute("/(protected)/firms/$firmId/")({
 			throw notFound();
 		}
 	},
-	pendingComponent: Pending,
-	pendingMs: 0,
 	component: Page,
 });
 
-function maskIban(iban: string) {
-	const normalizedIban = iban.replaceAll(" ", "");
-	return `•••• ${normalizedIban.slice(-4)}`;
-}
-
-function Pending() {
-	const { t } = useTranslation("routes.(protected).firms.$firmId");
-
-	return (
-		<main aria-live="polite">
-			<Card className="flex items-center justify-center gap-3 py-16">
-				<Spinner />
-				<p className="text-neutral-11 text-sm">{t("loading")}</p>
-			</Card>
-		</main>
-	);
-}
-
 function Page() {
 	const { t } = useTranslation("routes.(protected).firms.$firmId");
+
 	const { firmId } = Route.useParams();
-	const search = Route.useSearch();
+
 	const { data: firm } = useSuspenseQuery(api.firms.view.queryOptions({ params: { firmId } }));
 	const canDoActions = firm.meta.canUpdate || firm.meta.canDelete;
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const origin = search.from ?? "/firms";
 
 	return (
-		<main className="mx-auto grid max-w-3xl gap-9">
-			<header className="flex items-start justify-between gap-4">
-				<div className="grid gap-3">
-					<Button
-						className="w-fit"
-						variant="ghost"
-						nativeButton={false}
-						render={<a href={origin} />}
-					>
-						<ArrowLeftIcon />
-						{t("action.back")}
-					</Button>
-					<div className="grid gap-1">
-						<h2 className="font-bold text-primary-11 text-xs uppercase tracking-widest">
-							{t("headline")}
-						</h2>
-						<h1 className="font-bold text-3xl text-secondary-12">{firm.name}</h1>
-						<p className="text-neutral-11 text-sm">{t("description")}</p>
-					</div>
+		<main className="mx-auto grid max-w-xl gap-9">
+			<header className="flex items-center justify-between gap-2">
+				<div className="grid gap-1">
+					<h2 className="font-bold text-primary-9 text-xs uppercase tracking-widest">
+						{t("headline")}
+					</h2>
+					<h1 className="font-bold text-3xl text-secondary-12">{firm.name}</h1>
+					<p className="text-neutral-11 text-sm">{t("description")}</p>
 				</div>
 
 				{canDoActions && (
 					<Menu>
-						<Menu.Trigger
-							render={<Button variant="ghost" size="icon-md" aria-label={t("action.menu")} />}
-						>
+						<Menu.Trigger render={<Button variant="ghost" size="icon-md" />}>
 							<EllipsisVerticalIcon />
 						</Menu.Trigger>
 						<Menu.Content align="end">
@@ -111,73 +71,55 @@ function Page() {
 				)}
 			</header>
 
-			<Card className="grid gap-8 p-6">
-				<section className="grid gap-4">
-					<h2 className="font-semibold text-lg text-secondary-12">{t("section.general")}</h2>
-					<div className="grid gap-4 md:grid-cols-2">
-						<DetailField label={t("field.id")} value={firm.id.toString()} />
-						<DetailField label={t("field.name")} value={firm.name} />
-						<DetailField
-							label={t("field.amundiOrgId")}
-							value={firm.amundiOrgId ?? t("status.notProvided")}
-						/>
-						<DetailField label={t("field.orias")} value={firm.orias} />
-						<DetailField
-							label={t("field.network")}
-							value={
-								firm.networkId === null
-									? t("status.noNetwork")
-									: t("status.networkReference", { id: firm.networkId })
-							}
-						/>
-					</div>
-				</section>
+			<div className="grid gap-5">
+				<Card className="grid grid-cols-2 gap-4">
+					<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
+						{t("section.general")}
+					</h2>
 
-				<section className="grid gap-4 border-neutral-6 border-t pt-6">
-					<h2 className="font-semibold text-lg text-secondary-12">{t("section.address")}</h2>
-					<address className="text-neutral-12 text-sm not-italic">
-						<p>{firm.address.lineOne}</p>
-						{firm.address.lineTwo && <p>{firm.address.lineTwo}</p>}
-						<p>
-							{firm.address.zip} {firm.address.city}
-						</p>
-					</address>
-					{firm.address.coordinates && (
-						<div className="grid gap-4 md:grid-cols-2">
-							<DetailField
-								label={t("field.latitude")}
-								value={firm.address.coordinates.latitude.toString()}
-							/>
-							<DetailField
-								label={t("field.longitude")}
-								value={firm.address.coordinates.longitude.toString()}
-							/>
-						</div>
-					)}
-				</section>
+					<DetailField label={t("field.id")} value={firm.id.toString()} />
+					<DetailField label={t("field.name")} value={firm.name} />
+					<DetailField
+						label={t("field.amundiOrgId")}
+						value={firm.amundiOrgId ?? t("status.notProvided")}
+					/>
+					<DetailField label={t("field.orias")} value={firm.orias} />
+					<DetailField
+						label={t("field.createdAt")}
+						value={firm.createdAt.toLocaleDateString("fr-FR")}
+					/>
+					<DetailField
+						label={t("field.updatedAt")}
+						value={firm.updatedAt.toLocaleDateString("fr-FR")}
+					/>
+				</Card>
 
-				<section className="grid gap-4 border-neutral-6 border-t pt-6">
-					<h2 className="font-semibold text-lg text-secondary-12">{t("section.payment")}</h2>
-					<div className="grid gap-4 md:grid-cols-2">
-						<DetailField label={t("field.iban")} value={maskIban(firm.paymentDetail.iban)} />
-						<DetailField label={t("field.bic")} value={firm.paymentDetail.bic} />
-					</div>
-				</section>
+				<Card className="grid grid-cols-2 gap-4">
+					<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
+						{t("section.address")}
+					</h2>
 
-				<section className="grid gap-4 border-neutral-6 border-t pt-6">
-					<h2 className="font-semibold text-lg text-secondary-12">{t("section.audit")}</h2>
-					<div className="grid gap-4 md:grid-cols-2">
-						<DetailField
-							label={t("field.createdAt")}
-							value={firm.createdAt.toLocaleDateString("fr-FR")}
-						/>
-						<DetailField
-							label={t("field.updatedAt")}
-							value={firm.updatedAt.toLocaleDateString("fr-FR")}
-						/>
-					</div>
-				</section>
-			</Card>
+					<DetailField label={t("field.address.lineOne")} value={firm.address.lineOne} />
+					<DetailField
+						label={t("field.address.lineTwo")}
+						value={firm.address.lineTwo ?? t("status.notProvided")}
+					/>
+					<DetailField label={t("field.address.zip")} value={firm.address.zip} />
+					<DetailField label={t("field.address.city")} value={firm.address.city} />
+				</Card>
+
+				<Card className="grid grid-cols-2 gap-4">
+					<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
+						{t("section.payment")}
+					</h2>
+
+					<DetailField
+						label={t("field.paymentDetail.iban")}
+						value={humanizeIBAN(firm.paymentDetail.iban)}
+					/>
+					<DetailField label={t("field.paymentDetail.bic")} value={firm.paymentDetail.bic} />
+				</Card>
+			</div>
 
 			<DeleteFirmDialog
 				firmId={firmId}
@@ -187,19 +129,5 @@ function Page() {
 				onOpenChange={setDeleteDialogOpen}
 			/>
 		</main>
-	);
-}
-
-type DetailFieldProps = {
-	label: string;
-	value: string;
-};
-
-function DetailField({ label, value }: DetailFieldProps) {
-	return (
-		<Field>
-			<Field.Label>{label}</Field.Label>
-			<p className="text-neutral-12 text-sm">{value}</p>
-		</Field>
 	);
 }

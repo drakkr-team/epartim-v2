@@ -1,37 +1,36 @@
 {
 	"routes.(protected).firms.$firmId": {
-		"headline": "Gestion du réseau",
-		"description": "Consultez les informations de cette firme.",
-		"loading": "Chargement de la firme...",
+		"headline": "Gestion des cabinets",
+		"description": "Consultez les informations de ce cabinet.",
 		"action": {
-			"back": "Retour aux firmes",
-			"menu": "Actions de la firme",
 			"edit": "Modifier",
 			"delete": "Supprimer"
 		},
 		"section": {
 			"general": "Informations générales",
 			"address": "Adresse",
-			"payment": "Coordonnées bancaires",
-			"audit": "Historique"
+			"payment": "Coordonnées bancaires"
 		},
 		"field": {
 			"id": "Identifiant",
 			"name": "Nom",
 			"amundiOrgId": "Identifiant Amundi",
 			"orias": "Numéro ORIAS",
-			"network": "Réseau",
-			"latitude": "Latitude",
-			"longitude": "Longitude",
-			"iban": "IBAN",
-			"bic": "BIC",
 			"createdAt": "Créée le",
-			"updatedAt": "Dernière modification"
+			"updatedAt": "Dernière modification",
+			"address": {
+				"lineOne": "Adresse",
+				"lineTwo": "Complément d'adresse",
+				"city": "Ville",
+				"zip": "Code postal"
+			},
+			"paymentDetail": {
+				"iban": "IBAN",
+				"bic": "BIC"
+			}
 		},
 		"status": {
-			"notProvided": "Non renseigné",
-			"noNetwork": "Aucun réseau",
-			"networkReference": "Réseau #{{id}}"
+			"notProvided": "Non renseigné"
 		}
 	}
 }
