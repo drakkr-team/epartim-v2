@@ -162,7 +162,17 @@ function DataTableColumnsVisiblitySelector<TData>() {
 		<Menu>
 			<Tooltip>
 				<Tooltip.Trigger
-					render={<Menu.Trigger render={<Button variant="default" size="icon-md" />} />}
+					render={
+						<Menu.Trigger
+							render={
+								<Button
+									variant="default"
+									size="icon-md"
+									aria-label={t("visibility-selector.label")}
+								/>
+							}
+						/>
+					}
 				>
 					<Table2Icon />
 				</Tooltip.Trigger>
@@ -215,6 +225,7 @@ function DataTableSearchInput<TData>(props: DataTableSearchInputProps) {
 function DataTablePagination<TData>() {
 	"use no memo";
 
+	const { t } = useTranslation("components.app.data-table");
 	const table = useDataTableContext<TData>();
 
 	return (
@@ -222,6 +233,7 @@ function DataTablePagination<TData>() {
 			<Button
 				variant="default"
 				size="icon-md"
+				aria-label={t("pagination.previous")}
 				onClick={() => {
 					table.previousPage();
 				}}
@@ -232,6 +244,7 @@ function DataTablePagination<TData>() {
 			<Button
 				variant="default"
 				size="icon-md"
+				aria-label={t("pagination.next")}
 				onClick={() => {
 					table.nextPage();
 				}}

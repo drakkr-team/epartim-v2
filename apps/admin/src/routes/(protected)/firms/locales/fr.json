@@ -1,0 +1,27 @@
+{
+	"routes.(protected).firms": {
+		"headline": "Gestion du réseau",
+		"title": "Firmes",
+		"description": "Consultez et gérez les firmes rattachées à vos réseaux.",
+		"loading": "Chargement des firmes...",
+		"search": {
+			"placeholder": "Rechercher une firme..."
+		},
+		"filters": {
+			"network": {
+				"label": "Filtrer les firmes par réseau",
+				"placeholder": "Filtrer par réseau",
+				"all": "Tous les réseaux"
+			}
+		},
+		"empty": {
+			"title": "Aucune firme",
+			"title-filtered": "Aucun résultat",
+			"description": "Aucune firme n'a encore été créée.",
+			"description-filtered": "Aucune firme ne correspond aux critères sélectionnés."
+		},
+		"actions": {
+			"new": "Créer une firme"
+		}
+	}
+}

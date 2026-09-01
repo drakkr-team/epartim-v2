@@ -16,6 +16,7 @@ import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
 import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
 import { Route as protecteddashboardPageRouteImport } from './routes/(protected)/(dashboard)/page'
 import { Route as protectedAdminsPageRouteImport } from './routes/(protected)/admins/page'
+import { Route as protectedFirmsPageRouteImport } from './routes/(protected)/firms/page'
 import { Route as protectedAdminsAdminIdPageRouteImport } from './routes/(protected)/admins/$adminId/page'
 import { Route as protectedAdminsNewPageRouteImport } from './routes/(protected)/admins/new/page'
 import { Route as protectedAdminsAdminIdEditPageRouteImport } from './routes/(protected)/admins/$adminId/edit/page'
@@ -53,6 +54,11 @@ const protectedAdminsPageRoute = protectedAdminsPageRouteImport.update({
   path: '/admins/',
   getParentRoute: () => protectedLayoutRoute,
 } as any)
+const protectedFirmsPageRoute = protectedFirmsPageRouteImport.update({
+  id: '/firms/',
+  path: '/firms/',
+  getParentRoute: () => protectedLayoutRoute,
+} as any)
 const protectedAdminsAdminIdPageRoute =
   protectedAdminsAdminIdPageRouteImport.update({
     id: '/admins/$adminId/',
@@ -77,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/reset-password/': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
   '/admins/': typeof protectedAdminsPageRoute
+  '/firms/': typeof protectedFirmsPageRoute
   '/admins/$adminId/': typeof protectedAdminsAdminIdPageRoute
   '/admins/new/': typeof protectedAdminsNewPageRoute
   '/admins/$adminId/edit/': typeof protectedAdminsAdminIdEditPageRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
   '/admins': typeof protectedAdminsPageRoute
+  '/firms': typeof protectedFirmsPageRoute
   '/admins/$adminId': typeof protectedAdminsAdminIdPageRoute
   '/admins/new': typeof protectedAdminsNewPageRoute
   '/admins/$adminId/edit': typeof protectedAdminsAdminIdEditPageRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/(guest)/reset-password/': typeof guestResetPasswordPageRoute
   '/(protected)/(dashboard)/': typeof protecteddashboardPageRoute
   '/(protected)/admins/': typeof protectedAdminsPageRoute
+  '/(protected)/firms/': typeof protectedFirmsPageRoute
   '/(protected)/admins/$adminId/': typeof protectedAdminsAdminIdPageRoute
   '/(protected)/admins/new/': typeof protectedAdminsNewPageRoute
   '/(protected)/admins/$adminId/edit/': typeof protectedAdminsAdminIdEditPageRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
     | '/reset-password/'
     | '/'
     | '/admins/'
+    | '/firms/'
     | '/admins/$adminId/'
     | '/admins/new/'
     | '/admins/$adminId/edit/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/'
     | '/admins'
+    | '/firms'
     | '/admins/$adminId'
     | '/admins/new'
     | '/admins/$adminId/edit'
@@ -134,6 +145,7 @@ export interface FileRouteTypes {
     | '/(guest)/reset-password/'
     | '/(protected)/(dashboard)/'
     | '/(protected)/admins/'
+    | '/(protected)/firms/'
     | '/(protected)/admins/$adminId/'
     | '/(protected)/admins/new/'
     | '/(protected)/admins/$adminId/edit/'
@@ -195,6 +207,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedAdminsPageRouteImport
       parentRoute: typeof protectedLayoutRoute
     }
+    '/(protected)/firms/': {
+      id: '/(protected)/firms/'
+      path: '/firms'
+      fullPath: '/firms/'
+      preLoaderRoute: typeof protectedFirmsPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
+    }
     '/(protected)/admins/$adminId/': {
       id: '/(protected)/admins/$adminId/'
       path: '/admins/$adminId'
@@ -238,6 +257,7 @@ const guestLayoutRouteWithChildren = guestLayoutRoute._addFileChildren(
 interface protectedLayoutRouteChildren {
   protecteddashboardPageRoute: typeof protecteddashboardPageRoute
   protectedAdminsPageRoute: typeof protectedAdminsPageRoute
+  protectedFirmsPageRoute: typeof protectedFirmsPageRoute
   protectedAdminsAdminIdPageRoute: typeof protectedAdminsAdminIdPageRoute
   protectedAdminsNewPageRoute: typeof protectedAdminsNewPageRoute
   protectedAdminsAdminIdEditPageRoute: typeof protectedAdminsAdminIdEditPageRoute
@@ -246,6 +266,7 @@ interface protectedLayoutRouteChildren {
 const protectedLayoutRouteChildren: protectedLayoutRouteChildren = {
   protecteddashboardPageRoute: protecteddashboardPageRoute,
   protectedAdminsPageRoute: protectedAdminsPageRoute,
+  protectedFirmsPageRoute: protectedFirmsPageRoute,
   protectedAdminsAdminIdPageRoute: protectedAdminsAdminIdPageRoute,
   protectedAdminsNewPageRoute: protectedAdminsNewPageRoute,
   protectedAdminsAdminIdEditPageRoute: protectedAdminsAdminIdEditPageRoute,
