@@ -1,38 +1,31 @@
 import { revalidateLogic, useStore } from "@tanstack/react-form";
-import { useBlocker } from "@tanstack/react-router";
+import { useBlocker, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
 import { useCreateFirmMutation } from "#/features/firms/hooks/use-create-mutation";
+import { useUpdateFirmMutation } from "#/features/firms/hooks/use-update-mutation";
+import {
+	type FirmFormValues,
+	getCreateFirmBody,
+	getUpdateFirmBody,
+} from "#/features/firms/utils/payload";
 import { useAppForm } from "#/libs/form";
 import { convertTuyauErrorToFormErrorMap } from "#/utils/form";
 
-export type FirmFormValues = {
-	name: string;
-	amundiOrgId: string;
-	orias: string;
-	networkId: number | null;
-	address: {
-		lineOne: string;
-		lineTwo: string;
-		zip: string;
-		city: string;
-		coordinates: {
-			latitude: number | null;
-			longitude: number | null;
-		};
-	};
-	paymentDetail: {
-		iban: string;
-		bic: string;
-	};
-};
-
-export type UseFirmFormParams = {
+type UseCreateFirmFormParams = {
 	action: "create";
 	defaultValues?: FirmFormValues;
 };
+
+type UseUpdateFirmFormParams = {
+	action: "update";
+	firmId: string | number;
+	defaultValues: FirmFormValues;
+};
+
+export type UseFirmFormParams = UseCreateFirmFormParams | UseUpdateFirmFormParams;
 
 export function useFirmForm(params: UseFirmFormParams) {
 	const { t } = useTranslation("features.firms.hooks.use-form");
@@ -41,6 +34,12 @@ export function useFirmForm(params: UseFirmFormParams) {
 		error: createFirmError,
 		isPending: isCreatePending,
 	} = useCreateFirmMutation();
+	const {
+		mutateAsync: updateFirm,
+		error: updateFirmError,
+		isPending: isUpdatePending,
+	} = useUpdateFirmMutation();
+	const navigate = useNavigate();
 	const allowNavigationRef = useRef(false);
 
 	const form = useAppForm({
@@ -154,37 +153,33 @@ export function useFirmForm(params: UseFirmFormParams) {
 			invalidInput?.focus();
 		},
 		onSubmit: async ({ value }) => {
-			const coordinates =
-				value.address.coordinates.latitude !== null && value.address.coordinates.longitude !== null
-					? {
-							latitude: value.address.coordinates.latitude,
-							longitude: value.address.coordinates.longitude,
-						}
-					: undefined;
+			if (params.action === "create") {
+				const firm = await createFirm({
+					body: getCreateFirmBody(value),
+				});
 
-			const firm = await createFirm({
-				body: {
-					name: value.name.trim(),
-					amundiOrgId: value.amundiOrgId.trim() || null,
-					orias: value.orias.trim(),
-					networkId: value.networkId,
-					address: {
-						lineOne: value.address.lineOne.trim(),
-						lineTwo: value.address.lineTwo.trim() || null,
-						zip: value.address.zip.trim(),
-						city: value.address.city.trim(),
-						...(coordinates ? { coordinates } : {}),
-					},
-					paymentDetail: {
-						iban: value.paymentDetail.iban.replaceAll(" ", "").toUpperCase(),
-						bic: value.paymentDetail.bic.trim().toUpperCase(),
-					},
-				},
+				allowNavigationRef.current = true;
+				form.reset();
+				await navigate({
+					to: "/firms/$firmId",
+					params: { firmId: firm.id.toString() },
+					search: {},
+				});
+				return;
+			}
+
+			const firm = await updateFirm({
+				params: { firmId: params.firmId },
+				body: getUpdateFirmBody(params.defaultValues, value),
 			});
 
 			allowNavigationRef.current = true;
 			form.reset();
-			window.location.assign(`/firms/${firm.id}`);
+			await navigate({
+				to: "/firms/$firmId",
+				params: { firmId: firm.id.toString() },
+				search: {},
+			});
 		},
 	});
 
@@ -197,7 +192,11 @@ export function useFirmForm(params: UseFirmFormParams) {
 	});
 
 	useEffect(() => {
-		const validationError = createFirmError?.isValidationError() ? createFirmError : null;
+		const validationError = createFirmError?.isValidationError()
+			? createFirmError
+			: updateFirmError?.isValidationError()
+				? updateFirmError
+				: null;
 		if (!validationError) return;
 
 		const errorMap = convertTuyauErrorToFormErrorMap(validationError, t);
@@ -208,10 +207,10 @@ export function useFirmForm(params: UseFirmFormParams) {
 				fields: errorMap,
 			},
 		});
-	}, [createFirmError, form, t]);
+	}, [createFirmError, updateFirmError, form, t]);
 
 	return {
 		form,
-		isPending: isCreatePending,
+		isPending: params.action === "create" ? isCreatePending : isUpdatePending,
 	};
 }

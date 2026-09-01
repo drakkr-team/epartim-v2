@@ -40,11 +40,28 @@ export function NetworkField(props: NetworkFieldProps) {
 			{ placeholderData: keepPreviousData },
 		),
 	);
-	const options =
+	const selectedNetwork = useQuery(
+		api.networks.view.queryOptions(
+			{ params: { networkId: value?.toString() ?? "" } },
+			{ enabled: value !== null },
+		),
+	);
+	const listedOptions =
 		networks.data?.data.map((network) => ({
 			value: network.id.toString(),
 			label: network.name,
 		})) ?? [];
+	const selectedNetworkOption = selectedNetwork.data
+		? {
+				value: selectedNetwork.data.id.toString(),
+				label: selectedNetwork.data.name,
+			}
+		: null;
+	const options =
+		selectedNetworkOption &&
+		!listedOptions.some((option) => option.value === selectedNetworkOption.value)
+			? [selectedNetworkOption, ...listedOptions]
+			: listedOptions;
 	const selectedOption = options.find((option) => option.value === value?.toString()) ?? null;
 
 	return (

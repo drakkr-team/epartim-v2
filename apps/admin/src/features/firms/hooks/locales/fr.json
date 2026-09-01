@@ -105,5 +105,29 @@
 				"description": "Réessayez dans quelques instants."
 			}
 		}
+	},
+	"features.firms.hooks.use-update-mutation": {
+		"success": {
+			"title": "Firme modifiée",
+			"description": "Les informations de {{name}} ont bien été mises à jour."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de modifier cette firme."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
 	}
 }

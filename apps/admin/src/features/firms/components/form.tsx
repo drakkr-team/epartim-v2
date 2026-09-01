@@ -165,7 +165,7 @@ export function FirmForm(props: FirmFormProps) {
 				</Button>
 				<form.AppForm>
 					<form.SubmitButton className="text-secondary-12" variant="primary" disabled={isPending}>
-						{t("action.create")}
+						{props.action === "create" ? t("action.create") : t("action.update")}
 					</form.SubmitButton>
 				</form.AppForm>
 			</div>
