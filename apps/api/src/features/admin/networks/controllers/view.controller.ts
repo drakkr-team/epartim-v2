@@ -24,13 +24,13 @@ export default class ViewNetworkController {
 
 		const network = await Network.findOrFail(networkId);
 		const addressPromise = network.load("address");
-		const paymentDetailsPromise = network.load("paymentDetails");
+		const paymentDetailsPromise = network.load("paymentDetail");
 		await Promise.all([addressPromise, paymentDetailsPromise]);
 
 		return {
 			...this.networkPresenter.toJSON(network),
 			address: this.addressPresenter.toJSON(network.address),
-			paymentDetail: this.paymentDetailPresenter.toJSON(network.paymentDetails),
+			paymentDetail: this.paymentDetailPresenter.toJSON(network.paymentDetail),
 			meta: {
 				canUpdate: await bouncer.with(UpdateNetworkPolicy).allows("handle"),
 				canDelete: await bouncer.with(DeleteNetworkPolicy).allows("handle"),

@@ -13,7 +13,7 @@ export class AddressSchema extends BaseModel {
   @column()
   declare city: string
   @column()
-  declare coordinates: any
+  declare coordinates: any | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
@@ -67,7 +67,7 @@ export class FileSchema extends BaseModel {
 }
 
 export class FirmSchema extends BaseModel {
-  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'id', 'name', 'networkId', 'orias', 'paymentDetailsId', 'updatedAt'] as const
+  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'id', 'name', 'networkId', 'orias', 'paymentDetailId', 'updatedAt'] as const
   $columns = FirmSchema.$columns
   @column()
   declare addressId: bigint | number
@@ -84,7 +84,7 @@ export class FirmSchema extends BaseModel {
   @column()
   declare orias: string
   @column()
-  declare paymentDetailsId: bigint | number
+  declare paymentDetailId: bigint | number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

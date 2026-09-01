@@ -3,7 +3,6 @@ import { HttpContext } from "@adonisjs/core/http";
 
 import DeleteNetworkPolicy from "#features/admin/networks/policies/delete.policy";
 import DeleteNetworkService from "#features/admin/networks/services/delete.service";
-import Network from "#models/network";
 
 @inject()
 export default class DeleteNetworkController {
@@ -14,8 +13,7 @@ export default class DeleteNetworkController {
 
 		await bouncer.with(DeleteNetworkPolicy).authorize("handle");
 
-		const network = await Network.findOrFail(networkId);
-		await this.deleteNetworkService.handle(network);
+		await this.deleteNetworkService.handle(networkId);
 
 		return response.noContent();
 	}

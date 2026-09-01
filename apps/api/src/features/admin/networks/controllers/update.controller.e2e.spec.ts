@@ -9,7 +9,7 @@ import PaymentDetail from "#models/payment_detail";
 async function createUpdateFixture(name: string, amundiOrgId: string) {
 	const network = await NetworkFactory.merge({ name, amundiOrgId, goCode: 112_000 })
 		.with("address")
-		.with("paymentDetails")
+		.with("paymentDetail")
 		.create();
 	await Address.query().where("id", String(network.addressId)).update({
 		lineOne: "10 Original Street",
@@ -64,13 +64,13 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		const persisted = await Network.query()
 			.where("id", String(network.id))
 			.preload("address")
-			.preload("paymentDetails")
+			.preload("paymentDetail")
 			.firstOrFail();
 		assert.equal(persisted.address.id, network.addressId);
 		assert.equal(persisted.address.city, "Lyon");
-		assert.equal(persisted.paymentDetails.id, network.paymentDetailId);
-		assert.equal(persisted.paymentDetails.iban, "FR76 3000 6000 0112 3456 7890 189");
-		assert.equal(persisted.paymentDetails.bic, "AGRI FR PP");
+		assert.equal(persisted.paymentDetail.id, network.paymentDetailId);
+		assert.equal(persisted.paymentDetail.iban, "FR76 3000 6000 0112 3456 7890 189");
+		assert.equal(persisted.paymentDetail.bic, "AGRI FR PP");
 	});
 
 	test("it should distinguish explicit nulls from omitted unique values", async ({ client }) => {

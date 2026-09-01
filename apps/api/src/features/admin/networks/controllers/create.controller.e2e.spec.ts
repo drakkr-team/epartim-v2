@@ -51,12 +51,12 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		const network = await Network.query()
 			.where("name", validPayload.name)
 			.preload("address")
-			.preload("paymentDetails")
+			.preload("paymentDetail")
 			.firstOrFail();
 		assert.equal(network.address.id, body.addressId);
-		assert.equal(network.paymentDetails.id, body.paymentDetailId);
-		assert.equal(network.paymentDetails.iban, "FR76 3000 6000 0112 3456 7890 189");
-		assert.equal(network.paymentDetails.bic, "AGRI FR PP");
+		assert.equal(network.paymentDetail.id, body.paymentDetailId);
+		assert.equal(network.paymentDetail.iban, "FR76 3000 6000 0112 3456 7890 189");
+		assert.equal(network.paymentDetail.bic, "AGRI FR PP");
 	});
 
 	test("it should require the network and owned relation fields", async ({ client }) => {
@@ -86,7 +86,10 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		client,
 	}) => {
 		const admin = await AdminFactory.create();
-		const existing = await NetworkFactory.with("address").with("paymentDetails").create();
+		const existing = await NetworkFactory.merge({ amundiOrgId: "EXISTING-AMUNDI-ID" })
+			.with("address")
+			.with("paymentDetail")
+			.create();
 
 		const duplicateName = await client
 			.visit("admin.networks.create")

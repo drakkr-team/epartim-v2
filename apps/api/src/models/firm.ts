@@ -13,6 +13,6 @@ export default class Firm extends FirmSchema {
 	@belongsTo(() => Network)
 	declare network: BelongsTo<typeof Network>;
 
-	@belongsTo(() => PaymentDetail, { foreignKey: "paymentDetailsId" })
-	declare paymentDetails: BelongsTo<typeof PaymentDetail>;
+	@belongsTo(() => PaymentDetail)
+	declare paymentDetail: BelongsTo<typeof PaymentDetail>;
 }

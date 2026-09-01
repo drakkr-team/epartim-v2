@@ -1,0 +1,12 @@
+type: folder
+model: folder
+id: fl_firms
+createdAt: 2026-08-31T00:00:00.000000
+updatedAt: 2026-08-31T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: null
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Firms

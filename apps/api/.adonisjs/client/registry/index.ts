@@ -48,6 +48,36 @@ const routes = {
     tokens: [{"old":"/admin/admins/:adminId","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId","type":1,"val":"adminId","end":""}],
     types: placeholder as Registry['admin.admins.delete']['types'],
   },
+  'admin.firms.list': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/firms',
+    tokens: [{"old":"/admin/firms","type":0,"val":"admin","end":""},{"old":"/admin/firms","type":0,"val":"firms","end":""}],
+    types: placeholder as Registry['admin.firms.list']['types'],
+  },
+  'admin.firms.create': {
+    methods: ["POST"],
+    pattern: '/admin/firms',
+    tokens: [{"old":"/admin/firms","type":0,"val":"admin","end":""},{"old":"/admin/firms","type":0,"val":"firms","end":""}],
+    types: placeholder as Registry['admin.firms.create']['types'],
+  },
+  'admin.firms.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/firms/:firmId',
+    tokens: [{"old":"/admin/firms/:firmId","type":0,"val":"admin","end":""},{"old":"/admin/firms/:firmId","type":0,"val":"firms","end":""},{"old":"/admin/firms/:firmId","type":1,"val":"firmId","end":""}],
+    types: placeholder as Registry['admin.firms.view']['types'],
+  },
+  'admin.firms.update': {
+    methods: ["PUT"],
+    pattern: '/admin/firms/:firmId',
+    tokens: [{"old":"/admin/firms/:firmId","type":0,"val":"admin","end":""},{"old":"/admin/firms/:firmId","type":0,"val":"firms","end":""},{"old":"/admin/firms/:firmId","type":1,"val":"firmId","end":""}],
+    types: placeholder as Registry['admin.firms.update']['types'],
+  },
+  'admin.firms.delete': {
+    methods: ["DELETE"],
+    pattern: '/admin/firms/:firmId',
+    tokens: [{"old":"/admin/firms/:firmId","type":0,"val":"admin","end":""},{"old":"/admin/firms/:firmId","type":0,"val":"firms","end":""},{"old":"/admin/firms/:firmId","type":1,"val":"firmId","end":""}],
+    types: placeholder as Registry['admin.firms.delete']['types'],
+  },
   'admin.networks.list': {
     methods: ["GET","HEAD"],
     pattern: '/admin/networks',
