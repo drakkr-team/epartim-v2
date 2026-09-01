@@ -30,6 +30,7 @@ export interface ApiDefinition {
     }
     firms: {
       list: typeof routes['admin.firms.list']
+      create: typeof routes['admin.firms.create']
       view: typeof routes['admin.firms.view']
       update: typeof routes['admin.firms.update']
       delete: typeof routes['admin.firms.delete']

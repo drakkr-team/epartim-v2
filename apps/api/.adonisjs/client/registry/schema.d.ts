@@ -103,6 +103,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/list.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'admin.firms.create': {
+    methods: ["POST"]
+    pattern: '/admin/firms'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/firms/controllers/create.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/firms/controllers/create.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/firms/controllers/create.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.firms.view': {
     methods: ["GET","HEAD"]
     pattern: '/admin/firms/:firmId'

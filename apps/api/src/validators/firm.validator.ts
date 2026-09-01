@@ -1,6 +1,6 @@
 import vine from "@vinejs/vine";
 
-import { UpdateAddressSchema } from "#validators/address.validator";
+import { CreateAddressSchema, UpdateAddressSchema } from "#validators/address.validator";
 
 const normalizeBankCode = (value: unknown) =>
 	typeof value === "string" ? value.replace(/\s/g, "").toUpperCase() : value;
@@ -45,6 +45,45 @@ const UpdatePaymentDetailsSchema = vine.object({
 		.parse(normalizeBankCode)
 		.regex(/^[A-Z]{6}[A-Z0-9]{2}(?:[A-Z0-9]{3})?$/)
 		.optional(),
+});
+
+const CreatePaymentDetailsSchema = vine.object({
+	iban: vine.string().parse(normalizeBankCode).iban(),
+	bic: vine
+		.string()
+		.parse(normalizeBankCode)
+		.regex(/^[A-Z]{6}[A-Z0-9]{2}(?:[A-Z0-9]{3})?$/),
+});
+
+export const CreateFirmSchema = vine.object({
+	name: vine.string().trim().minLength(1).maxLength(254).unique({
+		table: "firms",
+		column: "name",
+	}),
+	amundiOrgId: vine
+		.string()
+		.trim()
+		.minLength(1)
+		.maxLength(254)
+		.unique({
+			table: "firms",
+			column: "amundi_org_id",
+		})
+		.nullable()
+		.optional(),
+	orias: vine.string().trim().minLength(1).maxLength(254).unique({
+		table: "firms",
+		column: "orias",
+	}),
+	networkId: vine
+		.number()
+		.positive()
+		.withoutDecimals()
+		.exists({ table: "networks", column: "id" })
+		.nullable()
+		.optional(),
+	address: CreateAddressSchema,
+	paymentDetails: CreatePaymentDetailsSchema,
 });
 
 export const UpdateFirmSchema = vine

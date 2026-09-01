@@ -20,7 +20,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 			.create();
 
 		const response = await client
-			.get("/admin/firms")
+			.visit("admin.firms.list")
 			.withGuard("admin")
 			.loginAs(admin)
 			.qs({ q: "List Contract" });
@@ -82,7 +82,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 			.create();
 
 		const pageResponse = await client
-			.get("/admin/firms")
+			.visit("admin.firms.list")
 			.withGuard("admin")
 			.loginAs(admin)
 			.qs({ q: "NameOnly Firm", orderBy: "id_asc", page: 2, perPage: 1 });
@@ -95,7 +95,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 
 		for (const q of ["HIDDEN-FIRM-ONE", first.orias]) {
 			const hiddenFieldResponse = await client
-				.get("/admin/firms")
+				.visit("admin.firms.list")
 				.withGuard("admin")
 				.loginAs(admin)
 				.qs({ q });
@@ -129,7 +129,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 			.create();
 
 		const response = await client
-			.get("/admin/firms")
+			.visit("admin.firms.list")
 			.withGuard("admin")
 			.loginAs(admin)
 			.qs({ networkId: Number(firstNetwork.id) });
@@ -141,7 +141,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		);
 
 		const emptyResponse = await client
-			.get("/admin/firms")
+			.visit("admin.firms.list")
 			.withGuard("admin")
 			.loginAs(admin)
 			.qs({ networkId: 999_999_999 });

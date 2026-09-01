@@ -6,6 +6,7 @@ import { middleware } from "#start/kernel";
 router
 	.group(() => {
 		router.get("/", [controllers.features.admin.firms.List]);
+		router.post("/", [controllers.features.admin.firms.Create]);
 		router.get("/:firmId", [controllers.features.admin.firms.View]);
 		router.put("/:firmId", [controllers.features.admin.firms.Update]);
 		router.delete("/:firmId", [controllers.features.admin.firms.Delete]);

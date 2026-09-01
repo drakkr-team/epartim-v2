@@ -54,6 +54,12 @@ const routes = {
     tokens: [{"old":"/admin/firms","type":0,"val":"admin","end":""},{"old":"/admin/firms","type":0,"val":"firms","end":""}],
     types: placeholder as Registry['admin.firms.list']['types'],
   },
+  'admin.firms.create': {
+    methods: ["POST"],
+    pattern: '/admin/firms',
+    tokens: [{"old":"/admin/firms","type":0,"val":"admin","end":""},{"old":"/admin/firms","type":0,"val":"firms","end":""}],
+    types: placeholder as Registry['admin.firms.create']['types'],
+  },
   'admin.firms.view': {
     methods: ["GET","HEAD"],
     pattern: '/admin/firms/:firmId',

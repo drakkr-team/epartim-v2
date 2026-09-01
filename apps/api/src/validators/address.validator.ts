@@ -5,10 +5,12 @@ export const CreateAddressSchema = vine.object({
 	lineTwo: vine.string().trim().minLength(1).maxLength(254).nullable().optional(),
 	zip: vine.string().trim().postalCode(),
 	city: vine.string().trim().minLength(1).maxLength(254),
-	coordinates: vine.object({
-		latitude: vine.number().min(-90).max(90),
-		longitude: vine.number().min(-180).max(180),
-	}),
+	coordinates: vine
+		.object({
+			latitude: vine.number().min(-90).max(90),
+			longitude: vine.number().min(-180).max(180),
+		})
+		.optional(),
 });
 
 export const UpdateAddressSchema = CreateAddressSchema.partial();
