@@ -11,5 +11,99 @@
 			"none": "Aucun réseau",
 			"reference": "Réseau #{{id}}"
 		}
+	},
+	"features.firms.hooks.use-form": {
+		"leave-confirmation": "Les modifications non enregistrées seront perdues. Voulez-vous quitter cette page ?",
+		"validation": {
+			"name": {
+				"required": "Le nom est requis.",
+				"max": "Le nom doit contenir au maximum {{max}} caractères.",
+				"database": {
+					"unique": "Ce nom est déjà utilisé."
+				}
+			},
+			"amundiOrgId": {
+				"max": "L'identifiant Amundi doit contenir au maximum {{max}} caractères.",
+				"database": {
+					"unique": "Cet identifiant Amundi est déjà utilisé."
+				}
+			},
+			"orias": {
+				"required": "Le numéro ORIAS est requis.",
+				"max": "Le numéro ORIAS doit contenir au maximum {{max}} caractères.",
+				"database": {
+					"unique": "Ce numéro ORIAS est déjà utilisé."
+				}
+			},
+			"networkId": {
+				"database": {
+					"exists": "Le réseau sélectionné n'existe plus."
+				}
+			},
+			"address": {
+				"lineOne": {
+					"required": "L'adresse est requise.",
+					"max": "L'adresse doit contenir au maximum {{max}} caractères."
+				},
+				"lineTwo": {
+					"max": "Le complément d'adresse doit contenir au maximum {{max}} caractères."
+				},
+				"zip": {
+					"required": "Le code postal est requis.",
+					"postalCode": "Saisissez un code postal valide."
+				},
+				"city": {
+					"required": "La ville est requise.",
+					"max": "La ville doit contenir au maximum {{max}} caractères."
+				},
+				"coordinates": {
+					"pair": "La latitude et la longitude doivent être renseignées ensemble.",
+					"latitude": {
+						"min": "La latitude doit être supérieure ou égale à -90.",
+						"max": "La latitude doit être inférieure ou égale à 90."
+					},
+					"longitude": {
+						"min": "La longitude doit être supérieure ou égale à -180.",
+						"max": "La longitude doit être inférieure ou égale à 180."
+					}
+				}
+			},
+			"paymentDetail": {
+				"iban": {
+					"required": "L'IBAN est requis.",
+					"iban": "Saisissez un IBAN valide."
+				},
+				"bic": {
+					"required": "Le BIC est requis.",
+					"format": "Saisissez un BIC valide.",
+					"minLength": "Le BIC doit contenir au moins 8 caractères.",
+					"maxLength": "Le BIC doit contenir au maximum 11 caractères."
+				}
+			}
+		}
+	},
+	"features.firms.hooks.use-create-mutation": {
+		"success": {
+			"title": "Firme créée",
+			"description": "La firme {{name}} a bien été créée."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de créer une firme."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
 	}
 }

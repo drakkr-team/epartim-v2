@@ -25,10 +25,12 @@ export function ComboboxRoot<Value, Multiple extends boolean | undefined = false
 	);
 }
 
-export type ComboboxInputProps = ComboboxHeadless.InputGroup.Props;
+export type ComboboxInputProps = ComboboxHeadless.InputGroup.Props & {
+	clearButtonLabel?: string;
+};
 
 export function ComboboxInput(props: ComboboxInputProps) {
-	const { children, className, ...rest } = props;
+	const { children, className, clearButtonLabel, ...rest } = props;
 
 	const { multiple } = useContext(ComboboxContext);
 
@@ -59,7 +61,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
 					{children}
 					<ComboboxHeadless.Clear
 						className="absolute top-1/2 right-1.5 z-10 hidden -translate-y-1/2 bg-neutral-1 group-has-hover:inline-flex data-popup-open:inline-flex data-popup-open:bg-neutral-1"
-						render={<Button size="icon-sm" variant="ghost" />}
+						render={<Button size="icon-sm" variant="ghost" aria-label={clearButtonLabel} />}
 					>
 						<XIcon />
 					</ComboboxHeadless.Clear>

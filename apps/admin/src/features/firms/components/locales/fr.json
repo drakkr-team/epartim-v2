@@ -1,0 +1,66 @@
+{
+	"features.firms.components.form": {
+		"section": {
+			"general": "Informations générales",
+			"network": "Réseau",
+			"address": "Adresse",
+			"coordinates": "Coordonnées géographiques",
+			"coordinates-description": "Laissez les deux champs vides si les coordonnées ne sont pas connues.",
+			"payment": "Coordonnées bancaires"
+		},
+		"field": {
+			"name": {
+				"label": "Nom"
+			},
+			"amundiOrgId": {
+				"label": "Identifiant Amundi"
+			},
+			"orias": {
+				"label": "Numéro ORIAS"
+			},
+			"networkId": {
+				"label": "Réseau",
+				"placeholder": "Aucun réseau",
+				"search": "Rechercher un réseau...",
+				"clear": "Retirer le réseau sélectionné",
+				"empty": "Aucun réseau trouvé.",
+				"error": "Impossible de charger les réseaux."
+			},
+			"address": {
+				"lineOne": {
+					"label": "Adresse"
+				},
+				"lineTwo": {
+					"label": "Complément d'adresse"
+				},
+				"zip": {
+					"label": "Code postal"
+				},
+				"city": {
+					"label": "Ville"
+				},
+				"coordinates": {
+					"latitude": {
+						"label": "Latitude"
+					},
+					"longitude": {
+						"label": "Longitude"
+					}
+				}
+			},
+			"paymentDetail": {
+				"iban": {
+					"label": "IBAN"
+				},
+				"bic": {
+					"label": "BIC"
+				}
+			}
+		},
+		"action": {
+			"cancel": "Annuler",
+			"create": "Créer la firme",
+			"update": "Enregistrer les modifications"
+		}
+	}
+}
