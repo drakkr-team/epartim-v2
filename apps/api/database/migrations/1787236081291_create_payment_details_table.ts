@@ -6,8 +6,11 @@ export default class extends BaseSchema {
 	async up() {
 		this.schema.createTable(this.tableName, (table) => {
 			table.bigIncrements("id").notNullable();
+
 			table.string("iban", 254).notNullable();
 			table.string("bic", 254).notNullable();
+
+			table.timestamps(true, true);
 		});
 	}
 

@@ -1,0 +1,53 @@
+type: http_request
+model: http_request
+id: rq_network_list
+createdAt: 2026-08-31T00:00:00.000000
+updatedAt: 2026-08-31T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_networks
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers:
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: GET
+name: List networks
+sortPriority: 1000.0
+url: http://localhost:3333/admin/networks
+urlParameters:
+- enabled: true
+  name: page
+  value: '1'
+  id: null
+- enabled: true
+  name: perPage
+  value: '20'
+  id: null
+- enabled: false
+  name: q
+  value: Example
+  id: null
+- enabled: false
+  name: orderBy
+  value: name_asc
+  id: null
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

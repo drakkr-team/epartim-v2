@@ -26,6 +26,13 @@ export const controllers = {
         Update: () => import('#src/features/admin/admins/controllers/update.controller'),
         View: () => import('#src/features/admin/admins/controllers/view.controller'),
       },
+      networks: {
+        Create: () => import('#src/features/admin/networks/controllers/create.controller'),
+        Delete: () => import('#src/features/admin/networks/controllers/delete.controller'),
+        List: () => import('#src/features/admin/networks/controllers/list.controller'),
+        Update: () => import('#src/features/admin/networks/controllers/update.controller'),
+        View: () => import('#src/features/admin/networks/controllers/view.controller'),
+      },
       users: {
         Create: () => import('#src/features/admin/users/controllers/create.controller'),
         Delete: () => import('#src/features/admin/users/controllers/delete.controller'),

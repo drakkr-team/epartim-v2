@@ -91,6 +91,66 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admins/controllers/delete.controller').default['handle']>>>
     }
   }
+  'admin.networks.list': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/networks'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#src/features/admin/networks/controllers/list.controller').default)['querySchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/list.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/list.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.networks.create': {
+    methods: ["POST"]
+    pattern: '/admin/networks'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/networks/controllers/create.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/networks/controllers/create.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/create.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.networks.view': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/networks/:networkId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { networkId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/view.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/view.controller').default['handle']>>>
+    }
+  }
+  'admin.networks.update': {
+    methods: ["PUT"]
+    pattern: '/admin/networks/:networkId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/networks/controllers/update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { networkId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/networks/controllers/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.networks.delete': {
+    methods: ["DELETE"]
+    pattern: '/admin/networks/:networkId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { networkId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/delete.controller').default['handle']>>>
+    }
+  }
   'admin.users.list': {
     methods: ["GET","HEAD"]
     pattern: '/admin/users'
