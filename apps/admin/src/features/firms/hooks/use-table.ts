@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -29,8 +29,6 @@ export function useFirmsTable(params: UseFirmsTableParams) {
 	const { t } = useTranslation("features.firms.hooks.use-table");
 	const navigate = useNavigate();
 	const router = useRouter();
-	const location = useLocation();
-	const origin = `${location.pathname}${location.searchStr}`;
 	const sorting = orderByToSortingSate(orderBy);
 	const { columnVisibility, setColumnVisibility } = useColumnVisibilityStore({
 		name: "firms-table-column-visibility",
@@ -40,8 +38,14 @@ export function useFirmsTable(params: UseFirmsTableParams) {
 	const columnHelper = createColumnHelper<FirmRow>();
 	const columns = useMemo(
 		() => [
+			columnHelper.accessor("id", {
+				header: t("header.id"),
+			}),
 			columnHelper.accessor("name", {
 				header: t("header.name"),
+			}),
+			columnHelper.accessor("orias", {
+				header: t("header.orias"),
 			}),
 			columnHelper.accessor("networkId", {
 				header: t("header.network"),
@@ -50,11 +54,12 @@ export function useFirmsTable(params: UseFirmsTableParams) {
 						? t("network.none")
 						: t("network.reference", { id: props.getValue() }),
 			}),
-			columnHelper.accessor("orias", {
-				header: t("header.orias"),
-			}),
 			columnHelper.accessor("amundiOrgId", {
 				header: t("header.amundiOrgId"),
+			}),
+			columnHelper.accessor("createdAt", {
+				header: t("header.createdAt"),
+				cell: (props) => props.getValue().toLocaleDateString("fr-FR"),
 			}),
 			columnHelper.accessor("updatedAt", {
 				header: t("header.updatedAt"),
@@ -65,8 +70,8 @@ export function useFirmsTable(params: UseFirmsTableParams) {
 				cell: (cell) => FirmsTableActionCell({ cell }),
 				meta: {
 					classNames: {
-						header: "sticky right-0 z-10 w-12 bg-neutral-3 p-0",
-						cell: "sticky right-0 z-10 w-12 bg-neutral-1 p-1",
+						header: "w-0 p-0",
+						cell: "p-1",
 					},
 				},
 			}),
@@ -83,13 +88,11 @@ export function useFirmsTable(params: UseFirmsTableParams) {
 					navigate({
 						to: "/firms/$firmId",
 						params: { firmId: row.id.toString() },
-						search: { from: origin },
 					}),
 				onMouseEnter: (row) =>
 					router.preloadRoute({
 						to: "/firms/$firmId",
 						params: { firmId: row.id.toString() },
-						search: { from: origin },
 					}),
 			},
 		},

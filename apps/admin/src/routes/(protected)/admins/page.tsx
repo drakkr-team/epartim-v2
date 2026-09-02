@@ -69,10 +69,12 @@ function Page() {
 					<DataTable.SearchInput placeholder={t("search.placeholder")} />
 
 					<div className="flex items-center gap-2">
-						<Button variant="primary" render={<Link to="/admins/new" />}>
-							<PlusIcon />
-							{t("actions.new")}
-						</Button>
+						{admins.meta.canCreate && (
+							<Button variant="primary" render={<Link to="/admins/new" />}>
+								<PlusIcon />
+								{t("actions.new")}
+							</Button>
+						)}
 						<DataTable.ColumnsVisiblitySelector />
 					</div>
 				</div>
@@ -90,10 +92,12 @@ function Page() {
 							? t("empty.description-search", { search: searchParams.q })
 							: t("empty.description")}
 					</p>
-					<Button variant="primary" render={<Link to="/admins/new" />}>
-						<PlusIcon />
-						{t("actions.new")}
-					</Button>
+					{admins.meta.canCreate && (
+						<Button variant="primary" render={<Link to="/admins/new" />}>
+							<PlusIcon />
+							{t("actions.new")}
+						</Button>
+					)}
 				</DataTable.Empty>
 
 				<DataTable.Pagination />

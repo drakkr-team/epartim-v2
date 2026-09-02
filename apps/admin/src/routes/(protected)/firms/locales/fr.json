@@ -1,27 +1,27 @@
 {
 	"routes.(protected).firms": {
-		"headline": "Gestion du réseau",
-		"title": "Firmes",
-		"description": "Consultez et gérez les firmes rattachées à vos réseaux.",
-		"loading": "Chargement des firmes...",
+		"headline": "Gestion des cabinets",
+		"title": "Cabinets",
+		"description": "Consultez et gérez les cabinets rattachés à vos réseaux.",
+		"loading": "Chargement des cabinets...",
 		"search": {
-			"placeholder": "Rechercher une firme..."
+			"placeholder": "Rechercher un cabinet..."
 		},
 		"filters": {
 			"network": {
-				"label": "Filtrer les firmes par réseau",
+				"label": "Filtrer les cabinets par réseau",
 				"placeholder": "Filtrer par réseau",
 				"all": "Tous les réseaux"
 			}
 		},
 		"empty": {
-			"title": "Aucune firme",
+			"title": "Aucun cabinet",
 			"title-filtered": "Aucun résultat",
-			"description": "Aucune firme n'a encore été créée.",
-			"description-filtered": "Aucune firme ne correspond aux critères sélectionnés."
+			"description": "Aucun cabinet n'a encore été créé.",
+			"description-filtered": "Aucun cabinet ne correspond aux critères sélectionnés."
 		},
 		"actions": {
-			"new": "Créer une firme"
+			"new": "Créer un cabinet"
 		}
 	}
 }

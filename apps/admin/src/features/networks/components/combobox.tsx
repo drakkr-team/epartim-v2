@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Network } from "@workspace/api/data";
 import { Combobox, type ComboboxProps } from "@workspace/ui-react/components/combobox";
+import { Spinner } from "@workspace/ui-react/components/spinner";
 
+import { useLoadMoreWhileInView } from "#/hooks/use-load-more-while-in-view.ts";
 import { api } from "#/libs/tuyau.ts";
 
 type NetworkComboboxProps = Omit<ComboboxProps<Network>, "items" | "onInputValueChange">;
@@ -14,8 +16,29 @@ export function NetworkCombobox(props: NetworkComboboxProps) {
 
 	const [search, setSearch] = useState("");
 
-	const { data: networks } = useQuery(api.networks.list.queryOptions({ query: { q: search } }));
-	const networkItems = networks?.data ?? [];
+	const {
+		data: networks,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+	} = useInfiniteQuery(
+		api.networks.list.infiniteQueryOptions(
+			{ query: { q: search } },
+			{
+				initialPageParam: 1,
+				getNextPageParam: (lastPage) => {
+					const { currentPage, total, perPage } = lastPage.meta;
+					const pageCount = Math.ceil(total / perPage);
+					return currentPage < pageCount ? currentPage + 1 : undefined;
+				},
+				select: (data) => {
+					return data.pages.flatMap((page) => page.data);
+				},
+			},
+		),
+	);
+	const loadMoreRef = useLoadMoreWhileInView({ hasNextPage, isFetchingNextPage, fetchNextPage });
+	const networkItems = networks ?? [];
 
 	return (
 		<Combobox items={networkItems} onInputValueChange={setSearch} {...props}>
@@ -43,6 +66,8 @@ export function NetworkCombobox(props: NetworkComboboxProps) {
 						</Combobox.Item>
 					)}
 				</Combobox.List>
+
+				{hasNextPage && !isFetchingNextPage && <span ref={loadMoreRef} />}
 			</Combobox.Dropdown>
 		</Combobox>
 	);

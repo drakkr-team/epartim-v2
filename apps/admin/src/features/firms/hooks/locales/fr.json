@@ -1,10 +1,12 @@
 {
 	"features.firms.hooks.use-table": {
 		"header": {
+			"id": "ID",
 			"name": "Nom",
 			"network": "Réseau associé",
 			"orias": "Numéro ORIAS",
 			"amundiOrgId": "Identifiant Amundi",
+			"createdAt": "Créé le",
 			"updatedAt": "Dernière modification"
 		},
 		"network": {

@@ -52,13 +52,7 @@ function DataTableTable<TData>() {
 
 	const table = useDataTableContext<TData>();
 
-	table.getHeaderGroups().forEach((headerGroup) => {
-		headerGroup.headers.forEach((header) => {
-			console.log("header", header.column.columnDef.header);
-		});
-	});
-
-	console.log();
+	if (table.getRowModel().rows.length === 0) return null;
 
 	return (
 		<Table>
