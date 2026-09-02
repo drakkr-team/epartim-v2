@@ -3,7 +3,7 @@ import type { CellContext } from "@tanstack/react-table";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Button } from "@workspace/ui-react/components/button";
+import { Button, ButtonHeadless } from "@workspace/ui-react/components/button";
 import { Menu } from "@workspace/ui-react/components/menu";
 import {
 	EllipsisVerticalIcon,
@@ -23,7 +23,6 @@ export function FirmsTableActionCell({ cell }: FirmsTableActionCellProps) {
 	const { t } = useTranslation("features.firms.components.table.action-cell");
 
 	const firm = cell.row.original;
-	const firmId = firm.id.toString();
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
 	return (
@@ -34,18 +33,25 @@ export function FirmsTableActionCell({ cell }: FirmsTableActionCellProps) {
 				</Menu.Trigger>
 
 				<Menu.Content align="end">
-					<Menu.Item render={<Link to="/firms/$firmId" params={{ firmId }} />}>
+					<Menu.Item render={<Link to="/firms/$firmId" params={{ firmId: firm.id.toString() }} />}>
 						<SquareArrowOutUpRightIcon />
 						{t("show")}
 					</Menu.Item>
 					{firm.meta.canUpdate && (
-						<Menu.Item render={<Link to="/firms/$firmId/edit" params={{ firmId }} />}>
+						<Menu.Item
+							render={<Link to="/firms/$firmId/edit" params={{ firmId: firm.id.toString() }} />}
+						>
 							<SquarePenIcon />
 							{t("edit")}
 						</Menu.Item>
 					)}
 					{firm.meta.canDelete && (
-						<Menu.Item variant="destructive" onClick={() => setDeleteDialogOpen(true)}>
+						<Menu.Item
+							variant="destructive"
+							onClick={() => setDeleteDialogOpen(true)}
+							render={<ButtonHeadless />}
+							nativeButton
+						>
 							<TrashIcon />
 							{t("delete")}
 						</Menu.Item>
@@ -53,13 +59,7 @@ export function FirmsTableActionCell({ cell }: FirmsTableActionCellProps) {
 				</Menu.Content>
 			</Menu>
 
-			<DeleteFirmDialog
-				firmId={firmId}
-				firmName={firm.name}
-				origin={""}
-				open={deleteDialogOpen}
-				onOpenChange={setDeleteDialogOpen}
-			/>
+			<DeleteFirmDialog firm={firm} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
 		</>
 	);
 }

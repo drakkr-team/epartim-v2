@@ -15,8 +15,8 @@ import { useLogoutMutation } from "#/features/account_management/authentication/
 
 const navigationItems = [
 	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon, exact: true },
-	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
 	{ label: "Cabinets", to: "/firms", icon: Building2Icon, exact: false },
+	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
 ] as const;
 
 export function AdminShell({ children }: PropsWithChildren) {
@@ -61,7 +61,9 @@ export function AdminShell({ children }: PropsWithChildren) {
 				</UiSidebar.Footer>
 			</UiSidebar>
 
-			<div className="ml-64 flex-1 p-4 pt-8 sm:p-8 sm:pt-12">{children}</div>
+			<div className="ml-64 flex-1 p-4 pt-8 sm:p-8 sm:pt-12">
+				<div className="container mx-auto">{children}</div>
+			</div>
 		</div>
 	);
 }

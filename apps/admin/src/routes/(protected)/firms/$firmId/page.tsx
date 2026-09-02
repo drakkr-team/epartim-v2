@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { TuyauError } from "@tuyau/core/client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,7 @@ import { api } from "#/libs/tuyau";
 export const Route = createFileRoute("/(protected)/firms/$firmId/")({
 	loader: async ({ context, params }) => {
 		await context.queryClient.query(
-			api.firms.view.queryOptions({ params: { firmId: params.firmId } }, { staleTime: "static" }),
+			api.firms.view.queryOptions({ params: { firmId: params.firmId } }),
 		);
 	},
 	onError: (error) => {
@@ -33,10 +33,16 @@ function Page() {
 	const { t } = useTranslation("routes.(protected).firms.$firmId");
 
 	const { firmId } = Route.useParams();
+	const navigate = useNavigate();
 
 	const { data: firm } = useSuspenseQuery(api.firms.view.queryOptions({ params: { firmId } }));
 	const canDoActions = firm.meta.canUpdate || firm.meta.canDelete;
+
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+	const handleAfterDelete = () => {
+		navigate({ to: "/firms" });
+	};
 
 	return (
 		<main className="mx-auto grid max-w-xl gap-9">
@@ -127,11 +133,10 @@ function Page() {
 			</Card>
 
 			<DeleteFirmDialog
-				firmId={firmId}
-				firmName={firm.name}
-				origin={origin}
+				firm={firm}
 				open={deleteDialogOpen}
 				onOpenChange={setDeleteDialogOpen}
+				afterDelete={handleAfterDelete}
 			/>
 		</main>
 	);

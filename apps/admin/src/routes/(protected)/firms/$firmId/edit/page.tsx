@@ -11,7 +11,7 @@ import { api } from "#/libs/tuyau";
 export const Route = createFileRoute("/(protected)/firms/$firmId/edit/")({
 	loader: async ({ context, params }) => {
 		await context.queryClient.query(
-			api.firms.view.queryOptions({ params: { firmId: params.firmId } }, { staleTime: "static" }),
+			api.firms.view.queryOptions({ params: { firmId: params.firmId } }),
 		);
 	},
 	onError: (error) => {

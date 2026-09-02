@@ -158,17 +158,7 @@ function DataTableColumnsVisiblitySelector<TData>() {
 		<Menu>
 			<Tooltip>
 				<Tooltip.Trigger
-					render={
-						<Menu.Trigger
-							render={
-								<Button
-									variant="default"
-									size="icon-md"
-									aria-label={t("visibility-selector.label")}
-								/>
-							}
-						/>
-					}
+					render={<Menu.Trigger render={<Button variant="default" size="icon-md" />} />}
 				>
 					<Table2Icon />
 				</Tooltip.Trigger>
@@ -226,28 +216,40 @@ function DataTablePagination<TData>() {
 
 	return (
 		<div className="flex items-center justify-end gap-2">
-			<Button
-				variant="default"
-				size="icon-md"
-				aria-label={t("pagination.previous")}
-				onClick={() => {
-					table.previousPage();
-				}}
-				disabled={!table.getCanPreviousPage()}
-			>
-				<ChevronLeftIcon />
-			</Button>
-			<Button
-				variant="default"
-				size="icon-md"
-				aria-label={t("pagination.next")}
-				onClick={() => {
-					table.nextPage();
-				}}
-				disabled={!table.getCanNextPage()}
-			>
-				<ChevronRightIcon />
-			</Button>
+			<Tooltip>
+				<Tooltip.Trigger
+					render={
+						<Button
+							variant="default"
+							size="icon-md"
+							onClick={() => {
+								table.previousPage();
+							}}
+							disabled={!table.getCanPreviousPage()}
+						/>
+					}
+				>
+					<ChevronLeftIcon />
+				</Tooltip.Trigger>
+				<Tooltip.Content>{t("pagination.previous.tooltip")}</Tooltip.Content>
+			</Tooltip>
+			<Tooltip>
+				<Tooltip.Trigger
+					render={
+						<Button
+							variant="default"
+							size="icon-md"
+							onClick={() => {
+								table.nextPage();
+							}}
+							disabled={!table.getCanNextPage()}
+						/>
+					}
+				>
+					<ChevronRightIcon />
+				</Tooltip.Trigger>
+				<Tooltip.Content>{t("pagination.next.tooltip")}</Tooltip.Content>
+			</Tooltip>
 		</div>
 	);
 }

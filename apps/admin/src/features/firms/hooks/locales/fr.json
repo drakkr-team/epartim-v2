@@ -86,8 +86,8 @@
 	},
 	"features.firms.hooks.use-create-mutation": {
 		"success": {
-			"title": "Firme créée",
-			"description": "La firme {{name}} a bien été créée."
+			"title": "Cabinet créé",
+			"description": "Le cabinet {{name}} a bien été créé."
 		},
 		"error": {
 			"E_NETWORK": {
@@ -96,7 +96,7 @@
 			},
 			"E_UNAUTHORIZED_ACCESS": {
 				"title": "Action non autorisée",
-				"description": "Vous n'avez pas l'autorisation de créer une firme."
+				"description": "Vous n'avez pas l'autorisation de créer un cabinet."
 			},
 			"E_VALIDATION": {
 				"title": "Informations à corriger",
@@ -110,8 +110,8 @@
 	},
 	"features.firms.hooks.use-update-mutation": {
 		"success": {
-			"title": "Firme modifiée",
-			"description": "Les informations de {{name}} ont bien été mises à jour."
+			"title": "Cabinet modifié",
+			"description": "Les informations du cabinet {{name}} ont bien été mises à jour."
 		},
 		"error": {
 			"E_NETWORK": {
@@ -120,7 +120,7 @@
 			},
 			"E_UNAUTHORIZED_ACCESS": {
 				"title": "Action non autorisée",
-				"description": "Vous n'avez pas l'autorisation de modifier cette firme."
+				"description": "Vous n'avez pas l'autorisation de modifier ce cabinet."
 			},
 			"E_VALIDATION": {
 				"title": "Informations à corriger",
@@ -134,8 +134,8 @@
 	},
 	"features.firms.hooks.use-delete-mutation": {
 		"success": {
-			"title": "Firme supprimée",
-			"description": "La firme {{name}} a bien été supprimée."
+			"title": "Cabinet supprimé",
+			"description": "Le cabinet a bien été supprimé."
 		},
 		"error": {
 			"E_NETWORK": {
@@ -143,16 +143,16 @@
 				"description": "Vérifiez votre connexion internet, puis réessayez."
 			},
 			"E_ROW_NOT_FOUND": {
-				"title": "Firme introuvable",
-				"description": "Cette firme a déjà été supprimée ou n'existe plus."
+				"title": "Cabinet introuvable",
+				"description": "Ce cabinet a déjà été supprimé ou n'existe plus."
 			},
 			"E_UNAUTHORIZED_ACCESS": {
 				"title": "Action non autorisée",
-				"description": "Vous n'avez pas l'autorisation de supprimer cette firme."
+				"description": "Vous n'avez pas l'autorisation de supprimer ce cabinet."
 			},
 			"E_UNEXPECTED": {
 				"title": "Suppression impossible",
-				"description": "La firme n'a pas été supprimée. Réessayez dans quelques instants."
+				"description": "Le cabinet n'a pas été supprimé. Réessayez dans quelques instants."
 			}
 		}
 	}

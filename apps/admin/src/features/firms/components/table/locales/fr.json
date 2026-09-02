@@ -1,6 +1,5 @@
 {
 	"features.firms.components.table.action-cell": {
-		"actions": "Actions pour {{name}}",
 		"show": "Consulter",
 		"edit": "Modifier",
 		"delete": "Supprimer"

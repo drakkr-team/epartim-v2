@@ -27,12 +27,9 @@ export const Route = createFileRoute("/(protected)/admins/")({
 	}),
 	loader: async ({ context, deps }) => {
 		await context.queryClient.query(
-			api.admins.list.queryOptions(
-				{
-					query: deps,
-				},
-				{ staleTime: "static" },
-			),
+			api.admins.list.queryOptions({
+				query: deps,
+			}),
 		);
 	},
 	component: Page,

@@ -1,39 +1,38 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
-import { AlertDialog } from "@workspace/ui-react/components/alert-dialog";
+import type { Firm } from "@workspace/api/data";
+import { AlertDialog, type AlertDialogProps } from "@workspace/ui-react/components/alert-dialog";
 import { Button } from "@workspace/ui-react/components/button";
 import { Spinner } from "@workspace/ui-react/components/spinner";
 
 import { useDeleteFirmMutation } from "#/features/firms/hooks/use-delete-mutation";
-import { parseFirmListOrigin } from "#/features/firms/utils/list-origin";
-import { api } from "#/libs/tuyau";
 
-type DeleteFirmDialogProps = {
-	firmId: string;
-	firmName: string;
-	origin: string;
-	open: boolean;
-	onOpenChange: (open: boolean) => void;
+type DeleteFirmDialogProps = AlertDialogProps & {
+	firm: Firm;
+	afterDelete?: () => void;
 };
 
 export function DeleteFirmDialog(props: DeleteFirmDialogProps) {
-	const { firmId, firmName, origin, open, onOpenChange } = props;
+	const { firm, afterDelete, ...rest } = props;
+
 	const { t } = useTranslation("features.firms.components.delete-dialog");
-	const { mutateAsync: deleteFirm, isPending } = useDeleteFirmMutation(firmName);
-	const navigate = useNavigate();
-	const queryClient = useQueryClient();
+
+	const { mutateAsync: deleteFirm, isPending } = useDeleteFirmMutation();
+
+	const handleDelete = async () => {
+		await deleteFirm({ params: { firmId: firm.id } });
+		afterDelete?.();
+	};
 
 	return (
-		<AlertDialog open={open} onOpenChange={onOpenChange}>
+		<AlertDialog {...rest}>
 			<AlertDialog.Content className="grid max-w-lg gap-5">
 				<div className="grid gap-2">
 					<AlertDialog.Title className="font-semibold text-2xl text-secondary-12">
 						{t("title")}
 					</AlertDialog.Title>
 					<AlertDialog.Description className="text-neutral-11 text-sm">
-						{t("description", { name: firmName })}
+						{t("description", { name: firm?.name })}
 					</AlertDialog.Description>
 				</div>
 
@@ -43,23 +42,7 @@ export function DeleteFirmDialog(props: DeleteFirmDialogProps) {
 					<AlertDialog.Close disabled={isPending} render={<Button variant="default" />}>
 						{t("action.cancel")}
 					</AlertDialog.Close>
-					<Button
-						className="bg-error-11 hover:not-data-disabled:bg-error-12"
-						variant="destructive"
-						disabled={isPending}
-						onClick={async () => {
-							await deleteFirm({ params: { firmId } });
-							await navigate({
-								to: "/firms",
-								search: parseFirmListOrigin(origin) ?? {},
-								replace: true,
-							});
-							await queryClient.refetchQueries({
-								queryKey: api.firms.pathKey(),
-								type: "active",
-							});
-						}}
-					>
+					<Button variant="destructive" disabled={isPending} onClick={handleDelete}>
 						{isPending && <Spinner />}
 						{t("action.confirm")}
 					</Button>
