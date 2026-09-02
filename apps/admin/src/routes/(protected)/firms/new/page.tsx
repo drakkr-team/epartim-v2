@@ -13,16 +13,16 @@ function Page() {
 	const { t } = useTranslation("routes.(protected).firms.new");
 
 	return (
-		<main className="mx-auto grid max-w-3xl gap-9">
+		<main className="mx-auto grid max-w-xl gap-9">
 			<header className="grid gap-1">
-				<h2 className="font-bold text-primary-11 text-xs uppercase tracking-widest">
+				<h2 className="font-bold text-primary-9 text-xs uppercase tracking-widest">
 					{t("headline")}
 				</h2>
 				<h1 className="font-bold text-3xl text-secondary-12">{t("title")}</h1>
 				<p className="text-neutral-11 text-sm">{t("description")}</p>
 			</header>
 
-			<Card className="p-6">
+			<Card>
 				<FirmForm action="create" />
 			</Card>
 		</main>

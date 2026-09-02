@@ -12,7 +12,9 @@ export async function isAuthenticated(queryClient: QueryClient) {
 
 export async function getCurrentUser(queryClient: QueryClient) {
 	try {
-		return await queryClient.ensureQueryData(api.accountManagement.profile.view.queryOptions());
+		return await queryClient.query(
+			api.accountManagement.profile.view.queryOptions({}, { staleTime: "static" }),
+		);
 	} catch (_error) {
 		// @ts-expect-error: Set null to prevent refetching the user profile until the next authentication attempt
 		queryClient.setQueryData(api.accountManagement.profile.view.queryKey(), null);

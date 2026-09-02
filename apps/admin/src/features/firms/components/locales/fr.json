@@ -4,8 +4,6 @@
 			"general": "Informations générales",
 			"network": "Réseau",
 			"address": "Adresse",
-			"coordinates": "Coordonnées géographiques",
-			"coordinates-description": "Laissez les deux champs vides si les coordonnées ne sont pas connues.",
 			"payment": "Coordonnées bancaires"
 		},
 		"field": {
@@ -17,14 +15,6 @@
 			},
 			"orias": {
 				"label": "Numéro ORIAS"
-			},
-			"networkId": {
-				"label": "Réseau",
-				"placeholder": "Aucun réseau",
-				"search": "Rechercher un réseau...",
-				"clear": "Retirer le réseau sélectionné",
-				"empty": "Aucun réseau trouvé.",
-				"error": "Impossible de charger les réseaux."
 			},
 			"address": {
 				"lineOne": {
@@ -38,14 +28,6 @@
 				},
 				"city": {
 					"label": "Ville"
-				},
-				"coordinates": {
-					"latitude": {
-						"label": "Latitude"
-					},
-					"longitude": {
-						"label": "Longitude"
-					}
 				}
 			},
 			"paymentDetail": {

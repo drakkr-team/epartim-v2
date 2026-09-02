@@ -8,17 +8,17 @@ export const CreateFirmSchema = vine.object({
 		table: "firms",
 		column: "name",
 	}),
-	amundiOrgId: vine
-		.string()
-		.trim()
-		.minLength(1)
-		.maxLength(254)
-		.unique({
-			table: "firms",
-			column: "amundi_org_id",
-		})
-		.nullable()
-		.optional(),
+	// amundiOrgId: vine
+	// 	.string()
+	// 	.trim()
+	// 	.minLength(1)
+	// 	.maxLength(254)
+	// 	.unique({
+	// 		table: "firms",
+	// 		column: "amundi_org_id",
+	// 	})
+	// 	.nullable()
+	// 	.optional(),
 	orias: vine.string().trim().minLength(1).maxLength(254).unique({
 		table: "firms",
 		column: "orias",

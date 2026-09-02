@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { TuyauError } from "@tuyau/core/client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@workspace/ui-react/components/button";
 import { Card } from "@workspace/ui-react/components/card";
 import { Menu } from "@workspace/ui-react/components/menu";
+import { Separator } from "@workspace/ui-react/components/separator";
 import { EllipsisVerticalIcon, SquarePenIcon, TrashIcon } from "@workspace/ui-react/icons";
 
 import { DetailField } from "#/components/app/detail-field";
@@ -16,8 +17,8 @@ import { api } from "#/libs/tuyau";
 
 export const Route = createFileRoute("/(protected)/firms/$firmId/")({
 	loader: async ({ context, params }) => {
-		await context.queryClient.ensureQueryData(
-			api.firms.view.queryOptions({ params: { firmId: params.firmId } }),
+		await context.queryClient.query(
+			api.firms.view.queryOptions({ params: { firmId: params.firmId } }, { staleTime: "static" }),
 		);
 	},
 	onError: (error) => {
@@ -55,7 +56,7 @@ function Page() {
 						</Menu.Trigger>
 						<Menu.Content align="end">
 							{firm.meta.canUpdate && (
-								<Menu.Item render={<a href={`/firms/${firmId}/edit`} />}>
+								<Menu.Item render={<Link to="/firms/$firmId/edit" params={{ firmId }} />}>
 									<SquarePenIcon />
 									{t("action.edit")}
 								</Menu.Item>
@@ -71,8 +72,8 @@ function Page() {
 				)}
 			</header>
 
-			<div className="grid gap-5">
-				<Card className="grid grid-cols-2 gap-4">
+			<Card className="grid gap-5">
+				<div className="grid grid-cols-2 gap-4">
 					<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
 						{t("section.general")}
 					</h2>
@@ -92,9 +93,11 @@ function Page() {
 						label={t("field.updatedAt")}
 						value={firm.updatedAt.toLocaleDateString("fr-FR")}
 					/>
-				</Card>
+				</div>
 
-				<Card className="grid grid-cols-2 gap-4">
+				<Separator />
+
+				<div className="grid grid-cols-2 gap-4">
 					<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
 						{t("section.address")}
 					</h2>
@@ -106,9 +109,11 @@ function Page() {
 					/>
 					<DetailField label={t("field.address.zip")} value={firm.address.zip} />
 					<DetailField label={t("field.address.city")} value={firm.address.city} />
-				</Card>
+				</div>
 
-				<Card className="grid grid-cols-2 gap-4">
+				<Separator />
+
+				<div className="grid grid-cols-2 gap-4">
 					<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
 						{t("section.payment")}
 					</h2>
@@ -118,8 +123,8 @@ function Page() {
 						value={humanizeIBAN(firm.paymentDetail.iban)}
 					/>
 					<DetailField label={t("field.paymentDetail.bic")} value={firm.paymentDetail.bic} />
-				</Card>
-			</div>
+				</div>
+			</Card>
 
 			<DeleteFirmDialog
 				firmId={firmId}

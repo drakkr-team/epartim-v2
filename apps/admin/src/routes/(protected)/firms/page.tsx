@@ -32,11 +32,16 @@ export const Route = createFileRoute("/(protected)/firms/")({
 	}),
 	loader: async ({ context, deps }) => {
 		await Promise.all([
-			context.queryClient.ensureQueryData(api.firms.list.queryOptions({ query: deps })),
-			context.queryClient.ensureQueryData(
-				api.networks.list.queryOptions({
-					query: { perPage: 1_000, orderBy: "name_asc" },
-				}),
+			context.queryClient.query(
+				api.firms.list.queryOptions({ query: deps }, { staleTime: "static" }),
+			),
+			context.queryClient.query(
+				api.networks.list.queryOptions(
+					{
+						query: { perPage: 1_000, orderBy: "name_asc" },
+					},
+					{ staleTime: "static" },
+				),
 			),
 		]);
 	},

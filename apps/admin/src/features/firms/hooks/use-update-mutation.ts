@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 import { toast } from "@workspace/ui-react/components/toast";
@@ -8,7 +9,9 @@ import { toastifyTuyauError } from "#/utils/tuyau";
 
 export function useUpdateFirmMutation() {
 	const { t } = useTranslation("features.firms.hooks.use-update-mutation");
+
 	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	return useMutation(
 		api.firms.update.mutationOptions({
@@ -17,6 +20,7 @@ export function useUpdateFirmMutation() {
 				toast.success(t("success.title"), {
 					description: t("success.description", { name: firm.name }),
 				});
+				navigate({ to: "/firms/$firmId", params: { firmId: firm.id.toString() } });
 			},
 			onError: (error) => {
 				toastifyTuyauError(error, {

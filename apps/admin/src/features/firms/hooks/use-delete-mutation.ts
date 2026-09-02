@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 import { toast } from "@workspace/ui-react/components/toast";
@@ -8,18 +9,18 @@ import { toastifyTuyauError } from "#/utils/tuyau";
 
 export function useDeleteFirmMutation(firmName: string) {
 	const { t } = useTranslation("features.firms.hooks.use-delete-mutation");
+
 	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	return useMutation(
 		api.firms.delete.mutationOptions({
 			onSuccess: async () => {
-				await queryClient.invalidateQueries({
-					queryKey: api.firms.pathKey(),
-					refetchType: "none",
-				});
+				await queryClient.invalidateQueries({ queryKey: api.firms.pathKey() });
 				toast.success(t("success.title"), {
 					description: t("success.description", { name: firmName }),
 				});
+				navigate({ to: "/firms", replace: true });
 			},
 			onError: (error) => {
 				toastifyTuyauError(error, {
