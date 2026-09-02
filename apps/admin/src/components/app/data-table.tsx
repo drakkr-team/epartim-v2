@@ -87,10 +87,13 @@ function DataTableTable<TData>() {
 						interactive={!!table.options.meta?.rows?.onClick}
 						onClick={(event) => {
 							const target = event.target;
+							if (!(target instanceof Node) || !event.currentTarget.contains(target)) {
+								return;
+							}
 							if (
 								target instanceof Element &&
 								target.closest(
-									"a, button, input, select, textarea, [role='checkbox'], [role='menuitem'], [role='menuitemcheckbox']",
+									"a, button, input, label, select, summary, textarea, [contenteditable]:not([contenteditable='false']), [role='button'], [role='checkbox'], [role='link'], [role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'], [role='option'], [role='radio'], [role='switch'], [role='tab'], [role='treeitem'], [tabindex]:not([tabindex='-1'])",
 								)
 							) {
 								return;
