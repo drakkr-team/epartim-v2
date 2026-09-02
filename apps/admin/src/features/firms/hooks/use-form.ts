@@ -31,16 +31,16 @@ type FirmFormValues = {
 
 type UseCreateFirmFormParams = {
 	action: "create";
+	defaultValues?: Partial<FirmFormValues>;
 };
 
 type UseUpdateFirmFormParams = {
 	action: "update";
 	firmId: string | number;
+	defaultValues: FirmFormValues;
 };
 
-export type UseFirmFormParams = {
-	defaultValues?: Partial<FirmFormValues>;
-} & (UseCreateFirmFormParams | UseUpdateFirmFormParams);
+export type UseFirmFormParams = UseCreateFirmFormParams | UseUpdateFirmFormParams;
 
 export function useFirmForm(params: UseFirmFormParams) {
 	const { t } = useTranslation("features.firms.hooks.use-form");
@@ -139,13 +139,20 @@ export function useFirmForm(params: UseFirmFormParams) {
 			}
 
 			if (params.action === "update") {
-				const { name, orias, ...rest } = value;
+				const { defaultValues } = params;
+
 				await updateFirm({
 					params: { firmId: params.firmId },
 					body: {
-						name: name === params.defaultValues?.name ? undefined : name,
-						orias: orias === params.defaultValues?.orias ? undefined : orias,
-						...rest,
+						...(value.name !== defaultValues.name ? { name: value.name } : {}),
+						...(value.orias !== defaultValues.orias ? { orias: value.orias } : {}),
+						...(value.networkId !== defaultValues.networkId ? { networkId: value.networkId } : {}),
+						...(JSON.stringify(value.address) !== JSON.stringify(defaultValues.address)
+							? { address: value.address }
+							: {}),
+						...(JSON.stringify(value.paymentDetail) !== JSON.stringify(defaultValues.paymentDetail)
+							? { paymentDetail: value.paymentDetail }
+							: {}),
 					},
 				});
 			}

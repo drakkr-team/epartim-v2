@@ -24,12 +24,6 @@
 					"unique": "Ce nom est déjà utilisé."
 				}
 			},
-			"amundiOrgId": {
-				"max": "L'identifiant Amundi doit contenir au maximum {{max}} caractères.",
-				"database": {
-					"unique": "Cet identifiant Amundi est déjà utilisé."
-				}
-			},
 			"orias": {
 				"required": "Le numéro ORIAS est requis.",
 				"max": "Le numéro ORIAS doit contenir au maximum {{max}} caractères.",

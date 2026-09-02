@@ -10,9 +10,6 @@
 			"name": {
 				"label": "Nom"
 			},
-			"amundiOrgId": {
-				"label": "Identifiant Amundi"
-			},
 			"orias": {
 				"label": "Numéro ORIAS"
 			},
