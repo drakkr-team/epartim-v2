@@ -41,12 +41,12 @@
 		},
 		"action": {
 			"cancel": "Annuler",
-			"create": "Créer la firme",
+			"create": "Créer le cabinet",
 			"update": "Enregistrer les modifications"
 		}
 	},
 	"features.firms.components.delete-dialog": {
-		"title": "Supprimer cette firme ?",
+		"title": "Supprimer ce cabinet ?",
 		"description": "Vous êtes sur le point de supprimer définitivement « {{name}} ».",
 		"consequences": "Cette opération supprimera également son adresse et ses coordonnées bancaires. Elle est définitive et ne peut pas être annulée.",
 		"action": {

@@ -41,7 +41,7 @@ function Page() {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
 	const handleAfterDelete = () => {
-		navigate({ to: "/firms" });
+		navigate({ to: "/firms", replace: true });
 	};
 
 	return (

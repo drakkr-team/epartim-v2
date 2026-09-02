@@ -1,10 +1,9 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Network } from "@workspace/api/data";
 import { Combobox, type ComboboxProps } from "@workspace/ui-react/components/combobox";
-import { Spinner } from "@workspace/ui-react/components/spinner";
 
 import { useLoadMoreWhileInView } from "#/hooks/use-load-more-while-in-view.ts";
 import { api } from "#/libs/tuyau.ts";

@@ -10,7 +10,7 @@ import { NetworkCombobox } from "#/features/networks/components/combobox.tsx";
 
 type FirmFormProps = UseFirmFormParams & {
 	defaultValues?: {
-		network: Network;
+		network: Network | null;
 	};
 };
 

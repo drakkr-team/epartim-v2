@@ -33,7 +33,7 @@ export default class ViewFirmController {
 			...this.firmPresenter.toJSON(firm),
 			address: this.addressPresenter.toJSON(firm.address),
 			paymentDetail: this.paymentDetailPresenter.toJSON(firm.paymentDetail),
-			network: this.networkPresenter.toJSON(firm.network),
+			network: firm.network ? this.networkPresenter.toJSON(firm.network) : null,
 			meta: {
 				canUpdate: await bouncer.with(UpdateFirmPolicy).allows("handle"),
 				canDelete: await bouncer.with(DeleteFirmPolicy).allows("handle"),

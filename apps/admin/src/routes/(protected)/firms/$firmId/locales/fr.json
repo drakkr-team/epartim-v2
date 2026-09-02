@@ -16,7 +16,7 @@
 			"name": "Nom",
 			"amundiOrgId": "Identifiant Amundi",
 			"orias": "Numéro ORIAS",
-			"createdAt": "Créée le",
+			"createdAt": "Créé le",
 			"updatedAt": "Dernière modification",
 			"address": {
 				"lineOne": "Adresse",
