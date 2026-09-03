@@ -7,7 +7,7 @@ import Network from "#models/network";
 import PaymentDetail from "#models/payment_detail";
 
 async function createUpdateFixture(name: string, amundiOrgId: string) {
-	const network = await NetworkFactory.merge({ name, amundiOrgId, goCode: 112_000 })
+	const network = await NetworkFactory.merge({ name, amundiOrgId, goCode: "112000" })
 		.with("address")
 		.with("paymentDetail")
 		.create();
@@ -73,12 +73,12 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		assert.equal(persisted.paymentDetail.bic, "AGRI FR PP");
 	});
 
-	test("it should distinguish explicit nulls from omitted unique values", async ({ client }) => {
+	test("it should ignore read-only identifiers supplied during update", async ({ client }) => {
 		const admin = await AdminFactory.create();
 		const network = await createUpdateFixture("Same Unique Network", "AMUNDI-SAME");
 
 		const response = await client
-			.visit("admin.networks.update", { networkId: network.id })
+			.put(`/admin/networks/${network.id}`)
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({
@@ -89,27 +89,23 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		response.assertOk();
 		response.assertBodyContains({
 			name: network.name,
-			amundiOrgId: null,
-			goCode: null,
+			amundiOrgId: network.amundiOrgId,
+			goCode: network.goCode,
 		});
 	});
 
-	test("it should reject duplicate network names and Amundi organization IDs", async ({
-		client,
-	}) => {
+	test("it should reject duplicate network names", async ({ client }) => {
 		const admin = await AdminFactory.create();
 		const target = await createUpdateFixture("Target Network", "AMUNDI-TARGET");
 		const existing = await createUpdateFixture("Existing Network", "AMUNDI-EXISTING");
 
-		for (const payload of [{ name: existing.name }, { amundiOrgId: existing.amundiOrgId }]) {
-			const response = await client
-				.visit("admin.networks.update", { networkId: target.id })
-				.withGuard("admin")
-				.loginAs(admin)
-				.json(payload);
+		const response = await client
+			.visit("admin.networks.update", { networkId: target.id })
+			.withGuard("admin")
+			.loginAs(admin)
+			.json({ name: existing.name });
 
-			response.assertStatus(422);
-		}
+		response.assertStatus(422);
 	});
 
 	test("it should allow a no-op payload", async ({ client, assert }) => {
@@ -131,7 +127,6 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		const admin = await AdminFactory.create();
 		const network = await createUpdateFixture("Validation Target", "AMUNDI-VALIDATION");
 		const invalidPayloads = [
-			{ goCode: 1.5 },
 			{
 				address: {
 					lineOne: "10 Validation Street",

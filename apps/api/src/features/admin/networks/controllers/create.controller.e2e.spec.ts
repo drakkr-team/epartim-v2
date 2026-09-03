@@ -6,8 +6,6 @@ import Network from "#models/network";
 
 const validPayload = {
 	name: "Réseau Démo",
-	amundiOrgId: "AMUNDI-109",
-	goCode: 109_001,
 	address: {
 		lineOne: "10 rue de la Paix",
 		lineTwo: "Bâtiment A",
@@ -40,8 +38,6 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		response.assertCreated();
 		response.assertBodyContains({
 			name: validPayload.name,
-			amundiOrgId: validPayload.amundiOrgId,
-			goCode: validPayload.goCode,
 		});
 
 		const body = response.body();
@@ -82,14 +78,9 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		response.assertStatus(422);
 	});
 
-	test("it should reject duplicate names and non-null Amundi organization IDs", async ({
-		client,
-	}) => {
+	test("it should reject duplicate names", async ({ client }) => {
 		const admin = await AdminFactory.create();
-		const existing = await NetworkFactory.merge({ amundiOrgId: "EXISTING-AMUNDI-ID" })
-			.with("address")
-			.with("paymentDetail")
-			.create();
+		const existing = await NetworkFactory.with("address").with("paymentDetail").create();
 
 		const duplicateName = await client
 			.visit("admin.networks.create")
@@ -98,46 +89,39 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 			.json({
 				...validPayload,
 				name: existing.name,
-				amundiOrgId: "OTHER-AMUNDI-ID",
 			});
 		duplicateName.assertStatus(422);
+	});
 
-		const duplicateAmundiOrgId = await client
-			.visit("admin.networks.create")
+	test("it should ignore read-only identifiers supplied during creation", async ({
+		client,
+		assert,
+	}) => {
+		const admin = await AdminFactory.create();
+
+		const response = await client
+			.post("/admin/networks")
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({
 				...validPayload,
-				name: "Another Network",
-				amundiOrgId: existing.amundiOrgId,
+				name: "Server Managed Identifiers",
+				amundiOrgId: "AMUNDI-FORCED",
+				goCode: "FORCED",
 			});
-		duplicateAmundiOrgId.assertStatus(422);
+
+		response.assertCreated();
+		assert.notProperty(response.body(), "amundiOrgId");
+		assert.notProperty(response.body(), "goCode");
+
+		const persistedNetwork = await Network.findByOrFail("name", "Server Managed Identifiers");
+		assert.isNull(persistedNetwork.amundiOrgId);
+		assert.isNull(persistedNetwork.goCode);
 	});
 
-	test("it should accept nullable Amundi organization IDs and go codes", async ({ client }) => {
-		const admin = await AdminFactory.create();
-
-		for (const name of ["Nullable Network A", "Nullable Network B"]) {
-			const response = await client
-				.visit("admin.networks.create")
-				.withGuard("admin")
-				.loginAs(admin)
-				.json({
-					...validPayload,
-					name,
-					amundiOrgId: null,
-					goCode: null,
-				});
-
-			response.assertCreated();
-			response.assertBodyContains({ amundiOrgId: null, goCode: null });
-		}
-	});
-
-	test("it should reject invalid go codes, coordinates, IBANs, and BICs", async ({ client }) => {
+	test("it should reject invalid coordinates, IBANs, and BICs", async ({ client }) => {
 		const admin = await AdminFactory.create();
 		const invalidPayloads = [
-			{ ...validPayload, name: "Decimal", goCode: 10.5 },
 			{
 				...validPayload,
 				name: "Latitude",
