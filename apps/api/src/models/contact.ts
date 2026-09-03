@@ -23,13 +23,30 @@ export const ContactFunction = {
 
 export type ContactFunction = (typeof ContactFunction)[keyof typeof ContactFunction];
 
+export const ContactKind = {
+	PHYSICAL: "physical",
+	LEGAL: "legal",
+} as const;
+
+export type ContactKind = (typeof ContactKind)[keyof typeof ContactKind];
+
+export const ContactAuthorization = {
+	ACCOUNTANT: "ACCOUNTANT",
+	ACT_AND_VIEW: "ACT_AND_VIEW",
+	ADMINISTER: "ADMINISTER",
+} as const;
+
+export type ContactAuthorization = (typeof ContactAuthorization)[keyof typeof ContactAuthorization];
+
 export default class Contact extends ContactSchema {
+	declare kind: ContactKind | null;
+
 	@column({
-		prepare: (authorizations: string[] | null) =>
+		prepare: (authorizations: ContactAuthorization[] | null) =>
 			authorizations === null ? null : JSON.stringify(authorizations),
-		consume: (authorizations: string[] | null) => authorizations,
+		consume: (authorizations: ContactAuthorization[] | null) => authorizations,
 	})
-	declare authorizations: string[] | null;
+	declare authorizations: ContactAuthorization[] | null;
 
 	@belongsTo(() => Company)
 	declare company: BelongsTo<typeof Company>;

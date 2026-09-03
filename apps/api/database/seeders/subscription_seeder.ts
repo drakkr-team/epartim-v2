@@ -4,6 +4,7 @@ import { CompanyFactory } from "#database/factories/company.factory";
 import { CompanyContactFactory } from "#database/factories/company_contact.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
+import { ContactKind } from "#models/contact";
 
 export default class extends BaseSeeder {
 	static environment = ["development"];
@@ -18,7 +19,7 @@ export default class extends BaseSeeder {
 				.create();
 			const legalAgent = await ContactFactory.merge({
 				companyId: company.id,
-				kind: "legal_representative",
+				kind: ContactKind.PHYSICAL,
 				isSignatoryOnKbis: true,
 			}).create();
 
