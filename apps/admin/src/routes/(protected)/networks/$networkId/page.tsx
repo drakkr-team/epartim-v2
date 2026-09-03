@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { TuyauError } from "@tuyau/core/client";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
@@ -15,6 +16,7 @@ import {
 } from "@workspace/ui-react/icons";
 
 import { DetailField } from "#/components/app/detail-field";
+import { DeleteNetworkDialog } from "#/features/networks/components/delete-dialog";
 import { humanizeIBAN } from "#/helpers/iban";
 import { api } from "#/libs/tuyau";
 
@@ -40,6 +42,7 @@ export const Route = createFileRoute("/(protected)/networks/$networkId/")({
 function Page() {
 	const { t } = useTranslation("routes.(protected).networks.$networkId");
 	const { networkId } = Route.useParams();
+	const navigate = useNavigate();
 	const firmQuery = { networkId: Number(networkId) };
 
 	const { data: network } = useSuspenseQuery(
@@ -48,6 +51,11 @@ function Page() {
 	const { data: firms } = useSuspenseQuery(api.firms.list.queryOptions({ query: firmQuery }));
 
 	const canDoActions = network.meta.canUpdate || network.meta.canDelete;
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+	const handleAfterDelete = () => {
+		navigate({ to: "/networks", replace: true });
+	};
 
 	return (
 		<main className="mx-auto grid max-w-xl gap-9">
@@ -74,7 +82,7 @@ function Page() {
 								</Menu.Item>
 							)}
 							{network.meta.canDelete && (
-								<Menu.Item variant="destructive">
+								<Menu.Item variant="destructive" onClick={() => setDeleteDialogOpen(true)}>
 									<TrashIcon />
 									{t("action.delete")}
 								</Menu.Item>
@@ -181,6 +189,13 @@ function Page() {
 					<p className="py-8 text-center text-neutral-11 text-sm">{t("empty.firms")}</p>
 				)}
 			</Card>
+
+			<DeleteNetworkDialog
+				network={network}
+				open={deleteDialogOpen}
+				onOpenChange={setDeleteDialogOpen}
+				afterDelete={handleAfterDelete}
+			/>
 		</main>
 	);
 }

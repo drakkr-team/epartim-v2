@@ -8,5 +8,29 @@
 			"createdAt": "Créé le",
 			"updatedAt": "Dernière modification"
 		}
+	},
+	"features.networks.hooks.use-delete-mutation": {
+		"success": {
+			"title": "Réseau supprimé",
+			"description": "Le réseau a bien été supprimé."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_ROW_NOT_FOUND": {
+				"title": "Réseau introuvable",
+				"description": "Ce réseau a déjà été supprimé ou n'existe plus."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de supprimer ce réseau."
+			},
+			"E_UNEXPECTED": {
+				"title": "Suppression impossible",
+				"description": "Le réseau n'a pas été supprimé. Réessayez dans quelques instants."
+			}
+		}
 	}
 }

@@ -3,5 +3,14 @@
 		"placeholder": "Sélectionnez un réseau",
 		"search": "Rechercher un réseau...",
 		"empty": "Aucun réseau trouvé."
+	},
+	"features.networks.components.delete-dialog": {
+		"title": "Supprimer ce réseau ?",
+		"description": "Vous êtes sur le point de supprimer définitivement « {{name}} ».",
+		"consequences": "Cette opération supprimera également son adresse et ses coordonnées bancaires. Les cabinets rattachés seront conservés et détachés du réseau. Elle est définitive et ne peut pas être annulée.",
+		"action": {
+			"cancel": "Annuler",
+			"confirm": "Supprimer définitivement"
+		}
 	}
 }
