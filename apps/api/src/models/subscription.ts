@@ -1,4 +1,4 @@
-import { belongsTo, hasOne } from "@adonisjs/lucid/orm";
+import { belongsTo, column, hasOne } from "@adonisjs/lucid/orm";
 import type { BelongsTo, HasOne } from "@adonisjs/lucid/types/relations";
 
 import { SubscriptionSchema } from "#database/schema";
@@ -16,6 +16,13 @@ export const SubscriptionStatus = {
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus];
 
 export default class Subscription extends SubscriptionSchema {
+	@column({
+		prepare: (completedSteps: unknown[] | null) =>
+			completedSteps === null ? null : JSON.stringify(completedSteps),
+		consume: (completedSteps: unknown[] | null) => completedSteps,
+	})
+	declare completedSteps: unknown[] | null;
+
 	@belongsTo(() => User, { foreignKey: "createdBy" })
 	declare creator: BelongsTo<typeof User>;
 
@@ -37,6 +44,7 @@ export default class Subscription extends SubscriptionSchema {
 	get isComplete() {
 		return this.status === SubscriptionStatus.COMPLETE;
 	}
+
 	get isError() {
 		return this.status === SubscriptionStatus.ERROR;
 	}

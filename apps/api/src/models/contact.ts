@@ -1,4 +1,4 @@
-import { belongsTo, hasMany } from "@adonisjs/lucid/orm";
+import { belongsTo, column, hasMany } from "@adonisjs/lucid/orm";
 import type { BelongsTo, HasMany } from "@adonisjs/lucid/types/relations";
 
 import { ContactSchema } from "#database/schema";
@@ -24,6 +24,13 @@ export const ContactFunction = {
 export type ContactFunction = (typeof ContactFunction)[keyof typeof ContactFunction];
 
 export default class Contact extends ContactSchema {
+	@column({
+		prepare: (authorizations: string[] | null) =>
+			authorizations === null ? null : JSON.stringify(authorizations),
+		consume: (authorizations: string[] | null) => authorizations,
+	})
+	declare authorizations: string[] | null;
+
 	@belongsTo(() => Company)
 	declare company: BelongsTo<typeof Company>;
 
