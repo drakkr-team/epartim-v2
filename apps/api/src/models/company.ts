@@ -1,4 +1,4 @@
-import { belongsTo, hasMany } from "@adonisjs/lucid/orm";
+import { belongsTo, column, hasMany } from "@adonisjs/lucid/orm";
 import type { BelongsTo, HasMany } from "@adonisjs/lucid/types/relations";
 
 import { CompanySchema } from "#database/schema";
@@ -38,6 +38,9 @@ export const CompanyLegalForm = {
 export type CompanyLegalForm = (typeof CompanyLegalForm)[keyof typeof CompanyLegalForm];
 
 export default class Company extends CompanySchema {
+	@column()
+	declare companyCorrespondentId: number | null;
+
 	@belongsTo(() => Subscription)
 	declare subscription: BelongsTo<typeof Subscription>;
 
@@ -49,6 +52,9 @@ export default class Company extends CompanySchema {
 
 	@belongsTo(() => Contact, { foreignKey: "companyLegalAgentId" })
 	declare legalAgent: BelongsTo<typeof Contact>;
+
+	@belongsTo(() => Contact, { foreignKey: "companyCorrespondentId" })
+	declare correspondent: BelongsTo<typeof Contact>;
 
 	@hasMany(() => Contact)
 	declare contacts: HasMany<typeof Contact>;

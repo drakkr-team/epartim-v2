@@ -29,6 +29,7 @@ export default class extends BaseSchema {
 				.inTable("payment_details")
 				.onDelete("RESTRICT");
 			table.integer("company_legal_agent_id").nullable();
+			table.integer("company_correspondent_id").nullable();
 			table.string("siret", 255).nullable();
 			table.string("siren", 255).nullable();
 			table.string("naf", 255).nullable();
@@ -37,12 +38,6 @@ export default class extends BaseSchema {
 			table.string("company_headcount", 255).nullable();
 			table.string("vat_number", 255).nullable();
 			table.string("financial_year_closing_day", 255).nullable();
-
-			// Document persistence is introduced with the DocuSign scope.
-			table.integer("bank_details_document_id").nullable();
-			table.integer("company_details_document_id").nullable();
-			table.integer("legal_agent_id_document_id").nullable();
-			table.integer("contacts_status_document_id").nullable();
 
 			table.timestamps(true, true);
 		});

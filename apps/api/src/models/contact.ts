@@ -41,6 +41,9 @@ export type ContactAuthorization = (typeof ContactAuthorization)[keyof typeof Co
 export default class Contact extends ContactSchema {
 	declare kind: ContactKind | null;
 
+	@column()
+	declare legalName: string | null;
+
 	@column({
 		prepare: (authorizations: ContactAuthorization[] | null) =>
 			authorizations === null ? null : JSON.stringify(authorizations),

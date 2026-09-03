@@ -9,6 +9,7 @@ export default class ContactPresenter {
 			kind: contact.kind,
 			firstName: contact.firstName,
 			lastName: contact.lastName,
+			legalName: contact.legalName,
 			function: contact.function,
 			email: contact.email,
 			phoneNumber: contact.phoneNumber,

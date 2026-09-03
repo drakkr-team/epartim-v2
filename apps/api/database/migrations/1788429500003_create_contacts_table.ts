@@ -16,6 +16,7 @@ export default class extends BaseSchema {
 				.onDelete("CASCADE");
 			table.string("first_name", 255).nullable();
 			table.string("last_name", 255).nullable();
+			table.string("legal_name", 255).nullable();
 			table.integer("function").unsigned().nullable();
 			table.string("email", 255).nullable();
 			table.string("phone_number", 255).nullable();
@@ -26,9 +27,21 @@ export default class extends BaseSchema {
 
 			table.timestamps(true, true);
 		});
+
+		this.schema.alterTable("companies", (table) => {
+			table
+				.foreign("company_correspondent_id")
+				.references("id")
+				.inTable("contacts")
+				.onDelete("RESTRICT");
+		});
 	}
 
 	async down() {
+		this.schema.alterTable("companies", (table) => {
+			table.dropForeign(["company_correspondent_id"]);
+		});
+
 		this.schema.dropTable(this.tableName);
 	}
 }
