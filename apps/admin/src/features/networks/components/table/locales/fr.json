@@ -1,6 +1,5 @@
 {
 	"features.networks.components.table.action-cell": {
-		"menu": "Actions pour {{name}}",
 		"show": "Consulter",
 		"edit": "Modifier",
 		"delete": "Supprimer"

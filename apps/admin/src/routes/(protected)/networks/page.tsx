@@ -1,5 +1,5 @@
 import { keepPreviousData, useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -63,7 +63,12 @@ function Page() {
 
 					<div className="flex items-center gap-2">
 						{networks.meta.canCreate && (
-							<Button variant="primary" nativeButton={false} render={<a href="/networks/new" />}>
+							<Button
+								variant="primary"
+								nativeButton={false}
+								// @ts-expect-error Link to dynamic route
+								render={<Link to="/networks/$networkId" />}
+							>
 								<PlusIcon />
 								{t("actions.new")}
 							</Button>
@@ -84,7 +89,12 @@ function Page() {
 							: t("empty.description")}
 					</p>
 					{networks.meta.canCreate && (
-						<Button variant="primary" nativeButton={false} render={<a href="/networks/new" />}>
+						<Button
+							variant="primary"
+							nativeButton={false}
+							// @ts-expect-error Link to dynamic route
+							render={<Link to="/networks/$networkId" />}
+						>
 							<PlusIcon />
 							{t("actions.new")}
 						</Button>

@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
@@ -8,7 +7,6 @@ import type { Network, Pagination } from "@workspace/api/data";
 
 import { NetworksTableActionCell } from "#/features/networks/components/table/action-cell";
 import { useColumnVisibilityStore } from "#/hooks/use-column-visibility-store";
-import { api } from "#/libs/tuyau";
 import { orderByToSortingSate, sortingStateToOrderBy } from "#/utils/table";
 
 export type NetworkRow = Network & {
@@ -30,7 +28,6 @@ export function useNetworksTable(params: UseNetworksTableParams) {
 
 	const { t } = useTranslation("features.networks.hooks.use-table");
 	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 	const sorting = orderByToSortingSate(orderBy);
 	const { columnVisibility, setColumnVisibility } = useColumnVisibilityStore({
 		name: "networks-table-column-visibility",
@@ -40,6 +37,9 @@ export function useNetworksTable(params: UseNetworksTableParams) {
 	const columnHelper = createColumnHelper<NetworkRow>();
 	const columns = useMemo(
 		() => [
+			columnHelper.accessor("id", {
+				header: t("header.id"),
+			}),
 			columnHelper.accessor("name", {
 				header: t("header.name"),
 			}),
@@ -48,6 +48,10 @@ export function useNetworksTable(params: UseNetworksTableParams) {
 			}),
 			columnHelper.accessor("goCode", {
 				header: t("header.goCode"),
+			}),
+			columnHelper.accessor("createdAt", {
+				header: t("header.createdAt"),
+				cell: (props) => props.getValue().toLocaleDateString("fr-FR"),
 			}),
 			columnHelper.accessor("updatedAt", {
 				header: t("header.updatedAt"),
@@ -70,20 +74,6 @@ export function useNetworksTable(params: UseNetworksTableParams) {
 	return useReactTable({
 		data,
 		columns,
-		meta: {
-			rows: {
-				onClick: (row) => {
-					window.location.assign(`/networks/${row.id}`);
-				},
-				onMouseEnter: (row) => {
-					void queryClient.prefetchQuery(
-						api.networks.view.queryOptions({
-							params: { networkId: row.id.toString() },
-						}),
-					);
-				},
-			},
-		},
 		manualSorting: true,
 		manualPagination: true,
 		getCoreRowModel: getCoreRowModel(),

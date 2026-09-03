@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import type { CellContext } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 
@@ -22,21 +23,25 @@ export function NetworksTableActionCell({ cell }: NetworksTableActionCellProps) 
 
 	return (
 		<Menu>
-			<Menu.Trigger
-				render={
-					<Button variant="ghost" size="icon-md" aria-label={t("menu", { name: network.name })} />
-				}
-			>
+			<Menu.Trigger render={<Button variant="ghost" size="icon-md" />}>
 				<EllipsisVerticalIcon />
 			</Menu.Trigger>
 
 			<Menu.Content align="end">
-				<Menu.Item render={<a href={`/networks/${network.id}`} />}>
+				<Menu.Item
+					// @ts-expect-error: TypeScript might not infer the correct type for the Link component here
+					render={<Link to="/networks/$networkId" params={{ networkId: network.id.toString() }} />}
+				>
 					<SquareArrowOutUpRightIcon />
 					{t("show")}
 				</Menu.Item>
 				{network.meta.canUpdate && (
-					<Menu.Item render={<a href={`/networks/${network.id}/edit`} />}>
+					<Menu.Item
+						render={
+							// @ts-expect-error: TypeScript might not infer the correct type for the Link component here
+							<Link to="/networks/$networkId/edit" params={{ networkId: network.id.toString() }} />
+						}
+					>
 						<SquarePenIcon />
 						{t("edit")}
 					</Menu.Item>
