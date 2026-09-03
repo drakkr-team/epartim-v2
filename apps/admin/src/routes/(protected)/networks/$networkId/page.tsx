@@ -76,7 +76,7 @@ function Page() {
 
 						<Menu.Content align="end">
 							{network.meta.canUpdate && (
-								<Menu.Item>
+								<Menu.Item render={<Link to="/networks/$networkId/edit" params={{ networkId }} />}>
 									<SquarePenIcon />
 									{t("action.edit")}
 								</Menu.Item>

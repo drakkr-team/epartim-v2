@@ -9,7 +9,7 @@ export default class extends BaseSchema {
 
 			table.string("name", 254).notNullable().unique();
 			table.string("amundi_org_id", 254).nullable().unique();
-			table.integer("go_code").nullable();
+			table.string("go_code", 254).nullable();
 
 			table
 				.integer("address_id")

@@ -63,12 +63,7 @@ function Page() {
 
 					<div className="flex items-center gap-2">
 						{networks.meta.canCreate && (
-							<Button
-								variant="primary"
-								nativeButton={false}
-								// @ts-expect-error Link to dynamic route
-								render={<Link to="/networks/$networkId" />}
-							>
+							<Button variant="primary" nativeButton={false} render={<Link to="/networks/new" />}>
 								<PlusIcon />
 								{t("actions.new")}
 							</Button>
@@ -89,12 +84,7 @@ function Page() {
 							: t("empty.description")}
 					</p>
 					{networks.meta.canCreate && (
-						<Button
-							variant="primary"
-							nativeButton={false}
-							// @ts-expect-error Link to dynamic route
-							render={<Link to="/networks/$networkId" />}
-						>
+						<Button variant="primary" nativeButton={false} render={<Link to="/networks/new" />}>
 							<PlusIcon />
 							{t("actions.new")}
 						</Button>
