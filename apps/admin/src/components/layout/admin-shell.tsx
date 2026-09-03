@@ -8,6 +8,7 @@ import {
 	Building2Icon,
 	LayoutDashboardIcon,
 	LogOutIcon,
+	NetworkIcon,
 	UserShieldIcon,
 } from "@workspace/ui-react/icons";
 
@@ -15,6 +16,7 @@ import { useLogoutMutation } from "#/features/account_management/authentication/
 
 const navigationItems = [
 	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon, exact: true },
+	{ label: "Réseaux", to: "/networks", icon: NetworkIcon, exact: false },
 	{ label: "Cabinets", to: "/firms", icon: Building2Icon, exact: false },
 	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
 ] as const;
