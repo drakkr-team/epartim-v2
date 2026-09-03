@@ -26,7 +26,9 @@ export default class extends BaseSeeder {
 			company.merge({ companyLegalAgentId: legalAgent.id });
 			await company.save();
 
-			const contacts = await ContactFactory.merge({ companyId: company.id }).createMany(2);
+			const contacts = await ContactFactory.apply("withAuthorizations")
+				.merge({ companyId: company.id })
+				.createMany(2);
 
 			for (const contact of [legalAgent, ...contacts]) {
 				await CompanyContactFactory.merge({
