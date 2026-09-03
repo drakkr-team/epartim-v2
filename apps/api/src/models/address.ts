@@ -1,3 +1,3 @@
-import {AddressSchema} from "#database/schema";
+import { AddressSchema } from "#database/schema";
 
 export default class Address extends AddressSchema {}
