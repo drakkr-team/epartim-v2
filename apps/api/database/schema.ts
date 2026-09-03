@@ -47,6 +47,93 @@ export class AdminSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class CompanySchema extends BaseModel {
+  static $columns = ['addressId', 'bankDetailsDocumentId', 'companyDetailsDocumentId', 'companyHeadcount', 'companyLegalAgentId', 'contactsStatusDocumentId', 'createdAt', 'financialYearClosingDay', 'id', 'legalAgentIdDocumentId', 'legalForm', 'naf', 'name', 'paymentDetailId', 'siren', 'siret', 'subscriptionId', 'updatedAt', 'vatNumber'] as const
+  $columns = CompanySchema.$columns
+  @column()
+  declare addressId: number | null
+  @column()
+  declare bankDetailsDocumentId: number | null
+  @column()
+  declare companyDetailsDocumentId: number | null
+  @column()
+  declare companyHeadcount: string | null
+  @column()
+  declare companyLegalAgentId: number | null
+  @column()
+  declare contactsStatusDocumentId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare financialYearClosingDay: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare legalAgentIdDocumentId: number | null
+  @column()
+  declare legalForm: string | null
+  @column()
+  declare naf: string | null
+  @column()
+  declare name: string | null
+  @column()
+  declare paymentDetailId: number | null
+  @column()
+  declare siren: string | null
+  @column()
+  declare siret: string | null
+  @column()
+  declare subscriptionId: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+  @column()
+  declare vatNumber: string | null
+}
+
+export class CompanyContactSchema extends BaseModel {
+  static $columns = ['companyId', 'contactId', 'id'] as const
+  $columns = CompanyContactSchema.$columns
+  @column()
+  declare companyId: number | null
+  @column()
+  declare contactId: number | null
+  @column({ isPrimary: true })
+  declare id: number
+}
+
+export class ContactSchema extends BaseModel {
+  static $columns = ['amundiPortalId', 'authorizations', 'companyId', 'createdAt', 'email', 'firstName', 'function', 'id', 'isSameAsLegal', 'isSignatoryOnKbis', 'kind', 'lastName', 'phoneNumber', 'updatedAt'] as const
+  $columns = ContactSchema.$columns
+  @column()
+  declare amundiPortalId: string | null
+  @column()
+  declare authorizations: any | null
+  @column()
+  declare companyId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string | null
+  @column()
+  declare firstName: string | null
+  @column()
+  declare function: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isSameAsLegal: boolean | null
+  @column()
+  declare isSignatoryOnKbis: boolean | null
+  @column()
+  declare kind: string | null
+  @column()
+  declare lastName: string | null
+  @column()
+  declare phoneNumber: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class FileSchema extends BaseModel {
   static $columns = ['createdAt', 'id', 'key', 'name', 'size', 'type', 'updatedAt'] as const
   $columns = FileSchema.$columns
@@ -121,6 +208,31 @@ export class PaymentDetailSchema extends BaseModel {
   declare iban: string
   @column({ isPrimary: true })
   declare id: bigint | number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class SubscriptionSchema extends BaseModel {
+  static $columns = ['approvedAt', 'completedAt', 'completedSteps', 'createdAt', 'createdBy', 'id', 'status', 'statusUpdatedAt', 'submittedAt', 'updatedAt'] as const
+  $columns = SubscriptionSchema.$columns
+  @column.dateTime()
+  declare approvedAt: DateTime | null
+  @column.dateTime()
+  declare completedAt: DateTime | null
+  @column()
+  declare completedSteps: any | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare createdBy: number | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare status: number | null
+  @column.dateTime()
+  declare statusUpdatedAt: DateTime | null
+  @column.dateTime()
+  declare submittedAt: DateTime | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
