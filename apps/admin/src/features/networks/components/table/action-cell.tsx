@@ -19,6 +19,7 @@ type NetworksTableActionCellProps = {
 
 export function NetworksTableActionCell({ cell }: NetworksTableActionCellProps) {
 	const { t } = useTranslation("features.networks.components.table.action-cell");
+
 	const network = cell.row.original;
 
 	return (
@@ -29,7 +30,6 @@ export function NetworksTableActionCell({ cell }: NetworksTableActionCellProps) 
 
 			<Menu.Content align="end">
 				<Menu.Item
-					// @ts-expect-error: TypeScript might not infer the correct type for the Link component here
 					render={<Link to="/networks/$networkId" params={{ networkId: network.id.toString() }} />}
 				>
 					<SquareArrowOutUpRightIcon />

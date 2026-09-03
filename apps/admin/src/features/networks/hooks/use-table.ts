@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,6 +28,7 @@ export function useNetworksTable(params: UseNetworksTableParams) {
 
 	const { t } = useTranslation("features.networks.hooks.use-table");
 	const navigate = useNavigate();
+	const router = useRouter();
 	const sorting = orderByToSortingSate(orderBy);
 	const { columnVisibility, setColumnVisibility } = useColumnVisibilityStore({
 		name: "networks-table-column-visibility",
@@ -74,6 +75,20 @@ export function useNetworksTable(params: UseNetworksTableParams) {
 	return useReactTable({
 		data,
 		columns,
+		meta: {
+			rows: {
+				onClick: (row) =>
+					navigate({
+						to: "/networks/$networkId",
+						params: { networkId: row.id.toString() },
+					}),
+				onMouseEnter: (row) =>
+					router.preloadRoute({
+						to: "/networks/$networkId",
+						params: { networkId: row.id.toString() },
+					}),
+			},
+		},
 		manualSorting: true,
 		manualPagination: true,
 		getCoreRowModel: getCoreRowModel(),
