@@ -16,7 +16,6 @@ router.use([
 	() => import("#middlewares/silent_auth_middleware"),
 	() => import("@tuyau/superjson/superjson_middleware"),
 	() => import("#middlewares/initialize_bouncer_middleware"),
-	() => import("#middlewares/bot_limiter_middleware"),
 ]);
 
 export const middleware = router.named({

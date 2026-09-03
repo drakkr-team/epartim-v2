@@ -1,0 +1,55 @@
+{
+	"features.networks.components.form": {
+		"section": {
+			"general": "Informations générales",
+			"address": "Adresse",
+			"payment": "Coordonnées bancaires"
+		},
+		"field": {
+			"name": {
+				"label": "Nom"
+			},
+			"address": {
+				"lineOne": {
+					"label": "Adresse"
+				},
+				"lineTwo": {
+					"label": "Complément d'adresse"
+				},
+				"zip": {
+					"label": "Code postal"
+				},
+				"city": {
+					"label": "Ville"
+				}
+			},
+			"paymentDetail": {
+				"iban": {
+					"label": "IBAN"
+				},
+				"bic": {
+					"label": "BIC"
+				}
+			}
+		},
+		"action": {
+			"cancel": "Annuler",
+			"create": "Créer le réseau",
+			"update": "Enregistrer les modifications"
+		}
+	},
+	"features.networks.components.combobox": {
+		"placeholder": "Sélectionnez un réseau",
+		"search": "Rechercher un réseau...",
+		"empty": "Aucun réseau trouvé."
+	},
+	"features.networks.components.delete-dialog": {
+		"title": "Supprimer ce réseau ?",
+		"description": "Vous êtes sur le point de supprimer définitivement « {{name}} ».",
+		"consequences": "Cette opération supprimera également son adresse et ses coordonnées bancaires. Les cabinets rattachés seront conservés et détachés du réseau. Elle est définitive et ne peut pas être annulée.",
+		"action": {
+			"cancel": "Annuler",
+			"confirm": "Supprimer définitivement"
+		}
+	}
+}

@@ -1,0 +1,36 @@
+{
+	"routes.(protected).firms.$firmId": {
+		"headline": "Gestion des cabinets",
+		"description": "Consultez les informations de ce cabinet.",
+		"action": {
+			"edit": "Modifier",
+			"delete": "Supprimer"
+		},
+		"section": {
+			"general": "Informations générales",
+			"address": "Adresse",
+			"payment": "Coordonnées bancaires"
+		},
+		"field": {
+			"id": "Identifiant",
+			"name": "Nom",
+			"amundiOrgId": "Identifiant Amundi",
+			"orias": "Numéro ORIAS",
+			"createdAt": "Créé le",
+			"updatedAt": "Dernière modification",
+			"address": {
+				"lineOne": "Adresse",
+				"lineTwo": "Complément d'adresse",
+				"city": "Ville",
+				"zip": "Code postal"
+			},
+			"paymentDetail": {
+				"iban": "IBAN",
+				"bic": "BIC"
+			}
+		},
+		"status": {
+			"notProvided": "Non renseigné"
+		}
+	}
+}

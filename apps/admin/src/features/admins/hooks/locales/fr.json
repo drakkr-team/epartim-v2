@@ -14,6 +14,7 @@
 	},
 
 	"features.admins.hooks.use-form": {
+		"leave-confirmation": "Les modifications non enregistrées seront perdues. Voulez-vous quitter cette page ?",
 		"validation": {
 			"name": {
 				"required": "Le nom est requis.",

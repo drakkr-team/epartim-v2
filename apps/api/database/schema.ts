@@ -17,7 +17,7 @@ export class AddressSchema extends BaseModel {
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
-  declare id: bigint | number
+  declare id: number
   @column()
   declare lineOne: string
   @column()
@@ -38,7 +38,7 @@ export class AdminSchema extends BaseModel {
   @column()
   declare email: string
   @column({ isPrimary: true })
-  declare id: bigint | number
+  declare id: number
   @column()
   declare name: string
   @column({ serializeAs: null })
@@ -140,7 +140,7 @@ export class FileSchema extends BaseModel {
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
-  declare id: bigint | number
+  declare id: number
   @column()
   declare key: string
   @column()
@@ -157,21 +157,21 @@ export class FirmSchema extends BaseModel {
   static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'id', 'name', 'networkId', 'orias', 'paymentDetailId', 'updatedAt'] as const
   $columns = FirmSchema.$columns
   @column()
-  declare addressId: bigint | number
+  declare addressId: number
   @column()
   declare amundiOrgId: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
-  declare id: bigint | number
+  declare id: number
   @column()
   declare name: string
   @column()
-  declare networkId: bigint | number | null
+  declare networkId: number | null
   @column()
   declare orias: string
   @column()
-  declare paymentDetailId: bigint | number
+  declare paymentDetailId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
@@ -180,19 +180,19 @@ export class NetworkSchema extends BaseModel {
   static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'paymentDetailId', 'updatedAt'] as const
   $columns = NetworkSchema.$columns
   @column()
-  declare addressId: bigint | number
+  declare addressId: number
   @column()
   declare amundiOrgId: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
-  declare goCode: bigint | number | null
+  declare goCode: string | null
   @column({ isPrimary: true })
-  declare id: bigint | number
+  declare id: number
   @column()
   declare name: string
   @column()
-  declare paymentDetailId: bigint | number
+  declare paymentDetailId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
@@ -207,7 +207,7 @@ export class PaymentDetailSchema extends BaseModel {
   @column()
   declare iban: string
   @column({ isPrimary: true })
-  declare id: bigint | number
+  declare id: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
@@ -247,7 +247,7 @@ export class UserSchema extends BaseModel {
   @column()
   declare firstName: string
   @column({ isPrimary: true })
-  declare id: bigint | number
+  declare id: number
   @column()
   declare lastName: string
   @column({ serializeAs: null })

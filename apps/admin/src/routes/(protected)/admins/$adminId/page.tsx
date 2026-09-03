@@ -5,15 +5,15 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
 import { Card } from "@workspace/ui-react/components/card";
-import { Field } from "@workspace/ui-react/components/field";
 import { Menu } from "@workspace/ui-react/components/menu";
 import { EllipsisVerticalIcon, SquarePenIcon, TrashIcon } from "@workspace/ui-react/icons";
 
+import { DetailField } from "#/components/app/detail-field.tsx";
 import { api } from "#/libs/tuyau";
 
 export const Route = createFileRoute("/(protected)/admins/$adminId/")({
 	loader: async ({ context, params }) => {
-		await context.queryClient.ensureQueryData(
+		await context.queryClient.query(
 			api.admins.view.queryOptions({ params: { adminId: params.adminId } }),
 		);
 	},
@@ -36,8 +36,8 @@ function Page() {
 	const canDoActions = admin.meta.canUpdate || admin.meta.canDelete;
 
 	return (
-		<main className="mx-auto grid max-w-lg gap-9">
-			<header className="flex justify-between gap-2">
+		<main className="mx-auto grid max-w-xl gap-9">
+			<header className="flex items-center justify-between gap-2">
 				<div className="grid gap-1">
 					<h2 className="font-bold text-primary-9 text-xs uppercase tracking-widest">
 						{t("headline")}
@@ -73,37 +73,15 @@ function Page() {
 			</header>
 
 			<Card className="grid grid-cols-2 gap-4">
-				<Field>
-					<Field.Label>{t("field.id")}</Field.Label>
-					<p className="text-neutral-12 text-sm">{admin.id}</p>
-				</Field>
-
-				<Field>
-					<Field.Label>{t("field.name")}</Field.Label>
-					<p className="text-neutral-12 text-sm">{admin.name}</p>
-				</Field>
-
-				<Field>
-					<Field.Label>{t("field.email")}</Field.Label>
-					<p className="text-neutral-12 text-sm">{admin.email}</p>
-				</Field>
-
-				<Field>
-					<Field.Label>{t("field.activatedAt")}</Field.Label>
-					<p className="text-neutral-12 text-sm">
-						{admin.activatedAt?.toLocaleDateString() ?? t("status.pendingActivation")}
-					</p>
-				</Field>
-
-				<Field>
-					<Field.Label>{t("field.createdAt")}</Field.Label>
-					<p className="text-neutral-12 text-sm">{admin.createdAt.toLocaleDateString()}</p>
-				</Field>
-
-				<Field>
-					<Field.Label>{t("field.updatedAt")}</Field.Label>
-					<p className="text-neutral-12 text-sm">{admin.updatedAt.toLocaleDateString()}</p>
-				</Field>
+				<DetailField label={t("field.id")} value={admin.id.toString()} />
+				<DetailField label={t("field.name")} value={admin.name} />
+				<DetailField label={t("field.email")} value={admin.email} />
+				<DetailField
+					label={t("field.activatedAt")}
+					value={admin.activatedAt?.toLocaleDateString() ?? t("status.pendingActivation")}
+				/>
+				<DetailField label={t("field.createdAt")} value={admin.createdAt.toLocaleDateString()} />
+				<DetailField label={t("field.updatedAt")} value={admin.updatedAt.toLocaleDateString()} />
 			</Card>
 		</main>
 	);

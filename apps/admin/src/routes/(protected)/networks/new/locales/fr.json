@@ -1,0 +1,7 @@
+{
+	"routes.(protected).networks.new": {
+		"headline": "Gestion des réseaux",
+		"title": "Créer un réseau",
+		"description": "Ajoutez un réseau, son adresse et ses coordonnées bancaires au référentiel."
+	}
+}

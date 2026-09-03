@@ -1,0 +1,147 @@
+{
+	"features.networks.hooks.use-form": {
+		"leave-confirmation": "Les modifications non enregistrées seront perdues. Voulez-vous quitter cette page ?",
+		"validation": {
+			"name": {
+				"required": "Le nom est requis.",
+				"max": "Le nom doit contenir au maximum {{max}} caractères.",
+				"database": {
+					"unique": "Ce nom est déjà utilisé."
+				}
+			},
+			"amundiOrgId": {
+				"required": "L'identifiant Amundi est requis.",
+				"max": "L'identifiant Amundi doit contenir au maximum {{max}} caractères.",
+				"database": {
+					"unique": "Cet identifiant Amundi est déjà utilisé."
+				}
+			},
+			"goCode": {
+				"required": "Le code GO est requis.",
+				"integer": "Le code GO doit être un entier."
+			},
+			"address": {
+				"lineOne": {
+					"required": "L'adresse est requise.",
+					"max": "L'adresse doit contenir au maximum {{max}} caractères."
+				},
+				"lineTwo": {
+					"max": "Le complément d'adresse doit contenir au maximum {{max}} caractères."
+				},
+				"zip": {
+					"required": "Le code postal est requis.",
+					"postalCode": "Saisissez un code postal valide."
+				},
+				"city": {
+					"required": "La ville est requise.",
+					"max": "La ville doit contenir au maximum {{max}} caractères."
+				},
+				"coordinates": {
+					"pair": "La latitude et la longitude doivent être renseignées ensemble.",
+					"latitude": {
+						"min": "La latitude doit être supérieure ou égale à -90.",
+						"max": "La latitude doit être inférieure ou égale à 90."
+					},
+					"longitude": {
+						"min": "La longitude doit être supérieure ou égale à -180.",
+						"max": "La longitude doit être inférieure ou égale à 180."
+					}
+				}
+			},
+			"paymentDetail": {
+				"iban": {
+					"required": "L'IBAN est requis.",
+					"iban": "Saisissez un IBAN valide."
+				},
+				"bic": {
+					"required": "Le BIC est requis.",
+					"format": "Saisissez un BIC valide.",
+					"minLength": "Le BIC doit contenir au moins 8 caractères.",
+					"maxLength": "Le BIC doit contenir au maximum 11 caractères."
+				}
+			}
+		}
+	},
+	"features.networks.hooks.use-create-mutation": {
+		"success": {
+			"title": "Réseau créé",
+			"description": "Le réseau {{name}} a bien été créé."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de créer un réseau."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
+	},
+	"features.networks.hooks.use-update-mutation": {
+		"success": {
+			"title": "Réseau modifié",
+			"description": "Les informations du réseau {{name}} ont bien été mises à jour."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de modifier ce réseau."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
+	},
+	"features.networks.hooks.use-table": {
+		"header": {
+			"id": "ID",
+			"name": "Nom",
+			"amundiOrgId": "Identifiant Amundi",
+			"goCode": "Code GO",
+			"createdAt": "Créé le",
+			"updatedAt": "Dernière modification"
+		}
+	},
+	"features.networks.hooks.use-delete-mutation": {
+		"success": {
+			"title": "Réseau supprimé",
+			"description": "Le réseau a bien été supprimé."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_ROW_NOT_FOUND": {
+				"title": "Réseau introuvable",
+				"description": "Ce réseau a déjà été supprimé ou n'existe plus."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de supprimer ce réseau."
+			},
+			"E_UNEXPECTED": {
+				"title": "Suppression impossible",
+				"description": "Le réseau n'a pas été supprimé. Réessayez dans quelques instants."
+			}
+		}
+	}
+}

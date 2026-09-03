@@ -95,16 +95,28 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		assert.equal(attached.body().networkId, secondNetwork.id);
 	});
 
-	test("it should reject duplicate unique values", async ({ client }) => {
+	test("it should ignore amundiOrgId supplied during update", async ({ client, assert }) => {
+		const admin = await AdminFactory.create();
+		const firm = await createUpdateFixture("Generated Amundi Firm", "51000008");
+		const initialAmundiOrgId = firm.amundiOrgId;
+
+		const response = await client
+			.put(`/admin/firms/${firm.id}`)
+			.withGuard("admin")
+			.loginAs(admin)
+			.json({ amundiOrgId: "AMUNDI-FORCED" });
+
+		response.assertOk();
+		await firm.refresh();
+		assert.equal(firm.amundiOrgId, initialAmundiOrgId);
+	});
+
+	test("it should reject duplicate editable unique values", async ({ client }) => {
 		const admin = await AdminFactory.create();
 		const target = await createUpdateFixture("Unique Target Firm", "51000003");
 		const existing = await createUpdateFixture("Unique Existing Firm", "51000004");
 
-		for (const payload of [
-			{ name: existing.name },
-			{ amundiOrgId: existing.amundiOrgId },
-			{ orias: existing.orias },
-		]) {
+		for (const payload of [{ name: existing.name }, { orias: existing.orias }]) {
 			const response = await client
 				.put(`/admin/firms/${target.id}`)
 				.withGuard("admin")

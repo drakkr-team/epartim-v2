@@ -1,0 +1,19 @@
+{
+	"routes.(protected).networks": {
+		"headline": "Gestion des réseaux",
+		"title": "Réseaux",
+		"description": "Consultez et gérez les réseaux de cabinets.",
+		"search": {
+			"placeholder": "Rechercher un réseau..."
+		},
+		"empty": {
+			"title": "Aucun réseau",
+			"title-search": "Aucun résultat",
+			"description": "Aucun réseau n'a encore été créé.",
+			"description-search": "Aucun réseau ne correspond à « {{search}} »."
+		},
+		"actions": {
+			"new": "Créer un réseau"
+		}
+	}
+}
