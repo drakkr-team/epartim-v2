@@ -39,6 +39,31 @@ export default class extends BaseSchema {
 			table.string("vat_number", 255).nullable();
 			table.string("financial_year_closing_day", 12).nullable();
 
+			table
+				.integer("bank_details_document_id")
+				.nullable()
+				.references("id")
+				.inTable("files")
+				.onDelete("RESTRICT");
+			table
+				.integer("company_details_document_id")
+				.nullable()
+				.references("id")
+				.inTable("files")
+				.onDelete("RESTRICT");
+			table
+				.integer("legal_agent_id_document_id")
+				.nullable()
+				.references("id")
+				.inTable("files")
+				.onDelete("RESTRICT");
+			table
+				.integer("contacts_status_document_id")
+				.nullable()
+				.references("id")
+				.inTable("files")
+				.onDelete("RESTRICT");
+
 			table.timestamps(true, true);
 		});
 	}

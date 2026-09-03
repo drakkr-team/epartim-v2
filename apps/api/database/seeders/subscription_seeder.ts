@@ -12,25 +12,39 @@ export default class extends BaseSeeder {
 	async run() {
 		const subscriptions = await SubscriptionFactory.with("creator").createMany(10);
 
-		for (const subscription of subscriptions) {
+		for (const [index, subscription] of subscriptions.entries()) {
 			const company = await CompanyFactory.merge({ subscriptionId: subscription.id })
 				.with("address")
 				.with("paymentDetail")
 				.create();
-			const legalAgent = await ContactFactory.merge({
-				companyId: company.id,
-				kind: ContactKind.PERSONNE_PHYSIQUE,
-				isSignatoryOnKbis: true,
-			}).create();
-
-			company.merge({ companyLegalAgentId: legalAgent.id });
-			await company.save();
-
-			const contacts = await ContactFactory.apply("withAuthorizations")
+			const legalAgentFactory =
+				index % 3 === 2 ? ContactFactory.apply("legalEntity") : ContactFactory;
+			const legalAgent = await legalAgentFactory
+				.merge({
+					companyId: company.id,
+					isSignatoryOnKbis: true,
+				})
+				.create();
+			const hasDistinctCorrespondent =
+				legalAgent.kind === ContactKind.PERSONNE_MORALE || index % 3 === 1;
+			const correspondent = hasDistinctCorrespondent
+				? await ContactFactory.merge({ companyId: company.id }).create()
+				: null;
+			const authorizedContacts = await ContactFactory.apply("withAuthorizations")
 				.merge({ companyId: company.id })
 				.createMany(2);
 
-			for (const contact of [legalAgent, ...contacts]) {
+			company.merge({
+				companyLegalAgentId: legalAgent.id,
+				companyCorrespondentId: correspondent?.id ?? null,
+			});
+			await company.save();
+
+			for (const contact of [legalAgent, correspondent, ...authorizedContacts]) {
+				if (contact === null) {
+					continue;
+				}
+
 				await CompanyContactFactory.merge({
 					companyId: company.id,
 					contactId: contact.id,

@@ -5,6 +5,7 @@ import { CompanySchema } from "#database/schema";
 import Address from "#models/address";
 import CompanyContact from "#models/company_contact";
 import Contact from "#models/contact";
+import File from "#models/file";
 import PaymentDetail from "#models/payment_detail";
 import Subscription from "#models/subscription";
 
@@ -49,6 +50,18 @@ export default class Company extends CompanySchema {
 
 	@belongsTo(() => PaymentDetail)
 	declare paymentDetail: BelongsTo<typeof PaymentDetail>;
+
+	@belongsTo(() => File, { foreignKey: "bankDetailsDocumentId" })
+	declare bankDetailsDocument: BelongsTo<typeof File>;
+
+	@belongsTo(() => File, { foreignKey: "companyDetailsDocumentId" })
+	declare companyDetailsDocument: BelongsTo<typeof File>;
+
+	@belongsTo(() => File, { foreignKey: "legalAgentIdDocumentId" })
+	declare legalAgentIdDocument: BelongsTo<typeof File>;
+
+	@belongsTo(() => File, { foreignKey: "contactsStatusDocumentId" })
+	declare contactsStatusDocument: BelongsTo<typeof File>;
 
 	@belongsTo(() => Contact, { foreignKey: "companyLegalAgentId" })
 	declare legalAgent: BelongsTo<typeof Contact>;

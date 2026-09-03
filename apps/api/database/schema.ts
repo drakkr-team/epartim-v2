@@ -48,12 +48,14 @@ export class AdminSchema extends BaseModel {
 }
 
 export class CompanySchema extends BaseModel {
-  static $columns = ['addressId', 'bankDetailsDocumentId', 'companyDetailsDocumentId', 'companyHeadcount', 'companyLegalAgentId', 'contactsStatusDocumentId', 'createdAt', 'financialYearClosingDay', 'id', 'legalAgentIdDocumentId', 'legalForm', 'naf', 'name', 'paymentDetailId', 'siren', 'siret', 'subscriptionId', 'updatedAt', 'vatNumber'] as const
+  static $columns = ['addressId', 'bankDetailsDocumentId', 'companyCorrespondentId', 'companyDetailsDocumentId', 'companyHeadcount', 'companyLegalAgentId', 'contactsStatusDocumentId', 'createdAt', 'financialYearClosingDay', 'id', 'legalAgentIdDocumentId', 'legalForm', 'naf', 'name', 'paymentDetailId', 'siren', 'siret', 'subscriptionId', 'updatedAt', 'vatNumber'] as const
   $columns = CompanySchema.$columns
   @column()
   declare addressId: number | null
   @column()
   declare bankDetailsDocumentId: number | null
+  @column()
+  declare companyCorrespondentId: number | null
   @column()
   declare companyDetailsDocumentId: number | null
   @column()
@@ -102,7 +104,7 @@ export class CompanyContactSchema extends BaseModel {
 }
 
 export class ContactSchema extends BaseModel {
-  static $columns = ['amundiPortalId', 'authorizations', 'companyId', 'createdAt', 'email', 'firstName', 'function', 'id', 'isSameAsLegal', 'isSignatoryOnKbis', 'kind', 'lastName', 'phoneNumber', 'updatedAt'] as const
+  static $columns = ['amundiPortalId', 'authorizations', 'companyId', 'createdAt', 'email', 'firstName', 'function', 'id', 'isSameAsLegal', 'isSignatoryOnKbis', 'kind', 'lastName', 'legalName', 'phoneNumber', 'updatedAt'] as const
   $columns = ContactSchema.$columns
   @column()
   declare amundiPortalId: string | null
@@ -128,6 +130,8 @@ export class ContactSchema extends BaseModel {
   declare kind: string | null
   @column()
   declare lastName: string | null
+  @column()
+  declare legalName: string | null
   @column()
   declare phoneNumber: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
