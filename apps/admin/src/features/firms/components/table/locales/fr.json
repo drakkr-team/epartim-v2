@@ -1,0 +1,7 @@
+{
+	"features.firms.components.table.action-cell": {
+		"show": "Consulter",
+		"edit": "Modifier",
+		"delete": "Supprimer"
+	}
+}

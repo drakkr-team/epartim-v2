@@ -1,0 +1,27 @@
+{
+	"routes.(protected).firms": {
+		"headline": "Gestion des cabinets",
+		"title": "Cabinets",
+		"description": "Consultez et gérez les cabinets rattachés à vos réseaux.",
+		"loading": "Chargement des cabinets...",
+		"search": {
+			"placeholder": "Rechercher un cabinet..."
+		},
+		"filters": {
+			"network": {
+				"label": "Filtrer les cabinets par réseau",
+				"placeholder": "Filtrer par réseau",
+				"all": "Tous les réseaux"
+			}
+		},
+		"empty": {
+			"title": "Aucun cabinet",
+			"title-filtered": "Aucun résultat",
+			"description": "Aucun cabinet n'a encore été créé.",
+			"description-filtered": "Aucun cabinet ne correspond aux critères sélectionnés."
+		},
+		"actions": {
+			"new": "Créer un cabinet"
+		}
+	}
+}

@@ -1,0 +1,7 @@
+{
+	"features.networks.components.combobox": {
+		"placeholder": "Sélectionnez un réseau",
+		"search": "Rechercher un réseau...",
+		"empty": "Aucun réseau trouvé."
+	}
+}

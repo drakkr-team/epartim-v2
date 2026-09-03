@@ -9,8 +9,8 @@
 		"postinstall": "pnpm run i18n:build",
 		"build": "vite build",
 		"preview": "vite preview",
-		"dev": "concurrently --prefix none \"portless\" \"pnpm:i18n:dev\"",
-		"dev:default": "vite dev",
+		"dev": "portless",
+		"dev:default": "concurrently --prefix none \"vite dev\" \"pnpm:i18n:dev\"",
 		"typecheck": "tsc --noEmit",
 		"i18n:build": "node scripts/compile-locales.js",
 		"i18n:dev": "nodemon scripts/compile-locales.js --watch '**/locales/**/*.json' -e json -q"
@@ -39,6 +39,7 @@
 		"react": "19.2.8",
 		"react-dom": "19.2.8",
 		"react-i18next": "17.0.12",
+		"react-intersection-observer": "11.0.1",
 		"tailwind-variants": "3.3.1",
 		"zod": "4.5.4",
 		"zustand": "5.0.15"

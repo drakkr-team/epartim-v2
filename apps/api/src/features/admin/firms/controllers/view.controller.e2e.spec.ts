@@ -29,11 +29,25 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 		assert.equal(body.paymentDetailId, firm.paymentDetailId);
 		assert.equal(body.address.id, firm.addressId);
 		assert.equal(body.paymentDetail.id, firm.paymentDetailId);
-		assert.notProperty(body, "network");
+		assert.equal(body.network.id, network.id);
+		assert.equal(body.network.name, network.name);
 		assert.deepEqual(body.meta, {
 			canUpdate: true,
 			canDelete: true,
 		});
+	});
+
+	test("it should return null when the firm has no network", async ({ client, assert }) => {
+		const admin = await AdminFactory.create();
+		const firm = await FirmFactory.merge({ networkId: null })
+			.with("address")
+			.with("paymentDetail")
+			.create();
+
+		const response = await client.get(`/admin/firms/${firm.id}`).withGuard("admin").loginAs(admin);
+
+		response.assertOk();
+		assert.isNull(response.body().network);
 	});
 
 	test("it should return not found for an unknown firmId", async ({ client }) => {

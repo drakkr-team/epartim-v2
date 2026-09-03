@@ -4,12 +4,18 @@ import type { PropsWithChildren } from "react";
 import { Logo } from "@workspace/ui-react/components/logo";
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
 import { Spinner } from "@workspace/ui-react/components/spinner";
-import { LayoutDashboardIcon, LogOutIcon, UserShieldIcon } from "@workspace/ui-react/icons";
+import {
+	Building2Icon,
+	LayoutDashboardIcon,
+	LogOutIcon,
+	UserShieldIcon,
+} from "@workspace/ui-react/icons";
 
 import { useLogoutMutation } from "#/features/account_management/authentication/hooks/use-logout-mutation";
 
 const navigationItems = [
 	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon, exact: true },
+	{ label: "Cabinets", to: "/firms", icon: Building2Icon, exact: false },
 	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
 ] as const;
 
@@ -55,7 +61,9 @@ export function AdminShell({ children }: PropsWithChildren) {
 				</UiSidebar.Footer>
 			</UiSidebar>
 
-			<div className="ml-64 flex-1 p-4 pt-8 sm:p-8 sm:pt-12">{children}</div>
+			<div className="ml-64 flex-1 p-4 pt-8 sm:p-8 sm:pt-12">
+				<div className="container mx-auto">{children}</div>
+			</div>
 		</div>
 	);
 }

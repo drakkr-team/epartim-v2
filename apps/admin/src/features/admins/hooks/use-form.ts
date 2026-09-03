@@ -1,4 +1,5 @@
-import { revalidateLogic } from "@tanstack/react-form";
+import { revalidateLogic, useSelector } from "@tanstack/react-form";
+import { useBlocker } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
@@ -62,6 +63,17 @@ export function useAdminForm(params: UseAdminFormParams) {
 				await updateAdmin({ params: { adminId: params.adminId }, body: value });
 			}
 		},
+	});
+
+	const shouldBlockNavigation = useSelector(
+		form.store,
+		(state) => state.isDirty && !state.isSubmitting,
+	);
+
+	useBlocker({
+		disabled: !shouldBlockNavigation,
+		enableBeforeUnload: shouldBlockNavigation,
+		shouldBlockFn: () => !window.confirm(t("leave-confirmation")),
 	});
 
 	useEffect(() => {

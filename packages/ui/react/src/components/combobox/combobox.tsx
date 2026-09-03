@@ -25,10 +25,12 @@ export function ComboboxRoot<Value, Multiple extends boolean | undefined = false
 	);
 }
 
-export type ComboboxInputProps = ComboboxHeadless.InputGroup.Props;
+export type ComboboxInputProps = ComboboxHeadless.InputGroup.Props & {
+	clearButtonLabel?: string;
+};
 
 export function ComboboxInput(props: ComboboxInputProps) {
-	const { children, className, ...rest } = props;
+	const { children, className, clearButtonLabel, ...rest } = props;
 
 	const { multiple } = useContext(ComboboxContext);
 
@@ -59,7 +61,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
 					{children}
 					<ComboboxHeadless.Clear
 						className="absolute top-1/2 right-1.5 z-10 hidden -translate-y-1/2 bg-neutral-1 group-has-hover:inline-flex data-popup-open:inline-flex data-popup-open:bg-neutral-1"
-						render={<Button size="icon-sm" variant="ghost" />}
+						render={<Button size="icon-sm" variant="ghost" aria-label={clearButtonLabel} />}
 					>
 						<XIcon />
 					</ComboboxHeadless.Clear>
@@ -129,7 +131,7 @@ export function ComboboxDropdown(props: ComboboxDropdownProps) {
 			>
 				<ComboboxHeadless.Popup
 					className={cn(
-						"grid max-h-[min(24rem,var(--available-height))] min-w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) grid-rows-[auto_1fr] rounded-md border border-neutral-6 bg-neutral-1 shadow shadow-neutral-5 outline-none transition",
+						"flex max-h-[min(24rem,var(--available-height))] min-w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) grid-rows-[auto_1fr] flex-col rounded-md border border-neutral-6 bg-neutral-1 shadow shadow-neutral-5 outline-none transition",
 						"data-starting-style:data-[side=inline-end]:-translate-x-1 data-starting-style:data-[side=inline-start]:translate-x-1 data-starting-style:data-[side=left]:translate-x-1 data-starting-style:data-[side=right]:-translate-x-1 data-starting-style:data-[side=bottom]:-translate-y-1 data-starting-style:data-[side=top]:translate-y-1 data-starting-style:scale-95 data-starting-style:opacity-0 data-starting-style:blur-xs",
 						"data-ending-style:data-[side=inline-end]:-translate-x-1 data-ending-style:data-[side=inline-start]:translate-x-1 data-ending-style:data-[side=left]:translate-x-1 data-ending-style:data-[side=right]:-translate-x-1 data-ending-style:data-[side=bottom]:-translate-y-1 data-ending-style:data-[side=top]:translate-y-1 data-ending-style:scale-95 data-ending-style:opacity-0 data-ending-style:blur-xs",
 						className,

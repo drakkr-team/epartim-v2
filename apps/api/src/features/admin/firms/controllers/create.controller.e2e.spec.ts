@@ -7,7 +7,6 @@ import Firm from "#models/firm";
 
 const validPayload = {
 	name: "Cabinet Martin",
-	amundiOrgId: "AMU-001",
 	orias: "12345678",
 	address: {
 		lineOne: "10 rue de Paris",
@@ -41,7 +40,6 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		response.assertCreated();
 		response.assertBodyContains({
 			name: validPayload.name,
-			amundiOrgId: validPayload.amundiOrgId,
 			orias: validPayload.orias,
 		});
 		assert.property(response.body(), "addressId");
@@ -68,7 +66,6 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 			.json({
 				...validPayload,
 				name: "Cabinet Réseau",
-				amundiOrgId: "AMU-002",
 				orias: "12345679",
 				networkId: Number(network.id),
 			});
@@ -96,17 +93,37 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 					...validPayload,
 					name,
 					orias,
-					amundiOrgId: null,
 					address,
 				});
 
 			response.assertCreated();
-			response.assertBodyContains({ amundiOrgId: null });
 
 			const firm = await Firm.query().where("name", name).preload("address").firstOrFail();
+			assert.isNull(firm.amundiOrgId);
 			assert.isNull(firm.networkId);
 			assert.isNull(firm.address.coordinates);
 		}
+	});
+
+	test("it should ignore amundiOrgId supplied during creation", async ({ client, assert }) => {
+		const admin = await AdminFactory.create();
+		const name = "Cabinet Amundi généré";
+
+		const response = await client
+			.post("/admin/firms")
+			.withGuard("admin")
+			.loginAs(admin)
+			.json({
+				...validPayload,
+				name,
+				orias: "12345692",
+				amundiOrgId: "AMUNDI-FORCED",
+			});
+
+		response.assertCreated();
+
+		const firm = await Firm.findByOrFail("name", name);
+		assert.isNull(firm.amundiOrgId);
 	});
 
 	test("it should reject missing owned fields and malformed values", async ({ client }) => {
@@ -158,7 +175,9 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		}
 	});
 
-	test("it should reject duplicate firm identifiers and an unknown network", async ({ client }) => {
+	test("it should reject duplicate editable identifiers and an unknown network", async ({
+		client,
+	}) => {
 		const admin = await AdminFactory.create();
 		const existing = await FirmFactory.merge({
 			name: "Existing Cabinet",
@@ -170,12 +189,6 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 			.create();
 		const invalidPayloads = [
 			{ ...validPayload, name: existing.name, orias: "12345689" },
-			{
-				...validPayload,
-				name: "Duplicate Amundi",
-				amundiOrgId: existing.amundiOrgId,
-				orias: "12345690",
-			},
 			{ ...validPayload, name: "Duplicate ORIAS", orias: existing.orias },
 			{
 				...validPayload,
