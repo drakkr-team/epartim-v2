@@ -10,6 +10,7 @@ export const SubscriptionStatus = {
 	WAITING_FOR_SIGNATURES: 1,
 	TO_BE_SENT: 2,
 	COMPLETE: 3,
+	ERROR: 4,
 } as const;
 
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus];
@@ -35,5 +36,8 @@ export default class Subscription extends SubscriptionSchema {
 
 	get isComplete() {
 		return this.status === SubscriptionStatus.COMPLETE;
+	}
+	get isError() {
+		return this.status === SubscriptionStatus.ERROR;
 	}
 }
