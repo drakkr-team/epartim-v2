@@ -1,0 +1,12 @@
+{
+	"features.networks.hooks.use-table": {
+		"header": {
+			"id": "ID",
+			"name": "Nom",
+			"amundiOrgId": "Identifiant Amundi",
+			"goCode": "Code GO",
+			"createdAt": "Créé le",
+			"updatedAt": "Dernière modification"
+		}
+	}
+}
