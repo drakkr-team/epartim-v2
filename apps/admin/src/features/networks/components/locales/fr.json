@@ -1,4 +1,43 @@
 {
+	"features.networks.components.form": {
+		"section": {
+			"general": "Informations générales",
+			"address": "Adresse",
+			"payment": "Coordonnées bancaires"
+		},
+		"field": {
+			"name": {
+				"label": "Nom"
+			},
+			"address": {
+				"lineOne": {
+					"label": "Adresse"
+				},
+				"lineTwo": {
+					"label": "Complément d'adresse"
+				},
+				"zip": {
+					"label": "Code postal"
+				},
+				"city": {
+					"label": "Ville"
+				}
+			},
+			"paymentDetail": {
+				"iban": {
+					"label": "IBAN"
+				},
+				"bic": {
+					"label": "BIC"
+				}
+			}
+		},
+		"action": {
+			"cancel": "Annuler",
+			"create": "Créer le réseau",
+			"update": "Enregistrer les modifications"
+		}
+	},
 	"features.networks.components.combobox": {
 		"placeholder": "Sélectionnez un réseau",
 		"search": "Rechercher un réseau...",

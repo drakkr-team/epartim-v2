@@ -45,9 +45,7 @@ export function NetworksTableActionCell({ cell }: NetworksTableActionCellProps) 
 						<Menu.Item
 							render={
 								<Link
-									// @ts-expect-error: TypeScript might not infer the correct type for the Link component here
 									to="/networks/$networkId/edit"
-									// @ts-expect-error: TypeScript might not infer the correct type for the Link component here
 									params={{ networkId: network.id.toString() }}
 								/>
 							}

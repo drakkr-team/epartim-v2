@@ -8,7 +8,7 @@ export const NetworkFactory = factory
 	.define(Network, ({ faker }) => ({
 		name: faker.company.name(),
 		amundiOrgId: faker.helpers.maybe(() => faker.string.alphanumeric(12).toUpperCase()),
-		goCode: faker.helpers.maybe(() => faker.number.int({ min: 100_000, max: 999_999 })),
+		goCode: faker.helpers.maybe(() => faker.string.alphanumeric(6).toUpperCase()),
 	}))
 	.relation("address", () => AddressFactory)
 	.relation("paymentDetail", () => PaymentDetailFactory)
