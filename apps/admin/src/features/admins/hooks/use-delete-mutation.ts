@@ -16,7 +16,7 @@ export function useDeleteAdminMutation() {
 	return useMutation(
 		api.admins.delete.mutationOptions({
 			onSuccess: async () => {
-				await queryClient.invalidateQueries({ queryKey: api.admins.pathKey() });
+				await queryClient.invalidateQueries({ queryKey: api.admins.list.pathKey() });
 				toast.success(t("success.title"), {
 					description: t("success.description"),
 				});

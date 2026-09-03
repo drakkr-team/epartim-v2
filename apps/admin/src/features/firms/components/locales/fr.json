@@ -1,0 +1,54 @@
+{
+	"features.firms.components.form": {
+		"section": {
+			"general": "Informations générales",
+			"network": "Réseau",
+			"address": "Adresse",
+			"payment": "Coordonnées bancaires"
+		},
+		"field": {
+			"name": {
+				"label": "Nom"
+			},
+			"orias": {
+				"label": "Numéro ORIAS"
+			},
+			"address": {
+				"lineOne": {
+					"label": "Adresse"
+				},
+				"lineTwo": {
+					"label": "Complément d'adresse"
+				},
+				"zip": {
+					"label": "Code postal"
+				},
+				"city": {
+					"label": "Ville"
+				}
+			},
+			"paymentDetail": {
+				"iban": {
+					"label": "IBAN"
+				},
+				"bic": {
+					"label": "BIC"
+				}
+			}
+		},
+		"action": {
+			"cancel": "Annuler",
+			"create": "Créer le cabinet",
+			"update": "Enregistrer les modifications"
+		}
+	},
+	"features.firms.components.delete-dialog": {
+		"title": "Supprimer ce cabinet ?",
+		"description": "Vous êtes sur le point de supprimer définitivement « {{name}} ».",
+		"consequences": "Cette opération supprimera également son adresse et ses coordonnées bancaires. Elle est définitive et ne peut pas être annulée.",
+		"action": {
+			"cancel": "Annuler",
+			"confirm": "Supprimer définitivement"
+		}
+	}
+}

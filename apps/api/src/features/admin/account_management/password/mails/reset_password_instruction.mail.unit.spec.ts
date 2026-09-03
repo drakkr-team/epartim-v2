@@ -7,7 +7,10 @@ test.group(
 	"Features / Admin / Account Management / Password / Mails / Reset Password Instruction Mail",
 	() => {
 		test("it should render the reset password instruction email", async () => {
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.merge({
+				name: "Alex Martin",
+				email: "password.reset@example.com",
+			}).create();
 			const resetPasswordUrl = new URL("https://app.example.test/reset-password?token=test-token");
 			const email = new ResetPasswordInstructionMail({ admin, resetPasswordUrl });
 

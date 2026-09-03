@@ -37,7 +37,7 @@ test.group("Features / Admin / Networks / Services / List Service", () => {
 		});
 		await createNetwork("Unrelated Network", {
 			amundiOrgId: "Exclusive Search Token",
-			goCode: 880_110,
+			goCode: "880110",
 		});
 
 		const networks = await new ListNetworksService().handle({ q: "exclusive search" });
@@ -51,11 +51,11 @@ test.group("Features / Admin / Networks / Services / List Service", () => {
 	test("it should support both directions for every whitelisted sort field", async ({ assert }) => {
 		const first = await createNetwork("Sort Matrix Alpha", {
 			amundiOrgId: "AMUNDI-A",
-			goCode: 10,
+			goCode: "000010",
 		});
 		const second = await createNetwork("Sort Matrix Zulu", {
 			amundiOrgId: "AMUNDI-Z",
-			goCode: 20,
+			goCode: "000020",
 		});
 		await Network.query()
 			.where("id", Number(first.id))

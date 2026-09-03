@@ -1,0 +1,7 @@
+{
+	"routes.(protected).networks.$networkId.edit": {
+		"headline": "Gestion des réseaux",
+		"title": "Modifier le réseau",
+		"description": "Mettez à jour les informations, l'adresse et les coordonnées bancaires."
+	}
+}

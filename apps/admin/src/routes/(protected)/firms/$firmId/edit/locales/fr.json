@@ -1,0 +1,7 @@
+{
+	"routes.(protected).firms.$firmId.edit": {
+		"headline": "Gestion des cabinets",
+		"title": "Modifier le cabinet",
+		"description": "Mettez à jour les informations, le réseau, l'adresse et les coordonnées bancaires."
+	}
+}

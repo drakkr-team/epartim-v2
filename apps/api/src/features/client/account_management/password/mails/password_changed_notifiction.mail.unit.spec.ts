@@ -7,7 +7,11 @@ test.group(
 	"Features / Account Management / Password / Mails / Password Changed Notification Mail",
 	() => {
 		test("it should render the password changed notification email", async () => {
-			const user = await UserFactory.create();
+			const user = await UserFactory.merge({
+				firstName: "Marie",
+				lastName: "Martin",
+				email: "client.password.changed@example.com",
+			}).create();
 			const loginUrl = new URL("https://app.example.test/login");
 			const email = new PasswordChangedNotificationMail({ user, loginUrl });
 
