@@ -127,7 +127,7 @@ export class ContactSchema extends BaseModel {
   @column()
   declare isSignatoryOnKbis: boolean | null
   @column()
-  declare kind: string | null
+  declare kind: number | null
   @column()
   declare lastName: string | null
   @column()

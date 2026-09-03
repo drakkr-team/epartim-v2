@@ -24,16 +24,16 @@ export const ContactFunction = {
 export type ContactFunction = (typeof ContactFunction)[keyof typeof ContactFunction];
 
 export const ContactKind = {
-	PERSONNE_PHYSIQUE: "personne_physique",
-	PERSONNE_MORALE: "personne_morale",
+	PERSONNE_PHYSIQUE: 1,
+	PERSONNE_MORALE: 2,
 } as const;
 
 export type ContactKind = (typeof ContactKind)[keyof typeof ContactKind];
 
 export const ContactAuthorization = {
-	COMPTABLE: "COMPTABLE",
-	AGIR_ET_CONSULTER: "AGIR_ET_CONSULTER",
-	ADMINISTRER: "ADMINISTRER",
+	COMPTABLE: 1,
+	AGIR_ET_CONSULTER: 2,
+	ADMINISTRER: 3,
 } as const;
 
 export type ContactAuthorization = (typeof ContactAuthorization)[keyof typeof ContactAuthorization];
