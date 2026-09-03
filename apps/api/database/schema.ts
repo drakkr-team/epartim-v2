@@ -228,7 +228,7 @@ export class SubscriptionSchema extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
   @column()
-  declare status: number | null
+  declare status: number
   @column.dateTime()
   declare statusUpdatedAt: DateTime | null
   @column.dateTime()

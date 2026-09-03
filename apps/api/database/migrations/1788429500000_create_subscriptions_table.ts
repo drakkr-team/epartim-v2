@@ -11,7 +11,7 @@ export default class extends BaseSchema {
 			table.timestamp("submitted_at").nullable();
 			table.timestamp("approved_at").nullable();
 			table.timestamp("completed_at").nullable();
-			table.integer("status").nullable();
+			table.integer("status").unsigned().notNullable().defaultTo(0);
 			table.timestamp("status_updated_at").nullable();
 			table.jsonb("completed_steps").nullable();
 
