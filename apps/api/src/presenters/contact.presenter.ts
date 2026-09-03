@@ -5,7 +5,6 @@ export default class ContactPresenter {
 		return {
 			id: contact.id,
 
-			companyId: contact.companyId,
 			kind: contact.kind,
 			firstName: contact.firstName,
 			lastName: contact.lastName,

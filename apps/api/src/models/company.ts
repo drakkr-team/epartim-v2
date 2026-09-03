@@ -1,9 +1,8 @@
-import { belongsTo, column, hasMany } from "@adonisjs/lucid/orm";
-import type { BelongsTo, HasMany } from "@adonisjs/lucid/types/relations";
+import { belongsTo, manyToMany } from "@adonisjs/lucid/orm";
+import type { BelongsTo, ManyToMany } from "@adonisjs/lucid/types/relations";
 
 import { CompanySchema } from "#database/schema";
 import Address from "#models/address";
-import CompanyContact from "#models/company_contact";
 import Contact from "#models/contact";
 import File from "#models/file";
 import PaymentDetail from "#models/payment_detail";
@@ -39,9 +38,6 @@ export const CompanyLegalForm = {
 export type CompanyLegalForm = (typeof CompanyLegalForm)[keyof typeof CompanyLegalForm];
 
 export default class Company extends CompanySchema {
-	@column()
-	declare companyCorrespondentId: number | null;
-
 	@belongsTo(() => Subscription)
 	declare subscription: BelongsTo<typeof Subscription>;
 
@@ -69,9 +65,6 @@ export default class Company extends CompanySchema {
 	@belongsTo(() => Contact, { foreignKey: "companyCorrespondentId" })
 	declare correspondent: BelongsTo<typeof Contact>;
 
-	@hasMany(() => Contact)
-	declare contacts: HasMany<typeof Contact>;
-
-	@hasMany(() => CompanyContact)
-	declare companyContacts: HasMany<typeof CompanyContact>;
+	@manyToMany(() => Contact, { pivotTable: "company_contacts" })
+	declare contacts: ManyToMany<typeof Contact>;
 }

@@ -1,6 +1,5 @@
 import factory from "@adonisjs/lucid/factories";
 
-import { CompanyFactory } from "#database/factories/company.factory";
 import Contact, { ContactAuthorization, ContactFunction, ContactKind } from "#models/contact";
 
 export const ContactFactory = factory
@@ -43,5 +42,4 @@ export const ContactFactory = factory
 			max: 3,
 		});
 	})
-	.relation("company", () => CompanyFactory)
 	.build();

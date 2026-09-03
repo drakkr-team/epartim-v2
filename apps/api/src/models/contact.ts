@@ -1,9 +1,6 @@
-import { belongsTo, column, hasMany } from "@adonisjs/lucid/orm";
-import type { BelongsTo, HasMany } from "@adonisjs/lucid/types/relations";
+import { column } from "@adonisjs/lucid/orm";
 
 import { ContactSchema } from "#database/schema";
-import Company from "#models/company";
-import CompanyContact from "#models/company_contact";
 
 export const ContactFunction = {
 	PDG: 1,
@@ -50,10 +47,4 @@ export default class Contact extends ContactSchema {
 		consume: (authorizations: ContactAuthorization[] | null) => authorizations,
 	})
 	declare authorizations: ContactAuthorization[] | null;
-
-	@belongsTo(() => Company)
-	declare company: BelongsTo<typeof Company>;
-
-	@hasMany(() => CompanyContact)
-	declare companyContacts: HasMany<typeof CompanyContact>;
 }

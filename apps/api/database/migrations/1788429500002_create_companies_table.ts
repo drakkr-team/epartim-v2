@@ -28,8 +28,18 @@ export default class extends BaseSchema {
 				.references("id")
 				.inTable("payment_details")
 				.onDelete("RESTRICT");
-			table.integer("company_legal_agent_id").nullable();
-			table.integer("company_correspondent_id").nullable();
+			table
+				.integer("company_legal_agent_id")
+				.nullable()
+				.references("id")
+				.inTable("contacts")
+				.onDelete("RESTRICT");
+			table
+				.integer("company_correspondent_id")
+				.nullable()
+				.references("id")
+				.inTable("contacts")
+				.onDelete("RESTRICT");
 			table.string("siret", 255).nullable();
 			table.string("siren", 255).nullable();
 			table.string("naf", 255).nullable();

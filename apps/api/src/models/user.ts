@@ -1,7 +1,7 @@
 import { withAuthFinder } from "@adonisjs/auth/mixins/lucid";
 import { compose } from "@adonisjs/core/helpers";
 import hash from "@adonisjs/core/services/hash";
-import { column, hasMany } from "@adonisjs/lucid/orm";
+import { hasMany } from "@adonisjs/lucid/orm";
 import type { HasMany } from "@adonisjs/lucid/types/relations";
 
 import { UserSchema } from "#database/schema";
@@ -13,9 +13,6 @@ const authFinder = withAuthFinder(() => hash.use("scrypt"), {
 });
 
 export default class User extends compose(UserSchema, authFinder) {
-	@column({ isPrimary: true })
-	declare id: number;
-
 	@hasMany(() => Subscription, { foreignKey: "createdBy" })
 	declare subscriptions: HasMany<typeof Subscription>;
 

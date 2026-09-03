@@ -104,14 +104,12 @@ export class CompanyContactSchema extends BaseModel {
 }
 
 export class ContactSchema extends BaseModel {
-  static $columns = ['amundiPortalId', 'authorizations', 'companyId', 'createdAt', 'email', 'firstName', 'function', 'id', 'isSameAsLegal', 'isSignatoryOnKbis', 'kind', 'lastName', 'legalName', 'phoneNumber', 'updatedAt'] as const
+  static $columns = ['amundiPortalId', 'authorizations', 'createdAt', 'email', 'firstName', 'function', 'id', 'isSameAsLegal', 'isSignatoryOnKbis', 'kind', 'lastName', 'legalName', 'phoneNumber', 'updatedAt'] as const
   $columns = ContactSchema.$columns
   @column()
   declare amundiPortalId: string | null
   @column()
   declare authorizations: any | null
-  @column()
-  declare companyId: number | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
