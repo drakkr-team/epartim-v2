@@ -30,9 +30,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="relative bg-primary-2/50 antialiased">
-				<div className="isolate">
-					<Providers>{children}</Providers>
-				</div>
+				<Providers>
+					<div className="isolate">{children}</div>
+				</Providers>
 
 				<Scripts />
 			</body>
