@@ -37,7 +37,7 @@ export default class extends BaseSchema {
 			table.integer("legal_form").unsigned().nullable();
 			table.string("company_headcount", 255).nullable();
 			table.string("vat_number", 255).nullable();
-			table.string("financial_year_closing_day", 255).nullable();
+			table.string("financial_year_closing_day", 12).nullable();
 
 			table.timestamps(true, true);
 		});
