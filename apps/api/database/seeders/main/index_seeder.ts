@@ -15,5 +15,6 @@ export default class extends BaseSeeder {
 	async run() {
 		await this.seed(await import("#database/seeders/admin_seeder"));
 		await this.seed(await import("#database/seeders/network_seeder"));
+		await this.seed(await import("#database/seeders/subscription_seeder"));
 	}
 }
