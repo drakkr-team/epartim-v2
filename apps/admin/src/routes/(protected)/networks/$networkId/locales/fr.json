@@ -1,0 +1,45 @@
+{
+	"routes.(protected).networks.$networkId": {
+		"headline": "Gestion des réseaux",
+		"description": "Consultez les informations de ce réseau.",
+		"action": {
+			"edit": "Modifier",
+			"delete": "Supprimer",
+			"viewFirm": "Consulter",
+			"viewAllFirms": "Voir tous les cabinets"
+		},
+		"section": {
+			"general": "Informations générales",
+			"address": "Adresse",
+			"payment": "Coordonnées bancaires",
+			"firms": "Cabinets rattachés"
+		},
+		"field": {
+			"id": "Identifiant",
+			"name": "Nom",
+			"amundiOrgId": "Identifiant Amundi",
+			"goCode": "Code GO",
+			"createdAt": "Créé le",
+			"updatedAt": "Dernière modification",
+			"address": {
+				"lineOne": "Adresse",
+				"lineTwo": "Complément d'adresse",
+				"city": "Ville",
+				"zip": "Code postal"
+			},
+			"paymentDetail": {
+				"iban": "IBAN",
+				"bic": "BIC"
+			},
+			"firm": {
+				"orias": "Numéro ORIAS"
+			}
+		},
+		"status": {
+			"notProvided": "Non renseigné"
+		},
+		"empty": {
+			"firms": "Aucun cabinet n'est rattaché à ce réseau."
+		}
+	}
+}
