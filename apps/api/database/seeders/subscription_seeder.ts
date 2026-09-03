@@ -19,7 +19,7 @@ export default class extends BaseSeeder {
 				.create();
 			const legalAgent = await ContactFactory.merge({
 				companyId: company.id,
-				kind: ContactKind.PHYSICAL,
+				kind: ContactKind.PERSONNE_PHYSIQUE,
 				isSignatoryOnKbis: true,
 			}).create();
 
