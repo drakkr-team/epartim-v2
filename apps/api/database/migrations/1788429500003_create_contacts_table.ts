@@ -16,7 +16,7 @@ export default class extends BaseSchema {
 				.onDelete("CASCADE");
 			table.string("first_name", 255).nullable();
 			table.string("last_name", 255).nullable();
-			table.string("function", 255).nullable();
+			table.integer("function").unsigned().nullable();
 			table.string("email", 255).nullable();
 			table.string("phone_number", 255).nullable();
 			table.string("amundi_portal_id", 255).nullable();

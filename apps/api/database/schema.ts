@@ -71,7 +71,7 @@ export class CompanySchema extends BaseModel {
   @column()
   declare legalAgentIdDocumentId: number | null
   @column()
-  declare legalForm: string | null
+  declare legalForm: number | null
   @column()
   declare naf: string | null
   @column()
@@ -117,7 +117,7 @@ export class ContactSchema extends BaseModel {
   @column()
   declare firstName: string | null
   @column()
-  declare function: string | null
+  declare function: number | null
   @column({ isPrimary: true })
   declare id: number
   @column()

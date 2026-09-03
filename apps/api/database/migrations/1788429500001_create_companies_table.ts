@@ -33,7 +33,7 @@ export default class extends BaseSchema {
 			table.string("siren", 255).nullable();
 			table.string("naf", 255).nullable();
 			table.string("name", 255).nullable();
-			table.string("legal_form", 255).nullable();
+			table.integer("legal_form").unsigned().nullable();
 			table.string("company_headcount", 255).nullable();
 			table.string("vat_number", 255).nullable();
 			table.string("financial_year_closing_day", 255).nullable();
