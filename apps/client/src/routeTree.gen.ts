@@ -16,10 +16,10 @@ import { Route as protectedoperationsLayoutRouteImport } from './routes/(protect
 import { Route as guestForgotPasswordPageRouteImport } from './routes/(guest)/forgot-password/page'
 import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
 import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
-import { Route as protectedoperationsSouscriptionLayoutRouteImport } from './routes/(protected)/(operations)/souscription/layout'
+import { Route as protectedoperationsSubscriptionsLayoutRouteImport } from './routes/(protected)/(operations)/subscriptions/layout'
 import { Route as protectedoperationsClientPortfolioPageRouteImport } from './routes/(protected)/(operations)/client-portfolio/page'
-import { Route as protectedoperationsSouscriptionsPageRouteImport } from './routes/(protected)/(operations)/souscriptions/page'
-import { Route as protectedoperationsSouscriptionIdPageRouteImport } from './routes/(protected)/(operations)/souscription/$id/page'
+import { Route as protectedoperationsSubscriptionsPageRouteImport } from './routes/(protected)/(operations)/subscriptions/page'
+import { Route as protectedoperationsSubscriptionsIdPageRouteImport } from './routes/(protected)/(operations)/subscriptions/$id/page'
 
 const guestLayoutRoute = guestLayoutRouteImport.update({
   id: '/(guest)',
@@ -54,10 +54,10 @@ const guestResetPasswordPageRoute = guestResetPasswordPageRouteImport.update({
   path: '/reset-password/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
-const protectedoperationsSouscriptionLayoutRoute =
-  protectedoperationsSouscriptionLayoutRouteImport.update({
-    id: '/souscription',
-    path: '/souscription',
+const protectedoperationsSubscriptionsLayoutRoute =
+  protectedoperationsSubscriptionsLayoutRouteImport.update({
+    id: '/subscriptions',
+    path: '/subscriptions',
     getParentRoute: () => protectedoperationsLayoutRoute,
   } as any)
 const protectedoperationsClientPortfolioPageRoute =
@@ -66,38 +66,37 @@ const protectedoperationsClientPortfolioPageRoute =
     path: '/client-portfolio/',
     getParentRoute: () => protectedoperationsLayoutRoute,
   } as any)
-const protectedoperationsSouscriptionsPageRoute =
-  protectedoperationsSouscriptionsPageRouteImport.update({
-    id: '/souscriptions/',
-    path: '/souscriptions/',
-    getParentRoute: () => protectedoperationsLayoutRoute,
+const protectedoperationsSubscriptionsPageRoute =
+  protectedoperationsSubscriptionsPageRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => protectedoperationsSubscriptionsLayoutRoute,
   } as any)
-const protectedoperationsSouscriptionIdPageRoute =
-  protectedoperationsSouscriptionIdPageRouteImport.update({
+const protectedoperationsSubscriptionsIdPageRoute =
+  protectedoperationsSubscriptionsIdPageRouteImport.update({
     id: '/$id/',
     path: '/$id/',
-    getParentRoute: () => protectedoperationsSouscriptionLayoutRoute,
+    getParentRoute: () => protectedoperationsSubscriptionsLayoutRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof protectedPageRoute
-  '/souscription': typeof protectedoperationsSouscriptionLayoutRouteWithChildren
+  '/subscriptions': typeof protectedoperationsSubscriptionsLayoutRouteWithChildren
   '/forgot-password/': typeof guestForgotPasswordPageRoute
   '/login/': typeof guestLoginPageRoute
   '/reset-password/': typeof guestResetPasswordPageRoute
   '/client-portfolio/': typeof protectedoperationsClientPortfolioPageRoute
-  '/souscriptions/': typeof protectedoperationsSouscriptionsPageRoute
-  '/souscription/$id/': typeof protectedoperationsSouscriptionIdPageRoute
+  '/subscriptions/': typeof protectedoperationsSubscriptionsPageRoute
+  '/subscriptions/$id/': typeof protectedoperationsSubscriptionsIdPageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof protectedPageRoute
-  '/souscription': typeof protectedoperationsSouscriptionLayoutRouteWithChildren
   '/forgot-password': typeof guestForgotPasswordPageRoute
   '/login': typeof guestLoginPageRoute
   '/reset-password': typeof guestResetPasswordPageRoute
   '/client-portfolio': typeof protectedoperationsClientPortfolioPageRoute
-  '/souscriptions': typeof protectedoperationsSouscriptionsPageRoute
-  '/souscription/$id': typeof protectedoperationsSouscriptionIdPageRoute
+  '/subscriptions': typeof protectedoperationsSubscriptionsPageRoute
+  '/subscriptions/$id': typeof protectedoperationsSubscriptionsIdPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -105,48 +104,47 @@ export interface FileRoutesById {
   '/(protected)': typeof protectedLayoutRouteWithChildren
   '/(protected)/(operations)': typeof protectedoperationsLayoutRouteWithChildren
   '/(protected)/': typeof protectedPageRoute
-  '/(protected)/(operations)/souscription': typeof protectedoperationsSouscriptionLayoutRouteWithChildren
+  '/(protected)/(operations)/subscriptions': typeof protectedoperationsSubscriptionsLayoutRouteWithChildren
   '/(guest)/forgot-password/': typeof guestForgotPasswordPageRoute
   '/(guest)/login/': typeof guestLoginPageRoute
   '/(guest)/reset-password/': typeof guestResetPasswordPageRoute
   '/(protected)/(operations)/client-portfolio/': typeof protectedoperationsClientPortfolioPageRoute
-  '/(protected)/(operations)/souscriptions/': typeof protectedoperationsSouscriptionsPageRoute
-  '/(protected)/(operations)/souscription/$id/': typeof protectedoperationsSouscriptionIdPageRoute
+  '/(protected)/(operations)/subscriptions/': typeof protectedoperationsSubscriptionsPageRoute
+  '/(protected)/(operations)/subscriptions/$id/': typeof protectedoperationsSubscriptionsIdPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/souscription'
+    | '/subscriptions'
     | '/forgot-password/'
     | '/login/'
     | '/reset-password/'
     | '/client-portfolio/'
-    | '/souscriptions/'
-    | '/souscription/$id/'
+    | '/subscriptions/'
+    | '/subscriptions/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/souscription'
     | '/forgot-password'
     | '/login'
     | '/reset-password'
     | '/client-portfolio'
-    | '/souscriptions'
-    | '/souscription/$id'
+    | '/subscriptions'
+    | '/subscriptions/$id'
   id:
     | '__root__'
     | '/(guest)'
     | '/(protected)'
     | '/(protected)/(operations)'
     | '/(protected)/'
-    | '/(protected)/(operations)/souscription'
+    | '/(protected)/(operations)/subscriptions'
     | '/(guest)/forgot-password/'
     | '/(guest)/login/'
     | '/(guest)/reset-password/'
     | '/(protected)/(operations)/client-portfolio/'
-    | '/(protected)/(operations)/souscriptions/'
-    | '/(protected)/(operations)/souscription/$id/'
+    | '/(protected)/(operations)/subscriptions/'
+    | '/(protected)/(operations)/subscriptions/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -205,11 +203,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof guestResetPasswordPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
-    '/(protected)/(operations)/souscription': {
-      id: '/(protected)/(operations)/souscription'
-      path: '/souscription'
-      fullPath: '/souscription'
-      preLoaderRoute: typeof protectedoperationsSouscriptionLayoutRouteImport
+    '/(protected)/(operations)/subscriptions': {
+      id: '/(protected)/(operations)/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/subscriptions'
+      preLoaderRoute: typeof protectedoperationsSubscriptionsLayoutRouteImport
       parentRoute: typeof protectedoperationsLayoutRoute
     }
     '/(protected)/(operations)/client-portfolio/': {
@@ -219,19 +217,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedoperationsClientPortfolioPageRouteImport
       parentRoute: typeof protectedoperationsLayoutRoute
     }
-    '/(protected)/(operations)/souscriptions/': {
-      id: '/(protected)/(operations)/souscriptions/'
-      path: '/souscriptions'
-      fullPath: '/souscriptions/'
-      preLoaderRoute: typeof protectedoperationsSouscriptionsPageRouteImport
-      parentRoute: typeof protectedoperationsLayoutRoute
+    '/(protected)/(operations)/subscriptions/': {
+      id: '/(protected)/(operations)/subscriptions/'
+      path: '/'
+      fullPath: '/subscriptions/'
+      preLoaderRoute: typeof protectedoperationsSubscriptionsPageRouteImport
+      parentRoute: typeof protectedoperationsSubscriptionsLayoutRoute
     }
-    '/(protected)/(operations)/souscription/$id/': {
-      id: '/(protected)/(operations)/souscription/$id/'
+    '/(protected)/(operations)/subscriptions/$id/': {
+      id: '/(protected)/(operations)/subscriptions/$id/'
       path: '/$id'
-      fullPath: '/souscription/$id/'
-      preLoaderRoute: typeof protectedoperationsSouscriptionIdPageRouteImport
-      parentRoute: typeof protectedoperationsSouscriptionLayoutRoute
+      fullPath: '/subscriptions/$id/'
+      preLoaderRoute: typeof protectedoperationsSubscriptionsIdPageRouteImport
+      parentRoute: typeof protectedoperationsSubscriptionsLayoutRoute
     }
   }
 }
@@ -252,35 +250,35 @@ const guestLayoutRouteWithChildren = guestLayoutRoute._addFileChildren(
   guestLayoutRouteChildren,
 )
 
-interface protectedoperationsSouscriptionLayoutRouteChildren {
-  protectedoperationsSouscriptionIdPageRoute: typeof protectedoperationsSouscriptionIdPageRoute
+interface protectedoperationsSubscriptionsLayoutRouteChildren {
+  protectedoperationsSubscriptionsPageRoute: typeof protectedoperationsSubscriptionsPageRoute
+  protectedoperationsSubscriptionsIdPageRoute: typeof protectedoperationsSubscriptionsIdPageRoute
 }
 
-const protectedoperationsSouscriptionLayoutRouteChildren: protectedoperationsSouscriptionLayoutRouteChildren =
+const protectedoperationsSubscriptionsLayoutRouteChildren: protectedoperationsSubscriptionsLayoutRouteChildren =
   {
-    protectedoperationsSouscriptionIdPageRoute:
-      protectedoperationsSouscriptionIdPageRoute,
+    protectedoperationsSubscriptionsPageRoute:
+      protectedoperationsSubscriptionsPageRoute,
+    protectedoperationsSubscriptionsIdPageRoute:
+      protectedoperationsSubscriptionsIdPageRoute,
   }
 
-const protectedoperationsSouscriptionLayoutRouteWithChildren =
-  protectedoperationsSouscriptionLayoutRoute._addFileChildren(
-    protectedoperationsSouscriptionLayoutRouteChildren,
+const protectedoperationsSubscriptionsLayoutRouteWithChildren =
+  protectedoperationsSubscriptionsLayoutRoute._addFileChildren(
+    protectedoperationsSubscriptionsLayoutRouteChildren,
   )
 
 interface protectedoperationsLayoutRouteChildren {
-  protectedoperationsSouscriptionLayoutRoute: typeof protectedoperationsSouscriptionLayoutRouteWithChildren
+  protectedoperationsSubscriptionsLayoutRoute: typeof protectedoperationsSubscriptionsLayoutRouteWithChildren
   protectedoperationsClientPortfolioPageRoute: typeof protectedoperationsClientPortfolioPageRoute
-  protectedoperationsSouscriptionsPageRoute: typeof protectedoperationsSouscriptionsPageRoute
 }
 
 const protectedoperationsLayoutRouteChildren: protectedoperationsLayoutRouteChildren =
   {
-    protectedoperationsSouscriptionLayoutRoute:
-      protectedoperationsSouscriptionLayoutRouteWithChildren,
+    protectedoperationsSubscriptionsLayoutRoute:
+      protectedoperationsSubscriptionsLayoutRouteWithChildren,
     protectedoperationsClientPortfolioPageRoute:
       protectedoperationsClientPortfolioPageRoute,
-    protectedoperationsSouscriptionsPageRoute:
-      protectedoperationsSouscriptionsPageRoute,
   }
 
 const protectedoperationsLayoutRouteWithChildren =

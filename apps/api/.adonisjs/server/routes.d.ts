@@ -29,6 +29,9 @@ export type ScannedRoutes = {
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.create': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_legal_identification': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
@@ -51,6 +54,7 @@ export type ScannedRoutes = {
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
@@ -64,12 +68,14 @@ export type ScannedRoutes = {
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
   }
   POST: {
     'admin.admins.create': { paramsTuple?: []; params?: {} }
     'admin.firms.create': { paramsTuple?: []; params?: {} }
     'admin.networks.create': { paramsTuple?: []; params?: {} }
     'admin.users.create': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
@@ -82,6 +88,7 @@ export type ScannedRoutes = {
     'admin.firms.update': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
     'admin.networks.update': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.update_legal_identification': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.account_management.password.update': { paramsTuple?: []; params?: {} }
   }
   DELETE: {
