@@ -99,7 +99,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<p className="mt-1 text-neutral-11 text-sm">{t("description")}</p>
 				</div>
 
-				<div className="grid gap-4 md:grid-cols-2">
+				<div className="grid gap-4 md:grid-cols-3">
 					<form.AppField
 						name="siren"
 						validators={{ onBlur: legalIdentificationSchema.shape.siren }}
@@ -199,7 +199,11 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							},
 						}}
 					>
-						{(field) => <field.TextField label={t("field.name.label")} required />}
+						{(field) => (
+							<div className="md:col-span-2">
+								<field.TextField label={t("field.name.label")} required />
+							</div>
+						)}
 					</form.AppField>
 
 					<form.AppField
@@ -232,7 +236,12 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 											if (!open) field.handleBlur();
 										}}
 									>
-										<Select.Input id={field.name} name={field.name} aria-invalid={isInvalid}>
+										<Select.Input
+											id={field.name}
+											name={field.name}
+											aria-invalid={isInvalid}
+											className="w-full"
+										>
 											<Select.Value placeholder={t("field.legalForm.placeholder")} />
 										</Select.Input>
 										<Select.Dropdown>
@@ -295,7 +304,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						{(field) => (
 							<field.TextField
 								label={t("field.financialYearClosingDay.label")}
-								description={t("field.financialYearClosingDay.description")}
 								required
 								inputProps={{ inputMode: "numeric", placeholder: "JJ/MM", maxLength: 5 }}
 							/>

@@ -4,8 +4,8 @@
 		"title": "Identification légale",
 		"description": "Renseignez les informations d'identification de l'entreprise.",
 		"field": {
-			"siren": { "label": "Numéro SIREN" },
-			"siret": { "label": "Numéro SIRET" },
+			"siren": { "label": "SIREN" },
+			"siret": { "label": "SIRET" },
 			"naf": { "label": "Code NAF" },
 			"vatNumber": { "label": "N° de TVA intracommunautaire" },
 			"name": { "label": "Raison sociale" },
@@ -13,11 +13,8 @@
 				"label": "Forme juridique",
 				"placeholder": "Sélectionner une forme juridique"
 			},
-			"companyHeadcount": { "label": "Effectif de l'entreprise" },
-			"financialYearClosingDay": {
-				"label": "Date de clôture de l'exercice",
-				"description": "Au format JJ/MM"
-			}
+			"companyHeadcount": { "label": "Effectif" },
+			"financialYearClosingDay": { "label": "Clôture de l'exercice" }
 		},
 		"legalForm": {
 			"1": "Association",
