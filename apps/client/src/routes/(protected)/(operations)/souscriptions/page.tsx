@@ -23,13 +23,13 @@ function SubscriptionsPage() {
 		<PageHeader
 			actions={
 				<Button
-					className="bg-secondary-9 text-primary-12 hover:bg-secondary-10"
 					onClick={() =>
 						navigate({
 							to: "/souscription/$id",
 							params: { id: crypto.randomUUID() },
 						})
 					}
+					variant="primary"
 				>
 					<PlusIcon />
 					{t("action.new-subscription")}

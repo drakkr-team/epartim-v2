@@ -23,18 +23,18 @@ function ClientPortfolioPage() {
 		<PageHeader
 			actions={
 				<>
-					<Button className="border-neutral-6 bg-neutral-1 text-primary-12 hover:border-neutral-6 hover:bg-neutral-1">
+					<Button variant="default">
 						<DownloadIcon />
 						{t("action.export")}
 					</Button>
 					<Button
-						className="bg-secondary-9 text-primary-12 hover:bg-secondary-10"
 						onClick={() =>
 							navigate({
 								to: "/souscription/$id",
 								params: { id: crypto.randomUUID() },
 							})
 						}
+						variant="primary"
 					>
 						<PlusIcon />
 						{t("action.new-subscription")}

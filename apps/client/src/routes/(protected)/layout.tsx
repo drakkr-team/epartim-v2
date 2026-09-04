@@ -20,12 +20,14 @@ export const Route = createFileRoute("/(protected)")({
 
 function Layout() {
 	return (
-		<div className="flex min-h-svh bg-secondary-2">
+		<div className="flex min-h-svh text-neutral-12">
 			<Sidebar />
-			<main className="min-w-0 flex-1">
-				<Breadcrumb />
-				<div className="p-4 pt-8 sm:p-8 lg:p-12">
-					<Outlet />
+			<main className="ml-64 min-w-0 flex-1">
+				<div className="container mx-auto">
+					<Breadcrumb />
+					<div className="p-4 pt-8 sm:p-8 sm:pt-12">
+						<Outlet />
+					</div>
 				</div>
 			</main>
 		</div>

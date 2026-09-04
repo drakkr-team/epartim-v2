@@ -17,12 +17,8 @@ export function PageHeader(props: PageHeaderProps) {
 		<header className="border-neutral-4 border-b pb-4 sm:pb-6">
 			<div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
 				<div>
-					<p className="font-semibold text-secondary-11 text-xs uppercase tracking-[0.18em]">
-						{section}
-					</p>
-					<h1 className="mt-3 font-bold text-primary-12 text-xl leading-tight sm:text-3xl">
-						{title}
-					</h1>
+					<p className="font-bold text-primary-9 text-xs uppercase tracking-widest">{section}</p>
+					<h1 className="mt-3 font-bold text-3xl text-secondary-12">{title}</h1>
 					<p className="mt-2 text-neutral-11 text-xs leading-snug sm:text-base">{description}</p>
 				</div>
 
