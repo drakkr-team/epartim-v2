@@ -44,9 +44,14 @@ export function TextField(props: TextFieldProps) {
 			/>
 			{description && <Field.Description>{description}</Field.Description>}
 			{isInvalid &&
-				field.state.meta.errors.map((error) => (
-					<Field.Error key={`${error.code}-${error.path}`}>{error.message}</Field.Error>
-				))}
+				field.state.meta.errors
+					.flat()
+					.filter((error) => error !== undefined)
+					.map((error) => {
+						const message = typeof error === "string" ? error : error.message;
+
+						return <Field.Error key={message}>{message}</Field.Error>;
+					})}
 		</Field>
 	);
 }

@@ -1,5 +1,11 @@
 {
 	"routes.(private).(operations).souscription.$id": {
-		"description": "Préparez le bulletin de souscription entreprise avant de renseigner ses références."
+		"eyebrow": "Étape 01 sur 05 · Références entreprise",
+		"title": "Références entreprise",
+		"description": "Renseignez les informations de l'entreprise pour préparer le bulletin de souscription.",
+		"error": "La souscription demandée est introuvable ou inaccessible.",
+		"action": {
+			"quit": "Quitter"
+		}
 	}
 }

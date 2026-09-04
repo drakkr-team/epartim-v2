@@ -1,10 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
 import { PlusIcon } from "@workspace/ui-react/icons";
 
 import { PageHeader } from "#/components/app/page-header";
+import { useCreateSubscriptionMutation } from "#/features/subscriptions/legal_identification/hooks/use-create-subscription-mutation";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
 export const Route = createFileRoute("/(protected)/(operations)/souscriptions/")({
@@ -17,20 +18,12 @@ export const Route = createFileRoute("/(protected)/(operations)/souscriptions/")
 function SubscriptionsPage() {
 	const { t: tRoute } = useTranslation("routes.(private)");
 	const { t } = useTranslation("routes.(private).(operations).souscriptions");
-	const navigate = useNavigate();
+	const { mutate: createSubscription, isPending } = useCreateSubscriptionMutation();
 
 	return (
 		<PageHeader
 			actions={
-				<Button
-					onClick={() =>
-						navigate({
-							to: "/souscription/$id",
-							params: { id: crypto.randomUUID() },
-						})
-					}
-					variant="primary"
-				>
+				<Button onClick={() => createSubscription({})} disabled={isPending} variant="primary">
 					<PlusIcon />
 					{t("action.new-subscription")}
 				</Button>

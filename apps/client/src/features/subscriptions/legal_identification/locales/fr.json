@@ -1,0 +1,88 @@
+{
+	"features.subscriptions.legal_identification.components.legal-identification-form": {
+		"eyebrow": "I. Identification légale",
+		"title": "Identification légale",
+		"description": "Renseignez les informations d'identification de l'entreprise.",
+		"field": {
+			"siren": { "label": "Numéro SIREN" },
+			"siret": { "label": "Numéro SIRET" },
+			"naf": { "label": "Code NAF" },
+			"vatNumber": { "label": "N° de TVA intracommunautaire" },
+			"name": { "label": "Raison sociale" },
+			"legalForm": {
+				"label": "Forme juridique",
+				"placeholder": "Sélectionner une forme juridique"
+			},
+			"companyHeadcount": { "label": "Effectif de l'entreprise" },
+			"financialYearClosingDay": {
+				"label": "Date de clôture de l'exercice",
+				"description": "Au format JJ/MM"
+			}
+		},
+		"legalForm": {
+			"1": "Association",
+			"2": "EARL",
+			"3": "GAEC",
+			"4": "GIE",
+			"5": "SA",
+			"6": "SARL",
+			"7": "SAS",
+			"8": "SELARL",
+			"9": "Société anonyme",
+			"10": "Société civile",
+			"11": "SPFPL",
+			"12": "Société coopérative",
+			"13": "Société de droit étranger",
+			"14": "SNC",
+			"15": "SCF",
+			"16": "Entreprise individuelle",
+			"17": "Profession libérale",
+			"18": "Entreprise d'assurances ou mutuelle",
+			"19": "Syndicat",
+			"20": "Institution financière ou bancaire",
+			"21": "Organisme public",
+			"22": "Établissement public local (EPIC)",
+			"23": "Établissement public local à régie personnalisée",
+			"24": "Autre"
+		},
+		"validation": {
+			"siren": "Le SIREN doit comporter 9 chiffres.",
+			"siret": "Le SIRET doit comporter 14 chiffres.",
+			"naf": "Le code NAF doit suivre le format 1234A.",
+			"required": "Ce champ est obligatoire.",
+			"max": "Cette valeur est trop longue.",
+			"legalForm": "Sélectionnez une forme juridique.",
+			"companyHeadcount": "Saisissez un effectif supérieur à zéro.",
+			"vatNumber": "Le numéro de TVA doit suivre le format FR00123456789.",
+			"financialYearClosingDay": "La date doit suivre le format JJ/MM."
+		}
+	},
+	"features.subscriptions.legal_identification.hooks.use-create-subscription-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Création indisponible",
+				"description": "La souscription n'a pas pu être créée. Réessayez dans un instant."
+			},
+			"E_UNEXPECTED": {
+				"title": "Création impossible",
+				"description": "Une erreur inattendue est survenue lors de la création de la souscription."
+			}
+		}
+	},
+	"features.subscriptions.legal_identification.hooks.use-update-subscription-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Enregistrement indisponible",
+				"description": "La modification n'a pas pu être enregistrée."
+			},
+			"E_VALIDATION": {
+				"title": "Enregistrement refusé",
+				"description": "La valeur ne respecte pas le format attendu."
+			},
+			"E_UNEXPECTED": {
+				"title": "Enregistrement impossible",
+				"description": "Une erreur inattendue est survenue."
+			}
+		}
+	}
+}
