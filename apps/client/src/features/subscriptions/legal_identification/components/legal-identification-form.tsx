@@ -1,26 +1,45 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
+import type { Company } from "@workspace/api/data";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
-import {
-	LEGAL_FORMS,
-	type SubscriptionFormValues,
-	useSubscriptionForm,
-} from "#/features/subscriptions/legal_identification/hooks/use-subscription-form";
+import { useUpdateSubscriptionMutation } from "#/features/subscriptions/legal_identification/hooks/use-update-subscription-mutation";
+import { useAppForm } from "#/libs/form";
+
+const LEGAL_FORMS = [
+	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+] as const;
+
+type LegalForm = (typeof LEGAL_FORMS)[number];
 
 type LegalIdentificationFormProps = {
 	subscriptionId: string;
-	defaultValues: SubscriptionFormValues;
+	legalIdentification: Company | null;
 };
 
 export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
-	const { subscriptionId, defaultValues } = props;
+	const { subscriptionId, legalIdentification } = props;
 	const { t } = useTranslation(
 		"features.subscriptions.legal_identification.components.legal-identification-form",
 	);
-	const form = useSubscriptionForm({ subscriptionId, defaultValues });
+	const { mutate: updateLegalIdentification } = useUpdateSubscriptionMutation(subscriptionId);
+	const legalForm = legalIdentification?.legalForm;
+	const companyHeadcount = Number(legalIdentification?.companyHeadcount);
+	const form = useAppForm({
+		defaultValues: {
+			siren: legalIdentification?.siren ?? "",
+			siret: legalIdentification?.siret ?? "",
+			naf: legalIdentification?.naf ?? "",
+			name: legalIdentification?.name ?? "",
+			legalForm: LEGAL_FORMS.includes(legalForm as LegalForm) ? (legalForm as LegalForm) : null,
+			companyHeadcount:
+				Number.isInteger(companyHeadcount) && companyHeadcount > 0 ? companyHeadcount : null,
+			vatNumber: legalIdentification?.vatNumber ?? "",
+			financialYearClosingDay: legalIdentification?.financialYearClosingDay ?? "",
+		},
+	});
 	const legalFormOptions = LEGAL_FORMS.map((value) => ({
 		value,
 		label: t(`legalForm.${value}`),
@@ -83,6 +102,16 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="siren"
 						validators={{ onBlur: legalIdentificationSchema.shape.siren }}
+						listeners={{
+							onBlur: ({ value: siren, fieldApi }) => {
+								if (!fieldApi.state.meta.isValid) return;
+
+								updateLegalIdentification({
+									params: { subscriptionId },
+									body: { legalIdentification: { siren } },
+								});
+							},
+						}}
 					>
 						{(field) => (
 							<field.TextField
@@ -96,6 +125,16 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="siret"
 						validators={{ onBlur: legalIdentificationSchema.shape.siret }}
+						listeners={{
+							onBlur: ({ value: siret, fieldApi }) => {
+								if (!fieldApi.state.meta.isValid) return;
+
+								updateLegalIdentification({
+									params: { subscriptionId },
+									body: { legalIdentification: { siret: siret || null } },
+								});
+							},
+						}}
 					>
 						{(field) => (
 							<field.TextField
@@ -105,7 +144,20 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						)}
 					</form.AppField>
 
-					<form.AppField name="naf" validators={{ onBlur: legalIdentificationSchema.shape.naf }}>
+					<form.AppField
+						name="naf"
+						validators={{ onBlur: legalIdentificationSchema.shape.naf }}
+						listeners={{
+							onBlur: ({ value: naf, fieldApi }) => {
+								if (!fieldApi.state.meta.isValid) return;
+
+								updateLegalIdentification({
+									params: { subscriptionId },
+									body: { legalIdentification: { naf } },
+								});
+							},
+						}}
+					>
 						{(field) => (
 							<field.TextField
 								label={t("field.naf.label")}
@@ -118,17 +170,50 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="vatNumber"
 						validators={{ onBlur: legalIdentificationSchema.shape.vatNumber }}
+						listeners={{
+							onBlur: ({ value: vatNumber, fieldApi }) => {
+								if (!fieldApi.state.meta.isValid) return;
+
+								updateLegalIdentification({
+									params: { subscriptionId },
+									body: { legalIdentification: { vatNumber: vatNumber || null } },
+								});
+							},
+						}}
 					>
 						{(field) => <field.TextField label={t("field.vatNumber.label")} />}
 					</form.AppField>
 
-					<form.AppField name="name" validators={{ onBlur: legalIdentificationSchema.shape.name }}>
+					<form.AppField
+						name="name"
+						validators={{ onBlur: legalIdentificationSchema.shape.name }}
+						listeners={{
+							onBlur: ({ value: name, fieldApi }) => {
+								if (!fieldApi.state.meta.isValid) return;
+
+								updateLegalIdentification({
+									params: { subscriptionId },
+									body: { legalIdentification: { name } },
+								});
+							},
+						}}
+					>
 						{(field) => <field.TextField label={t("field.name.label")} required />}
 					</form.AppField>
 
 					<form.AppField
 						name="legalForm"
 						validators={{ onBlur: legalIdentificationSchema.shape.legalForm }}
+						listeners={{
+							onBlur: ({ value: legalForm, fieldApi }) => {
+								if (!fieldApi.state.meta.isValid || legalForm === null) return;
+
+								updateLegalIdentification({
+									params: { subscriptionId },
+									body: { legalIdentification: { legalForm } },
+								});
+							},
+						}}
 					>
 						{(field) => {
 							const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
@@ -172,6 +257,16 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="companyHeadcount"
 						validators={{ onBlur: legalIdentificationSchema.shape.companyHeadcount }}
+						listeners={{
+							onBlur: ({ value: companyHeadcount, fieldApi }) => {
+								if (!fieldApi.state.meta.isValid || companyHeadcount === null) return;
+
+								updateLegalIdentification({
+									params: { subscriptionId },
+									body: { legalIdentification: { companyHeadcount } },
+								});
+							},
+						}}
 					>
 						{(field) => (
 							<field.NumberField
@@ -185,6 +280,16 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="financialYearClosingDay"
 						validators={{ onBlur: legalIdentificationSchema.shape.financialYearClosingDay }}
+						listeners={{
+							onBlur: ({ value: financialYearClosingDay, fieldApi }) => {
+								if (!fieldApi.state.meta.isValid) return;
+
+								updateLegalIdentification({
+									params: { subscriptionId },
+									body: { legalIdentification: { financialYearClosingDay } },
+								});
+							},
+						}}
 					>
 						{(field) => (
 							<field.TextField
