@@ -8,16 +8,16 @@ import { useSubscriptionQuery } from "#/features/subscriptions/hooks/use-subscri
 import { LegalIdentificationForm } from "#/features/subscriptions/legal_identification/components/form.tsx";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
-export const Route = createFileRoute("/(protected)/(operations)/souscription/$id/")({
+export const Route = createFileRoute("/(protected)/(operations)/subscriptions/$id/")({
 	staticData: {
-		breadcrumb: { labelKey: "new-subscription", to: "/souscription/$id" },
+		breadcrumb: { labelKey: "new-subscription", to: "/subscriptions/$id" },
 	} satisfies BreadcrumbStaticData,
 	component: NewSubscriptionPage,
 });
 
 function NewSubscriptionPage() {
 	const { id } = Route.useParams();
-	const { t } = useTranslation("routes.(private).(operations).souscription.$id");
+	const { t } = useTranslation("routes.(private).(operations).subscriptions.$id");
 	const subscriptionQuery = useSubscriptionQuery(id);
 
 	if (subscriptionQuery.isPending) {
@@ -46,7 +46,7 @@ function NewSubscriptionPage() {
 			/>
 
 			<footer className="flex justify-start border-neutral-4 border-t pt-6">
-				<Button nativeButton={false} variant="ghost" render={<Link to="/souscriptions" />}>
+				<Button nativeButton={false} variant="ghost" render={<Link to="/subscriptions" />}>
 					{t("action.quit")}
 				</Button>
 			</footer>

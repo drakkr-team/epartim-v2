@@ -20,7 +20,7 @@ export function Sidebar() {
 				},
 				{
 					label: t("navigation.item.subscriptions"),
-					to: "/souscriptions",
+					to: "/subscriptions",
 					icon: FilePenLineIcon,
 				},
 			],

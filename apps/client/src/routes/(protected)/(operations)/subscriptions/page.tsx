@@ -8,16 +8,16 @@ import { PageHeader } from "#/components/app/page-header";
 import { useCreateSubscriptionMutation } from "#/features/subscriptions/hooks/use-create-mutation";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
-export const Route = createFileRoute("/(protected)/(operations)/souscriptions/")({
+export const Route = createFileRoute("/(protected)/(operations)/subscriptions/")({
 	staticData: {
-		breadcrumb: { labelKey: "subscriptions", to: "/souscriptions" },
+		breadcrumb: { labelKey: "subscriptions", to: "/subscriptions" },
 	} satisfies BreadcrumbStaticData,
 	component: SubscriptionsPage,
 });
 
 function SubscriptionsPage() {
 	const { t: tRoute } = useTranslation("routes.(private)");
-	const { t } = useTranslation("routes.(private).(operations).souscriptions");
+	const { t } = useTranslation("routes.(private).(operations).subscriptions");
 	const { mutate: createSubscription, isPending } = useCreateSubscriptionMutation();
 
 	return (

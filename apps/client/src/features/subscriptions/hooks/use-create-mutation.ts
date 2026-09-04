@@ -13,7 +13,7 @@ export function useCreateSubscriptionMutation() {
 		api.subscriptions.create.mutationOptions({
 			onSuccess: (subscription) =>
 				navigate({
-					to: "/souscription/$id",
+					to: "/subscriptions/$id",
 					params: { id: String(subscription.id) },
 				}),
 			onError: (error) => {
