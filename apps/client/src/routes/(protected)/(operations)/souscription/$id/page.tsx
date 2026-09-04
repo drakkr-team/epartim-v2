@@ -5,7 +5,7 @@ import { Button } from "@workspace/ui-react/components/button";
 import { Spinner } from "@workspace/ui-react/components/spinner";
 
 import { LegalIdentificationForm } from "#/features/subscriptions/legal_identification/components/legal-identification-form";
-import { getLegalIdentificationFormValues } from "#/features/subscriptions/legal_identification/form-values";
+import { getSubscriptionFormValues } from "#/features/subscriptions/legal_identification/hooks/use-subscription-form";
 import { useSubscriptionQuery } from "#/features/subscriptions/legal_identification/hooks/use-subscription-query";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
@@ -43,7 +43,7 @@ function NewSubscriptionPage() {
 
 			<LegalIdentificationForm
 				subscriptionId={id}
-				defaultValues={getLegalIdentificationFormValues(subscriptionQuery.data.legalIdentification)}
+				defaultValues={getSubscriptionFormValues(subscriptionQuery.data.legalIdentification)}
 			/>
 
 			<footer className="flex justify-start border-neutral-4 border-t pt-6">

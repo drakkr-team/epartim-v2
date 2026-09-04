@@ -6,13 +6,13 @@ import { Select } from "@workspace/ui-react/components/select";
 
 import {
 	LEGAL_FORMS,
-	type LegalIdentificationFormValues,
-} from "#/features/subscriptions/legal_identification/form-values";
-import { useSubscriptionForm } from "#/features/subscriptions/legal_identification/hooks/use-subscription-form";
+	type SubscriptionFormValues,
+	useSubscriptionForm,
+} from "#/features/subscriptions/legal_identification/hooks/use-subscription-form";
 
 type LegalIdentificationFormProps = {
 	subscriptionId: string;
-	defaultValues: LegalIdentificationFormValues;
+	defaultValues: SubscriptionFormValues;
 };
 
 export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
