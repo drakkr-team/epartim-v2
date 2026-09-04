@@ -1,5 +1,6 @@
 import { test } from "@japa/runner";
 
+import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Company from "#models/company";
@@ -14,6 +15,7 @@ test.group(
 				createdBy: user.id,
 				status: SubscriptionStatus.DRAFT,
 			}).create();
+			await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
 
 			const response = await client
 				.visit("client.subscriptions.update_legal_identification", {
@@ -35,11 +37,18 @@ test.group(
 			assert.equal(company.companyHeadcount, "12");
 		});
 
-		test("it should reject invalid data before creating a company", async ({ client, assert }) => {
+		test("it should reject invalid data without updating the company", async ({
+			client,
+			assert,
+		}) => {
 			const user = await UserFactory.create();
 			const subscription = await SubscriptionFactory.merge({
 				createdBy: user.id,
 				status: SubscriptionStatus.DRAFT,
+			}).create();
+			const company = await CompanyFactory.merge({
+				subscriptionId: subscription.id,
+				siren: "987654321",
 			}).create();
 
 			const response = await client
@@ -53,7 +62,10 @@ test.group(
 				});
 
 			response.assertStatus(422);
-			assert.isNull(await Company.findBy("subscriptionId", subscription.id));
+			assert.equal(
+				(await Company.findByOrFail("subscriptionId", subscription.id)).siren,
+				company.siren,
+			);
 		});
 
 		test("it should not update another user's subscription", async ({ client }) => {

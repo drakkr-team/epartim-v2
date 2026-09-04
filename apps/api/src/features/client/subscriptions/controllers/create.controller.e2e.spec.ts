@@ -1,6 +1,7 @@
 import { test } from "@japa/runner";
 
 import { UserFactory } from "#database/factories/user.factory";
+import Company from "#models/company";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
 
 test.group("Features / Client / Subscriptions / Controllers / Create Controller", () => {
@@ -25,6 +26,10 @@ test.group("Features / Client / Subscriptions / Controllers / Create Controller"
 		const subscription = await Subscription.findOrFail(response.body().id);
 		assert.equal(subscription.createdBy, user.id);
 		assert.equal(subscription.status, SubscriptionStatus.DRAFT);
+		assert.equal(
+			(await Company.findByOrFail("subscriptionId", subscription.id)).subscriptionId,
+			subscription.id,
+		);
 	});
 
 	test("it should reject an unauthenticated request", async ({ client }) => {
