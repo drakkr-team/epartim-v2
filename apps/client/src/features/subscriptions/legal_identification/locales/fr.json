@@ -57,19 +57,7 @@
 			"financialYearClosingDay": "La date doit suivre le format JJ/MM."
 		}
 	},
-	"features.subscriptions.legal_identification.hooks.use-create-subscription-mutation": {
-		"error": {
-			"E_NETWORK": {
-				"title": "Création indisponible",
-				"description": "La souscription n'a pas pu être créée. Réessayez dans un instant."
-			},
-			"E_UNEXPECTED": {
-				"title": "Création impossible",
-				"description": "Une erreur inattendue est survenue lors de la création de la souscription."
-			}
-		}
-	},
-	"features.subscriptions.legal_identification.hooks.use-update-subscription-mutation": {
+	"features.subscriptions.legal_identification.hooks.use-update-mutation": {
 		"error": {
 			"E_NETWORK": {
 				"title": "Enregistrement indisponible",

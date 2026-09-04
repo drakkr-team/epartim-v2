@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@workspace/ui-react/components/button";
 import { Spinner } from "@workspace/ui-react/components/spinner";
 
+import { useSubscriptionQuery } from "#/features/subscriptions/hooks/use-subscription-query";
 import { LegalIdentificationForm } from "#/features/subscriptions/legal_identification/components/legal-identification-form";
-import { useSubscriptionQuery } from "#/features/subscriptions/legal_identification/hooks/use-subscription-query";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
 export const Route = createFileRoute("/(protected)/(operations)/souscription/$id/")({

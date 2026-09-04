@@ -5,7 +5,7 @@ import type { Company } from "@workspace/api/data";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
-import { useUpdateSubscriptionMutation } from "#/features/subscriptions/legal_identification/hooks/use-update-subscription-mutation";
+import { useUpdateLegalIdentificationMutation } from "#/features/subscriptions/legal_identification/hooks/use-update-mutation";
 import { useAppForm } from "#/libs/form";
 
 const LEGAL_FORMS = [
@@ -24,7 +24,8 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 	const { t } = useTranslation(
 		"features.subscriptions.legal_identification.components.legal-identification-form",
 	);
-	const { mutate: updateLegalIdentification } = useUpdateSubscriptionMutation(subscriptionId);
+	const { mutate: updateLegalIdentification } =
+		useUpdateLegalIdentificationMutation(subscriptionId);
 	const legalForm = legalIdentification?.legalForm;
 	const companyHeadcount = Number(legalIdentification?.companyHeadcount);
 	const form = useAppForm({

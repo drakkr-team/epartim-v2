@@ -5,7 +5,7 @@ import { Button } from "@workspace/ui-react/components/button";
 import { PlusIcon } from "@workspace/ui-react/icons";
 
 import { PageHeader } from "#/components/app/page-header";
-import { useCreateSubscriptionMutation } from "#/features/subscriptions/legal_identification/hooks/use-create-subscription-mutation";
+import { useCreateSubscriptionMutation } from "#/features/subscriptions/hooks/use-create-mutation";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
 export const Route = createFileRoute("/(protected)/(operations)/souscriptions/")({
