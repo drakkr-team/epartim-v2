@@ -1,5 +1,5 @@
 {
-	"features.subscriptions.hooks.use-subscriptions-table": {
+	"features.subscriptions.hooks.use-table": {
 		"header": {
 			"reference": "Référence BSE",
 			"client": "Client",

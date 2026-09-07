@@ -9,7 +9,7 @@ import { PlusIcon } from "@workspace/ui-react/icons";
 import { DataTable } from "#/components/app/data-table";
 import { PageHeader } from "#/components/app/page-header";
 import { useCreateSubscriptionMutation } from "#/features/subscriptions/hooks/use-create-mutation";
-import { useSubscriptionsTable } from "#/features/subscriptions/hooks/use-subscriptions-table";
+import { useSubscriptionsTable } from "#/features/subscriptions/hooks/use-table";
 import { api } from "#/libs/tuyau";
 
 const searchParamsSchema = z.object({

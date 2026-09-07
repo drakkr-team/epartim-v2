@@ -36,7 +36,7 @@ function getCurrentStep(completedSteps: unknown[] | null) {
 export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 	const { data, pagination } = params;
 
-	const { t } = useTranslation("features.subscriptions.hooks.use-subscriptions-table");
+	const { t } = useTranslation("features.subscriptions.hooks.use-table");
 	const navigate = useNavigate();
 	const router = useRouter();
 	const columns = useMemo(
@@ -44,7 +44,7 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 			columnHelper.accessor("id", {
 				header: t("header.reference"),
 				cell: ({ row }) => (
-					<span className="font-bold">
+					<span className="font-semibold">
 						{t("reference", {
 							year: row.original.createdAt.getFullYear(),
 							id: row.original.id,
@@ -58,7 +58,7 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 					const companyName = getValue().name;
 
 					return companyName ? (
-						<span className="font-bold">{companyName}</span>
+						<span className="font-semibold">{companyName}</span>
 					) : (
 						t("client.new-company")
 					);
