@@ -29,6 +29,7 @@ export type ScannedRoutes = {
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.list': { paramsTuple?: []; params?: {} }
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_legal_identification': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
@@ -54,6 +55,7 @@ export type ScannedRoutes = {
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.list': { paramsTuple?: []; params?: {} }
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
   }
   HEAD: {
@@ -68,6 +70,7 @@ export type ScannedRoutes = {
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.list': { paramsTuple?: []; params?: {} }
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
   }
   POST: {

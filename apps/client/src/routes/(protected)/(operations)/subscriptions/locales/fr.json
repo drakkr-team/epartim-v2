@@ -3,6 +3,10 @@
 		"description": "Suivez vos bulletins de souscription entreprise (BSE) en cours et consultez vos contrats signés.",
 		"action": {
 			"new-subscription": "Nouvelle souscription"
+		},
+		"empty": {
+			"title": "Aucune souscription",
+			"description": "Créez une souscription pour commencer un nouveau dossier."
 		}
 	}
 }

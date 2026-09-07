@@ -1,4 +1,34 @@
 {
+	"features.subscriptions.hooks.use-subscriptions-table": {
+		"header": {
+			"reference": "Référence BSE",
+			"client": "Client",
+			"progress": "Avancement",
+			"status": "Statut",
+			"created-at": "Saisie le",
+			"updated-at": "Dernière mise à jour",
+			"open": "Ouvrir"
+		},
+		"reference": "BSE-{{year}}-{{id}}",
+		"client": {
+			"new-company": "Nouvelle entreprise"
+		},
+		"progress": {
+			"label": "Avancement : {{current}}/5",
+			"value": "{{current}}/5"
+		},
+		"status": {
+			"draft": "Saisie en cours",
+			"waiting-for-signatures": "En attente de signatures",
+			"to-be-sent": "À envoyer",
+			"complete": "Finalisée",
+			"error": "Erreur",
+			"unknown": "Statut inconnu"
+		},
+		"action": {
+			"open": "Ouvrir la souscription {{reference}}"
+		}
+	},
 	"features.subscriptions.hooks.use-create-mutation": {
 		"error": {
 			"E_NETWORK": {
