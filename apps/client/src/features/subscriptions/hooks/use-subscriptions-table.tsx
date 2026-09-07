@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { type MouseEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Company, Pagination, Subscription } from "@workspace/api/data";
@@ -42,15 +42,26 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 		() => [
 			columnHelper.accessor("id", {
 				header: t("header.reference"),
-				cell: ({ row }) =>
-					t("reference", {
-						year: row.original.createdAt.getFullYear(),
-						id: row.original.id,
-					}),
+				cell: ({ row }) => (
+					<span className="font-bold">
+						{t("reference", {
+							year: row.original.createdAt.getFullYear(),
+							id: row.original.id,
+						})}
+					</span>
+				),
 			}),
 			columnHelper.accessor("company", {
 				header: t("header.client"),
-				cell: ({ getValue }) => getValue().name || t("client.new-company"),
+				cell: ({ getValue }) => {
+					const companyName = getValue().name;
+
+					return companyName ? (
+						<span className="font-bold">{companyName}</span>
+					) : (
+						t("client.new-company")
+					);
+				},
 			}),
 			columnHelper.accessor("completedSteps", {
 				header: t("header.progress"),
@@ -72,7 +83,7 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 									style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
 								/>
 							</div>
-							<span>{t("progress.value", { current: currentStep })}</span>
+							<span className="font-bold text-xs">{t("progress.value", { current: currentStep })}</span>
 						</div>
 					);
 				},
@@ -87,12 +98,17 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 			}),
 			columnHelper.accessor("createdAt", {
 				header: t("header.created-at"),
-				cell: ({ getValue }) => getValue().toLocaleDateString("fr-FR"),
+				cell: ({ getValue }) => (
+					<span className="text-neutral-9 text-xs">{getValue().toLocaleDateString("fr-FR")}</span>
+				),
 			}),
 			columnHelper.accessor("updatedAt", {
 				header: t("header.updated-at"),
-				cell: ({ getValue }) =>
-					getValue().toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short" }),
+				cell: ({ getValue }) => (
+					<span className="text-neutral-9 text-xs">
+						{getValue().toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short" })}
+					</span>
+				),
 			}),
 			columnHelper.display({
 				id: "open",
@@ -111,7 +127,7 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 								<Link
 									to="/subscriptions/$id"
 									params={{ id: row.original.id.toString() }}
-									onClick={(event) => event.stopPropagation()}
+									onClick={(event: MouseEvent<HTMLAnchorElement>) => event.stopPropagation()}
 								/>
 							}
 							size="icon-sm"
