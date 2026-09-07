@@ -4,17 +4,18 @@ import { type MouseEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Company, Pagination, Subscription } from "@workspace/api/data";
+import { Badge } from "@workspace/ui-react/components/badge";
 import { Button } from "@workspace/ui-react/components/button";
 import { ChevronRightIcon } from "@workspace/ui-react/icons";
 
 const TOTAL_STEPS = 5;
 
-const statusTranslationKeys = [
-	"draft",
-	"waiting-for-signatures",
-	"to-be-sent",
-	"complete",
-	"error",
+const subscriptionStatuses = [
+	{ translationKey: "draft", variant: "neutral" },
+	{ translationKey: "waiting-for-signatures", variant: "warning" },
+	{ translationKey: "to-be-sent", variant: "info" },
+	{ translationKey: "complete", variant: "success" },
+	{ translationKey: "error", variant: "error" },
 ] as const;
 
 export type SubscriptionRow = Subscription & {
@@ -83,7 +84,9 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 									style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
 								/>
 							</div>
-							<span className="font-bold text-xs">{t("progress.value", { current: currentStep })}</span>
+							<span className="font-bold text-xs">
+								{t("progress.value", { current: currentStep })}
+							</span>
 						</div>
 					);
 				},
@@ -91,9 +94,9 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 			columnHelper.accessor("status", {
 				header: t("header.status"),
 				cell: ({ getValue }) => {
-					const translationKey = statusTranslationKeys[getValue()];
+					const status = subscriptionStatuses[getValue()];
 
-					return t(`status.${translationKey ?? "unknown"}`);
+					return <Badge variant={status.variant}>{t(`status.${status.translationKey}`)}</Badge>;
 				},
 			}),
 			columnHelper.accessor("createdAt", {
