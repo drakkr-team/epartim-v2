@@ -107,7 +107,13 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 						<Button
 							aria-label={t("action.open", { reference })}
 							nativeButton={false}
-							render={<Link to="/subscriptions/$id" params={{ id: row.original.id.toString() }} />}
+							render={
+								<Link
+									to="/subscriptions/$id"
+									params={{ id: row.original.id.toString() }}
+									onClick={(event) => event.stopPropagation()}
+								/>
+							}
 							size="icon-sm"
 							variant="ghost"
 						>

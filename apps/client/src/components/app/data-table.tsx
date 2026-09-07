@@ -82,21 +82,7 @@ function DataTableTable<TData>() {
 					<Table.Row
 						key={row.id}
 						interactive={!!table.options.meta?.rows?.onClick}
-						onClick={(event) => {
-							const target = event.target;
-							if (!(target instanceof Node) || !event.currentTarget.contains(target)) {
-								return;
-							}
-							if (
-								target instanceof Element &&
-								target.closest(
-									"a, button, input, label, select, summary, textarea, [contenteditable]:not([contenteditable='false']), [role='button'], [role='checkbox'], [role='link'], [role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'], [role='option'], [role='radio'], [role='switch'], [role='tab'], [role='treeitem'], [tabindex]:not([tabindex='-1'])",
-								)
-							) {
-								return;
-							}
-							table.options.meta?.rows?.onClick?.(row.original);
-						}}
+						onClick={() => table.options.meta?.rows?.onClick?.(row.original)}
 						onMouseEnter={() => table.options.meta?.rows?.onMouseEnter?.(row.original)}
 					>
 						{row.getVisibleCells().map((cell) => (
