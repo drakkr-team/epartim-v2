@@ -1,0 +1,14 @@
+{
+	"features.subscriptions.hooks.use-create-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Création indisponible",
+				"description": "La souscription n'a pas pu être créée. Réessayez dans un instant."
+			},
+			"E_UNEXPECTED": {
+				"title": "Création impossible",
+				"description": "Une erreur inattendue est survenue lors de la création de la souscription."
+			}
+		}
+	}
+}

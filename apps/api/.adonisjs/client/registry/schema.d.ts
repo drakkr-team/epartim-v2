@@ -307,6 +307,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/profile/controllers/delete.controller').default['handle']>>>
     }
   }
+  'client.subscriptions.create': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/create.controller').default['handle']>>>
+    }
+  }
+  'client.subscriptions.view': {
+    methods: ["GET","HEAD"]
+    pattern: '/client/subscriptions/:subscriptionId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/view.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/view.controller').default['handle']>>>
+    }
+  }
+  'client.subscriptions.update_legal_identification': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/legal-identification'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/legal_identification.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/legal_identification.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/legal_identification.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/legal_identification.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.account_management.authentication.login': {
     methods: ["POST"]
     pattern: '/admin/account-management/authentication/login'

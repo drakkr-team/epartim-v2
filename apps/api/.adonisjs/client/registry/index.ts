@@ -156,6 +156,24 @@ const routes = {
     tokens: [{"old":"/client/account-management/profile","type":0,"val":"client","end":""},{"old":"/client/account-management/profile","type":0,"val":"account-management","end":""},{"old":"/client/account-management/profile","type":0,"val":"profile","end":""}],
     types: placeholder as Registry['client.account_management.profile.delete']['types'],
   },
+  'client.subscriptions.create': {
+    methods: ["POST"],
+    pattern: '/client/subscriptions',
+    tokens: [{"old":"/client/subscriptions","type":0,"val":"client","end":""},{"old":"/client/subscriptions","type":0,"val":"subscriptions","end":""}],
+    types: placeholder as Registry['client.subscriptions.create']['types'],
+  },
+  'client.subscriptions.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/client/subscriptions/:subscriptionId',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId","type":1,"val":"subscriptionId","end":""}],
+    types: placeholder as Registry['client.subscriptions.view']['types'],
+  },
+  'client.subscriptions.update_legal_identification': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/legal-identification',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/legal-identification","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/legal-identification","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/legal-identification","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/legal-identification","type":0,"val":"legal-identification","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_legal_identification']['types'],
+  },
   'admin.account_management.authentication.login': {
     methods: ["POST"],
     pattern: '/admin/account-management/authentication/login',

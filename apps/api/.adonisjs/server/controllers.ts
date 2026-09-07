@@ -65,6 +65,13 @@ export const controllers = {
           View: () => import('#src/features/client/account_management/profile/controllers/view.controller'),
         },
       },
+      subscriptions: {
+        Create: () => import('#src/features/client/subscriptions/controllers/create.controller'),
+        update: {
+          LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
+        },
+        View: () => import('#src/features/client/subscriptions/controllers/view.controller'),
+      },
     },
   },
 }

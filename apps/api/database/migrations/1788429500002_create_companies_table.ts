@@ -9,7 +9,7 @@ export default class extends BaseSchema {
 
 			table
 				.integer("subscription_id")
-				.nullable()
+				.notNullable()
 				.unique()
 				.references("id")
 				.inTable("subscriptions")

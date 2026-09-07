@@ -22,6 +22,8 @@ export type Pagination = Awaited<ReturnType<typeof import("#presenters/paginatio
 
 export type PaymentDetail = Awaited<ReturnType<typeof import("#presenters/payment_detail.presenter").default.prototype.toJSON>>;
 
+export type SubscriptionLegalIdentification = Awaited<ReturnType<typeof import("#presenters/subscription_legal_identification.presenter").default.prototype.toJSON>>;
+
 export type Subscription = Awaited<ReturnType<typeof import("#presenters/subscription.presenter").default.prototype.toJSON>>;
 
 export type User = Awaited<ReturnType<typeof import("#presenters/user.presenter").default.prototype.toJSON>>;

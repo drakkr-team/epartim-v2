@@ -20,7 +20,7 @@ export function Sidebar() {
 				},
 				{
 					label: t("navigation.item.subscriptions"),
-					to: "/souscriptions",
+					to: "/subscriptions",
 					icon: FilePenLineIcon,
 				},
 			],
@@ -30,7 +30,7 @@ export function Sidebar() {
 	return (
 		<UiSidebar>
 			<UiSidebar.Header>
-				<Logo className="h-8 w-auto" />
+				<Logo className="h-12 w-auto text-neutral-1" />
 			</UiSidebar.Header>
 
 			<UiSidebar.Body>
