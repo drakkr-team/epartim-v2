@@ -10,7 +10,6 @@ import { DataTable } from "#/components/app/data-table";
 import { PageHeader } from "#/components/app/page-header";
 import { useCreateSubscriptionMutation } from "#/features/subscriptions/hooks/use-create-mutation";
 import { useSubscriptionsTable } from "#/features/subscriptions/hooks/use-subscriptions-table";
-import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 import { api } from "#/libs/tuyau";
 
 const searchParamsSchema = z.object({
@@ -27,9 +26,6 @@ export const Route = createFileRoute("/(protected)/(operations)/subscriptions/")
 	loader: async ({ context, deps }) => {
 		await context.queryClient.ensureQueryData(api.subscriptions.list.queryOptions({ query: deps }));
 	},
-	staticData: {
-		breadcrumb: { labelKey: "subscriptions", to: "/subscriptions" },
-	} satisfies BreadcrumbStaticData,
 	component: SubscriptionsPage,
 });
 
