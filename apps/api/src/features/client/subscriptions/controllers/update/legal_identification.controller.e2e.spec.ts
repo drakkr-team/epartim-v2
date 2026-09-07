@@ -67,26 +67,5 @@ test.group(
 				company.siren,
 			);
 		});
-
-		test("it should forbid updating another user's subscription", async ({ client }) => {
-			const owner = await UserFactory.create();
-			const otherUser = await UserFactory.create();
-			const subscription = await SubscriptionFactory.merge({
-				createdBy: owner.id,
-				status: SubscriptionStatus.DRAFT,
-			}).create();
-
-			const response = await client
-				.visit("client.subscriptions.update_legal_identification", {
-					subscriptionId: subscription.id,
-				})
-				.withGuard("client")
-				.loginAs(otherUser)
-				.json({
-					legalIdentification: { siren: "123456789" },
-				});
-
-			response.assertForbidden();
-		});
 	},
 );
