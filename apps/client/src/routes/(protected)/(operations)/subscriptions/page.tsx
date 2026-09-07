@@ -24,7 +24,10 @@ export const Route = createFileRoute("/(protected)/(operations)/subscriptions/")
 		perPage: search.perPage,
 	}),
 	loader: async ({ context, deps }) => {
-		await context.queryClient.ensureQueryData(api.subscriptions.list.queryOptions({ query: deps }));
+		await context.queryClient.query({
+			...api.subscriptions.list.queryOptions({ query: deps }),
+			staleTime: "static",
+		});
 	},
 	component: SubscriptionsPage,
 });
