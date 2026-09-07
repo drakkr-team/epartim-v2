@@ -5,14 +5,10 @@ import type { Company } from "@workspace/api/data";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
-import { useUpdateLegalIdentificationMutation } from "#/features/subscriptions/legal_identification/hooks/use-update-mutation";
-import { useAppForm } from "#/libs/form";
-
-const LEGAL_FORMS = [
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-] as const;
-
-type LegalForm = (typeof LEGAL_FORMS)[number];
+import {
+	LEGAL_FORMS,
+	useLegalIdentificationForm,
+} from "#/features/subscriptions/legal_identification/hooks/use-form";
 
 type LegalIdentificationFormProps = {
 	subscriptionId: string;
@@ -24,22 +20,9 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 	const { t } = useTranslation(
 		"features.subscriptions.legal_identification.components.legal-identification-form",
 	);
-	const { mutate: updateLegalIdentification } =
-		useUpdateLegalIdentificationMutation(subscriptionId);
-	const legalForm = legalIdentification?.legalForm;
-	const companyHeadcount = Number(legalIdentification?.companyHeadcount);
-	const form = useAppForm({
-		defaultValues: {
-			siren: legalIdentification?.siren ?? "",
-			siret: legalIdentification?.siret ?? "",
-			naf: legalIdentification?.naf ?? "",
-			name: legalIdentification?.name ?? "",
-			legalForm: LEGAL_FORMS.includes(legalForm as LegalForm) ? (legalForm as LegalForm) : null,
-			companyHeadcount:
-				Number.isInteger(companyHeadcount) && companyHeadcount > 0 ? companyHeadcount : null,
-			vatNumber: legalIdentification?.vatNumber ?? "",
-			financialYearClosingDay: legalIdentification?.financialYearClosingDay ?? "",
-		},
+	const { form, updateLegalIdentification } = useLegalIdentificationForm({
+		subscriptionId,
+		legalIdentification,
 	});
 	const legalFormOptions = LEGAL_FORMS.map((value) => ({
 		value,
@@ -107,10 +90,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: ({ value: siren, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({
-									params: { subscriptionId },
-									body: { legalIdentification: { siren } },
-								});
+								updateLegalIdentification({ siren });
 							},
 						}}
 					>
@@ -130,10 +110,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: ({ value: siret, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({
-									params: { subscriptionId },
-									body: { legalIdentification: { siret: siret || null } },
-								});
+								updateLegalIdentification({ siret: siret || null });
 							},
 						}}
 					>
@@ -152,10 +129,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: ({ value: naf, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({
-									params: { subscriptionId },
-									body: { legalIdentification: { naf } },
-								});
+								updateLegalIdentification({ naf });
 							},
 						}}
 					>
@@ -175,10 +149,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: ({ value: vatNumber, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({
-									params: { subscriptionId },
-									body: { legalIdentification: { vatNumber: vatNumber || null } },
-								});
+								updateLegalIdentification({ vatNumber: vatNumber || null });
 							},
 						}}
 					>
@@ -192,10 +163,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: ({ value: name, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({
-									params: { subscriptionId },
-									body: { legalIdentification: { name } },
-								});
+								updateLegalIdentification({ name });
 							},
 						}}
 					>
@@ -213,10 +181,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: ({ value: legalForm, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid || legalForm === null) return;
 
-								updateLegalIdentification({
-									params: { subscriptionId },
-									body: { legalIdentification: { legalForm } },
-								});
+								updateLegalIdentification({ legalForm });
 							},
 						}}
 					>
@@ -271,10 +236,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: ({ value: companyHeadcount, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid || companyHeadcount === null) return;
 
-								updateLegalIdentification({
-									params: { subscriptionId },
-									body: { legalIdentification: { companyHeadcount } },
-								});
+								updateLegalIdentification({ companyHeadcount });
 							},
 						}}
 					>
@@ -294,10 +256,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: ({ value: financialYearClosingDay, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({
-									params: { subscriptionId },
-									body: { legalIdentification: { financialYearClosingDay } },
-								});
+								updateLegalIdentification({ financialYearClosingDay });
 							},
 						}}
 					>
