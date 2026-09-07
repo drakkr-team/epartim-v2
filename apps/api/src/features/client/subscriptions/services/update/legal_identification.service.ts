@@ -12,9 +12,9 @@ export type UpdateLegalIdentificationPayload = Infer<
 export default class UpdateLegalIdentificationService {
 	async handle(subscription: Subscription, payload: UpdateLegalIdentificationPayload) {
 		return db.transaction(async (trx) => {
-			const company = await Company.query({ client: trx })
-				.where("subscriptionId", subscription.id)
-				.firstOrFail();
+			const company = await Company.findByOrFail("subscriptionId", subscription.id, {
+				client: trx,
+			});
 			const { companyHeadcount, ...legalIdentification } = payload.legalIdentification;
 
 			await company

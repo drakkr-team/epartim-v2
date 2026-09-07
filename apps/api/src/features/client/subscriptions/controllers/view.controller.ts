@@ -3,23 +3,24 @@ import type { HttpContext } from "@adonisjs/core/http";
 
 import SubscriptionAccessPolicy from "#features/client/subscriptions/policies/access.policy";
 import Subscription from "#models/subscription";
-import User from "#models/user";
-import SubscriptionLegalIdentificationPresenter from "#presenters/subscription_legal_identification.presenter";
+import CompanyPresenter from "#presenters/company.presenter";
+import SubscriptionPresenter from "#presenters/subscription.presenter";
 
 @inject()
 export default class ViewSubscriptionController {
 	constructor(
-		protected subscriptionLegalIdentificationPresenter: SubscriptionLegalIdentificationPresenter,
+		protected subscriptionPresenter: SubscriptionPresenter,
+		protected companyPresenter: CompanyPresenter,
 	) {}
 
-	async handle({ params, auth, bouncer }: HttpContext) {
-		const subscription = await Subscription.query()
-			.where("id", params.subscriptionId)
-			.where("createdBy", (auth.user as User).id)
-			.firstOrFail();
-		await subscription.load("company");
+	async handle({ params, bouncer }: HttpContext) {
+		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(SubscriptionAccessPolicy).authorize("handle", subscription);
+		await subscription.load("company");
 
-		return this.subscriptionLegalIdentificationPresenter.toJSON(subscription);
+		return {
+			...this.subscriptionPresenter.toJSON(subscription),
+			legalIdentification: this.companyPresenter.toJSON(subscription.company),
+		};
 	}
 }

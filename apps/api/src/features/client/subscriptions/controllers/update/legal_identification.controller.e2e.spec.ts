@@ -68,7 +68,7 @@ test.group(
 			);
 		});
 
-		test("it should not update another user's subscription", async ({ client }) => {
+		test("it should forbid updating another user's subscription", async ({ client }) => {
 			const owner = await UserFactory.create();
 			const otherUser = await UserFactory.create();
 			const subscription = await SubscriptionFactory.merge({
@@ -86,7 +86,7 @@ test.group(
 					legalIdentification: { siren: "123456789" },
 				});
 
-			response.assertNotFound();
+			response.assertForbidden();
 		});
 	},
 );
