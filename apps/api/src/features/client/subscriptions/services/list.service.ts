@@ -66,7 +66,7 @@ export default class ListSubscriptionsService {
 			query
 				.whereHas("company", (companyQuery) => companyQuery.whereILike("name", `%${q}%`))
 				.orWhereRaw(
-					"concat('BSE-', to_char(subscriptions.created_at, 'YYYY'), '-', lpad(subscriptions.id::text, 4, '0')) ILIKE ?",
+					"concat('BSE-', to_char(subscriptions.created_at, 'YYYY'), '-', lpad(subscriptions.id::text, greatest(length(subscriptions.id::text), 4), '0')) ILIKE ?",
 					[`%${q}%`],
 				),
 		);

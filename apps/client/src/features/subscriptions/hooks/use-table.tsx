@@ -41,18 +41,17 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 	const { t } = useTranslation("features.subscriptions.hooks.use-table");
 	const navigate = useNavigate();
 	const router = useRouter();
-	const columns = useMemo(
-		() => [
+	const columns = useMemo(() => {
+		const getReference = (subscription: SubscriptionRow) =>
+			t("reference", {
+				year: subscription.createdAt.getFullYear(),
+				id: subscription.id.toString().padStart(4, "0"),
+			});
+
+		return [
 			columnHelper.accessor("id", {
 				header: t("header.reference"),
-				cell: ({ row }) => (
-					<span className="font-semibold">
-						{t("reference", {
-							year: row.original.createdAt.getFullYear(),
-							id: row.original.id,
-						})}
-					</span>
-				),
+				cell: ({ row }) => <span className="font-semibold">{getReference(row.original)}</span>,
 			}),
 			columnHelper.accessor("company", {
 				header: t("header.client"),
@@ -119,10 +118,7 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 				id: "open",
 				header: () => <span className="sr-only">{t("header.open")}</span>,
 				cell: ({ row }) => {
-					const reference = t("reference", {
-						year: row.original.createdAt.getFullYear(),
-						id: row.original.id,
-					});
+					const reference = getReference(row.original);
 
 					return (
 						<Button
@@ -143,9 +139,8 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 					);
 				},
 			}),
-		],
-		[t],
-	);
+		];
+	}, [t]);
 
 	return useReactTable({
 		data,

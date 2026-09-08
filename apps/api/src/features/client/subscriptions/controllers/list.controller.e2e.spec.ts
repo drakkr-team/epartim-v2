@@ -61,6 +61,7 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 
 	test("it searches subscriptions by their BSE reference", async ({ client, assert }) => {
 		const subscription = await SubscriptionFactory.merge({
+			id: 10_000,
 			status: SubscriptionStatus.DRAFT,
 		}).create();
 		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
