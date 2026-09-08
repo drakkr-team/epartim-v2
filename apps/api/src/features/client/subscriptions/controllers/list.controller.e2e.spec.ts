@@ -83,6 +83,98 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		response.assertBodyContains({ data: [{ id: subscription.id }] });
 	});
 
+	test("it filters subscriptions by progress and creation date", async ({ client, assert }) => {
+		const matchingDraftSubscription = await SubscriptionFactory.merge({
+			completedSteps: ["company", "contacts"],
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+		const matchingFinalizedSubscription = await SubscriptionFactory.merge({
+			completedSteps: ["company", "contacts"],
+			status: SubscriptionStatus.COMPLETE,
+		}).create();
+		const differentProgressSubscription = await SubscriptionFactory.merge({
+			completedSteps: ["company"],
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+		const differentDateSubscription = await SubscriptionFactory.merge({
+			completedSteps: ["company", "contacts"],
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+
+		for (const subscription of [
+			matchingDraftSubscription,
+			matchingFinalizedSubscription,
+			differentProgressSubscription,
+			differentDateSubscription,
+		]) {
+			await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		}
+
+		await Subscription.query()
+			.whereIn("id", [matchingDraftSubscription.id, matchingFinalizedSubscription.id])
+			.update({ createdAt: DateTime.fromISO("2026-09-04T12:00:00.000Z") });
+		await Subscription.query()
+			.where("id", differentProgressSubscription.id)
+			.update({ createdAt: DateTime.fromISO("2026-09-04T12:00:00.000Z") });
+		await Subscription.query()
+			.where("id", differentDateSubscription.id)
+			.update({ createdAt: DateTime.fromISO("2026-09-05T12:00:00.000Z") });
+
+		const response = await client
+			.visit("client.subscriptions.list")
+			.withGuard("client")
+			.loginAs(await UserFactory.create())
+			.qs({
+				createdAtFrom: "2026-09-04",
+				createdAtTo: "2026-09-04",
+				progress: 3,
+				status: "draft",
+			});
+
+		response.assertOk();
+		assert.deepEqual(
+			response.body().data.map((subscription) => subscription.id),
+			[matchingDraftSubscription.id],
+		);
+		assert.deepEqual(response.body().meta.statusCounts, {
+			draft: 1,
+			validating: 0,
+			finalized: 1,
+		});
+
+		const singleDateResponse = await client
+			.visit("client.subscriptions.list")
+			.withGuard("client")
+			.loginAs(await UserFactory.create())
+			.qs({ createdAtFrom: "2026-09-04", progress: 3, status: "draft" });
+
+		singleDateResponse.assertOk();
+		assert.deepEqual(
+			singleDateResponse.body().data.map((subscription) => subscription.id),
+			[matchingDraftSubscription.id],
+		);
+	});
+
+	test("it rejects a creation date range ending before it starts", async ({ client }) => {
+		const response = await client
+			.visit("client.subscriptions.list")
+			.withGuard("client")
+			.loginAs(await UserFactory.create())
+			.qs({ createdAtFrom: "2026-09-05", createdAtTo: "2026-09-04" });
+
+		response.assertStatus(422);
+	});
+
+	test("it rejects an unsupported progress value", async ({ client }) => {
+		const response = await client
+			.visit("client.subscriptions.list")
+			.withGuard("client")
+			.loginAs(await UserFactory.create())
+			.qs({ progress: 6 });
+
+		response.assertStatus(422);
+	});
+
 	test("it returns paginated subscriptions with their companies", async ({ client, assert }) => {
 		const user = await UserFactory.create();
 		const otherUser = await UserFactory.create();

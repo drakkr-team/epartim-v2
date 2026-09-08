@@ -36,6 +36,18 @@ urlParameters:
   name: status
   value: draft
   id: null
+- enabled: true
+  name: progress
+  value: ''
+  id: null
+- enabled: true
+  name: createdAtFrom
+  value: ''
+  id: null
+- enabled: true
+  name: createdAtTo
+  value: ''
+  id: null
 settingSendCookies:
   enabled: false
   value: true

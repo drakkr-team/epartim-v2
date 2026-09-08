@@ -5,5 +5,20 @@
 			"validating": "En cours de validation",
 			"finalized": "Souscriptions finalisées"
 		}
+	},
+	"features.subscriptions.components.filters": {
+		"search": {
+			"label": "Rechercher une souscription",
+			"placeholder": "Rechercher un client ou une référence"
+		},
+		"progress": {
+			"placeholder": "Avancement",
+			"all": "Tous les avancements",
+			"value": "{{progress}}/5"
+		},
+		"period": {
+			"placeholder": "Sélectionner une période",
+			"clear": "Effacer la période"
+		}
 	}
 }
