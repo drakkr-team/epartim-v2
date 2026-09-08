@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_subscription_list
 createdAt: 2026-09-07T00:00:00.000000
-updatedAt: 2026-09-07T00:00:00.000000
+updatedAt: 2026-09-08T00:00:00.000000
 workspaceId: wk_W95zdiewKu
 folderId: fl_subscriptions
 authentication: {}
@@ -27,6 +27,14 @@ urlParameters:
 - enabled: true
   name: perPage
   value: '20'
+  id: null
+- enabled: true
+  name: q
+  value: ''
+  id: null
+- enabled: true
+  name: status
+  value: draft
   id: null
 settingSendCookies:
   enabled: false

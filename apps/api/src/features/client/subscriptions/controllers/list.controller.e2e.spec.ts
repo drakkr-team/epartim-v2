@@ -4,9 +4,84 @@ import { DateTime } from "luxon";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
-import Subscription from "#models/subscription";
+import Subscription, { SubscriptionStatus } from "#models/subscription";
 
 test.group("Features / Client / Subscriptions / Controllers / List Controller", () => {
+	test("it filters subscriptions and returns counts for each list status", async ({
+		client,
+		assert,
+	}) => {
+		const search = "subscription-status-counts";
+		const draftSubscription = await SubscriptionFactory.merge({
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+		const waitingForSignaturesSubscription = await SubscriptionFactory.merge({
+			status: SubscriptionStatus.WAITING_FOR_SIGNATURES,
+		}).create();
+		const toBeSentSubscription = await SubscriptionFactory.merge({
+			status: SubscriptionStatus.TO_BE_SENT,
+		}).create();
+		const completeSubscription = await SubscriptionFactory.merge({
+			status: SubscriptionStatus.COMPLETE,
+		}).create();
+		const errorSubscription = await SubscriptionFactory.merge({
+			status: SubscriptionStatus.ERROR,
+		}).create();
+
+		for (const subscription of [
+			draftSubscription,
+			waitingForSignaturesSubscription,
+			toBeSentSubscription,
+			completeSubscription,
+			errorSubscription,
+		]) {
+			await CompanyFactory.merge({
+				name: `${search} ${subscription.id}`,
+				subscriptionId: subscription.id,
+			}).create();
+		}
+
+		const response = await client
+			.visit("client.subscriptions.list")
+			.withGuard("client")
+			.loginAs(await UserFactory.create())
+			.qs({ q: search, status: "validating" });
+
+		response.assertOk();
+		assert.sameMembers(
+			response.body().data.map((subscription) => subscription.id),
+			[waitingForSignaturesSubscription.id, toBeSentSubscription.id],
+		);
+		assert.deepEqual(response.body().meta.statusCounts, {
+			draft: 1,
+			validating: 2,
+			finalized: 2,
+		});
+	});
+
+	test("it searches subscriptions by their BSE reference", async ({ client, assert }) => {
+		const subscription = await SubscriptionFactory.merge({
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		await Subscription.query()
+			.where("id", subscription.id)
+			.update({
+				createdAt: DateTime.fromISO("2026-09-04T00:00:00.000Z"),
+			});
+		const reference = `BSE-2026-${subscription.id.toString().padStart(4, "0")}`;
+
+		const response = await client
+			.visit("client.subscriptions.list")
+			.withGuard("client")
+			.loginAs(await UserFactory.create())
+			.qs({ q: reference });
+
+		response.assertOk();
+		assert.lengthOf(response.body().data, 1);
+		response.assertBodyContains({ data: [{ id: subscription.id }] });
+	});
+
 	test("it returns paginated subscriptions with their companies", async ({ client, assert }) => {
 		const user = await UserFactory.create();
 		const otherUser = await UserFactory.create();

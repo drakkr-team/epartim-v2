@@ -185,7 +185,7 @@ function DataTableSearchInput<TData>(props: DataTableSearchInputProps) {
 			type="search"
 			leftSlot={<SearchIcon className="mx-1 size-4 text-neutral-11" />}
 			onValueChange={handleSearch}
-			defaultValue={table.initialState.globalFilter}
+			defaultValue={(table.getState().globalFilter as string | undefined) ?? ""}
 			{...props}
 		/>
 	);
