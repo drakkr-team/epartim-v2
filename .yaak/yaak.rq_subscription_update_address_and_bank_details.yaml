@@ -1,0 +1,53 @@
+type: http_request
+model: http_request
+id: rq_subscription_update_address_and_bank_details
+createdAt: 2026-09-09T00:00:00.000000
+updatedAt: 2026-09-09T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscriptions
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "address": {
+        "lineOne": "${[ faker.location.streetAddress() ]}",
+        "zip": "75002",
+        "city": "Paris"
+      },
+      "paymentDetail": {
+        "iban": "FR76 3000 6000 0112 3456 7890 189",
+        "bic": "AGRIFRPP"
+      }
+    }
+bodyType: application/json
+description: Set SUBSCRIPTION_ID in your private Yaak environment.
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: PUT
+name: Update address and bank details
+sortPriority: 3000.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/address-and-bank-details
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

@@ -11,7 +11,7 @@ export class AddressSchema extends BaseModel {
   static $columns = ['city', 'coordinates', 'createdAt', 'id', 'lineOne', 'lineTwo', 'updatedAt', 'zip'] as const
   $columns = AddressSchema.$columns
   @column()
-  declare city: string
+  declare city: string | null
   @column()
   declare coordinates: any | null
   @column.dateTime({ autoCreate: true })
@@ -19,13 +19,13 @@ export class AddressSchema extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
   @column()
-  declare lineOne: string
+  declare lineOne: string | null
   @column()
   declare lineTwo: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
   @column()
-  declare zip: string
+  declare zip: string | null
 }
 
 export class AdminSchema extends BaseModel {
@@ -85,7 +85,7 @@ export class CompanySchema extends BaseModel {
   @column()
   declare siret: string | null
   @column()
-  declare subscriptionId: number | null
+  declare subscriptionId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
   @column()
@@ -203,11 +203,11 @@ export class PaymentDetailSchema extends BaseModel {
   static $columns = ['bic', 'createdAt', 'iban', 'id', 'updatedAt'] as const
   $columns = PaymentDetailSchema.$columns
   @column()
-  declare bic: string
+  declare bic: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
-  declare iban: string
+  declare iban: string | null
   @column({ isPrimary: true })
   declare id: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })

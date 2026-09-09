@@ -32,17 +32,17 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 		siren: z
 			.string()
 			.trim()
+			.min(1, t("validation.required"))
 			.regex(/^\d{9}$/, t("validation.siren")),
-		siret: z.union([
-			z.literal(""),
-			z
-				.string()
-				.trim()
-				.regex(/^\d{14}$/, t("validation.siret")),
-		]),
+		siret: z
+			.string()
+			.trim()
+			.min(1, t("validation.required"))
+			.regex(/^\d{14}$/, t("validation.siret")),
 		naf: z
 			.string()
 			.trim()
+			.min(1, t("validation.required"))
 			.regex(/^\d{4}[A-Z]$/, t("validation.naf")),
 		name: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
 		legalForm: z
@@ -53,16 +53,15 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 			.number({ error: t("validation.companyHeadcount") })
 			.int(t("validation.companyHeadcount"))
 			.positive(t("validation.companyHeadcount")),
-		vatNumber: z.union([
-			z.literal(""),
-			z
-				.string()
-				.trim()
-				.regex(/^FR\d{2}\d{9}$/, t("validation.vatNumber")),
-		]),
+		vatNumber: z
+			.string()
+			.trim()
+			.min(1, t("validation.required"))
+			.regex(/^FR\d{2}\d{9}$/, t("validation.vatNumber")),
 		financialYearClosingDay: z
 			.string()
 			.trim()
+			.min(1, t("validation.required"))
 			.regex(/^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])$/, t("validation.financialYearClosingDay")),
 	});
 
@@ -88,9 +87,13 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{ onBlur: legalIdentificationSchema.shape.siren }}
 						listeners={{
 							onBlur: ({ value: siren, fieldApi }) => {
+								if (siren.trim().length === 0) {
+									updateLegalIdentification({ siren: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ siren });
+								updateLegalIdentification({ siren: siren.trim() });
 							},
 						}}
 					>
@@ -108,15 +111,20 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{ onBlur: legalIdentificationSchema.shape.siret }}
 						listeners={{
 							onBlur: ({ value: siret, fieldApi }) => {
+								if (siret.trim().length === 0) {
+									updateLegalIdentification({ siret: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ siret: siret || null });
+								updateLegalIdentification({ siret: siret.trim() });
 							},
 						}}
 					>
 						{(field) => (
 							<field.TextField
 								label={t("field.siret.label")}
+								required
 								inputProps={{ inputMode: "numeric", maxLength: 14 }}
 							/>
 						)}
@@ -127,9 +135,13 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{ onBlur: legalIdentificationSchema.shape.naf }}
 						listeners={{
 							onBlur: ({ value: naf, fieldApi }) => {
+								if (naf.trim().length === 0) {
+									updateLegalIdentification({ naf: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ naf });
+								updateLegalIdentification({ naf: naf.trim() });
 							},
 						}}
 					>
@@ -147,13 +159,17 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{ onBlur: legalIdentificationSchema.shape.vatNumber }}
 						listeners={{
 							onBlur: ({ value: vatNumber, fieldApi }) => {
+								if (vatNumber.trim().length === 0) {
+									updateLegalIdentification({ vatNumber: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ vatNumber: vatNumber || null });
+								updateLegalIdentification({ vatNumber: vatNumber.trim() });
 							},
 						}}
 					>
-						{(field) => <field.TextField label={t("field.vatNumber.label")} />}
+						{(field) => <field.TextField label={t("field.vatNumber.label")} required />}
 					</form.AppField>
 
 					<form.AppField
@@ -161,9 +177,13 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{ onBlur: legalIdentificationSchema.shape.name }}
 						listeners={{
 							onBlur: ({ value: name, fieldApi }) => {
+								if (name.trim().length === 0) {
+									updateLegalIdentification({ name: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ name });
+								updateLegalIdentification({ name: name.trim() });
 							},
 						}}
 					>
@@ -179,7 +199,11 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{ onBlur: legalIdentificationSchema.shape.legalForm }}
 						listeners={{
 							onBlur: ({ value: legalForm, fieldApi }) => {
-								if (!fieldApi.state.meta.isValid || legalForm === null) return;
+								if (legalForm === null) {
+									updateLegalIdentification({ legalForm: null });
+									return;
+								}
+								if (!fieldApi.state.meta.isValid) return;
 
 								updateLegalIdentification({ legalForm });
 							},
@@ -234,7 +258,11 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{ onBlur: legalIdentificationSchema.shape.companyHeadcount }}
 						listeners={{
 							onBlur: ({ value: companyHeadcount, fieldApi }) => {
-								if (!fieldApi.state.meta.isValid || companyHeadcount === null) return;
+								if (companyHeadcount === null) {
+									updateLegalIdentification({ companyHeadcount: null });
+									return;
+								}
+								if (!fieldApi.state.meta.isValid) return;
 
 								updateLegalIdentification({ companyHeadcount });
 							},
@@ -254,9 +282,15 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{ onBlur: legalIdentificationSchema.shape.financialYearClosingDay }}
 						listeners={{
 							onBlur: ({ value: financialYearClosingDay, fieldApi }) => {
+								if (financialYearClosingDay.trim().length === 0) {
+									updateLegalIdentification({ financialYearClosingDay: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ financialYearClosingDay });
+								updateLegalIdentification({
+									financialYearClosingDay: financialYearClosingDay.trim(),
+								});
 							},
 						}}
 					>

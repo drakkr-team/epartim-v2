@@ -39,7 +39,24 @@ function Page() {
 			</header>
 
 			<Card>
-				<FirmForm action="update" firmId={firmId} defaultValues={firm} />
+				<FirmForm
+					action="update"
+					firmId={firmId}
+					defaultValues={{
+						...firm,
+						address: {
+							...firm.address,
+							lineOne: firm.address.lineOne ?? "",
+							zip: firm.address.zip ?? "",
+							city: firm.address.city ?? "",
+						},
+						paymentDetail: {
+							...firm.paymentDetail,
+							iban: firm.paymentDetail.iban ?? "",
+							bic: firm.paymentDetail.bic ?? "",
+						},
+					}}
+				/>
 			</Card>
 		</main>
 	);

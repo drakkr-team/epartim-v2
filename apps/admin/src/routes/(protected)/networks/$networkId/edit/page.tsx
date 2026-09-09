@@ -43,7 +43,24 @@ function Page() {
 			</header>
 
 			<Card>
-				<NetworkForm action="update" networkId={networkId} defaultValues={network} />
+				<NetworkForm
+					action="update"
+					networkId={networkId}
+					defaultValues={{
+						...network,
+						address: {
+							...network.address,
+							lineOne: network.address.lineOne ?? "",
+							zip: network.address.zip ?? "",
+							city: network.address.city ?? "",
+						},
+						paymentDetail: {
+							...network.paymentDetail,
+							iban: network.paymentDetail.iban ?? "",
+							bic: network.paymentDetail.bic ?? "",
+						},
+					}}
+				/>
 			</Card>
 		</main>
 	);

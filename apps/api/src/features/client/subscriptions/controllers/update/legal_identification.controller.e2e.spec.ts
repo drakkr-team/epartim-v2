@@ -67,5 +67,45 @@ test.group(
 				company.siren,
 			);
 		});
+
+		test("it should persist cleared legal identification values", async ({ client, assert }) => {
+			const user = await UserFactory.create();
+			const subscription = await SubscriptionFactory.merge({
+				createdBy: user.id,
+				status: SubscriptionStatus.DRAFT,
+			}).create();
+			await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+
+			const response = await client
+				.visit("client.subscriptions.update_legal_identification", {
+					subscriptionId: subscription.id,
+				})
+				.withGuard("client")
+				.loginAs(user)
+				.json({
+					legalIdentification: {
+						siren: null,
+						siret: null,
+						naf: null,
+						name: null,
+						legalForm: null,
+						companyHeadcount: null,
+						vatNumber: null,
+						financialYearClosingDay: null,
+					},
+				});
+
+			response.assertOk();
+
+			const company = await Company.findByOrFail("subscriptionId", subscription.id);
+			assert.isNull(company.siren);
+			assert.isNull(company.siret);
+			assert.isNull(company.naf);
+			assert.isNull(company.name);
+			assert.isNull(company.legalForm);
+			assert.isNull(company.companyHeadcount);
+			assert.isNull(company.vatNumber);
+			assert.isNull(company.financialYearClosingDay);
+		});
 	},
 );
