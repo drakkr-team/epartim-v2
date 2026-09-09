@@ -14,7 +14,14 @@
 		"progress": {
 			"placeholder": "Avancement",
 			"all": "Tous les avancements",
-			"value": "{{progress}}/5"
+			"value": "{{progress}}/5 . {{step}}",
+			"steps": {
+				"1": "Réf. entreprise",
+				"2": "KYC",
+				"3": "Caractéristiques",
+				"4": "Frais",
+				"5": "Formalisme"
+			}
 		},
 		"period": {
 			"placeholder": "Sélectionner une période",

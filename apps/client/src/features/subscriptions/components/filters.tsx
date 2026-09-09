@@ -1,10 +1,10 @@
-import { parse } from "date-fns";
 import { useTranslation } from "react-i18next";
 
 import { DatePicker, type DateRange } from "@workspace/ui-react/components/date-picker";
 import { Select } from "@workspace/ui-react/components/select";
 
 import { DataTable } from "#/components/app/data-table";
+import { parseCalendarDate } from "#/utils/helpers/date";
 
 type SubscriptionsFiltersProps = {
 	createdAtFrom?: string;
@@ -15,13 +15,6 @@ type SubscriptionsFiltersProps = {
 };
 
 const progressOptions = [1, 2, 3, 4, 5] as const;
-const calendarDateFormat = "yyyy-MM-dd";
-
-function parseCalendarDate(value: string | undefined) {
-	if (!value) return undefined;
-
-	return parse(value, calendarDateFormat, new Date());
-}
 
 export function SubscriptionsFilters(props: SubscriptionsFiltersProps) {
 	const { createdAtFrom, createdAtTo, onPeriodChange, onProgressChange, progress } = props;
@@ -30,6 +23,13 @@ export function SubscriptionsFilters(props: SubscriptionsFiltersProps) {
 		from: parseCalendarDate(createdAtFrom),
 		to: parseCalendarDate(createdAtTo),
 	};
+	const options = progressOptions.map((value) => ({
+		value,
+		label: t("progress.value", {
+			progress: value,
+			step: t(`progress.steps.${value}`),
+		}),
+	}));
 
 	return (
 		<div className="flex flex-wrap items-center gap-3">
@@ -41,6 +41,7 @@ export function SubscriptionsFilters(props: SubscriptionsFiltersProps) {
 			</div>
 
 			<Select<number>
+				items={options}
 				onValueChange={(value) => onProgressChange(value ?? undefined)}
 				value={progress ?? null}
 			>
@@ -49,9 +50,9 @@ export function SubscriptionsFilters(props: SubscriptionsFiltersProps) {
 				</Select.Input>
 				<Select.Dropdown>
 					<Select.Option value={null}>{t("progress.all")}</Select.Option>
-					{progressOptions.map((option) => (
-						<Select.Option key={option} value={option}>
-							{t("progress.value", { progress: option })}
+					{options.map((option) => (
+						<Select.Option key={option.value} value={option.value} label={option.label}>
+							{option.label}
 						</Select.Option>
 					))}
 				</Select.Dropdown>

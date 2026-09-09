@@ -1,6 +1,5 @@
 import { keepPreviousData, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -19,6 +18,7 @@ import {
 	subscriptionListStatuses,
 } from "#/features/subscriptions/utils/helpers/status-options";
 import { api } from "#/libs/tuyau";
+import { formatCalendarDate } from "#/utils/helpers/date";
 
 const searchParamsSchema = z.object({
 	page: z.int().positive().optional(),
@@ -29,14 +29,6 @@ const searchParamsSchema = z.object({
 	createdAtFrom: z.iso.date().optional(),
 	createdAtTo: z.iso.date().optional(),
 });
-
-const calendarDateFormat = "yyyy-MM-dd";
-
-function formatCalendarDate(date: Date | undefined) {
-	if (!date) return undefined;
-
-	return format(date, calendarDateFormat);
-}
 
 export const Route = createFileRoute("/(protected)/(operations)/subscriptions/")({
 	validateSearch: searchParamsSchema,
