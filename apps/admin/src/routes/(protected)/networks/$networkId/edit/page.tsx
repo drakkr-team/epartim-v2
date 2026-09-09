@@ -11,7 +11,10 @@ import { api } from "#/libs/tuyau";
 export const Route = createFileRoute("/(protected)/networks/$networkId/edit/")({
 	loader: async ({ context, params }) => {
 		await context.queryClient.query(
-			api.networks.view.queryOptions({ params: { networkId: params.networkId } }),
+			api.networks.view.queryOptions(
+				{ params: { networkId: params.networkId } },
+				{ staleTime: "static" },
+			),
 		);
 	},
 	onError: (error) => {

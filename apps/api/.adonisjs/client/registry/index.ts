@@ -156,6 +156,12 @@ const routes = {
     tokens: [{"old":"/client/account-management/profile","type":0,"val":"client","end":""},{"old":"/client/account-management/profile","type":0,"val":"account-management","end":""},{"old":"/client/account-management/profile","type":0,"val":"profile","end":""}],
     types: placeholder as Registry['client.account_management.profile.delete']['types'],
   },
+  'client.subscriptions.list': {
+    methods: ["GET","HEAD"],
+    pattern: '/client/subscriptions',
+    tokens: [{"old":"/client/subscriptions","type":0,"val":"client","end":""},{"old":"/client/subscriptions","type":0,"val":"subscriptions","end":""}],
+    types: placeholder as Registry['client.subscriptions.list']['types'],
+  },
   'client.subscriptions.create': {
     methods: ["POST"],
     pattern: '/client/subscriptions',

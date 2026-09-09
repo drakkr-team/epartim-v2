@@ -67,6 +67,7 @@ export const controllers = {
       },
       subscriptions: {
         Create: () => import('#src/features/client/subscriptions/controllers/create.controller'),
+        List: () => import('#src/features/client/subscriptions/controllers/list.controller'),
         update: {
           LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
         },

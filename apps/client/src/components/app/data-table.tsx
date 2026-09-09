@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "tailwind-variants";
 
 import { Button } from "@workspace/ui-react/components/button";
+import { Card, type CardProps } from "@workspace/ui-react/components/card";
 import { Input, type InputProps } from "@workspace/ui-react/components/input";
 import { Menu } from "@workspace/ui-react/components/menu";
 import { Table } from "@workspace/ui-react/components/table";
@@ -13,6 +14,8 @@ import {
 	ArrowDownUpIcon,
 	ArrowDownWideNarrowIcon,
 	ArrowUpNarrowWideIcon,
+	ChevronLeftIcon,
+	ChevronRightIcon,
 	SearchIcon,
 	Table2Icon,
 } from "@workspace/ui-react/icons";
@@ -49,6 +52,8 @@ function DataTableTable<TData>() {
 
 	const table = useDataTableContext<TData>();
 
+	if (table.getRowModel().rows.length === 0) return null;
+
 	return (
 		<Table>
 			{table.getHeaderGroups().map((headerGroup) => (
@@ -74,9 +79,14 @@ function DataTableTable<TData>() {
 			))}
 			<Table.Body>
 				{table.getRowModel().rows.map((row) => (
-					<Table.Row key={row.id}>
+					<Table.Row
+						key={row.id}
+						interactive={!!table.options.meta?.rows?.onClick}
+						onClick={() => table.options.meta?.rows?.onClick?.(row.original)}
+						onMouseEnter={() => table.options.meta?.rows?.onMouseEnter?.(row.original)}
+					>
 						{row.getVisibleCells().map((cell) => (
-							<Table.Cell key={cell.id}>
+							<Table.Cell key={cell.id} className={cell.column.columnDef.meta?.className}>
 								{flexRender(cell.column.columnDef.cell, cell.getContext())}
 							</Table.Cell>
 						))}
@@ -85,6 +95,16 @@ function DataTableTable<TData>() {
 			</Table.Body>
 		</Table>
 	);
+}
+
+type DataTableEmptyProps = CardProps;
+
+function DataTableEmpty<TData>(props: DataTableEmptyProps) {
+	const table = useDataTableContext<TData>();
+
+	if (table.getRowModel().rows.length > 0) return null;
+
+	return <Card {...props} />;
 }
 
 type DataTableSortButtonProps<TData> = {
@@ -171,8 +191,56 @@ function DataTableSearchInput<TData>(props: DataTableSearchInputProps) {
 	);
 }
 
+function DataTablePagination<TData>() {
+	"use no memo";
+
+	const { t } = useTranslation("components.app.data-table");
+	const table = useDataTableContext<TData>();
+
+	return (
+		<div className="flex items-center justify-end gap-2">
+			<Tooltip>
+				<Tooltip.Trigger
+					render={
+						<Button
+							variant="default"
+							size="icon-md"
+							onClick={() => {
+								table.previousPage();
+							}}
+							disabled={!table.getCanPreviousPage()}
+						/>
+					}
+				>
+					<ChevronLeftIcon />
+				</Tooltip.Trigger>
+				<Tooltip.Content>{t("pagination.previous.tooltip")}</Tooltip.Content>
+			</Tooltip>
+			<Tooltip>
+				<Tooltip.Trigger
+					render={
+						<Button
+							variant="default"
+							size="icon-md"
+							onClick={() => {
+								table.nextPage();
+							}}
+							disabled={!table.getCanNextPage()}
+						/>
+					}
+				>
+					<ChevronRightIcon />
+				</Tooltip.Trigger>
+				<Tooltip.Content>{t("pagination.next.tooltip")}</Tooltip.Content>
+			</Tooltip>
+		</div>
+	);
+}
+
 export const DataTable = Object.assign(DataTableRoot, {
 	Table: DataTableTable,
+	Empty: DataTableEmpty,
+	Pagination: DataTablePagination,
 	SearchInput: DataTableSearchInput,
 	ColumnsVisiblitySelector: DataTableColumnsVisiblitySelector,
 });

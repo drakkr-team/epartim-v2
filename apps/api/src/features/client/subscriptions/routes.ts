@@ -5,6 +5,7 @@ import { middleware } from "#start/kernel";
 
 router
 	.group(() => {
+		router.get("/", [controllers.features.client.subscriptions.List]);
 		router.post("/", [controllers.features.client.subscriptions.Create]);
 		router.get("/:subscriptionId", [controllers.features.client.subscriptions.View]);
 		router
