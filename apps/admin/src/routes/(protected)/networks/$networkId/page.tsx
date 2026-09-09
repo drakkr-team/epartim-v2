@@ -24,10 +24,16 @@ export const Route = createFileRoute("/(protected)/networks/$networkId/")({
 	loader: async ({ context, params }) => {
 		await Promise.all([
 			context.queryClient.query(
-				api.networks.view.queryOptions({ params: { networkId: params.networkId } }),
+				api.networks.view.queryOptions(
+					{ params: { networkId: params.networkId } },
+					{ staleTime: "static" },
+				),
 			),
 			context.queryClient.query(
-				api.firms.list.queryOptions({ query: { networkId: Number(params.networkId) } }),
+				api.firms.list.queryOptions(
+					{ query: { networkId: Number(params.networkId) } },
+					{ staleTime: "static" },
+				),
 			),
 		]);
 	},

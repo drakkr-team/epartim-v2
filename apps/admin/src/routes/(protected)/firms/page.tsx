@@ -28,7 +28,9 @@ export const Route = createFileRoute("/(protected)/firms/")({
 		networkId: search.networkId,
 	}),
 	loader: async ({ context, deps }) => {
-		await context.queryClient.query(api.firms.list.queryOptions({ query: deps }));
+		await context.queryClient.query(
+			api.firms.list.queryOptions({ query: deps }, { staleTime: "static" }),
+		);
 	},
 	component: Page,
 });

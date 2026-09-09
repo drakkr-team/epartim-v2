@@ -11,7 +11,10 @@ import { api } from "#/libs/tuyau";
 export const Route = createFileRoute("/(protected)/admins/$adminId/edit/")({
 	loader: async ({ context, params }) => {
 		await context.queryClient.query(
-			api.admins.view.queryOptions({ params: { adminId: params.adminId } }),
+			api.admins.view.queryOptions(
+				{ params: { adminId: params.adminId } },
+				{ staleTime: "static" },
+			),
 		);
 	},
 	onError: (error) => {

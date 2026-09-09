@@ -14,8 +14,8 @@
 			"new-company": "Nouvelle entreprise"
 		},
 		"progress": {
-			"label": "Avancement : {{current}}/5",
-			"value": "{{current}}/5"
+			"label": "Avancement : {{current}}/{{total}}",
+			"value": "{{current}}/{{total}}"
 		},
 		"status": {
 			"draft": "Saisie en cours",

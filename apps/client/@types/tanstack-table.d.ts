@@ -7,4 +7,8 @@ declare module "@tanstack/react-table" {
 			onMouseEnter?: (row: TData) => void;
 		};
 	}
+
+	interface ColumnMeta<TData extends RowData, TValue> {
+		className?: string;
+	}
 }
