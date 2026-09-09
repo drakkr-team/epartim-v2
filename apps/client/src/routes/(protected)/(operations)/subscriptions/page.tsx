@@ -15,7 +15,7 @@ import {
 	DEFAULT_SUBSCRIPTION_LIST_STATUS,
 	type SubscriptionTabsListStatus,
 	subscriptionListStatuses,
-} from "#/features/subscriptions/utils/helpers";
+} from "#/features/subscriptions/utils/helpers/status-options";
 import { api } from "#/libs/tuyau";
 
 const searchParamsSchema = z.object({

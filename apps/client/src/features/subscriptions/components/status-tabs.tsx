@@ -7,7 +7,7 @@ import {
 	type SubscriptionTabsListStatus as SubscriptionListStatusValue,
 	subscriptionListStatuses,
 	subscriptionTabsStatusOptions,
-} from "#/features/subscriptions/utils/helpers";
+} from "#/features/subscriptions/utils/helpers/status-options";
 
 type SubscriptionStatusTabsProps = {
 	status: SubscriptionListStatusValue;
