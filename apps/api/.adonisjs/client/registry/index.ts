@@ -180,6 +180,12 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId/legal-identification","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/legal-identification","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/legal-identification","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/legal-identification","type":0,"val":"legal-identification","end":""}],
     types: placeholder as Registry['client.subscriptions.update_legal_identification']['types'],
   },
+  'client.subscriptions.update_address_and_bank_details': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/address-and-bank-details',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"address-and-bank-details","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_address_and_bank_details']['types'],
+  },
   'admin.account_management.authentication.login': {
     methods: ["POST"],
     pattern: '/admin/account-management/authentication/login',

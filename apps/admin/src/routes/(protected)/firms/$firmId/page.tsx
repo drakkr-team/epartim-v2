@@ -108,13 +108,22 @@ function Page() {
 						{t("section.address")}
 					</h2>
 
-					<DetailField label={t("field.address.lineOne")} value={firm.address.lineOne} />
+					<DetailField
+						label={t("field.address.lineOne")}
+						value={firm.address.lineOne ?? t("status.notProvided")}
+					/>
 					<DetailField
 						label={t("field.address.lineTwo")}
 						value={firm.address.lineTwo ?? t("status.notProvided")}
 					/>
-					<DetailField label={t("field.address.zip")} value={firm.address.zip} />
-					<DetailField label={t("field.address.city")} value={firm.address.city} />
+					<DetailField
+						label={t("field.address.zip")}
+						value={firm.address.zip ?? t("status.notProvided")}
+					/>
+					<DetailField
+						label={t("field.address.city")}
+						value={firm.address.city ?? t("status.notProvided")}
+					/>
 				</div>
 
 				<Separator />
@@ -126,9 +135,16 @@ function Page() {
 
 					<DetailField
 						label={t("field.paymentDetail.iban")}
-						value={humanizeIBAN(firm.paymentDetail.iban)}
+						value={
+							firm.paymentDetail.iban
+								? humanizeIBAN(firm.paymentDetail.iban)
+								: t("status.notProvided")
+						}
 					/>
-					<DetailField label={t("field.paymentDetail.bic")} value={firm.paymentDetail.bic} />
+					<DetailField
+						label={t("field.paymentDetail.bic")}
+						value={firm.paymentDetail.bic ?? t("status.notProvided")}
+					/>
 				</div>
 			</Card>
 

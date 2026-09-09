@@ -7,10 +7,10 @@ export default class extends BaseSchema {
 		this.schema.createTable(this.tableName, (table) => {
 			table.increments("id").notNullable();
 
-			table.string("line_one", 254).notNullable();
+			table.string("line_one", 254).nullable();
 			table.string("line_two", 254).nullable();
-			table.string("zip", 254).notNullable();
-			table.string("city", 254).notNullable();
+			table.string("zip", 254).nullable();
+			table.string("city", 254).nullable();
 			table.jsonb("coordinates").nullable();
 
 			table.timestamps(true, true);

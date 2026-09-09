@@ -7,8 +7,8 @@ export default class extends BaseSchema {
 		this.schema.createTable(this.tableName, (table) => {
 			table.increments("id").notNullable();
 
-			table.string("iban", 254).notNullable();
-			table.string("bic", 254).notNullable();
+			table.string("iban", 254).nullable();
+			table.string("bic", 254).nullable();
 
 			table.timestamps(true, true);
 		});

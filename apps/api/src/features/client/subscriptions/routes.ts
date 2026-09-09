@@ -13,6 +13,11 @@ router
 				controllers.features.client.subscriptions.update.LegalIdentification,
 			])
 			.as("update_legal_identification");
+		router
+			.put("/:subscriptionId/address-and-bank-details", [
+				controllers.features.client.subscriptions.update.AddressAndBankDetails,
+			])
+			.as("update_address_and_bank_details");
 	})
 	.use(middleware.auth({ guards: ["client"] }))
 	.prefix("/client/subscriptions")
