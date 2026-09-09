@@ -4,11 +4,11 @@ import type { Subscription } from "@workspace/api/data";
 import { Badge } from "@workspace/ui-react/components/badge";
 
 const subscriptionStatuses = [
-	{ translationKey: "draft", color: "neutral" },
-	{ translationKey: "waiting-for-signatures", color: "warning" },
-	{ translationKey: "to-be-sent", color: "info" },
-	{ translationKey: "complete", color: "success" },
-	{ translationKey: "error", color: "error" },
+	{ translationKey: "draft", variant: "neutral" },
+	{ translationKey: "waiting-for-signatures", variant: "warning" },
+	{ translationKey: "to-be-sent", variant: "info" },
+	{ translationKey: "complete", variant: "success" },
+	{ translationKey: "error", variant: "error" },
 ] as const;
 
 export function SubscriptionStatusCell({ status }: Pick<Subscription, "status">) {
@@ -16,7 +16,7 @@ export function SubscriptionStatusCell({ status }: Pick<Subscription, "status">)
 	const subscriptionStatus = subscriptionStatuses[status];
 
 	return (
-		<Badge color={subscriptionStatus.color}>
+		<Badge variant={subscriptionStatus.variant}>
 			{t(`status.${subscriptionStatus.translationKey}`)}
 		</Badge>
 	);

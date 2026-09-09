@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { Badge, type BadgeProps } from "./index";
 
-const COLORS: NonNullable<BadgeProps["color"]>[] = [
+const VARIANTS: NonNullable<BadgeProps["variant"]>[] = [
 	"neutral",
 	"primary",
 	"secondary",
@@ -21,9 +21,9 @@ const meta: Meta<typeof Badge> = {
 		children: "Saisie en cours",
 	},
 	argTypes: {
-		color: {
+		variant: {
 			control: "select",
-			options: COLORS,
+			options: VARIANTS,
 		},
 		size: {
 			control: "select",
@@ -37,12 +37,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const Colors: Story = {
+export const Variants: Story = {
 	render: () => (
 		<div className="flex flex-wrap items-center gap-3">
-			{COLORS.map((color) => (
-				<Badge key={color} color={color}>
-					{color}
+			{VARIANTS.map((variant) => (
+				<Badge key={variant} variant={variant}>
+					{variant}
 				</Badge>
 			))}
 		</div>

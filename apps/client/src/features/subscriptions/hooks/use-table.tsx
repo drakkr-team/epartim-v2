@@ -16,12 +16,13 @@ export type SubscriptionRow = Subscription & {
 type UseSubscriptionsTableParams = {
 	data: SubscriptionRow[];
 	pagination: Pagination;
+	q?: string;
 };
 
 const columnHelper = createColumnHelper<SubscriptionRow>();
 
 export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
-	const { data, pagination } = params;
+	const { data, pagination, q } = params;
 
 	const { t } = useTranslation("features.subscriptions.hooks.use-table");
 	const navigate = useNavigate();
@@ -75,6 +76,7 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 		columns,
 		enableSorting: false,
 		getCoreRowModel: getCoreRowModel(),
+		manualFiltering: true,
 		getRowId: (row) => row.id.toString(),
 		manualPagination: true,
 		meta: {
@@ -105,8 +107,17 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 				search: (previous) => ({ ...previous, page: nextPagination.pageIndex + 1 }),
 			});
 		},
+		onGlobalFilterChange: (updaterOrValue) => {
+			const query = typeof updaterOrValue === "function" ? updaterOrValue(q) : updaterOrValue;
+
+			return navigate({
+				to: ".",
+				search: (previous) => ({ ...previous, q: query || undefined, page: undefined }),
+			});
+		},
 		pageCount: pagination.lastPage,
 		state: {
+			globalFilter: q ?? "",
 			pagination: {
 				pageIndex: pagination.currentPage - 1,
 				pageSize: pagination.perPage,
