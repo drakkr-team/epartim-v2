@@ -5,13 +5,9 @@ import { useTranslation } from "react-i18next";
 
 import type { Company, Pagination, Subscription } from "@workspace/api/data";
 
-import { SubscriptionCompanyCell } from "#/features/subscriptions/components/table-cells/company-cell";
-import { SubscriptionCreatedAtCell } from "#/features/subscriptions/components/table-cells/created-at-cell";
 import { SubscriptionOpenCell } from "#/features/subscriptions/components/table-cells/open-cell";
 import { SubscriptionProgressCell } from "#/features/subscriptions/components/table-cells/progress-cell";
-import { SubscriptionReferenceCell } from "#/features/subscriptions/components/table-cells/reference-cell";
 import { SubscriptionStatusCell } from "#/features/subscriptions/components/table-cells/status-cell";
-import { SubscriptionUpdatedAtCell } from "#/features/subscriptions/components/table-cells/updated-at-cell";
 
 export type SubscriptionRow = Subscription & {
 	company: Pick<Company, "name">;
@@ -34,11 +30,17 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 		() => [
 			columnHelper.accessor("id", {
 				header: t("header.reference"),
-				cell: ({ row }) => <SubscriptionReferenceCell {...row.original} />,
+				cell: ({ row }) =>
+					t("reference", {
+						year: row.original.createdAt.getFullYear(),
+						id: row.original.id,
+					}),
+				meta: { className: "font-semibold" },
 			}),
 			columnHelper.accessor("company", {
 				header: t("header.client"),
-				cell: ({ getValue }) => <SubscriptionCompanyCell company={getValue()} />,
+				cell: ({ getValue }) => getValue().name || t("client.new-company"),
+				meta: { className: "font-semibold" },
 			}),
 			columnHelper.accessor("completedSteps", {
 				header: t("header.progress"),
@@ -50,11 +52,14 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 			}),
 			columnHelper.accessor("createdAt", {
 				header: t("header.created-at"),
-				cell: ({ getValue }) => <SubscriptionCreatedAtCell createdAt={getValue()} />,
+				cell: ({ getValue }) => getValue().toLocaleDateString("fr-FR"),
+				meta: { className: "text-neutral-9 text-xs" },
 			}),
 			columnHelper.accessor("updatedAt", {
 				header: t("header.updated-at"),
-				cell: ({ getValue }) => <SubscriptionUpdatedAtCell updatedAt={getValue()} />,
+				cell: ({ getValue }) =>
+					getValue().toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short" }),
+				meta: { className: "text-neutral-9 text-xs" },
 			}),
 			columnHelper.display({
 				id: "open",
