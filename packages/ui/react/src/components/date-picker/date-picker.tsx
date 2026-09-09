@@ -189,10 +189,10 @@ function Calendar(props: PropsBase & (PropsSingle | PropsRange)) {
 			}}
 			components={{
 				NextMonthButton: (buttonProps) => (
-					<Button {...buttonProps} size="icon-sm" variant="ghost" />
+					<Button {...buttonProps} size="icon-md" variant="ghost" />
 				),
 				PreviousMonthButton: (buttonProps) => (
-					<Button {...buttonProps} size="icon-sm" variant="ghost" />
+					<Button {...buttonProps} size="icon-md" variant="ghost" />
 				),
 				...components,
 			}}
