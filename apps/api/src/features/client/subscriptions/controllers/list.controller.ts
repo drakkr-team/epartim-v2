@@ -22,13 +22,18 @@ export default class ListSubscriptionsController {
 		const { page = 1, perPage = 20 } = await request.validateUsing(
 			ListSubscriptionsController.querySchema,
 		);
-		const subscriptions = await this.listSubscriptionsService.handle().paginate(page, perPage);
+		const subscriptionsQuery = this.listSubscriptionsService.handle();
+		subscriptionsQuery.preload("company");
+		const subscriptions = await subscriptionsQuery.paginate(page, perPage);
 
 		return {
 			meta: this.paginationPresenter.toJSON(subscriptions),
-			data: subscriptions
-				.all()
-				.map((subscription) => this.subscriptionPresenter.toListJSON(subscription)),
+			data: subscriptions.all().map((subscription) => ({
+				...this.subscriptionPresenter.toJSON(subscription),
+				company: {
+					name: subscription.company.name,
+				},
+			})),
 		};
 	}
 
