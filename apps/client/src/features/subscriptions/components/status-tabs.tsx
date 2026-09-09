@@ -7,7 +7,7 @@ import {
 	type SubscriptionTabsListStatus as SubscriptionListStatusValue,
 	subscriptionListStatuses,
 	subscriptionTabsStatusOptions,
-} from "#/features/subscriptions/status-options";
+} from "#/features/subscriptions/utils/helpers";
 
 type SubscriptionStatusTabsProps = {
 	status: SubscriptionListStatusValue;
@@ -17,7 +17,7 @@ type SubscriptionStatusTabsProps = {
 
 export function SubscriptionStatusTabs(props: SubscriptionStatusTabsProps) {
 	const { status, statusCounts, onValueChange } = props;
-	const { t } = useTranslation("routes.(private).(operations).subscriptions");
+	const { t } = useTranslation("features.subscriptions.components.status-tabs");
 
 	return (
 		<Tabs

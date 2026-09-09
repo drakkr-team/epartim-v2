@@ -34,7 +34,7 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 				cell: ({ row }) =>
 					t("reference", {
 						year: row.original.createdAt.getFullYear(),
-						id: row.original.id,
+						id: row.original.id.toString().padStart(4, "0"),
 					}),
 				meta: { className: "font-semibold" },
 			}),

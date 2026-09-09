@@ -8,7 +8,6 @@ import { PlusIcon } from "@workspace/ui-react/icons";
 
 import { DataTable } from "#/components/app/data-table";
 import { PageHeader } from "#/components/app/page-header";
-import { SubscriptionsSearchBar } from "#/features/subscriptions/components/search-bar";
 import { SubscriptionStatusTabs } from "#/features/subscriptions/components/status-tabs";
 import { useCreateSubscriptionMutation } from "#/features/subscriptions/hooks/use-create-mutation";
 import { useSubscriptionsTable } from "#/features/subscriptions/hooks/use-table";
@@ -16,7 +15,7 @@ import {
 	DEFAULT_SUBSCRIPTION_LIST_STATUS,
 	type SubscriptionTabsListStatus,
 	subscriptionListStatuses,
-} from "#/features/subscriptions/status-options";
+} from "#/features/subscriptions/utils/helpers";
 import { api } from "#/libs/tuyau";
 
 const searchParamsSchema = z.object({
@@ -90,7 +89,11 @@ function SubscriptionsPage() {
 					}
 				/>
 
-				<SubscriptionsSearchBar />
+				<DataTable.SearchInput
+					aria-label={t("search.label")}
+					className="max-w-md"
+					placeholder={t("search.placeholder")}
+				/>
 
 				<DataTable.Table />
 

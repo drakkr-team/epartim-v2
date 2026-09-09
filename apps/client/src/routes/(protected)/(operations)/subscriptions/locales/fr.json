@@ -4,11 +4,6 @@
 		"action": {
 			"new-subscription": "Nouvelle souscription"
 		},
-		"tabs": {
-			"draft": "En cours de saisie",
-			"validating": "En cours de validation",
-			"finalized": "Souscriptions finalisées"
-		},
 		"search": {
 			"label": "Rechercher une souscription",
 			"placeholder": "Rechercher un client ou une référence"
