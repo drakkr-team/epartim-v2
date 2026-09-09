@@ -22,10 +22,6 @@ import {
 
 const DataTableContext = createContext<unknown>(null);
 
-type DataTableCellMeta = {
-	className?: string;
-};
-
 function useDataTableContext<TData>() {
 	const context = useContext(DataTableContext);
 
@@ -89,15 +85,11 @@ function DataTableTable<TData>() {
 						onClick={() => table.options.meta?.rows?.onClick?.(row.original)}
 						onMouseEnter={() => table.options.meta?.rows?.onMouseEnter?.(row.original)}
 					>
-						{row.getVisibleCells().map((cell) => {
-							const meta = cell.column.columnDef.meta as DataTableCellMeta | undefined;
-
-							return (
-								<Table.Cell key={cell.id} className={meta?.className}>
-									{flexRender(cell.column.columnDef.cell, cell.getContext())}
-								</Table.Cell>
-							);
-						})}
+						{row.getVisibleCells().map((cell) => (
+							<Table.Cell key={cell.id} className={cell.column.columnDef.meta?.className}>
+								{flexRender(cell.column.columnDef.cell, cell.getContext())}
+							</Table.Cell>
+						))}
 					</Table.Row>
 				))}
 			</Table.Body>

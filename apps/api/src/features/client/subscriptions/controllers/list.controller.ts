@@ -4,6 +4,7 @@ import vine from "@vinejs/vine";
 
 import ListSubscriptionsPolicy from "#features/client/subscriptions/policies/list.policy";
 import ListSubscriptionsService from "#features/client/subscriptions/services/list.service";
+import CompanyPresenter from "#presenters/company.presenter";
 import PaginationPresenter from "#presenters/pagination.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
 import { PaginationValidator } from "#validators/pagination.validator";
@@ -13,6 +14,7 @@ export default class ListSubscriptionsController {
 	constructor(
 		protected listSubscriptionsService: ListSubscriptionsService,
 		protected subscriptionPresenter: SubscriptionPresenter,
+		protected companyPresenter: CompanyPresenter,
 		protected paginationPresenter: PaginationPresenter,
 	) {}
 
@@ -30,9 +32,7 @@ export default class ListSubscriptionsController {
 			meta: this.paginationPresenter.toJSON(subscriptions),
 			data: subscriptions.all().map((subscription) => ({
 				...this.subscriptionPresenter.toJSON(subscription),
-				company: {
-					name: subscription.company.name,
-				},
+				company: this.companyPresenter.toJSON(subscription.company),
 			})),
 		};
 	}
