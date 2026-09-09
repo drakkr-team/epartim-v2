@@ -1,22 +1,19 @@
-import { Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { type MouseEvent, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Company, Pagination, Subscription } from "@workspace/api/data";
-import { Badge } from "@workspace/ui-react/components/badge";
-import { Button } from "@workspace/ui-react/components/button";
-import { ChevronRightIcon } from "@workspace/ui-react/icons";
 
-const TOTAL_STEPS = 5;
-
-const subscriptionStatuses = [
-	{ translationKey: "draft", variant: "neutral" },
-	{ translationKey: "waiting-for-signatures", variant: "warning" },
-	{ translationKey: "to-be-sent", variant: "info" },
-	{ translationKey: "complete", variant: "success" },
-	{ translationKey: "error", variant: "error" },
-] as const;
+import {
+	SubscriptionCompanyCell,
+	SubscriptionCreatedAtCell,
+	SubscriptionOpenCell,
+	SubscriptionProgressCell,
+	SubscriptionReferenceCell,
+	SubscriptionStatusCell,
+	SubscriptionUpdatedAtCell,
+} from "#/features/subscriptions/components/table-cells";
 
 export type SubscriptionRow = Subscription & {
 	company: Pick<Company, "name">;
@@ -29,10 +26,6 @@ type UseSubscriptionsTableParams = {
 
 const columnHelper = createColumnHelper<SubscriptionRow>();
 
-function getCurrentStep(completedSteps: unknown[] | null) {
-	return Math.min(Math.max((completedSteps?.length ?? 0) + 1, 1), TOTAL_STEPS);
-}
-
 export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 	const { data, pagination } = params;
 
@@ -43,103 +36,32 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 		() => [
 			columnHelper.accessor("id", {
 				header: t("header.reference"),
-				cell: ({ row }) => (
-					<span className="font-semibold">
-						{t("reference", {
-							year: row.original.createdAt.getFullYear(),
-							id: row.original.id,
-						})}
-					</span>
-				),
+				cell: ({ row }) => <SubscriptionReferenceCell {...row.original} />,
 			}),
 			columnHelper.accessor("company", {
 				header: t("header.client"),
-				cell: ({ getValue }) => {
-					const companyName = getValue().name;
-
-					return companyName ? (
-						<span className="font-semibold">{companyName}</span>
-					) : (
-						t("client.new-company")
-					);
-				},
+				cell: ({ getValue }) => <SubscriptionCompanyCell company={getValue()} />,
 			}),
 			columnHelper.accessor("completedSteps", {
 				header: t("header.progress"),
-				cell: ({ getValue }) => {
-					const currentStep = getCurrentStep(getValue());
-
-					return (
-						<div className="flex min-w-28 items-center gap-3">
-							<div
-								aria-label={t("progress.label", { current: currentStep })}
-								aria-valuemax={TOTAL_STEPS}
-								aria-valuemin={1}
-								aria-valuenow={currentStep}
-								className="h-1.5 w-20 overflow-hidden rounded-full bg-neutral-5"
-								role="progressbar"
-							>
-								<div
-									className="h-full bg-primary-9"
-									style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
-								/>
-							</div>
-							<span className="font-bold text-xs">
-								{t("progress.value", { current: currentStep })}
-							</span>
-						</div>
-					);
-				},
+				cell: ({ getValue }) => <SubscriptionProgressCell completedSteps={getValue()} />,
 			}),
 			columnHelper.accessor("status", {
 				header: t("header.status"),
-				cell: ({ getValue }) => {
-					const status = subscriptionStatuses[getValue()];
-
-					return <Badge variant={status.variant}>{t(`status.${status.translationKey}`)}</Badge>;
-				},
+				cell: ({ getValue }) => <SubscriptionStatusCell status={getValue()} />,
 			}),
 			columnHelper.accessor("createdAt", {
 				header: t("header.created-at"),
-				cell: ({ getValue }) => (
-					<span className="text-neutral-9 text-xs">{getValue().toLocaleDateString("fr-FR")}</span>
-				),
+				cell: ({ getValue }) => <SubscriptionCreatedAtCell createdAt={getValue()} />,
 			}),
 			columnHelper.accessor("updatedAt", {
 				header: t("header.updated-at"),
-				cell: ({ getValue }) => (
-					<span className="text-neutral-9 text-xs">
-						{getValue().toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short" })}
-					</span>
-				),
+				cell: ({ getValue }) => <SubscriptionUpdatedAtCell updatedAt={getValue()} />,
 			}),
 			columnHelper.display({
 				id: "open",
 				header: () => <span className="sr-only">{t("header.open")}</span>,
-				cell: ({ row }) => {
-					const reference = t("reference", {
-						year: row.original.createdAt.getFullYear(),
-						id: row.original.id,
-					});
-
-					return (
-						<Button
-							aria-label={t("action.open", { reference })}
-							nativeButton={false}
-							render={
-								<Link
-									to="/subscriptions/$id"
-									params={{ id: row.original.id.toString() }}
-									onClick={(event: MouseEvent<HTMLAnchorElement>) => event.stopPropagation()}
-								/>
-							}
-							size="icon-sm"
-							variant="ghost"
-						>
-							<ChevronRightIcon />
-						</Button>
-					);
-				},
+				cell: ({ row }) => <SubscriptionOpenCell {...row.original} />,
 			}),
 		],
 		[t],
