@@ -34,7 +34,7 @@ export function SubscriptionStatusTabs(props: SubscriptionStatusTabsProps) {
 							<Badge
 								className={option.badgeClassName}
 								size="sm"
-								variant={option.variant}
+								color={option.color}
 								withDot={false}
 							>
 								{statusCounts[value]}

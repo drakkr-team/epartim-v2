@@ -1,17 +1,17 @@
 export const subscriptionTabsStatusOptions = {
 	draft: {
 		translationKey: "draft",
-		variant: "warning",
+		color: "warning",
 		badgeClassName: "",
 	},
 	validating: {
 		translationKey: "validating",
-		variant: "warning",
+		color: "warning",
 		badgeClassName: "bg-warning-2",
 	},
 	finalized: {
 		translationKey: "finalized",
-		variant: "neutral",
+		color: "neutral",
 		badgeClassName: "",
 	},
 } as const;
