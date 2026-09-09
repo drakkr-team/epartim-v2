@@ -112,7 +112,8 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 
 			return navigate({
 				to: ".",
-				search: (previous) => ({ ...previous, q: query || undefined, page: undefined }),
+				search: ({ page: _page, q: _q, ...previous }) =>
+					query ? { ...previous, q: query } : previous,
 			});
 		},
 		pageCount: pagination.lastPage,
