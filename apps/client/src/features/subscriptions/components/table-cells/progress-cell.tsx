@@ -11,7 +11,7 @@ export function SubscriptionProgressCell({ completedSteps }: Pick<Subscription, 
 	return (
 		<div className="flex min-w-28 items-center gap-3">
 			<div
-				aria-label={t("progress.label", { current: currentStep })}
+				aria-label={t("progress.label", { current: currentStep, total: TOTAL_STEPS })}
 				aria-valuemax={TOTAL_STEPS}
 				aria-valuemin={1}
 				aria-valuenow={currentStep}
@@ -23,7 +23,9 @@ export function SubscriptionProgressCell({ completedSteps }: Pick<Subscription, 
 					style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
 				/>
 			</div>
-			<span className="font-bold text-xs">{t("progress.value", { current: currentStep })}</span>
+			<span className="font-bold text-xs">
+				{t("progress.value", { current: currentStep, total: TOTAL_STEPS })}
+			</span>
 		</div>
 	);
 }
