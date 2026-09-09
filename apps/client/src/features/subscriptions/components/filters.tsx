@@ -45,25 +45,25 @@ export function SubscriptionsFilters(props: SubscriptionsFiltersProps) {
 				value={progress ?? null}
 			>
 				<Select.Input className="w-52">
-					<Select.Value placeholder={t("filters.progress.placeholder")} />
+					<Select.Value placeholder={t("progress.placeholder")} />
 				</Select.Input>
 				<Select.Dropdown>
-					<Select.Option value={null}>{t("filters.progress.all")}</Select.Option>
+					<Select.Option value={null}>{t("progress.all")}</Select.Option>
 					{progressOptions.map((option) => (
 						<Select.Option key={option} value={option}>
-							{t("filters.progress.value", { progress: option })}
+							{t("progress.value", { progress: option })}
 						</Select.Option>
 					))}
 				</Select.Dropdown>
 			</Select>
 
 			<DatePicker
-				clearLabel={t("filters.period.clear")}
+				clearLabel={t("period.clear")}
 				clearable
 				inputClassName="w-64"
 				mode="range"
 				onSelect={onPeriodChange}
-				placeholder={t("filters.period.placeholder")}
+				placeholder={t("period.placeholder")}
 				selected={range.from ? range : undefined}
 			/>
 		</div>
