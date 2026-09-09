@@ -1,3 +1,4 @@
+import { parse } from "date-fns";
 import { useTranslation } from "react-i18next";
 
 import { DatePicker, type DateRange } from "@workspace/ui-react/components/date-picker";
@@ -14,21 +15,20 @@ type SubscriptionsFiltersProps = {
 };
 
 const progressOptions = [1, 2, 3, 4, 5] as const;
+const calendarDateFormat = "yyyy-MM-dd";
 
-function parseDate(value: string | undefined) {
+function parseCalendarDate(value: string | undefined) {
 	if (!value) return undefined;
 
-	const [year, month, day] = value.split("-").map(Number);
-
-	return new Date(year, month - 1, day);
+	return parse(value, calendarDateFormat, new Date());
 }
 
 export function SubscriptionsFilters(props: SubscriptionsFiltersProps) {
 	const { createdAtFrom, createdAtTo, onPeriodChange, onProgressChange, progress } = props;
 	const { t } = useTranslation("features.subscriptions.components.filters");
 	const range = {
-		from: parseDate(createdAtFrom),
-		to: parseDate(createdAtTo),
+		from: parseCalendarDate(createdAtFrom),
+		to: parseCalendarDate(createdAtTo),
 	};
 
 	return (

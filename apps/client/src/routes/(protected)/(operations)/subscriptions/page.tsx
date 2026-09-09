@@ -1,5 +1,6 @@
 import { keepPreviousData, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -29,14 +30,12 @@ const searchParamsSchema = z.object({
 	createdAtTo: z.iso.date().optional(),
 });
 
-function formatDate(date: Date | undefined) {
+const calendarDateFormat = "yyyy-MM-dd";
+
+function formatCalendarDate(date: Date | undefined) {
 	if (!date) return undefined;
 
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, "0");
-	const day = String(date.getDate()).padStart(2, "0");
-
-	return `${year}-${month}-${day}`;
+	return format(date, calendarDateFormat);
 }
 
 export const Route = createFileRoute("/(protected)/(operations)/subscriptions/")({
@@ -119,8 +118,8 @@ function SubscriptionsPage() {
 							to: ".",
 							search: (previous) => ({
 								...previous,
-								createdAtFrom: formatDate(range?.from),
-								createdAtTo: formatDate(range?.to),
+								createdAtFrom: formatCalendarDate(range?.from),
+								createdAtTo: formatCalendarDate(range?.to),
 								page: undefined,
 							}),
 						})
