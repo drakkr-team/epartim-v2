@@ -77,10 +77,7 @@ export function TableHeaderCell(props: TableHeaderCellProps) {
 
 	return (
 		<th
-			className={cn(
-				"truncate px-4 py-3 text-start font-semibold text-neutral-12 text-sm",
-				className,
-			)}
+			className={cn("truncate px-4 py-3 text-start text-neutral-9 text-xs uppercase", className)}
 			{...rest}
 		/>
 	);

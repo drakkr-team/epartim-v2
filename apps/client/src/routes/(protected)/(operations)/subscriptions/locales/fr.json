@@ -4,9 +4,17 @@
 		"action": {
 			"new-subscription": "Nouvelle souscription"
 		},
+		"search": {
+			"label": "Rechercher une souscription",
+			"placeholder": "Rechercher un client ou une référence"
+		},
 		"empty": {
 			"title": "Aucune souscription",
-			"description": "Créez une souscription pour commencer un nouveau dossier."
+			"description": "Créez une souscription pour commencer un nouveau dossier.",
+			"filtered": {
+				"title": "Aucune souscription trouvée",
+				"description": "Modifiez votre recherche ou choisissez un autre onglet."
+			}
 		}
 	}
 }
