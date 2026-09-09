@@ -5,15 +5,13 @@ import { useTranslation } from "react-i18next";
 
 import type { Company, Pagination, Subscription } from "@workspace/api/data";
 
-import {
-	SubscriptionCompanyCell,
-	SubscriptionCreatedAtCell,
-	SubscriptionOpenCell,
-	SubscriptionProgressCell,
-	SubscriptionReferenceCell,
-	SubscriptionStatusCell,
-	SubscriptionUpdatedAtCell,
-} from "#/features/subscriptions/components/table-cells";
+import { SubscriptionCompanyCell } from "#/features/subscriptions/components/table-cells/company-cell";
+import { SubscriptionCreatedAtCell } from "#/features/subscriptions/components/table-cells/created-at-cell";
+import { SubscriptionOpenCell } from "#/features/subscriptions/components/table-cells/open-cell";
+import { SubscriptionProgressCell } from "#/features/subscriptions/components/table-cells/progress-cell";
+import { SubscriptionReferenceCell } from "#/features/subscriptions/components/table-cells/reference-cell";
+import { SubscriptionStatusCell } from "#/features/subscriptions/components/table-cells/status-cell";
+import { SubscriptionUpdatedAtCell } from "#/features/subscriptions/components/table-cells/updated-at-cell";
 
 export type SubscriptionRow = Subscription & {
 	company: Pick<Company, "name">;
