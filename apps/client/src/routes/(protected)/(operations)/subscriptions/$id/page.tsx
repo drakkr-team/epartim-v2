@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
+import { Separator } from "@workspace/ui-react/components/separator";
 import { Spinner } from "@workspace/ui-react/components/spinner";
 
 import { AddressAndBankDetailsForm } from "#/features/subscriptions/address_and_bank_details/components/form";
@@ -45,6 +46,8 @@ function NewSubscriptionPage() {
 				subscriptionId={id}
 				legalIdentification={subscriptionQuery.data.legalIdentification}
 			/>
+
+			<Separator />
 
 			<AddressAndBankDetailsForm
 				subscriptionId={id}
