@@ -131,13 +131,32 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 				{
 					id: firstSubscription.id,
 					company: {
+						id: firstCompany.id,
+						siren: firstCompany.siren,
 						name: firstCompany.name,
 					},
 				},
 			],
 		});
 		assert.lengthOf(response.body().data, 1);
-		assert.deepEqual(Object.keys(response.body().data[0].company), ["name"]);
+		assert.sameMembers(Object.keys(response.body().data[0].company), [
+			"id",
+			"subscriptionId",
+			"addressId",
+			"paymentDetailId",
+			"companyLegalAgentId",
+			"companyCorrespondentId",
+			"siret",
+			"siren",
+			"naf",
+			"name",
+			"legalForm",
+			"companyHeadcount",
+			"vatNumber",
+			"financialYearClosingDay",
+			"createdAt",
+			"updatedAt",
+		]);
 	});
 
 	test("it rejects unauthenticated requests", async ({ client }) => {

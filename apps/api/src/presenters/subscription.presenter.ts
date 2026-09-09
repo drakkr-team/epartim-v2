@@ -17,13 +17,4 @@ export default class SubscriptionPresenter {
 			updatedAt: subscription.updatedAt.toJSDate(),
 		};
 	}
-
-	toListJSON(subscription: Subscription) {
-		return {
-			...this.toJSON(subscription),
-			company: {
-				name: subscription.company.name,
-			},
-		};
-	}
 }

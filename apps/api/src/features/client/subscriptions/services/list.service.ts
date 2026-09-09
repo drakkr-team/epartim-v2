@@ -21,10 +21,7 @@ type SubscriptionStatusCounts = Record<SubscriptionListStatus, number>;
 
 export default class ListSubscriptionsService {
 	handle(params: ListSubscriptionsParams = {}) {
-		return this.#buildQuery(params)
-			.preload("company")
-			.orderBy("created_at", "desc")
-			.orderBy("id", "desc");
+		return this.#buildQuery(params).orderBy("created_at", "desc").orderBy("id", "desc");
 	}
 
 	async getStatusCounts(

@@ -6,6 +6,7 @@ import ListSubscriptionsPolicy from "#features/client/subscriptions/policies/lis
 import ListSubscriptionsService, {
 	subscriptionListStatuses,
 } from "#features/client/subscriptions/services/list.service";
+import CompanyPresenter from "#presenters/company.presenter";
 import PaginationPresenter from "#presenters/pagination.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
 import { PaginationValidator } from "#validators/pagination.validator";
@@ -15,6 +16,7 @@ export default class ListSubscriptionsController {
 	constructor(
 		protected listSubscriptionsService: ListSubscriptionsService,
 		protected subscriptionPresenter: SubscriptionPresenter,
+		protected companyPresenter: CompanyPresenter,
 		protected paginationPresenter: PaginationPresenter,
 	) {}
 
@@ -27,18 +29,19 @@ export default class ListSubscriptionsController {
 			q,
 			status,
 		} = await request.validateUsing(ListSubscriptionsController.querySchema);
-		const subscriptions = await this.listSubscriptionsService
-			.handle({ q, status })
-			.paginate(page, perPage);
+		const subscriptionsQuery = this.listSubscriptionsService.handle({ q, status });
+		subscriptionsQuery.preload("company");
+		const subscriptions = await subscriptionsQuery.paginate(page, perPage);
 
 		return {
 			meta: {
 				...this.paginationPresenter.toJSON(subscriptions),
 				statusCounts: await this.listSubscriptionsService.getStatusCounts({ q }),
 			},
-			data: subscriptions
-				.all()
-				.map((subscription) => this.subscriptionPresenter.toListJSON(subscription)),
+			data: subscriptions.all().map((subscription) => ({
+				...this.subscriptionPresenter.toJSON(subscription),
+				company: this.companyPresenter.toJSON(subscription.company),
+			})),
 		};
 	}
 
