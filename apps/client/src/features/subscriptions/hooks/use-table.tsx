@@ -76,6 +76,9 @@ export function useSubscriptionsTable(params: UseSubscriptionsTableParams) {
 		columns,
 		enableSorting: false,
 		getCoreRowModel: getCoreRowModel(),
+		initialState: {
+			globalFilter: q ?? "",
+		},
 		manualFiltering: true,
 		getRowId: (row) => row.id.toString(),
 		manualPagination: true,
