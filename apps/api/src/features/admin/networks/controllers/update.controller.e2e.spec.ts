@@ -5,6 +5,7 @@ import { NetworkFactory } from "#database/factories/network.factory";
 import Address from "#models/address";
 import Network from "#models/network";
 import PaymentDetail from "#models/payment_detail";
+import Role from "#models/role";
 
 async function createUpdateFixture(name: string, amundiOrgId: string) {
 	const network = await NetworkFactory.merge({ name, amundiOrgId, goCode: "112000" })
@@ -30,6 +31,9 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:network"];
+		await role.save();
 		const network = await createUpdateFixture("Original Network", "AMUNDI-ORIGINAL");
 
 		const response = await client
@@ -75,6 +79,9 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 
 	test("it should ignore read-only identifiers supplied during update", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:network"];
+		await role.save();
 		const network = await createUpdateFixture("Same Unique Network", "AMUNDI-SAME");
 
 		const response = await client
@@ -96,6 +103,9 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 
 	test("it should reject duplicate network names", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:network"];
+		await role.save();
 		const target = await createUpdateFixture("Target Network", "AMUNDI-TARGET");
 		const existing = await createUpdateFixture("Existing Network", "AMUNDI-EXISTING");
 
@@ -110,6 +120,9 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 
 	test("it should allow a no-op payload", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:network"];
+		await role.save();
 		const network = await createUpdateFixture("Empty Payload Target", "AMUNDI-EMPTY");
 
 		const response = await client
@@ -125,6 +138,9 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 
 	test("it should reject invalid partial values", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:network"];
+		await role.save();
 		const network = await createUpdateFixture("Validation Target", "AMUNDI-VALIDATION");
 		const invalidPayloads = [
 			{
@@ -162,6 +178,9 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 
 	test("it should return not found for an unknown networkId", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:network"];
+		await role.save();
 
 		const response = await client
 			.visit("admin.networks.update", { networkId: 999_999 })

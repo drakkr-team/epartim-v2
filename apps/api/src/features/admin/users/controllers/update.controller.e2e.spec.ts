@@ -2,10 +2,14 @@ import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { UserFactory } from "#database/factories/user.factory";
+import Role from "#models/role";
 
 test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 	test("it should update and normalize a user name", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["update:user"];
+		await role.save();
 		const targetUser = await UserFactory.create();
 
 		const response = await client
@@ -31,6 +35,9 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 
 	test("it should ignore every field except names", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["update:user"];
+		await role.save();
 		const targetUser = await UserFactory.create();
 		const originalEmail = targetUser.email;
 		const originalPassword = targetUser.password;
@@ -57,6 +64,9 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 
 	test("it should reject incomplete and invalid payloads", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["update:user"];
+		await role.save();
 		const targetUser = await UserFactory.create();
 
 		for (const payload of [{}, { firstName: "Only" }, { firstName: " ", lastName: "User" }]) {
@@ -72,6 +82,9 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 
 	test("it should return not found for missing identifiers", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["update:user"];
+		await role.save();
 
 		for (const id of ["999999", "0", "-1"]) {
 			const response = await client

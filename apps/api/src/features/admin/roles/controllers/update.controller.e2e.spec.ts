@@ -7,25 +7,47 @@ import Role from "#models/role";
 test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 	test("it should partially update and return a role", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
+		const adminRole = await Role.findOrFail(admin.roleId);
+		adminRole.authorizations = ["update:role"];
+		await adminRole.save();
 		const role = await RoleFactory.merge({ name: "Update Role", authorizations: [] }).create();
 
 		const response = await client
 			.put(`/admin/roles/${role.id}`)
 			.withGuard("admin")
 			.loginAs(admin)
-			.json({ authorizations: ["network:create"] });
+			.json({ authorizations: ["create:network"] });
 
 		response.assertOk();
 		response.assertBodyContains({
 			id: role.id,
 			name: "Update Role",
-			authorizations: ["network:create"],
+			authorizations: ["create:network"],
 		});
-		assert.deepEqual((await Role.findOrFail(role.id)).authorizations, ["network:create"]);
+		assert.deepEqual((await Role.findOrFail(role.id)).authorizations, ["create:network"]);
+	});
+
+	test("it should forbid an admin without the update role authorization", async ({ client }) => {
+		const admin = await AdminFactory.create();
+		const adminRole = await Role.findOrFail(admin.roleId);
+		adminRole.authorizations = [];
+		await adminRole.save();
+		const role = await RoleFactory.create();
+
+		const response = await client
+			.put(`/admin/roles/${role.id}`)
+			.withGuard("admin")
+			.loginAs(admin)
+			.json({ name: "Forbidden update" });
+
+		response.assertForbidden();
 	});
 
 	test("it should reject an invalid authorization", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const adminRole = await Role.findOrFail(admin.roleId);
+		adminRole.authorizations = ["update:role"];
+		await adminRole.save();
 		const role = await RoleFactory.create();
 
 		const response = await client

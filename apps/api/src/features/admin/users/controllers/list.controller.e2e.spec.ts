@@ -2,12 +2,16 @@ import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { UserFactory } from "#database/factories/user.factory";
+import Role from "#models/role";
 import User from "#models/user";
 
 test.group("Features / Admin / Users / Controllers / List Controller", () => {
 	test("it should paginate every user with the documented defaults", async ({ client, assert }) => {
 		const existingUserCount = (await User.all()).length;
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["create:user", "update:user", "delete:user"];
+		await role.save();
 		await UserFactory.createMany(21);
 		const expectedTotal = existingUserCount + 21;
 

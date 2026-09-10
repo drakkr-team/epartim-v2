@@ -2,10 +2,14 @@ import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { RoleFactory } from "#database/factories/role.factory";
+import Role from "#models/role";
 
 test.group("Features / Admin / Roles / Controllers / View Controller", () => {
 	test("it should return a role and action metadata", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const adminRole = await Role.findOrFail(admin.roleId);
+		adminRole.authorizations = [];
+		await adminRole.save();
 		const role = await RoleFactory.merge({ name: "View Role" }).create();
 
 		const response = await client
@@ -17,7 +21,7 @@ test.group("Features / Admin / Roles / Controllers / View Controller", () => {
 		response.assertBodyContains({
 			id: role.id,
 			name: "View Role",
-			meta: { canUpdate: true, canDelete: true },
+			meta: { canUpdate: false, canDelete: false },
 		});
 	});
 
