@@ -5,10 +5,14 @@ import { FirmFactory } from "#database/factories/firm.factory";
 import Address from "#models/address";
 import Firm from "#models/firm";
 import PaymentDetail from "#models/payment_detail";
+import Role from "#models/role";
 
 test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 	test("it should physically delete a firm and its owned records", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["delete:firm"];
+		await role.save();
 		const firm = await FirmFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
@@ -25,6 +29,9 @@ test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 
 	test("it should return not found for an unknown firmId", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["delete:firm"];
+		await role.save();
 
 		const response = await client
 			.delete("/admin/firms/999999999")

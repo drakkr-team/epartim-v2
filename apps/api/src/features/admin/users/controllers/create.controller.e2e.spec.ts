@@ -3,11 +3,15 @@ import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { UserFactory } from "#database/factories/user.factory";
+import Role from "#models/role";
 import User from "#models/user";
 
 test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 	test("it should create a user with normalized fields", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["create:user"];
+		await role.save();
 		const payload = {
 			firstName: "  Élodie  ",
 			lastName: "  Gestionnaire  ",
@@ -35,6 +39,9 @@ test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 
 	test("it should reject an email already used by a user", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["create:user"];
+		await role.save();
 		const existingUser = await UserFactory.merge({ email: "existing@example.com" }).create();
 
 		const response = await client
@@ -52,6 +59,9 @@ test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 
 	test("it should reject invalid payloads", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["create:user"];
+		await role.save();
 
 		const response = await client
 			.visit("admin.users.create")

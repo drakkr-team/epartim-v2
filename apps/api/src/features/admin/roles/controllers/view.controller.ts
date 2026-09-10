@@ -22,7 +22,7 @@ export default class ViewRoleController {
 			...this.rolePresenter.toJSON(role),
 			meta: {
 				canUpdate: await bouncer.with(UpdateRolePolicy).allows("handle"),
-				canDelete: await bouncer.with(DeleteRolePolicy).allows("handle"),
+				canDelete: await bouncer.with(DeleteRolePolicy).allows("handle", role.id),
 			},
 		};
 	}

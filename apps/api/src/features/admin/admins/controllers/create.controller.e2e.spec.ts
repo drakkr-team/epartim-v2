@@ -3,10 +3,14 @@ import { test } from "@japa/runner";
 import { AdminFactory } from "#database/factories/admin.factory";
 import { RoleFactory } from "#database/factories/role.factory";
 import Admin from "#models/admin";
+import Role from "#models/role";
 
 test.group("Features / Admin / Admins / Controllers / Create Controller", () => {
 	test("it should create and return an admin", async ({ client, assert }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["create:admin"];
+		await currentRole.save();
 		const role = await RoleFactory.create();
 
 		const response = await client
@@ -35,6 +39,9 @@ test.group("Features / Admin / Admins / Controllers / Create Controller", () => 
 
 	test("it should trim the admin name and email", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["create:admin"];
+		await currentRole.save();
 		const role = await RoleFactory.create();
 
 		const response = await client
@@ -57,6 +64,9 @@ test.group("Features / Admin / Admins / Controllers / Create Controller", () => 
 
 	test("it should reject a missing role", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["create:admin"];
+		await currentRole.save();
 
 		const response = await client
 			.visit("admin.admins.create")
@@ -73,6 +83,9 @@ test.group("Features / Admin / Admins / Controllers / Create Controller", () => 
 
 	test("it should reject invalid input", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["create:admin"];
+		await currentRole.save();
 
 		const response = await client
 			.visit("admin.admins.create")
@@ -89,6 +102,9 @@ test.group("Features / Admin / Admins / Controllers / Create Controller", () => 
 
 	test("it should reject an email already used by another admin", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["create:admin"];
+		await currentRole.save();
 		const existingAdmin = await AdminFactory.create();
 
 		const response = await client

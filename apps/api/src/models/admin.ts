@@ -5,6 +5,7 @@ import { belongsTo, column } from "@adonisjs/lucid/orm";
 import type { BelongsTo } from "@adonisjs/lucid/types/relations";
 
 import { AdminSchema } from "#database/schema";
+import type { AuthorizationOption } from "#models/role";
 import Role from "#models/role";
 
 const authFinder = withAuthFinder(() => hash.use("scrypt"), {
@@ -18,4 +19,11 @@ export default class Admin extends compose(AdminSchema, authFinder) {
 
 	@belongsTo(() => Role)
 	declare role: BelongsTo<typeof Role>;
+
+	async can(action: AuthorizationOption) {
+		const role = await Role.find(this.roleId);
+		if (role === null) return false;
+
+		return role.isSuperAdmin || role.authorizations.includes(action);
+	}
 }

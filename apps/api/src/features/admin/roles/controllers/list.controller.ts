@@ -41,7 +41,7 @@ export default class ListRolesController {
 					...this.rolePresenter.toJSON(role),
 					meta: {
 						canUpdate: await bouncer.with(UpdateRolePolicy).allows("handle"),
-						canDelete: await bouncer.with(DeleteRolePolicy).allows("handle"),
+						canDelete: await bouncer.with(DeleteRolePolicy).allows("handle", role.id),
 					},
 				})),
 			),

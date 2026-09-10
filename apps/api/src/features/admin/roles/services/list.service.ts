@@ -9,7 +9,7 @@ export default class ListRolesService {
 		return Role.query()
 			.if(q, (query) => this.#searchQuery(query, q!))
 			.if(orderBy, (query) => this.#orderByQuery(query, orderBy!))
-			.orderBy("name", "asc");
+			.orderBy("created_at", "desc");
 	}
 
 	#orderByQuery(query: ModelQueryBuilderContract<typeof Role>, orderBy: string) {

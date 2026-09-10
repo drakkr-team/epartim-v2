@@ -3,6 +3,7 @@ import { test } from "@japa/runner";
 import { AdminFactory } from "#database/factories/admin.factory";
 import { FirmFactory } from "#database/factories/firm.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
+import Role from "#models/role";
 
 test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 	test("it should return a firm with owned relations and action metadata", async ({
@@ -10,6 +11,9 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm", "delete:firm"];
+		await role.save();
 		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const firm = await FirmFactory.merge({
 			name: "Viewed Firm",

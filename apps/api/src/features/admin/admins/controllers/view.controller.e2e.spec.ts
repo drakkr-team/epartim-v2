@@ -1,10 +1,14 @@
 import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
+import Role from "#models/role";
 
 test.group("Features / Admin / Admins / Controllers / View Controller", () => {
 	test("it should return another admin with authorization metadata", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["update:admin", "delete:admin"];
+		await currentRole.save();
 		const viewedAdmin = await AdminFactory.create();
 
 		const response = await client
@@ -26,6 +30,9 @@ test.group("Features / Admin / Admins / Controllers / View Controller", () => {
 
 	test("it should indicate that an admin cannot delete itself", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["update:admin", "delete:admin"];
+		await currentRole.save();
 
 		const response = await client
 			.visit("admin.admins.view", { adminId: currentAdmin.id })
