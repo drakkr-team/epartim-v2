@@ -35,6 +35,7 @@ export function useAdminForm(params: UseAdminFormParams) {
 		defaultValues: {
 			name: "",
 			email: "",
+			roleId: 1,
 			...params.defaultValues,
 		},
 		validationLogic: revalidateLogic(),
@@ -47,6 +48,7 @@ export function useAdminForm(params: UseAdminFormParams) {
 				email: z
 					.email({ error: t("validation.email.email") })
 					.max(254, { error: t("validation.email.max", { max: 254 }) }),
+				roleId: z.number(),
 			}),
 		},
 		onSubmitInvalid() {
