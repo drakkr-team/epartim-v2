@@ -1,0 +1,47 @@
+type: http_request
+model: http_request
+id: rq_subscription_update_legal_identification
+createdAt: 2026-09-04T00:00:00.000000
+updatedAt: 2026-09-04T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscriptions
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "legalIdentification": {
+        "name": "${[ faker.company.name() ]}"
+      }
+    }
+bodyType: application/json
+description: Set SUBSCRIPTION_ID in your private Yaak environment.
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: PUT
+name: Update legal identification
+sortPriority: 2000.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/legal-identification
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

@@ -1,0 +1,53 @@
+type: http_request
+model: http_request
+id: rq_subscription_list
+createdAt: 2026-09-07T00:00:00.000000
+updatedAt: 2026-09-08T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscriptions
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: Requires an authenticated client session.
+headers:
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: GET
+name: List subscriptions
+sortPriority: 500.0
+url: http://localhost:3333/client/subscriptions
+urlParameters:
+- enabled: true
+  name: page
+  value: '1'
+  id: null
+- enabled: true
+  name: perPage
+  value: '20'
+  id: null
+- enabled: true
+  name: q
+  value: ''
+  id: null
+- enabled: true
+  name: status
+  value: draft
+  id: null
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

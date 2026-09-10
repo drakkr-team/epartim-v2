@@ -7,7 +7,7 @@ export function TableRoot(props: TableRootProps) {
 	const { className, ...rest } = props;
 
 	return (
-		<div className={cn("overflow-auto rounded-md border border-neutral-7 bg-neutral-1", className)}>
+		<div className={cn("overflow-auto rounded-md border border-neutral-5 bg-neutral-1", className)}>
 			<table className="h-full w-full" {...rest} />
 		</div>
 	);
@@ -18,7 +18,7 @@ export type TableHeaderProps = ComponentProps<"thead">;
 export function TableHeader(props: TableHeaderProps) {
 	const { className, ...rest } = props;
 
-	return <thead className={cn("border-neutral-7 border-b bg-neutral-3/50", className)} {...rest} />;
+	return <thead className={cn("border-neutral-5 border-b bg-neutral-3/50", className)} {...rest} />;
 }
 
 export type TableBodyProps = ComponentProps<"tbody">;
@@ -26,7 +26,7 @@ export type TableBodyProps = ComponentProps<"tbody">;
 export function TableBody(props: TableBodyProps) {
 	const { className, ...rest } = props;
 
-	return <tbody className={cn("divide-y divide-neutral-7", className)} {...rest} />;
+	return <tbody className={cn("divide-y divide-neutral-4", className)} {...rest} />;
 }
 
 export type TableRowProps = ComponentProps<"tr"> & {
@@ -40,7 +40,7 @@ export function TableRow(props: TableRowProps) {
 		<tr
 			className={cn(
 				{
-					"cursor-pointer hover:bg-neutral-3/50": interactive,
+					"cursor-pointer hover:bg-primary-2": interactive,
 				},
 				className,
 			)}
@@ -77,10 +77,7 @@ export function TableHeaderCell(props: TableHeaderCellProps) {
 
 	return (
 		<th
-			className={cn(
-				"truncate px-4 py-3 text-start font-semibold text-neutral-12 text-sm",
-				className,
-			)}
+			className={cn("truncate px-4 py-3 text-start text-neutral-9 text-xs uppercase", className)}
 			{...rest}
 		/>
 	);
