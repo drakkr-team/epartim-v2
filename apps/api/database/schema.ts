@@ -87,7 +87,7 @@ export class CompanySchema extends BaseModel {
   @column()
   declare siret: string | null
   @column()
-  declare subscriptionId: number | null
+  declare subscriptionId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
   @column()
@@ -216,7 +216,6 @@ export class PaymentDetailSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
-<<<<<<< HEAD
 export class RoleSchema extends BaseModel {
   static $columns = ['authorizations', 'createdAt', 'id', 'isSuperAdmin', 'name', 'updatedAt'] as const
   $columns = RoleSchema.$columns
@@ -230,7 +229,10 @@ export class RoleSchema extends BaseModel {
   declare isSuperAdmin: boolean
   @column()
   declare name: string
-=======
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class SubscriptionSchema extends BaseModel {
   static $columns = ['approvedAt', 'completedAt', 'completedSteps', 'createdAt', 'createdBy', 'id', 'status', 'statusUpdatedAt', 'submittedAt', 'updatedAt'] as const
   $columns = SubscriptionSchema.$columns
@@ -252,7 +254,6 @@ export class SubscriptionSchema extends BaseModel {
   declare statusUpdatedAt: DateTime | null
   @column.dateTime()
   declare submittedAt: DateTime | null
->>>>>>> dev
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
