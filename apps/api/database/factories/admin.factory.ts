@@ -1,6 +1,7 @@
 import factory from "@adonisjs/lucid/factories";
 import { DateTime } from "luxon";
 
+import { RoleFactory } from "#database/factories/role.factory";
 import Admin from "#models/admin";
 
 export const AdminFactory = factory
@@ -21,4 +22,5 @@ export const AdminFactory = factory
 	.state("unactive", (admin) => {
 		admin.activatedAt = null;
 	})
+	.relation("role", () => RoleFactory)
 	.build();

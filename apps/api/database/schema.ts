@@ -29,7 +29,7 @@ export class AddressSchema extends BaseModel {
 }
 
 export class AdminSchema extends BaseModel {
-  static $columns = ['activatedAt', 'createdAt', 'email', 'id', 'name', 'password', 'updatedAt'] as const
+  static $columns = ['activatedAt', 'createdAt', 'email', 'id', 'name', 'password', 'roleId', 'updatedAt'] as const
   $columns = AdminSchema.$columns
   @column.dateTime()
   declare activatedAt: DateTime | null
@@ -43,6 +43,8 @@ export class AdminSchema extends BaseModel {
   declare name: string
   @column({ serializeAs: null })
   declare password: string
+  @column()
+  declare roleId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
@@ -121,6 +123,23 @@ export class PaymentDetailSchema extends BaseModel {
   declare iban: string
   @column({ isPrimary: true })
   declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class RoleSchema extends BaseModel {
+  static $columns = ['authorizations', 'createdAt', 'id', 'isSuperAdmin', 'name', 'updatedAt'] as const
+  $columns = RoleSchema.$columns
+  @column()
+  declare authorizations: any
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isSuperAdmin: boolean
+  @column()
+  declare name: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
