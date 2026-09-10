@@ -108,6 +108,36 @@ const routes = {
     tokens: [{"old":"/admin/networks/:networkId","type":0,"val":"admin","end":""},{"old":"/admin/networks/:networkId","type":0,"val":"networks","end":""},{"old":"/admin/networks/:networkId","type":1,"val":"networkId","end":""}],
     types: placeholder as Registry['admin.networks.delete']['types'],
   },
+  'admin.roles.list': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/roles',
+    tokens: [{"old":"/admin/roles","type":0,"val":"admin","end":""},{"old":"/admin/roles","type":0,"val":"roles","end":""}],
+    types: placeholder as Registry['admin.roles.list']['types'],
+  },
+  'admin.roles.create': {
+    methods: ["POST"],
+    pattern: '/admin/roles',
+    tokens: [{"old":"/admin/roles","type":0,"val":"admin","end":""},{"old":"/admin/roles","type":0,"val":"roles","end":""}],
+    types: placeholder as Registry['admin.roles.create']['types'],
+  },
+  'admin.roles.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/roles/:roleId',
+    tokens: [{"old":"/admin/roles/:roleId","type":0,"val":"admin","end":""},{"old":"/admin/roles/:roleId","type":0,"val":"roles","end":""},{"old":"/admin/roles/:roleId","type":1,"val":"roleId","end":""}],
+    types: placeholder as Registry['admin.roles.view']['types'],
+  },
+  'admin.roles.update': {
+    methods: ["PUT"],
+    pattern: '/admin/roles/:roleId',
+    tokens: [{"old":"/admin/roles/:roleId","type":0,"val":"admin","end":""},{"old":"/admin/roles/:roleId","type":0,"val":"roles","end":""},{"old":"/admin/roles/:roleId","type":1,"val":"roleId","end":""}],
+    types: placeholder as Registry['admin.roles.update']['types'],
+  },
+  'admin.roles.delete': {
+    methods: ["DELETE"],
+    pattern: '/admin/roles/:roleId',
+    tokens: [{"old":"/admin/roles/:roleId","type":0,"val":"admin","end":""},{"old":"/admin/roles/:roleId","type":0,"val":"roles","end":""},{"old":"/admin/roles/:roleId","type":1,"val":"roleId","end":""}],
+    types: placeholder as Registry['admin.roles.delete']['types'],
+  },
   'admin.users.list': {
     methods: ["GET","HEAD"],
     pattern: '/admin/users',
