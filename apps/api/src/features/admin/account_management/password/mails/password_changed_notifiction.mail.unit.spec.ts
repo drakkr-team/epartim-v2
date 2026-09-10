@@ -10,7 +10,9 @@ test.group(
 			const admin = await AdminFactory.merge({
 				name: "Alex Martin",
 				email: "password.changed@example.com",
-			}).create();
+			})
+				.with("role")
+				.create();
 			const loginUrl = new URL("https://app.example.test/login");
 			const email = new PasswordChangedNotificationMail({ admin, loginUrl });
 

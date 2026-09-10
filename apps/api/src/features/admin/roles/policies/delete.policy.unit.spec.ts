@@ -10,7 +10,7 @@ import User from "#models/user";
 test.group("Features / Admin / Roles / Policies / Delete Policy", () => {
 	test("it should allow an authorized admin deleting an unused role", async ({ assert }) => {
 		const policy = new DeleteRolePolicy(new DeleteRoleService());
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -25,14 +25,12 @@ test.group("Features / Admin / Roles / Policies / Delete Policy", () => {
 
 	test("it should deny deleting a role assigned to an admin", async ({ assert }) => {
 		const policy = new DeleteRolePolicy(new DeleteRoleService());
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
 		await adminRole.save();
 		const role = await RoleFactory.create();
-		const assignedAdmin = await AdminFactory.create();
-		assignedAdmin.roleId = role.id;
-		await assignedAdmin.save();
+		await AdminFactory.merge({ roleId: role.id }).create();
 
 		assert.isFalse(await policy.handle(admin, role.id));
 	});

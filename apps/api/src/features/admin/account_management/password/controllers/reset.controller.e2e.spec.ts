@@ -26,7 +26,7 @@ test.group(
 
 			const password = "password";
 			const newPassword = "newpassword";
-			const admin = await AdminFactory.merge({ password }).create();
+			const admin = await AdminFactory.merge({ password }).with("role").create();
 			const token = await otpService.generate({
 				type: "alphanumeric",
 				length: 32,
@@ -52,7 +52,7 @@ test.group(
 		}) => {
 			const otpService = new OtpService<{ adminId: number }>();
 
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 			const token = await otpService.generate({
 				type: "alphanumeric",
 				length: 32,
@@ -80,7 +80,7 @@ test.group(
 		}) => {
 			const otpService = new OtpService<{ adminId: number }>();
 
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 			const token = await otpService.generate({
 				type: "alphanumeric",
 				length: 32,
@@ -118,7 +118,7 @@ test.group(
 		test("it should respond with E_GUEST_ONLY code if the admin is already authenticated", async ({
 			client,
 		}) => {
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 
 			const response = await client
 				.visit("admin.account_management.password.reset")

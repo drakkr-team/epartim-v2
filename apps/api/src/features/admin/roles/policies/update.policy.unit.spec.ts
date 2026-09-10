@@ -8,7 +8,7 @@ import User from "#models/user";
 test.group("Features / Admin / Roles / Policies / Update Policy", () => {
 	test("it should allow only an admin with the update role authorization", async ({ assert }) => {
 		const policy = new UpdateRolePolicy();
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = [];
 		await role.save();

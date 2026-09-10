@@ -7,8 +7,12 @@ import Admin from "#models/admin";
 
 test.group("Features / Admin / Admins / Services / List Service", () => {
 	test("it should order admins by creation date descending by default", async ({ assert }) => {
-		const olderAdmin = await AdminFactory.merge({ name: "DefaultOrder Older" }).create();
-		const newerAdmin = await AdminFactory.merge({ name: "DefaultOrder Newer" }).create();
+		const olderAdmin = await AdminFactory.merge({ name: "DefaultOrder Older" })
+			.with("role")
+			.create();
+		const newerAdmin = await AdminFactory.merge({ name: "DefaultOrder Newer" })
+			.with("role")
+			.create();
 		await Admin.query()
 			.where("id", olderAdmin.id)
 			.update({ createdAt: DateTime.fromISO("2025-01-01T00:00:00.000Z") });
@@ -28,15 +32,21 @@ test.group("Features / Admin / Admins / Services / List Service", () => {
 		const nameMatch = await AdminFactory.merge({
 			name: "Alice Martin",
 			email: "alice@example.com",
-		}).create();
+		})
+			.with("role")
+			.create();
 		const emailMatch = await AdminFactory.merge({
 			name: "Bob Dupont",
 			email: "support@acme.example",
-		}).create();
+		})
+			.with("role")
+			.create();
 		await AdminFactory.merge({
 			name: "Charlie Durand",
 			email: "charlie@example.com",
-		}).create();
+		})
+			.with("role")
+			.create();
 
 		const admins = await new ListAdminsService().handle({ q: "ALICE acme" });
 
@@ -47,8 +57,10 @@ test.group("Features / Admin / Admins / Services / List Service", () => {
 	});
 
 	test("it should ignore extra spaces in the search query", async ({ assert }) => {
-		const matchingAdmin = await AdminFactory.merge({ name: "WhitespaceAliceUnique" }).create();
-		await AdminFactory.merge({ name: "WhitespaceBobUnique" }).create();
+		const matchingAdmin = await AdminFactory.merge({ name: "WhitespaceAliceUnique" })
+			.with("role")
+			.create();
+		await AdminFactory.merge({ name: "WhitespaceBobUnique" }).with("role").create();
 
 		const admins = await new ListAdminsService().handle({ q: "  WhitespaceAliceUnique   " });
 
@@ -72,14 +84,18 @@ test.group("Features / Admin / Admins / Services / List Service", () => {
 					scenario.orderBy === "email"
 						? `${marker.toLowerCase()}.${scenario.first}`
 						: `${marker.toLowerCase()}.first@example.com`,
-			}).create();
+			})
+				.with("role")
+				.create();
 			const secondAdmin = await AdminFactory.merge({
 				name: scenario.orderBy === "name" ? `${marker} ${scenario.second}` : `${marker} Second`,
 				email:
 					scenario.orderBy === "email"
 						? `${marker.toLowerCase()}.${scenario.second}`
 						: `${marker.toLowerCase()}.second@example.com`,
-			}).create();
+			})
+				.with("role")
+				.create();
 			const service = new ListAdminsService();
 
 			const ascending = await service.handle({
@@ -103,8 +119,8 @@ test.group("Features / Admin / Admins / Services / List Service", () => {
 	}
 
 	test("it should order admins by id", async ({ assert }) => {
-		const firstAdmin = await AdminFactory.merge({ name: "IdOrder First" }).create();
-		const secondAdmin = await AdminFactory.merge({ name: "IdOrder Second" }).create();
+		const firstAdmin = await AdminFactory.merge({ name: "IdOrder First" }).with("role").create();
+		const secondAdmin = await AdminFactory.merge({ name: "IdOrder Second" }).with("role").create();
 		const service = new ListAdminsService();
 
 		const ascending = await service.handle({ q: "IdOrder", orderBy: "id_asc" });
@@ -124,11 +140,15 @@ test.group("Features / Admin / Admins / Services / List Service", () => {
 		const firstAdmin = await AdminFactory.merge({
 			name: "ActivationOrder First",
 			activatedAt: DateTime.fromISO("2025-01-01T00:00:00.000Z"),
-		}).create();
+		})
+			.with("role")
+			.create();
 		const secondAdmin = await AdminFactory.merge({
 			name: "ActivationOrder Second",
 			activatedAt: DateTime.fromISO("2025-02-01T00:00:00.000Z"),
-		}).create();
+		})
+			.with("role")
+			.create();
 		const service = new ListAdminsService();
 
 		const ascending = await service.handle({
@@ -153,8 +173,12 @@ test.group("Features / Admin / Admins / Services / List Service", () => {
 	for (const column of ["createdAt", "updatedAt"] as const) {
 		test(`it should order admins by ${column}`, async ({ assert }) => {
 			const marker = `${column}Order`;
-			const firstAdmin = await AdminFactory.merge({ name: `${marker} First` }).create();
-			const secondAdmin = await AdminFactory.merge({ name: `${marker} Second` }).create();
+			const firstAdmin = await AdminFactory.merge({ name: `${marker} First` })
+				.with("role")
+				.create();
+			const secondAdmin = await AdminFactory.merge({ name: `${marker} Second` })
+				.with("role")
+				.create();
 			const databaseColumn = column === "createdAt" ? "createdAt" : "updatedAt";
 			await Admin.query()
 				.where("id", firstAdmin.id)
@@ -179,8 +203,12 @@ test.group("Features / Admin / Admins / Services / List Service", () => {
 	}
 
 	test("it should preserve the default order for an unknown order option", async ({ assert }) => {
-		const olderAdmin = await AdminFactory.merge({ name: "UnknownOrder Older" }).create();
-		const newerAdmin = await AdminFactory.merge({ name: "UnknownOrder Newer" }).create();
+		const olderAdmin = await AdminFactory.merge({ name: "UnknownOrder Older" })
+			.with("role")
+			.create();
+		const newerAdmin = await AdminFactory.merge({ name: "UnknownOrder Newer" })
+			.with("role")
+			.create();
 		await Admin.query()
 			.where("id", olderAdmin.id)
 			.update({ createdAt: DateTime.fromISO("2025-01-01T00:00:00.000Z") });

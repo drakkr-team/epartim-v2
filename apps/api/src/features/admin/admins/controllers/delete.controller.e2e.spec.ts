@@ -5,11 +5,11 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Admins / Controllers / Delete Controller", () => {
 	test("it should delete another admin", async ({ client }) => {
-		const currentAdmin = await AdminFactory.create();
+		const currentAdmin = await AdminFactory.with("role").create();
 		const currentRole = await Role.findOrFail(currentAdmin.roleId);
 		currentRole.authorizations = ["delete:admin"];
 		await currentRole.save();
-		const deletedAdmin = await AdminFactory.create();
+		const deletedAdmin = await AdminFactory.with("role").create();
 
 		const response = await client
 			.visit("admin.admins.delete", { adminId: deletedAdmin.id })
@@ -20,7 +20,7 @@ test.group("Features / Admin / Admins / Controllers / Delete Controller", () => 
 	});
 
 	test("it should forbid an admin from deleting itself", async ({ client }) => {
-		const currentAdmin = await AdminFactory.create();
+		const currentAdmin = await AdminFactory.with("role").create();
 		const currentRole = await Role.findOrFail(currentAdmin.roleId);
 		currentRole.authorizations = ["delete:admin"];
 		await currentRole.save();
@@ -34,7 +34,7 @@ test.group("Features / Admin / Admins / Controllers / Delete Controller", () => 
 	});
 
 	test("it should return not found for a missing admin", async ({ client }) => {
-		const currentAdmin = await AdminFactory.create();
+		const currentAdmin = await AdminFactory.with("role").create();
 		const currentRole = await Role.findOrFail(currentAdmin.roleId);
 		currentRole.authorizations = ["delete:admin"];
 		await currentRole.save();

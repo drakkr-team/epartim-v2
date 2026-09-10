@@ -10,7 +10,7 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm", "delete:firm"];
 		await role.save();
@@ -42,7 +42,7 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 	});
 
 	test("it should return null when the firm has no network", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const firm = await FirmFactory.merge({ networkId: null })
 			.with("address")
 			.with("paymentDetail")
@@ -55,7 +55,7 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 	});
 
 	test("it should return not found for an unknown firmId", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 
 		const response = await client.get("/admin/firms/999999999").withGuard("admin").loginAs(admin);
 

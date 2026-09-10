@@ -13,7 +13,7 @@ test.group("Features / Admin / Roles / Services / Delete Service", () => {
 	});
 
 	test("it should deny deleting a role assigned to an admin", async ({ assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 
 		assert.isFalse(await new DeleteRoleService().canDelete(admin.roleId));
 	});

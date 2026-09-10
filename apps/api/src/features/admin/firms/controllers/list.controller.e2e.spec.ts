@@ -7,7 +7,7 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 	test("it should return firm identifiers and action metadata", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm", "update:firm", "delete:firm"];
 		await role.save();
@@ -64,7 +64,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 	});
 
 	test("it should paginate and search only by firm name", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const first = await FirmFactory.merge({
 			name: "NameOnly Firm One",
 			amundiOrgId: "HIDDEN-FIRM-ONE",
@@ -111,7 +111,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const firstNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
 		const secondNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
 		const matchingFirm = await FirmFactory.merge({
@@ -153,7 +153,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 	});
 
 	test("it should reject invalid pagination parameters", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 
 		for (const url of ["/admin/firms?page=0", "/admin/firms?perPage=1.5"]) {
 			const response = await client.get(url).withGuard("admin").loginAs(admin);

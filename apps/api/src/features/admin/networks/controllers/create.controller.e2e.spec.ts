@@ -28,7 +28,7 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network"];
 		await role.save();
@@ -60,7 +60,7 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 	});
 
 	test("it should require the network and owned relation fields", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network"];
 		await role.save();
@@ -86,7 +86,7 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 	});
 
 	test("it should reject duplicate names", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network"];
 		await role.save();
@@ -107,7 +107,7 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network"];
 		await role.save();
@@ -133,7 +133,7 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 	});
 
 	test("it should reject invalid coordinates, IBANs, and BICs", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network"];
 		await role.save();

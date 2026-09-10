@@ -9,7 +9,7 @@ test.group("Features / Admin / Roles / Controllers / List Controller", () => {
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();

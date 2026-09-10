@@ -6,7 +6,7 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Roles / Controllers / View Controller", () => {
 	test("it should return a role and action metadata", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -26,7 +26,7 @@ test.group("Features / Admin / Roles / Controllers / View Controller", () => {
 	});
 
 	test("it should return not found for an unknown roleId", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 
 		const response = await client
 			.visit("admin.roles.view", { roleId: 999_999 })
