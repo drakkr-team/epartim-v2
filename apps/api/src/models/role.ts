@@ -15,6 +15,9 @@ export const AUTHORIZATIONS_OPTIONS: AuthorizationOption[] = AUTHORIZATIONS_RESO
 );
 
 export default class Role extends RoleSchema {
-	@column()
+	@column({
+		prepare: (value) => (typeof value === "object" ? JSON.stringify(value) : value),
+		consume: (value) => (typeof value === "string" ? JSON.parse(value) : value),
+	})
 	declare authorizations: AuthorizationOption[];
 }
