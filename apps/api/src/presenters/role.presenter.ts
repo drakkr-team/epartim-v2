@@ -5,6 +5,7 @@ export default class RolePresenter {
 		return {
 			id: role.id,
 
+			name: role.name,
 			authorizations: role.authorizations,
 			isSuperAdmin: role.isSuperAdmin,
 

@@ -2,10 +2,14 @@ import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import Admin from "#models/admin";
+import Role from "#models/role";
 
 test.group("Features / Admin / Admins / Controllers / Update Controller", () => {
 	test("it should update and return an admin", async ({ client, assert }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["update:admin"];
+		await currentRole.save();
 		const updatedAdmin = await AdminFactory.create();
 
 		const response = await client
@@ -29,6 +33,9 @@ test.group("Features / Admin / Admins / Controllers / Update Controller", () => 
 
 	test("it should trim the updated admin name", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["update:admin"];
+		await currentRole.save();
 		const updatedAdmin = await AdminFactory.create();
 
 		const response = await client
@@ -47,6 +54,9 @@ test.group("Features / Admin / Admins / Controllers / Update Controller", () => 
 
 	test("it should reject an invalid name", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["update:admin"];
+		await currentRole.save();
 		const updatedAdmin = await AdminFactory.create();
 
 		const response = await client
@@ -62,6 +72,9 @@ test.group("Features / Admin / Admins / Controllers / Update Controller", () => 
 
 	test("it should return not found for a missing admin", async ({ client }) => {
 		const currentAdmin = await AdminFactory.create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["update:admin"];
+		await currentRole.save();
 
 		const response = await client
 			.visit("admin.admins.update", { adminId: 999_999 })

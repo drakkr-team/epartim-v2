@@ -3,10 +3,14 @@ import { test } from "@japa/runner";
 import { AdminFactory } from "#database/factories/admin.factory";
 import { FirmFactory } from "#database/factories/firm.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
+import Role from "#models/role";
 
 test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 	test("it should return firm identifiers and action metadata", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm", "update:firm", "delete:firm"];
+		await role.save();
 		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const firm = await FirmFactory.merge({
 			name: "List Contract Firm",

@@ -211,6 +211,66 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/networks/controllers/delete.controller').default['handle']>>>
     }
   }
+  'admin.roles.list': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/roles'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#src/features/admin/roles/controllers/list.controller').default)['querySchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/list.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/list.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.roles.create': {
+    methods: ["POST"]
+    pattern: '/admin/roles'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/roles/controllers/create.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/roles/controllers/create.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/create.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.roles.view': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/roles/:roleId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { roleId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/view.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/view.controller').default['handle']>>>
+    }
+  }
+  'admin.roles.update': {
+    methods: ["PUT"]
+    pattern: '/admin/roles/:roleId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/roles/controllers/update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { roleId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/roles/controllers/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.roles.delete': {
+    methods: ["DELETE"]
+    pattern: '/admin/roles/:roleId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { roleId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/roles/controllers/delete.controller').default['handle']>>>
+    }
+  }
   'admin.users.list': {
     methods: ["GET","HEAD"]
     pattern: '/admin/users'

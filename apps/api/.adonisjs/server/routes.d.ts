@@ -21,6 +21,11 @@ export type ScannedRoutes = {
     'admin.networks.view': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
     'admin.networks.update': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
     'admin.networks.delete': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
+    'admin.roles.list': { paramsTuple?: []; params?: {} }
+    'admin.roles.create': { paramsTuple?: []; params?: {} }
+    'admin.roles.view': { paramsTuple: [ParamValue]; params: {'roleId': ParamValue} }
+    'admin.roles.update': { paramsTuple: [ParamValue]; params: {'roleId': ParamValue} }
+    'admin.roles.delete': { paramsTuple: [ParamValue]; params: {'roleId': ParamValue} }
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.create': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
@@ -52,6 +57,8 @@ export type ScannedRoutes = {
     'admin.firms.view': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
     'admin.networks.list': { paramsTuple?: []; params?: {} }
     'admin.networks.view': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
+    'admin.roles.list': { paramsTuple?: []; params?: {} }
+    'admin.roles.view': { paramsTuple: [ParamValue]; params: {'roleId': ParamValue} }
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
@@ -67,6 +74,8 @@ export type ScannedRoutes = {
     'admin.firms.view': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
     'admin.networks.list': { paramsTuple?: []; params?: {} }
     'admin.networks.view': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
+    'admin.roles.list': { paramsTuple?: []; params?: {} }
+    'admin.roles.view': { paramsTuple: [ParamValue]; params: {'roleId': ParamValue} }
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
@@ -77,6 +86,7 @@ export type ScannedRoutes = {
     'admin.admins.create': { paramsTuple?: []; params?: {} }
     'admin.firms.create': { paramsTuple?: []; params?: {} }
     'admin.networks.create': { paramsTuple?: []; params?: {} }
+    'admin.roles.create': { paramsTuple?: []; params?: {} }
     'admin.users.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
@@ -90,6 +100,7 @@ export type ScannedRoutes = {
     'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.firms.update': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
     'admin.networks.update': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
+    'admin.roles.update': { paramsTuple: [ParamValue]; params: {'roleId': ParamValue} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.subscriptions.update_legal_identification': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.account_management.password.update': { paramsTuple?: []; params?: {} }
@@ -98,6 +109,7 @@ export type ScannedRoutes = {
     'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.firms.delete': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
     'admin.networks.delete': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
+    'admin.roles.delete': { paramsTuple: [ParamValue]; params: {'roleId': ParamValue} }
     'admin.users.delete': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
