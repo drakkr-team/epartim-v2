@@ -21,6 +21,7 @@
 		},
 		"authorizations": {
 			"title": "Habilitations",
+			"rights": "Accès à l'espace entreprise Amundi",
 			"description": "Ajoutez une habilitation uniquement lorsqu'une personne doit recevoir des droits Amundi.",
 			"empty": "Aucune habilitation ajoutée.",
 			"add": "Ajouter une habilitation",
@@ -65,9 +66,9 @@
 			"13": "Autre"
 		},
 		"authorization": {
-			"1": "Comptable — statistiques, reportings, factures et documents",
-			"2": "Agir et consulter — opérations collectives, bénéficiaires et consultation",
-			"3": "Administrer — gestion des accès"
+			"1": "Comptable",
+			"2": "Agir et consulter",
+			"3": "Administrer"
 		},
 		"validation": {
 			"required": "Ce champ est obligatoire.",
