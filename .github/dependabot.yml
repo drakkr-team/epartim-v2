@@ -1,5 +1,12 @@
 version: 2
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "00:00"
+      
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -9,3 +16,24 @@ updates:
     open-pull-requests-limit: 99999
     ignore:
       - dependency-name: "@types/node"
+    groups:
+      deps-dev-minor:
+        dependency-type: "development"
+        exclude-patterns:
+          - "@biomejs/biome"
+        update-types:
+          - "minor"
+      deps-minor:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+      deps-dev-patch:
+        dependency-type: "development"
+        exclude-patterns:
+          - "@biomejs/biome"
+        update-types:
+          - "patch"
+      deps-patch:
+        dependency-type: "production"
+        update-types:
+          - "patch"
