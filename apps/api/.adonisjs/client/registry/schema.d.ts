@@ -367,6 +367,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'client.subscriptions.update_representatives_and_authorizations': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/representatives-and-authorizations'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives_and_authorizations.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives_and_authorizations.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives_and_authorizations.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives_and_authorizations.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.account_management.authentication.login': {
     methods: ["POST"]
     pattern: '/admin/account-management/authentication/login'

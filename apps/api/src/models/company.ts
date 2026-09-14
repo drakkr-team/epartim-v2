@@ -65,6 +65,9 @@ export default class Company extends CompanySchema {
 	@belongsTo(() => Contact, { foreignKey: "companyCorrespondentId" })
 	declare correspondent: BelongsTo<typeof Contact>;
 
+	@belongsTo(() => Contact, { foreignKey: "companySignerId" })
+	declare signer: BelongsTo<typeof Contact>;
+
 	@manyToMany(() => Contact, { pivotTable: "company_contacts" })
 	declare contacts: ManyToMany<typeof Contact>;
 }

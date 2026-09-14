@@ -18,6 +18,11 @@ router
 				controllers.features.client.subscriptions.update.AddressAndBankDetails,
 			])
 			.as("update_address_and_bank_details");
+		router
+			.put("/:subscriptionId/representatives-and-authorizations", [
+				controllers.features.client.subscriptions.update.RepresentativesAndAuthorizations,
+			])
+			.as("update_representatives_and_authorizations");
 	})
 	.use(middleware.auth({ guards: ["client"] }))
 	.prefix("/client/subscriptions")

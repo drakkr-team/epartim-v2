@@ -186,6 +186,12 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"address-and-bank-details","end":""}],
     types: placeholder as Registry['client.subscriptions.update_address_and_bank_details']['types'],
   },
+  'client.subscriptions.update_representatives_and_authorizations': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/representatives-and-authorizations',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/representatives-and-authorizations","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives-and-authorizations","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives-and-authorizations","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives-and-authorizations","type":0,"val":"representatives-and-authorizations","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_representatives_and_authorizations']['types'],
+  },
   'admin.account_management.authentication.login': {
     methods: ["POST"],
     pattern: '/admin/account-management/authentication/login',
