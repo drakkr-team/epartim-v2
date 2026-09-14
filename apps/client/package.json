@@ -40,7 +40,7 @@
 		"zod": "4.5.4"
 	},
 	"devDependencies": {
-		"@rolldown/plugin-babel": "0.2.3",
+		"@rolldown/plugin-babel": "0.2.4",
 		"@tailwindcss/vite": "4.3.3",
 		"@tanstack/devtools-vite": "0.8.5",
 		"@tanstack/react-devtools": "0.10.12",
