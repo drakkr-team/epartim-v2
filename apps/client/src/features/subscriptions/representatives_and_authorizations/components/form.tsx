@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
 import { Card } from "@workspace/ui-react/components/card";
-import { Checkbox } from "@workspace/ui-react/components/checkbox";
 import { Field } from "@workspace/ui-react/components/field";
 import { Input } from "@workspace/ui-react/components/input";
 import { Select } from "@workspace/ui-react/components/select";
@@ -106,6 +105,53 @@ function ContactFunctionSelect(props: {
 	);
 }
 
+function CivilitySelect(props: {
+	id: string;
+	label: string;
+	value: AuthorizationValues["civility"];
+	onValueChange: (value: AuthorizationValues["civility"]) => void;
+	onBlur: () => void;
+	required?: boolean;
+}) {
+	const { id, label, value, onValueChange, onBlur, required } = props;
+	const { t } = useTranslation(
+		"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form",
+	);
+	const options = CONTACT_CIVILITIES.map((civility) => ({
+		value: civility,
+		label: String(t(`civility.${civility}` as never)),
+	}));
+
+	return (
+		<Field name={id} className="flex flex-col gap-2">
+			<Field.Label htmlFor={id} required={required}>
+				{label}
+			</Field.Label>
+			<Select
+				items={options}
+				value={value}
+				onValueChange={(civility) => {
+					if (civility !== null) {
+						onValueChange(civility);
+						queueMicrotask(onBlur);
+					}
+				}}
+			>
+				<Select.Input id={id} className="w-full">
+					<Select.Value placeholder={label} />
+				</Select.Input>
+				<Select.Dropdown>
+					{options.map((option) => (
+						<Select.Option key={option.value} value={option.value} label={option.label}>
+							{option.label}
+						</Select.Option>
+					))}
+				</Select.Dropdown>
+			</Select>
+		</Field>
+	);
+}
+
 function PersonFields(props: {
 	idPrefix: string;
 	value: PersonValues;
@@ -124,18 +170,13 @@ function PersonFields(props: {
 	return (
 		<div className="grid gap-4 md:grid-cols-6">
 			<div className="md:col-span-2">
-				<ChoiceGroup
+				<CivilitySelect
+					id={`${idPrefix}-civility`}
 					label={t("field.civility")}
 					value={value.civility}
 					required
-					options={CONTACT_CIVILITIES.map((civility) => ({
-						value: civility,
-						label: String(t(`civility.${civility}` as never)),
-					}))}
-					onValueChange={(civility) => {
-						onChange({ civility });
-						queueMicrotask(onBlur);
-					}}
+					onValueChange={(civility) => onChange({ civility })}
+					onBlur={onBlur}
 				/>
 			</div>
 
@@ -230,7 +271,7 @@ function TextInput(props: {
 	} = props;
 
 	return (
-		<Field name={id} className={`flex flex-col gap-2${className ?? ""}`}>
+		<Field name={id} className={`flex flex-col gap-2${className ? ` ${className}` : ""}`}>
 			<Field.Label htmlFor={id} required={required}>
 				{label}
 			</Field.Label>
@@ -293,29 +334,31 @@ function AuthorizationCard(props: {
 			/>
 
 			<Field className="flex flex-col gap-3">
-				<Field.Label required>{t("authorizations.title")}</Field.Label>
-				<div className="grid gap-3">
+				<Field.Label required>{t("authorizations.rights")}</Field.Label>
+				<div className="flex flex-wrap gap-3">
 					{authorizationOptions.map((option) => {
 						const checked = value.authorizations.includes(option.value);
 
 						return (
-							<div key={option.value} className="grid grid-cols-[auto_1fr] gap-3">
-								<Checkbox
-									checked={checked}
-									aria-label={option.label}
-									onCheckedChange={(isChecked) => {
-										onChange({
-											authorizations: isChecked
-												? [...value.authorizations, option.value]
-												: value.authorizations.filter(
-														(authorization) => authorization !== option.value,
-													),
-										});
-										queueMicrotask(onBlur);
-									}}
-								/>
-								<span className="text-neutral-12 text-sm">{option.label}</span>
-							</div>
+							<Button
+								key={option.value}
+								type="button"
+								variant={checked ? "secondary" : "default"}
+								className={`rounded-full px-4${checked ? "" : "text-secondary-11"}`}
+								aria-pressed={checked}
+								onClick={() => {
+									onChange({
+										authorizations: checked
+											? value.authorizations.filter(
+													(authorization) => authorization !== option.value,
+												)
+											: [...value.authorizations, option.value],
+									});
+									queueMicrotask(onBlur);
+								}}
+							>
+								{option.label}
+							</Button>
 						);
 					})}
 				</div>
@@ -366,6 +409,10 @@ export function RepresentativesAndAuthorizationsForm(
 						const isPhysicalPerson = values.legalAgentKind === CONTACT_KIND.PHYSICAL_PERSON;
 						const isLegalEntity = values.legalAgentKind === CONTACT_KIND.LEGAL_ENTITY;
 						const showsCorrespondent = isLegalEntity || values.correspondentIsDifferent === true;
+						const legalAgentKindOptions = [
+							{ value: CONTACT_KIND.PHYSICAL_PERSON, label: t("kind.physical") },
+							{ value: CONTACT_KIND.LEGAL_ENTITY, label: t("kind.legalEntity") },
+						];
 
 						return (
 							<>
@@ -377,16 +424,33 @@ export function RepresentativesAndAuthorizationsForm(
 										<p className="mt-1 text-neutral-11 text-sm">{t("legalAgent.description")}</p>
 									</div>
 
-									<ChoiceGroup
-										label={t("legalAgent.kind")}
-										value={values.legalAgentKind}
-										required
-										options={[
-											{ value: CONTACT_KIND.PHYSICAL_PERSON, label: t("kind.physical") },
-											{ value: CONTACT_KIND.LEGAL_ENTITY, label: t("kind.legalEntity") },
-										]}
-										onValueChange={setLegalAgentKind}
-									/>
+									<Field name="legal-agent-kind" className="flex flex-col gap-2">
+										<Field.Label htmlFor="legal-agent-kind" required>
+											{t("legalAgent.kind")}
+										</Field.Label>
+										<Select
+											items={legalAgentKindOptions}
+											value={values.legalAgentKind}
+											onValueChange={(kind) => {
+												if (kind !== null) setLegalAgentKind(kind);
+											}}
+										>
+											<Select.Input id="legal-agent-kind" className="w-full">
+												<Select.Value placeholder={t("legalAgent.kind")} />
+											</Select.Input>
+											<Select.Dropdown>
+												{legalAgentKindOptions.map((option) => (
+													<Select.Option
+														key={option.value}
+														value={option.value}
+														label={option.label}
+													>
+														{option.label}
+													</Select.Option>
+												))}
+											</Select.Dropdown>
+										</Select>
+									</Field>
 
 									{isPhysicalPerson && (
 										<PersonFields
@@ -451,7 +515,7 @@ export function RepresentativesAndAuthorizationsForm(
 												required
 												className="md:col-span-3"
 											/>
-											<div className="md:col-span-3">
+											<div className="md:col-span-2">
 												<ContactFunctionSelect
 													id="legal-agent-function"
 													label={t("field.function")}
