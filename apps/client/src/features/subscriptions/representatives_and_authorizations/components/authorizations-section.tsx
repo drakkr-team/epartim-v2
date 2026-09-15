@@ -5,10 +5,7 @@ import { Button } from "@workspace/ui-react/components/button";
 import { Field } from "@workspace/ui-react/components/field";
 import { PlusIcon, Trash2Icon } from "@workspace/ui-react/icons";
 
-import {
-	FieldErrors,
-	PersonFields,
-} from "#/features/subscriptions/representatives_and_authorizations/components/person-fields";
+import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import {
 	type AuthorizationValues,
 	CONTACT_AUTHORIZATIONS,
@@ -60,7 +57,7 @@ function AuthorizationCard(props: AuthorizationCardProps) {
 				form={form}
 				path={`authorizations[${index}]`}
 				idPrefix={`authorization-${index}`}
-				onSave={onUpdate}
+				onUpdate={onUpdate}
 				includeFunction
 				includePortalId
 			/>
@@ -107,7 +104,11 @@ function AuthorizationCard(props: AuthorizationCardProps) {
 									);
 								})}
 							</div>
-							{invalid && <FieldErrors errors={field.state.meta.errors} />}
+							{invalid &&
+								field.state.meta.errors
+									.flat()
+									.filter((error) => error !== undefined)
+									.map((error) => <Field.Error key={error.message}>{error.message}</Field.Error>)}
 						</Field>
 					);
 				}}
@@ -189,7 +190,7 @@ export function AuthorizationsSection(props: AuthorizationsSectionProps) {
 			</div>
 
 			<form.Subscribe selector={(state) => state.values.authorizations}>
-				{(authorizations: AuthorizationValues[]) =>
+				{(authorizations) =>
 					authorizations.length === 0 ? (
 						<p className="mt-4 text-neutral-11 text-sm">{t("authorizations.empty")}</p>
 					) : (
