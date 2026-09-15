@@ -6,6 +6,10 @@ import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
 import {
+	isInternationalPhoneNumber,
+	PhoneNumberField,
+} from "#/features/subscriptions/representatives_and_authorizations/components/phone-number-field";
+import {
 	CONTACT_CIVILITIES,
 	type ContactCivility,
 	type useRepresentativesAndAuthorizationsForm,
@@ -99,7 +103,7 @@ export function ContactIdentityFields(props: ContactIdentityFieldsProps) {
 			.trim()
 			.refine((value) => !phoneRequired || value.length > 0, t("validation.required"))
 			.refine(
-				(value) => value.length === 0 || /^\+[1-9]\d{6,14}$/.test(value),
+				(value) => value.length === 0 || isInternationalPhoneNumber(value),
 				t("validation.phoneNumber"),
 			),
 	};
@@ -210,15 +214,30 @@ export function ContactIdentityFields(props: ContactIdentityFieldsProps) {
 					},
 				}}
 			>
-				{(field) => (
-					<div className="md:col-span-3">
-						<field.TextField
-							label={t("field.phoneNumber")}
-							required={phoneRequired}
-							inputProps={{ type: "tel", placeholder: "+33612345678" }}
-						/>
-					</div>
-				)}
+				{(field) => {
+					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
+					const errorMessages = field.state.meta.errors
+						.flat()
+						.filter((error) => error !== undefined)
+						.map((error) => (typeof error === "string" ? error : error.message));
+
+					return (
+						<div className="md:col-span-3">
+							<PhoneNumberField
+								id={`${idPrefix}-phone-number`}
+								label={t("field.phoneNumber")}
+								countryCallingCodeLabel={t("field.countryCallingCode")}
+								value={field.state.value}
+								onValueChange={field.handleChange}
+								onBlur={field.handleBlur}
+								onCountryChange={(phoneNumber) => onUpdate({ phoneNumber })}
+								required={phoneRequired}
+								invalid={invalid}
+								errorMessages={errorMessages}
+							/>
+						</div>
+					);
+				}}
 			</form.AppField>
 		</>
 	);

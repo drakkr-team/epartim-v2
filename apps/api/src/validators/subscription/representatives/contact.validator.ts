@@ -1,4 +1,5 @@
 import vine from "@vinejs/vine";
+import { isPossiblePhoneNumber } from "libphonenumber-js/min";
 
 import {
 	ContactAuthorization,
@@ -12,6 +13,15 @@ const ContactFunctions = Object.values(ContactFunction);
 const ContactKinds = Object.values(ContactKind);
 const ContactAuthorizations = Object.values(ContactAuthorization);
 
+const possiblePhoneNumber = vine.createRule(
+	(value, _, field) => {
+		if (!isPossiblePhoneNumber(String(value))) {
+			field.report("The {{ field }} must be a complete phone number", "phoneNumber", field);
+		}
+	},
+	{ name: "possiblePhoneNumber" },
+);
+
 function optionalText() {
 	return vine.string().trim().minLength(1).maxLength(254).nullable().optional();
 }
@@ -21,12 +31,7 @@ function optionalEmail() {
 }
 
 function optionalPhoneNumber() {
-	return vine
-		.string()
-		.trim()
-		.regex(/^\+[1-9]\d{6,14}$/)
-		.nullable()
-		.optional();
+	return vine.string().trim().use(possiblePhoneNumber()).nullable().optional();
 }
 
 function requiredPhoneNumber() {

@@ -32,4 +32,18 @@ test.group("Features / Client / Subscriptions / Update Signer", () => {
 		assert.equal(signer.firstName, "Claire");
 		assert.isTrue(signer.isSignatoryOnKbis!);
 	});
+
+	test("it rejects an incomplete phone number", async ({ client }) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+
+		const response = await client
+			.visit("client.subscriptions.update_signer", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({ phoneNumber: "+33783896" });
+
+		response.assertStatus(422);
+	});
 });

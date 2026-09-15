@@ -43,6 +43,7 @@
 			"legalName": "Raison sociale",
 			"email": "E-mail",
 			"phoneNumber": "Téléphone mobile",
+			"countryCallingCode": "Pays et indicatif",
 			"function": "Fonction",
 			"amundiPortalId": "Identifiant portail Amundi"
 		},
@@ -74,7 +75,7 @@
 			"required": "Ce champ est obligatoire.",
 			"max": "Cette valeur est trop longue.",
 			"email": "Saisissez une adresse e-mail valide.",
-			"phoneNumber": "Saisissez un numéro au format international, par exemple +33612345678."
+			"phoneNumber": "Saisissez un numéro de téléphone complet."
 		}
 	},
 	"features.subscriptions.representatives_and_authorizations.hooks.use-update-mutation": {
