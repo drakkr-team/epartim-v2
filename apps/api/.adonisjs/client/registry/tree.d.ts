@@ -73,7 +73,10 @@ export interface ApiDefinition {
       view: typeof routes['client.subscriptions.view']
       updateLegalIdentification: typeof routes['client.subscriptions.update_legal_identification']
       updateAddressAndBankDetails: typeof routes['client.subscriptions.update_address_and_bank_details']
-      updateRepresentativesAndAuthorizations: typeof routes['client.subscriptions.update_representatives_and_authorizations']
+      updateLegalAgent: typeof routes['client.subscriptions.update_legal_agent']
+      updateSigner: typeof routes['client.subscriptions.update_signer']
+      updateCorrespondent: typeof routes['client.subscriptions.update_correspondent']
+      updateAuthorizations: typeof routes['client.subscriptions.update_authorizations']
     }
   }
 }

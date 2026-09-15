@@ -19,10 +19,25 @@ router
 			])
 			.as("update_address_and_bank_details");
 		router
-			.put("/:subscriptionId/representatives-and-authorizations", [
-				controllers.features.client.subscriptions.update.RepresentativesAndAuthorizations,
+			.put("/:subscriptionId/representatives/legal-agent", [
+				controllers.features.client.subscriptions.update.representatives.LegalAgent,
 			])
-			.as("update_representatives_and_authorizations");
+			.as("update_legal_agent");
+		router
+			.put("/:subscriptionId/representatives/signer", [
+				controllers.features.client.subscriptions.update.representatives.Signer,
+			])
+			.as("update_signer");
+		router
+			.put("/:subscriptionId/representatives/correspondent", [
+				controllers.features.client.subscriptions.update.representatives.Correspondent,
+			])
+			.as("update_correspondent");
+		router
+			.put("/:subscriptionId/authorizations", [
+				controllers.features.client.subscriptions.update.representatives.Authorizations,
+			])
+			.as("update_authorizations");
 	})
 	.use(middleware.auth({ guards: ["client"] }))
 	.prefix("/client/subscriptions")

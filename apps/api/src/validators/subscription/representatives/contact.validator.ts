@@ -36,7 +36,7 @@ function requiredPhoneNumber() {
 		.regex(/^\+[1-9]\d{6,14}$/);
 }
 
-const PersonSchema = vine.object({
+export const ContactSchema = vine.object({
 	civility: vine.enum(ContactCivilities).nullable().optional(),
 	firstName: optionalText(),
 	lastName: optionalText(),
@@ -46,7 +46,7 @@ const PersonSchema = vine.object({
 	amundiPortalId: optionalText(),
 });
 
-const LegalAgentSchema = vine.object({
+export const LegalAgentSchema = vine.object({
 	kind: vine.enum(ContactKinds).nullable().optional(),
 	civility: vine.enum(ContactCivilities).nullable().optional(),
 	firstName: optionalText(),
@@ -57,25 +57,18 @@ const LegalAgentSchema = vine.object({
 	phoneNumber: optionalPhoneNumber(),
 });
 
-const SignerSchema = vine.object({
-	...PersonSchema.getProperties(),
+export const SignerSchema = vine.object({
+	...ContactSchema.getProperties(),
 	isSignatoryOnKbis: vine.boolean().nullable().optional(),
 });
 
-const CorrespondentSchema = vine.object({
-	...PersonSchema.getProperties(),
+export const CorrespondentSchema = vine.object({
+	...ContactSchema.getProperties(),
 	isSameAsLegal: vine.boolean().nullable().optional(),
 });
 
-const AuthorizationSchema = vine.object({
-	...PersonSchema.getProperties(),
+export const AuthorizationSchema = vine.object({
+	...ContactSchema.getProperties(),
 	phoneNumber: requiredPhoneNumber(),
 	authorizations: vine.array(vine.enum(ContactAuthorizations)).distinct().nullable().optional(),
-});
-
-export const UpdateRepresentativesAndAuthorizationsSchema = vine.object({
-	legalAgent: LegalAgentSchema.nullable().optional(),
-	signer: SignerSchema.nullable().optional(),
-	correspondent: CorrespondentSchema.nullable().optional(),
-	authorizations: vine.array(AuthorizationSchema).distinct("email").optional(),
 });

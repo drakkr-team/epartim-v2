@@ -24,10 +24,11 @@ export function RepresentativesAndAuthorizationsForm(
 ) {
 	const { subscriptionId, representativesAndAuthorizations } = props;
 	const { t } = useTranslation(translationNamespace);
-	const { form, updateRepresentativesAndAuthorizations } = useRepresentativesAndAuthorizationsForm({
-		subscriptionId,
-		representativesAndAuthorizations,
-	});
+	const { form, updateLegalAgent, updateSigner, updateCorrespondent, updateAuthorizations } =
+		useRepresentativesAndAuthorizationsForm({
+			subscriptionId,
+			representativesAndAuthorizations,
+		});
 
 	return (
 		<Card render={<form noValidate />} className="p-6 sm:p-8">
@@ -45,10 +46,15 @@ export function RepresentativesAndAuthorizationsForm(
 					<p className="mt-1 text-neutral-11 text-sm">{t("description")}</p>
 				</div>
 
-				<LegalAgentSection form={form} onUpdate={updateRepresentativesAndAuthorizations} />
-				<SignerSection form={form} onUpdate={updateRepresentativesAndAuthorizations} />
-				<CorrespondentSection form={form} onUpdate={updateRepresentativesAndAuthorizations} />
-				<AuthorizationsSection form={form} onUpdate={updateRepresentativesAndAuthorizations} />
+				<LegalAgentSection
+					form={form}
+					onUpdateLegalAgent={updateLegalAgent}
+					onUpdateSigner={updateSigner}
+					onUpdateCorrespondent={updateCorrespondent}
+				/>
+				<SignerSection form={form} onUpdateSigner={updateSigner} />
+				<CorrespondentSection form={form} onUpdateCorrespondent={updateCorrespondent} />
+				<AuthorizationsSection form={form} onUpdateAuthorizations={updateAuthorizations} />
 			</section>
 		</Card>
 	);

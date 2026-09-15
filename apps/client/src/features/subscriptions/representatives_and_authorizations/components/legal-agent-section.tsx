@@ -17,13 +17,17 @@ const translationNamespace =
 
 type LegalAgentSectionProps = {
 	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
-	onUpdate: ReturnType<
+	onUpdateLegalAgent: ReturnType<
 		typeof useRepresentativesAndAuthorizationsForm
-	>["updateRepresentativesAndAuthorizations"];
+	>["updateLegalAgent"];
+	onUpdateSigner: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["updateSigner"];
+	onUpdateCorrespondent: ReturnType<
+		typeof useRepresentativesAndAuthorizationsForm
+	>["updateCorrespondent"];
 };
 
 export function LegalAgentSection(props: LegalAgentSectionProps) {
-	const { form, onUpdate } = props;
+	const { form, onUpdateLegalAgent, onUpdateSigner, onUpdateCorrespondent } = props;
 	const { t } = useTranslation(translationNamespace);
 	const kindOptions = [
 		{ value: CONTACT_KIND.PHYSICAL_PERSON, label: t("kind.physical") },
@@ -86,7 +90,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 										if (kind === CONTACT_KIND.LEGAL_ENTITY) {
 											form.setFieldValue("correspondent.isDifferent", true);
 										}
-										onUpdate({ legalAgent: { kind } });
+										onUpdateLegalAgent({ kind });
 										field.handleBlur();
 									}
 								}}
@@ -120,7 +124,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								form={form}
 								path="legalAgent"
 								idPrefix="legal-agent"
-								onUpdate={(legalAgent) => onUpdate({ legalAgent })}
+								onUpdate={onUpdateLegalAgent}
 								includeFunction
 								phoneRequired
 							/>
@@ -134,11 +138,11 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									listeners={{
 										onBlur: ({ value: legalName, fieldApi }) => {
 											if (legalName.trim().length === 0) {
-												onUpdate({ legalAgent: { legalName: null } });
+												onUpdateLegalAgent({ legalName: null });
 												return;
 											}
 											if (fieldApi.state.meta.isValid) {
-												onUpdate({ legalAgent: { legalName: legalName.trim() } });
+												onUpdateLegalAgent({ legalName: legalName.trim() });
 											}
 										},
 									}}
@@ -155,11 +159,11 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									listeners={{
 										onBlur: ({ value: email, fieldApi }) => {
 											if (email.trim().length === 0) {
-												onUpdate({ legalAgent: { email: null } });
+												onUpdateLegalAgent({ email: null });
 												return;
 											}
 											if (fieldApi.state.meta.isValid) {
-												onUpdate({ legalAgent: { email: email.trim() } });
+												onUpdateLegalAgent({ email: email.trim() });
 											}
 										},
 									}}
@@ -178,7 +182,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									form={form}
 									path="legalAgent"
 									id="legal-agent-function"
-									onUpdate={(legalAgent) => onUpdate({ legalAgent })}
+									onUpdate={onUpdateLegalAgent}
 									className="md:col-span-2"
 								/>
 							</div>
@@ -213,7 +217,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 															variant={field.state.value === option.value ? "primary" : "default"}
 															onClick={() => {
 																field.handleChange(option.value);
-																onUpdate({ signer: { isSignatoryOnKbis: option.value } });
+																onUpdateSigner({ isSignatoryOnKbis: option.value });
 																field.handleBlur();
 															}}
 														>
@@ -276,7 +280,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 																		isDifferent: false,
 																	});
 																}
-																onUpdate({ correspondent: { isSameAsLegal: !option.value } });
+																onUpdateCorrespondent({ isSameAsLegal: !option.value });
 																field.handleBlur();
 															}}
 														>

@@ -4,14 +4,14 @@ import { useTranslation } from "react-i18next";
 import { api } from "#/libs/tuyau";
 import { toastifyTuyauError } from "#/utils/tuyau";
 
-export function useUpdateRepresentativesAndAuthorizationsMutation(subscriptionId: string) {
+export function useUpdateSignerMutation(subscriptionId: string) {
 	const { t } = useTranslation(
 		"features.subscriptions.representatives_and_authorizations.hooks.use-update-mutation",
 	);
 
 	return useMutation(
-		api.subscriptions.updateRepresentativesAndAuthorizations.mutationOptions({
-			scope: { id: `subscription:${subscriptionId}:representatives-and-authorizations` },
+		api.subscriptions.updateSigner.mutationOptions({
+			scope: { id: `subscription:${subscriptionId}:signer` },
 			onError: (error) => {
 				toastifyTuyauError(error, {
 					E_NETWORK: [
