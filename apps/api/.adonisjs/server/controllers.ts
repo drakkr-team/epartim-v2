@@ -70,6 +70,7 @@ export const controllers = {
         List: () => import('#src/features/client/subscriptions/controllers/list.controller'),
         update: {
           LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
+          AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),
         },
         View: () => import('#src/features/client/subscriptions/controllers/view.controller'),
       },

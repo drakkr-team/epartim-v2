@@ -3,11 +3,9 @@ import type { Infer } from "@vinejs/vine/types";
 
 import Company from "#models/company";
 import Subscription from "#models/subscription";
-import { UpdateSubscriptionLegalIdentificationSchema } from "#validators/subscription_legal_identification.validator";
+import { UpdateLegalIdentificationSchema } from "#validators/subscription/legal_identification.validator";
 
-export type UpdateLegalIdentificationPayload = Infer<
-	typeof UpdateSubscriptionLegalIdentificationSchema
->;
+export type UpdateLegalIdentificationPayload = Infer<typeof UpdateLegalIdentificationSchema>;
 
 export default class UpdateLegalIdentificationService {
 	async handle(subscription: Subscription, payload: UpdateLegalIdentificationPayload) {
@@ -21,7 +19,9 @@ export default class UpdateLegalIdentificationService {
 				.useTransaction(trx)
 				.merge({
 					...legalIdentification,
-					...(companyHeadcount === undefined ? {} : { companyHeadcount: String(companyHeadcount) }),
+					...(companyHeadcount === undefined
+						? {}
+						: { companyHeadcount: companyHeadcount === null ? null : String(companyHeadcount) }),
 				})
 				.save();
 
