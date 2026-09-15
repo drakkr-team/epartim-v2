@@ -60,7 +60,7 @@ test.group("Features / Client / Subscriptions / Update Authorizations", () => {
 		response.assertStatus(422);
 	});
 
-	test("it requires a phone number for every authorization", async ({ client }) => {
+	test("it persists incomplete authorizations", async ({ client, assert }) => {
 		const user = await UserFactory.create();
 		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
 		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
@@ -69,8 +69,18 @@ test.group("Features / Client / Subscriptions / Update Authorizations", () => {
 			.visit("client.subscriptions.update_authorizations", { subscriptionId: subscription.id })
 			.withGuard("client")
 			.loginAs(user)
-			.json({ authorizations: [{ email: "nora.petit@example.test", phoneNumber: "" }] });
+			.json({
+				authorizations: [
+					{ email: null, phoneNumber: null },
+					{ email: null, phoneNumber: null },
+				],
+			});
 
-		response.assertStatus(422);
+		response.assertOk();
+
+		const company = await Company.findByOrFail("subscriptionId", subscription.id);
+		const authorizations = await company.related("contacts").query();
+		assert.lengthOf(authorizations, 2);
+		assert.isTrue(authorizations.every((authorization) => authorization.phoneNumber === null));
 	});
 });

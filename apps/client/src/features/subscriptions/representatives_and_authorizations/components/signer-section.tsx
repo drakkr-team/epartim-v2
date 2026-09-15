@@ -30,7 +30,7 @@ export function SignerSection(props: SignerSectionProps) {
 						<div className="mt-4 grid gap-4 rounded-md border border-primary-3 bg-primary-2 p-4">
 							<ContactFields
 								form={form}
-								path="signer"
+								fields="signer"
 								idPrefix="signer"
 								onUpdate={onUpdateSigner}
 								phoneRequired

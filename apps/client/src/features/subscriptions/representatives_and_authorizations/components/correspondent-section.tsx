@@ -46,7 +46,7 @@ export function CorrespondentSection(props: CorrespondentSectionProps) {
 							)}
 							<ContactFields
 								form={form}
-								path="correspondent"
+								fields="correspondent"
 								idPrefix="correspondent"
 								onUpdate={onUpdateCorrespondent}
 								includeFunction

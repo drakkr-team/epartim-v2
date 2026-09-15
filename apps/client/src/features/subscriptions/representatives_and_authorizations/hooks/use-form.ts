@@ -66,14 +66,9 @@ type UpdateSignerRequest = Parameters<ReturnType<typeof useUpdateSignerMutation>
 type UpdateCorrespondentRequest = Parameters<
 	ReturnType<typeof useUpdateCorrespondentMutation>["mutate"]
 >[0];
-type UpdateAuthorizationsRequest = Parameters<
-	ReturnType<typeof useUpdateAuthorizationsMutation>["mutate"]
->[0];
-
 type LegalAgentChanges = UpdateLegalAgentRequest["body"];
 type SignerChanges = UpdateSignerRequest["body"];
 type CorrespondentChanges = UpdateCorrespondentRequest["body"];
-type AuthorizationsChanges = UpdateAuthorizationsRequest["body"]["authorizations"];
 
 export type RepresentativesAndAuthorizations = {
 	legalAgent: Contact | null;
@@ -162,8 +157,22 @@ export function useRepresentativesAndAuthorizationsForm(
 		updateCorrespondent({ params: { subscriptionId }, body: correspondent });
 	}
 
-	function updateAuthorizationsChanges(authorizations: AuthorizationsChanges) {
-		updateAuthorizations({ params: { subscriptionId }, body: { authorizations } });
+	function updateAuthorizationsChanges(authorizations: AuthorizationValues[]) {
+		updateAuthorizations({
+			params: { subscriptionId },
+			body: {
+				authorizations: authorizations.map((authorization) => ({
+					civility: authorization.civility,
+					firstName: authorization.firstName.trim() || null,
+					lastName: authorization.lastName.trim() || null,
+					email: authorization.email.trim() || null,
+					phoneNumber: authorization.phoneNumber.trim() || null,
+					function: authorization.function,
+					amundiPortalId: authorization.amundiPortalId.trim() || null,
+					authorizations: authorization.authorizations,
+				})),
+			},
+		});
 	}
 
 	return {
