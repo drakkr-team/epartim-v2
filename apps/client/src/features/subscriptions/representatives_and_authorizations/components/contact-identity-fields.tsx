@@ -2,17 +2,9 @@ import { useTranslation } from "react-i18next";
 import z from "zod";
 
 import type { Contact } from "@workspace/api/data";
-import { Field } from "@workspace/ui-react/components/field";
-import { Select } from "@workspace/ui-react/components/select";
 
-import {
-	CONTACT_CIVILITIES,
-	type ContactCivility,
-	type useRepresentativesAndAuthorizationsForm,
-} from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
-
-const translationNamespace =
-	"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form";
+import { ContactCivilityField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-civility-field";
+import type { useRepresentativesAndAuthorizationsForm } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
 
 export type ContactPath = "legalAgent" | "signer" | "correspondent" | `authorizations[${number}]`;
 
@@ -31,69 +23,20 @@ type ContactIdentityFieldsProps = {
 	phoneRequired?: boolean;
 };
 
-type CivilitySelectProps = {
-	id: string;
-	label: string;
-	value: ContactCivility | null;
-	onValueChange: (value: ContactCivility) => void;
-	onBlur: () => void;
-	invalid: boolean;
-};
-
-function CivilitySelect(props: CivilitySelectProps) {
-	const { id, label, value, onValueChange, onBlur, invalid } = props;
-	const { t } = useTranslation(translationNamespace);
-	const options = CONTACT_CIVILITIES.map((civility) => ({
-		value: civility,
-		label: String(t(`civility.${civility}` as never)),
-	}));
-
-	return (
-		<Field name={id} invalid={invalid} className="flex flex-col gap-2">
-			<Field.Label htmlFor={id} required>
-				{label}
-			</Field.Label>
-			<Select
-				items={options}
-				value={value}
-				onValueChange={(civility) => {
-					if (civility !== null) {
-						onValueChange(civility);
-						onBlur();
-					}
-				}}
-			>
-				<Select.Input id={id} aria-invalid={invalid} className="w-full">
-					<Select.Value placeholder={label} />
-				</Select.Input>
-				<Select.Dropdown>
-					{options.map((option) => (
-						<Select.Option key={option.value} value={option.value} label={option.label}>
-							{option.label}
-						</Select.Option>
-					))}
-				</Select.Dropdown>
-			</Select>
-		</Field>
-	);
-}
-
 export function ContactIdentityFields(props: ContactIdentityFieldsProps) {
 	const { form, path, idPrefix, onUpdate, phoneRequired } = props;
-	const { t } = useTranslation(translationNamespace);
+	const { t } = useTranslation(
+		"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form",
+	);
 	const identitySchema = {
-		civility: z
-			.literal(CONTACT_CIVILITIES, t("validation.required"))
-			.nullable()
-			.refine((value) => value !== null, t("validation.required")),
 		firstName: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
 		lastName: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
 		email: z
 			.string()
 			.trim()
 			.min(1, t("validation.required"))
-			.email(t("validation.email"))
-			.max(254, t("validation.max")),
+			.max(254, t("validation.max"))
+			.pipe(z.email(t("validation.email"))),
 		phoneNumber: z
 			.string()
 			.trim()
@@ -106,39 +49,12 @@ export function ContactIdentityFields(props: ContactIdentityFieldsProps) {
 
 	return (
 		<>
-			<div className="md:col-span-2">
-				<form.AppField
-					name={`${path}.civility` as `${ContactPath}.civility`}
-					validators={{ onBlur: identitySchema.civility }}
-					listeners={{
-						onBlur: ({ value: civility, fieldApi }) => {
-							if (fieldApi.state.meta.isValid) onUpdate({ civility });
-						},
-					}}
-				>
-					{(field) => {
-						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
-
-						return (
-							<>
-								<CivilitySelect
-									id={`${idPrefix}-civility`}
-									label={t("field.civility")}
-									value={field.state.value}
-									onValueChange={field.handleChange}
-									onBlur={field.handleBlur}
-									invalid={invalid}
-								/>
-								{invalid &&
-									field.state.meta.errors
-										.flat()
-										.filter((error) => error !== undefined)
-										.map((error) => <Field.Error key={error.message}>{error.message}</Field.Error>)}
-							</>
-						);
-					}}
-				</form.AppField>
-			</div>
+			<ContactCivilityField
+				form={form}
+				path={path}
+				id={`${idPrefix}-civility`}
+				onUpdate={onUpdate}
+			/>
 
 			<form.AppField
 				name={`${path}.firstName` as `${ContactPath}.firstName`}
