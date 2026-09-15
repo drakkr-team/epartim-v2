@@ -16,13 +16,13 @@ body:
           "firstName": "\${[ faker.person.firstName() ]}",
           "lastName": "\${[ faker.person.lastName() ]}",
           "email": "\${[ faker.internet.email() ]}",
-          "phoneNumber": "+33612345678",
+          "phoneNumber": null,
           "authorizations": [1]
         }
       ]
     }
 bodyType: application/json
-description: Set SUBSCRIPTION_ID in your private Yaak environment.
+description: Set SUBSCRIPTION_ID in your private Yaak environment. Empty fields are sent as null to support partial autosaves.
 headers:
 - enabled: true
   name: Content-Type

@@ -20,7 +20,7 @@
 			"forcedDifferent": "Le correspondant entreprise doit être une personne physique distincte du représentant légal personne morale."
 		},
 		"authorizations": {
-			"title": "Habilitations",
+			"title": "Habilitations Amundi",
 			"rights": "Accès à l'espace entreprise Amundi",
 			"description": "Ajoutez une habilitation uniquement lorsqu'une personne doit recevoir des droits Amundi.",
 			"empty": "Aucune habilitation ajoutée.",

@@ -29,13 +29,6 @@ function optionalPhoneNumber() {
 		.optional();
 }
 
-function requiredPhoneNumber() {
-	return vine
-		.string()
-		.trim()
-		.regex(/^\+[1-9]\d{6,14}$/);
-}
-
 export const ContactSchema = vine.object({
 	civility: vine.enum(ContactCivilities).nullable().optional(),
 	firstName: optionalText(),
@@ -69,6 +62,6 @@ export const CorrespondentSchema = vine.object({
 
 export const AuthorizationSchema = vine.object({
 	...ContactSchema.getProperties(),
-	phoneNumber: requiredPhoneNumber(),
+	phoneNumber: optionalPhoneNumber(),
 	authorizations: vine.array(vine.enum(ContactAuthorizations)).distinct().nullable().optional(),
 });
