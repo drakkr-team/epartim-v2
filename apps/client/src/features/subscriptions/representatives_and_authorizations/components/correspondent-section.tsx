@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
 
-import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/person-fields";
+import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import {
 	CONTACT_KIND,
-	type RepresentativesAndAuthorizationsValues,
 	type useRepresentativesAndAuthorizationsForm,
 } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
 
@@ -23,7 +22,7 @@ export function CorrespondentSection(props: CorrespondentSectionProps) {
 
 	return (
 		<form.Subscribe selector={(state) => state.values}>
-			{(values: RepresentativesAndAuthorizationsValues) => {
+			{(values) => {
 				const isLegalEntity = values.legalAgent.kind === CONTACT_KIND.LEGAL_ENTITY;
 				const isDifferent = values.correspondent.isDifferent === true;
 
@@ -49,7 +48,7 @@ export function CorrespondentSection(props: CorrespondentSectionProps) {
 								form={form}
 								path="correspondent"
 								idPrefix="correspondent"
-								onSave={(correspondent) => onUpdate({ correspondent })}
+								onUpdate={(correspondent) => onUpdate({ correspondent })}
 								includeFunction
 								includePortalId
 								phoneRequired

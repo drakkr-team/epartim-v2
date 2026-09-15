@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/person-fields";
+import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import type { useRepresentativesAndAuthorizationsForm } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
 
 const translationNamespace =
@@ -19,7 +19,7 @@ export function SignerSection(props: SignerSectionProps) {
 
 	return (
 		<form.Subscribe selector={(state) => state.values.signer.isSignatoryOnKbis}>
-			{(isSignatoryOnKbis: boolean | null) =>
+			{(isSignatoryOnKbis) =>
 				isSignatoryOnKbis === false && (
 					<section aria-labelledby="signer-heading" className="border-neutral-4 border-t pt-6">
 						<div>
@@ -34,7 +34,7 @@ export function SignerSection(props: SignerSectionProps) {
 								form={form}
 								path="signer"
 								idPrefix="signer"
-								onSave={(signer) => onUpdate({ signer })}
+								onUpdate={(signer) => onUpdate({ signer })}
 								phoneRequired
 							/>
 						</div>

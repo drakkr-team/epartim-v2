@@ -5,15 +5,10 @@ import { Button } from "@workspace/ui-react/components/button";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
+import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
+import { PersonFunctionField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-function-field";
 import {
-	ContactFunctionSelect,
-	FieldErrors,
-	PersonFields,
-} from "#/features/subscriptions/representatives_and_authorizations/components/person-fields";
-import {
-	CONTACT_FUNCTIONS,
 	CONTACT_KIND,
-	type ContactKind,
 	type useRepresentativesAndAuthorizationsForm,
 } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
 
@@ -46,10 +41,6 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 			.min(1, t("validation.required"))
 			.email(t("validation.email"))
 			.max(254, t("validation.max")),
-		function: z
-			.literal(CONTACT_FUNCTIONS, t("validation.required"))
-			.nullable()
-			.refine((value) => value !== null, t("validation.required")),
 	};
 	const requiredBooleanSchema = z
 		.boolean()
@@ -111,21 +102,25 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									))}
 								</Select.Dropdown>
 							</Select>
-							{invalid && <FieldErrors errors={field.state.meta.errors} />}
+							{invalid &&
+								field.state.meta.errors
+									.flat()
+									.filter((error) => error !== undefined)
+									.map((error) => <Field.Error key={error.message}>{error.message}</Field.Error>)}
 						</Field>
 					);
 				}}
 			</form.AppField>
 
 			<form.Subscribe selector={(state) => state.values.legalAgent.kind}>
-				{(legalAgentKind: ContactKind | null) => (
+				{(legalAgentKind) => (
 					<>
 						{legalAgentKind === CONTACT_KIND.PHYSICAL_PERSON && (
 							<PersonFields
 								form={form}
 								path="legalAgent"
 								idPrefix="legal-agent"
-								onSave={(legalAgent) => onUpdate({ legalAgent })}
+								onUpdate={(legalAgent) => onUpdate({ legalAgent })}
 								includeFunction
 								phoneRequired
 							/>
@@ -179,36 +174,13 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 										</div>
 									)}
 								</form.AppField>
-								<div className="md:col-span-2">
-									<form.AppField
-										name="legalAgent.function"
-										validators={{ onBlur: legalAgentSchema.function }}
-										listeners={{
-											onBlur: ({ value: functionValue, fieldApi }) => {
-												if (fieldApi.state.meta.isValid) {
-													onUpdate({ legalAgent: { function: functionValue } });
-												}
-											},
-										}}
-									>
-										{(field) => {
-											const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
-
-											return (
-												<ContactFunctionSelect
-													id="legal-agent-function"
-													label={t("field.function")}
-													value={field.state.value}
-													required
-													onValueChange={field.handleChange}
-													onBlur={field.handleBlur}
-													invalid={invalid}
-													errors={field.state.meta.errors}
-												/>
-											);
-										}}
-									</form.AppField>
-								</div>
+								<PersonFunctionField
+									form={form}
+									path="legalAgent"
+									id="legal-agent-function"
+									onUpdate={(legalAgent) => onUpdate({ legalAgent })}
+									className="md:col-span-2"
+								/>
 							</div>
 						)}
 
@@ -249,7 +221,13 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 														</Button>
 													))}
 												</div>
-												{invalid && <FieldErrors errors={field.state.meta.errors} />}
+												{invalid &&
+													field.state.meta.errors
+														.flat()
+														.filter((error) => error !== undefined)
+														.map((error) => (
+															<Field.Error key={error.message}>{error.message}</Field.Error>
+														))}
 											</Field>
 										);
 									}}
@@ -306,7 +284,13 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 														</Button>
 													))}
 												</div>
-												{invalid && <FieldErrors errors={field.state.meta.errors} />}
+												{invalid &&
+													field.state.meta.errors
+														.flat()
+														.filter((error) => error !== undefined)
+														.map((error) => (
+															<Field.Error key={error.message}>{error.message}</Field.Error>
+														))}
 											</Field>
 										);
 									}}
