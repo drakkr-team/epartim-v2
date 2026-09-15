@@ -33,6 +33,7 @@ export type ScannedRoutes = {
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_legal_identification': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_address_and_bank_details': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
@@ -92,6 +93,7 @@ export type ScannedRoutes = {
     'admin.networks.update': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.subscriptions.update_legal_identification': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_address_and_bank_details': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.account_management.password.update': { paramsTuple?: []; params?: {} }
   }
   DELETE: {
