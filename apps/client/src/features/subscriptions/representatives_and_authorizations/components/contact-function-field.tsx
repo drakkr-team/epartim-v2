@@ -5,8 +5,8 @@ import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
 import type {
-	PersonChanges,
-	PersonPath,
+	ContactChanges,
+	ContactPath,
 } from "#/features/subscriptions/representatives_and_authorizations/components/contact-identity-fields";
 import {
 	CONTACT_FUNCTIONS,
@@ -16,15 +16,15 @@ import {
 const translationNamespace =
 	"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form";
 
-type PersonFunctionFieldProps = {
+type ContactFunctionFieldProps = {
 	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
-	path: PersonPath;
+	path: ContactPath;
 	id: string;
-	onUpdate: (changes: PersonChanges) => void;
+	onUpdate: (changes: ContactChanges) => void;
 	className?: string;
 };
 
-export function PersonFunctionField(props: PersonFunctionFieldProps) {
+export function ContactFunctionField(props: ContactFunctionFieldProps) {
 	const { form, path, id, onUpdate, className = "md:col-span-3" } = props;
 	const { t } = useTranslation(translationNamespace);
 	const options = CONTACT_FUNCTIONS.map((functionValue) => ({
@@ -39,7 +39,7 @@ export function PersonFunctionField(props: PersonFunctionFieldProps) {
 	return (
 		<div className={className}>
 			<form.AppField
-				name={`${path}.function` as `${PersonPath}.function`}
+				name={`${path}.function` as `${ContactPath}.function`}
 				validators={{ onBlur: functionSchema }}
 				listeners={{
 					onBlur: ({ value: functionValue, fieldApi }) => {

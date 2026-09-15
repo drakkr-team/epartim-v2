@@ -14,20 +14,20 @@ import {
 const translationNamespace =
 	"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form";
 
-export type PersonPath = "legalAgent" | "signer" | "correspondent" | `authorizations[${number}]`;
+export type ContactPath = "legalAgent" | "signer" | "correspondent" | `authorizations[${number}]`;
 
-export type PersonChanges = Partial<
+export type ContactChanges = Partial<
 	Pick<
 		Contact,
 		"civility" | "firstName" | "lastName" | "email" | "phoneNumber" | "function" | "amundiPortalId"
 	>
 >;
 
-type PersonIdentityFieldsProps = {
+type ContactIdentityFieldsProps = {
 	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
-	path: PersonPath;
+	path: ContactPath;
 	idPrefix: string;
-	onUpdate: (changes: PersonChanges) => void;
+	onUpdate: (changes: ContactChanges) => void;
 	phoneRequired?: boolean;
 };
 
@@ -78,7 +78,7 @@ function CivilitySelect(props: CivilitySelectProps) {
 	);
 }
 
-export function PersonIdentityFields(props: PersonIdentityFieldsProps) {
+export function ContactIdentityFields(props: ContactIdentityFieldsProps) {
 	const { form, path, idPrefix, onUpdate, phoneRequired } = props;
 	const { t } = useTranslation(translationNamespace);
 	const identitySchema = {
@@ -108,7 +108,7 @@ export function PersonIdentityFields(props: PersonIdentityFieldsProps) {
 		<>
 			<div className="md:col-span-2">
 				<form.AppField
-					name={`${path}.civility` as `${PersonPath}.civility`}
+					name={`${path}.civility` as `${ContactPath}.civility`}
 					validators={{ onBlur: identitySchema.civility }}
 					listeners={{
 						onBlur: ({ value: civility, fieldApi }) => {
@@ -141,7 +141,7 @@ export function PersonIdentityFields(props: PersonIdentityFieldsProps) {
 			</div>
 
 			<form.AppField
-				name={`${path}.firstName` as `${PersonPath}.firstName`}
+				name={`${path}.firstName` as `${ContactPath}.firstName`}
 				validators={{ onBlur: identitySchema.firstName }}
 				listeners={{
 					onBlur: ({ value: firstName, fieldApi }) => {
@@ -160,7 +160,7 @@ export function PersonIdentityFields(props: PersonIdentityFieldsProps) {
 				)}
 			</form.AppField>
 			<form.AppField
-				name={`${path}.lastName` as `${PersonPath}.lastName`}
+				name={`${path}.lastName` as `${ContactPath}.lastName`}
 				validators={{ onBlur: identitySchema.lastName }}
 				listeners={{
 					onBlur: ({ value: lastName, fieldApi }) => {
@@ -179,7 +179,7 @@ export function PersonIdentityFields(props: PersonIdentityFieldsProps) {
 				)}
 			</form.AppField>
 			<form.AppField
-				name={`${path}.email` as `${PersonPath}.email`}
+				name={`${path}.email` as `${ContactPath}.email`}
 				validators={{ onBlur: identitySchema.email }}
 				listeners={{
 					onBlur: ({ value: email, fieldApi }) => {
@@ -198,7 +198,7 @@ export function PersonIdentityFields(props: PersonIdentityFieldsProps) {
 				)}
 			</form.AppField>
 			<form.AppField
-				name={`${path}.phoneNumber` as `${PersonPath}.phoneNumber`}
+				name={`${path}.phoneNumber` as `${ContactPath}.phoneNumber`}
 				validators={{ onBlur: identitySchema.phoneNumber }}
 				listeners={{
 					onBlur: ({ value: phoneNumber, fieldApi }) => {

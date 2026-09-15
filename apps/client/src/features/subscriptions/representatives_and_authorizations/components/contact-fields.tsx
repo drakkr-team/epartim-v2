@@ -1,35 +1,35 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
-import { PersonFunctionField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-function-field";
+import { ContactFunctionField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-function-field";
 import {
-	type PersonChanges,
-	PersonIdentityFields,
-	type PersonPath,
+	type ContactChanges,
+	ContactIdentityFields,
+	type ContactPath,
 } from "#/features/subscriptions/representatives_and_authorizations/components/contact-identity-fields";
 import type { useRepresentativesAndAuthorizationsForm } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
 
 const translationNamespace =
 	"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form";
 
-type PersonFieldsProps = {
+type ContactFieldsProps = {
 	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
-	path: PersonPath;
+	path: ContactPath;
 	idPrefix: string;
-	onUpdate: (changes: PersonChanges) => void;
+	onUpdate: (changes: ContactChanges) => void;
 	includeFunction?: boolean;
 	includePortalId?: boolean;
 	phoneRequired?: boolean;
 };
 
-export function PersonFields(props: PersonFieldsProps) {
+export function ContactFields(props: ContactFieldsProps) {
 	const { form, path, idPrefix, onUpdate, includeFunction, includePortalId, phoneRequired } = props;
 	const { t } = useTranslation(translationNamespace);
 	const amundiPortalIdSchema = z.string().trim().max(254, t("validation.max"));
 
 	return (
 		<div className="grid gap-4 md:grid-cols-6">
-			<PersonIdentityFields
+			<ContactIdentityFields
 				form={form}
 				path={path}
 				idPrefix={idPrefix}
@@ -38,7 +38,7 @@ export function PersonFields(props: PersonFieldsProps) {
 			/>
 
 			{includeFunction && (
-				<PersonFunctionField
+				<ContactFunctionField
 					form={form}
 					path={path}
 					id={`${idPrefix}-function`}
@@ -48,7 +48,7 @@ export function PersonFields(props: PersonFieldsProps) {
 
 			{includePortalId && (
 				<form.AppField
-					name={`${path}.amundiPortalId` as `${PersonPath}.amundiPortalId`}
+					name={`${path}.amundiPortalId` as `${ContactPath}.amundiPortalId`}
 					validators={{ onBlur: amundiPortalIdSchema }}
 					listeners={{
 						onBlur: ({ value: amundiPortalId, fieldApi }) => {
