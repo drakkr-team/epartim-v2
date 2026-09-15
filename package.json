@@ -11,7 +11,7 @@
 		"adonis": "cd apps/api/ && node ace"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.11",
+		"@biomejs/biome": "2.5.13",
 		"portless": "0.15.6",
 		"turbo": "2.10.12"
 	},
