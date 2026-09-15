@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
+import { ContactFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import {
 	CONTACT_KIND,
 	type useRepresentativesAndAuthorizationsForm,
@@ -44,7 +44,7 @@ export function CorrespondentSection(props: CorrespondentSectionProps) {
 							{isLegalEntity && (
 								<p className="text-primary-11 text-sm">{t("correspondent.forcedDifferent")}</p>
 							)}
-							<PersonFields
+							<ContactFields
 								form={form}
 								path="correspondent"
 								idPrefix="correspondent"

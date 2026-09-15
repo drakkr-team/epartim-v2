@@ -21,7 +21,7 @@ export const CONTACT_FUNCTIONS = [
 
 export const CONTACT_AUTHORIZATIONS = [1, 2, 3] as const satisfies ContactAuthorization[];
 
-export type PersonValues = {
+export type ContactValues = {
 	civility: ContactCivility | null;
 	firstName: string;
 	lastName: string;
@@ -31,20 +31,20 @@ export type PersonValues = {
 	amundiPortalId: string;
 };
 
-export type LegalAgentValues = PersonValues & {
+export type LegalAgentValues = ContactValues & {
 	kind: ContactKind | null;
 	legalName: string;
 };
 
-export type SignerValues = PersonValues & {
+export type SignerValues = ContactValues & {
 	isSignatoryOnKbis: boolean | null;
 };
 
-export type CorrespondentValues = PersonValues & {
+export type CorrespondentValues = ContactValues & {
 	isDifferent: boolean | null;
 };
 
-export type AuthorizationValues = PersonValues & {
+export type AuthorizationValues = ContactValues & {
 	key: string;
 	authorizations: ContactAuthorization[];
 };

@@ -5,8 +5,8 @@ import { Button } from "@workspace/ui-react/components/button";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
-import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
-import { PersonFunctionField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-function-field";
+import { ContactFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
+import { ContactFunctionField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-function-field";
 import {
 	CONTACT_KIND,
 	type useRepresentativesAndAuthorizationsForm,
@@ -116,7 +116,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 				{(legalAgentKind) => (
 					<>
 						{legalAgentKind === CONTACT_KIND.PHYSICAL_PERSON && (
-							<PersonFields
+							<ContactFields
 								form={form}
 								path="legalAgent"
 								idPrefix="legal-agent"
@@ -174,7 +174,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 										</div>
 									)}
 								</form.AppField>
-								<PersonFunctionField
+								<ContactFunctionField
 									form={form}
 									path="legalAgent"
 									id="legal-agent-function"

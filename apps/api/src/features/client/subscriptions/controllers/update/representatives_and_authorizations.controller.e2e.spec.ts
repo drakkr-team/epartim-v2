@@ -58,6 +58,7 @@ test.group(
 							firstName: "Nora",
 							lastName: "Petit",
 							email: "nora.petit@example.test",
+							phoneNumber: "+33611111111",
 							function: ContactFunction.DAF,
 							authorizations: [ContactAuthorization.COMPTABLE, ContactAuthorization.ADMINISTRER],
 						},
@@ -148,7 +149,28 @@ test.group(
 				.withGuard("client")
 				.loginAs(user)
 				.json({
-					authorizations: [{ email: "doublon@example.test" }, { email: "doublon@example.test" }],
+					authorizations: [
+						{ email: "doublon@example.test", phoneNumber: "+33611111111" },
+						{ email: "doublon@example.test", phoneNumber: "+33622222222" },
+					],
+				});
+
+			response.assertStatus(422);
+		});
+
+		test("it should require a phone number for authorizations", async ({ client }) => {
+			const user = await UserFactory.create();
+			const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+			await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+
+			const response = await client
+				.visit("client.subscriptions.update_representatives_and_authorizations", {
+					subscriptionId: subscription.id,
+				})
+				.withGuard("client")
+				.loginAs(user)
+				.json({
+					authorizations: [{ email: "nora.petit@example.test", phoneNumber: "" }],
 				});
 
 			response.assertStatus(422);

@@ -5,7 +5,7 @@ import { Button } from "@workspace/ui-react/components/button";
 import { Field } from "@workspace/ui-react/components/field";
 import { PlusIcon, Trash2Icon } from "@workspace/ui-react/icons";
 
-import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
+import { ContactFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import {
 	type AuthorizationValues,
 	CONTACT_AUTHORIZATIONS,
@@ -53,13 +53,14 @@ function AuthorizationCard(props: AuthorizationCardProps) {
 				</Button>
 			</div>
 
-			<PersonFields
+			<ContactFields
 				form={form}
 				path={`authorizations[${index}]`}
 				idPrefix={`authorization-${index}`}
 				onUpdate={onUpdate}
 				includeFunction
 				includePortalId
+				phoneRequired
 			/>
 
 			<form.AppField
@@ -130,7 +131,7 @@ function toAuthorizationChanges(authorizations: AuthorizationValues[]) {
 		firstName: authorization.firstName.trim() || null,
 		lastName: authorization.lastName.trim() || null,
 		email: authorization.email.trim() || null,
-		phoneNumber: authorization.phoneNumber.trim() || null,
+		phoneNumber: authorization.phoneNumber.trim(),
 		function: authorization.function,
 		amundiPortalId: authorization.amundiPortalId.trim() || null,
 		authorizations: authorization.authorizations,

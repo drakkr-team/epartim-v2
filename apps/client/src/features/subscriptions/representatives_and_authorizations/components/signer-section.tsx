@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { PersonFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
+import { ContactFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import type { useRepresentativesAndAuthorizationsForm } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
 
 const translationNamespace =
@@ -30,7 +30,7 @@ export function SignerSection(props: SignerSectionProps) {
 						</div>
 
 						<div className="mt-4 grid gap-4 rounded-md border border-primary-3 bg-primary-2 p-4">
-							<PersonFields
+							<ContactFields
 								form={form}
 								path="signer"
 								idPrefix="signer"
