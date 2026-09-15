@@ -122,7 +122,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 						{legalAgentKind === CONTACT_KIND.PHYSICAL_PERSON && (
 							<ContactFields
 								form={form}
-								path="legalAgent"
+								fields="legalAgent"
 								idPrefix="legal-agent"
 								onUpdate={onUpdateLegalAgent}
 								includeFunction
@@ -180,7 +180,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								</form.AppField>
 								<ContactFunctionField
 									form={form}
-									path="legalAgent"
+									fields={{ function: "legalAgent.function" }}
 									id="legal-agent-function"
 									onUpdate={onUpdateLegalAgent}
 									className="md:col-span-2"

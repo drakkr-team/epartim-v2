@@ -6,7 +6,7 @@ import { Select } from "@workspace/ui-react/components/select";
 
 import type { ContactChanges } from "#/features/subscriptions/representatives_and_authorizations/components/contact-identity-fields";
 import {
-	CONTACT_FUNCTIONS,
+	CONTACT_CIVILITIES,
 	type ContactValues,
 } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
 import { withFieldGroup } from "#/libs/form";
@@ -14,45 +14,45 @@ import { withFieldGroup } from "#/libs/form";
 const translationNamespace =
 	"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form";
 
-type ContactFunctionFieldProps = {
+type ContactCivilityFieldProps = {
 	id: string;
 	onUpdate: (changes: ContactChanges) => void;
 	className?: string;
 };
 
-const defaultValues: Pick<ContactValues, "function"> = {
-	function: null,
+const defaultValues: Pick<ContactValues, "civility"> = {
+	civility: null,
 };
 
-const defaultProps: ContactFunctionFieldProps = {
+const defaultProps: ContactCivilityFieldProps = {
 	id: "",
 	onUpdate: () => {},
-	className: "md:col-span-3",
+	className: "md:col-span-2",
 };
 
-export const ContactFunctionField = withFieldGroup({
+export const ContactCivilityField = withFieldGroup({
 	defaultValues,
 	props: defaultProps,
-	render: function ContactFunctionField(props) {
-		const { group, id, onUpdate, className = "md:col-span-3" } = props;
+	render: function ContactCivilityField(props) {
+		const { group, id, onUpdate, className = "md:col-span-2" } = props;
 		const { t } = useTranslation(translationNamespace);
-		const options = CONTACT_FUNCTIONS.map((functionValue) => ({
-			value: functionValue,
-			label: String(t(`function.${functionValue}` as never)),
+		const options = CONTACT_CIVILITIES.map((civility) => ({
+			value: civility,
+			label: String(t(`civility.${civility}` as never)),
 		}));
-		const functionSchema = z
-			.literal(CONTACT_FUNCTIONS, t("validation.required"))
+		const civilitySchema = z
+			.literal(CONTACT_CIVILITIES, t("validation.required"))
 			.nullable()
 			.refine((value) => value !== null, t("validation.required"));
 
 		return (
 			<div className={className}>
 				<group.AppField
-					name="function"
-					validators={{ onBlur: functionSchema }}
+					name="civility"
+					validators={{ onBlur: civilitySchema }}
 					listeners={{
-						onBlur: ({ value: functionValue, fieldApi }) => {
-							if (fieldApi.state.meta.isValid) onUpdate({ function: functionValue });
+						onBlur: ({ value: civility, fieldApi }) => {
+							if (fieldApi.state.meta.isValid) onUpdate({ civility });
 						},
 					}}
 				>
@@ -62,20 +62,20 @@ export const ContactFunctionField = withFieldGroup({
 						return (
 							<Field name={id} invalid={invalid} className="flex flex-col gap-2">
 								<Field.Label htmlFor={id} required>
-									{t("field.function")}
+									{t("field.civility")}
 								</Field.Label>
 								<Select
 									items={options}
 									value={field.state.value}
-									onValueChange={(functionValue) => {
-										if (functionValue !== null) field.handleChange(functionValue);
-									}}
-									onOpenChange={(open) => {
-										if (!open) field.handleBlur();
+									onValueChange={(civility) => {
+										if (civility !== null) {
+											field.handleChange(civility);
+											field.handleBlur();
+										}
 									}}
 								>
 									<Select.Input id={id} aria-invalid={invalid} className="w-full">
-										<Select.Value placeholder={t("field.function")} />
+										<Select.Value placeholder={t("field.civility")} />
 									</Select.Input>
 									<Select.Dropdown>
 										{options.map((option) => (

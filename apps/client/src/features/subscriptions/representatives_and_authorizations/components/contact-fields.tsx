@@ -5,16 +5,14 @@ import { ContactFunctionField } from "#/features/subscriptions/representatives_a
 import {
 	type ContactChanges,
 	ContactIdentityFields,
-	type ContactPath,
 } from "#/features/subscriptions/representatives_and_authorizations/components/contact-identity-fields";
-import type { useRepresentativesAndAuthorizationsForm } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
+import type { ContactValues } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
+import { withFieldGroup } from "#/libs/form";
 
 const translationNamespace =
 	"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form";
 
 type ContactFieldsProps = {
-	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
-	path: ContactPath;
 	idPrefix: string;
 	onUpdate: (changes: ContactChanges) => void;
 	includeFunction?: boolean;
@@ -22,53 +20,78 @@ type ContactFieldsProps = {
 	phoneRequired?: boolean;
 };
 
-export function ContactFields(props: ContactFieldsProps) {
-	const { form, path, idPrefix, onUpdate, includeFunction, includePortalId, phoneRequired } = props;
-	const { t } = useTranslation(translationNamespace);
-	const amundiPortalIdSchema = z.string().trim().max(254, t("validation.max"));
+const defaultValues: ContactValues = {
+	civility: null,
+	firstName: "",
+	lastName: "",
+	email: "",
+	phoneNumber: "",
+	function: null,
+	amundiPortalId: "",
+};
 
-	return (
-		<div className="grid gap-4 md:grid-cols-6">
-			<ContactIdentityFields
-				form={form}
-				path={path}
-				idPrefix={idPrefix}
-				onUpdate={onUpdate}
-				phoneRequired={phoneRequired}
-			/>
+const defaultProps: ContactFieldsProps = {
+	idPrefix: "",
+	onUpdate: () => {},
+};
 
-			{includeFunction && (
-				<ContactFunctionField
-					form={form}
-					path={path}
-					id={`${idPrefix}-function`}
-					onUpdate={onUpdate}
-				/>
-			)}
+export const ContactFields = withFieldGroup({
+	defaultValues,
+	props: defaultProps,
+	render: function ContactFields(props) {
+		const { group, idPrefix, onUpdate, includeFunction, includePortalId, phoneRequired } = props;
+		const { t } = useTranslation(translationNamespace);
+		const amundiPortalIdSchema = z.string().trim().max(254, t("validation.max"));
 
-			{includePortalId && (
-				<form.AppField
-					name={`${path}.amundiPortalId` as `${ContactPath}.amundiPortalId`}
-					validators={{ onBlur: amundiPortalIdSchema }}
-					listeners={{
-						onBlur: ({ value: amundiPortalId, fieldApi }) => {
-							if (amundiPortalId.trim().length === 0) {
-								onUpdate({ amundiPortalId: null });
-								return;
-							}
-							if (fieldApi.state.meta.isValid) {
-								onUpdate({ amundiPortalId: amundiPortalId.trim() });
-							}
-						},
+		return (
+			<div className="grid gap-4 md:grid-cols-6">
+				<ContactIdentityFields
+					form={group}
+					fields={{
+						civility: "civility",
+						firstName: "firstName",
+						lastName: "lastName",
+						email: "email",
+						phoneNumber: "phoneNumber",
 					}}
-				>
-					{(field) => (
-						<div className="md:col-span-3">
-							<field.TextField label={t("field.amundiPortalId")} />
-						</div>
-					)}
-				</form.AppField>
-			)}
-		</div>
-	);
-}
+					idPrefix={idPrefix}
+					onUpdate={onUpdate}
+					phoneRequired={phoneRequired}
+				/>
+
+				{includeFunction && (
+					<ContactFunctionField
+						form={group}
+						fields={{ function: "function" }}
+						id={`${idPrefix}-function`}
+						onUpdate={onUpdate}
+					/>
+				)}
+
+				{includePortalId && (
+					<group.AppField
+						name="amundiPortalId"
+						validators={{ onBlur: amundiPortalIdSchema }}
+						listeners={{
+							onBlur: ({ value: amundiPortalId, fieldApi }) => {
+								if (amundiPortalId.trim().length === 0) {
+									onUpdate({ amundiPortalId: null });
+									return;
+								}
+								if (fieldApi.state.meta.isValid) {
+									onUpdate({ amundiPortalId: amundiPortalId.trim() });
+								}
+							},
+						}}
+					>
+						{(field) => (
+							<div className="md:col-span-3">
+								<field.TextField label={t("field.amundiPortalId")} />
+							</div>
+						)}
+					</group.AppField>
+				)}
+			</div>
+		);
+	},
+});

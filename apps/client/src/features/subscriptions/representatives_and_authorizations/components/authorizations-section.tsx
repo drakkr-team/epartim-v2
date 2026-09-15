@@ -7,7 +7,6 @@ import { PlusIcon, Trash2Icon } from "@workspace/ui-react/icons";
 
 import { ContactFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import {
-	type AuthorizationValues,
 	CONTACT_AUTHORIZATIONS,
 	type useRepresentativesAndAuthorizationsForm,
 } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
@@ -55,7 +54,7 @@ function AuthorizationCard(props: AuthorizationCardProps) {
 
 			<ContactFields
 				form={form}
-				path={`authorizations[${index}]`}
+				fields={`authorizations[${index}]`}
 				idPrefix={`authorization-${index}`}
 				onUpdate={onUpdate}
 				includeFunction
@@ -125,26 +124,9 @@ type AuthorizationsSectionProps = {
 	>["updateAuthorizations"];
 };
 
-function toAuthorizationChanges(authorizations: AuthorizationValues[]) {
-	return authorizations.map((authorization) => ({
-		civility: authorization.civility,
-		firstName: authorization.firstName.trim() || null,
-		lastName: authorization.lastName.trim() || null,
-		email: authorization.email.trim() || null,
-		phoneNumber: authorization.phoneNumber.trim(),
-		function: authorization.function,
-		amundiPortalId: authorization.amundiPortalId.trim() || null,
-		authorizations: authorization.authorizations,
-	}));
-}
-
 export function AuthorizationsSection(props: AuthorizationsSectionProps) {
 	const { form, onUpdateAuthorizations } = props;
 	const { t } = useTranslation(translationNamespace);
-
-	function updateAuthorizations(authorizations: AuthorizationValues[]) {
-		onUpdateAuthorizations(toAuthorizationChanges(authorizations));
-	}
 
 	function addAuthorization() {
 		const authorizations = [
@@ -163,7 +145,7 @@ export function AuthorizationsSection(props: AuthorizationsSectionProps) {
 		];
 
 		form.setFieldValue("authorizations", authorizations);
-		updateAuthorizations(authorizations);
+		onUpdateAuthorizations(authorizations);
 	}
 
 	function removeAuthorization(index: number) {
@@ -172,7 +154,7 @@ export function AuthorizationsSection(props: AuthorizationsSectionProps) {
 		);
 
 		form.setFieldValue("authorizations", authorizations);
-		updateAuthorizations(authorizations);
+		onUpdateAuthorizations(authorizations);
 	}
 
 	return (
@@ -201,7 +183,7 @@ export function AuthorizationsSection(props: AuthorizationsSectionProps) {
 									key={authorization.key}
 									form={form}
 									index={index}
-									onUpdate={() => updateAuthorizations(form.state.values.authorizations)}
+									onUpdate={() => onUpdateAuthorizations(form.state.values.authorizations)}
 									onRemove={() => removeAuthorization(index)}
 								/>
 							))}
