@@ -120,9 +120,9 @@ function AuthorizationCard(props: AuthorizationCardProps) {
 
 type AuthorizationsSectionProps = {
 	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
-	onUpdate: ReturnType<
+	onUpdateAuthorizations: ReturnType<
 		typeof useRepresentativesAndAuthorizationsForm
-	>["updateRepresentativesAndAuthorizations"];
+	>["updateAuthorizations"];
 };
 
 function toAuthorizationChanges(authorizations: AuthorizationValues[]) {
@@ -139,11 +139,11 @@ function toAuthorizationChanges(authorizations: AuthorizationValues[]) {
 }
 
 export function AuthorizationsSection(props: AuthorizationsSectionProps) {
-	const { form, onUpdate } = props;
+	const { form, onUpdateAuthorizations } = props;
 	const { t } = useTranslation(translationNamespace);
 
 	function updateAuthorizations(authorizations: AuthorizationValues[]) {
-		onUpdate({ authorizations: toAuthorizationChanges(authorizations) });
+		onUpdateAuthorizations(toAuthorizationChanges(authorizations));
 	}
 
 	function addAuthorization() {

@@ -1,6 +1,9 @@
 import type { Contact } from "@workspace/api/data";
 
-import { useUpdateRepresentativesAndAuthorizationsMutation } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-update-mutation";
+import { useUpdateAuthorizationsMutation } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-update-authorizations-mutation";
+import { useUpdateCorrespondentMutation } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-update-correspondent-mutation";
+import { useUpdateLegalAgentMutation } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-update-legal-agent-mutation";
+import { useUpdateSignerMutation } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-update-signer-mutation";
 import { useAppForm } from "#/libs/form";
 
 export type ContactKind = NonNullable<Contact["kind"]>;
@@ -56,12 +59,21 @@ export type RepresentativesAndAuthorizationsValues = {
 	authorizations: AuthorizationValues[];
 };
 
-type UpdateRepresentativesAndAuthorizationsRequest = Parameters<
-	ReturnType<typeof useUpdateRepresentativesAndAuthorizationsMutation>["mutate"]
+type UpdateLegalAgentRequest = Parameters<
+	ReturnType<typeof useUpdateLegalAgentMutation>["mutate"]
+>[0];
+type UpdateSignerRequest = Parameters<ReturnType<typeof useUpdateSignerMutation>["mutate"]>[0];
+type UpdateCorrespondentRequest = Parameters<
+	ReturnType<typeof useUpdateCorrespondentMutation>["mutate"]
+>[0];
+type UpdateAuthorizationsRequest = Parameters<
+	ReturnType<typeof useUpdateAuthorizationsMutation>["mutate"]
 >[0];
 
-type RepresentativesAndAuthorizationsChanges =
-	UpdateRepresentativesAndAuthorizationsRequest["body"];
+type LegalAgentChanges = UpdateLegalAgentRequest["body"];
+type SignerChanges = UpdateSignerRequest["body"];
+type CorrespondentChanges = UpdateCorrespondentRequest["body"];
+type AuthorizationsChanges = UpdateAuthorizationsRequest["body"]["authorizations"];
 
 export type RepresentativesAndAuthorizations = {
 	legalAgent: Contact | null;
@@ -80,7 +92,10 @@ export function useRepresentativesAndAuthorizationsForm(
 ) {
 	const { subscriptionId, representativesAndAuthorizations } = params;
 	const { legalAgent, signer, correspondent, authorizations } = representativesAndAuthorizations;
-	const { mutate: update } = useUpdateRepresentativesAndAuthorizationsMutation(subscriptionId);
+	const { mutate: updateLegalAgent } = useUpdateLegalAgentMutation(subscriptionId);
+	const { mutate: updateSigner } = useUpdateSignerMutation(subscriptionId);
+	const { mutate: updateCorrespondent } = useUpdateCorrespondentMutation(subscriptionId);
+	const { mutate: updateAuthorizations } = useUpdateAuthorizationsMutation(subscriptionId);
 
 	const form = useAppForm({
 		defaultValues: {
@@ -132,17 +147,30 @@ export function useRepresentativesAndAuthorizationsForm(
 		},
 	});
 
-	function updateRepresentativesAndAuthorizations(
-		representativesAndAuthorizations: RepresentativesAndAuthorizationsChanges,
-	) {
-		update({
+	function updateLegalAgentChanges(legalAgent: LegalAgentChanges) {
+		updateLegalAgent({
 			params: { subscriptionId },
-			body: representativesAndAuthorizations,
+			body: legalAgent,
 		});
+	}
+
+	function updateSignerChanges(signer: SignerChanges) {
+		updateSigner({ params: { subscriptionId }, body: signer });
+	}
+
+	function updateCorrespondentChanges(correspondent: CorrespondentChanges) {
+		updateCorrespondent({ params: { subscriptionId }, body: correspondent });
+	}
+
+	function updateAuthorizationsChanges(authorizations: AuthorizationsChanges) {
+		updateAuthorizations({ params: { subscriptionId }, body: { authorizations } });
 	}
 
 	return {
 		form,
-		updateRepresentativesAndAuthorizations,
+		updateLegalAgent: updateLegalAgentChanges,
+		updateSigner: updateSignerChanges,
+		updateCorrespondent: updateCorrespondentChanges,
+		updateAuthorizations: updateAuthorizationsChanges,
 	};
 }
