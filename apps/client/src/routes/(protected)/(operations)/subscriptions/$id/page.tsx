@@ -2,12 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
-import { Separator } from "@workspace/ui-react/components/separator";
 import { Spinner } from "@workspace/ui-react/components/spinner";
 
 import { AddressAndBankDetailsForm } from "#/features/subscriptions/address_and_bank_details/components/form";
 import { useSubscriptionQuery } from "#/features/subscriptions/hooks/use-subscription-query";
 import { LegalIdentificationForm } from "#/features/subscriptions/legal_identification/components/form.tsx";
+import { RepresentativesAndAuthorizationsForm } from "#/features/subscriptions/representatives_and_authorizations/components/form";
 import type { BreadcrumbStaticData } from "#/libs/breadcrumb";
 
 export const Route = createFileRoute("/(protected)/(operations)/subscriptions/$id/")({
@@ -47,12 +47,15 @@ function NewSubscriptionPage() {
 				legalIdentification={subscriptionQuery.data.legalIdentification}
 			/>
 
-			<Separator />
-
 			<AddressAndBankDetailsForm
 				subscriptionId={id}
 				address={subscriptionQuery.data.addressAndBankDetails.address}
 				paymentDetail={subscriptionQuery.data.addressAndBankDetails.paymentDetail}
+			/>
+
+			<RepresentativesAndAuthorizationsForm
+				subscriptionId={id}
+				representativesAndAuthorizations={subscriptionQuery.data.representativesAndAuthorizations}
 			/>
 
 			<footer className="flex justify-start border-neutral-4 border-t pt-6">

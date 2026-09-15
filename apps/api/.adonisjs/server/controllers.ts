@@ -69,8 +69,14 @@ export const controllers = {
         Create: () => import('#src/features/client/subscriptions/controllers/create.controller'),
         List: () => import('#src/features/client/subscriptions/controllers/list.controller'),
         update: {
-          LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
           AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),
+          LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
+          representatives: {
+            Authorizations: () => import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller'),
+            Correspondent: () => import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller'),
+            LegalAgent: () => import('#src/features/client/subscriptions/controllers/update/representatives/legal_agent.controller'),
+            Signer: () => import('#src/features/client/subscriptions/controllers/update/representatives/signer.controller'),
+          },
         },
         View: () => import('#src/features/client/subscriptions/controllers/view.controller'),
       },
