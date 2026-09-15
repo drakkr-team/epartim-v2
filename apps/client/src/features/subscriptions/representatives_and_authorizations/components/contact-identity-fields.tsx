@@ -3,11 +3,11 @@ import z from "zod";
 
 import type { Contact } from "@workspace/api/data";
 
+import { ContactCivilityField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-civility-field";
 import {
 	isInternationalPhoneNumber,
 	PhoneNumberField,
 } from "#/features/subscriptions/representatives_and_authorizations/components/phone-number-field";
-import { ContactCivilityField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-civility-field";
 import type { ContactValues } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
 import { withFieldGroup } from "#/libs/form";
 
