@@ -28,15 +28,29 @@ export default class ListSubscriptionsController {
 			perPage = 20,
 			q,
 			status,
+			progress,
+			createdAtFrom,
+			createdAtTo,
 		} = await request.validateUsing(ListSubscriptionsController.querySchema);
-		const subscriptionsQuery = this.listSubscriptionsService.handle({ q, status });
+		const subscriptionsQuery = this.listSubscriptionsService.handle({
+			q,
+			status,
+			progress,
+			createdAtFrom,
+			createdAtTo,
+		});
 		subscriptionsQuery.preload("company");
 		const subscriptions = await subscriptionsQuery.paginate(page, perPage);
 
 		return {
 			meta: {
 				...this.paginationPresenter.toJSON(subscriptions),
-				statusCounts: await this.listSubscriptionsService.getStatusCounts({ q }),
+				statusCounts: await this.listSubscriptionsService.getStatusCounts({
+					q,
+					progress,
+					createdAtFrom,
+					createdAtTo,
+				}),
 			},
 			data: subscriptions.all().map((subscription) => ({
 				...this.subscriptionPresenter.toJSON(subscription),
@@ -49,5 +63,11 @@ export default class ListSubscriptionsController {
 		...PaginationValidator.getProperties(),
 		q: vine.string().trim().optional(),
 		status: vine.enum(subscriptionListStatuses).optional(),
+		progress: vine.number().min(1).max(5).withoutDecimals().optional(),
+		createdAtFrom: vine.date({ formats: ["YYYY-MM-DD"] }).optional(),
+		createdAtTo: vine
+			.date({ formats: ["YYYY-MM-DD"] })
+			.afterOrSameAs("createdAtFrom")
+			.optional(),
 	});
 }
