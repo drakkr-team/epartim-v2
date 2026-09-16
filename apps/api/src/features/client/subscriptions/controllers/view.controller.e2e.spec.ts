@@ -6,6 +6,8 @@ import { ContactFactory } from "#database/factories/contact.factory";
 import { PaymentDetailFactory } from "#database/factories/payment_detail.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
+import { CompanyLegalForm } from "#models/company";
+import { ContactKind } from "#models/contact";
 
 test.group("Features / Client / Subscriptions / Controllers / View Controller", () => {
 	test("it should return the legal identification and address and bank details", async ({
@@ -69,5 +71,77 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 				authorizations: [{ id: authorization.id }],
 			},
 		});
+	});
+
+	test("it should return the documents required by the company and signer", async ({
+		client,
+		assert,
+	}) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		const legalAgent = await ContactFactory.merge({ kind: ContactKind.PERSONNE_PHYSIQUE }).create();
+		const signer = await ContactFactory.merge({ isSignatoryOnKbis: false }).create();
+		await CompanyFactory.merge({
+			subscriptionId: subscription.id,
+			legalForm: CompanyLegalForm.SAS,
+			companyLegalAgentId: legalAgent.id,
+			companySignerId: signer.id,
+		}).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		assert.deepEqual(
+			response.body().documents.map((document: { status: string; type: string }) => ({
+				status: document.status,
+				type: document.type,
+			})),
+			[
+				{ type: "bank_details", status: "pending" },
+				{ type: "legal_agent_id", status: "pending" },
+				{ type: "existence_proof", status: "pending" },
+				{ type: "articles_of_association", status: "pending" },
+				{ type: "signer_id", status: "pending" },
+				{ type: "signer_power", status: "pending" },
+			],
+		);
+		assert.include(response.body().documents[2].label, "Extrait RNE");
+	});
+
+	test("it should not require an organization chart for an EPIC", async ({ client, assert }) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		await CompanyFactory.merge({
+			subscriptionId: subscription.id,
+			legalForm: CompanyLegalForm.ETABLISSEMENT_PUBLIC_LOCAL_EPIC,
+		}).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		assert.notInclude(
+			response.body().documents.map((document: { type: string }) => document.type),
+			"organization_chart",
+		);
+	});
+
+	test("it should reject access to another user's subscription", async ({ client }) => {
+		const owner = await UserFactory.create();
+		const otherUser = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: owner.id }).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(otherUser);
+
+		response.assertStatus(403);
 	});
 });

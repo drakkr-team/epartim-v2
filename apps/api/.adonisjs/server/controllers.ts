@@ -67,6 +67,10 @@ export const controllers = {
       },
       subscriptions: {
         Create: () => import('#src/features/client/subscriptions/controllers/create.controller'),
+        documents: {
+          Delete: () => import('#src/features/client/subscriptions/controllers/documents/delete.controller'),
+          Upload: () => import('#src/features/client/subscriptions/controllers/documents/upload.controller'),
+        },
         List: () => import('#src/features/client/subscriptions/controllers/list.controller'),
         update: {
           AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),

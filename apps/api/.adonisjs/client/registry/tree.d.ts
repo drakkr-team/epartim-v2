@@ -71,6 +71,8 @@ export interface ApiDefinition {
       list: typeof routes['client.subscriptions.list']
       create: typeof routes['client.subscriptions.create']
       view: typeof routes['client.subscriptions.view']
+      uploadDocument: typeof routes['client.subscriptions.upload_document']
+      deleteDocument: typeof routes['client.subscriptions.delete_document']
       updateLegalIdentification: typeof routes['client.subscriptions.update_legal_identification']
       updateAddressAndBankDetails: typeof routes['client.subscriptions.update_address_and_bank_details']
       updateLegalAgent: typeof routes['client.subscriptions.update_legal_agent']

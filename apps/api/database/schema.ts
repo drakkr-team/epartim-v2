@@ -218,6 +218,23 @@ export class PaymentDetailSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class SubscriptionDocumentSchema extends BaseModel {
+  static $columns = ['createdAt', 'fileId', 'id', 'subscriptionId', 'type', 'updatedAt'] as const
+  $columns = SubscriptionDocumentSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare fileId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare subscriptionId: number
+  @column()
+  declare type: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class SubscriptionSchema extends BaseModel {
   static $columns = ['approvedAt', 'completedAt', 'completedSteps', 'createdAt', 'createdBy', 'id', 'status', 'statusUpdatedAt', 'submittedAt', 'updatedAt'] as const
   $columns = SubscriptionSchema.$columns

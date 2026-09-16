@@ -1,0 +1,37 @@
+type: http_request
+model: http_request
+id: rq_subscription_document_delete
+createdAt: 2026-09-16T00:00:00.000000
+updatedAt: 2026-09-16T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscriptions
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: Set SUBSCRIPTION_ID in your private Yaak environment. Replace bank_details with the document type to remove.
+headers:
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: DELETE
+name: Delete subscription document
+sortPriority: 5100.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/documents/bank_details
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

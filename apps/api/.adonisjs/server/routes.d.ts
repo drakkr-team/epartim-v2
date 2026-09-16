@@ -32,6 +32,8 @@ export type ScannedRoutes = {
     'client.subscriptions.list': { paramsTuple?: []; params?: {} }
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.upload_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
+    'client.subscriptions.delete_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
     'client.subscriptions.update_legal_identification': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_address_and_bank_details': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_legal_agent': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
@@ -84,6 +86,7 @@ export type ScannedRoutes = {
     'admin.networks.create': { paramsTuple?: []; params?: {} }
     'admin.users.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.upload_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
@@ -110,6 +113,7 @@ export type ScannedRoutes = {
     'admin.networks.delete': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
     'admin.users.delete': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.delete_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'client.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
   }

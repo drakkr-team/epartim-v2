@@ -174,6 +174,18 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId","type":1,"val":"subscriptionId","end":""}],
     types: placeholder as Registry['client.subscriptions.view']['types'],
   },
+  'client.subscriptions.upload_document': {
+    methods: ["POST"],
+    pattern: '/client/subscriptions/:subscriptionId/documents/:documentType',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":0,"val":"documents","end":""},{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":1,"val":"documentType","end":""}],
+    types: placeholder as Registry['client.subscriptions.upload_document']['types'],
+  },
+  'client.subscriptions.delete_document': {
+    methods: ["DELETE"],
+    pattern: '/client/subscriptions/:subscriptionId/documents/:documentType',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":0,"val":"documents","end":""},{"old":"/client/subscriptions/:subscriptionId/documents/:documentType","type":1,"val":"documentType","end":""}],
+    types: placeholder as Registry['client.subscriptions.delete_document']['types'],
+  },
   'client.subscriptions.update_legal_identification': {
     methods: ["PUT"],
     pattern: '/client/subscriptions/:subscriptionId/legal-identification',

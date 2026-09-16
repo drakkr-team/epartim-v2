@@ -19,9 +19,9 @@ export default class FileService {
 	async upload(params: { file: MultipartFile; path?: string }) {
 		const { file, path } = params;
 
-		const key = path
-			? `${path}/${stringHelper.uuid()}-${file.clientName}`
-			: `${stringHelper.uuid()}-${file.clientName}`;
+		const extension = file.extname?.replace(/[^a-z0-9]/gi, "").toLowerCase();
+		const fileName = extension ? `${stringHelper.uuid()}.${extension}` : stringHelper.uuid();
+		const key = path ? `${path}/${fileName}` : fileName;
 		const type = file.type && file.extname ? `${file.type}/${file.extname}` : null;
 
 		await file.moveToDisk(key, {

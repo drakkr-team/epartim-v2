@@ -14,7 +14,7 @@ router.use([
 	() => import("@adonisjs/core/bodyparser_middleware"),
 	() => import("@adonisjs/auth/initialize_auth_middleware"),
 	() => import("#middlewares/silent_auth_middleware"),
-	() => import("@tuyau/superjson/superjson_middleware"),
+	() => import("#middlewares/superjson.middleware"),
 	() => import("#middlewares/initialize_bouncer_middleware"),
 ]);
 
