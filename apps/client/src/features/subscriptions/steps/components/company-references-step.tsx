@@ -1,15 +1,14 @@
-import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { routes } from "@workspace/api/registry";
-import { Button } from "@workspace/ui-react/components/button";
 
 import { AddressAndBankDetailsForm } from "#/features/subscriptions/address_and_bank_details/components/form";
 import { DocumentsChecklist } from "#/features/subscriptions/documents/components/documents-checklist";
 import { DocumentsSection } from "#/features/subscriptions/documents/components/documents-section";
 import { LegalIdentificationForm } from "#/features/subscriptions/legal_identification/components/form";
 import { RepresentativesAndAuthorizationsForm } from "#/features/subscriptions/representatives_and_authorizations/components/form";
+import { SubscriptionStepFooter } from "#/features/subscriptions/steps/components/subscription-step-footer";
 import { SubscriptionStepHeader } from "#/features/subscriptions/steps/components/subscription-step-header";
 import { ValidateStepButton } from "#/features/subscriptions/steps/components/validate-step-button";
 import { SubscriptionStepValidationProvider } from "#/features/subscriptions/steps/step-validation-context";
@@ -25,6 +24,9 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 	const { subscription, subscriptionId } = props;
 	const { t } = useTranslation("routes.(private).(operations).subscriptions.$id.steps.$step");
 	const [isValidationAttempted, setIsValidationAttempted] = useState(false);
+	const areDocumentsComplete = subscription.documents.every(
+		(document) => document.status === "attached",
+	);
 
 	return (
 		<SubscriptionStepValidationProvider>
@@ -33,6 +35,7 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 					<SubscriptionStepHeader
 						description={t("step-one.description")}
 						eyebrow={t("step-one.eyebrow")}
+						isValidated={subscription.completedSteps?.includes(1) ?? false}
 						title={t("step-one.title")}
 					/>
 
@@ -58,17 +61,16 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 						subscriptionId={subscriptionId}
 					/>
 
-					<footer className="flex flex-wrap items-center justify-between gap-4 border-neutral-4 border-t pt-6">
-						<Button nativeButton={false} variant="ghost" render={<Link to="/subscriptions" />}>
-							{t("action.quit")}
-						</Button>
+					<SubscriptionStepFooter currentStep={1} stepLabel={t("step-one.short-title")}>
 						<ValidateStepButton
+							areDocumentsComplete={areDocumentsComplete}
+							isValidated={subscription.completedSteps?.includes(1) ?? false}
 							nextStep={2}
 							onValidationAttempt={() => setIsValidationAttempted(true)}
 							step={1}
 							subscriptionId={subscriptionId}
 						/>
-					</footer>
+					</SubscriptionStepFooter>
 				</div>
 
 				<aside className="hidden lg:block">

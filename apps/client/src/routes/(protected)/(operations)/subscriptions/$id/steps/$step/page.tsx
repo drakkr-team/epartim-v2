@@ -33,7 +33,9 @@ function SubscriptionStepPage() {
 		return <p className="text-error-10">{t("error")}</p>;
 	}
 
-	if (step === "2") return <KycStep />;
+	if (step === "2") {
+		return <KycStep isValidated={subscriptionQuery.data.completedSteps?.includes(2) ?? false} />;
+	}
 
 	return <CompanyReferencesStep subscriptionId={id} subscription={subscriptionQuery.data} />;
 }

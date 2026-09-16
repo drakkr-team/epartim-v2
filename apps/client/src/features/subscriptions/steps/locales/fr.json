@@ -1,7 +1,8 @@
 {
 	"features.subscriptions.steps.validate-step-button": {
 		"action": {
-			"validate": "Valider l'étape"
+			"validate": "Valider l'étape",
+			"validated": "Étape validée"
 		},
 		"success": {
 			"title": "Étape validée",
@@ -21,5 +22,14 @@
 				"description": "Une erreur inattendue est survenue."
 			}
 		}
+	},
+	"features.subscriptions.steps.subscription-step-header": {
+		"validated": "Étape validée"
+	},
+	"features.subscriptions.steps.subscription-step-footer": {
+		"action": {
+			"quit": "Quitter"
+		},
+		"current-step": "Étape {{current}} / {{total}} · {{label}}"
 	}
 }

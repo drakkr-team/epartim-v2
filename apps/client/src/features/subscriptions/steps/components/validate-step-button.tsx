@@ -11,6 +11,8 @@ import { api } from "#/libs/tuyau";
 import { toastifyTuyauError } from "#/utils/tuyau";
 
 type ValidateStepButtonProps = {
+	areDocumentsComplete: boolean;
+	isValidated: boolean;
 	nextStep: number;
 	onValidationAttempt: () => void;
 	step: number;
@@ -27,9 +29,10 @@ function scrollToFirstInvalidElement() {
 }
 
 export function ValidateStepButton(props: ValidateStepButtonProps) {
-	const { nextStep, onValidationAttempt, step, subscriptionId } = props;
+	const { areDocumentsComplete, isValidated, nextStep, onValidationAttempt, step, subscriptionId } =
+		props;
 	const { t } = useTranslation("features.subscriptions.steps.validate-step-button");
-	const { validateForms } = useSubscriptionStepValidation();
+	const { canValidate: areFormsValid, validateForms } = useSubscriptionStepValidation();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const [isValidationRequested, setIsValidationRequested] = useState(false);
@@ -38,6 +41,7 @@ export function ValidateStepButton(props: ValidateStepButtonProps) {
 			predicate: (mutation) =>
 				mutation.options.scope?.id.startsWith(`subscription:${subscriptionId}:`) ?? false,
 		}) > 0;
+	const isReadyToValidate = areDocumentsComplete && areFormsValid;
 	const validation = useMutation(
 		api.subscriptions.validateStep.mutationOptions({
 			onSuccess: async () => {
@@ -85,14 +89,14 @@ export function ValidateStepButton(props: ValidateStepButtonProps) {
 	return (
 		<Button
 			type="button"
-			variant="primary"
-			disabled={validation.isPending}
+			variant={isValidated ? "secondary" : "primary"}
+			disabled={!isReadyToValidate || isSaving || validation.isPending}
 			onClick={() => {
 				onValidationAttempt();
 				setIsValidationRequested(true);
 			}}
 		>
-			{t("action.validate")}
+			{t(isValidated ? "action.validated" : "action.validate")}
 		</Button>
 	);
 }

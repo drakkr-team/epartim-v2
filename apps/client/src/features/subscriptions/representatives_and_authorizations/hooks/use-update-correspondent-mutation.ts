@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { api } from "#/libs/tuyau";
@@ -8,10 +8,13 @@ export function useUpdateCorrespondentMutation(subscriptionId: string) {
 	const { t } = useTranslation(
 		"features.subscriptions.representatives_and_authorizations.hooks.use-update-mutation",
 	);
+	const queryClient = useQueryClient();
 
 	return useMutation(
 		api.subscriptions.updateCorrespondent.mutationOptions({
 			scope: { id: `subscription:${subscriptionId}:correspondent` },
+			onSuccess: () =>
+				queryClient.invalidateQueries({ queryKey: api.subscriptions.view.pathKey() }),
 			onError: (error) => {
 				toastifyTuyauError(error, {
 					E_NETWORK: [

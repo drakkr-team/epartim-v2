@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -26,47 +27,58 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 		subscriptionId,
 		legalIdentification,
 	});
-	useRegisterSubscriptionStepForm(form);
 	const legalFormOptions = LEGAL_FORMS.map((value) => ({
 		value,
 		label: t(`legalForm.${value}`),
 	}));
-	const legalIdentificationSchema = z.object({
-		siren: z
-			.string()
-			.trim()
-			.min(1, t("validation.required"))
-			.regex(/^\d{9}$/, t("validation.siren")),
-		siret: z
-			.string()
-			.trim()
-			.min(1, t("validation.required"))
-			.regex(/^\d{14}$/, t("validation.siret")),
-		naf: z
-			.string()
-			.trim()
-			.min(1, t("validation.required"))
-			.regex(/^\d{4}[A-Z]$/, t("validation.naf")),
-		name: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
-		legalForm: z
-			.literal(LEGAL_FORMS, t("validation.legalForm"))
-			.nullable()
-			.refine((value) => value !== null, t("validation.legalForm")),
-		companyHeadcount: z
-			.number({ error: t("validation.companyHeadcount") })
-			.int(t("validation.companyHeadcount"))
-			.positive(t("validation.companyHeadcount")),
-		vatNumber: z
-			.string()
-			.trim()
-			.min(1, t("validation.required"))
-			.regex(/^FR\d{2}\d{9}$/, t("validation.vatNumber")),
-		financialYearClosingDay: z
-			.string()
-			.trim()
-			.min(1, t("validation.required"))
-			.regex(/^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])$/, t("validation.financialYearClosingDay")),
-	});
+	const legalIdentificationSchema = useMemo(
+		() =>
+			z.object({
+				siren: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^\d{9}$/, t("validation.siren")),
+				siret: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^\d{14}$/, t("validation.siret")),
+				naf: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^\d{4}[A-Z]$/, t("validation.naf")),
+				name: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
+				legalForm: z
+					.literal(LEGAL_FORMS, t("validation.legalForm"))
+					.nullable()
+					.refine((value) => value !== null, t("validation.legalForm")),
+				companyHeadcount: z
+					.number({ error: t("validation.companyHeadcount") })
+					.int(t("validation.companyHeadcount"))
+					.positive(t("validation.companyHeadcount")),
+				vatNumber: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^FR\d{2}\d{9}$/, t("validation.vatNumber")),
+				financialYearClosingDay: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(
+						/^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])$/,
+						t("validation.financialYearClosingDay"),
+					),
+			}),
+		[t],
+	);
+	const isComplete = useCallback(
+		() => legalIdentificationSchema.safeParse(form.state.values).success,
+		[form, legalIdentificationSchema],
+	);
+	useRegisterSubscriptionStepForm(form, isComplete);
 
 	return (
 		<Card render={<form noValidate />} className="p-6 sm:p-8">

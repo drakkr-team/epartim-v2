@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { api } from "#/libs/tuyau";
@@ -8,10 +8,13 @@ export function useUpdateAddressAndBankDetailsMutation(subscriptionId: string) {
 	const { t } = useTranslation(
 		"features.subscriptions.address_and_bank_details.hooks.use-update-mutation",
 	);
+	const queryClient = useQueryClient();
 
 	return useMutation(
 		api.subscriptions.updateAddressAndBankDetails.mutationOptions({
 			scope: { id: `subscription:${subscriptionId}:address-and-bank-details` },
+			onSuccess: () =>
+				queryClient.invalidateQueries({ queryKey: api.subscriptions.view.pathKey() }),
 			onError: (error) => {
 				toastifyTuyauError(error, {
 					E_NETWORK: [

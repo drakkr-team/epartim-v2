@@ -2,7 +2,12 @@ import { useTranslation } from "react-i18next";
 
 import { SubscriptionStepHeader } from "#/features/subscriptions/steps/components/subscription-step-header";
 
-export function KycStep() {
+type KycStepProps = {
+	isValidated: boolean;
+};
+
+export function KycStep(props: KycStepProps) {
+	const { isValidated } = props;
 	const { t } = useTranslation("routes.(private).(operations).subscriptions.$id.steps.$step");
 
 	return (
@@ -10,6 +15,7 @@ export function KycStep() {
 			<SubscriptionStepHeader
 				description={t("step-two.description")}
 				eyebrow={t("step-two.eyebrow")}
+				isValidated={isValidated}
 				title={t("step-two.title")}
 			/>
 		</main>
