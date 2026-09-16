@@ -4,9 +4,9 @@ import type { Infer } from "@vinejs/vine/types";
 import Company from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription from "#models/subscription";
-import { UpdateSignerSchema } from "#validators/subscription/representatives/signer.validator";
+import { SignerSchema } from "#validators/subscription/representatives/contact.validator";
 
-export type UpdateSignerPayload = Infer<typeof UpdateSignerSchema>;
+export type UpdateSignerPayload = Infer<typeof SignerSchema>;
 
 function definedChanges(payload: UpdateSignerPayload) {
 	return Object.fromEntries(

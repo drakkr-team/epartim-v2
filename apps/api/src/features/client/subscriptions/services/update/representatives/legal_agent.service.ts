@@ -4,9 +4,9 @@ import type { Infer } from "@vinejs/vine/types";
 import Company from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription from "#models/subscription";
-import { UpdateLegalAgentSchema } from "#validators/subscription/representatives/legal_agent.validator";
+import { LegalAgentSchema } from "#validators/subscription/representatives/contact.validator";
 
-export type UpdateLegalAgentPayload = Infer<typeof UpdateLegalAgentSchema>;
+export type UpdateLegalAgentPayload = Infer<typeof LegalAgentSchema>;
 
 function definedChanges(payload: UpdateLegalAgentPayload) {
 	return Object.fromEntries(

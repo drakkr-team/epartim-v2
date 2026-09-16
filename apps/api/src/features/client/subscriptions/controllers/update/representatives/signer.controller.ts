@@ -4,7 +4,7 @@ import vine from "@vinejs/vine";
 
 import UpdateSignerService from "#features/client/subscriptions/services/update/representatives/signer.service";
 import Subscription from "#models/subscription";
-import { UpdateSignerSchema } from "#validators/subscription/representatives/signer.validator";
+import { SignerSchema } from "#validators/subscription/representatives/contact.validator";
 
 @inject()
 export default class UpdateSignerController {
@@ -17,5 +17,5 @@ export default class UpdateSignerController {
 		return this.updateSignerService.handle(subscription, payload);
 	}
 
-	static payloadSchema = vine.create(UpdateSignerSchema);
+	static payloadSchema = vine.create(SignerSchema);
 }

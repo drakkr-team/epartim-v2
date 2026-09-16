@@ -4,7 +4,7 @@ import vine from "@vinejs/vine";
 
 import UpdateLegalAgentService from "#features/client/subscriptions/services/update/representatives/legal_agent.service";
 import Subscription from "#models/subscription";
-import { UpdateLegalAgentSchema } from "#validators/subscription/representatives/legal_agent.validator";
+import { LegalAgentSchema } from "#validators/subscription/representatives/contact.validator";
 
 @inject()
 export default class UpdateLegalAgentController {
@@ -17,5 +17,5 @@ export default class UpdateLegalAgentController {
 		return this.updateLegalAgentService.handle(subscription, payload);
 	}
 
-	static payloadSchema = vine.create(UpdateLegalAgentSchema);
+	static payloadSchema = vine.create(LegalAgentSchema);
 }
