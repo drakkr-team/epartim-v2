@@ -7,6 +7,7 @@ import Subscription from "#models/subscription";
 import AddressPresenter from "#presenters/address.presenter";
 import CompanyPresenter from "#presenters/company.presenter";
 import ContactPresenter from "#presenters/contact.presenter";
+import FilePresenter from "#presenters/file.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
 
@@ -19,6 +20,7 @@ export default class ViewSubscriptionController {
 		protected addressPresenter: AddressPresenter,
 		protected paymentDetailPresenter: PaymentDetailPresenter,
 		protected documentRequirementsService: SubscriptionDocumentRequirementsService,
+		protected filePresenter: FilePresenter,
 	) {}
 
 	async handle({ bouncer, params }: HttpContext) {
@@ -58,19 +60,16 @@ export default class ViewSubscriptionController {
 					this.contactPresenter.toJSON(authorization),
 				),
 			},
-			documents: documents.map(({ document, label, type }) => ({
-				type,
-				label,
-				status: document ? "attached" : "pending",
-				file: document
-					? {
-							id: document.file.id,
-							name: document.file.name,
-							size: document.file.size,
-							type: document.file.type,
-						}
-					: null,
-			})),
+			documents: await Promise.all(
+				documents.map(async ({ document, label, type }) => ({
+					type,
+					label,
+					status: document ? "attached" : "pending",
+					file: document
+						? await this.filePresenter.toJSON(document.file, { access: "download" })
+						: null,
+				})),
+			),
 		};
 	}
 }

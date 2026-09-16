@@ -5,6 +5,15 @@ import drive from "@adonisjs/drive/services/main";
 import File from "#models/file";
 
 export default class FileService {
+	async download(file: File) {
+		const disk = drive.use();
+
+		return disk.getSignedUrl(file.key, {
+			contentDisposition: `attachment; filename*=UTF-8''${encodeURIComponent(file.name)}`,
+			expiresIn: "1h",
+		});
+	}
+
 	async getUrl(file: File) {
 		const disk = drive.use();
 		const fileVisibility = await disk.getVisibility(file.key);

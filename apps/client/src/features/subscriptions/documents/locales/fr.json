@@ -10,6 +10,7 @@
 		"action": {
 			"upload": "Téléverser {{document}}",
 			"replace": "Remplacer {{document}}",
+			"download": "Télécharger {{document}}",
 			"delete": "Supprimer {{document}}"
 		},
 		"error": {

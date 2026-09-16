@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import type { routes } from "@workspace/api/registry";
 import { Button } from "@workspace/ui-react/components/button";
+import { Link } from "@workspace/ui-react/components/link";
 import { FileTextIcon, Trash2Icon, UploadIcon } from "@workspace/ui-react/icons";
 
 import { useDeleteSubscriptionDocumentMutation } from "#/features/subscriptions/documents/hooks/use-delete-mutation";
@@ -74,9 +75,18 @@ export function DocumentCard(props: DocumentCardProps) {
 				>
 					{document.label}
 				</h3>
-				<p className="mt-0.5 truncate text-neutral-10 text-xs">
-					{document.file?.name ?? t("status.pending")}
-				</p>
+				{document.file ? (
+					<Link
+						download={document.file.name}
+						href={document.file.url}
+						aria-label={t("action.download", { document: document.file.name })}
+						className="mt-0.5 block truncate text-xs"
+					>
+						{document.file.name}
+					</Link>
+				) : (
+					<p className="mt-0.5 truncate text-neutral-10 text-xs">{t("status.pending")}</p>
+				)}
 				{error && (
 					<p role="alert" className="mt-1 text-error-10 text-xs">
 						{error}

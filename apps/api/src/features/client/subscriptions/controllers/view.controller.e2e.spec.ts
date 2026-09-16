@@ -8,6 +8,8 @@ import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import { CompanyLegalForm } from "#models/company";
 import { ContactKind } from "#models/contact";
+import File from "#models/file";
+import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 
 test.group("Features / Client / Subscriptions / Controllers / View Controller", () => {
 	test("it should return the legal identification and address and bank details", async ({
@@ -109,6 +111,40 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 			],
 		);
 		assert.include(response.body().documents[2].label, "Extrait RNE");
+	});
+
+	test("it should return a download URL for an attached document", async ({ client, assert }) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		const file = await File.create({
+			key: `subscriptions/${subscription.id}/bank-details.pdf`,
+			name: "RIB de l'entreprise.pdf",
+			size: 1024,
+			type: "application/pdf",
+		});
+		await SubscriptionDocument.create({
+			fileId: file.id,
+			subscriptionId: subscription.id,
+			type: SubscriptionDocumentType.BANK_DETAILS,
+		});
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		const document = response
+			.body()
+			.documents.find(
+				(item: { type: string }) => item.type === SubscriptionDocumentType.BANK_DETAILS,
+			);
+		if (!document?.file) throw new Error("Expected the bank details document to be attached");
+
+		assert.deepInclude(document.file, { name: file.name });
+		assert.match(document.file.url, /^https?:\/\//);
+		assert.include(new URL(document.file.url).searchParams.get("contentDisposition"), "attachment");
 	});
 
 	test("it should not require an organization chart for an EPIC", async ({ client, assert }) => {
