@@ -5,6 +5,7 @@ import type { Address, PaymentDetail } from "@workspace/api/data";
 import { Card } from "@workspace/ui-react/components/card";
 
 import { useAddressAndBankDetailsForm } from "#/features/subscriptions/address_and_bank_details/hooks/use-form";
+import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 import { isValidIBAN } from "#/helpers/iban";
 
 type AddressAndBankDetailsFormProps = {
@@ -23,6 +24,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 		address,
 		paymentDetail,
 	});
+	useRegisterSubscriptionStepForm(form);
 	const addressAndBankDetailsSchema = z.object({
 		lineOne: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
 		lineTwo: z.string().trim().max(254, t("validation.max")),

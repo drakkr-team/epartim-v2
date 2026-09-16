@@ -10,6 +10,7 @@ import {
 	type RepresentativesAndAuthorizations,
 	useRepresentativesAndAuthorizationsForm,
 } from "#/features/subscriptions/representatives_and_authorizations/hooks/use-form";
+import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 
 type RepresentativesAndAuthorizationsFormProps = {
 	subscriptionId: string;
@@ -29,6 +30,7 @@ export function RepresentativesAndAuthorizationsForm(
 			subscriptionId,
 			representativesAndAuthorizations,
 		});
+	useRegisterSubscriptionStepForm(form);
 
 	return (
 		<Card render={<form noValidate />} className="p-6 sm:p-8">

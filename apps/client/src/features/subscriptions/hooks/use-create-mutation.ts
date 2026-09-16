@@ -13,8 +13,8 @@ export function useCreateSubscriptionMutation() {
 		api.subscriptions.create.mutationOptions({
 			onSuccess: (subscription) =>
 				navigate({
-					to: "/subscriptions/$id",
-					params: { id: String(subscription.id) },
+					to: "/subscriptions/$id/steps/$step",
+					params: { id: String(subscription.id), step: "1" },
 				}),
 			onError: (error) => {
 				toastifyTuyauError(error, {

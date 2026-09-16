@@ -1,7 +1,9 @@
+import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription from "#models/subscription";
@@ -17,13 +19,17 @@ function definedChanges(payload: AuthorizationPayload) {
 	) as AuthorizationPayload;
 }
 
+@inject()
 export default class UpdateAuthorizationsService {
+	constructor(protected validateSubscriptionStepService: ValidateSubscriptionStepService) {}
+
 	async handle(subscription: Subscription, payload: UpdateAuthorizationsPayload) {
 		return db.transaction(async (trx) => {
 			const company = await Company.findByOrFail("subscriptionId", subscription.id, {
 				client: trx,
 			});
 			await this.#replace(company, payload.authorizations, trx);
+			await this.validateSubscriptionStepService.invalidate(subscription, trx);
 
 			return company;
 		});

@@ -18,11 +18,12 @@ type SubscriptionDocument =
 
 type DocumentCardProps = {
 	document: SubscriptionDocument;
+	showRequiredError?: boolean;
 	subscriptionId: string;
 };
 
 export function DocumentCard(props: DocumentCardProps) {
-	const { document, subscriptionId } = props;
+	const { document, showRequiredError = false, subscriptionId } = props;
 	const { t } = useTranslation("features.subscriptions.documents.components.documents-section");
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -65,8 +66,13 @@ export function DocumentCard(props: DocumentCardProps) {
 		);
 	}
 
+	const isMissing = showRequiredError && document.status === "pending";
+
 	return (
-		<article className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-3 rounded-sm border border-primary-6 border-dashed bg-primary-2 px-3 py-2.5 sm:px-4 sm:py-3">
+		<article
+			aria-invalid={isMissing}
+			className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-3 rounded-sm border border-primary-6 border-dashed bg-primary-2 px-3 py-2.5 sm:px-4 sm:py-3"
+		>
 			<FileTextIcon className="mt-0.5 size-5 shrink-0 text-primary-9" aria-hidden="true" />
 			<div className="min-w-0">
 				<h3
@@ -90,6 +96,11 @@ export function DocumentCard(props: DocumentCardProps) {
 				{error && (
 					<p role="alert" className="mt-1 text-error-10 text-xs">
 						{error}
+					</p>
+				)}
+				{isMissing && (
+					<p role="alert" className="mt-1 text-error-10 text-xs">
+						{t("validation.required-document")}
 					</p>
 				)}
 			</div>

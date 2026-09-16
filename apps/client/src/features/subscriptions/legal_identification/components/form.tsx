@@ -10,6 +10,7 @@ import {
 	LEGAL_FORMS,
 	useLegalIdentificationForm,
 } from "#/features/subscriptions/legal_identification/hooks/use-form";
+import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 
 type LegalIdentificationFormProps = {
 	subscriptionId: string;
@@ -25,6 +26,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 		subscriptionId,
 		legalIdentification,
 	});
+	useRegisterSubscriptionStepForm(form);
 	const legalFormOptions = LEGAL_FORMS.map((value) => ({
 		value,
 		label: t(`legalForm.${value}`),

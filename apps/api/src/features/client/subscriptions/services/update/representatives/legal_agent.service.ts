@@ -1,6 +1,8 @@
+import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { Infer } from "@vinejs/vine/types";
 
+import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription from "#models/subscription";
@@ -14,7 +16,10 @@ function definedChanges(payload: UpdateLegalAgentPayload) {
 	) as UpdateLegalAgentPayload;
 }
 
+@inject()
 export default class UpdateLegalAgentService {
+	constructor(protected validateSubscriptionStepService: ValidateSubscriptionStepService) {}
+
 	async handle(subscription: Subscription, payload: UpdateLegalAgentPayload) {
 		return db.transaction(async (trx) => {
 			const company = await Company.findByOrFail("subscriptionId", subscription.id, {
@@ -31,6 +36,7 @@ export default class UpdateLegalAgentService {
 			if (!company.companyLegalAgentId) {
 				await company.useTransaction(trx).merge({ companyLegalAgentId: legalAgent.id }).save();
 			}
+			await this.validateSubscriptionStepService.invalidate(subscription, trx);
 
 			return company;
 		});

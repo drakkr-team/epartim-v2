@@ -1,7 +1,9 @@
+import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Address from "#models/address";
 import Company from "#models/company";
 import PaymentDetail from "#models/payment_detail";
@@ -13,7 +15,10 @@ export type UpdateAddressAndBankDetailsPayload = Infer<typeof UpdateAddressAndBa
 type AddressChanges = NonNullable<UpdateAddressAndBankDetailsPayload["address"]>;
 type PaymentDetailChanges = NonNullable<UpdateAddressAndBankDetailsPayload["paymentDetail"]>;
 
+@inject()
 export default class UpdateAddressAndBankDetailsService {
+	constructor(protected validateSubscriptionStepService: ValidateSubscriptionStepService) {}
+
 	async handle(subscription: Subscription, payload: UpdateAddressAndBankDetailsPayload) {
 		return db.transaction(async (trx) => {
 			const company = await Company.findByOrFail("subscriptionId", subscription.id, {
@@ -27,6 +32,7 @@ export default class UpdateAddressAndBankDetailsService {
 			if (payload.paymentDetail) {
 				await this.#updatePaymentDetail(company, payload.paymentDetail, trx);
 			}
+			await this.validateSubscriptionStepService.invalidate(subscription, trx);
 
 			return company;
 		});

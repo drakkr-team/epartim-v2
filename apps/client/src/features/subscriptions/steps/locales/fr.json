@@ -1,0 +1,25 @@
+{
+	"features.subscriptions.steps.validate-step-button": {
+		"action": {
+			"validate": "Valider l'étape"
+		},
+		"success": {
+			"title": "Étape validée",
+			"description": "Les informations de cette étape sont complètes."
+		},
+		"error": {
+			"network": {
+				"title": "Validation indisponible",
+				"description": "La validation n'a pas pu être effectuée."
+			},
+			"validation": {
+				"title": "Étape incomplète",
+				"description": "Corrigez les champs signalés et ajoutez les documents manquants."
+			},
+			"unexpected": {
+				"title": "Validation impossible",
+				"description": "Une erreur inattendue est survenue."
+			}
+		}
+	}
+}

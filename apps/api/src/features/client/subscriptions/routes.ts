@@ -9,6 +9,11 @@ router
 		router.post("/", [controllers.features.client.subscriptions.Create]);
 		router.get("/:subscriptionId", [controllers.features.client.subscriptions.View]);
 		router
+			.post("/:subscriptionId/steps/:step/validate", [
+				controllers.features.client.subscriptions.steps.Validate,
+			])
+			.as("validate_step");
+		router
 			.post("/:subscriptionId/documents/:documentType", [
 				controllers.features.client.subscriptions.documents.Upload,
 			])

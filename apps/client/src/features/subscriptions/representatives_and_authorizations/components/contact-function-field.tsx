@@ -4,7 +4,7 @@ import z from "zod";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
-import type { ContactChanges } from "#/features/subscriptions/representatives_and_authorizations/components/contact-identity-fields";
+import type { ContactChanges } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import {
 	CONTACT_FUNCTIONS,
 	type ContactValues,

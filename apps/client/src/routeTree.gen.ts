@@ -20,6 +20,7 @@ import { Route as protectedoperationsSubscriptionsLayoutRouteImport } from './ro
 import { Route as protectedoperationsClientPortfolioPageRouteImport } from './routes/(protected)/(operations)/client-portfolio/page'
 import { Route as protectedoperationsSubscriptionsPageRouteImport } from './routes/(protected)/(operations)/subscriptions/page'
 import { Route as protectedoperationsSubscriptionsIdPageRouteImport } from './routes/(protected)/(operations)/subscriptions/$id/page'
+import { Route as protectedoperationsSubscriptionsIdStepsStepPageRouteImport } from './routes/(protected)/(operations)/subscriptions/$id/steps/$step/page'
 
 const guestLayoutRoute = guestLayoutRouteImport.update({
   id: '/(guest)',
@@ -78,6 +79,12 @@ const protectedoperationsSubscriptionsIdPageRoute =
     path: '/$id/',
     getParentRoute: () => protectedoperationsSubscriptionsLayoutRoute,
   } as any)
+const protectedoperationsSubscriptionsIdStepsStepPageRoute =
+  protectedoperationsSubscriptionsIdStepsStepPageRouteImport.update({
+    id: '/$id/steps/$step/',
+    path: '/$id/steps/$step/',
+    getParentRoute: () => protectedoperationsSubscriptionsLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof protectedPageRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/client-portfolio/': typeof protectedoperationsClientPortfolioPageRoute
   '/subscriptions/': typeof protectedoperationsSubscriptionsPageRoute
   '/subscriptions/$id/': typeof protectedoperationsSubscriptionsIdPageRoute
+  '/subscriptions/$id/steps/$step/': typeof protectedoperationsSubscriptionsIdStepsStepPageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof protectedPageRoute
@@ -97,6 +105,7 @@ export interface FileRoutesByTo {
   '/client-portfolio': typeof protectedoperationsClientPortfolioPageRoute
   '/subscriptions': typeof protectedoperationsSubscriptionsPageRoute
   '/subscriptions/$id': typeof protectedoperationsSubscriptionsIdPageRoute
+  '/subscriptions/$id/steps/$step': typeof protectedoperationsSubscriptionsIdStepsStepPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -111,6 +120,7 @@ export interface FileRoutesById {
   '/(protected)/(operations)/client-portfolio/': typeof protectedoperationsClientPortfolioPageRoute
   '/(protected)/(operations)/subscriptions/': typeof protectedoperationsSubscriptionsPageRoute
   '/(protected)/(operations)/subscriptions/$id/': typeof protectedoperationsSubscriptionsIdPageRoute
+  '/(protected)/(operations)/subscriptions/$id/steps/$step/': typeof protectedoperationsSubscriptionsIdStepsStepPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
     | '/client-portfolio/'
     | '/subscriptions/'
     | '/subscriptions/$id/'
+    | '/subscriptions/$id/steps/$step/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/client-portfolio'
     | '/subscriptions'
     | '/subscriptions/$id'
+    | '/subscriptions/$id/steps/$step'
   id:
     | '__root__'
     | '/(guest)'
@@ -145,6 +157,7 @@ export interface FileRouteTypes {
     | '/(protected)/(operations)/client-portfolio/'
     | '/(protected)/(operations)/subscriptions/'
     | '/(protected)/(operations)/subscriptions/$id/'
+    | '/(protected)/(operations)/subscriptions/$id/steps/$step/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -231,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedoperationsSubscriptionsIdPageRouteImport
       parentRoute: typeof protectedoperationsSubscriptionsLayoutRoute
     }
+    '/(protected)/(operations)/subscriptions/$id/steps/$step/': {
+      id: '/(protected)/(operations)/subscriptions/$id/steps/$step/'
+      path: '/$id/steps/$step'
+      fullPath: '/subscriptions/$id/steps/$step/'
+      preLoaderRoute: typeof protectedoperationsSubscriptionsIdStepsStepPageRouteImport
+      parentRoute: typeof protectedoperationsSubscriptionsLayoutRoute
+    }
   }
 }
 
@@ -253,6 +273,7 @@ const guestLayoutRouteWithChildren = guestLayoutRoute._addFileChildren(
 interface protectedoperationsSubscriptionsLayoutRouteChildren {
   protectedoperationsSubscriptionsPageRoute: typeof protectedoperationsSubscriptionsPageRoute
   protectedoperationsSubscriptionsIdPageRoute: typeof protectedoperationsSubscriptionsIdPageRoute
+  protectedoperationsSubscriptionsIdStepsStepPageRoute: typeof protectedoperationsSubscriptionsIdStepsStepPageRoute
 }
 
 const protectedoperationsSubscriptionsLayoutRouteChildren: protectedoperationsSubscriptionsLayoutRouteChildren =
@@ -261,6 +282,8 @@ const protectedoperationsSubscriptionsLayoutRouteChildren: protectedoperationsSu
       protectedoperationsSubscriptionsPageRoute,
     protectedoperationsSubscriptionsIdPageRoute:
       protectedoperationsSubscriptionsIdPageRoute,
+    protectedoperationsSubscriptionsIdStepsStepPageRoute:
+      protectedoperationsSubscriptionsIdStepsStepPageRoute,
   }
 
 const protectedoperationsSubscriptionsLayoutRouteWithChildren =
