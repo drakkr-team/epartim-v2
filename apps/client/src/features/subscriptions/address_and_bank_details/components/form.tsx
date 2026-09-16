@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import z from "zod";
 
 import type { Address, PaymentDetail } from "@workspace/api/data";
+import { Card } from "@workspace/ui-react/components/card";
 
 import { useAddressAndBankDetailsForm } from "#/features/subscriptions/address_and_bank_details/hooks/use-form";
 import { isValidIBAN } from "#/helpers/iban";
@@ -48,7 +49,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 	});
 
 	return (
-		<form noValidate className="grid gap-6">
+		<Card render={<form noValidate />} className="p-6 sm:p-8">
 			<section aria-labelledby="address-and-bank-details-heading" className="grid gap-5">
 				<div className="border-neutral-4 border-b pb-4">
 					<p className="font-bold text-primary-9 text-xs uppercase tracking-widest">
@@ -216,6 +217,6 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					</form.AppField>
 				</div>
 			</section>
-		</form>
+		</Card>
 	);
 }

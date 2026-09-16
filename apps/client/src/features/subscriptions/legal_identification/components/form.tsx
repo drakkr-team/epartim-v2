@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import z from "zod";
 
 import type { Company } from "@workspace/api/data";
+import { Card } from "@workspace/ui-react/components/card";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
@@ -66,7 +67,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 	});
 
 	return (
-		<form noValidate className="grid gap-6">
+		<Card render={<form noValidate />} className="p-6 sm:p-8">
 			<section aria-labelledby="legal-identification-heading" className="grid gap-5">
 				<div className="border-neutral-4 border-b pb-4">
 					<p className="font-bold text-primary-9 text-xs uppercase tracking-widest">
@@ -304,6 +305,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					</form.AppField>
 				</div>
 			</section>
-		</form>
+		</Card>
 	);
 }

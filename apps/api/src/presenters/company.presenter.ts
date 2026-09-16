@@ -10,6 +10,7 @@ export default class CompanyPresenter {
 			paymentDetailId: company.paymentDetailId,
 			companyLegalAgentId: company.companyLegalAgentId,
 			companyCorrespondentId: company.companyCorrespondentId,
+			companySignerId: company.companySignerId,
 
 			siret: company.siret,
 			siren: company.siren,

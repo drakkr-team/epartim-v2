@@ -186,6 +186,30 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/address-and-bank-details","type":0,"val":"address-and-bank-details","end":""}],
     types: placeholder as Registry['client.subscriptions.update_address_and_bank_details']['types'],
   },
+  'client.subscriptions.update_legal_agent': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/representatives/legal-agent',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/representatives/legal-agent","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/legal-agent","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/legal-agent","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/legal-agent","type":0,"val":"representatives","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/legal-agent","type":0,"val":"legal-agent","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_legal_agent']['types'],
+  },
+  'client.subscriptions.update_signer': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/representatives/signer',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/representatives/signer","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/signer","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/signer","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/signer","type":0,"val":"representatives","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/signer","type":0,"val":"signer","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_signer']['types'],
+  },
+  'client.subscriptions.update_correspondent': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/representatives/correspondent',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/representatives/correspondent","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/correspondent","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/correspondent","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/correspondent","type":0,"val":"representatives","end":""},{"old":"/client/subscriptions/:subscriptionId/representatives/correspondent","type":0,"val":"correspondent","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_correspondent']['types'],
+  },
+  'client.subscriptions.update_authorizations': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/authorizations',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/authorizations","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/authorizations","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/authorizations","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/authorizations","type":0,"val":"authorizations","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_authorizations']['types'],
+  },
   'admin.account_management.authentication.login': {
     methods: ["POST"],
     pattern: '/admin/account-management/authentication/login',

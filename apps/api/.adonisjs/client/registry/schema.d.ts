@@ -367,6 +367,54 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'client.subscriptions.update_legal_agent': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/representatives/legal-agent'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives/legal_agent.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives/legal_agent.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives/legal_agent.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives/legal_agent.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.update_signer': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/representatives/signer'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives/signer.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives/signer.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives/signer.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives/signer.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.update_correspondent': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/representatives/correspondent'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.update_authorizations': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/authorizations'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.account_management.authentication.login': {
     methods: ["POST"]
     pattern: '/admin/account-management/authentication/login'
