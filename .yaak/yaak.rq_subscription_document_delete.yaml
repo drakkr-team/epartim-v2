@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Set SUBSCRIPTION_ID in your private Yaak environment. Replace bank_details with the document type to remove.
+description: Set SUBSCRIPTION_ID in your private Yaak environment. Replace 1 with the numeric document type to remove (1 is a RIB).
 headers:
 - enabled: true
   name: Accept
@@ -18,7 +18,7 @@ headers:
 method: DELETE
 name: Delete subscription document
 sortPriority: 5100.0
-url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/documents/bank_details
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/documents/1
 urlParameters: []
 settingSendCookies:
   enabled: false

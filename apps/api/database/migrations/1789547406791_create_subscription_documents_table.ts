@@ -20,7 +20,7 @@ export default class extends BaseSchema {
 				.references("id")
 				.inTable("files")
 				.onDelete("RESTRICT");
-			table.string("type").notNullable();
+			table.integer("type").unsigned().notNullable();
 
 			table.unique(["subscription_id", "type"]);
 			table.timestamps(true, true);

@@ -17,7 +17,8 @@ export default class UploadSubscriptionDocumentController {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
 
-		if (!isSubscriptionDocumentType(params.documentType)) {
+		const documentType = Number(params.documentType);
+		if (!isSubscriptionDocumentType(documentType)) {
 			throw new InvalidDocumentTypeException();
 		}
 
@@ -27,7 +28,7 @@ export default class UploadSubscriptionDocumentController {
 		const uploadedFile = await this.uploadSubscriptionDocumentService.handle({
 			file,
 			subscription,
-			type: params.documentType,
+			type: documentType,
 		});
 
 		return response.created({

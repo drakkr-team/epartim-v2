@@ -97,17 +97,17 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 
 		response.assertOk();
 		assert.deepEqual(
-			response.body().documents.map((document: { status: string; type: string }) => ({
+			response.body().documents.map((document: { status: string; type: number }) => ({
 				status: document.status,
 				type: document.type,
 			})),
 			[
-				{ type: "bank_details", status: "pending" },
-				{ type: "legal_agent_id", status: "pending" },
-				{ type: "existence_proof", status: "pending" },
-				{ type: "articles_of_association", status: "pending" },
-				{ type: "signer_id", status: "pending" },
-				{ type: "signer_power", status: "pending" },
+				{ type: SubscriptionDocumentType.BANK_DETAILS, status: "pending" },
+				{ type: SubscriptionDocumentType.LEGAL_AGENT_ID, status: "pending" },
+				{ type: SubscriptionDocumentType.EXISTENCE_PROOF, status: "pending" },
+				{ type: SubscriptionDocumentType.ARTICLES_OF_ASSOCIATION, status: "pending" },
+				{ type: SubscriptionDocumentType.SIGNER_ID, status: "pending" },
+				{ type: SubscriptionDocumentType.SIGNER_POWER, status: "pending" },
 			],
 		);
 		assert.include(response.body().documents[2].label, "Extrait RNE");
@@ -138,7 +138,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 		const document = response
 			.body()
 			.documents.find(
-				(item: { type: string }) => item.type === SubscriptionDocumentType.BANK_DETAILS,
+				(item: { type: number }) => item.type === SubscriptionDocumentType.BANK_DETAILS,
 			);
 		if (!document?.file) throw new Error("Expected the bank details document to be attached");
 
@@ -162,8 +162,8 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 
 		response.assertOk();
 		assert.notInclude(
-			response.body().documents.map((document: { type: string }) => document.type),
-			"organization_chart",
+			response.body().documents.map((document: { type: number }) => document.type),
+			SubscriptionDocumentType.ORGANIZATION_CHART,
 		);
 	});
 

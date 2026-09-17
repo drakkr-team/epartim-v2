@@ -230,7 +230,7 @@ export class SubscriptionDocumentSchema extends BaseModel {
   @column()
   declare subscriptionId: number
   @column()
-  declare type: string
+  declare type: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

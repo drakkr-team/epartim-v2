@@ -14,7 +14,7 @@ body:
     name: file
     file: ''
 bodyType: multipart/form-data
-description: Set SUBSCRIPTION_ID in your private Yaak environment and select an accepted test file.
+description: Set SUBSCRIPTION_ID in your private Yaak environment, use the numeric document type (1 for a RIB), and select an accepted test file.
 headers:
 - enabled: true
   name: Content-Type
@@ -27,7 +27,7 @@ headers:
 method: POST
 name: Upload subscription document
 sortPriority: 5000.0
-url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/documents/bank_details
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/documents/1
 urlParameters: []
 settingSendCookies:
   enabled: false

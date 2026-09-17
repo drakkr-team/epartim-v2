@@ -15,13 +15,14 @@ export default class DeleteSubscriptionDocumentController {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
 
-		if (!isSubscriptionDocumentType(params.documentType)) {
+		const documentType = Number(params.documentType);
+		if (!isSubscriptionDocumentType(documentType)) {
 			throw new InvalidDocumentTypeException();
 		}
 
 		await this.deleteSubscriptionDocumentService.handle({
 			subscription,
-			type: params.documentType,
+			type: documentType,
 		});
 
 		return response.noContent();

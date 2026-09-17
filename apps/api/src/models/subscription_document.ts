@@ -6,14 +6,14 @@ import File from "#models/file";
 import Subscription from "#models/subscription";
 
 export const SubscriptionDocumentType = {
-	BANK_DETAILS: "bank_details",
-	EXISTENCE_PROOF: "existence_proof",
-	ORGANIZATION_CHART: "organization_chart",
-	ARTICLES_OF_ASSOCIATION: "articles_of_association",
-	LEGAL_AGENT_ID: "legal_agent_id",
-	LEGAL_AGENT_KBIS: "legal_agent_kbis",
-	SIGNER_ID: "signer_id",
-	SIGNER_POWER: "signer_power",
+	BANK_DETAILS: 1,
+	EXISTENCE_PROOF: 2,
+	ORGANIZATION_CHART: 3,
+	ARTICLES_OF_ASSOCIATION: 4,
+	LEGAL_AGENT_ID: 5,
+	LEGAL_AGENT_KBIS: 6,
+	SIGNER_ID: 7,
+	SIGNER_POWER: 8,
 } as const;
 
 export type SubscriptionDocumentType =
@@ -21,8 +21,11 @@ export type SubscriptionDocumentType =
 
 export const SubscriptionDocumentTypes = Object.values(SubscriptionDocumentType);
 
-export function isSubscriptionDocumentType(value: string): value is SubscriptionDocumentType {
-	return SubscriptionDocumentTypes.includes(value as SubscriptionDocumentType);
+export function isSubscriptionDocumentType(value: unknown): value is SubscriptionDocumentType {
+	return (
+		typeof value === "number" &&
+		SubscriptionDocumentTypes.includes(value as SubscriptionDocumentType)
+	);
 }
 
 export default class SubscriptionDocument extends SubscriptionDocumentSchema {

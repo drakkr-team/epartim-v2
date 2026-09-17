@@ -7,7 +7,7 @@ import { UserFactory } from "#database/factories/user.factory";
 import { CompanyLegalForm } from "#models/company";
 import { ContactKind } from "#models/contact";
 import File from "#models/file";
-import SubscriptionDocument from "#models/subscription_document";
+import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 
 const pdf = Buffer.from("%PDF-1.4");
 
@@ -40,7 +40,7 @@ test.group(
 			const firstResponse = await client
 				.visit("client.subscriptions.upload_document", {
 					subscriptionId: subscription.id,
-					documentType: "bank_details",
+					documentType: SubscriptionDocumentType.BANK_DETAILS,
 				})
 				.withGuard("client")
 				.loginAs(user)
@@ -58,7 +58,7 @@ test.group(
 			const secondResponse = await client
 				.visit("client.subscriptions.upload_document", {
 					subscriptionId: subscription.id,
-					documentType: "bank_details",
+					documentType: SubscriptionDocumentType.BANK_DETAILS,
 				})
 				.withGuard("client")
 				.loginAs(user)
@@ -69,14 +69,14 @@ test.group(
 
 			const document = await SubscriptionDocument.query()
 				.where("subscriptionId", subscription.id)
-				.where("type", "bank_details")
+				.where("type", SubscriptionDocumentType.BANK_DETAILS)
 				.firstOrFail();
 			assert.equal(document.fileId, secondResponse.body().id);
 
 			const deleteResponse = await client
 				.visit("client.subscriptions.delete_document", {
 					subscriptionId: subscription.id,
-					documentType: "bank_details",
+					documentType: SubscriptionDocumentType.BANK_DETAILS,
 				})
 				.withGuard("client")
 				.loginAs(user);
@@ -96,7 +96,7 @@ test.group(
 			const invalidFileResponse = await client
 				.visit("client.subscriptions.upload_document", {
 					subscriptionId: subscription.id,
-					documentType: "bank_details",
+					documentType: SubscriptionDocumentType.BANK_DETAILS,
 				})
 				.withGuard("client")
 				.loginAs(user)
@@ -112,7 +112,7 @@ test.group(
 			const unauthorizedResponse = await client
 				.visit("client.subscriptions.upload_document", {
 					subscriptionId: subscription.id,
-					documentType: "bank_details",
+					documentType: SubscriptionDocumentType.BANK_DETAILS,
 				})
 				.withGuard("client")
 				.loginAs(otherUser)
