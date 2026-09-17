@@ -1,24 +1,24 @@
 type: http_request
 model: http_request
-id: rq_subscription_view
-createdAt: 2026-09-04T00:00:00.000000
-updatedAt: 2026-09-04T00:00:00.000000
+id: rq_subscription_document_delete
+createdAt: 2026-09-16T00:00:00.000000
+updatedAt: 2026-09-16T00:00:00.000000
 workspaceId: wk_W95zdiewKu
 folderId: fl_subscriptions
 authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Set SUBSCRIPTION_ID in your private Yaak environment. Attached document URLs are time-limited and trigger a download.
+description: Set SUBSCRIPTION_ID in your private Yaak environment. Replace 1 with the numeric document type to remove (1 is a RIB).
 headers:
 - enabled: true
   name: Accept
   value: application/json
   id: null
-method: GET
-name: View subscription
-sortPriority: 1000.0
-url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}
+method: DELETE
+name: Delete subscription document
+sortPriority: 5100.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/documents/1
 urlParameters: []
 settingSendCookies:
   enabled: false

@@ -1,8 +1,9 @@
-import { belongsTo, column, hasOne } from "@adonisjs/lucid/orm";
-import type { BelongsTo, HasOne } from "@adonisjs/lucid/types/relations";
+import { belongsTo, column, hasMany, hasOne } from "@adonisjs/lucid/orm";
+import type { BelongsTo, HasMany, HasOne } from "@adonisjs/lucid/types/relations";
 
 import { SubscriptionSchema } from "#database/schema";
 import Company from "#models/company";
+import SubscriptionDocument from "#models/subscription_document";
 import User from "#models/user";
 
 export const SubscriptionStatus = {
@@ -28,6 +29,9 @@ export default class Subscription extends SubscriptionSchema {
 
 	@hasOne(() => Company)
 	declare company: HasOne<typeof Company>;
+
+	@hasMany(() => SubscriptionDocument)
+	declare documents: HasMany<typeof SubscriptionDocument>;
 
 	get isDraft() {
 		return this.status === SubscriptionStatus.DRAFT;

@@ -1,10 +1,13 @@
 import { inject } from "@adonisjs/core";
 import type { HttpContext } from "@adonisjs/core/http";
 
+import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
+import SubscriptionDocumentRequirementsService from "#features/client/subscriptions/services/documents/requirements.service";
 import Subscription from "#models/subscription";
 import AddressPresenter from "#presenters/address.presenter";
 import CompanyPresenter from "#presenters/company.presenter";
 import ContactPresenter from "#presenters/contact.presenter";
+import FilePresenter from "#presenters/file.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
 
@@ -16,10 +19,13 @@ export default class ViewSubscriptionController {
 		protected contactPresenter: ContactPresenter,
 		protected addressPresenter: AddressPresenter,
 		protected paymentDetailPresenter: PaymentDetailPresenter,
+		protected documentRequirementsService: SubscriptionDocumentRequirementsService,
+		protected filePresenter: FilePresenter,
 	) {}
 
-	async handle({ params }: HttpContext) {
+	async handle({ bouncer, params }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
+		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
 		await subscription.load("company");
 		const address = subscription.company.addressId
 			? await subscription.company.related("address").query().first()
@@ -27,7 +33,7 @@ export default class ViewSubscriptionController {
 		const paymentDetail = subscription.company.paymentDetailId
 			? await subscription.company.related("paymentDetail").query().first()
 			: null;
-		const [legalAgent, signer, correspondent, authorizations] = await Promise.all([
+		const [legalAgent, signer, correspondent, authorizations, documents] = await Promise.all([
 			subscription.company.related("legalAgent").query().first(),
 			subscription.company.related("signer").query().first(),
 			subscription.company.related("correspondent").query().first(),
@@ -36,6 +42,7 @@ export default class ViewSubscriptionController {
 				.query()
 				.whereNotNull("authorizations")
 				.orderBy("contacts.id"),
+			this.documentRequirementsService.handle(subscription),
 		]);
 
 		return {
@@ -53,6 +60,16 @@ export default class ViewSubscriptionController {
 					this.contactPresenter.toJSON(authorization),
 				),
 			},
+			documents: await Promise.all(
+				documents.map(async ({ document, label, type }) => ({
+					type,
+					label,
+					status: document ? "attached" : "pending",
+					file: document
+						? await this.filePresenter.toJSON(document.file, { disposition: "attachment" })
+						: null,
+				})),
+			),
 		};
 	}
 }

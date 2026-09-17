@@ -343,6 +343,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/view.controller').default['handle']>>>
     }
   }
+  'client.subscriptions.upload_document': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/documents/:documentType'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/documents/upload.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; documentType: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/documents/upload.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/upload.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/upload.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.delete_document': {
+    methods: ["DELETE"]
+    pattern: '/client/subscriptions/:subscriptionId/documents/:documentType'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; documentType: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/delete.controller').default['handle']>>>
+    }
+  }
   'client.subscriptions.update_legal_identification': {
     methods: ["PUT"]
     pattern: '/client/subscriptions/:subscriptionId/legal-identification'

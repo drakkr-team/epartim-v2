@@ -6,6 +6,10 @@ import { ContactFactory } from "#database/factories/contact.factory";
 import { PaymentDetailFactory } from "#database/factories/payment_detail.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
+import { CompanyLegalForm } from "#models/company";
+import { ContactKind } from "#models/contact";
+import File from "#models/file";
+import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 
 test.group("Features / Client / Subscriptions / Controllers / View Controller", () => {
 	test("it should return the legal identification and address and bank details", async ({
@@ -69,5 +73,111 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 				authorizations: [{ id: authorization.id }],
 			},
 		});
+	});
+
+	test("it should return the documents required by the company and signer", async ({
+		client,
+		assert,
+	}) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		const legalAgent = await ContactFactory.merge({ kind: ContactKind.PERSONNE_PHYSIQUE }).create();
+		const signer = await ContactFactory.merge({ isSignatoryOnKbis: false }).create();
+		await CompanyFactory.merge({
+			subscriptionId: subscription.id,
+			legalForm: CompanyLegalForm.SAS,
+			companyLegalAgentId: legalAgent.id,
+			companySignerId: signer.id,
+		}).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		assert.deepEqual(
+			response.body().documents.map((document: { status: string; type: number }) => ({
+				status: document.status,
+				type: document.type,
+			})),
+			[
+				{ type: SubscriptionDocumentType.BANK_DETAILS, status: "pending" },
+				{ type: SubscriptionDocumentType.LEGAL_AGENT_ID, status: "pending" },
+				{ type: SubscriptionDocumentType.EXISTENCE_PROOF, status: "pending" },
+				{ type: SubscriptionDocumentType.ARTICLES_OF_ASSOCIATION, status: "pending" },
+				{ type: SubscriptionDocumentType.SIGNER_ID, status: "pending" },
+				{ type: SubscriptionDocumentType.SIGNER_POWER, status: "pending" },
+			],
+		);
+		assert.include(response.body().documents[2].label, "Extrait RNE");
+	});
+
+	test("it should return a download URL for an attached document", async ({ client, assert }) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		const file = await File.create({
+			key: `subscriptions/${subscription.id}/bank-details.pdf`,
+			name: "RIB de l'entreprise.pdf",
+			size: 1024,
+			type: "application/pdf",
+		});
+		await SubscriptionDocument.create({
+			fileId: file.id,
+			subscriptionId: subscription.id,
+			type: SubscriptionDocumentType.BANK_DETAILS,
+		});
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		const document = response
+			.body()
+			.documents.find(
+				(item: { type: number }) => item.type === SubscriptionDocumentType.BANK_DETAILS,
+			);
+		if (!document?.file) throw new Error("Expected the bank details document to be attached");
+
+		assert.deepInclude(document.file, { name: file.name });
+		assert.match(document.file.url, /^https?:\/\//);
+		assert.include(new URL(document.file.url).searchParams.get("contentDisposition"), "attachment");
+	});
+
+	test("it should not require an organization chart for an EPIC", async ({ client, assert }) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		await CompanyFactory.merge({
+			subscriptionId: subscription.id,
+			legalForm: CompanyLegalForm.ETABLISSEMENT_PUBLIC_LOCAL_EPIC,
+		}).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		assert.notInclude(
+			response.body().documents.map((document: { type: number }) => document.type),
+			SubscriptionDocumentType.ORGANIZATION_CHART,
+		);
+	});
+
+	test("it should reject access to another user's subscription", async ({ client }) => {
+		const owner = await UserFactory.create();
+		const otherUser = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: owner.id }).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(otherUser);
+
+		response.assertStatus(403);
 	});
 });

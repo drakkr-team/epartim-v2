@@ -9,6 +9,16 @@ router
 		router.post("/", [controllers.features.client.subscriptions.Create]);
 		router.get("/:subscriptionId", [controllers.features.client.subscriptions.View]);
 		router
+			.post("/:subscriptionId/documents/:documentType", [
+				controllers.features.client.subscriptions.documents.Upload,
+			])
+			.as("upload_document");
+		router
+			.delete("/:subscriptionId/documents/:documentType", [
+				controllers.features.client.subscriptions.documents.Delete,
+			])
+			.as("delete_document");
+		router
 			.put("/:subscriptionId/legal-identification", [
 				controllers.features.client.subscriptions.update.LegalIdentification,
 			])
