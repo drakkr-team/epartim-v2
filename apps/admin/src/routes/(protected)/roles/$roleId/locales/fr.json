@@ -8,7 +8,8 @@
 			"delete": "Supprimer"
 		},
 		"section": {
-			"general": "Informations générales"
+			"general": "Informations générales",
+			"authorizations": "Autorisations"
 		},
 		"field": {
 			"id": "Identifiant",

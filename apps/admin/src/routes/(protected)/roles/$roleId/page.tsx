@@ -36,7 +36,7 @@ function Page() {
 
 	const { data: role } = useSuspenseQuery(api.roles.view.queryOptions({ params: { roleId } }));
 
-	const canDoActions = (role.meta.canUpdate || role.meta.canDelete);
+	const canDoActions = role.meta.canUpdate || role.meta.canDelete;
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
 	const handleAfterDelete = () => {
@@ -100,10 +100,11 @@ function Page() {
 
 				<Separator />
 
-				<AuthorizationMatrix
-					authorizations={role.authorizations}
-					isSuperAdmin={role.isSuperAdmin}
-				/>
+				<div className="grid gap-5">
+					<h2 className="font-semibold text-lg text-secondary-12">{t("section.authorizations")}</h2>
+
+					<AuthorizationMatrix authorizations={role.authorizations} />
+				</div>
 			</Card>
 
 			<DeleteRoleDialog

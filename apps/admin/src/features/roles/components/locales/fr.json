@@ -15,8 +15,6 @@
 		}
 	},
 	"features.roles.components.authorization-matrix": {
-		"title": "Autorisations",
-		"description": "La lecture est toujours autorisée. Utilisez les cases de sélection rapide pour modifier toute une ligne ou une colonne.",
 		"resource": {
 			"admin": "Administrateurs",
 			"role": "Rôles",
@@ -29,10 +27,7 @@
 			"create": "Création",
 			"update": "Modification",
 			"delete": "Suppression"
-		},
-		"select-all": "Tout sélectionner : {{action}}",
-		"select-resource": "Tout sélectionner : {{resource}}",
-		"label": "{{resource}} : {{action}}"
+		}
 	},
 	"features.roles.components.delete-dialog": {
 		"title": "Supprimer ce rôle ?",
