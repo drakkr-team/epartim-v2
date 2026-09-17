@@ -52,7 +52,7 @@ export function SubscriptionStepFooter(props: SubscriptionStepFooterProps) {
 				{nextStep && (
 					<Button
 						nativeButton={false}
-						variant="secondary"
+						variant="default"
 						render={
 							<Link
 								to="/subscriptions/$id/steps/$step"
