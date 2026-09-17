@@ -1,0 +1,8 @@
+{
+	"features.roles.components.table.action-cell": {
+		"actions": "Actions du rôle",
+		"show": "Consulter",
+		"edit": "Modifier",
+		"delete": "Supprimer"
+	}
+}
