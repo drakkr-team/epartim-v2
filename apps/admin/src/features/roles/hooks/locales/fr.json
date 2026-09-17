@@ -1,0 +1,98 @@
+{
+	"features.roles.hooks.use-form": {
+		"leave-confirmation": "Les modifications non enregistrées seront perdues. Voulez-vous quitter cette page ?",
+		"validation": {
+			"name": {
+				"required": "Le nom est requis.",
+				"max": "Le nom doit contenir au maximum {{max}} caractères.",
+				"database": {
+					"unique": "Ce nom est déjà utilisé."
+				}
+			},
+			"authorizations": {
+				"enum": "Sélectionnez des autorisations valides.",
+				"array": "Sélectionnez des autorisations valides."
+			}
+		}
+	},
+	"features.roles.hooks.use-create-mutation": {
+		"success": {
+			"title": "Rôle créé",
+			"description": "Le rôle {{name}} a bien été créé."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de créer un rôle."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
+	},
+	"features.roles.hooks.use-update-mutation": {
+		"success": {
+			"title": "Rôle modifié",
+			"description": "Les informations du rôle {{name}} ont bien été mises à jour."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de modifier ce rôle."
+			},
+			"E_VALIDATION": {
+				"title": "Informations à corriger",
+				"description": "Vérifiez les champs du formulaire, puis réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
+	},
+	"features.roles.hooks.use-table": {
+		"header": {
+			"id": "ID",
+			"name": "Nom",
+			"createdAt": "Créé le",
+			"updatedAt": "Dernière modification"
+		}
+	},
+	"features.roles.hooks.use-delete-mutation": {
+		"success": {
+			"title": "Rôle supprimé",
+			"description": "Le rôle a bien été supprimé."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_ROW_NOT_FOUND": {
+				"title": "Rôle introuvable",
+				"description": "Ce rôle a déjà été supprimé ou n'existe plus."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de supprimer ce rôle."
+			},
+			"E_UNEXPECTED": {
+				"title": "Suppression impossible",
+				"description": "Le rôle n'a pas été supprimé. Réessayez dans quelques instants."
+			}
+		}
+	}
+}
