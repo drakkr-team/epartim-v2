@@ -1,6 +1,8 @@
+import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { Infer } from "@vinejs/vine/types";
 
+import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription from "#models/subscription";
@@ -18,7 +20,10 @@ function hasValues(payload: UpdateSignerPayload) {
 	return Object.values(payload).some((value) => value !== null && value !== undefined);
 }
 
+@inject()
 export default class UpdateSignerService {
+	constructor(protected validateSubscriptionStepService: ValidateSubscriptionStepService) {}
+
 	async handle(subscription: Subscription, payload: UpdateSignerPayload) {
 		return db.transaction(async (trx) => {
 			const company = await Company.findByOrFail("subscriptionId", subscription.id, {
@@ -38,6 +43,7 @@ export default class UpdateSignerService {
 			if (!company.companySignerId) {
 				await company.useTransaction(trx).merge({ companySignerId: signer.id }).save();
 			}
+			await this.validateSubscriptionStepService.invalidate(subscription, trx);
 
 			return company;
 		});

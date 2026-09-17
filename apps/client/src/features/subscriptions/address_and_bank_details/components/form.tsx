@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -5,6 +6,7 @@ import type { Address, PaymentDetail } from "@workspace/api/data";
 import { Card } from "@workspace/ui-react/components/card";
 
 import { useAddressAndBankDetailsForm } from "#/features/subscriptions/address_and_bank_details/hooks/use-form";
+import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 import { isValidIBAN } from "#/helpers/iban";
 
 type AddressAndBankDetailsFormProps = {
@@ -23,30 +25,39 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 		address,
 		paymentDetail,
 	});
-	const addressAndBankDetailsSchema = z.object({
-		lineOne: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
-		lineTwo: z.string().trim().max(254, t("validation.max")),
-		zip: z
-			.string()
-			.trim()
-			.min(1, t("validation.required"))
-			.regex(/^\d{5}$/, t("validation.zip")),
-		city: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
-		iban: z
-			.string()
-			.trim()
-			.min(1, t("validation.required"))
-			.refine((value) => value.length === 0 || isValidIBAN(value), t("validation.iban")),
-		bic: z
-			.string()
-			.trim()
-			.min(1, t("validation.required"))
-			.refine(
-				(value) =>
-					value.length === 0 || /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/.test(value.toUpperCase()),
-				t("validation.bic"),
-			),
-	});
+	const addressAndBankDetailsSchema = useMemo(
+		() =>
+			z.object({
+				lineOne: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
+				lineTwo: z.string().trim().max(254, t("validation.max")),
+				zip: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^\d{5}$/, t("validation.zip")),
+				city: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
+				iban: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.refine((value) => value.length === 0 || isValidIBAN(value), t("validation.iban")),
+				bic: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.refine(
+						(value) =>
+							value.length === 0 || /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/.test(value.toUpperCase()),
+						t("validation.bic"),
+					),
+			}),
+		[t],
+	);
+	const isComplete = useCallback(
+		() => addressAndBankDetailsSchema.safeParse(form.state.values).success,
+		[addressAndBankDetailsSchema, form],
+	);
+	useRegisterSubscriptionStepForm(form, isComplete);
 
 	return (
 		<Card render={<form noValidate />} className="p-6 sm:p-8">

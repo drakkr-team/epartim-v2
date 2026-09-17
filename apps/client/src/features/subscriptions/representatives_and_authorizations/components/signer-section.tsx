@@ -27,7 +27,7 @@ export function SignerSection(props: SignerSectionProps) {
 							<p className="mt-1 text-neutral-11 text-sm">{t("signer.description")}</p>
 						</div>
 
-						<div className="mt-4 grid gap-4 rounded-md border border-primary-3 bg-primary-2 p-4">
+						<div className="mt-4 grid gap-4 rounded-md border border-secondary-3 p-4">
 							<ContactFields
 								form={form}
 								fields="signer"

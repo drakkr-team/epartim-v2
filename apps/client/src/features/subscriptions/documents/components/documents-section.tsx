@@ -10,11 +10,12 @@ type SubscriptionDocument =
 
 type DocumentsSectionProps = {
 	documents: SubscriptionDocument[];
+	showRequiredErrors?: boolean;
 	subscriptionId: string;
 };
 
 export function DocumentsSection(props: DocumentsSectionProps) {
-	const { documents, subscriptionId } = props;
+	const { documents, showRequiredErrors = false, subscriptionId } = props;
 	const { t } = useTranslation("features.subscriptions.documents.components.documents-section");
 
 	return (
@@ -32,7 +33,12 @@ export function DocumentsSection(props: DocumentsSectionProps) {
 
 				<div className="grid gap-4 md:grid-cols-2">
 					{documents.map((document) => (
-						<DocumentCard key={document.type} document={document} subscriptionId={subscriptionId} />
+						<DocumentCard
+							key={document.type}
+							document={document}
+							showRequiredError={showRequiredErrors}
+							subscriptionId={subscriptionId}
+						/>
 					))}
 				</div>
 			</section>

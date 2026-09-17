@@ -343,6 +343,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/view.controller').default['handle']>>>
     }
   }
+  'client.subscriptions.validate_step': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/steps/:step/validate'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; step: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/steps/validate.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/steps/validate.controller').default['handle']>>>
+    }
+  }
   'client.subscriptions.upload_document': {
     methods: ["POST"]
     pattern: '/client/subscriptions/:subscriptionId/documents/:documentType'

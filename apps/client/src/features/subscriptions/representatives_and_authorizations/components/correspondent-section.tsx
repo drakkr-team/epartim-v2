@@ -40,7 +40,7 @@ export function CorrespondentSection(props: CorrespondentSectionProps) {
 							<p className="mt-1 text-neutral-11 text-sm">{t("correspondent.description")}</p>
 						</div>
 
-						<div className="mt-4 grid gap-4 rounded-md border border-primary-3 bg-primary-2 p-4">
+						<div className="mt-4 grid gap-4 rounded-md border border-secondary-3 p-4">
 							{isLegalEntity && (
 								<p className="text-primary-11 text-sm">{t("correspondent.forcedDifferent")}</p>
 							)}

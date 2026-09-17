@@ -1,3 +1,5 @@
+import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
+
 import Company, { CompanyLegalForm } from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription from "#models/subscription";
@@ -13,13 +15,14 @@ export type SubscriptionDocumentRequirement = {
 };
 
 export default class SubscriptionDocumentRequirementsService {
-	async handle(subscription: Subscription) {
-		const company = await Company.findByOrFail("subscriptionId", subscription.id);
-		const [legalAgent, signer, documents] = await Promise.all([
-			company.related("legalAgent").query().first(),
-			company.related("signer").query().first(),
-			subscription.related("documents").query().preload("file"),
-		]);
+	async handle(subscription: Subscription, options?: { trx?: TransactionClientContract }) {
+		const client = options?.trx;
+		const company = await Company.findByOrFail("subscriptionId", subscription.id, { client });
+		const transactionCompany = client ? company.useTransaction(client) : company;
+		const transactionSubscription = client ? subscription.useTransaction(client) : subscription;
+		const legalAgent = await transactionCompany.related("legalAgent").query().first();
+		const signer = await transactionCompany.related("signer").query().first();
+		const documents = await transactionSubscription.related("documents").query().preload("file");
 
 		return this.#resolve({ company, documents, legalAgent, signer });
 	}

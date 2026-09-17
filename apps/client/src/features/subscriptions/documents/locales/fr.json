@@ -7,6 +7,9 @@
 			"pending": "Requis",
 			"attached": "Joint"
 		},
+		"validation": {
+			"required-document": "Ce document est obligatoire."
+		},
 		"action": {
 			"upload": "Téléverser {{document}}",
 			"replace": "Remplacer {{document}}",

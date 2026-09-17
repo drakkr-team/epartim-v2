@@ -174,6 +174,12 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId","type":1,"val":"subscriptionId","end":""}],
     types: placeholder as Registry['client.subscriptions.view']['types'],
   },
+  'client.subscriptions.validate_step': {
+    methods: ["POST"],
+    pattern: '/client/subscriptions/:subscriptionId/steps/:step/validate',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/steps/:step/validate","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/steps/:step/validate","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/steps/:step/validate","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/steps/:step/validate","type":0,"val":"steps","end":""},{"old":"/client/subscriptions/:subscriptionId/steps/:step/validate","type":1,"val":"step","end":""},{"old":"/client/subscriptions/:subscriptionId/steps/:step/validate","type":0,"val":"validate","end":""}],
+    types: placeholder as Registry['client.subscriptions.validate_step']['types'],
+  },
   'client.subscriptions.upload_document': {
     methods: ["POST"],
     pattern: '/client/subscriptions/:subscriptionId/documents/:documentType',

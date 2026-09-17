@@ -1,0 +1,37 @@
+{
+	"features.subscriptions.steps.validate-step-button": {
+		"action": {
+			"validate": "Valider l'étape",
+			"validated": "Étape validée"
+		},
+		"success": {
+			"title": "Étape validée",
+			"description": "Les informations de cette étape sont complètes."
+		},
+		"error": {
+			"network": {
+				"title": "Validation indisponible",
+				"description": "La validation n'a pas pu être effectuée."
+			},
+			"validation": {
+				"title": "Étape incomplète",
+				"description": "Corrigez les champs signalés et ajoutez les documents manquants."
+			},
+			"unexpected": {
+				"title": "Validation impossible",
+				"description": "Une erreur inattendue est survenue."
+			}
+		}
+	},
+	"features.subscriptions.steps.subscription-step-header": {
+		"validated": "Étape validée"
+	},
+	"features.subscriptions.steps.subscription-step-footer": {
+		"action": {
+			"next": "Étape suivante",
+			"previous": "Étape précédente",
+			"quit": "Quitter"
+		},
+		"current-step": "Étape {{current}} / {{total}} · {{label}}"
+	}
+}

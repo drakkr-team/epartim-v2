@@ -43,8 +43,8 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 			.string()
 			.trim()
 			.min(1, t("validation.required"))
-			.email(t("validation.email"))
-			.max(254, t("validation.max")),
+			.max(254, t("validation.max"))
+			.pipe(z.email({ error: t("validation.email") })),
 	};
 	const requiredBooleanSchema = z
 		.boolean()
@@ -189,7 +189,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 						)}
 
 						{legalAgentKind !== null && (
-							<div className="grid gap-4 rounded-md border border-primary-3 bg-primary-2 p-4">
+							<div className="grid gap-4 rounded-md border border-secondary-3 p-4">
 								<form.AppField
 									name="signer.isSignatoryOnKbis"
 									validators={{ onBlur: requiredBooleanSchema }}
@@ -240,7 +240,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 						)}
 
 						{legalAgentKind === CONTACT_KIND.PHYSICAL_PERSON && (
-							<div className="grid gap-4 rounded-md border border-primary-3 bg-primary-2 p-4">
+							<div className="grid gap-4 rounded-md border border-secondary-3 p-4">
 								<form.AppField
 									name="correspondent.isDifferent"
 									validators={{ onBlur: requiredBooleanSchema }}

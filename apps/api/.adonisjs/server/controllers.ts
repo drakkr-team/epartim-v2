@@ -72,6 +72,9 @@ export const controllers = {
           Upload: () => import('#src/features/client/subscriptions/controllers/documents/upload.controller'),
         },
         List: () => import('#src/features/client/subscriptions/controllers/list.controller'),
+        steps: {
+          Validate: () => import('#src/features/client/subscriptions/controllers/steps/validate.controller'),
+        },
         update: {
           AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),
           LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
