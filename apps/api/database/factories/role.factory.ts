@@ -1,6 +1,7 @@
 import factory from "@adonisjs/lucid/factories";
 
-import Role, { AUTHORIZATIONS_OPTIONS } from "#models/role";
+import { AUTHORIZATIONS_OPTIONS } from "#constants/role";
+import Role from "#models/role";
 
 export const RoleFactory = factory
 	.define(Role, ({ faker }) => {

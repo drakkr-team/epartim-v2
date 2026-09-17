@@ -1,11 +1,27 @@
 {
 	"features.roles.components.form": {
 		"section": {
-			"general": "Informations générales"
+			"general": "Informations générales",
+			"authorizations": "Autorisations"
 		},
 		"field": {
 			"name": {
 				"label": "Nom"
+			},
+			"authorizations": {
+				"resource": {
+					"admin": "Administrateurs",
+					"role": "Rôles",
+					"user": "Utilisateurs",
+					"firm": "Cabinets",
+					"network": "Réseaux"
+				},
+				"action": {
+					"read": "Lecture",
+					"create": "Création",
+					"update": "Modification",
+					"delete": "Suppression"
+				}
 			}
 		},
 		"action": {
