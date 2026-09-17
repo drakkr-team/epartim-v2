@@ -40,8 +40,8 @@ export default class ListRolesController {
 				roles.all().map(async (role) => ({
 					...this.rolePresenter.toJSON(role),
 					meta: {
-						canUpdate: await bouncer.with(UpdateRolePolicy).allows("handle"),
-						canDelete: await bouncer.with(DeleteRolePolicy).allows("handle", role.id),
+						canUpdate: await bouncer.with(UpdateRolePolicy).allows("handle", role),
+						canDelete: await bouncer.with(DeleteRolePolicy).allows("handle", role),
 					},
 				})),
 			),

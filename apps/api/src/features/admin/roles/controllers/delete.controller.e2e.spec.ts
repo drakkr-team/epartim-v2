@@ -38,6 +38,22 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 		assert.isNotNull(await Role.find(role.id));
 	});
 
+	test("it should forbid deleting the super-admin role", async ({ client, assert }) => {
+		const admin = await AdminFactory.with("role").create();
+		const adminRole = await Role.findOrFail(admin.roleId);
+		adminRole.authorizations = ["delete:role"];
+		await adminRole.save();
+		const role = await RoleFactory.merge({ isSuperAdmin: true }).create();
+
+		const response = await client
+			.visit("admin.roles.delete", { roleId: role.id })
+			.withGuard("admin")
+			.loginAs(admin);
+
+		response.assertForbidden();
+		assert.isNotNull(await Role.find(role.id));
+	});
+
 	test("it should forbid an admin without the delete role authorization", async ({ client }) => {
 		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);

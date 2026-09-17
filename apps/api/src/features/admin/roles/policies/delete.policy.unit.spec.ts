@@ -16,11 +16,11 @@ test.group("Features / Admin / Roles / Policies / Delete Policy", () => {
 		await adminRole.save();
 		const role = await RoleFactory.create();
 
-		assert.isFalse(await policy.handle(admin, role.id));
+		assert.isFalse(await policy.handle(admin, role));
 		adminRole.authorizations = ["delete:role"];
 		await adminRole.save();
-		assert.isTrue(await policy.handle(admin, role.id));
-		assert.isFalse(await policy.handle(new User(), role.id));
+		assert.isTrue(await policy.handle(admin, role));
+		assert.isFalse(await policy.handle(new User(), role));
 	});
 
 	test("it should deny deleting a role assigned to an admin", async ({ assert }) => {
@@ -32,6 +32,6 @@ test.group("Features / Admin / Roles / Policies / Delete Policy", () => {
 		const role = await RoleFactory.create();
 		await AdminFactory.merge({ roleId: role.id }).create();
 
-		assert.isFalse(await policy.handle(admin, role.id));
+		assert.isFalse(await policy.handle(admin, role));
 	});
 });

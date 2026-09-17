@@ -13,11 +13,11 @@ export default class UpdateRoleController {
 
 	async handle({ params, request, bouncer }: HttpContext) {
 		const { roleId } = params;
+		const role = await Role.findOrFail(roleId);
 
-		await bouncer.with(UpdateRolePolicy).authorize("handle");
+		await bouncer.with(UpdateRolePolicy).authorize("handle", role);
 
 		const payload = await request.validateUsing(UpdateRoleController.payloadSchema);
-		const role = await Role.findOrFail(roleId);
 		await role.merge(payload).save();
 
 		return this.rolePresenter.toJSON(role);

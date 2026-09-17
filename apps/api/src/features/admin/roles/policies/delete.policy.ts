@@ -3,6 +3,7 @@ import { inject } from "@adonisjs/core";
 
 import DeleteRoleService from "#features/admin/roles/services/delete.service";
 import Admin from "#models/admin";
+import Role from "#models/role";
 import User from "#models/user";
 
 @inject()
@@ -11,9 +12,9 @@ export default class DeleteRolePolicy extends BasePolicy {
 		super();
 	}
 
-	async handle(currentUser: Admin | User, roleId: bigint | number | string) {
+	async handle(currentUser: Admin | User, role: Role) {
 		if (currentUser instanceof User) return false;
 
-		return (await currentUser.can("delete:role")) && this.deleteRoleService.canDelete(roleId);
+		return (await currentUser.can("delete:role")) && this.deleteRoleService.canDelete(role);
 	}
 }
