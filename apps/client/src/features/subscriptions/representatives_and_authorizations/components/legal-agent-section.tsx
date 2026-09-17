@@ -43,8 +43,8 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 			.string()
 			.trim()
 			.min(1, t("validation.required"))
-			.email(t("validation.email"))
-			.max(254, t("validation.max")),
+			.max(254, t("validation.max"))
+			.pipe(z.email({ error: t("validation.email") })),
 	};
 	const requiredBooleanSchema = z
 		.boolean()
