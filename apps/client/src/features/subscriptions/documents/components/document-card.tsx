@@ -71,7 +71,7 @@ export function DocumentCard(props: DocumentCardProps) {
 	return (
 		<article
 			aria-invalid={isMissing}
-			className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-3 rounded-sm border border-primary-6 border-dashed bg-primary-2 px-3 py-2.5 sm:px-4 sm:py-3"
+			className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-3 rounded-sm border border-neutral-6 border-dashed px-3 py-2.5 sm:px-4 sm:py-3"
 		>
 			<FileTextIcon className="mt-0.5 size-5 shrink-0 text-primary-9" aria-hidden="true" />
 			<div className="min-w-0">

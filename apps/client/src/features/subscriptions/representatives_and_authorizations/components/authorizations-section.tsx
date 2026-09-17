@@ -35,7 +35,7 @@ function AuthorizationCard(props: AuthorizationCardProps) {
 	return (
 		<section
 			aria-labelledby={`authorization-${index}-heading`}
-			className="grid gap-4 rounded-md border border-primary-3 bg-primary-2 p-4"
+			className="grid gap-4 rounded-md border border-secondary-3 p-4"
 		>
 			<div className="flex items-center justify-between gap-4">
 				<h4 id={`authorization-${index}-heading`} className="font-bold text-secondary-12 text-sm">

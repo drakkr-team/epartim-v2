@@ -1,5 +1,4 @@
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -13,7 +12,6 @@ import { toastifyTuyauError } from "#/utils/tuyau";
 type ValidateStepButtonProps = {
 	areDocumentsComplete: boolean;
 	isValidated: boolean;
-	nextStep: number;
 	onValidationAttempt: () => void;
 	step: number;
 	subscriptionId: string;
@@ -29,11 +27,9 @@ function scrollToFirstInvalidElement() {
 }
 
 export function ValidateStepButton(props: ValidateStepButtonProps) {
-	const { areDocumentsComplete, isValidated, nextStep, onValidationAttempt, step, subscriptionId } =
-		props;
+	const { areDocumentsComplete, isValidated, onValidationAttempt, step, subscriptionId } = props;
 	const { t } = useTranslation("features.subscriptions.steps.validate-step-button");
 	const { canValidate: areFormsValid, validateForms } = useSubscriptionStepValidation();
-	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const [isValidationRequested, setIsValidationRequested] = useState(false);
 	const isSaving =
@@ -47,10 +43,6 @@ export function ValidateStepButton(props: ValidateStepButtonProps) {
 			onSuccess: async () => {
 				await queryClient.invalidateQueries({ queryKey: api.subscriptions.view.pathKey() });
 				toast.success(t("success.title"), { description: t("success.description") });
-				await navigate({
-					to: "/subscriptions/$id/steps/$step",
-					params: { id: subscriptionId, step: String(nextStep) },
-				});
 			},
 			onError: (error) => {
 				scrollToFirstInvalidElement();

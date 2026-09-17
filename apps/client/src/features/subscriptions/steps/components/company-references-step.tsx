@@ -61,11 +61,15 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 						subscriptionId={subscriptionId}
 					/>
 
-					<SubscriptionStepFooter currentStep={1} stepLabel={t("step-one.short-title")}>
+					<SubscriptionStepFooter
+						currentStep={1}
+						nextStep={2}
+						stepLabel={t("step-one.short-title")}
+						subscriptionId={subscriptionId}
+					>
 						<ValidateStepButton
 							areDocumentsComplete={areDocumentsComplete}
 							isValidated={subscription.completedSteps?.includes(1) ?? false}
-							nextStep={2}
 							onValidationAttempt={() => setIsValidationAttempted(true)}
 							step={1}
 							subscriptionId={subscriptionId}

@@ -28,6 +28,8 @@
 	},
 	"features.subscriptions.steps.subscription-step-footer": {
 		"action": {
+			"next": "Étape suivante",
+			"previous": "Étape précédente",
 			"quit": "Quitter"
 		},
 		"current-step": "Étape {{current}} / {{total}} · {{label}}"
