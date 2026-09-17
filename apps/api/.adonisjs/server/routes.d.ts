@@ -41,6 +41,10 @@ export type ScannedRoutes = {
     'client.subscriptions.update_signer': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_correspondent': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_authorizations': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_kyc_profile': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.create_kyc_owner': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_kyc_owner': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'ownerId': ParamValue} }
+    'client.subscriptions.delete_kyc_owner': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'ownerId': ParamValue} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
@@ -89,6 +93,7 @@ export type ScannedRoutes = {
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.validate_step': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'step': ParamValue} }
     'client.subscriptions.upload_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
+    'client.subscriptions.create_kyc_owner': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
@@ -107,6 +112,8 @@ export type ScannedRoutes = {
     'client.subscriptions.update_signer': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_correspondent': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_authorizations': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_kyc_profile': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_kyc_owner': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'ownerId': ParamValue} }
     'client.account_management.password.update': { paramsTuple?: []; params?: {} }
   }
   DELETE: {
@@ -116,6 +123,7 @@ export type ScannedRoutes = {
     'admin.users.delete': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
     'client.subscriptions.delete_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
+    'client.subscriptions.delete_kyc_owner': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'ownerId': ParamValue} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'client.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
   }

@@ -26,6 +26,6 @@ export default class ValidateSubscriptionStepController {
 			]);
 		}
 
-		return this.validateSubscriptionStepService.handle(subscription);
+		return this.validateSubscriptionStepService.handle(subscription, step);
 	}
 }

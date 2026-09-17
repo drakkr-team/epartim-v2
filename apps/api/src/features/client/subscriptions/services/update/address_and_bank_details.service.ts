@@ -3,6 +3,7 @@ import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Address from "#models/address";
 import Company from "#models/company";
@@ -32,7 +33,11 @@ export default class UpdateAddressAndBankDetailsService {
 			if (payload.paymentDetail) {
 				await this.#updatePaymentDetail(company, payload.paymentDetail, trx);
 			}
-			await this.validateSubscriptionStepService.invalidate(subscription, trx);
+			await this.validateSubscriptionStepService.invalidate(
+				subscription,
+				trx,
+				SubscriptionStep.COMPANY_REFERENCES,
+			);
 
 			return company;
 		});

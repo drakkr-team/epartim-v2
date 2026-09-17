@@ -2,6 +2,7 @@ import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { Infer } from "@vinejs/vine/types";
 
+import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
 import Subscription from "#models/subscription";
@@ -29,7 +30,11 @@ export default class UpdateLegalIdentificationService {
 						: { companyHeadcount: companyHeadcount === null ? null : String(companyHeadcount) }),
 				})
 				.save();
-			await this.validateSubscriptionStepService.invalidate(subscription, trx);
+			await this.validateSubscriptionStepService.invalidate(
+				subscription,
+				trx,
+				SubscriptionStep.COMPANY_REFERENCES,
+			);
 
 			return company;
 		});

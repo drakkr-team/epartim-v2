@@ -6,6 +6,8 @@ import SubscriptionDocumentRequirementsService from "#features/client/subscripti
 import Subscription from "#models/subscription";
 import AddressPresenter from "#presenters/address.presenter";
 import CompanyPresenter from "#presenters/company.presenter";
+import CompanyBeneficialOwnerPresenter from "#presenters/company_beneficial_owner.presenter";
+import CompanyKycProfilePresenter from "#presenters/company_kyc_profile.presenter";
 import ContactPresenter from "#presenters/contact.presenter";
 import FilePresenter from "#presenters/file.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
@@ -16,6 +18,8 @@ export default class ViewSubscriptionController {
 	constructor(
 		protected subscriptionPresenter: SubscriptionPresenter,
 		protected companyPresenter: CompanyPresenter,
+		protected companyKycProfilePresenter: CompanyKycProfilePresenter,
+		protected companyBeneficialOwnerPresenter: CompanyBeneficialOwnerPresenter,
 		protected contactPresenter: ContactPresenter,
 		protected addressPresenter: AddressPresenter,
 		protected paymentDetailPresenter: PaymentDetailPresenter,
@@ -33,7 +37,15 @@ export default class ViewSubscriptionController {
 		const paymentDetail = subscription.company.paymentDetailId
 			? await subscription.company.related("paymentDetail").query().first()
 			: null;
-		const [legalAgent, signer, correspondent, authorizations, documents] = await Promise.all([
+		const [
+			legalAgent,
+			signer,
+			correspondent,
+			authorizations,
+			documents,
+			kycProfile,
+			beneficialOwners,
+		] = await Promise.all([
 			subscription.company.related("legalAgent").query().first(),
 			subscription.company.related("signer").query().first(),
 			subscription.company.related("correspondent").query().first(),
@@ -43,6 +55,13 @@ export default class ViewSubscriptionController {
 				.whereNotNull("authorizations")
 				.orderBy("contacts.id"),
 			this.documentRequirementsService.handle(subscription),
+			subscription.company.related("kycProfile").query().first(),
+			subscription.company
+				.related("beneficialOwners")
+				.query()
+				.preload("address")
+				.preload("roles")
+				.orderBy("company_beneficial_owners.id"),
 		]);
 
 		return {
@@ -58,6 +77,12 @@ export default class ViewSubscriptionController {
 				correspondent: correspondent ? this.contactPresenter.toJSON(correspondent) : null,
 				authorizations: authorizations.map((authorization) =>
 					this.contactPresenter.toJSON(authorization),
+				),
+			},
+			kyc: {
+				profile: kycProfile ? this.companyKycProfilePresenter.toJSON(kycProfile) : null,
+				owners: beneficialOwners.map((owner) =>
+					this.companyBeneficialOwnerPresenter.toJSON(owner, owner.address, owner.roles),
 				),
 			},
 			documents: await Promise.all(

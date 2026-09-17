@@ -94,6 +94,52 @@ export class CompanySchema extends BaseModel {
   declare vatNumber: string | null
 }
 
+export class CompanyBeneficialOwnerRoleSchema extends BaseModel {
+  static $columns = ['companyBeneficialOwnerId', 'id', 'role'] as const
+  $columns = CompanyBeneficialOwnerRoleSchema.$columns
+  @column()
+  declare companyBeneficialOwnerId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare role: number
+}
+
+export class CompanyBeneficialOwnerSchema extends BaseModel {
+  static $columns = ['addressId', 'birthCity', 'birthDate', 'companyId', 'createdAt', 'firstName', 'function', 'id', 'kind', 'lastName', 'legalName', 'nationality', 'shareholdingPercentage', 'siren', 'updatedAt'] as const
+  $columns = CompanyBeneficialOwnerSchema.$columns
+  @column()
+  declare addressId: number
+  @column()
+  declare birthCity: string | null
+  @column.date()
+  declare birthDate: DateTime | null
+  @column()
+  declare companyId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare firstName: string | null
+  @column()
+  declare function: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare kind: number
+  @column()
+  declare lastName: string | null
+  @column()
+  declare legalName: string | null
+  @column()
+  declare nationality: string | null
+  @column()
+  declare shareholdingPercentage: string | null
+  @column()
+  declare siren: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class CompanyContactSchema extends BaseModel {
   static $columns = ['companyId', 'contactId', 'id'] as const
   $columns = CompanyContactSchema.$columns
@@ -103,6 +149,45 @@ export class CompanyContactSchema extends BaseModel {
   declare contactId: number | null
   @column({ isPrimary: true })
   declare id: number
+}
+
+export class CompanyKycProfileSchema extends BaseModel {
+  static $columns = ['bearerBondsStructure', 'bearerBondsStructurePercentage', 'bicId', 'companyId', 'countryOfActivity', 'countryOfActivityReference', 'countryProvider', 'countryProviderReference', 'createdAt', 'id', 'listedCompany', 'listedCompanyReference', 'mainMarkets', 'mainMarketsReference', 'regulatedActivity', 'regulatedActivityReference', 'updatedAt'] as const
+  $columns = CompanyKycProfileSchema.$columns
+  @column()
+  declare bearerBondsStructure: boolean
+  @column()
+  declare bearerBondsStructurePercentage: string | null
+  @column()
+  declare bicId: boolean
+  @column()
+  declare companyId: number
+  @column()
+  declare countryOfActivity: string
+  @column()
+  declare countryOfActivityReference: string | null
+  @column()
+  declare countryProvider: string
+  @column()
+  declare countryProviderReference: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare listedCompany: boolean
+  @column()
+  declare listedCompanyReference: string | null
+  @column()
+  declare mainMarkets: string
+  @column()
+  declare mainMarketsReference: string | null
+  @column()
+  declare regulatedActivity: boolean
+  @column()
+  declare regulatedActivityReference: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
 }
 
 export class ContactSchema extends BaseModel {

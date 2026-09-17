@@ -1,0 +1,69 @@
+{
+	"features.subscriptions.kyc": {
+		"client": { "eyebrow": "I. Client", "title": "Informations KYC de l’entreprise" },
+		"field": {
+			"regulatedActivity": "L’entreprise exerce-t-elle une activité réglementée ?",
+			"regulatedActivityReference": "Régulateur et référence d’agrément",
+			"listedCompany": "L’entreprise est-elle cotée ?",
+			"listedCompanyReference": "Marché de cotation",
+			"bicId": "L’entreprise possède-t-elle un code BIC lié à SWIFT ?",
+			"bearerBondsStructure": "L’entreprise comporte-t-elle des bons au porteur ?",
+			"bearerBondsStructurePercentage": "Pourcentage de bons au porteur",
+			"countryOfActivity": "Pays d’activité",
+			"countryOfActivityReference": "Pays et pourcentage d’activité",
+			"countryProvider": "Pays des fournisseurs",
+			"countryProviderReference": "Pays des fournisseurs",
+			"mainMarkets": "Principaux marchés",
+			"mainMarketsReference": "Principaux marchés",
+			"kind": "Nature",
+			"firstName": "Prénom",
+			"lastName": "Nom",
+			"legalName": "Raison sociale",
+			"birthDate": "Date de naissance",
+			"birthCity": "Ville de naissance",
+			"roles": "Qualité(s)",
+			"shareholdingPercentage": "Pourcentage de capital détenu",
+			"function": "Fonction / profession",
+			"nationality": "Nationalité",
+			"registrationCountry": "Pays d’immatriculation",
+			"lineOne": "Adresse",
+			"zip": "Code postal",
+			"city": "Ville"
+		},
+		"kind": { "physical": "Personne physique", "legal": "Personne morale" },
+		"action": { "clearBirthDate": "Effacer la date de naissance" },
+		"address": { "title": "Adresse postale" },
+		"validation": {
+			"required": "Ce champ est obligatoire.",
+			"percentage": "Saisissez un pourcentage entre 0 et 100.",
+			"zip": "Saisissez un code postal à 5 chiffres."
+		},
+		"owners": {
+			"eyebrow": "II. Détenteurs de l’entreprise",
+			"title": "Détenteurs de l’entreprise",
+			"description": "La vérification des bénéficiaires effectifs et détenteurs relève de votre responsabilité. Vérifiez les informations et complétez-les si nécessaire.",
+			"warning": "Toute personne physique ou morale détentrice de plus de 25 % du capital et/ou dirigeante doit être mentionnée.",
+			"empty": "Aucun détenteur déclaré.",
+			"total": "Total de détention déclaré : {{total}} %",
+			"add": "Ajouter un détenteur de l’entreprise",
+			"remove": "Supprimer ce détenteur",
+			"item": "Détenteur {{index}}"
+		}
+	},
+	"features.subscriptions.kyc.hooks.use-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Enregistrement indisponible",
+				"description": "La modification n'a pas pu être enregistrée."
+			},
+			"E_VALIDATION": {
+				"title": "Enregistrement refusé",
+				"description": "La valeur ne respecte pas le format attendu."
+			},
+			"E_UNEXPECTED": {
+				"title": "Enregistrement impossible",
+				"description": "Une erreur inattendue est survenue."
+			}
+		}
+	}
+}
