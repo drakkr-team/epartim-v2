@@ -20,7 +20,10 @@ export function BeneficialOwnersSection(props: BeneficialOwnersSectionProps) {
 	const { t } = useTranslation(namespace);
 
 	return (
-		<section aria-labelledby="owners-heading" className="grid gap-5">
+		<section
+			aria-labelledby="owners-heading"
+			className="mt-6 grid gap-5 border-neutral-4 border-t pt-6"
+		>
 			<div>
 				<p className="font-bold text-primary-9 text-xs uppercase tracking-widest">
 					{t("owners.eyebrow")}

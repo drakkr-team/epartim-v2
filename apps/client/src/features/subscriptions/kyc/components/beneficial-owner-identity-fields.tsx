@@ -25,17 +25,29 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 	const { form, index, onUpdate, ownerKind } = props;
 	const { t } = useTranslation(namespace);
 	const fields = `owners[${index}]` as const;
-	const requiredText = z.string().trim().min(1, t("validation.required"));
+	const identitySchema = {
+		firstName: z.string().trim().min(1, t("validation.required")).max(100, t("validation.max")),
+		lastName: z.string().trim().min(1, t("validation.required")).max(100, t("validation.max")),
+		birthDate: z.string().trim().min(1, t("validation.required")),
+		birthCity: z.string().trim().min(1, t("validation.required")).max(100, t("validation.max")),
+		legalName: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
+	};
 
 	if (ownerKind === KYC_OWNER_KIND.PHYSICAL_PERSON) {
 		return (
 			<div className="grid gap-4 md:grid-cols-2">
 				<form.AppField
 					name={`${fields}.firstName`}
-					validators={{ onBlur: requiredText }}
+					validators={{ onBlur: identitySchema.firstName }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
-							if (fieldApi.state.meta.isValid) onUpdate({ firstName: value.trim() || null });
+							if (value.trim().length === 0) {
+								onUpdate({ firstName: null });
+								return;
+							}
+							if (!fieldApi.state.meta.isValid) return;
+
+							onUpdate({ firstName: value.trim() });
 						},
 					}}
 				>
@@ -43,46 +55,66 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 				</form.AppField>
 				<form.AppField
 					name={`${fields}.lastName`}
-					validators={{ onBlur: requiredText }}
+					validators={{ onBlur: identitySchema.lastName }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
-							if (fieldApi.state.meta.isValid) onUpdate({ lastName: value.trim() || null });
+							if (value.trim().length === 0) {
+								onUpdate({ lastName: null });
+								return;
+							}
+							if (!fieldApi.state.meta.isValid) return;
+
+							onUpdate({ lastName: value.trim() });
 						},
 					}}
 				>
 					{(field) => <field.TextField label={t("field.lastName")} required />}
 				</form.AppField>
-				<form.AppField name={`${fields}.birthDate`} validators={{ onBlur: requiredText }}>
-					{(field) => (
-						<Field
-							name={field.name}
-							invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-							className="flex flex-col gap-2"
-						>
-							<Field.Label required>{t("field.birthDate")}</Field.Label>
-							<DatePicker
-								clearable
-								clearLabel={t("action.clearBirthDate")}
-								inputClassName="w-full"
-								mode="single"
-								onSelect={(date) => {
-									const value = formatCalendarDate(date) ?? "";
-									field.handleChange(value);
-									field.handleBlur();
-									onUpdate({ birthDate: value || null });
-								}}
-								placeholder={t("field.birthDate")}
-								selected={parseCalendarDate(field.state.value)}
-							/>
-						</Field>
-					)}
+				<form.AppField
+					name={`${fields}.birthDate`}
+					validators={{ onBlur: identitySchema.birthDate }}
+				>
+					{(field) => {
+						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
+
+						return (
+							<Field name={field.name} invalid={invalid} className="flex flex-col gap-2">
+								<Field.Label required>{t("field.birthDate")}</Field.Label>
+								<DatePicker
+									clearable
+									clearLabel={t("action.clearBirthDate")}
+									inputClassName="w-full"
+									mode="single"
+									onSelect={(date) => {
+										const value = formatCalendarDate(date) ?? "";
+										field.handleChange(value);
+										field.handleBlur();
+										onUpdate({ birthDate: value || null });
+									}}
+									placeholder={t("field.birthDate")}
+									selected={parseCalendarDate(field.state.value)}
+								/>
+								{invalid &&
+									field.state.meta.errors
+										.flat()
+										.filter((error) => error !== undefined)
+										.map((error) => <Field.Error key={error.message}>{error.message}</Field.Error>)}
+							</Field>
+						);
+					}}
 				</form.AppField>
 				<form.AppField
 					name={`${fields}.birthCity`}
-					validators={{ onBlur: requiredText }}
+					validators={{ onBlur: identitySchema.birthCity }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
-							if (fieldApi.state.meta.isValid) onUpdate({ birthCity: value.trim() || null });
+							if (value.trim().length === 0) {
+								onUpdate({ birthCity: null });
+								return;
+							}
+							if (!fieldApi.state.meta.isValid) return;
+
+							onUpdate({ birthCity: value.trim() });
 						},
 					}}
 				>
@@ -95,10 +127,16 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 	return (
 		<form.AppField
 			name={`${fields}.legalName`}
-			validators={{ onBlur: requiredText }}
+			validators={{ onBlur: identitySchema.legalName }}
 			listeners={{
 				onBlur: ({ value, fieldApi }) => {
-					if (fieldApi.state.meta.isValid) onUpdate({ legalName: value.trim() || null });
+					if (value.trim().length === 0) {
+						onUpdate({ legalName: null });
+						return;
+					}
+					if (!fieldApi.state.meta.isValid) return;
+
+					onUpdate({ legalName: value.trim() });
 				},
 			}}
 		>

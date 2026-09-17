@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 
 import type { routes } from "@workspace/api/registry";
+import { Card } from "@workspace/ui-react/components/card";
 
 import { BeneficialOwnersSection } from "#/features/subscriptions/kyc/components/beneficial-owners-section";
 import { KycProfileSection } from "#/features/subscriptions/kyc/components/kyc-profile-section";
@@ -21,18 +22,28 @@ type KycFormProps = {
 	subscriptionId: string;
 };
 
-function isRequiredText(value: string) {
-	return value.trim().length > 0;
+function isRequiredText(value: string, maxLength = 254) {
+	const trimmedValue = value.trim();
+	return trimmedValue.length > 0 && trimmedValue.length <= maxLength;
+}
+
+function isValidPercentage(value: number | null) {
+	return value !== null && value >= 0 && value <= 100;
+}
+
+function isValidCountry(value: string | null) {
+	return value !== null && /^[A-Z]{2}$/.test(value);
+}
+
+function isValidBirthDate(value: string) {
+	return /^\d{4}-\d{2}-\d{2}$/.test(value);
 }
 
 function isKycProfileComplete(profile: KycProfileValues) {
 	return (
 		(!profile.regulatedActivity || isRequiredText(profile.regulatedActivityReference)) &&
 		(!profile.listedCompany || isRequiredText(profile.listedCompanyReference)) &&
-		(!profile.bearerBondsStructure ||
-			(profile.bearerBondsStructurePercentage !== null &&
-				profile.bearerBondsStructurePercentage >= 0 &&
-				profile.bearerBondsStructurePercentage <= 100)) &&
+		(!profile.bearerBondsStructure || isValidPercentage(profile.bearerBondsStructurePercentage)) &&
 		(profile.countryOfActivity !== "other" || isRequiredText(profile.countryOfActivityReference)) &&
 		(profile.countryProvider !== "other" || isRequiredText(profile.countryProviderReference)) &&
 		(profile.mainMarkets !== "other" || isRequiredText(profile.mainMarketsReference))
@@ -44,19 +55,17 @@ function isKycOwnerComplete(owner: KycOwnerValues) {
 
 	return (
 		owner.roles.length > 0 &&
-		owner.shareholdingPercentage !== null &&
-		owner.shareholdingPercentage >= 0 &&
-		owner.shareholdingPercentage <= 100 &&
-		owner.nationality !== null &&
+		isValidPercentage(owner.shareholdingPercentage) &&
+		isValidCountry(owner.nationality) &&
 		isRequiredText(owner.address.lineOne) &&
 		/^\d{5}$/.test(owner.address.zip) &&
 		isRequiredText(owner.address.city) &&
-		(hasShareholderRole || isRequiredText(owner.function)) &&
+		(hasShareholderRole ? owner.function.trim().length <= 254 : isRequiredText(owner.function)) &&
 		(owner.kind === KYC_OWNER_KIND.PHYSICAL_PERSON
-			? isRequiredText(owner.firstName) &&
-				isRequiredText(owner.lastName) &&
-				isRequiredText(owner.birthDate) &&
-				isRequiredText(owner.birthCity)
+			? isRequiredText(owner.firstName, 100) &&
+				isRequiredText(owner.lastName, 100) &&
+				isValidBirthDate(owner.birthDate) &&
+				isRequiredText(owner.birthCity, 100)
 			: isRequiredText(owner.legalName))
 	);
 }
@@ -76,7 +85,7 @@ export function KycForm(props: KycFormProps) {
 	useRegisterSubscriptionStepForm(form, isComplete);
 
 	return (
-		<form noValidate className="grid gap-8">
+		<Card render={<form noValidate />} className="p-6 sm:p-8">
 			<KycProfileSection form={form} updateKycProfile={updateKycProfile} />
 			<BeneficialOwnersSection
 				createKycOwner={createKycOwner}
@@ -84,6 +93,6 @@ export function KycForm(props: KycFormProps) {
 				form={form}
 				updateKycOwner={updateKycOwner}
 			/>
-		</form>
+		</Card>
 	);
 }

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import z from "zod";
 
 import { Button } from "@workspace/ui-react/components/button";
 import { Field } from "@workspace/ui-react/components/field";
@@ -23,6 +24,7 @@ export function BeneficialOwnerKindField(props: BeneficialOwnerKindFieldProps) {
 	const { form, index, onUpdate, ownerKind } = props;
 	const { t } = useTranslation(namespace);
 	const fields = `owners[${index}]` as const;
+	const kindSchema = z.literal([KYC_OWNER_KIND.PHYSICAL_PERSON, KYC_OWNER_KIND.LEGAL_ENTITY]);
 	const options = [
 		{ label: t("kind.physical"), value: KYC_OWNER_KIND.PHYSICAL_PERSON },
 		{ label: t("kind.legal"), value: KYC_OWNER_KIND.LEGAL_ENTITY },
@@ -38,21 +40,29 @@ export function BeneficialOwnerKindField(props: BeneficialOwnerKindFieldProps) {
 	}
 
 	return (
-		<Field>
-			<Field.Label required>{t("field.kind")}</Field.Label>
-			<div className="flex flex-wrap gap-2">
-				{options.map((option) => (
-					<Button
-						key={option.value}
-						type="button"
-						variant={ownerKind === option.value ? "primary" : "default"}
-						aria-pressed={ownerKind === option.value}
-						onClick={() => changeKind(option.value)}
-					>
-						{option.label}
-					</Button>
-				))}
-			</div>
-		</Field>
+		<form.AppField name={`${fields}.kind`} validators={{ onBlur: kindSchema }}>
+			{(field) => (
+				<Field name={field.name} className="flex flex-col gap-2">
+					<Field.Label required>{t("field.kind")}</Field.Label>
+					<div className="flex flex-wrap gap-2">
+						{options.map((option) => (
+							<Button
+								key={option.value}
+								type="button"
+								variant={ownerKind === option.value ? "primary" : "default"}
+								aria-pressed={ownerKind === option.value}
+								onClick={() => {
+									field.handleChange(option.value);
+									changeKind(option.value);
+									field.handleBlur();
+								}}
+							>
+								{option.label}
+							</Button>
+						))}
+					</div>
+				</Field>
+			)}
+		</form.AppField>
 	);
 }

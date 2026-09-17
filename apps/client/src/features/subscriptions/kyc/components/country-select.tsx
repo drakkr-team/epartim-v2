@@ -16,6 +16,7 @@ const options = Object.entries(countryLabels)
 const optionByValue = new Map(options.map((option) => [option.value, option]));
 
 type CountrySelectProps = {
+	errorMessages?: string[];
 	id: string;
 	invalid?: boolean;
 	label: string;
@@ -37,7 +38,7 @@ function CountryFlag({ country }: { country: string }) {
 }
 
 export function CountrySelect(props: CountrySelectProps) {
-	const { id, invalid = false, label, onValueChange, required, value } = props;
+	const { errorMessages = [], id, invalid = false, label, onValueChange, required, value } = props;
 
 	return (
 		<Field name={id} invalid={invalid} className="flex flex-col gap-2">
@@ -77,6 +78,7 @@ export function CountrySelect(props: CountrySelectProps) {
 					</Combobox.List>
 				</Combobox.Dropdown>
 			</Combobox>
+			{invalid && errorMessages.map((error) => <Field.Error key={error}>{error}</Field.Error>)}
 		</Field>
 	);
 }

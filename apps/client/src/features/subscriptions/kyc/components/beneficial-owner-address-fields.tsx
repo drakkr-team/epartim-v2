@@ -23,7 +23,13 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 				<div className="md:col-span-3">
 					<form.AppField
 						name={`${fields}.address.lineOne`}
-						validators={{ onBlur: z.string().trim().min(1, t("validation.required")) }}
+						validators={{
+							onBlur: z
+								.string()
+								.trim()
+								.min(1, t("validation.required"))
+								.max(254, t("validation.max")),
+						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
 								if (fieldApi.state.meta.isValid)
@@ -37,7 +43,13 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 				<div className="md:col-span-1">
 					<form.AppField
 						name={`${fields}.address.zip`}
-						validators={{ onBlur: z.string().regex(/^\d{5}$/, t("validation.zip")) }}
+						validators={{
+							onBlur: z
+								.string()
+								.trim()
+								.min(1, t("validation.required"))
+								.regex(/^\d{5}$/, t("validation.zip")),
+						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
 								if (fieldApi.state.meta.isValid)
@@ -57,7 +69,13 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 				<div className="md:col-span-2">
 					<form.AppField
 						name={`${fields}.address.city`}
-						validators={{ onBlur: z.string().trim().min(1, t("validation.required")) }}
+						validators={{
+							onBlur: z
+								.string()
+								.trim()
+								.min(1, t("validation.required"))
+								.max(254, t("validation.max")),
+						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
 								if (fieldApi.state.meta.isValid)

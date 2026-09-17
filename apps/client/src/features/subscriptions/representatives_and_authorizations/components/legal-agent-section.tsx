@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
-import { Button } from "@workspace/ui-react/components/button";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
+import { BooleanField } from "#/features/subscriptions/components/boolean-field";
 import { ContactFields } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import { ContactFunctionField } from "#/features/subscriptions/representatives_and_authorizations/components/contact-function-field";
 import {
@@ -196,43 +196,27 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								>
 									{(field) => {
 										const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
+										const errorMessages = field.state.meta.errors
+											.flat()
+											.filter((error) => error !== undefined)
+											.map((error) => (typeof error === "string" ? error : error.message));
 
 										return (
-											<Field invalid={invalid} className="flex flex-col gap-2">
-												<Field.Label required>{t("signer.onKbis")}</Field.Label>
-												<div
-													role="radiogroup"
-													aria-label={t("signer.onKbis")}
-													className="flex flex-wrap gap-2"
-												>
-													{[
-														{ value: true, label: t("answer.yes") },
-														{ value: false, label: t("answer.no") },
-													].map((option) => (
-														<Button
-															key={String(option.value)}
-															type="button"
-															role="radio"
-															aria-checked={field.state.value === option.value}
-															variant={field.state.value === option.value ? "primary" : "default"}
-															onClick={() => {
-																field.handleChange(option.value);
-																onUpdateSigner({ isSignatoryOnKbis: option.value });
-																field.handleBlur();
-															}}
-														>
-															{option.label}
-														</Button>
-													))}
-												</div>
-												{invalid &&
-													field.state.meta.errors
-														.flat()
-														.filter((error) => error !== undefined)
-														.map((error) => (
-															<Field.Error key={error.message}>{error.message}</Field.Error>
-														))}
-											</Field>
+											<BooleanField
+												errorMessages={errorMessages}
+												invalid={invalid}
+												label={t("signer.onKbis")}
+												noLabel={t("answer.no")}
+												onBlur={field.handleBlur}
+												onValueChange={(value) => {
+													field.handleChange(value);
+													onUpdateSigner({ isSignatoryOnKbis: value });
+													field.handleBlur();
+												}}
+												required
+												value={field.state.value}
+												yesLabel={t("answer.yes")}
+											/>
 										);
 									}}
 								</form.AppField>
@@ -247,55 +231,39 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								>
 									{(field) => {
 										const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
+										const errorMessages = field.state.meta.errors
+											.flat()
+											.filter((error) => error !== undefined)
+											.map((error) => (typeof error === "string" ? error : error.message));
 
 										return (
-											<Field invalid={invalid} className="flex flex-col gap-2">
-												<Field.Label required>{t("correspondent.isDifferent")}</Field.Label>
-												<div
-													role="radiogroup"
-													aria-label={t("correspondent.isDifferent")}
-													className="flex flex-wrap gap-2"
-												>
-													{[
-														{ value: true, label: t("answer.yes") },
-														{ value: false, label: t("answer.no") },
-													].map((option) => (
-														<Button
-															key={String(option.value)}
-															type="button"
-															role="radio"
-															aria-checked={field.state.value === option.value}
-															variant={field.state.value === option.value ? "primary" : "default"}
-															onClick={() => {
-																field.handleChange(option.value);
-																if (!option.value) {
-																	form.setFieldValue("correspondent", {
-																		civility: null,
-																		firstName: "",
-																		lastName: "",
-																		email: "",
-																		phoneNumber: "",
-																		function: null,
-																		amundiPortalId: "",
-																		isDifferent: false,
-																	});
-																}
-																onUpdateCorrespondent({ isSameAsLegal: !option.value });
-																field.handleBlur();
-															}}
-														>
-															{option.label}
-														</Button>
-													))}
-												</div>
-												{invalid &&
-													field.state.meta.errors
-														.flat()
-														.filter((error) => error !== undefined)
-														.map((error) => (
-															<Field.Error key={error.message}>{error.message}</Field.Error>
-														))}
-											</Field>
+											<BooleanField
+												errorMessages={errorMessages}
+												invalid={invalid}
+												label={t("correspondent.isDifferent")}
+												noLabel={t("answer.no")}
+												onBlur={field.handleBlur}
+												onValueChange={(value) => {
+													field.handleChange(value);
+													if (!value) {
+														form.setFieldValue("correspondent", {
+															civility: null,
+															firstName: "",
+															lastName: "",
+															email: "",
+															phoneNumber: "",
+															function: null,
+															amundiPortalId: "",
+															isDifferent: false,
+														});
+													}
+													onUpdateCorrespondent({ isSameAsLegal: !value });
+													field.handleBlur();
+												}}
+												required
+												value={field.state.value}
+												yesLabel={t("answer.yes")}
+											/>
 										);
 									}}
 								</form.AppField>

@@ -35,6 +35,7 @@
 		"address": { "title": "Adresse postale" },
 		"validation": {
 			"required": "Ce champ est obligatoire.",
+			"max": "Cette valeur est trop longue.",
 			"percentage": "Saisissez un pourcentage entre 0 et 100.",
 			"zip": "Saisissez un code postal à 5 chiffres."
 		},
