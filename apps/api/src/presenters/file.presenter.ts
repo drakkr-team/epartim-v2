@@ -1,21 +1,14 @@
 import { inject } from "@adonisjs/core";
 
 import File from "#models/file";
-import FileService from "#services/file.service";
-
-type FilePresenterOptions = {
-	access?: "download" | "view";
-};
+import FileService, { type FileUrlOptions } from "#services/file.service";
 
 @inject()
 export default class FilePresenter {
 	constructor(private fileService: FileService) {}
 
-	async toJSON(file: File, options: FilePresenterOptions = {}) {
-		const url =
-			options.access === "download"
-				? await this.fileService.download(file)
-				: await this.fileService.getUrl(file);
+	async toJSON(file: File, options: FileUrlOptions = {}) {
+		const url = await this.fileService.getUrl(file, options);
 
 		return {
 			id: file.id,

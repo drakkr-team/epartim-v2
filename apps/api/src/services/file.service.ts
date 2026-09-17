@@ -4,25 +4,25 @@ import drive from "@adonisjs/drive/services/main";
 
 import File from "#models/file";
 
+export type FileUrlOptions = {
+	disposition?: "attachment" | "inline";
+};
+
 export default class FileService {
-	async download(file: File) {
+	async getUrl(file: File, options: FileUrlOptions = {}) {
+		const { disposition = "inline" } = options;
 		const disk = drive.use();
 
-		return disk.getSignedUrl(file.key, {
-			contentDisposition: `attachment; filename*=UTF-8''${encodeURIComponent(file.name)}`,
-			expiresIn: "1h",
-		});
-	}
-
-	async getUrl(file: File) {
-		const disk = drive.use();
-		const fileVisibility = await disk.getVisibility(file.key);
-
-		if (fileVisibility === "public") {
+		if (disposition === "inline" && (await disk.getVisibility(file.key)) === "public") {
 			return disk.getUrl(file.key);
 		}
 
-		return disk.getSignedUrl(file.key, { expiresIn: "1h" });
+		return disk.getSignedUrl(file.key, {
+			expiresIn: "1h",
+			...(disposition === "attachment"
+				? { contentDisposition: `attachment; filename*=UTF-8''${encodeURIComponent(file.name)}` }
+				: {}),
+		});
 	}
 
 	async upload(params: { file: MultipartFile; path?: string }) {

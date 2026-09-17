@@ -66,7 +66,7 @@ export default class ViewSubscriptionController {
 					label,
 					status: document ? "attached" : "pending",
 					file: document
-						? await this.filePresenter.toJSON(document.file, { access: "download" })
+						? await this.filePresenter.toJSON(document.file, { disposition: "attachment" })
 						: null,
 				})),
 			),
