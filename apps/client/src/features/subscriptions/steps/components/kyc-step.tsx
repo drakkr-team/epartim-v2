@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { routes } from "@workspace/api/registry";
 
 import { BeneficialOwnersForm } from "#/features/subscriptions/kyc/components/beneficial-owners-form";
-import { KycProfileForm } from "#/features/subscriptions/kyc/components/kyc-profile-form";
+import { KycProfileForm } from "#/features/subscriptions/kyc/components/form.tsx";
 import { SubscriptionStepFooter } from "#/features/subscriptions/steps/components/subscription-step-footer";
 import { SubscriptionStepHeader } from "#/features/subscriptions/steps/components/subscription-step-header";
 import { ValidateStepButton } from "#/features/subscriptions/steps/components/validate-step-button";
