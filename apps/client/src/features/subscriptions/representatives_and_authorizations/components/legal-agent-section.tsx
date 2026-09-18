@@ -62,7 +62,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 
 			<form.AppField
 				name="legalAgent.kind"
-				validators={{ onMount: legalAgentSchema.kind, onBlur: legalAgentSchema.kind }}
+				validators={{ onBlur: legalAgentSchema.kind }}
 			>
 				{(field) => {
 					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
@@ -138,7 +138,6 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								<form.AppField
 									name="legalAgent.legalName"
 									validators={{
-										onMount: legalAgentSchema.legalName,
 										onBlur: legalAgentSchema.legalName,
 									}}
 									listeners={{
@@ -162,7 +161,6 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								<form.AppField
 									name="legalAgent.email"
 									validators={{
-										onMount: legalAgentSchema.email,
 										onBlur: legalAgentSchema.email,
 									}}
 									listeners={{
@@ -201,7 +199,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 							<div className="grid gap-4 rounded-md border border-secondary-3 p-4">
 								<form.AppField
 									name="signer.isSignatoryOnKbis"
-									validators={{ onMount: requiredBooleanSchema, onBlur: requiredBooleanSchema }}
+									validators={{ onBlur: requiredBooleanSchema }}
 								>
 									{(field) => {
 										const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
@@ -252,7 +250,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 							<div className="grid gap-4 rounded-md border border-secondary-3 p-4">
 								<form.AppField
 									name="correspondent.isDifferent"
-									validators={{ onMount: requiredBooleanSchema, onBlur: requiredBooleanSchema }}
+									validators={{ onBlur: requiredBooleanSchema }}
 								>
 									{(field) => {
 										const invalid = field.state.meta.isTouched && !field.state.meta.isValid;

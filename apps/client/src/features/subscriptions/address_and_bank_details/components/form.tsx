@@ -75,7 +75,6 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="lineOne"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.lineOne,
 							onBlur: addressAndBankDetailsSchema.shape.lineOne,
 						}}
 						listeners={{
@@ -104,7 +103,6 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="lineTwo"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.lineTwo,
 							onBlur: addressAndBankDetailsSchema.shape.lineTwo,
 						}}
 						listeners={{
@@ -128,7 +126,6 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="zip"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.zip,
 							onBlur: addressAndBankDetailsSchema.shape.zip,
 						}}
 						listeners={{
@@ -157,7 +154,6 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="city"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.city,
 							onBlur: addressAndBankDetailsSchema.shape.city,
 						}}
 						listeners={{
@@ -186,7 +182,6 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="iban"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.iban,
 							onBlur: addressAndBankDetailsSchema.shape.iban,
 						}}
 						listeners={{
@@ -215,7 +210,6 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="bic"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.bic,
 							onBlur: addressAndBankDetailsSchema.shape.bic,
 						}}
 						listeners={{

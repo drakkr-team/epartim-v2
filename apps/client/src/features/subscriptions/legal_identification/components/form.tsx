@@ -96,7 +96,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="siren"
 						validators={{
-							onMount: legalIdentificationSchema.shape.siren,
 							onBlur: legalIdentificationSchema.shape.siren,
 						}}
 						listeners={{
@@ -123,7 +122,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="siret"
 						validators={{
-							onMount: legalIdentificationSchema.shape.siret,
 							onBlur: legalIdentificationSchema.shape.siret,
 						}}
 						listeners={{
@@ -150,7 +148,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="naf"
 						validators={{
-							onMount: legalIdentificationSchema.shape.naf,
 							onBlur: legalIdentificationSchema.shape.naf,
 						}}
 						listeners={{
@@ -177,7 +174,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="vatNumber"
 						validators={{
-							onMount: legalIdentificationSchema.shape.vatNumber,
 							onBlur: legalIdentificationSchema.shape.vatNumber,
 						}}
 						listeners={{
@@ -198,7 +194,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="name"
 						validators={{
-							onMount: legalIdentificationSchema.shape.name,
 							onBlur: legalIdentificationSchema.shape.name,
 						}}
 						listeners={{
@@ -223,7 +218,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="legalForm"
 						validators={{
-							onMount: legalIdentificationSchema.shape.legalForm,
 							onBlur: legalIdentificationSchema.shape.legalForm,
 						}}
 						listeners={{
@@ -285,7 +279,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="companyHeadcount"
 						validators={{
-							onMount: legalIdentificationSchema.shape.companyHeadcount,
 							onBlur: legalIdentificationSchema.shape.companyHeadcount,
 						}}
 						listeners={{
@@ -312,7 +305,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					<form.AppField
 						name="financialYearClosingDay"
 						validators={{
-							onMount: legalIdentificationSchema.shape.financialYearClosingDay,
 							onBlur: legalIdentificationSchema.shape.financialYearClosingDay,
 						}}
 						listeners={{

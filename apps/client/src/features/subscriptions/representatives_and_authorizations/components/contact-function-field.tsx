@@ -49,7 +49,7 @@ export const ContactFunctionField = withFieldGroup({
 			<div className={className}>
 				<group.AppField
 					name="function"
-					validators={{ onMount: functionSchema, onBlur: functionSchema }}
+					validators={{ onBlur: functionSchema }}
 					listeners={{
 						onBlur: ({ value: functionValue, fieldApi }) => {
 							if (fieldApi.state.meta.isValid) onUpdate({ function: functionValue });

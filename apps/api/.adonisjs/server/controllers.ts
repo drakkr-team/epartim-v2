@@ -40,19 +40,19 @@ export const controllers = {
         Update: () => import('#src/features/admin/networks/controllers/update.controller'),
         View: () => import('#src/features/admin/networks/controllers/view.controller'),
       },
-      roles: {
-        Create: () => import('#src/features/admin/roles/controllers/create.controller'),
-        Delete: () => import('#src/features/admin/roles/controllers/delete.controller'),
-        List: () => import('#src/features/admin/roles/controllers/list.controller'),
-        Update: () => import('#src/features/admin/roles/controllers/update.controller'),
-        View: () => import('#src/features/admin/roles/controllers/view.controller'),
-      },
       users: {
         Create: () => import('#src/features/admin/users/controllers/create.controller'),
         Delete: () => import('#src/features/admin/users/controllers/delete.controller'),
         List: () => import('#src/features/admin/users/controllers/list.controller'),
         Update: () => import('#src/features/admin/users/controllers/update.controller'),
         View: () => import('#src/features/admin/users/controllers/view.controller'),
+      },
+      roles: {
+        Create: () => import('#src/features/admin/roles/controllers/create.controller'),
+        Delete: () => import('#src/features/admin/roles/controllers/delete.controller'),
+        List: () => import('#src/features/admin/roles/controllers/list.controller'),
+        Update: () => import('#src/features/admin/roles/controllers/update.controller'),
+        View: () => import('#src/features/admin/roles/controllers/view.controller'),
       },
     },
     client: {
@@ -74,10 +74,17 @@ export const controllers = {
       },
       subscriptions: {
         Create: () => import('#src/features/client/subscriptions/controllers/create.controller'),
+        documents: {
+          Delete: () => import('#src/features/client/subscriptions/controllers/documents/delete.controller'),
+          Upload: () => import('#src/features/client/subscriptions/controllers/documents/upload.controller'),
+        },
         List: () => import('#src/features/client/subscriptions/controllers/list.controller'),
+        steps: {
+          Validate: () => import('#src/features/client/subscriptions/controllers/steps/validate.controller'),
+        },
         update: {
-          LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
           AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),
+          LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
           representatives: {
             Authorizations: () => import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller'),
             Correspondent: () => import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller'),
@@ -86,13 +93,6 @@ export const controllers = {
           },
         },
         View: () => import('#src/features/client/subscriptions/controllers/view.controller'),
-        documents: {
-          Delete: () => import('#src/features/client/subscriptions/controllers/documents/delete.controller'),
-          Upload: () => import('#src/features/client/subscriptions/controllers/documents/upload.controller'),
-        },
-        steps: {
-          Validate: () => import('#src/features/client/subscriptions/controllers/steps/validate.controller'),
-        },
       },
     },
   },

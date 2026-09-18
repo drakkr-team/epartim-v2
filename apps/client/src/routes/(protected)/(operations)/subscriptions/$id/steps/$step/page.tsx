@@ -19,9 +19,9 @@ export const Route = createFileRoute("/(protected)/(operations)/subscriptions/$i
 function SubscriptionStepPage() {
 	const { id, step } = Route.useParams();
 	const { t } = useTranslation("routes.(private).(operations).subscriptions.$id.steps.$step");
-	const subscriptionQuery = useSubscriptionQuery(id);
+	const { data: subscription, isPending, isError} = useSubscriptionQuery(id);
 
-	if (subscriptionQuery.isPending) {
+	if (isPending) {
 		return (
 			<div className="flex min-h-80 items-center justify-center">
 				<Spinner className="size-6 text-primary-9" />
@@ -29,13 +29,13 @@ function SubscriptionStepPage() {
 		);
 	}
 
-	if (subscriptionQuery.isError || !subscriptionQuery.data) {
+	if (isError || !subscription) {
 		return <p className="text-error-10">{t("error")}</p>;
 	}
 
 	if (step === "2") {
-		return <KycStep isValidated={subscriptionQuery.data.completedSteps?.includes(2) ?? false} />;
+		return <KycStep isValidated={subscription.completedSteps?.includes(2) ?? false} />;
 	}
 
-	return <CompanyReferencesStep subscriptionId={id} subscription={subscriptionQuery.data} />;
+	return <CompanyReferencesStep subscriptionId={id} subscription={subscription} />;
 }
