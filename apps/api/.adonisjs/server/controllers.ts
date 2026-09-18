@@ -92,9 +92,6 @@ export const controllers = {
         },
         update: {
           AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),
-          KycOwnerCreate: () => import('#src/features/client/subscriptions/controllers/update/kyc_owner_create.controller'),
-          KycOwnerDelete: () => import('#src/features/client/subscriptions/controllers/update/kyc_owner_delete.controller'),
-          KycOwnerUpdate: () => import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller'),
           KycProfile: () => import('#src/features/client/subscriptions/controllers/update/kyc_profile.controller'),
           LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
           representatives: {
@@ -103,6 +100,9 @@ export const controllers = {
             LegalAgent: () => import('#src/features/client/subscriptions/controllers/update/representatives/legal_agent.controller'),
             Signer: () => import('#src/features/client/subscriptions/controllers/update/representatives/signer.controller'),
           },
+          KycOwnerCreate: () => import('#src/features/client/subscriptions/controllers/update/kyc_owner_create.controller'),
+          KycOwnerDelete: () => import('#src/features/client/subscriptions/controllers/update/kyc_owner_delete.controller'),
+          KycOwnerUpdate: () => import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller'),
         },
         View: () => import('#src/features/client/subscriptions/controllers/view.controller'),
       },
