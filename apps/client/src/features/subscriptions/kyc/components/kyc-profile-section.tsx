@@ -52,7 +52,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 		field: "regulatedActivity" | "listedCompany" | "bicId" | "bearerBondsStructure",
 		value: boolean,
 	) {
-		form.setFieldValue(`kycProfile.${field}`, value);
+		form.setFieldValue(field, value);
 
 		if (value) {
 			updateKycProfile({ [field]: value });
@@ -61,15 +61,15 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 
 		switch (field) {
 			case "regulatedActivity":
-				form.setFieldValue("kycProfile.regulatedActivityReference", "");
+				form.setFieldValue("regulatedActivityReference", "");
 				updateKycProfile({ regulatedActivity: false, regulatedActivityReference: null });
 				return;
 			case "listedCompany":
-				form.setFieldValue("kycProfile.listedCompanyReference", "");
+				form.setFieldValue("listedCompanyReference", "");
 				updateKycProfile({ listedCompany: false, listedCompanyReference: null });
 				return;
 			case "bearerBondsStructure":
-				form.setFieldValue("kycProfile.bearerBondsStructurePercentage", null);
+				form.setFieldValue("bearerBondsStructurePercentage", null);
 				updateKycProfile({ bearerBondsStructure: false, bearerBondsStructurePercentage: null });
 				return;
 			case "bicId":
@@ -78,7 +78,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 	}
 
 	return (
-		<form.Subscribe selector={(state) => state.values.kycProfile}>
+		<form.Subscribe selector={(state) => state.values}>
 			{(profile) => (
 				<section aria-labelledby="kyc-client-heading" className="grid gap-6">
 					<div className="border-neutral-4 border-b pb-4">
@@ -100,7 +100,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 							/>
 							{profile.regulatedActivity && (
 								<form.AppField
-									name="kycProfile.regulatedActivityReference"
+									name="regulatedActivityReference"
 									validators={{
 										onBlur: requiredTextSchema,
 									}}
@@ -119,7 +119,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 							/>
 							{profile.listedCompany && (
 								<form.AppField
-									name="kycProfile.listedCompanyReference"
+									name="listedCompanyReference"
 									validators={{
 										onBlur: requiredTextSchema,
 									}}
@@ -147,7 +147,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 							/>
 							{profile.bearerBondsStructure && (
 								<form.AppField
-									name="kycProfile.bearerBondsStructurePercentage"
+									name="bearerBondsStructurePercentage"
 									validators={{
 										onBlur: percentageSchema,
 									}}
@@ -170,7 +170,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 
 						return (
 							<div key={field} className="grid gap-3">
-								<form.AppField name={`kycProfile.${field}`}>
+								<form.AppField name={field}>
 									{(selectField) => (
 										<Field className="flex flex-col gap-2">
 											<Field.Label>{t(`field.${field}`)}</Field.Label>
@@ -203,7 +203,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 								</form.AppField>
 								{profile[field] === "other" && isCountryOfActivity && (
 									<form.AppField
-										name="kycProfile.countryOfActivityBreakdown"
+										name="countryOfActivityBreakdown"
 										validators={{
 											onBlur: countryActivityBreakdownSchema,
 										}}
@@ -227,7 +227,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 									</form.AppField>
 								)}
 								{profile[field] === "other" && !isCountryOfActivity && (
-									<form.AppField name={`kycProfile.${countryListField}`}>
+									<form.AppField name={countryListField}>
 										{(countryField) => (
 											<CountryMultiSelect
 												id={countryField.name}
