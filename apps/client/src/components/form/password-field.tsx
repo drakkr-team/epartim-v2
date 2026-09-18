@@ -21,7 +21,7 @@ export function PasswordField(props: PasswordFieldProps) {
 	const { label, description, required, disabled, inputProps } = props;
 
 	const field = useFieldContext<string>();
-	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const isInvalid = field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
 
 	return (
 		<Field
@@ -47,8 +47,8 @@ export function PasswordField(props: PasswordFieldProps) {
 			/>
 			{description && <Field.Description>{description}</Field.Description>}
 			{isInvalid &&
-				field.state.meta.errors.map((error) => (
-					<Field.Error key={`${error.code}-${error.path}`}>{error.message}</Field.Error>
+				field.state.meta.errorMap.onBlur?.map((error: { message: string }) => (
+					<Field.Error key={error.message}>{error.message}</Field.Error>
 				))}
 		</Field>
 	);

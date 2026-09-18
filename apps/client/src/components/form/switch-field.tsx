@@ -18,7 +18,7 @@ export function SwitchField(props: SwitchFieldProps) {
 	const { label, description, required, disabled, inputProps } = props;
 
 	const field = useFieldContext<boolean>();
-	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const isInvalid = field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
 
 	return (
 		<Field
@@ -43,8 +43,8 @@ export function SwitchField(props: SwitchFieldProps) {
 			)}
 			{description && <Field.Description className="col-start-2">{description}</Field.Description>}
 			{isInvalid &&
-				field.state.meta.errors.map((error) => (
-					<Field.Error key={`${error.code}-${error.path}`} className="col-start-2">
+				field.state.meta.errorMap.onBlur?.map((error: { message: string }) => (
+					<Field.Error key={error.message} className="col-start-2">
 						{error.message}
 					</Field.Error>
 				))}

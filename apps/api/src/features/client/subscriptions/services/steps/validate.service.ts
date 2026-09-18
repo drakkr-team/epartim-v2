@@ -11,48 +11,51 @@ import Subscription from "#models/subscription";
 export default class ValidateSubscriptionStepService {
 	constructor(protected documentRequirementsService: SubscriptionDocumentRequirementsService) {}
 
-	async handle(subscription: Subscription) {
+	async handle(subscription: Subscription, step: SubscriptionStep) {
 		return db.transaction(async (trx) => {
 			const lockedSubscription = await this.#findForUpdate(subscription.id, trx);
-			const requirements = await this.documentRequirementsService.handle(lockedSubscription, {
-				trx,
-			});
-			const errors = requirements.flatMap((requirement) =>
-				requirement.document
-					? []
-					: [
-							{
-								field: `documents.${requirement.type}`,
-								message: "Ce document est obligatoire.",
-								rule: "required",
-							},
-						],
-			);
-			if (errors.length > 0) throw new ValidationError(errors);
+			if (step === SubscriptionStep.COMPANY_REFERENCES) {
+				await this.#validateCompanyReferences(lockedSubscription, trx);
+			}
 
-			const completedSteps = this.#normalizeCompletedSteps(
-				lockedSubscription.completedSteps,
-				SubscriptionStep.COMPANY_REFERENCES,
-			);
+			const completedSteps = this.#normalizeCompletedSteps(lockedSubscription.completedSteps, step);
 			await lockedSubscription.useTransaction(trx).merge({ completedSteps }).save();
 
 			return lockedSubscription;
 		});
 	}
 
-	async invalidate(subscription: Subscription, trx: TransactionClientContract) {
+	async invalidate(
+		subscription: Subscription,
+		trx: TransactionClientContract,
+		step: SubscriptionStep,
+	) {
 		const lockedSubscription = await this.#findForUpdate(subscription.id, trx);
 		const completedSteps = this.#normalizeCompletedSteps(lockedSubscription.completedSteps);
-		if (!completedSteps.includes(SubscriptionStep.COMPANY_REFERENCES)) return;
+		if (!completedSteps.includes(step)) return;
 
 		await lockedSubscription
 			.useTransaction(trx)
 			.merge({
-				completedSteps: completedSteps.filter(
-					(completedStep) => completedStep !== SubscriptionStep.COMPANY_REFERENCES,
-				),
+				completedSteps: completedSteps.filter((completedStep) => completedStep !== step),
 			})
 			.save();
+	}
+
+	async #validateCompanyReferences(subscription: Subscription, trx: TransactionClientContract) {
+		const requirements = await this.documentRequirementsService.handle(subscription, { trx });
+		const errors = requirements.flatMap((requirement) =>
+			requirement.document
+				? []
+				: [
+						{
+							field: `documents.${requirement.type}`,
+							message: "Ce document est obligatoire.",
+							rule: "required",
+						},
+					],
+		);
+		if (errors.length > 0) throw new ValidationError(errors);
 	}
 
 	async #findForUpdate(subscriptionId: number, trx: TransactionClientContract) {

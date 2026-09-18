@@ -87,6 +87,7 @@ export interface ApiDefinition {
       updateSigner: typeof routes['client.subscriptions.update_signer']
       updateCorrespondent: typeof routes['client.subscriptions.update_correspondent']
       updateAuthorizations: typeof routes['client.subscriptions.update_authorizations']
+      updateKycProfile: typeof routes['client.subscriptions.update_kyc_profile']
     }
   }
 }

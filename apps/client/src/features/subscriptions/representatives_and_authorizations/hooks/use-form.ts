@@ -34,29 +34,9 @@ export type ContactValues = {
 	amundiPortalId: string;
 };
 
-export type LegalAgentValues = ContactValues & {
-	kind: ContactKind | null;
-	legalName: string;
-};
-
-export type SignerValues = ContactValues & {
-	isSignatoryOnKbis: boolean | null;
-};
-
-export type CorrespondentValues = ContactValues & {
-	isDifferent: boolean | null;
-};
-
 export type AuthorizationValues = ContactValues & {
 	key: string;
 	authorizations: ContactAuthorization[];
-};
-
-export type RepresentativesAndAuthorizationsValues = {
-	legalAgent: LegalAgentValues;
-	signer: SignerValues;
-	correspondent: CorrespondentValues;
-	authorizations: AuthorizationValues[];
 };
 
 type UpdateLegalAgentRequest = Parameters<

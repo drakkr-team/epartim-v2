@@ -12,8 +12,9 @@
 		},
 		"step-two": {
 			"eyebrow": "Étape 02 sur 05 · KYC",
+			"short-title": "KYC",
 			"title": "KYC bénéficiaires et risques",
-			"description": "Identifiez les dirigeants, bénéficiaires effectifs, actionnaires principaux et procurations, puis rattachez les justificatifs nécessaires."
+			"description": "Renseignez les informations de connaissance client de l’entreprise et de ses détenteurs."
 		}
 	}
 }
