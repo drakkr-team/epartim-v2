@@ -4,10 +4,6 @@
 		"action": {
 			"new-subscription": "Nouvelle souscription"
 		},
-		"search": {
-			"label": "Rechercher une souscription",
-			"placeholder": "Rechercher un client ou une référence"
-		},
 		"empty": {
 			"title": "Aucune souscription",
 			"description": "Créez une souscription pour commencer un nouveau dossier.",

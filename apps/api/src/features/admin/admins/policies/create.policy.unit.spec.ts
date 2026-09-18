@@ -8,7 +8,7 @@ import User from "#models/user";
 test.group("Features / Admin / Admins / Policies / Create Policy", () => {
 	test("it should allow an admin with the create admin authorization", async ({ assert }) => {
 		const policy = new CreateAdminPolicy();
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:admin"];
 		await role.save();
@@ -20,7 +20,7 @@ test.group("Features / Admin / Admins / Policies / Create Policy", () => {
 
 	test("it should deny an admin without the create admin authorization", async ({ assert }) => {
 		const policy = new CreateAdminPolicy();
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = [];
 		await role.save();

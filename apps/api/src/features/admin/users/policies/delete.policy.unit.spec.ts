@@ -8,7 +8,7 @@ import User from "#models/user";
 test.group("Features / Admin / Users / Policies / Delete Policy", () => {
 	test("it should allow an authorized admin to delete a user", async ({ assert }) => {
 		const policy = new DeleteUserPolicy();
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:user"];
 		await role.save();
@@ -20,7 +20,7 @@ test.group("Features / Admin / Users / Policies / Delete Policy", () => {
 
 	test("it should deny an unauthorized admin", async ({ assert }) => {
 		const policy = new DeleteUserPolicy();
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = [];
 		await role.save();

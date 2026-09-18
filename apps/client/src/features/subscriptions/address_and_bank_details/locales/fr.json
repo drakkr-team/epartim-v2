@@ -1,0 +1,38 @@
+{
+	"features.subscriptions.address_and_bank_details.components.address-and-bank-details-form": {
+		"eyebrow": "II. Adresse et coordonnées bancaires",
+		"title": "Adresse et coordonnées bancaires",
+		"description": "Le RIB est toujours requis à cette étape. Les lignes d'adresse doivent rester compatibles avec les contraintes Amundi.",
+		"field": {
+			"lineOne": { "label": "Adresse" },
+			"lineTwo": { "label": "Complément d'adresse" },
+			"zip": { "label": "Code postal" },
+			"city": { "label": "Ville" },
+			"iban": { "label": "IBAN" },
+			"bic": { "label": "BIC" }
+		},
+		"validation": {
+			"required": "Ce champ est obligatoire.",
+			"max": "Cette valeur est trop longue.",
+			"zip": "Le code postal doit comporter 5 chiffres.",
+			"iban": "Saisissez un IBAN valide.",
+			"bic": "Saisissez un BIC valide."
+		}
+	},
+	"features.subscriptions.address_and_bank_details.hooks.use-update-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Enregistrement indisponible",
+				"description": "La modification n'a pas pu être enregistrée."
+			},
+			"E_VALIDATION": {
+				"title": "Enregistrement refusé",
+				"description": "La valeur ne respecte pas le format attendu."
+			},
+			"E_UNEXPECTED": {
+				"title": "Enregistrement impossible",
+				"description": "Une erreur inattendue est survenue."
+			}
+		}
+	}
+}

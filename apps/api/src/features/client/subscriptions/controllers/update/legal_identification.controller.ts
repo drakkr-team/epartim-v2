@@ -4,7 +4,7 @@ import vine from "@vinejs/vine";
 
 import UpdateLegalIdentificationService from "#features/client/subscriptions/services/update/legal_identification.service";
 import Subscription from "#models/subscription";
-import { UpdateSubscriptionLegalIdentificationSchema } from "#validators/subscription_legal_identification.validator";
+import { UpdateLegalIdentificationSchema } from "#validators/subscription/legal_identification.validator";
 
 @inject()
 export default class UpdateSubscriptionLegalIdentificationController {
@@ -20,5 +20,5 @@ export default class UpdateSubscriptionLegalIdentificationController {
 		return this.updateLegalIdentificationService.handle(subscription, payload);
 	}
 
-	static payloadSchema = vine.create(UpdateSubscriptionLegalIdentificationSchema);
+	static payloadSchema = vine.create(UpdateLegalIdentificationSchema);
 }

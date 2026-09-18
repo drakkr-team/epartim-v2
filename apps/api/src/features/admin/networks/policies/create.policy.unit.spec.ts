@@ -8,7 +8,7 @@ import User from "#models/user";
 test.group("Features / Admin / Networks / Policies / Create Policy", () => {
 	test("it should allow an authorized admin", async ({ assert }) => {
 		const policy = new CreateNetworkPolicy();
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network"];
 		await role.save();
@@ -18,7 +18,7 @@ test.group("Features / Admin / Networks / Policies / Create Policy", () => {
 
 	test("it should deny an unauthorized admin", async ({ assert }) => {
 		const policy = new CreateNetworkPolicy();
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = [];
 		await role.save();

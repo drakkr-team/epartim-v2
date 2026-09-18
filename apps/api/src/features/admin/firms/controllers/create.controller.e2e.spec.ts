@@ -30,7 +30,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();
@@ -60,7 +60,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 	});
 
 	test("it should attach an existing network", async ({ client }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();
@@ -85,7 +85,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();
@@ -116,7 +116,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 	});
 
 	test("it should ignore amundiOrgId supplied during creation", async ({ client, assert }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();
@@ -140,7 +140,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 	});
 
 	test("it should reject missing owned fields and malformed values", async ({ client }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();
@@ -194,7 +194,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 	test("it should reject duplicate editable identifiers and an unknown network", async ({
 		client,
 	}) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();

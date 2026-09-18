@@ -15,6 +15,8 @@ export default class DeleteRolePolicy extends BasePolicy {
 	async handle(currentUser: Admin | User, role: Role) {
 		if (currentUser instanceof User) return false;
 
-		return (await currentUser.can("delete:role")) && this.deleteRoleService.canDelete(role);
+		const currentRole = await Role.find(currentUser.roleId);
+
+		return (currentRole?.isSuperAdmin ?? false) && this.deleteRoleService.canDelete(role);
 	}
 }

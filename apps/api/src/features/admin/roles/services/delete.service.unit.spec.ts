@@ -13,9 +13,15 @@ test.group("Features / Admin / Roles / Services / Delete Service", () => {
 	});
 
 	test("it should deny deleting a role assigned to an admin", async ({ assert }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 
 		assert.isFalse(await new DeleteRoleService().canDelete(await Role.findOrFail(admin.roleId)));
+	});
+
+	test("it should deny deleting an unused super-admin role", async ({ assert }) => {
+		const role = await RoleFactory.merge({ isSuperAdmin: true }).create();
+
+		assert.isFalse(await new DeleteRoleService().canDelete(role));
 	});
 
 	test("it should delete the role", async ({ assert }) => {

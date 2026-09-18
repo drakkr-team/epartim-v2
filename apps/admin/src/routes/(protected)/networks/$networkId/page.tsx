@@ -131,13 +131,22 @@ function Page() {
 						{t("section.address")}
 					</h2>
 
-					<DetailField label={t("field.address.lineOne")} value={network.address.lineOne} />
+					<DetailField
+						label={t("field.address.lineOne")}
+						value={network.address.lineOne ?? t("status.notProvided")}
+					/>
 					<DetailField
 						label={t("field.address.lineTwo")}
 						value={network.address.lineTwo ?? t("status.notProvided")}
 					/>
-					<DetailField label={t("field.address.zip")} value={network.address.zip} />
-					<DetailField label={t("field.address.city")} value={network.address.city} />
+					<DetailField
+						label={t("field.address.zip")}
+						value={network.address.zip ?? t("status.notProvided")}
+					/>
+					<DetailField
+						label={t("field.address.city")}
+						value={network.address.city ?? t("status.notProvided")}
+					/>
 				</div>
 
 				<Separator />
@@ -149,9 +158,16 @@ function Page() {
 
 					<DetailField
 						label={t("field.paymentDetail.iban")}
-						value={humanizeIBAN(network.paymentDetail.iban)}
+						value={
+							network.paymentDetail.iban
+								? humanizeIBAN(network.paymentDetail.iban)
+								: t("status.notProvided")
+						}
 					/>
-					<DetailField label={t("field.paymentDetail.bic")} value={network.paymentDetail.bic} />
+					<DetailField
+						label={t("field.paymentDetail.bic")}
+						value={network.paymentDetail.bic ?? t("status.notProvided")}
+					/>
 				</div>
 			</Card>
 

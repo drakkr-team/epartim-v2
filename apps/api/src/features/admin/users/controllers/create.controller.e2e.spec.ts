@@ -8,7 +8,7 @@ import User from "#models/user";
 
 test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 	test("it should create a user with normalized fields", async ({ client, assert }) => {
-		const authenticatedAdmin = await AdminFactory.with("role").create();
+		const authenticatedAdmin = await AdminFactory.create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["create:user"];
 		await role.save();
@@ -38,7 +38,7 @@ test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 	});
 
 	test("it should reject an email already used by a user", async ({ client }) => {
-		const authenticatedAdmin = await AdminFactory.with("role").create();
+		const authenticatedAdmin = await AdminFactory.create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["create:user"];
 		await role.save();
@@ -58,7 +58,7 @@ test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 	});
 
 	test("it should reject invalid payloads", async ({ client }) => {
-		const authenticatedAdmin = await AdminFactory.with("role").create();
+		const authenticatedAdmin = await AdminFactory.create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["create:user"];
 		await role.save();

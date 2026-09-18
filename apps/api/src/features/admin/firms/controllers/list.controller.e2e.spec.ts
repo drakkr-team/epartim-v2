@@ -7,7 +7,7 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 	test("it should return firm identifiers and action metadata", async ({ client, assert }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm", "update:firm", "delete:firm"];
 		await role.save();

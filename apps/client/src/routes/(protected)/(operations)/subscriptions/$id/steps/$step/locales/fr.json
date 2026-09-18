@@ -1,0 +1,19 @@
+{
+	"routes.(private).(operations).subscriptions.$id.steps.$step": {
+		"error": "La souscription demandée est introuvable ou inaccessible.",
+		"action": {
+			"quit": "Quitter"
+		},
+		"step-one": {
+			"eyebrow": "Étape 01 sur 05 · Références entreprise",
+			"short-title": "Réf. entreprise",
+			"title": "Références entreprise",
+			"description": "Renseignez les informations de l'entreprise pour préparer le bulletin de souscription."
+		},
+		"step-two": {
+			"eyebrow": "Étape 02 sur 05 · KYC",
+			"title": "KYC bénéficiaires et risques",
+			"description": "Identifiez les dirigeants, bénéficiaires effectifs, actionnaires principaux et procurations, puis rattachez les justificatifs nécessaires."
+		}
+	}
+}

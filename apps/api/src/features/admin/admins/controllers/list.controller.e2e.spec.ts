@@ -11,9 +11,7 @@ test.group("Features / Admin / Admins / Controllers / List Controller", () => {
 		const currentAdmin = await AdminFactory.merge({
 			name: "Metadata Current Admin",
 			email: "metadata.current.admin@example.com",
-		})
-			.with("role")
-			.create();
+		}).create();
 		const currentRole = await Role.findOrFail(currentAdmin.roleId);
 		currentRole.authorizations = ["create:admin", "update:admin", "delete:admin"];
 		await currentRole.save();

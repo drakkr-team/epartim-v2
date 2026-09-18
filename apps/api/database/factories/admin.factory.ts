@@ -16,6 +16,10 @@ export const AdminFactory = factory
 			activatedAt: faker.helpers.maybe(() => DateTime.fromJSDate(faker.date.past())),
 		};
 	})
+	.before("create", async (_, admin, ctx) => {
+		const role = await RoleFactory.useCtx(ctx).create();
+		admin.roleId = role.id;
+	})
 	.state("active", (admin) => {
 		admin.activatedAt = DateTime.now();
 	})

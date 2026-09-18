@@ -1,6 +1,11 @@
 import factory from "@adonisjs/lucid/factories";
 
-import Contact, { ContactAuthorization, ContactFunction, ContactKind } from "#models/contact";
+import Contact, {
+	ContactAuthorization,
+	ContactCivility,
+	ContactFunction,
+	ContactKind,
+} from "#models/contact";
 
 export const ContactFactory = factory
 	.define(Contact, ({ faker }) => {
@@ -8,6 +13,7 @@ export const ContactFactory = factory
 		const lastName = faker.person.lastName();
 
 		return {
+			civility: faker.helpers.arrayElement(Object.values(ContactCivility)),
 			kind: ContactKind.PERSONNE_PHYSIQUE,
 			firstName,
 			lastName,
@@ -23,6 +29,7 @@ export const ContactFactory = factory
 	})
 	.state("legalEntity", (contact, { faker }) => {
 		contact.kind = ContactKind.PERSONNE_MORALE;
+		contact.civility = null;
 		contact.firstName = null;
 		contact.lastName = null;
 		contact.legalName = faker.company.name();

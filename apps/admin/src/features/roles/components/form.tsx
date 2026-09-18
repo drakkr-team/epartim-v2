@@ -22,8 +22,6 @@ export function RoleForm(props: RoleFormProps) {
 
 	const form = useRoleForm(props);
 
-	console.log(form.state.values);
-
 	return (
 		<form
 			className="grid gap-4"

@@ -1,0 +1,97 @@
+{
+	"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form": {
+		"eyebrow": "III. Représentant et habilitations",
+		"title": "Représentant, signataire et habilitations",
+		"description": "Identifiez les personnes qui représentent l'entreprise, signent le BSE ou disposent d'habilitations Amundi.",
+		"legalAgent": {
+			"title": "Représentant légal",
+			"description": "Le représentant légal peut être une personne physique ou une personne morale.",
+			"kind": "Nature du représentant légal"
+		},
+		"signer": {
+			"title": "Signataire du BSE",
+			"description": "Le signataire est toujours une personne physique, destinataire de la signature DocuSign.",
+			"onKbis": "Le nom du signataire apparaît sur le Kbis ou l'extrait RNE ?"
+		},
+		"correspondent": {
+			"title": "Correspondant entreprise",
+			"description": "Le correspondant entreprise est le contact principal transmis à Amundi.",
+			"isDifferent": "Le correspondant entreprise est-il différent du représentant légal ?",
+			"forcedDifferent": "Le correspondant entreprise doit être une personne physique distincte du représentant légal personne morale."
+		},
+		"authorizations": {
+			"title": "Habilitations Amundi",
+			"rights": "Accès à l'espace entreprise Amundi",
+			"description": "Ajoutez une habilitation uniquement lorsqu'une personne doit recevoir des droits Amundi.",
+			"empty": "Aucune habilitation ajoutée.",
+			"add": "Ajouter une habilitation",
+			"remove": "Supprimer l'habilitation",
+			"item": "Habilitation {{index}}"
+		},
+		"kind": {
+			"physical": "Personne physique",
+			"legalEntity": "Personne morale"
+		},
+		"answer": {
+			"yes": "Oui",
+			"no": "Non"
+		},
+		"field": {
+			"civility": "Civilité",
+			"firstName": "Prénom",
+			"lastName": "Nom",
+			"legalName": "Raison sociale",
+			"email": "E-mail",
+			"phoneNumber": "Téléphone mobile",
+			"countryCallingCode": "Pays et indicatif",
+			"function": "Fonction",
+			"amundiPortalId": "Identifiant portail Amundi"
+		},
+		"civility": {
+			"1": "Monsieur",
+			"2": "Madame"
+		},
+		"function": {
+			"1": "PDG",
+			"2": "Gérant",
+			"3": "Directeur général",
+			"4": "Directeur financier",
+			"5": "Directeur administratif et financier",
+			"6": "Responsable comptable",
+			"7": "Directeur des ressources humaines",
+			"8": "Ressources humaines",
+			"9": "Assistant(e)",
+			"10": "Correspondant opérationnel épargne salariale",
+			"11": "Président",
+			"12": "Représentant légal",
+			"13": "Autre"
+		},
+		"authorization": {
+			"1": "Comptable",
+			"2": "Agir et consulter",
+			"3": "Administrer"
+		},
+		"validation": {
+			"required": "Ce champ est obligatoire.",
+			"max": "Cette valeur est trop longue.",
+			"email": "Saisissez une adresse e-mail valide.",
+			"phoneNumber": "Saisissez un numéro de téléphone complet."
+		}
+	},
+	"features.subscriptions.representatives_and_authorizations.hooks.use-update-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Enregistrement indisponible",
+				"description": "La modification n'a pas pu être enregistrée."
+			},
+			"E_VALIDATION": {
+				"title": "Enregistrement refusé",
+				"description": "La valeur ne respecte pas le format attendu."
+			},
+			"E_UNEXPECTED": {
+				"title": "Enregistrement impossible",
+				"description": "Une erreur inattendue est survenue."
+			}
+		}
+	}
+}

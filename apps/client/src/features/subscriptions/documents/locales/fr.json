@@ -1,0 +1,29 @@
+{
+	"features.subscriptions.documents.components.documents-section": {
+		"eyebrow": "IV. Documents à joindre",
+		"title": "Documents à joindre",
+		"description": "La liste des pièces s'adapte aux informations saisies : forme juridique, type de représentant légal et signataire sur le Kbis.",
+		"status": {
+			"pending": "Requis",
+			"attached": "Joint"
+		},
+		"validation": {
+			"required-document": "Ce document est obligatoire."
+		},
+		"action": {
+			"upload": "Téléverser {{document}}",
+			"replace": "Remplacer {{document}}",
+			"download": "Télécharger {{document}}",
+			"delete": "Supprimer {{document}}"
+		},
+		"error": {
+			"format": "Le fichier doit être au format PDF, PNG, JPG, JPEG, CSV ou XLSX.",
+			"size": "Le fichier ne doit pas dépasser 10 Mo.",
+			"upload": "Le téléversement a échoué. Réessayez.",
+			"delete": "La suppression a échoué. Réessayez."
+		},
+		"checklist": {
+			"title": "Pièces à joindre"
+		}
+	}
+}

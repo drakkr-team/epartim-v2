@@ -8,7 +8,7 @@ import User from "#models/user";
 test.group("Features / Admin / Users / Controllers / List Controller", () => {
 	test("it should paginate every user with the documented defaults", async ({ client, assert }) => {
 		const existingUserCount = (await User.all()).length;
-		const authenticatedAdmin = await AdminFactory.with("role").create();
+		const authenticatedAdmin = await AdminFactory.create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["create:user", "update:user", "delete:user"];
 		await role.save();

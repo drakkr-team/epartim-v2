@@ -5,6 +5,7 @@ export default class ContactPresenter {
 		return {
 			id: contact.id,
 
+			civility: contact.civility,
 			kind: contact.kind,
 			firstName: contact.firstName,
 			lastName: contact.lastName,

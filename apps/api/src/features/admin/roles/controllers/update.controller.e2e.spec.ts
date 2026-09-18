@@ -6,9 +6,10 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 	test("it should partially update and return a role", async ({ client, assert }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["update:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.merge({ name: "Update Role", authorizations: [] }).create();
 
@@ -28,7 +29,7 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 	});
 
 	test("it should forbid an admin without the update role authorization", async ({ client }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -44,9 +45,10 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 	});
 
 	test("it should forbid updating the super-admin role", async ({ client, assert }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["update:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.merge({
 			name: "Super administrator",
@@ -65,9 +67,10 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 	});
 
 	test("it should reject an invalid authorization", async ({ client }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["update:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.create();
 

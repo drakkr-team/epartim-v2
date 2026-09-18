@@ -6,9 +6,10 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	test("it should delete an unused role", async ({ client, assert }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.create();
 
@@ -22,12 +23,15 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	});
 
 	test("it should forbid deleting a role assigned to an admin", async ({ client, assert }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.create();
-		await AdminFactory.merge({ roleId: role.id }).create();
+		const assignedAdmin = await AdminFactory.create();
+		assignedAdmin.roleId = role.id;
+		await assignedAdmin.save();
 
 		const response = await client
 			.visit("admin.roles.delete", { roleId: role.id })
@@ -39,9 +43,10 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	});
 
 	test("it should forbid deleting the super-admin role", async ({ client, assert }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.merge({ isSuperAdmin: true }).create();
 
@@ -55,7 +60,7 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	});
 
 	test("it should forbid an admin without the delete role authorization", async ({ client }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -70,9 +75,10 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	});
 
 	test("it should return not found for an unknown roleId", async ({ client }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 
 		const response = await client

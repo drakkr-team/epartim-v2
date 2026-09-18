@@ -13,7 +13,7 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY . .
-RUN pnpm dlx turbo prune "@workspace/web" --docker
+RUN pnpm dlx turbo prune "@workspace/client" --docker
 
 FROM base AS builder
 RUN apk update
@@ -25,7 +25,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm turbo run build
 
 FROM nginx:stable-alpine AS runner
-COPY --from=builder /app/apps/web/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/apps/web/dist/client /usr/share/nginx/html
+COPY --from=builder /app/apps/client/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/apps/client/dist/client /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

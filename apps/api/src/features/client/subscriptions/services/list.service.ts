@@ -1,4 +1,5 @@
 import type { ModelQueryBuilderContract } from "@adonisjs/lucid/types/model";
+import { DateTime } from "luxon";
 
 import Subscription, { SubscriptionStatus } from "#models/subscription";
 
@@ -13,6 +14,9 @@ const tabsListStatus: Record<SubscriptionListStatus, readonly number[]> = {
 };
 
 type ListSubscriptionsParams = {
+	createdAtFrom?: Date;
+	createdAtTo?: Date;
+	progress?: number;
 	q?: string;
 	status?: SubscriptionListStatus;
 };
@@ -25,7 +29,7 @@ export default class ListSubscriptionsService {
 	}
 
 	async getStatusCounts(
-		params: Pick<ListSubscriptionsParams, "q">,
+		params: Pick<ListSubscriptionsParams, "q" | "progress" | "createdAtFrom" | "createdAtTo">,
 	): Promise<SubscriptionStatusCounts> {
 		const subscriptions = await this.#buildQuery(params)
 			.select("status")
@@ -49,13 +53,40 @@ export default class ListSubscriptionsService {
 	}
 
 	#buildQuery(params: ListSubscriptionsParams) {
-		const { q, status } = params;
+		const { createdAtFrom, createdAtTo, progress, q, status } = params;
 
 		return Subscription.query()
 			.if(q, (query) => this.#searchQuery(query, q!))
+			.if(progress !== undefined, (query) => this.#progressQuery(query, progress!))
+			.if(createdAtFrom && !createdAtTo, (query) =>
+				this.#dateRangeQuery(query, createdAtFrom!, createdAtFrom!),
+			)
+			.if(createdAtFrom && createdAtTo, (query) =>
+				this.#dateRangeQuery(query, createdAtFrom!, createdAtTo!),
+			)
+			.if(createdAtTo && !createdAtFrom, (query) =>
+				query.where("subscriptions.created_at", "<", this.#rangeEnd(createdAtTo!)),
+			)
 			.if(status, (query) =>
 				query.whereIn("subscriptions.status", Array.from(tabsListStatus[status!])),
 			);
+	}
+
+	#progressQuery(query: ModelQueryBuilderContract<typeof Subscription>, progress: number) {
+		return query.whereRaw(
+			"least(greatest(coalesce(jsonb_array_length(subscriptions.completed_steps), 0) + 1, 1), 5) = ?",
+			[progress],
+		);
+	}
+
+	#dateRangeQuery(query: ModelQueryBuilderContract<typeof Subscription>, from: Date, to: Date) {
+		return query
+			.where("subscriptions.created_at", ">=", from)
+			.where("subscriptions.created_at", "<", this.#rangeEnd(to));
+	}
+
+	#rangeEnd(date: Date) {
+		return DateTime.fromJSDate(date).plus({ days: 1 }).toJSDate();
 	}
 
 	#searchQuery(query: ModelQueryBuilderContract<typeof Subscription>, q: string) {

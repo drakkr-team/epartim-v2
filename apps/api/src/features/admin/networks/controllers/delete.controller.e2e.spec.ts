@@ -14,7 +14,7 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:network"];
 		await role.save();
@@ -36,7 +36,7 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:network"];
 		await role.save();
@@ -60,7 +60,7 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 	});
 
 	test("it should return not found for an unknown networkId", async ({ client }) => {
-		const admin = await AdminFactory.with("role").create();
+		const admin = await AdminFactory.create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:network"];
 		await role.save();
