@@ -12,6 +12,12 @@ const routes = {
     tokens: [{"old":"/uploads/*","type":0,"val":"uploads","end":""},{"old":"/uploads/*","type":2,"val":"*","end":""}],
     types: placeholder as Registry['drive.fs.serve']['types'],
   },
+  'admin.account_management.onboarding.activate': {
+    methods: ["POST"],
+    pattern: '/admin/account_management/onboarding/activate',
+    tokens: [{"old":"/admin/account_management/onboarding/activate","type":0,"val":"admin","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"account_management","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"onboarding","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"activate","end":""}],
+    types: placeholder as Registry['admin.account_management.onboarding.activate']['types'],
+  },
   'admin.account_management.profile.view': {
     methods: ["GET","HEAD"],
     pattern: '/admin/account-management/profile',
@@ -47,6 +53,12 @@ const routes = {
     pattern: '/admin/admins/:adminId',
     tokens: [{"old":"/admin/admins/:adminId","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId","type":1,"val":"adminId","end":""}],
     types: placeholder as Registry['admin.admins.delete']['types'],
+  },
+  'admin.admins.resend_onboarding': {
+    methods: ["POST"],
+    pattern: '/admin/admins/:adminId/resend-onboarding',
+    tokens: [{"old":"/admin/admins/:adminId/resend-onboarding","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId/resend-onboarding","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId/resend-onboarding","type":1,"val":"adminId","end":""},{"old":"/admin/admins/:adminId/resend-onboarding","type":0,"val":"resend-onboarding","end":""}],
+    types: placeholder as Registry['admin.admins.resend_onboarding']['types'],
   },
   'admin.firms.list': {
     methods: ["GET","HEAD"],
