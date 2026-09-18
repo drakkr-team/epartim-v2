@@ -5,11 +5,11 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Admins / Controllers / View Controller", () => {
 	test("it should return another admin with authorization metadata", async ({ client }) => {
-		const currentAdmin = await AdminFactory.create();
+		const currentAdmin = await AdminFactory.with("role").create();
 		const currentRole = await Role.findOrFail(currentAdmin.roleId);
 		currentRole.authorizations = ["update:admin", "delete:admin"];
 		await currentRole.save();
-		const viewedAdmin = await AdminFactory.create();
+		const viewedAdmin = await AdminFactory.with("role").create();
 
 		const response = await client
 			.visit("admin.admins.view", { adminId: viewedAdmin.id })
@@ -29,7 +29,7 @@ test.group("Features / Admin / Admins / Controllers / View Controller", () => {
 	});
 
 	test("it should indicate that an admin cannot delete itself", async ({ client }) => {
-		const currentAdmin = await AdminFactory.create();
+		const currentAdmin = await AdminFactory.with("role").create();
 		const currentRole = await Role.findOrFail(currentAdmin.roleId);
 		currentRole.authorizations = ["update:admin", "delete:admin"];
 		await currentRole.save();
@@ -50,7 +50,7 @@ test.group("Features / Admin / Admins / Controllers / View Controller", () => {
 	});
 
 	test("it should return not found for a missing admin", async ({ client }) => {
-		const currentAdmin = await AdminFactory.create();
+		const currentAdmin = await AdminFactory.with("role").create();
 
 		const response = await client
 			.visit("admin.admins.view", { adminId: 999_999 })

@@ -1,0 +1,7 @@
+{
+	"routes.(protected).roles.new": {
+		"headline": "Gestion des rôles",
+		"title": "Créer un rôle",
+		"description": "Nommez le rôle et définissez ses autorisations."
+	}
+}

@@ -9,6 +9,7 @@ import {
 	LayoutDashboardIcon,
 	LogOutIcon,
 	NetworkIcon,
+	ShieldCheckIcon,
 	UserShieldIcon,
 } from "@workspace/ui-react/icons";
 
@@ -19,6 +20,7 @@ const navigationItems = [
 	{ label: "Réseaux", to: "/networks", icon: NetworkIcon, exact: false },
 	{ label: "Cabinets", to: "/firms", icon: Building2Icon, exact: false },
 	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
+	{ label: "Rôles", to: "/roles", icon: ShieldCheckIcon, exact: false },
 ] as const;
 
 export function AdminShell({ children }: PropsWithChildren) {

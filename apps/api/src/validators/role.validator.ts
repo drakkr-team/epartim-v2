@@ -1,6 +1,6 @@
 import vine from "@vinejs/vine";
 
-import { AUTHORIZATIONS_OPTIONS } from "#models/role";
+import { AUTHORIZATIONS_OPTIONS } from "#constants/role";
 
 export const RoleNameSchema = vine.string().trim().minLength(1).maxLength(254);
 

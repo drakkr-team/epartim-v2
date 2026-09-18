@@ -40,7 +40,7 @@ export function TableRow(props: TableRowProps) {
 		<tr
 			className={cn(
 				{
-					"cursor-pointer hover:bg-primary-2": interactive,
+					"cursor-pointer hover:bg-neutral-3/50": interactive,
 				},
 				className,
 			)}

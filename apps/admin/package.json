@@ -16,7 +16,7 @@
 	},
 	"portless": {
 		"name": "admin.epartim",
-		"script": "dev:default"
+		"script": "dev:app"
 	},
 	"dependencies": {
 		"@tanstack/react-form": "1.33.5",

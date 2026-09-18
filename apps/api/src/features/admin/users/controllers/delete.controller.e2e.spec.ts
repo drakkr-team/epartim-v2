@@ -7,7 +7,7 @@ import User from "#models/user";
 
 test.group("Features / Admin / Users / Controllers / Delete Controller", () => {
 	test("it should permanently delete a user", async ({ client, assert }) => {
-		const authenticatedAdmin = await AdminFactory.create();
+		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["delete:user"];
 		await role.save();
@@ -23,7 +23,7 @@ test.group("Features / Admin / Users / Controllers / Delete Controller", () => {
 	});
 
 	test("it should return not found for missing identifiers", async ({ client }) => {
-		const authenticatedAdmin = await AdminFactory.create();
+		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["delete:user"];
 		await role.save();

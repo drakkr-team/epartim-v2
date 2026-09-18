@@ -10,7 +10,9 @@ test.group(
 			const admin = await AdminFactory.merge({
 				name: "Alex Martin",
 				email: "password.reset@example.com",
-			}).create();
+			})
+				.with("role")
+				.create();
 			const resetPasswordUrl = new URL("https://app.example.test/reset-password?token=test-token");
 			const email = new ResetPasswordInstructionMail({ admin, resetPasswordUrl });
 

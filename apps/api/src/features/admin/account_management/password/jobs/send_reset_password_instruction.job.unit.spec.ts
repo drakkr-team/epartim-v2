@@ -11,7 +11,7 @@ test.group(
 		test("it should send the reset password instruction email", async () => {
 			const fakeMailer = mail.fake();
 
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 			const resetPasswordUrl = new URL("https://app.example.test/reset-password?token=test-token");
 
 			const job = new SendResetPasswordInstruction();

@@ -26,7 +26,7 @@ async function createUpdateFixture(name: string, orias: string) {
 
 test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	test("it should update the firm and owned relations", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
@@ -68,7 +68,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
@@ -103,7 +103,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	});
 
 	test("it should ignore amundiOrgId supplied during update", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
@@ -122,7 +122,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	});
 
 	test("it should reject duplicate editable unique values", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
@@ -141,7 +141,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	});
 
 	test("it should allow a no-op payload", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
@@ -159,7 +159,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	});
 
 	test("it should reject invalid owned fields and references", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
@@ -177,7 +177,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	});
 
 	test("it should reject malformed partial values", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
@@ -211,7 +211,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	});
 
 	test("it should return not found for an unknown firmId", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();

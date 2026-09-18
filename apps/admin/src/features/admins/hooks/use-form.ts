@@ -9,21 +9,24 @@ import { useUpdateAdminMutation } from "#/features/admins/hooks/use-update-mutat
 import { useAppForm } from "#/libs/form";
 import { convertTuyauErrorToFormErrorMap } from "#/utils/form";
 
+type AdminFormValues = {
+	name: string;
+	email: string;
+	roleId: number;
+};
+
 type UseCreateAdminFormParams = {
 	action: "create";
+	defaultValues?: Partial<AdminFormValues>;
 };
 
 type UseUpdateAdminFormParams = {
 	action: "update";
 	adminId: string | number;
+	defaultValues: AdminFormValues;
 };
 
-export type UseAdminFormParams = {
-	defaultValues?: {
-		name?: string;
-		email?: string;
-	};
-} & (UseCreateAdminFormParams | UseUpdateAdminFormParams);
+export type UseAdminFormParams = UseCreateAdminFormParams | UseUpdateAdminFormParams;
 
 export function useAdminForm(params: UseAdminFormParams) {
 	const { t } = useTranslation("features.admins.hooks.use-form");
@@ -35,7 +38,7 @@ export function useAdminForm(params: UseAdminFormParams) {
 		defaultValues: {
 			name: "",
 			email: "",
-			roleId: 1,
+			roleId: null,
 			...params.defaultValues,
 		},
 		validationLogic: revalidateLogic(),
@@ -48,7 +51,10 @@ export function useAdminForm(params: UseAdminFormParams) {
 				email: z
 					.email({ error: t("validation.email.email") })
 					.max(254, { error: t("validation.email.max", { max: 254 }) }),
-				roleId: z.number(),
+				roleId: z
+					.number({ error: t("validation.role.required") })
+					.int()
+					.positive(),
 			}),
 		},
 		onSubmitInvalid() {
@@ -57,12 +63,14 @@ export function useAdminForm(params: UseAdminFormParams) {
 			InvalidInput?.focus();
 		},
 		onSubmit: async ({ value }) => {
+			const body = value as AdminFormValues;
+
 			if (params.action === "create") {
-				await createAdmin({ body: value });
+				await createAdmin({ body });
 			}
 
 			if (params.action === "update") {
-				await updateAdmin({ params: { adminId: params.adminId }, body: value });
+				await updateAdmin({ params: { adminId: params.adminId }, body });
 			}
 		},
 	});

@@ -1,0 +1,7 @@
+{
+	"routes.(protected).roles.$roleId.edit": {
+		"headline": "Gestion des rôles",
+		"title": "Modifier le rôle",
+		"description": "Mettez à jour le nom et les autorisations de ce rôle."
+	}
+}

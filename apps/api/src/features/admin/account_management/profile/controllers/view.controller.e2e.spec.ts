@@ -6,7 +6,7 @@ test.group(
 	"Features / Admin / Account Management / Profile / Controllers / View Controller",
 	() => {
 		test("it should return the authenticated admin profile", async ({ client }) => {
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 
 			const response = await client
 				.visit("admin.account_management.profile.view")

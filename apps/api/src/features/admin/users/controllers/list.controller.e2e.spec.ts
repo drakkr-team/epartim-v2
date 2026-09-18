@@ -8,7 +8,7 @@ import User from "#models/user";
 test.group("Features / Admin / Users / Controllers / List Controller", () => {
 	test("it should paginate every user with the documented defaults", async ({ client, assert }) => {
 		const existingUserCount = (await User.all()).length;
-		const authenticatedAdmin = await AdminFactory.create();
+		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["create:user", "update:user", "delete:user"];
 		await role.save();
@@ -35,7 +35,7 @@ test.group("Features / Admin / Users / Controllers / List Controller", () => {
 	});
 
 	test("it should search names and emails case-insensitively", async ({ client, assert }) => {
-		const authenticatedAdmin = await AdminFactory.create();
+		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const firstNameMatch = await UserFactory.merge({
 			firstName: "UserSearchUnique",
 			lastName: "Manager",
@@ -69,7 +69,7 @@ test.group("Features / Admin / Users / Controllers / List Controller", () => {
 		client,
 		assert,
 	}) => {
-		const authenticatedAdmin = await AdminFactory.create();
+		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const first = await UserFactory.merge({ firstName: "Same", lastName: "Alpha" }).create();
 		const second = await UserFactory.merge({ firstName: "Same", lastName: "Bravo" }).create();
 		const targetIds = [String(first.id), String(second.id)];
@@ -95,7 +95,7 @@ test.group("Features / Admin / Users / Controllers / List Controller", () => {
 	});
 
 	test("it should reject invalid pagination parameters", async ({ client }) => {
-		const authenticatedAdmin = await AdminFactory.create();
+		const authenticatedAdmin = await AdminFactory.with("role").create();
 
 		for (const query of ["page=0", "perPage=0", "perPage=1.5"]) {
 			const response = await client

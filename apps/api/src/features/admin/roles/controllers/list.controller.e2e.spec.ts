@@ -9,7 +9,7 @@ test.group("Features / Admin / Roles / Controllers / List Controller", () => {
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -30,6 +30,29 @@ test.group("Features / Admin / Roles / Controllers / List Controller", () => {
 		assert.deepEqual(response.body().data[0].meta, {
 			canUpdate: false,
 			canDelete: false,
+		});
+	});
+
+	test("it should return immutable super-admin metadata to a super-admin", async ({ client }) => {
+		const admin = await AdminFactory.with("role").create();
+		const adminRole = await Role.findOrFail(admin.roleId);
+		adminRole.isSuperAdmin = true;
+		await adminRole.save();
+		const role = await RoleFactory.merge({
+			name: "Immutable Controller List",
+			isSuperAdmin: true,
+		}).create();
+
+		const response = await client
+			.visit("admin.roles.list")
+			.withGuard("admin")
+			.loginAs(admin)
+			.qs({ q: "Immutable Controller List" });
+
+		response.assertOk();
+		response.assertBodyContains({
+			meta: { total: 1, canCreate: true },
+			data: [{ id: role.id, meta: { canUpdate: false, canDelete: false } }],
 		});
 	});
 

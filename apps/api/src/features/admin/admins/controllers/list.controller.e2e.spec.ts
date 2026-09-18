@@ -11,14 +11,18 @@ test.group("Features / Admin / Admins / Controllers / List Controller", () => {
 		const currentAdmin = await AdminFactory.merge({
 			name: "Metadata Current Admin",
 			email: "metadata.current.admin@example.com",
-		}).create();
+		})
+			.with("role")
+			.create();
 		const currentRole = await Role.findOrFail(currentAdmin.roleId);
 		currentRole.authorizations = ["create:admin", "update:admin", "delete:admin"];
 		await currentRole.save();
 		const otherAdmin = await AdminFactory.merge({
 			name: "Metadata Other Admin",
 			email: "metadata.other.admin@example.com",
-		}).create();
+		})
+			.with("role")
+			.create();
 
 		const response = await client
 			.visit("admin.admins.list")
@@ -59,9 +63,13 @@ test.group("Features / Admin / Admins / Controllers / List Controller", () => {
 	});
 
 	test("it should apply pagination query parameters", async ({ client }) => {
-		const currentAdmin = await AdminFactory.merge({ name: "Pagination Admin One" }).create();
-		const secondAdmin = await AdminFactory.merge({ name: "Pagination Admin Two" }).create();
-		await AdminFactory.merge({ name: "Pagination Admin Three" }).create();
+		const currentAdmin = await AdminFactory.merge({ name: "Pagination Admin One" })
+			.with("role")
+			.create();
+		const secondAdmin = await AdminFactory.merge({ name: "Pagination Admin Two" })
+			.with("role")
+			.create();
+		await AdminFactory.merge({ name: "Pagination Admin Three" }).with("role").create();
 
 		const response = await client
 			.visit("admin.admins.list")
@@ -94,15 +102,21 @@ test.group("Features / Admin / Admins / Controllers / List Controller", () => {
 		const currentAdmin = await AdminFactory.merge({
 			name: "ControllerSearch Current",
 			email: "controller.search.current@example.com",
-		}).create();
+		})
+			.with("role")
+			.create();
 		const matchingAdmin = await AdminFactory.merge({
 			name: "ControllerSearchAlice",
 			email: "controller.search.alice@example.com",
-		}).create();
+		})
+			.with("role")
+			.create();
 		await AdminFactory.merge({
 			name: "ControllerSearchBob",
 			email: "controller.search.bob@example.com",
-		}).create();
+		})
+			.with("role")
+			.create();
 
 		const response = await client
 			.visit("admin.admins.list")
@@ -123,7 +137,7 @@ test.group("Features / Admin / Admins / Controllers / List Controller", () => {
 	});
 
 	test("it should reject invalid pagination parameters", async ({ client }) => {
-		const currentAdmin = await AdminFactory.create();
+		const currentAdmin = await AdminFactory.with("role").create();
 
 		const response = await client
 			.visit("admin.admins.list")

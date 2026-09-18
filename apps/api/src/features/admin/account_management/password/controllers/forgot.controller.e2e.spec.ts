@@ -16,7 +16,7 @@ test.group(
 		}) => {
 			const fakeQueueManager = QueueManager.fake();
 
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 
 			const response = await client.visit("admin.account_management.password.forgot").json({
 				email: admin.email,
@@ -42,7 +42,7 @@ test.group(
 		test("it should respond with E_GUEST_ONLY code if the admin is already authenticated", async ({
 			client,
 		}) => {
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 
 			const response = await client
 				.visit("admin.account_management.password.forgot")
