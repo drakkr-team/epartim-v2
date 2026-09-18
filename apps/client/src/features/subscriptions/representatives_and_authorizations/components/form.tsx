@@ -54,8 +54,8 @@ export function RepresentativesAndAuthorizationsForm(
 					onUpdateSigner={updateSigner}
 					onUpdateCorrespondent={updateCorrespondent}
 				/>
-				<SignerSection form={form} onUpdateSigner={updateSigner} />
-				<CorrespondentSection form={form} onUpdateCorrespondent={updateCorrespondent} />
+				<SignerSection form={form} />
+				<CorrespondentSection form={form} />
 				<AuthorizationsSection form={form} onUpdateAuthorizations={updateAuthorizations} />
 			</section>
 		</Card>

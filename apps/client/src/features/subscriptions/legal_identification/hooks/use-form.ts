@@ -26,11 +26,17 @@ export function useLegalIdentificationForm(params: UseLegalIdentificationFormPar
 	const legalForm = legalIdentification?.legalForm;
 	const companyHeadcount = Number(legalIdentification?.companyHeadcount);
 
-	function updateLegalIdentification(legalIdentification: LegalIdentificationChanges) {
-		update({
-			params: { subscriptionId },
-			body: { legalIdentification },
-		});
+	function updateLegalIdentification(
+		legalIdentification: LegalIdentificationChanges,
+		onSuccess?: () => void,
+	) {
+		update(
+			{
+				params: { subscriptionId },
+				body: { legalIdentification },
+			},
+			{ onSuccess },
+		);
 	}
 
 	const form = useAppForm({
@@ -47,14 +53,21 @@ export function useLegalIdentificationForm(params: UseLegalIdentificationFormPar
 		},
 		listeners: {
 			onBlur: ({ fieldApi }) => {
+				if (!fieldApi.state.meta.isDirty || !fieldApi.state.meta.isValid) return;
+
 				const rawValue = fieldApi.state.value;
 				const value = typeof rawValue === "string" ? rawValue.trim() || null : rawValue;
 
-				if (value !== null && !fieldApi.state.meta.isValid) return;
-
-				updateLegalIdentification({
-					[fieldApi.name]: value,
-				} as LegalIdentificationChanges);
+				updateLegalIdentification(
+					{
+						[fieldApi.name]: value,
+					} as LegalIdentificationChanges,
+					() => {
+						if (Object.is(fieldApi.state.value, rawValue)) {
+							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
+						}
+					},
+				);
 			},
 		},
 	});

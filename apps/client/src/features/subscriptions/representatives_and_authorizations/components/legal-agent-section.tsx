@@ -124,7 +124,6 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								form={form}
 								fields="legalAgent"
 								idPrefix="legal-agent"
-								onUpdate={onUpdateLegalAgent}
 								includeFunction
 								phoneRequired
 							/>

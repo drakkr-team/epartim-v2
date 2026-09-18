@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
-import type { Contact } from "@workspace/api/data";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
@@ -21,18 +20,10 @@ const translationNamespace =
 
 type ContactFieldsProps = {
 	idPrefix: string;
-	onUpdate: (changes: ContactChanges) => void;
 	includeFunction?: boolean;
 	includePortalId?: boolean;
 	phoneRequired?: boolean;
 };
-
-export type ContactChanges = Partial<
-	Pick<
-		Contact,
-		"civility" | "firstName" | "lastName" | "email" | "phoneNumber" | "function" | "amundiPortalId"
-	>
->;
 
 const defaultValues: ContactValues = {
 	civility: null,
@@ -46,14 +37,13 @@ const defaultValues: ContactValues = {
 
 const defaultProps: ContactFieldsProps = {
 	idPrefix: "",
-	onUpdate: () => {},
 };
 
 export const ContactFields = withFieldGroup({
 	defaultValues,
 	props: defaultProps,
 	render: function ContactFields(props) {
-		const { group, idPrefix, onUpdate, includeFunction, includePortalId, phoneRequired } = props;
+		const { group, idPrefix, includeFunction, includePortalId, phoneRequired } = props;
 		const { t } = useTranslation(translationNamespace);
 		const civilityOptions = CONTACT_CIVILITIES.map((civility) => ({
 			value: civility,
@@ -178,7 +168,6 @@ export const ContactFields = withFieldGroup({
 									value={field.state.value}
 									onValueChange={field.handleChange}
 									onBlur={field.handleBlur}
-									onCountryChange={(phoneNumber) => onUpdate({ phoneNumber })}
 									required={phoneRequired}
 									invalid={invalid}
 									errorMessages={errorMessages}

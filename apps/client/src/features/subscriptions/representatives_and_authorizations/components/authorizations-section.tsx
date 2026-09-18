@@ -75,7 +75,6 @@ export function AuthorizationsSection(props: AuthorizationsSectionProps) {
 									key={authorization.key}
 									form={form}
 									index={index}
-									onUpdate={() => onUpdateAuthorizations(form.state.values.authorizations)}
 									onRemove={() => removeAuthorization(index)}
 								/>
 							))}
