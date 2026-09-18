@@ -5,12 +5,14 @@ type ParamValue = string | number | bigint | boolean
 export type ScannedRoutes = {
   ALL: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'admin.account_management.onboarding.activate': { paramsTuple?: []; params?: {} }
     'admin.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'admin.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admins.create': { paramsTuple?: []; params?: {} }
     'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.admins.resend_onboarding': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.firms.list': { paramsTuple?: []; params?: {} }
     'admin.firms.create': { paramsTuple?: []; params?: {} }
     'admin.firms.view': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
@@ -91,7 +93,9 @@ export type ScannedRoutes = {
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
   }
   POST: {
+    'admin.account_management.onboarding.activate': { paramsTuple?: []; params?: {} }
     'admin.admins.create': { paramsTuple?: []; params?: {} }
+    'admin.admins.resend_onboarding': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.firms.create': { paramsTuple?: []; params?: {} }
     'admin.networks.create': { paramsTuple?: []; params?: {} }
     'admin.roles.create': { paramsTuple?: []; params?: {} }

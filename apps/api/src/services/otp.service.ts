@@ -8,25 +8,42 @@ import env from "#start/env";
 
 export default class OtpService<Data = unknown> {
 	async generate(options: {
+		key: string;
 		type: "numeric" | "alphanumeric";
 		length: number;
 		expireIn: number;
 		data: Data;
 	}) {
 		const otp = this.#createOtp(options.type, options.length);
-		const hashedOtp = this.#createHash(otp);
+		const hashedOtp = this.#hash(otp);
 
-		await redis.setex(`otp:${hashedOtp}`, options.expireIn, JSON.stringify(options.data));
+		const tokenKey = this.#createTokenKey(hashedOtp);
+		const groupKey = this.#createGroupKey(options.key);
+
+		await this.revoke(options.key);
+		await redis
+			.multi()
+			.setex(tokenKey, options.expireIn, JSON.stringify(options.data))
+			.sadd(groupKey, tokenKey)
+			.expire(groupKey, options.expireIn)
+			.exec();
 
 		return otp;
 	}
 
 	async verify(otp: string) {
-		const hashedOtp = this.#createHash(otp);
-		const data = await redis.getdel(`otp:${hashedOtp}`);
+		const hashedOtp = this.#hash(otp);
+		const data = await redis.getdel(this.#createTokenKey(hashedOtp));
 		if (!data) throw new InvalidTokenException();
 
 		return JSON.parse(data) as Data;
+	}
+
+	async revoke(key: string) {
+		const groupKey = this.#createGroupKey(key);
+		const tokenKeys = await redis.smembers(groupKey);
+
+		await redis.del(groupKey, ...tokenKeys);
 	}
 
 	#createOtp(type: "numeric" | "alphanumeric", length: number) {
@@ -40,7 +57,15 @@ export default class OtpService<Data = unknown> {
 		return StringHelpers.random(length);
 	}
 
-	#createHash(otp: string) {
-		return createHmac("sha256", env.get("APP_KEY")).update(otp).digest("hex");
+	#hash(value: string) {
+		return createHmac("sha256", env.get("APP_KEY")).update(value).digest("hex");
+	}
+
+	#createTokenKey(hashedOtp: string) {
+		return `otp:token:${hashedOtp}`;
+	}
+
+	#createGroupKey(key: string) {
+		return `otp:group:${key}`;
 	}
 }

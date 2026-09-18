@@ -11,6 +11,9 @@ export const controllers = {
           Login: () => import('#src/features/admin/account_management/authentication/controllers/login.controller'),
           Logout: () => import('#src/features/admin/account_management/authentication/controllers/logout.controller'),
         },
+        onboarding: {
+          Activate: () => import('#src/features/admin/account_management/onboarding/controllers/activate.controller'),
+        },
         password: {
           Forgot: () => import('#src/features/admin/account_management/password/controllers/forgot.controller'),
           Reset: () => import('#src/features/admin/account_management/password/controllers/reset.controller'),
@@ -23,6 +26,7 @@ export const controllers = {
         Create: () => import('#src/features/admin/admins/controllers/create.controller'),
         Delete: () => import('#src/features/admin/admins/controllers/delete.controller'),
         List: () => import('#src/features/admin/admins/controllers/list.controller'),
+        ResendOnboarding: () => import('#src/features/admin/admins/controllers/resend_onboarding.controller'),
         Update: () => import('#src/features/admin/admins/controllers/update.controller'),
         View: () => import('#src/features/admin/admins/controllers/view.controller'),
       },

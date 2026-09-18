@@ -9,6 +9,9 @@ export interface ApiDefinition {
   }
   admin: {
     accountManagement: {
+      onboarding: {
+        activate: typeof routes['admin.account_management.onboarding.activate']
+      }
       profile: {
         view: typeof routes['admin.account_management.profile.view']
       }
@@ -27,6 +30,7 @@ export interface ApiDefinition {
       view: typeof routes['admin.admins.view']
       update: typeof routes['admin.admins.update']
       delete: typeof routes['admin.admins.delete']
+      resendOnboarding: typeof routes['admin.admins.resend_onboarding']
     }
     firms: {
       list: typeof routes['admin.firms.list']
