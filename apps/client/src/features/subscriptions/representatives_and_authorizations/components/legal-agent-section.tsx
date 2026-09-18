@@ -143,6 +143,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									}}
 									listeners={{
 										onBlur: ({ value: legalName, fieldApi }) => {
+											if (fieldApi.state.meta.isDefaultValue) return;
 											if (legalName.trim().length === 0) {
 												onUpdateLegalAgent({ legalName: null });
 												return;
@@ -167,6 +168,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									}}
 									listeners={{
 										onBlur: ({ value: email, fieldApi }) => {
+											if (fieldApi.state.meta.isDefaultValue) return;
 											if (email.trim().length === 0) {
 												onUpdateLegalAgent({ email: null });
 												return;

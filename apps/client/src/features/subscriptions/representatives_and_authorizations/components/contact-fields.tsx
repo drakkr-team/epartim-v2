@@ -90,6 +90,7 @@ export const ContactFields = withFieldGroup({
 					validators={{ onMount: civilitySchema, onBlur: civilitySchema }}
 					listeners={{
 						onBlur: ({ value: civility, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (fieldApi.state.meta.isValid) onUpdate({ civility });
 						},
 					}}
@@ -148,6 +149,7 @@ export const ContactFields = withFieldGroup({
 					validators={{ onMount: identitySchema.firstName, onBlur: identitySchema.firstName }}
 					listeners={{
 						onBlur: ({ value: firstName, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (firstName.trim().length === 0) {
 								onUpdate({ firstName: null });
 								return;
@@ -168,6 +170,7 @@ export const ContactFields = withFieldGroup({
 					validators={{ onMount: identitySchema.lastName, onBlur: identitySchema.lastName }}
 					listeners={{
 						onBlur: ({ value: lastName, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (lastName.trim().length === 0) {
 								onUpdate({ lastName: null });
 								return;
@@ -188,6 +191,7 @@ export const ContactFields = withFieldGroup({
 					validators={{ onMount: identitySchema.email, onBlur: identitySchema.email }}
 					listeners={{
 						onBlur: ({ value: email, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (email.trim().length === 0) {
 								onUpdate({ email: null });
 								return;
@@ -208,6 +212,7 @@ export const ContactFields = withFieldGroup({
 					validators={{ onMount: identitySchema.phoneNumber, onBlur: identitySchema.phoneNumber }}
 					listeners={{
 						onBlur: ({ value: phoneNumber, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (phoneNumber.trim().length === 0) {
 								onUpdate({ phoneNumber: null });
 								return;
@@ -256,6 +261,7 @@ export const ContactFields = withFieldGroup({
 						validators={{ onMount: amundiPortalIdSchema, onBlur: amundiPortalIdSchema }}
 						listeners={{
 							onBlur: ({ value: amundiPortalId, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (amundiPortalId.trim().length === 0) {
 									onUpdate({ amundiPortalId: null });
 									return;

@@ -67,6 +67,7 @@ export function AuthorizationCard(props: AuthorizationCardProps) {
 				validators={{ onMount: authorizationsSchema, onBlur: authorizationsSchema }}
 				listeners={{
 					onBlur: ({ fieldApi }) => {
+						if (fieldApi.state.meta.isDefaultValue) return;
 						if (fieldApi.state.meta.isValid) onUpdate();
 					},
 				}}

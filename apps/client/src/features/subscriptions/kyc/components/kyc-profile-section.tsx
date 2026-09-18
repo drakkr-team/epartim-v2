@@ -123,6 +123,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 									}}
 									listeners={{
 										onBlur: ({ value, fieldApi }) => {
+											if (fieldApi.state.meta.isDefaultValue) return;
 											if (value.trim().length === 0) {
 												updateKycProfile({ regulatedActivityReference: null });
 												return;
@@ -154,6 +155,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 									}}
 									listeners={{
 										onBlur: ({ value, fieldApi }) => {
+											if (fieldApi.state.meta.isDefaultValue) return;
 											if (value.trim().length === 0) {
 												updateKycProfile({ listedCompanyReference: null });
 												return;
@@ -194,6 +196,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 									}}
 									listeners={{
 										onBlur: ({ value, fieldApi }) => {
+											if (fieldApi.state.meta.isDefaultValue) return;
 											if (value === null) {
 												updateKycProfile({ bearerBondsStructurePercentage: null });
 												return;
@@ -257,6 +260,7 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 												}}
 												listeners={{
 													onBlur: ({ value, fieldApi }) => {
+														if (fieldApi.state.meta.isDefaultValue) return;
 														if (value.trim().length === 0) {
 															updateKycProfile({ [reference]: null });
 															return;

@@ -106,6 +106,7 @@ export function BeneficialOwnerOwnershipFields(props: BeneficialOwnerOwnershipFi
 					}}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (value === null) {
 								onUpdate({ shareholdingPercentage: null });
 								return;
@@ -129,6 +130,7 @@ export function BeneficialOwnerOwnershipFields(props: BeneficialOwnerOwnershipFi
 					validators={{ onMount: functionSchema, onBlur: functionSchema }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (value.trim().length === 0) {
 								onUpdate({ function: null });
 								return;

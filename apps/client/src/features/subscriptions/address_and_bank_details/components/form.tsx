@@ -80,6 +80,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 						}}
 						listeners={{
 							onBlur: ({ value: lineOne, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (lineOne.trim().length === 0) {
 									updateAddressAndBankDetails({ address: { lineOne: null } });
 									return;
@@ -109,6 +110,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 						}}
 						listeners={{
 							onBlur: ({ value: lineTwo, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (!fieldApi.state.meta.isValid) return;
 
 								updateAddressAndBankDetails({ address: { lineTwo: lineTwo.trim() || null } });
@@ -133,6 +135,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 						}}
 						listeners={{
 							onBlur: ({ value: zip, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (zip.trim().length === 0) {
 									updateAddressAndBankDetails({ address: { zip: null } });
 									return;
@@ -162,6 +165,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 						}}
 						listeners={{
 							onBlur: ({ value: city, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (city.trim().length === 0) {
 									updateAddressAndBankDetails({ address: { city: null } });
 									return;
@@ -191,6 +195,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 						}}
 						listeners={{
 							onBlur: ({ value: iban, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (iban.trim().length === 0) {
 									updateAddressAndBankDetails({ paymentDetail: { iban: null } });
 									return;
@@ -220,6 +225,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 						}}
 						listeners={{
 							onBlur: ({ value: bic, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (bic.trim().length === 0) {
 									updateAddressAndBankDetails({ paymentDetail: { bic: null } });
 									return;

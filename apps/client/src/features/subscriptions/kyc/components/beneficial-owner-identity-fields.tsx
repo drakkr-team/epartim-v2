@@ -41,6 +41,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 					validators={{ onMount: identitySchema.firstName, onBlur: identitySchema.firstName }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (value.trim().length === 0) {
 								onUpdate({ firstName: null });
 								return;
@@ -58,6 +59,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 					validators={{ onMount: identitySchema.lastName, onBlur: identitySchema.lastName }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (value.trim().length === 0) {
 								onUpdate({ lastName: null });
 								return;
@@ -108,6 +110,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 					validators={{ onMount: identitySchema.birthCity, onBlur: identitySchema.birthCity }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (value.trim().length === 0) {
 								onUpdate({ birthCity: null });
 								return;
@@ -130,6 +133,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 			validators={{ onMount: identitySchema.legalName, onBlur: identitySchema.legalName }}
 			listeners={{
 				onBlur: ({ value, fieldApi }) => {
+					if (fieldApi.state.meta.isDefaultValue) return;
 					if (value.trim().length === 0) {
 						onUpdate({ legalName: null });
 						return;

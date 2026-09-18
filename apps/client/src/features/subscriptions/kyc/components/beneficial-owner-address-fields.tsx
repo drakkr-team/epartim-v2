@@ -38,6 +38,7 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (fieldApi.state.meta.isValid)
 									onUpdate({ address: { lineOne: value.trim() || null } });
 							},
@@ -55,6 +56,7 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (fieldApi.state.meta.isValid)
 									onUpdate({ address: { zip: value.trim() || null } });
 							},
@@ -78,6 +80,7 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (fieldApi.state.meta.isValid)
 									onUpdate({ address: { city: value.trim() || null } });
 							},

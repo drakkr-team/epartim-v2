@@ -52,6 +52,7 @@ export const ContactFunctionField = withFieldGroup({
 					validators={{ onMount: functionSchema, onBlur: functionSchema }}
 					listeners={{
 						onBlur: ({ value: functionValue, fieldApi }) => {
+							if (fieldApi.state.meta.isDefaultValue) return;
 							if (fieldApi.state.meta.isValid) onUpdate({ function: functionValue });
 						},
 					}}

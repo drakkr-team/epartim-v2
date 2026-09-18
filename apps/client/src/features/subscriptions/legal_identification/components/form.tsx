@@ -101,6 +101,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 						listeners={{
 							onBlur: ({ value: siren, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (siren.trim().length === 0) {
 									updateLegalIdentification({ siren: null });
 									return;
@@ -128,6 +129,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 						listeners={{
 							onBlur: ({ value: siret, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (siret.trim().length === 0) {
 									updateLegalIdentification({ siret: null });
 									return;
@@ -155,6 +157,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 						listeners={{
 							onBlur: ({ value: naf, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (naf.trim().length === 0) {
 									updateLegalIdentification({ naf: null });
 									return;
@@ -182,6 +185,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 						listeners={{
 							onBlur: ({ value: vatNumber, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (vatNumber.trim().length === 0) {
 									updateLegalIdentification({ vatNumber: null });
 									return;
@@ -203,6 +207,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 						listeners={{
 							onBlur: ({ value: name, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (name.trim().length === 0) {
 									updateLegalIdentification({ name: null });
 									return;
@@ -228,6 +233,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 						listeners={{
 							onBlur: ({ value: legalForm, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (legalForm === null) {
 									updateLegalIdentification({ legalForm: null });
 									return;
@@ -288,6 +294,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 						listeners={{
 							onBlur: ({ value: companyHeadcount, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (companyHeadcount === null) {
 									updateLegalIdentification({ companyHeadcount: null });
 									return;
@@ -315,6 +322,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 						listeners={{
 							onBlur: ({ value: financialYearClosingDay, fieldApi }) => {
+								if (fieldApi.state.meta.isDefaultValue) return;
 								if (financialYearClosingDay.trim().length === 0) {
 									updateLegalIdentification({ financialYearClosingDay: null });
 									return;
