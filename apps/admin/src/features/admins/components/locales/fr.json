@@ -6,6 +6,9 @@
 			},
 			"email": {
 				"label": "Adresse e-mail"
+			},
+			"role": {
+				"label": "Rôle"
 			}
 		},
 		"action": {

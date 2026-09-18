@@ -6,7 +6,7 @@ test.group(
 	"Features / Admin / Account Management / Authentication / Controllers / Logout Controller",
 	() => {
 		test("it should logout the admin successfully", async ({ client }) => {
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 
 			const response = await client
 				.visit("admin.account_management.authentication.logout")

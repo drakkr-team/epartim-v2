@@ -1,8 +1,15 @@
 import { useTranslation } from "react-i18next";
 
-import { type UseAdminFormParams, useAdminForm } from "#/features/admins/hooks/use-form";
+import type { Role } from "@workspace/api/data";
 
-type AdminFormProps = UseAdminFormParams;
+import { type UseAdminFormParams, useAdminForm } from "#/features/admins/hooks/use-form";
+import { RoleCombobox } from "#/features/roles/components/combobox.tsx";
+
+type AdminFormProps = UseAdminFormParams & {
+	defaultValues?: {
+		role?: Role;
+	};
+};
 
 export function AdminForm(props: AdminFormProps) {
 	const { t } = useTranslation("features.admins.components.form");
@@ -30,6 +37,20 @@ export function AdminForm(props: AdminFormProps) {
 						inputProps={{ type: "email" }}
 						disabled={props.action === "update"}
 					/>
+				)}
+			</form.AppField>
+
+			<form.AppField name="roleId">
+				{(field) => (
+					<field.GenericField label={t("field.role.label")}>
+						<RoleCombobox
+							defaultValue={props.defaultValues?.role}
+							onValueChange={(value) =>
+								field.handleChange(value === null ? null : Number(value.id))
+							}
+							onOpenChangeComplete={(open) => !open && field.handleBlur()}
+						/>
+					</field.GenericField>
 				)}
 			</form.AppField>
 

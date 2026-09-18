@@ -30,7 +30,7 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network"];
 		await role.save();
@@ -78,7 +78,7 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 	});
 
 	test("it should ignore read-only identifiers supplied during update", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network"];
 		await role.save();
@@ -102,7 +102,7 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 	});
 
 	test("it should reject duplicate network names", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network"];
 		await role.save();
@@ -119,7 +119,7 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 	});
 
 	test("it should allow a no-op payload", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network"];
 		await role.save();
@@ -137,7 +137,7 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 	});
 
 	test("it should reject invalid partial values", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network"];
 		await role.save();
@@ -177,7 +177,7 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 	});
 
 	test("it should return not found for an unknown networkId", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network"];
 		await role.save();

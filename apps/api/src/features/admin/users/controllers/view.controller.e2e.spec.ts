@@ -5,7 +5,7 @@ import { UserFactory } from "#database/factories/user.factory";
 
 test.group("Features / Admin / Users / Controllers / View Controller", () => {
 	test("it should return a user without the password", async ({ client, assert }) => {
-		const authenticatedAdmin = await AdminFactory.create();
+		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const targetUser = await UserFactory.create();
 
 		const response = await client
@@ -24,7 +24,7 @@ test.group("Features / Admin / Users / Controllers / View Controller", () => {
 	});
 
 	test("it should return not found for missing identifiers", async ({ client }) => {
-		const authenticatedAdmin = await AdminFactory.create();
+		const authenticatedAdmin = await AdminFactory.with("role").create();
 
 		for (const id of ["999999", "0", "-1"]) {
 			const response = await client

@@ -11,7 +11,7 @@ test.group(
 		test("it should send the password changed notification email", async () => {
 			const fakeMailer = mail.fake();
 
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 			const loginUrl = new URL("https://app.example.test/login");
 
 			const job = new SendPasswordChangedNotification();

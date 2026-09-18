@@ -8,32 +8,36 @@ import Role from "#models/role";
 import User from "#models/user";
 
 test.group("Features / Admin / Roles / Policies / Delete Policy", () => {
-	test("it should allow an authorized admin deleting an unused role", async ({ assert }) => {
+	test("it should allow only a super-admin to delete an unused role", async ({ assert }) => {
 		const policy = new DeleteRolePolicy(new DeleteRoleService());
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
 		const role = await RoleFactory.create();
 
-		assert.isFalse(await policy.handle(admin, role.id));
+		assert.isFalse(await policy.handle(admin, role));
 		adminRole.authorizations = ["delete:role"];
 		await adminRole.save();
-		assert.isTrue(await policy.handle(admin, role.id));
-		assert.isFalse(await policy.handle(new User(), role.id));
+		assert.isFalse(await policy.handle(admin, role));
+		adminRole.isSuperAdmin = true;
+		await adminRole.save();
+		assert.isTrue(await policy.handle(admin, role));
+		assert.isFalse(await policy.handle(new User(), role));
 	});
 
 	test("it should deny deleting a role assigned to an admin", async ({ assert }) => {
 		const policy = new DeleteRolePolicy(new DeleteRoleService());
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.create();
-		const assignedAdmin = await AdminFactory.create();
+		const assignedAdmin = await AdminFactory.with("role").create();
 		assignedAdmin.roleId = role.id;
 		await assignedAdmin.save();
 
-		assert.isFalse(await policy.handle(admin, role.id));
+		assert.isFalse(await policy.handle(admin, role));
 	});
 });

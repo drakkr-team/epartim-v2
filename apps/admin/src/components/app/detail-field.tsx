@@ -1,8 +1,10 @@
+import type { ReactNode } from "react";
+
 import { Field } from "@workspace/ui-react/components/field";
 
 type DetailFieldProps = {
 	label: string;
-	value: string;
+	value: ReactNode;
 };
 
 export function DetailField(props: DetailFieldProps) {

@@ -11,6 +11,7 @@
 			"id": "ID",
 			"name": "Nom",
 			"email": "Adresse e-mail",
+			"role": "Rôle",
 			"activatedAt": "Activé le",
 			"createdAt": "Créé le",
 			"updatedAt": "Mis à jour le"

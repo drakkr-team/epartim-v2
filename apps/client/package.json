@@ -13,7 +13,7 @@
 	},
 	"portless": {
 		"name": "client.epartim",
-		"script": "dev:default"
+		"script": "dev:app"
 	},
 	"dependencies": {
 		"@tanstack/react-form": "1.33.5",

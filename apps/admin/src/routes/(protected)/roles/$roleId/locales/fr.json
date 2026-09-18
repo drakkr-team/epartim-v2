@@ -1,0 +1,21 @@
+{
+	"routes.(protected).roles.$roleId": {
+		"headline": "Gestion des rôles",
+		"description": "Consultez les informations et les autorisations de ce rôle.",
+		"action": {
+			"menu": "Actions du rôle",
+			"edit": "Modifier",
+			"delete": "Supprimer"
+		},
+		"section": {
+			"general": "Informations générales",
+			"authorizations": "Autorisations"
+		},
+		"field": {
+			"id": "Identifiant",
+			"name": "Nom",
+			"createdAt": "Créé le",
+			"updatedAt": "Dernière modification"
+		}
+	}
+}

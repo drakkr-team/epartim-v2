@@ -9,7 +9,7 @@ test.group("Features / Admin / Networks / Controllers / View Controller", () => 
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network", "delete:network"];
 		await role.save();
@@ -38,7 +38,7 @@ test.group("Features / Admin / Networks / Controllers / View Controller", () => 
 	});
 
 	test("it should return not found for an unknown networkId", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 
 		const response = await client
 			.visit("admin.networks.view", { networkId: 999_999 })

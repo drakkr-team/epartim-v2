@@ -3,10 +3,13 @@ import type { ModelQueryBuilderContract } from "@adonisjs/lucid/types/model";
 import Role from "#models/role";
 
 export default class ListRolesService {
-	handle(params: { q?: string; orderBy?: string }) {
-		const { q, orderBy } = params;
+	handle(params: { currentUserRole: Role; q?: string; orderBy?: string }) {
+		const { currentUserRole, q, orderBy } = params;
+
+		const currentUserIsSuperAdmin = currentUserRole.isSuperAdmin;
 
 		return Role.query()
+			.if(!currentUserIsSuperAdmin, (query) => query.where("is_super_admin", false))
 			.if(q, (query) => this.#searchQuery(query, q!))
 			.if(orderBy, (query) => this.#orderByQuery(query, orderBy!))
 			.orderBy("created_at", "desc");

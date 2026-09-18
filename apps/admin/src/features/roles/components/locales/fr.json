@@ -1,0 +1,62 @@
+{
+	"features.roles.components.form": {
+		"section": {
+			"general": "Informations générales",
+			"authorizations": "Autorisations"
+		},
+		"field": {
+			"name": {
+				"label": "Nom"
+			},
+			"authorizations": {
+				"resource": {
+					"admin": "Administrateurs",
+					"role": "Rôles",
+					"user": "Utilisateurs",
+					"firm": "Cabinets",
+					"network": "Réseaux"
+				},
+				"action": {
+					"read": "Lecture",
+					"create": "Création",
+					"update": "Modification",
+					"delete": "Suppression"
+				}
+			}
+		},
+		"action": {
+			"cancel": "Annuler",
+			"create": "Créer le rôle",
+			"update": "Enregistrer les modifications"
+		}
+	},
+	"features.roles.components.authorization-matrix": {
+		"resource": {
+			"admin": "Administrateurs",
+			"role": "Rôles",
+			"user": "Utilisateurs",
+			"firm": "Cabinets",
+			"network": "Réseaux"
+		},
+		"action": {
+			"read": "Lecture",
+			"create": "Création",
+			"update": "Modification",
+			"delete": "Suppression"
+		}
+	},
+	"features.roles.components.combobox": {
+		"placeholder": "Sélectionnez un rôle",
+		"search": "Rechercher un rôle...",
+		"empty": "Aucun rôle trouvé."
+	},
+	"features.roles.components.delete-dialog": {
+		"title": "Supprimer ce rôle ?",
+		"description": "Vous êtes sur le point de supprimer définitivement « {{name}} ».",
+		"consequences": "Cette opération est définitive et ne peut pas être annulée. Seuls les rôles qui ne sont attribués à aucun administrateur peuvent être supprimés.",
+		"action": {
+			"cancel": "Annuler",
+			"confirm": "Supprimer définitivement"
+		}
+	}
+}
