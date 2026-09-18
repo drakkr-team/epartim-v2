@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -74,11 +74,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 			}),
 		[t],
 	);
-	const isComplete = useCallback(
-		() => legalIdentificationSchema.safeParse(form.state.values).success,
-		[form, legalIdentificationSchema],
-	);
-	useRegisterSubscriptionStepForm(form, isComplete);
+	useRegisterSubscriptionStepForm(form);
 
 	return (
 		<Card render={<form noValidate />} className="p-6 sm:p-8">
@@ -99,7 +95,10 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 				<div className="grid gap-4 md:grid-cols-3">
 					<form.AppField
 						name="siren"
-						validators={{ onBlur: legalIdentificationSchema.shape.siren }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.siren,
+							onBlur: legalIdentificationSchema.shape.siren,
+						}}
 						listeners={{
 							onBlur: ({ value: siren, fieldApi }) => {
 								if (siren.trim().length === 0) {
@@ -123,7 +122,10 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="siret"
-						validators={{ onBlur: legalIdentificationSchema.shape.siret }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.siret,
+							onBlur: legalIdentificationSchema.shape.siret,
+						}}
 						listeners={{
 							onBlur: ({ value: siret, fieldApi }) => {
 								if (siret.trim().length === 0) {
@@ -147,7 +149,10 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="naf"
-						validators={{ onBlur: legalIdentificationSchema.shape.naf }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.naf,
+							onBlur: legalIdentificationSchema.shape.naf,
+						}}
 						listeners={{
 							onBlur: ({ value: naf, fieldApi }) => {
 								if (naf.trim().length === 0) {
@@ -171,7 +176,10 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="vatNumber"
-						validators={{ onBlur: legalIdentificationSchema.shape.vatNumber }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.vatNumber,
+							onBlur: legalIdentificationSchema.shape.vatNumber,
+						}}
 						listeners={{
 							onBlur: ({ value: vatNumber, fieldApi }) => {
 								if (vatNumber.trim().length === 0) {
@@ -189,7 +197,10 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="name"
-						validators={{ onBlur: legalIdentificationSchema.shape.name }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.name,
+							onBlur: legalIdentificationSchema.shape.name,
+						}}
 						listeners={{
 							onBlur: ({ value: name, fieldApi }) => {
 								if (name.trim().length === 0) {
@@ -211,7 +222,10 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="legalForm"
-						validators={{ onBlur: legalIdentificationSchema.shape.legalForm }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.legalForm,
+							onBlur: legalIdentificationSchema.shape.legalForm,
+						}}
 						listeners={{
 							onBlur: ({ value: legalForm, fieldApi }) => {
 								if (legalForm === null) {
@@ -270,7 +284,10 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="companyHeadcount"
-						validators={{ onBlur: legalIdentificationSchema.shape.companyHeadcount }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.companyHeadcount,
+							onBlur: legalIdentificationSchema.shape.companyHeadcount,
+						}}
 						listeners={{
 							onBlur: ({ value: companyHeadcount, fieldApi }) => {
 								if (companyHeadcount === null) {
@@ -294,7 +311,10 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="financialYearClosingDay"
-						validators={{ onBlur: legalIdentificationSchema.shape.financialYearClosingDay }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.financialYearClosingDay,
+							onBlur: legalIdentificationSchema.shape.financialYearClosingDay,
+						}}
 						listeners={{
 							onBlur: ({ value: financialYearClosingDay, fieldApi }) => {
 								if (financialYearClosingDay.trim().length === 0) {

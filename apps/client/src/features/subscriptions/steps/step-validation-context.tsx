@@ -10,21 +10,20 @@ import {
 } from "react";
 
 type StepForm = {
-	state: { isFieldsValid: boolean; values: unknown };
+	state: { isFieldsValid: boolean; isFieldsValidating: boolean; values: unknown };
 	store: { subscribe: (listener: () => void) => { unsubscribe: () => void } };
 	validateAllFields: (cause: "submit") => Promise<unknown>;
 };
 
 type RegisteredStepForm = {
 	form: StepForm;
-	isComplete: () => boolean;
 	isValidated: boolean;
 	values: unknown;
 };
 
 type StepValidationContextValue = {
 	canValidate: boolean;
-	registerForm: (form: StepForm, isComplete: () => boolean) => () => void;
+	registerForm: (form: StepForm) => () => void;
 	validateForms: () => Promise<boolean>;
 };
 
@@ -42,10 +41,9 @@ export function SubscriptionStepValidationProvider({ children }: { children: Rea
 	const forms = useRef(new Map<StepForm, RegisteredStepForm>());
 	const [formCanValidate, setFormCanValidate] = useState(() => new Map<StepForm, boolean>());
 
-	const registerForm = useCallback((form: StepForm, isComplete: () => boolean) => {
+	const registerForm = useCallback((form: StepForm) => {
 		const registeredForm: RegisteredStepForm = {
 			form,
-			isComplete,
 			isValidated: false,
 			values: form.state.values,
 		};
@@ -55,7 +53,7 @@ export function SubscriptionStepValidationProvider({ children }: { children: Rea
 			invalidateValidationWhenValuesChange(registeredForm);
 
 			setFormCanValidate((current) => {
-				const canValidate = registeredForm.isComplete();
+				const canValidate = form.state.isFieldsValid && !form.state.isFieldsValidating;
 				if (current.get(form) === canValidate) return current;
 
 				const next = new Map(current);
@@ -117,15 +115,12 @@ export function SubscriptionStepValidationProvider({ children }: { children: Rea
 	return <StepValidationContext.Provider value={value}>{children}</StepValidationContext.Provider>;
 }
 
-export function useRegisterSubscriptionStepForm(
-	form: StepForm,
-	isComplete: RegisteredStepForm["isComplete"],
-) {
+export function useRegisterSubscriptionStepForm(form: StepForm) {
 	const context = useContext(StepValidationContext);
 	if (!context) throw new Error("A subscription step validation provider is required.");
 
 	const { registerForm } = context;
-	useEffect(() => registerForm(form, isComplete), [form, isComplete, registerForm]);
+	useEffect(() => registerForm(form), [form, registerForm]);
 }
 
 export function useSubscriptionStepValidation() {
