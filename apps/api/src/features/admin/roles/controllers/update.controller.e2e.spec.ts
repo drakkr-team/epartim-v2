@@ -6,9 +6,10 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 	test("it should partially update and return a role", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["update:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.merge({ name: "Update Role", authorizations: [] }).create();
 
@@ -28,7 +29,7 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 	});
 
 	test("it should forbid an admin without the update role authorization", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -43,10 +44,33 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 		response.assertForbidden();
 	});
 
-	test("it should reject an invalid authorization", async ({ client }) => {
-		const admin = await AdminFactory.create();
+	test("it should forbid updating the super-admin role", async ({ client, assert }) => {
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["update:role"];
+		adminRole.isSuperAdmin = true;
+		await adminRole.save();
+		const role = await RoleFactory.merge({
+			name: "Super administrator",
+			authorizations: [],
+			isSuperAdmin: true,
+		}).create();
+
+		const response = await client
+			.put(`/admin/roles/${role.id}`)
+			.withGuard("admin")
+			.loginAs(admin)
+			.json({ name: "Updated super administrator" });
+
+		response.assertForbidden();
+		assert.equal((await Role.findOrFail(role.id)).name, "Super administrator");
+	});
+
+	test("it should reject an invalid authorization", async ({ client }) => {
+		const admin = await AdminFactory.with("role").create();
+		const adminRole = await Role.findOrFail(admin.roleId);
+		adminRole.authorizations = ["update:role"];
+		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.create();
 

@@ -9,7 +9,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network", "update:network", "delete:network"];
 		await role.save();
@@ -63,7 +63,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 	});
 
 	test("it should paginate and search only by network name", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const first = await NetworkFactory.merge({
 			name: "NameOnly Match One",
 			amundiOrgId: "HIDDEN-ONE",
@@ -105,7 +105,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 	test("it should reject invalid pagination and ignore unknown sorting options", async ({
 		client,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 
 		for (const query of [{ page: 0 }, { perPage: 1.5 }]) {
 			const response = await client

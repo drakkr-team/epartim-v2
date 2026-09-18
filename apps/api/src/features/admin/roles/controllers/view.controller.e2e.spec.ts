@@ -6,7 +6,7 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Roles / Controllers / View Controller", () => {
 	test("it should return a role and action metadata", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -25,8 +25,27 @@ test.group("Features / Admin / Roles / Controllers / View Controller", () => {
 		});
 	});
 
+	test("it should return immutable super-admin metadata to a super-admin", async ({ client }) => {
+		const admin = await AdminFactory.with("role").create();
+		const adminRole = await Role.findOrFail(admin.roleId);
+		adminRole.isSuperAdmin = true;
+		await adminRole.save();
+		const role = await RoleFactory.merge({ isSuperAdmin: true }).create();
+
+		const response = await client
+			.visit("admin.roles.view", { roleId: role.id })
+			.withGuard("admin")
+			.loginAs(admin);
+
+		response.assertOk();
+		response.assertBodyContains({
+			id: role.id,
+			meta: { canUpdate: false, canDelete: false },
+		});
+	});
+
 	test("it should return not found for an unknown roleId", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 
 		const response = await client
 			.visit("admin.roles.view", { roleId: 999_999 })

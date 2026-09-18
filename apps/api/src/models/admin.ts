@@ -4,8 +4,8 @@ import hash from "@adonisjs/core/services/hash";
 import { belongsTo, column } from "@adonisjs/lucid/orm";
 import type { BelongsTo } from "@adonisjs/lucid/types/relations";
 
+import type { AuthorizationOption } from "#constants/role";
 import { AdminSchema } from "#database/schema";
-import type { AuthorizationOption } from "#models/role";
 import Role from "#models/role";
 
 const authFinder = withAuthFinder(() => hash.use("scrypt"), {

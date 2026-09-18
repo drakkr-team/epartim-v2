@@ -9,7 +9,7 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 	test("it should physically delete a firm and its owned records", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:firm"];
 		await role.save();
@@ -28,7 +28,7 @@ test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 	});
 
 	test("it should return not found for an unknown firmId", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:firm"];
 		await role.save();

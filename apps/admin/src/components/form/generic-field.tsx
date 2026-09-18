@@ -18,7 +18,7 @@ export function GenericField(props: GenericFieldProps) {
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
 	return (
-		<Field name={field.name} invalid={isInvalid} className="grid gap-1">
+		<Field name={field.name} invalid={isInvalid} className="grid gap-2">
 			{label && <Field.Label required={required}>{label}</Field.Label>}
 			{children}
 			{description && <Field.Description>{description}</Field.Description>}

@@ -9,13 +9,8 @@ export default class extends BaseSeeder {
 	async run() {
 		const roles = await Role.all();
 
-		const AdminsPromises = Array(100)
-			.fill(null)
-			.map(async () => {
-				const role = roles[Math.floor(Math.random() * roles.length)];
-				await AdminFactory.merge({ roleId: role.id }).create();
-			});
-
-		await Promise.all(AdminsPromises);
+		await AdminFactory.tap(
+			(admin, { faker }) => (admin.roleId = faker.helpers.arrayElement(roles).id),
+		).createMany(100);
 	}
 }

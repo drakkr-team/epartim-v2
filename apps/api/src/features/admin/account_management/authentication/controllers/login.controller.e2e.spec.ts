@@ -8,7 +8,7 @@ test.group(
 		test("it should successfully login the admin with correct credentials", async ({ client }) => {
 			const email = "test@example.com";
 			const password = "password";
-			const admin = await AdminFactory.merge({ email, password }).create();
+			const admin = await AdminFactory.merge({ email, password }).with("role").create();
 
 			const response = await client.visit("admin.account_management.authentication.login").json({
 				uid: email,
@@ -38,7 +38,7 @@ test.group(
 		test("it should response with E_GUEST_ONLY code if the admin is already authenticated", async ({
 			client,
 		}) => {
-			const admin = await AdminFactory.create();
+			const admin = await AdminFactory.with("role").create();
 
 			const response = await client
 				.visit("admin.account_management.authentication.login")

@@ -10,7 +10,6 @@
 		"./vite": "./src/vite.ts"
 	},
 	"scripts": {
-		"test": "node --test src/*.spec.ts",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {

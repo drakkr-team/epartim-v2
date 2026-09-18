@@ -3,6 +3,7 @@
 	"author": "elowanaud",
 	"type": "module",
 	"exports": {
+		"./constants/*": "./src/constants/*.ts",
 		"./registry": "./.adonisjs/client/registry/index.ts",
 		"./data": "./.adonisjs/client/data.d.ts"
 	},
@@ -23,6 +24,7 @@
 	"imports": {
 		"#config/*": "./config/*.js",
 		"#controllers/*": "./src/controllers/*.js",
+		"#constants/*": "./src/constants/*.js",
 		"#database/*": "./database/*.js",
 		"#exceptions/*": "./src/exceptions/*.js",
 		"#features/*": "./src/features/*.js",

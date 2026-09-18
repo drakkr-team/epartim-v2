@@ -1,0 +1,19 @@
+{
+	"routes.(protected).roles": {
+		"headline": "Gestion des rôles",
+		"title": "Rôles",
+		"description": "Consultez et gérez les rôles et leurs autorisations.",
+		"search": {
+			"placeholder": "Rechercher un rôle..."
+		},
+		"empty": {
+			"title": "Aucun rôle",
+			"title-search": "Aucun résultat",
+			"description": "Aucun rôle n'a encore été créé.",
+			"description-search": "Aucun rôle ne correspond à « {{search}} »."
+		},
+		"actions": {
+			"new": "Créer un rôle"
+		}
+	}
+}
