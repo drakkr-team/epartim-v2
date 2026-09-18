@@ -1,3 +1,4 @@
+import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 import { DateTime } from "luxon";
 
@@ -7,6 +8,7 @@ import Admin from "#models/admin";
 import OtpService from "#services/otp.service";
 import env from "#start/env";
 
+@inject()
 export default class AdminOnboardingService {
 	constructor(
 		protected ctx: HttpContext,
