@@ -10,6 +10,10 @@ router
 		router.get("/:adminId", [controllers.features.admin.admins.View]);
 		router.put("/:adminId", [controllers.features.admin.admins.Update]);
 		router.delete("/:adminId", [controllers.features.admin.admins.Delete]);
+
+		router.post("/:adminId/resend-onboarding", [
+			controllers.features.admin.admins.ResendOnboarding,
+		]);
 	})
 	.use(middleware.auth({ guards: ["admin"] }))
 	.prefix("admin/admins")

@@ -20,6 +20,7 @@ export default class PasswordService {
 		if (!admin) return;
 
 		const token = await this.otpService.generate({
+			key: `admin:${admin.id}:reset-password`,
 			type: "alphanumeric",
 			length: 32,
 			expireIn: 60 * 15, // 15 minutes
@@ -40,6 +41,7 @@ export default class PasswordService {
 		const admin = await Admin.find(adminId);
 		if (!admin) throw new InvalidTokenException();
 
+		await this.otpService.revoke(`admin:${admin.id}:reset-password`);
 		await admin.merge({ password: newPassword }).save();
 
 		await SendPasswordChangedNotification.dispatch({
