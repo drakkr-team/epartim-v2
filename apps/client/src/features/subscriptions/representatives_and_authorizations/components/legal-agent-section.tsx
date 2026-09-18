@@ -60,10 +60,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 				<p className="mt-1 text-neutral-11 text-sm">{t("legalAgent.description")}</p>
 			</div>
 
-			<form.AppField
-				name="legalAgent.kind"
-				validators={{ onBlur: legalAgentSchema.kind }}
-			>
+			<form.AppField name="legalAgent.kind" validators={{ onBlur: legalAgentSchema.kind }}>
 				{(field) => {
 					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
@@ -140,17 +137,6 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									validators={{
 										onBlur: legalAgentSchema.legalName,
 									}}
-									listeners={{
-										onBlur: ({ value: legalName, fieldApi }) => {
-											if (legalName.trim().length === 0) {
-												onUpdateLegalAgent({ legalName: null });
-												return;
-											}
-											if (fieldApi.state.meta.isValid) {
-												onUpdateLegalAgent({ legalName: legalName.trim() });
-											}
-										},
-									}}
 								>
 									{(field) => (
 										<div className="md:col-span-3">
@@ -162,17 +148,6 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									name="legalAgent.email"
 									validators={{
 										onBlur: legalAgentSchema.email,
-									}}
-									listeners={{
-										onBlur: ({ value: email, fieldApi }) => {
-											if (email.trim().length === 0) {
-												onUpdateLegalAgent({ email: null });
-												return;
-											}
-											if (fieldApi.state.meta.isValid) {
-												onUpdateLegalAgent({ email: email.trim() });
-											}
-										},
 									}}
 								>
 									{(field) => (
@@ -189,7 +164,6 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									form={form}
 									fields={{ function: "legalAgent.function" }}
 									id="legal-agent-function"
-									onUpdate={onUpdateLegalAgent}
 									className="md:col-span-2"
 								/>
 							</div>

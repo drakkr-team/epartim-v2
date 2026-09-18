@@ -92,6 +92,39 @@ export function useRepresentativesAndAuthorizationsForm(
 	const { mutate: updateCorrespondent } = useUpdateCorrespondentMutation(subscriptionId);
 	const { mutate: updateAuthorizations } = useUpdateAuthorizationsMutation(subscriptionId);
 
+	function updateLegalAgentChanges(legalAgent: LegalAgentChanges) {
+		updateLegalAgent({
+			params: { subscriptionId },
+			body: legalAgent,
+		});
+	}
+
+	function updateSignerChanges(signer: SignerChanges) {
+		updateSigner({ params: { subscriptionId }, body: signer });
+	}
+
+	function updateCorrespondentChanges(correspondent: CorrespondentChanges) {
+		updateCorrespondent({ params: { subscriptionId }, body: correspondent });
+	}
+
+	function updateAuthorizationsChanges(authorizations: AuthorizationValues[]) {
+		updateAuthorizations({
+			params: { subscriptionId },
+			body: {
+				authorizations: authorizations.map((authorization) => ({
+					civility: authorization.civility,
+					firstName: authorization.firstName.trim() || null,
+					lastName: authorization.lastName.trim() || null,
+					email: authorization.email.trim() || null,
+					phoneNumber: authorization.phoneNumber.trim() || null,
+					function: authorization.function,
+					amundiPortalId: authorization.amundiPortalId.trim() || null,
+					authorizations: authorization.authorizations,
+				})),
+			},
+		});
+	}
+
 	const form = useAppForm({
 		defaultValues: {
 			legalAgent: {
@@ -140,40 +173,55 @@ export function useRepresentativesAndAuthorizationsForm(
 				authorizations: authorization.authorizations ?? [],
 			})),
 		},
-	});
+		listeners: {
+			onBlur: ({ fieldApi, formApi }) => {
+				const { name } = fieldApi;
+				const rawValue = fieldApi.state.value;
+				const isEmptyText = typeof rawValue === "string" && rawValue.trim().length === 0;
 
-	function updateLegalAgentChanges(legalAgent: LegalAgentChanges) {
-		updateLegalAgent({
-			params: { subscriptionId },
-			body: legalAgent,
-		});
-	}
+				if (!isEmptyText && !fieldApi.state.meta.isValid) return;
 
-	function updateSignerChanges(signer: SignerChanges) {
-		updateSigner({ params: { subscriptionId }, body: signer });
-	}
+				if (name.startsWith("authorizations[")) {
+					updateAuthorizationsChanges(formApi.state.values.authorizations);
+					return;
+				}
 
-	function updateCorrespondentChanges(correspondent: CorrespondentChanges) {
-		updateCorrespondent({ params: { subscriptionId }, body: correspondent });
-	}
+				if (
+					name === "legalAgent.kind" ||
+					name === "signer.isSignatoryOnKbis" ||
+					name === "correspondent.isDifferent"
+				) {
+					return;
+				}
 
-	function updateAuthorizationsChanges(authorizations: AuthorizationValues[]) {
-		updateAuthorizations({
-			params: { subscriptionId },
-			body: {
-				authorizations: authorizations.map((authorization) => ({
-					civility: authorization.civility,
-					firstName: authorization.firstName.trim() || null,
-					lastName: authorization.lastName.trim() || null,
-					email: authorization.email.trim() || null,
-					phoneNumber: authorization.phoneNumber.trim() || null,
-					function: authorization.function,
-					amundiPortalId: authorization.amundiPortalId.trim() || null,
-					authorizations: authorization.authorizations,
-				})),
+				const value = isEmptyText
+					? null
+					: typeof rawValue === "string"
+						? rawValue.trim()
+						: rawValue;
+
+				if (name.startsWith("legalAgent.")) {
+					updateLegalAgentChanges({
+						[name.slice("legalAgent.".length)]: value,
+					} as LegalAgentChanges);
+					return;
+				}
+
+				if (name.startsWith("signer.")) {
+					updateSignerChanges({
+						[name.slice("signer.".length)]: value,
+					} as SignerChanges);
+					return;
+				}
+
+				if (name.startsWith("correspondent.")) {
+					updateCorrespondentChanges({
+						[name.slice("correspondent.".length)]: value,
+					} as CorrespondentChanges);
+				}
 			},
-		});
-	}
+		},
+	});
 
 	return {
 		form,

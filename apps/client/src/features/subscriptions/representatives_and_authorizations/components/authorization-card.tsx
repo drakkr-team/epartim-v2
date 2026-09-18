@@ -65,11 +65,6 @@ export function AuthorizationCard(props: AuthorizationCardProps) {
 			<form.AppField
 				name={`authorizations[${index}].authorizations`}
 				validators={{ onBlur: authorizationsSchema }}
-				listeners={{
-					onBlur: ({ fieldApi }) => {
-						if (fieldApi.state.meta.isValid) onUpdate();
-					},
-				}}
 			>
 				{(field) => {
 					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;

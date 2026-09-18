@@ -85,15 +85,7 @@ export const ContactFields = withFieldGroup({
 
 		return (
 			<div className="grid gap-4 md:grid-cols-6">
-				<group.AppField
-					name="civility"
-					validators={{ onBlur: civilitySchema }}
-					listeners={{
-						onBlur: ({ value: civility, fieldApi }) => {
-							if (fieldApi.state.meta.isValid) onUpdate({ civility });
-						},
-					}}
-				>
+				<group.AppField name="civility" validators={{ onBlur: civilitySchema }}>
 					{(field) => {
 						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
@@ -145,19 +137,7 @@ export const ContactFields = withFieldGroup({
 					}}
 				</group.AppField>
 
-				<group.AppField
-					name="firstName"
-					validators={{ onBlur: identitySchema.firstName }}
-					listeners={{
-						onBlur: ({ value: firstName, fieldApi }) => {
-							if (firstName.trim().length === 0) {
-								onUpdate({ firstName: null });
-								return;
-							}
-							if (fieldApi.state.meta.isValid) onUpdate({ firstName: firstName.trim() });
-						},
-					}}
-				>
+				<group.AppField name="firstName" validators={{ onBlur: identitySchema.firstName }}>
 					{(field) => (
 						<div className="md:col-span-2">
 							<field.TextField label={t("field.firstName")} required />
@@ -165,19 +145,7 @@ export const ContactFields = withFieldGroup({
 					)}
 				</group.AppField>
 
-				<group.AppField
-					name="lastName"
-					validators={{ onBlur: identitySchema.lastName }}
-					listeners={{
-						onBlur: ({ value: lastName, fieldApi }) => {
-							if (lastName.trim().length === 0) {
-								onUpdate({ lastName: null });
-								return;
-							}
-							if (fieldApi.state.meta.isValid) onUpdate({ lastName: lastName.trim() });
-						},
-					}}
-				>
+				<group.AppField name="lastName" validators={{ onBlur: identitySchema.lastName }}>
 					{(field) => (
 						<div className="md:col-span-2">
 							<field.TextField label={t("field.lastName")} required />
@@ -185,19 +153,7 @@ export const ContactFields = withFieldGroup({
 					)}
 				</group.AppField>
 
-				<group.AppField
-					name="email"
-					validators={{ onBlur: identitySchema.email }}
-					listeners={{
-						onBlur: ({ value: email, fieldApi }) => {
-							if (email.trim().length === 0) {
-								onUpdate({ email: null });
-								return;
-							}
-							if (fieldApi.state.meta.isValid) onUpdate({ email: email.trim() });
-						},
-					}}
-				>
+				<group.AppField name="email" validators={{ onBlur: identitySchema.email }}>
 					{(field) => (
 						<div className="md:col-span-3">
 							<field.TextField label={t("field.email")} required inputProps={{ type: "email" }} />
@@ -205,19 +161,7 @@ export const ContactFields = withFieldGroup({
 					)}
 				</group.AppField>
 
-				<group.AppField
-					name="phoneNumber"
-					validators={{ onBlur: identitySchema.phoneNumber }}
-					listeners={{
-						onBlur: ({ value: phoneNumber, fieldApi }) => {
-							if (phoneNumber.trim().length === 0) {
-								onUpdate({ phoneNumber: null });
-								return;
-							}
-							if (fieldApi.state.meta.isValid) onUpdate({ phoneNumber: phoneNumber.trim() });
-						},
-					}}
-				>
+				<group.AppField name="phoneNumber" validators={{ onBlur: identitySchema.phoneNumber }}>
 					{(field) => {
 						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
 						const errorMessages = field.state.meta.errors
@@ -249,26 +193,11 @@ export const ContactFields = withFieldGroup({
 						form={group}
 						fields={{ function: "function" }}
 						id={`${idPrefix}-function`}
-						onUpdate={onUpdate}
 					/>
 				)}
 
 				{includePortalId && (
-					<group.AppField
-						name="amundiPortalId"
-						validators={{ onBlur: amundiPortalIdSchema }}
-						listeners={{
-							onBlur: ({ value: amundiPortalId, fieldApi }) => {
-								if (amundiPortalId.trim().length === 0) {
-									onUpdate({ amundiPortalId: null });
-									return;
-								}
-								if (fieldApi.state.meta.isValid) {
-									onUpdate({ amundiPortalId: amundiPortalId.trim() });
-								}
-							},
-						}}
-					>
+					<group.AppField name="amundiPortalId" validators={{ onBlur: amundiPortalIdSchema }}>
 						{(field) => (
 							<div className="md:col-span-3">
 								<field.TextField label={t("field.amundiPortalId")} />
