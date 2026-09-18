@@ -75,5 +75,4 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC", () =>
 		assert.isNull(profile.mainMarketsCountries);
 		assert.isNull(profile.regulatedActivityReference);
 	});
-
 });
