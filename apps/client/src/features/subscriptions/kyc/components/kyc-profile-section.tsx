@@ -21,6 +21,15 @@ type KycProfileSectionProps = {
 export function KycProfileSection(props: KycProfileSectionProps) {
 	const { form, updateKycProfile } = props;
 	const { t } = useTranslation(namespace);
+	const requiredTextSchema = z
+		.string()
+		.trim()
+		.min(1, t("validation.required"))
+		.max(254, t("validation.max"));
+	const percentageSchema = z
+		.number({ error: t("validation.percentage") })
+		.min(0, t("validation.percentage"))
+		.max(100, t("validation.percentage"));
 
 	function updateBoolean(
 		field: "regulatedActivity" | "listedCompany" | "bicId" | "bearerBondsStructure",
@@ -109,11 +118,8 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 								<form.AppField
 									name="kycProfile.regulatedActivityReference"
 									validators={{
-										onBlur: z
-											.string()
-											.trim()
-											.min(1, t("validation.required"))
-											.max(254, t("validation.max")),
+										onMount: requiredTextSchema,
+										onBlur: requiredTextSchema,
 									}}
 									listeners={{
 										onBlur: ({ value, fieldApi }) => {
@@ -143,11 +149,8 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 								<form.AppField
 									name="kycProfile.listedCompanyReference"
 									validators={{
-										onBlur: z
-											.string()
-											.trim()
-											.min(1, t("validation.required"))
-											.max(254, t("validation.max")),
+										onMount: requiredTextSchema,
+										onBlur: requiredTextSchema,
 									}}
 									listeners={{
 										onBlur: ({ value, fieldApi }) => {
@@ -186,10 +189,8 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 								<form.AppField
 									name="kycProfile.bearerBondsStructurePercentage"
 									validators={{
-										onBlur: z
-											.number({ error: t("validation.percentage") })
-											.min(0, t("validation.percentage"))
-											.max(100, t("validation.percentage")),
+										onMount: percentageSchema,
+										onBlur: percentageSchema,
 									}}
 									listeners={{
 										onBlur: ({ value, fieldApi }) => {
@@ -251,11 +252,8 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 											<form.AppField
 												name={`kycProfile.${reference}`}
 												validators={{
-													onBlur: z
-														.string()
-														.trim()
-														.min(1, t("validation.required"))
-														.max(254, t("validation.max")),
+													onMount: requiredTextSchema,
+													onBlur: requiredTextSchema,
 												}}
 												listeners={{
 													onBlur: ({ value, fieldApi }) => {

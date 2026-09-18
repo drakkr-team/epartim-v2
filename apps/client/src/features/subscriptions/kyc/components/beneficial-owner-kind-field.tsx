@@ -40,7 +40,7 @@ export function BeneficialOwnerKindField(props: BeneficialOwnerKindFieldProps) {
 	}
 
 	return (
-		<form.AppField name={`${fields}.kind`} validators={{ onBlur: kindSchema }}>
+		<form.AppField name={`${fields}.kind`} validators={{ onMount: kindSchema, onBlur: kindSchema }}>
 			{(field) => (
 				<Field name={field.name} className="flex flex-col gap-2">
 					<Field.Label required>{t("field.kind")}</Field.Label>

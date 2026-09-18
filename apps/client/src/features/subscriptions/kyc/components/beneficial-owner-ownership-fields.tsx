@@ -53,7 +53,10 @@ export function BeneficialOwnerOwnershipFields(props: BeneficialOwnerOwnershipFi
 
 	return (
 		<>
-			<form.AppField name={`${fields}.roles`} validators={{ onBlur: rolesSchema }}>
+			<form.AppField
+				name={`${fields}.roles`}
+				validators={{ onMount: rolesSchema, onBlur: rolesSchema }}
+			>
 				{(field) => {
 					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
@@ -97,7 +100,10 @@ export function BeneficialOwnerOwnershipFields(props: BeneficialOwnerOwnershipFi
 			<div className="grid gap-4 md:grid-cols-2">
 				<form.AppField
 					name={`${fields}.shareholdingPercentage`}
-					validators={{ onBlur: shareholdingPercentageSchema }}
+					validators={{
+						onMount: shareholdingPercentageSchema,
+						onBlur: shareholdingPercentageSchema,
+					}}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
 							if (value === null) {
@@ -120,7 +126,7 @@ export function BeneficialOwnerOwnershipFields(props: BeneficialOwnerOwnershipFi
 				</form.AppField>
 				<form.AppField
 					name={`${fields}.function`}
-					validators={{ onBlur: functionSchema }}
+					validators={{ onMount: functionSchema, onBlur: functionSchema }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
 							if (value.trim().length === 0) {
@@ -135,7 +141,10 @@ export function BeneficialOwnerOwnershipFields(props: BeneficialOwnerOwnershipFi
 				>
 					{(field) => <field.TextField label={t("field.function")} required={!hasShareholder} />}
 				</form.AppField>
-				<form.AppField name={`${fields}.nationality`} validators={{ onBlur: nationalitySchema }}>
+				<form.AppField
+					name={`${fields}.nationality`}
+					validators={{ onMount: nationalitySchema, onBlur: nationalitySchema }}
+				>
 					{(field) => {
 						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
 						const errorMessages = field.state.meta.errors

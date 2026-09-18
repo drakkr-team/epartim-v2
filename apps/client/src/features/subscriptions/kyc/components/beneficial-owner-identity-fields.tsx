@@ -38,7 +38,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 			<div className="grid gap-4 md:grid-cols-2">
 				<form.AppField
 					name={`${fields}.firstName`}
-					validators={{ onBlur: identitySchema.firstName }}
+					validators={{ onMount: identitySchema.firstName, onBlur: identitySchema.firstName }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
 							if (value.trim().length === 0) {
@@ -55,7 +55,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 				</form.AppField>
 				<form.AppField
 					name={`${fields}.lastName`}
-					validators={{ onBlur: identitySchema.lastName }}
+					validators={{ onMount: identitySchema.lastName, onBlur: identitySchema.lastName }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
 							if (value.trim().length === 0) {
@@ -72,7 +72,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 				</form.AppField>
 				<form.AppField
 					name={`${fields}.birthDate`}
-					validators={{ onBlur: identitySchema.birthDate }}
+					validators={{ onMount: identitySchema.birthDate, onBlur: identitySchema.birthDate }}
 				>
 					{(field) => {
 						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
@@ -105,7 +105,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 				</form.AppField>
 				<form.AppField
 					name={`${fields}.birthCity`}
-					validators={{ onBlur: identitySchema.birthCity }}
+					validators={{ onMount: identitySchema.birthCity, onBlur: identitySchema.birthCity }}
 					listeners={{
 						onBlur: ({ value, fieldApi }) => {
 							if (value.trim().length === 0) {
@@ -127,7 +127,7 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 	return (
 		<form.AppField
 			name={`${fields}.legalName`}
-			validators={{ onBlur: identitySchema.legalName }}
+			validators={{ onMount: identitySchema.legalName, onBlur: identitySchema.legalName }}
 			listeners={{
 				onBlur: ({ value, fieldApi }) => {
 					if (value.trim().length === 0) {

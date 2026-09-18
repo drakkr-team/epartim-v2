@@ -15,6 +15,15 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 	const { form, index, onUpdate } = props;
 	const { t } = useTranslation(namespace);
 	const fields = `owners[${index}]` as const;
+	const addressSchema = {
+		lineOne: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
+		zip: z
+			.string()
+			.trim()
+			.min(1, t("validation.required"))
+			.regex(/^\d{5}$/, t("validation.zip")),
+		city: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
+	};
 
 	return (
 		<div className="border-neutral-4 border-t pt-5">
@@ -24,11 +33,8 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 					<form.AppField
 						name={`${fields}.address.lineOne`}
 						validators={{
-							onBlur: z
-								.string()
-								.trim()
-								.min(1, t("validation.required"))
-								.max(254, t("validation.max")),
+							onMount: addressSchema.lineOne,
+							onBlur: addressSchema.lineOne,
 						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
@@ -44,11 +50,8 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 					<form.AppField
 						name={`${fields}.address.zip`}
 						validators={{
-							onBlur: z
-								.string()
-								.trim()
-								.min(1, t("validation.required"))
-								.regex(/^\d{5}$/, t("validation.zip")),
+							onMount: addressSchema.zip,
+							onBlur: addressSchema.zip,
 						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
@@ -70,11 +73,8 @@ export function BeneficialOwnerAddressFields(props: BeneficialOwnerAddressFields
 					<form.AppField
 						name={`${fields}.address.city`}
 						validators={{
-							onBlur: z
-								.string()
-								.trim()
-								.min(1, t("validation.required"))
-								.max(254, t("validation.max")),
+							onMount: addressSchema.city,
+							onBlur: addressSchema.city,
 						}}
 						listeners={{
 							onBlur: ({ value, fieldApi }) => {
