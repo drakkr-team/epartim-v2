@@ -28,6 +28,7 @@ test.group(
 			const newPassword = "newpassword";
 			const admin = await AdminFactory.merge({ password }).with("role").create();
 			const token = await otpService.generate({
+				key: `admin:${admin.id}:reset-password`,
 				type: "alphanumeric",
 				length: 32,
 				expireIn: 60 * 15, // 15 minutes
@@ -54,6 +55,7 @@ test.group(
 
 			const admin = await AdminFactory.with("role").create();
 			const token = await otpService.generate({
+				key: `admin:${admin.id}:reset-password`,
 				type: "alphanumeric",
 				length: 32,
 				expireIn: 60 * 15, // 15 minutes
@@ -82,13 +84,14 @@ test.group(
 
 			const admin = await AdminFactory.with("role").create();
 			const token = await otpService.generate({
+				key: `admin:${admin.id}:reset-password`,
 				type: "alphanumeric",
 				length: 32,
 				expireIn: 60,
 				data: { adminId: admin.id },
 			});
 			const hashedToken = createHmac("sha256", env.get("APP_KEY")).update(token).digest("hex");
-			await redis.del(`otp:${hashedToken}`);
+			await redis.del(`otp:token:${hashedToken}`);
 
 			const response = await client.visit("admin.account_management.password.reset").json({
 				token,

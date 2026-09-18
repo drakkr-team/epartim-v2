@@ -1,8 +1,8 @@
 import mail from "@adonisjs/mail/services/main";
 import { Job } from "@adonisjs/queue";
-import { JobOptions } from "@adonisjs/queue/types";
+import type { JobOptions } from "@adonisjs/queue/types";
 
-import AdminOnboardingInstructionMail from "#features/admin/admins/mails/onboarding_instruction.mail";
+import AdminOnboardingInstructionMail from "#features/admin/account_management/onboarding/mails/onboarding_instruction.mail";
 import Admin from "#models/admin";
 
 interface Payload {

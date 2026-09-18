@@ -1,12 +1,19 @@
+import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { RoleFactory } from "#database/factories/role.factory";
+import SendAdminOnboardingNotificationJob from "#features/admin/account_management/onboarding/jobs/send_onboarding_notification.job";
 import Admin from "#models/admin";
 import Role from "#models/role";
 
-test.group("Features / Admin / Admins / Controllers / Create Controller", () => {
+test.group("Features / Admin / Admins / Controllers / Create Controller", (group) => {
+	group.each.teardown(() => {
+		QueueManager.restore();
+	});
+
 	test("it should create and return an admin", async ({ client, assert }) => {
+		const fakeQueueManager = QueueManager.fake();
 		const currentAdmin = await AdminFactory.with("role").create();
 		const currentRole = await Role.findOrFail(currentAdmin.roleId);
 		currentRole.authorizations = ["create:admin"];
@@ -35,6 +42,7 @@ test.group("Features / Admin / Admins / Controllers / Create Controller", () => 
 		assert.equal(createdAdmin.name, "New Admin");
 		assert.equal(createdAdmin.roleId, role.id);
 		assert.isNotEmpty(createdAdmin.password);
+		fakeQueueManager.assertPushed(SendAdminOnboardingNotificationJob);
 	});
 
 	test("it should trim the admin name and email", async ({ client }) => {
