@@ -22,7 +22,7 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC", () =>
 		return { subscription, user };
 	}
 
-	test("it persists KYC information and clears inactive conditional values", async ({
+	test("it persists country data and clears inactive conditional values", async ({
 		client,
 		assert,
 	}) => {
@@ -35,13 +35,28 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC", () =>
 			.json({
 				kycProfile: {
 					countryOfActivity: "other",
-					countryOfActivityReference: "Suisse 20 %",
+					countryOfActivityBreakdown: [
+						{ country: "FR", percentage: 20 },
+						{ country: "MA", percentage: 80 },
+					],
+					countryProvider: "other",
+					countryProviderCountries: ["DE", "MA"],
+					mainMarkets: "other",
+					mainMarketsCountries: ["FR", "ES"],
 					regulatedActivity: true,
 					regulatedActivityReference: "AMF 123",
 				},
 			});
 
 		enabledResponse.assertOk();
+		const company = await Company.findByOrFail("subscriptionId", subscription.id);
+		const enabledProfile = await CompanyKycProfile.findByOrFail("companyId", company.id);
+		assert.deepEqual(enabledProfile.countryOfActivityBreakdown, [
+			{ country: "FR", percentage: 20 },
+			{ country: "MA", percentage: 80 },
+		]);
+		assert.deepEqual(enabledProfile.countryProviderCountries, ["DE", "MA"]);
+		assert.deepEqual(enabledProfile.mainMarketsCountries, ["FR", "ES"]);
 
 		const disabledResponse = await client
 			.visit("client.subscriptions.update_kyc_profile", { subscriptionId: subscription.id })
@@ -49,15 +64,19 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC", () =>
 			.loginAs(user)
 			.json({
 				kycProfile: {
-					countryOfActivity: "france_and_eu",
+					countryOfActivityBreakdown: null,
+					countryProviderCountries: null,
+					mainMarketsCountries: null,
 					regulatedActivity: false,
 				},
 			});
 
 		disabledResponse.assertOk();
-		const company = await Company.findByOrFail("subscriptionId", subscription.id);
 		const profile = await CompanyKycProfile.findByOrFail("companyId", company.id);
 		assert.isNull(profile.countryOfActivityReference);
+		assert.isNull(profile.countryOfActivityBreakdown);
+		assert.isNull(profile.countryProviderCountries);
+		assert.isNull(profile.mainMarketsCountries);
 		assert.isNull(profile.regulatedActivityReference);
 	});
 

@@ -5,12 +5,17 @@ import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
 import { BooleanField } from "#/features/subscriptions/components/boolean-field";
+import {
+	CountryActivityBreakdown,
+	isCountryActivityBreakdownValid,
+} from "#/features/subscriptions/kyc/components/country-activity-breakdown";
+import { CountryMultiSelect } from "#/features/subscriptions/kyc/components/country-select";
 import type { useKycForm } from "#/features/subscriptions/kyc/hooks/use-form";
 
 const namespace = "features.subscriptions.kyc";
 const geographyOptions = [
 	{ value: "france_and_eu", label: "France et UE" },
-	{ value: "other", label: "Hors France et UE" },
+	{ value: "other", label: "Autre(s)" },
 ] as const;
 
 type KycProfileSectionProps = {
@@ -30,6 +35,18 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 		.number({ error: t("validation.percentage") })
 		.min(0, t("validation.percentage"))
 		.max(100, t("validation.percentage"));
+	const countryActivityBreakdownSchema = z
+		.array(
+			z.object({
+				country: z
+					.string()
+					.regex(/^[A-Z]{2}$/)
+					.nullable(),
+				percentage: percentageSchema.nullable(),
+			}),
+		)
+		.min(1, t("validation.countryOfActivityBreakdown"))
+		.refine(isCountryActivityBreakdownValid, t("validation.countryOfActivityTotal"));
 
 	function updateBoolean(
 		field: "regulatedActivity" | "listedCompany" | "bicId" | "bearerBondsStructure",
@@ -68,29 +85,63 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 
 		switch (field) {
 			case "countryOfActivity":
-				if (value !== "other") form.setFieldValue("kycProfile.countryOfActivityReference", "");
+				if (value !== "other") {
+					form.setFieldValue("kycProfile.countryOfActivityBreakdown", []);
+					form.setFieldValue("kycProfile.countryOfActivityReference", "");
+				}
 				updateKycProfile(
 					value === "other"
 						? { countryOfActivity: value }
-						: { countryOfActivity: value, countryOfActivityReference: null },
+						: {
+								countryOfActivity: value,
+								countryOfActivityBreakdown: null,
+								countryOfActivityReference: null,
+							},
 				);
 				return;
 			case "countryProvider":
-				if (value !== "other") form.setFieldValue("kycProfile.countryProviderReference", "");
+				if (value !== "other") {
+					form.setFieldValue("kycProfile.countryProviderCountries", []);
+					form.setFieldValue("kycProfile.countryProviderReference", "");
+				}
 				updateKycProfile(
 					value === "other"
 						? { countryProvider: value }
-						: { countryProvider: value, countryProviderReference: null },
+						: {
+								countryProvider: value,
+								countryProviderCountries: null,
+								countryProviderReference: null,
+							},
 				);
 				return;
 			case "mainMarkets":
-				if (value !== "other") form.setFieldValue("kycProfile.mainMarketsReference", "");
+				if (value !== "other") {
+					form.setFieldValue("kycProfile.mainMarketsCountries", []);
+					form.setFieldValue("kycProfile.mainMarketsReference", "");
+				}
 				updateKycProfile(
 					value === "other"
 						? { mainMarkets: value }
-						: { mainMarkets: value, mainMarketsReference: null },
+						: {
+								mainMarkets: value,
+								mainMarketsCountries: null,
+								mainMarketsReference: null,
+							},
 				);
 		}
+	}
+
+	function updateCountryList(
+		field: "countryProviderCountries" | "mainMarketsCountries",
+		value: string[],
+	) {
+		form.setFieldValue(`kycProfile.${field}`, value);
+		if (field === "countryProviderCountries") {
+			updateKycProfile({ countryProviderCountries: value.length === 0 ? null : value });
+			return;
+		}
+
+		updateKycProfile({ mainMarketsCountries: value.length === 0 ? null : value });
 	}
 
 	return (
@@ -219,11 +270,14 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 						</div>
 					</div>
 					{(["countryOfActivity", "mainMarkets", "countryProvider"] as const).map((field) => {
-						const reference = `${field}Reference` as const;
+						const isCountryOfActivity = field === "countryOfActivity";
+						const countryListField =
+							field === "mainMarkets" ? "mainMarketsCountries" : "countryProviderCountries";
+
 						return (
-							<form.AppField key={field} name={`kycProfile.${field}`}>
-								{(selectField) => (
-									<div className="grid gap-3 md:grid-cols-2">
+							<div key={field} className="grid gap-3">
+								<form.AppField name={`kycProfile.${field}`}>
+									{(selectField) => (
 										<Field className="flex flex-col gap-2">
 											<Field.Label>{t(`field.${field}`)}</Field.Label>
 											<Select
@@ -251,34 +305,56 @@ export function KycProfileSection(props: KycProfileSectionProps) {
 												</Select.Dropdown>
 											</Select>
 										</Field>
-										{selectField.state.value === "other" && (
-											<form.AppField
-												name={`kycProfile.${reference}`}
-												validators={{
-													onMount: requiredTextSchema,
-													onBlur: requiredTextSchema,
-												}}
-												listeners={{
-													onBlur: ({ value, fieldApi }) => {
-														if (fieldApi.state.meta.isDefaultValue) return;
-														if (value.trim().length === 0) {
-															updateKycProfile({ [reference]: null });
-															return;
-														}
-														if (!fieldApi.state.meta.isValid) return;
+									)}
+								</form.AppField>
+								{profile[field] === "other" && isCountryOfActivity && (
+									<form.AppField
+										name="kycProfile.countryOfActivityBreakdown"
+										validators={{
+											onMount: countryActivityBreakdownSchema,
+											onBlur: countryActivityBreakdownSchema,
+										}}
+									>
+										{(breakdownField) => {
+											const invalid =
+												breakdownField.state.meta.isTouched &&
+												breakdownField.state.meta.errorMap.onBlur !== undefined;
 
-														updateKycProfile({ [reference]: value.trim() });
-													},
-												}}
-											>
-												{(referenceField) => (
-													<referenceField.TextField label={t(`field.${reference}`)} required />
-												)}
-											</form.AppField>
-										)}
-									</div>
+											return (
+												<CountryActivityBreakdown
+													invalid={invalid}
+													value={breakdownField.state.value}
+													onValueChange={(value) => {
+														breakdownField.handleChange(value);
+														breakdownField.handleBlur();
+
+														if (!isCountryActivityBreakdownValid(value)) return;
+
+														form.setFieldValue("kycProfile.countryOfActivityReference", "");
+														updateKycProfile({ countryOfActivityBreakdown: value });
+													}}
+												/>
+											);
+										}}
+									</form.AppField>
 								)}
-							</form.AppField>
+								{profile[field] === "other" && !isCountryOfActivity && (
+									<form.AppField name={`kycProfile.${countryListField}`}>
+										{(countryField) => (
+											<CountryMultiSelect
+												id={countryField.name}
+												label={t("field.countrySelection")}
+												value={countryField.state.value}
+												onValueChange={(value) => {
+													countryField.handleChange(value);
+													countryField.handleBlur();
+													updateCountryList(countryListField, value);
+												}}
+											/>
+										)}
+									</form.AppField>
+								)}
+							</div>
 						);
 					})}
 				</section>

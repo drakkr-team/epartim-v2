@@ -16,10 +16,13 @@ export default class CompanyKycProfilePresenter {
 					? null
 					: Number(profile.bearerBondsStructurePercentage),
 			countryOfActivity: profile.countryOfActivity,
+			countryOfActivityBreakdown: profile.countryOfActivityBreakdown,
 			countryOfActivityReference: profile.countryOfActivityReference,
 			countryProvider: profile.countryProvider,
+			countryProviderCountries: profile.countryProviderCountries,
 			countryProviderReference: profile.countryProviderReference,
 			mainMarkets: profile.mainMarkets,
+			mainMarketsCountries: profile.mainMarketsCountries,
 			mainMarketsReference: profile.mainMarketsReference,
 		};
 	}

@@ -15,9 +15,15 @@ body:
         "listedCompany": false,
         "bicId": false,
         "bearerBondsStructure": false,
-        "countryOfActivity": "france_and_eu",
-        "countryProvider": "france_and_eu",
-        "mainMarkets": "france_and_eu"
+        "countryOfActivityBreakdown": [
+          { "country": "FR", "percentage": 50 },
+          { "country": "MA", "percentage": 50 }
+        ],
+        "countryOfActivity": "other",
+        "countryProviderCountries": ["FR", "MA"],
+        "countryProvider": "other",
+        "mainMarketsCountries": ["FR", "ES"],
+        "mainMarkets": "other"
       }
     }
 bodyType: application/json

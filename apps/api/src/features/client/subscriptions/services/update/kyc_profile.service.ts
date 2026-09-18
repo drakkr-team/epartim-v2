@@ -24,7 +24,13 @@ export default class UpdateKycProfileService {
 				(await CompanyKycProfile.findBy("companyId", company.id, { client: trx })) ??
 				(await CompanyKycProfile.create({ companyId: company.id }, { client: trx }));
 
-			const { bearerBondsStructurePercentage, ...profileChanges } = payload.kycProfile;
+			const {
+				bearerBondsStructurePercentage,
+				countryOfActivityBreakdown,
+				countryProviderCountries,
+				mainMarketsCountries,
+				...profileChanges
+			} = payload.kycProfile;
 			profile.merge({
 				...profileChanges,
 				...(bearerBondsStructurePercentage === undefined
@@ -35,6 +41,9 @@ export default class UpdateKycProfileService {
 									? null
 									: String(bearerBondsStructurePercentage),
 						}),
+				...(countryOfActivityBreakdown === undefined ? {} : { countryOfActivityBreakdown }),
+				...(countryProviderCountries === undefined ? {} : { countryProviderCountries }),
+				...(mainMarketsCountries === undefined ? {} : { mainMarketsCountries }),
 			});
 			this.#clearInactiveValues(profile);
 			await profile.useTransaction(trx).save();
@@ -55,11 +64,20 @@ export default class UpdateKycProfileService {
 
 		if (profile.countryOfActivity !== CompanyKycGeography.OTHER) {
 			profile.countryOfActivityReference = null;
+			profile.countryOfActivityBreakdown = null;
+		} else if (profile.countryOfActivityBreakdown !== null) {
+			profile.countryOfActivityReference = null;
 		}
 		if (profile.countryProvider !== CompanyKycGeography.OTHER) {
 			profile.countryProviderReference = null;
+			profile.countryProviderCountries = null;
+		} else if (profile.countryProviderCountries !== null) {
+			profile.countryProviderReference = null;
 		}
 		if (profile.mainMarkets !== CompanyKycGeography.OTHER) {
+			profile.mainMarketsReference = null;
+			profile.mainMarketsCountries = null;
+		} else if (profile.mainMarketsCountries !== null) {
 			profile.mainMarketsReference = null;
 		}
 	}

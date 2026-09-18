@@ -1,5 +1,6 @@
 import type { CompanyBeneficialOwner, CompanyKycProfile } from "@workspace/api/data";
 
+import type { CountryActivity } from "#/features/subscriptions/kyc/components/country-activity-breakdown";
 import { useCreateKycOwnerMutation } from "#/features/subscriptions/kyc/hooks/use-create-owner-mutation";
 import { useDeleteKycOwnerMutation } from "#/features/subscriptions/kyc/hooks/use-delete-owner-mutation";
 import { useUpdateKycOwnerMutation } from "#/features/subscriptions/kyc/hooks/use-update-owner-mutation";
@@ -25,10 +26,13 @@ export type KycProfileValues = {
 	bearerBondsStructure: boolean;
 	bearerBondsStructurePercentage: number | null;
 	countryOfActivity: NonNullable<CompanyKycProfile["countryOfActivity"]>;
+	countryOfActivityBreakdown: CountryActivity[];
 	countryOfActivityReference: string;
 	countryProvider: NonNullable<CompanyKycProfile["countryProvider"]>;
+	countryProviderCountries: string[];
 	countryProviderReference: string;
 	mainMarkets: NonNullable<CompanyKycProfile["mainMarkets"]>;
+	mainMarketsCountries: string[];
 	mainMarketsReference: string;
 };
 
@@ -79,10 +83,13 @@ function getKycProfileValues(profile: CompanyKycProfile | null): KycProfileValue
 		bearerBondsStructure: profile?.bearerBondsStructure ?? false,
 		bearerBondsStructurePercentage: profile?.bearerBondsStructurePercentage ?? null,
 		countryOfActivity: profile?.countryOfActivity ?? "france_and_eu",
+		countryOfActivityBreakdown: profile?.countryOfActivityBreakdown ?? [],
 		countryOfActivityReference: profile?.countryOfActivityReference ?? "",
 		countryProvider: profile?.countryProvider ?? "france_and_eu",
+		countryProviderCountries: profile?.countryProviderCountries ?? [],
 		countryProviderReference: profile?.countryProviderReference ?? "",
 		mainMarkets: profile?.mainMarkets ?? "france_and_eu",
+		mainMarketsCountries: profile?.mainMarketsCountries ?? [],
 		mainMarketsReference: profile?.mainMarketsReference ?? "",
 	};
 }
