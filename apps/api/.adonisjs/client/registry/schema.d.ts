@@ -523,6 +523,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_profile.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'client.subscriptions.create_kyc_owner': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/kyc-owners'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_create.controller').default['handle']>>>
+    }
+  }
+  'client.subscriptions.update_kyc_owner': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/kyc-owners/:ownerId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; ownerId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.delete_kyc_owner': {
+    methods: ["DELETE"]
+    pattern: '/client/subscriptions/:subscriptionId/kyc-owners/:ownerId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; ownerId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_delete.controller').default['handle']>>>
+    }
+  }
   'admin.account_management.authentication.login': {
     methods: ["POST"]
     pattern: '/admin/account-management/authentication/login'
