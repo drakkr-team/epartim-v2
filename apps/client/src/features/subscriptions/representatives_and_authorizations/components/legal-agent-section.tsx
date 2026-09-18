@@ -60,7 +60,10 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 				<p className="mt-1 text-neutral-11 text-sm">{t("legalAgent.description")}</p>
 			</div>
 
-			<form.AppField name="legalAgent.kind" validators={{ onBlur: legalAgentSchema.kind }}>
+			<form.AppField
+				name="legalAgent.kind"
+				validators={{ onMount: legalAgentSchema.kind, onBlur: legalAgentSchema.kind }}
+			>
 				{(field) => {
 					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
@@ -134,7 +137,10 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 							<div className="grid gap-4 md:grid-cols-6">
 								<form.AppField
 									name="legalAgent.legalName"
-									validators={{ onBlur: legalAgentSchema.legalName }}
+									validators={{
+										onMount: legalAgentSchema.legalName,
+										onBlur: legalAgentSchema.legalName,
+									}}
 									listeners={{
 										onBlur: ({ value: legalName, fieldApi }) => {
 											if (legalName.trim().length === 0) {
@@ -155,7 +161,10 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								</form.AppField>
 								<form.AppField
 									name="legalAgent.email"
-									validators={{ onBlur: legalAgentSchema.email }}
+									validators={{
+										onMount: legalAgentSchema.email,
+										onBlur: legalAgentSchema.email,
+									}}
 									listeners={{
 										onBlur: ({ value: email, fieldApi }) => {
 											if (email.trim().length === 0) {
@@ -192,7 +201,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 							<div className="grid gap-4 rounded-md border border-secondary-3 p-4">
 								<form.AppField
 									name="signer.isSignatoryOnKbis"
-									validators={{ onBlur: requiredBooleanSchema }}
+									validators={{ onMount: requiredBooleanSchema, onBlur: requiredBooleanSchema }}
 								>
 									{(field) => {
 										const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
@@ -214,7 +223,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 															type="button"
 															role="radio"
 															aria-checked={field.state.value === option.value}
-															variant={field.state.value === option.value ? "primary" : "default"}
+															variant={field.state.value === option.value ? "secondary" : "default"}
 															onClick={() => {
 																field.handleChange(option.value);
 																onUpdateSigner({ isSignatoryOnKbis: option.value });
@@ -243,7 +252,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 							<div className="grid gap-4 rounded-md border border-secondary-3 p-4">
 								<form.AppField
 									name="correspondent.isDifferent"
-									validators={{ onBlur: requiredBooleanSchema }}
+									validators={{ onMount: requiredBooleanSchema, onBlur: requiredBooleanSchema }}
 								>
 									{(field) => {
 										const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
@@ -265,7 +274,7 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 															type="button"
 															role="radio"
 															aria-checked={field.state.value === option.value}
-															variant={field.state.value === option.value ? "primary" : "default"}
+															variant={field.state.value === option.value ? "secondary" : "default"}
 															onClick={() => {
 																field.handleChange(option.value);
 																if (!option.value) {

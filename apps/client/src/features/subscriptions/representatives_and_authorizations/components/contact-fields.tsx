@@ -87,7 +87,7 @@ export const ContactFields = withFieldGroup({
 			<div className="grid gap-4 md:grid-cols-6">
 				<group.AppField
 					name="civility"
-					validators={{ onBlur: civilitySchema }}
+					validators={{ onMount: civilitySchema, onBlur: civilitySchema }}
 					listeners={{
 						onBlur: ({ value: civility, fieldApi }) => {
 							if (fieldApi.state.meta.isValid) onUpdate({ civility });
@@ -147,7 +147,7 @@ export const ContactFields = withFieldGroup({
 
 				<group.AppField
 					name="firstName"
-					validators={{ onBlur: identitySchema.firstName }}
+					validators={{ onMount: identitySchema.firstName, onBlur: identitySchema.firstName }}
 					listeners={{
 						onBlur: ({ value: firstName, fieldApi }) => {
 							if (firstName.trim().length === 0) {
@@ -167,7 +167,7 @@ export const ContactFields = withFieldGroup({
 
 				<group.AppField
 					name="lastName"
-					validators={{ onBlur: identitySchema.lastName }}
+					validators={{ onMount: identitySchema.lastName, onBlur: identitySchema.lastName }}
 					listeners={{
 						onBlur: ({ value: lastName, fieldApi }) => {
 							if (lastName.trim().length === 0) {
@@ -187,7 +187,7 @@ export const ContactFields = withFieldGroup({
 
 				<group.AppField
 					name="email"
-					validators={{ onBlur: identitySchema.email }}
+					validators={{ onMount: identitySchema.email, onBlur: identitySchema.email }}
 					listeners={{
 						onBlur: ({ value: email, fieldApi }) => {
 							if (email.trim().length === 0) {
@@ -207,7 +207,7 @@ export const ContactFields = withFieldGroup({
 
 				<group.AppField
 					name="phoneNumber"
-					validators={{ onBlur: identitySchema.phoneNumber }}
+					validators={{ onMount: identitySchema.phoneNumber, onBlur: identitySchema.phoneNumber }}
 					listeners={{
 						onBlur: ({ value: phoneNumber, fieldApi }) => {
 							if (phoneNumber.trim().length === 0) {
@@ -256,7 +256,7 @@ export const ContactFields = withFieldGroup({
 				{includePortalId && (
 					<group.AppField
 						name="amundiPortalId"
-						validators={{ onBlur: amundiPortalIdSchema }}
+						validators={{ onMount: amundiPortalIdSchema, onBlur: amundiPortalIdSchema }}
 						listeners={{
 							onBlur: ({ value: amundiPortalId, fieldApi }) => {
 								if (amundiPortalId.trim().length === 0) {
