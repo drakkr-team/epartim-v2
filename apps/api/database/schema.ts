@@ -96,6 +96,52 @@ export class CompanySchema extends BaseModel {
   declare vatNumber: string | null
 }
 
+export class CompanyBeneficialOwnerRoleSchema extends BaseModel {
+  static $columns = ['companyBeneficialOwnerId', 'id', 'role'] as const
+  $columns = CompanyBeneficialOwnerRoleSchema.$columns
+  @column()
+  declare companyBeneficialOwnerId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare role: number
+}
+
+export class CompanyBeneficialOwnerSchema extends BaseModel {
+  static $columns = ['addressId', 'birthCity', 'birthDate', 'companyId', 'createdAt', 'firstName', 'function', 'id', 'kind', 'lastName', 'legalName', 'nationality', 'shareholdingPercentage', 'siren', 'updatedAt'] as const
+  $columns = CompanyBeneficialOwnerSchema.$columns
+  @column()
+  declare addressId: number
+  @column()
+  declare birthCity: string | null
+  @column.date()
+  declare birthDate: DateTime | null
+  @column()
+  declare companyId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare firstName: string | null
+  @column()
+  declare function: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare kind: number
+  @column()
+  declare lastName: string | null
+  @column()
+  declare legalName: string | null
+  @column()
+  declare nationality: string | null
+  @column()
+  declare shareholdingPercentage: string | null
+  @column()
+  declare siren: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class CompanyContactSchema extends BaseModel {
   static $columns = ['companyId', 'contactId', 'id'] as const
   $columns = CompanyContactSchema.$columns

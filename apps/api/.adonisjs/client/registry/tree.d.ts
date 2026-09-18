@@ -88,6 +88,9 @@ export interface ApiDefinition {
       updateCorrespondent: typeof routes['client.subscriptions.update_correspondent']
       updateAuthorizations: typeof routes['client.subscriptions.update_authorizations']
       updateKycProfile: typeof routes['client.subscriptions.update_kyc_profile']
+      createKycOwner: typeof routes['client.subscriptions.create_kyc_owner']
+      updateKycOwner: typeof routes['client.subscriptions.update_kyc_owner']
+      deleteKycOwner: typeof routes['client.subscriptions.delete_kyc_owner']
     }
   }
 }

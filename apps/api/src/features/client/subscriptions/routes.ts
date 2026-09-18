@@ -58,6 +58,21 @@ router
 				controllers.features.client.subscriptions.update.KycProfile,
 			])
 			.as("update_kyc_profile");
+		router
+			.post("/:subscriptionId/kyc-owners", [
+				controllers.features.client.subscriptions.update.KycOwnerCreate,
+			])
+			.as("create_kyc_owner");
+		router
+			.put("/:subscriptionId/kyc-owners/:ownerId", [
+				controllers.features.client.subscriptions.update.KycOwnerUpdate,
+			])
+			.as("update_kyc_owner");
+		router
+			.delete("/:subscriptionId/kyc-owners/:ownerId", [
+				controllers.features.client.subscriptions.update.KycOwnerDelete,
+			])
+			.as("delete_kyc_owner");
 	})
 	.use(middleware.auth({ guards: ["client"] }))
 	.prefix("/client/subscriptions")
