@@ -2,7 +2,7 @@ import type { routes } from "@workspace/api/registry";
 import { Card } from "@workspace/ui-react/components/card";
 
 import { KycProfileSection } from "#/features/subscriptions/kyc/components/kyc-profile-section";
-import { useKycProfileForm } from "#/features/subscriptions/kyc/hooks/use-kyc-profile-form";
+import { useKycProfileForm } from "#/features/subscriptions/kyc/hooks/use-form.ts";
 import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 
 type Subscription = (typeof routes)["client.subscriptions.view"]["types"]["response"];
