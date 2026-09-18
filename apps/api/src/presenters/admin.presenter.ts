@@ -4,6 +4,7 @@ export default class AdminPresenter {
 	toJSON(admin: Admin) {
 		return {
 			id: admin.id,
+			roleId: admin.roleId,
 
 			name: admin.name,
 			email: admin.email,

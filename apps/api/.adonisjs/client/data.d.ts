@@ -25,3 +25,5 @@ export type PaymentDetail = Awaited<ReturnType<typeof import("#presenters/paymen
 export type Subscription = Awaited<ReturnType<typeof import("#presenters/subscription.presenter").default.prototype.toJSON>>;
 
 export type User = Awaited<ReturnType<typeof import("#presenters/user.presenter").default.prototype.toJSON>>;
+
+export type Role = Awaited<ReturnType<typeof import("#presenters/role.presenter").default.prototype.toJSON>>;

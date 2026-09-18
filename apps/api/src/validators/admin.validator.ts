@@ -8,6 +8,7 @@ export const CreateAdminSchema = vine.object({
 		table: "admins",
 		column: "email",
 	}),
+	roleId: vine.number().exists({ table: "roles", column: "id" }),
 });
 
 export const UpdateAdminSchema = vine.object({

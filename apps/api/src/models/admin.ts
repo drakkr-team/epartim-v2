@@ -1,9 +1,11 @@
 import { withAuthFinder } from "@adonisjs/auth/mixins/lucid";
 import { compose } from "@adonisjs/core/helpers";
 import hash from "@adonisjs/core/services/hash";
-import { column } from "@adonisjs/lucid/orm";
+import { belongsTo, column } from "@adonisjs/lucid/orm";
+import type { BelongsTo } from "@adonisjs/lucid/types/relations";
 
 import { AdminSchema } from "#database/schema";
+import Role from "#models/role";
 
 const authFinder = withAuthFinder(() => hash.use("scrypt"), {
 	uids: ["email"],
@@ -13,4 +15,7 @@ const authFinder = withAuthFinder(() => hash.use("scrypt"), {
 export default class Admin extends compose(AdminSchema, authFinder) {
 	@column({ isPrimary: true })
 	declare id: number;
+
+	@belongsTo(() => Role)
+	declare role: BelongsTo<typeof Role>;
 }

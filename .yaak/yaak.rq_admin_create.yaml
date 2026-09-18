@@ -11,7 +11,8 @@ body:
   text: |-
     {
       "name": "${[ faker.person.fullName() ]}",
-      "email": "${[ faker.internet.email() ]}"
+      "email": "${[ faker.internet.email() ]}",
+      "roleId": ${[ ROLE_ID ]}
     }
 bodyType: application/json
 description: ''
