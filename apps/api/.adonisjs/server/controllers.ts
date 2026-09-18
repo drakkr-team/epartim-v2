@@ -18,6 +18,9 @@ export const controllers = {
         profile: {
           View: () => import('#src/features/admin/account_management/profile/controllers/view.controller'),
         },
+        onboarding: {
+          Activate: () => import('#src/features/admin/account_management/onboarding/controllers/activate.controller'),
+        },
       },
       admins: {
         Create: () => import('#src/features/admin/admins/controllers/create.controller'),
@@ -25,6 +28,7 @@ export const controllers = {
         List: () => import('#src/features/admin/admins/controllers/list.controller'),
         Update: () => import('#src/features/admin/admins/controllers/update.controller'),
         View: () => import('#src/features/admin/admins/controllers/view.controller'),
+        ResendOnboarding: () => import('#src/features/admin/admins/controllers/resend_onboarding.controller'),
       },
       firms: {
         Create: () => import('#src/features/admin/firms/controllers/create.controller'),
