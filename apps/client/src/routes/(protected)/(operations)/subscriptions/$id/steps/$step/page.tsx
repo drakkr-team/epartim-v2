@@ -19,7 +19,7 @@ export const Route = createFileRoute("/(protected)/(operations)/subscriptions/$i
 function SubscriptionStepPage() {
 	const { id, step } = Route.useParams();
 	const { t } = useTranslation("routes.(private).(operations).subscriptions.$id.steps.$step");
-	const { data: subscription, isPending, isError} = useSubscriptionQuery(id);
+	const { data: subscription, isPending, isError } = useSubscriptionQuery(id);
 
 	if (isPending) {
 		return (
