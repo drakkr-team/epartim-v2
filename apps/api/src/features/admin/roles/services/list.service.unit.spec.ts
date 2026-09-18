@@ -11,7 +11,7 @@ test.group("Features / Admin / Roles / Services / List Service", () => {
 		const zulu = await RoleFactory.merge({ name: "Zulu Support" }).create();
 		await RoleFactory.merge({ name: "Accounting" }).create();
 
-		const roles = await new ListRolesService().handle({ q: "support", orderBy: "name_asc" });
+		const roles = await new ListRolesService().handle({currentUserRole: alpha, q: "support", orderBy: "name_asc" });
 
 		assert.deepEqual(
 			roles.map((role) => role.id),

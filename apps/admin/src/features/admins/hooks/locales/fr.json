@@ -24,6 +24,9 @@
 				"email": "Saisissez une adresse e-mail valide.",
 				"max": "L'adresse e-mail doit contenir au maximum {{max}} caractères.",
 				"database.unique": "Cette adresse e-mail est déjà utilisée. Veuillez en choisir une autre."
+			},
+			"role": {
+				"required": "Le rôle est requis."
 			}
 		}
 	},

@@ -45,6 +45,11 @@
 			"delete": "Suppression"
 		}
 	},
+	"features.roles.components.combobox": {
+		"placeholder": "Sélectionnez un rôle",
+		"search": "Rechercher un rôle...",
+		"empty": "Aucun rôle trouvé."
+	},
 	"features.roles.components.delete-dialog": {
 		"title": "Supprimer ce rôle ?",
 		"description": "Vous êtes sur le point de supprimer définitivement « {{name}} ».",

@@ -1,10 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, Link as RouterLink } from "@tanstack/react-router";
 import { TuyauError } from "@tuyau/core/client";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
 import { Card } from "@workspace/ui-react/components/card";
+import { Link } from "@workspace/ui-react/components/link";
 import { Menu } from "@workspace/ui-react/components/menu";
 import { EllipsisVerticalIcon, SquarePenIcon, TrashIcon } from "@workspace/ui-react/icons";
 
@@ -58,7 +59,7 @@ function Page() {
 						<Menu.Content align="end">
 							{admin.meta.canUpdate && (
 								<Menu.Item
-									render={<Link to="/admins/$adminId/edit" params={{ adminId: adminId }} />}
+									render={<RouterLink to="/admins/$adminId/edit" params={{ adminId: adminId }} />}
 								>
 									<SquarePenIcon />
 									{t("action.edit")}
@@ -79,6 +80,18 @@ function Page() {
 				<DetailField label={t("field.id")} value={admin.id.toString()} />
 				<DetailField label={t("field.name")} value={admin.name} />
 				<DetailField label={t("field.email")} value={admin.email} />
+				<DetailField
+					label={t("field.role")}
+					value={
+						<Link
+							render={
+								<RouterLink to={"/roles/$roleId"} params={{ roleId: admin.role.id.toString() }} />
+							}
+						>
+							{admin.role.name}
+						</Link>
+					}
+				/>
 				<DetailField
 					label={t("field.activatedAt")}
 					value={admin.activatedAt?.toLocaleDateString() ?? t("status.pendingActivation")}

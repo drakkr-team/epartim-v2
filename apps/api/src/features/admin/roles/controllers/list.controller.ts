@@ -7,6 +7,7 @@ import DeleteRolePolicy from "#features/admin/roles/policies/delete.policy";
 import ListRolePolicy from "#features/admin/roles/policies/list.policy";
 import UpdateRolePolicy from "#features/admin/roles/policies/update.policy";
 import ListRolesService from "#features/admin/roles/services/list.service";
+import Admin from "#models/admin";
 import PaginationPresenter from "#presenters/pagination.presenter";
 import RolePresenter from "#presenters/role.presenter";
 import { PaginationValidator } from "#validators/pagination.validator";
@@ -19,7 +20,7 @@ export default class ListRolesController {
 		protected paginationPresenter: PaginationPresenter,
 	) {}
 
-	async handle({ request, bouncer }: HttpContext) {
+	async handle({ request, bouncer, auth }: HttpContext) {
 		await bouncer.with(ListRolePolicy).authorize("handle");
 
 		const {
@@ -29,7 +30,13 @@ export default class ListRolesController {
 			orderBy,
 		} = await request.validateUsing(ListRolesController.querySchema);
 
-		const roles = await this.listRolesService.handle({ q, orderBy }).paginate(page, perPage);
+		const currentUser = auth.user as Admin;
+		await currentUser.load("role");
+		const currentUserRole = currentUser.role;
+
+		const roles = await this.listRolesService
+			.handle({ currentUserRole, q, orderBy })
+			.paginate(page, perPage);
 
 		return {
 			meta: {
