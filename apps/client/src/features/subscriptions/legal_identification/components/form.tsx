@@ -1,7 +1,9 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
 import type { Company } from "@workspace/api/data";
+import { Card } from "@workspace/ui-react/components/card";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
@@ -9,6 +11,7 @@ import {
 	LEGAL_FORMS,
 	useLegalIdentificationForm,
 } from "#/features/subscriptions/legal_identification/hooks/use-form";
+import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 
 type LegalIdentificationFormProps = {
 	subscriptionId: string;
@@ -28,46 +31,53 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 		value,
 		label: t(`legalForm.${value}`),
 	}));
-	const legalIdentificationSchema = z.object({
-		siren: z
-			.string()
-			.trim()
-			.regex(/^\d{9}$/, t("validation.siren")),
-		siret: z.union([
-			z.literal(""),
-			z
-				.string()
-				.trim()
-				.regex(/^\d{14}$/, t("validation.siret")),
-		]),
-		naf: z
-			.string()
-			.trim()
-			.regex(/^\d{4}[A-Z]$/, t("validation.naf")),
-		name: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
-		legalForm: z
-			.literal(LEGAL_FORMS, t("validation.legalForm"))
-			.nullable()
-			.refine((value) => value !== null, t("validation.legalForm")),
-		companyHeadcount: z
-			.number({ error: t("validation.companyHeadcount") })
-			.int(t("validation.companyHeadcount"))
-			.positive(t("validation.companyHeadcount")),
-		vatNumber: z.union([
-			z.literal(""),
-			z
-				.string()
-				.trim()
-				.regex(/^FR\d{2}\d{9}$/, t("validation.vatNumber")),
-		]),
-		financialYearClosingDay: z
-			.string()
-			.trim()
-			.regex(/^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])$/, t("validation.financialYearClosingDay")),
-	});
+	const legalIdentificationSchema = useMemo(
+		() =>
+			z.object({
+				siren: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^\d{9}$/, t("validation.siren")),
+				siret: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^\d{14}$/, t("validation.siret")),
+				naf: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^\d{4}[A-Z]$/, t("validation.naf")),
+				name: z.string().trim().min(1, t("validation.required")).max(254, t("validation.max")),
+				legalForm: z
+					.literal(LEGAL_FORMS, t("validation.legalForm"))
+					.nullable()
+					.refine((value) => value !== null, t("validation.legalForm")),
+				companyHeadcount: z
+					.number({ error: t("validation.companyHeadcount") })
+					.int(t("validation.companyHeadcount"))
+					.positive(t("validation.companyHeadcount")),
+				vatNumber: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(/^FR\d{2}\d{9}$/, t("validation.vatNumber")),
+				financialYearClosingDay: z
+					.string()
+					.trim()
+					.min(1, t("validation.required"))
+					.regex(
+						/^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])$/,
+						t("validation.financialYearClosingDay"),
+					),
+			}),
+		[t],
+	);
+	useRegisterSubscriptionStepForm(form);
 
 	return (
-		<form noValidate className="grid gap-6">
+		<Card render={<form noValidate />} className="p-6 sm:p-8">
 			<section aria-labelledby="legal-identification-heading" className="grid gap-5">
 				<div className="border-neutral-4 border-b pb-4">
 					<p className="font-bold text-primary-9 text-xs uppercase tracking-widest">
@@ -85,12 +95,19 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 				<div className="grid gap-4 md:grid-cols-3">
 					<form.AppField
 						name="siren"
-						validators={{ onBlur: legalIdentificationSchema.shape.siren }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.siren,
+							onBlur: legalIdentificationSchema.shape.siren,
+						}}
 						listeners={{
 							onBlur: ({ value: siren, fieldApi }) => {
+								if (siren.trim().length === 0) {
+									updateLegalIdentification({ siren: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ siren });
+								updateLegalIdentification({ siren: siren.trim() });
 							},
 						}}
 					>
@@ -105,18 +122,26 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="siret"
-						validators={{ onBlur: legalIdentificationSchema.shape.siret }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.siret,
+							onBlur: legalIdentificationSchema.shape.siret,
+						}}
 						listeners={{
 							onBlur: ({ value: siret, fieldApi }) => {
+								if (siret.trim().length === 0) {
+									updateLegalIdentification({ siret: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ siret: siret || null });
+								updateLegalIdentification({ siret: siret.trim() });
 							},
 						}}
 					>
 						{(field) => (
 							<field.TextField
 								label={t("field.siret.label")}
+								required
 								inputProps={{ inputMode: "numeric", maxLength: 14 }}
 							/>
 						)}
@@ -124,12 +149,19 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="naf"
-						validators={{ onBlur: legalIdentificationSchema.shape.naf }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.naf,
+							onBlur: legalIdentificationSchema.shape.naf,
+						}}
 						listeners={{
 							onBlur: ({ value: naf, fieldApi }) => {
+								if (naf.trim().length === 0) {
+									updateLegalIdentification({ naf: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ naf });
+								updateLegalIdentification({ naf: naf.trim() });
 							},
 						}}
 					>
@@ -144,26 +176,40 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="vatNumber"
-						validators={{ onBlur: legalIdentificationSchema.shape.vatNumber }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.vatNumber,
+							onBlur: legalIdentificationSchema.shape.vatNumber,
+						}}
 						listeners={{
 							onBlur: ({ value: vatNumber, fieldApi }) => {
+								if (vatNumber.trim().length === 0) {
+									updateLegalIdentification({ vatNumber: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ vatNumber: vatNumber || null });
+								updateLegalIdentification({ vatNumber: vatNumber.trim() });
 							},
 						}}
 					>
-						{(field) => <field.TextField label={t("field.vatNumber.label")} />}
+						{(field) => <field.TextField label={t("field.vatNumber.label")} required />}
 					</form.AppField>
 
 					<form.AppField
 						name="name"
-						validators={{ onBlur: legalIdentificationSchema.shape.name }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.name,
+							onBlur: legalIdentificationSchema.shape.name,
+						}}
 						listeners={{
 							onBlur: ({ value: name, fieldApi }) => {
+								if (name.trim().length === 0) {
+									updateLegalIdentification({ name: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ name });
+								updateLegalIdentification({ name: name.trim() });
 							},
 						}}
 					>
@@ -176,10 +222,17 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="legalForm"
-						validators={{ onBlur: legalIdentificationSchema.shape.legalForm }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.legalForm,
+							onBlur: legalIdentificationSchema.shape.legalForm,
+						}}
 						listeners={{
 							onBlur: ({ value: legalForm, fieldApi }) => {
-								if (!fieldApi.state.meta.isValid || legalForm === null) return;
+								if (legalForm === null) {
+									updateLegalIdentification({ legalForm: null });
+									return;
+								}
+								if (!fieldApi.state.meta.isValid) return;
 
 								updateLegalIdentification({ legalForm });
 							},
@@ -231,10 +284,17 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="companyHeadcount"
-						validators={{ onBlur: legalIdentificationSchema.shape.companyHeadcount }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.companyHeadcount,
+							onBlur: legalIdentificationSchema.shape.companyHeadcount,
+						}}
 						listeners={{
 							onBlur: ({ value: companyHeadcount, fieldApi }) => {
-								if (!fieldApi.state.meta.isValid || companyHeadcount === null) return;
+								if (companyHeadcount === null) {
+									updateLegalIdentification({ companyHeadcount: null });
+									return;
+								}
+								if (!fieldApi.state.meta.isValid) return;
 
 								updateLegalIdentification({ companyHeadcount });
 							},
@@ -251,12 +311,21 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 
 					<form.AppField
 						name="financialYearClosingDay"
-						validators={{ onBlur: legalIdentificationSchema.shape.financialYearClosingDay }}
+						validators={{
+							onMount: legalIdentificationSchema.shape.financialYearClosingDay,
+							onBlur: legalIdentificationSchema.shape.financialYearClosingDay,
+						}}
 						listeners={{
 							onBlur: ({ value: financialYearClosingDay, fieldApi }) => {
+								if (financialYearClosingDay.trim().length === 0) {
+									updateLegalIdentification({ financialYearClosingDay: null });
+									return;
+								}
 								if (!fieldApi.state.meta.isValid) return;
 
-								updateLegalIdentification({ financialYearClosingDay });
+								updateLegalIdentification({
+									financialYearClosingDay: financialYearClosingDay.trim(),
+								});
 							},
 						}}
 					>
@@ -270,6 +339,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 					</form.AppField>
 				</div>
 			</section>
-		</form>
+		</Card>
 	);
 }

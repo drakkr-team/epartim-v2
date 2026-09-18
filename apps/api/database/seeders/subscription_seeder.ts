@@ -3,7 +3,6 @@ import { BaseSeeder } from "@adonisjs/lucid/seeders";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
-import { ContactKind } from "#models/contact";
 
 export default class extends BaseSeeder {
 	static environment = ["development"];
@@ -18,29 +17,24 @@ export default class extends BaseSeeder {
 				.create();
 			const legalAgentFactory =
 				index % 3 === 2 ? ContactFactory.apply("legalEntity") : ContactFactory;
+			const hasDistinctCorrespondent = index % 3 !== 0;
 			const legalAgent = await legalAgentFactory
 				.merge({
-					isSignatoryOnKbis: true,
+					isSameAsLegal: !hasDistinctCorrespondent,
 				})
 				.create();
-			const hasDistinctCorrespondent =
-				legalAgent.kind === ContactKind.PERSONNE_MORALE || index % 3 === 1;
 			const correspondent = hasDistinctCorrespondent ? await ContactFactory.create() : null;
+			const signer = await ContactFactory.merge({ isSignatoryOnKbis: true }).create();
 			const authorizedContacts = await ContactFactory.apply("withAuthorizations").createMany(2);
 
 			company.merge({
 				companyLegalAgentId: legalAgent.id,
 				companyCorrespondentId: correspondent?.id ?? null,
+				companySignerId: signer.id,
 			});
 			await company.save();
 
-			await company
-				.related("contacts")
-				.attach(
-					[legalAgent, correspondent, ...authorizedContacts].flatMap(
-						(contact) => contact?.id ?? [],
-					),
-				);
+			await company.related("contacts").attach(authorizedContacts.map((contact) => contact.id));
 		}
 	}
 }

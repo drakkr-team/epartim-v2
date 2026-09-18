@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Set SUBSCRIPTION_ID in your private Yaak environment.
+description: Set SUBSCRIPTION_ID in your private Yaak environment. Attached document URLs are time-limited and trigger a download.
 headers:
 - enabled: true
   name: Accept

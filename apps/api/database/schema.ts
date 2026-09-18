@@ -50,7 +50,7 @@ export class AdminSchema extends BaseModel {
 }
 
 export class CompanySchema extends BaseModel {
-  static $columns = ['addressId', 'bankDetailsDocumentId', 'companyCorrespondentId', 'companyDetailsDocumentId', 'companyHeadcount', 'companyLegalAgentId', 'contactsStatusDocumentId', 'createdAt', 'financialYearClosingDay', 'id', 'legalAgentIdDocumentId', 'legalForm', 'naf', 'name', 'paymentDetailId', 'siren', 'siret', 'subscriptionId', 'updatedAt', 'vatNumber'] as const
+  static $columns = ['addressId', 'bankDetailsDocumentId', 'companyCorrespondentId', 'companyDetailsDocumentId', 'companyHeadcount', 'companyLegalAgentId', 'companySignerId', 'contactsStatusDocumentId', 'createdAt', 'financialYearClosingDay', 'id', 'legalAgentIdDocumentId', 'legalForm', 'naf', 'name', 'paymentDetailId', 'siren', 'siret', 'subscriptionId', 'updatedAt', 'vatNumber'] as const
   $columns = CompanySchema.$columns
   @column()
   declare addressId: number | null
@@ -64,6 +64,8 @@ export class CompanySchema extends BaseModel {
   declare companyHeadcount: string | null
   @column()
   declare companyLegalAgentId: number | null
+  @column()
+  declare companySignerId: number | null
   @column()
   declare contactsStatusDocumentId: number | null
   @column.dateTime({ autoCreate: true })
@@ -106,12 +108,14 @@ export class CompanyContactSchema extends BaseModel {
 }
 
 export class ContactSchema extends BaseModel {
-  static $columns = ['amundiPortalId', 'authorizations', 'createdAt', 'email', 'firstName', 'function', 'id', 'isSameAsLegal', 'isSignatoryOnKbis', 'kind', 'lastName', 'legalName', 'phoneNumber', 'updatedAt'] as const
+  static $columns = ['amundiPortalId', 'authorizations', 'civility', 'createdAt', 'email', 'firstName', 'function', 'id', 'isSameAsLegal', 'isSignatoryOnKbis', 'kind', 'lastName', 'legalName', 'phoneNumber', 'updatedAt'] as const
   $columns = ContactSchema.$columns
   @column()
   declare amundiPortalId: string | null
   @column()
   declare authorizations: any | null
+  @column()
+  declare civility: number | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
@@ -229,6 +233,23 @@ export class RoleSchema extends BaseModel {
   declare isSuperAdmin: boolean
   @column()
   declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class SubscriptionDocumentSchema extends BaseModel {
+  static $columns = ['createdAt', 'fileId', 'id', 'subscriptionId', 'type', 'updatedAt'] as const
+  $columns = SubscriptionDocumentSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare fileId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare subscriptionId: number
+  @column()
+  declare type: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

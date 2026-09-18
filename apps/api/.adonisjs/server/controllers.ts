@@ -70,8 +70,22 @@ export const controllers = {
         List: () => import('#src/features/client/subscriptions/controllers/list.controller'),
         update: {
           LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
+          AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),
+          representatives: {
+            Authorizations: () => import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller'),
+            Correspondent: () => import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller'),
+            LegalAgent: () => import('#src/features/client/subscriptions/controllers/update/representatives/legal_agent.controller'),
+            Signer: () => import('#src/features/client/subscriptions/controllers/update/representatives/signer.controller'),
+          },
         },
         View: () => import('#src/features/client/subscriptions/controllers/view.controller'),
+        documents: {
+          Delete: () => import('#src/features/client/subscriptions/controllers/documents/delete.controller'),
+          Upload: () => import('#src/features/client/subscriptions/controllers/documents/upload.controller'),
+        },
+        steps: {
+          Validate: () => import('#src/features/client/subscriptions/controllers/steps/validate.controller'),
+        },
       },
     },
   },

@@ -27,6 +27,13 @@ export const ContactKind = {
 
 export type ContactKind = (typeof ContactKind)[keyof typeof ContactKind];
 
+export const ContactCivility = {
+	MONSIEUR: 1,
+	MADAME: 2,
+} as const;
+
+export type ContactCivility = (typeof ContactCivility)[keyof typeof ContactCivility];
+
 export const ContactAuthorization = {
 	COMPTABLE: 1,
 	AGIR_ET_CONSULTER: 2,
@@ -36,7 +43,11 @@ export const ContactAuthorization = {
 export type ContactAuthorization = (typeof ContactAuthorization)[keyof typeof ContactAuthorization];
 
 export default class Contact extends ContactSchema {
+	declare civility: ContactCivility | null;
+
 	declare kind: ContactKind | null;
+
+	declare function: ContactFunction | null;
 
 	@column()
 	declare legalName: string | null;
