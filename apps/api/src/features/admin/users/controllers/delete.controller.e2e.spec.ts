@@ -2,11 +2,15 @@ import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { UserFactory } from "#database/factories/user.factory";
+import Role from "#models/role";
 import User from "#models/user";
 
 test.group("Features / Admin / Users / Controllers / Delete Controller", () => {
 	test("it should permanently delete a user", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["delete:user"];
+		await role.save();
 		const targetUser = await UserFactory.create();
 
 		const response = await client
@@ -20,6 +24,9 @@ test.group("Features / Admin / Users / Controllers / Delete Controller", () => {
 
 	test("it should return not found for missing identifiers", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["delete:user"];
+		await role.save();
 
 		for (const id of ["999999", "0", "-1"]) {
 			const response = await client

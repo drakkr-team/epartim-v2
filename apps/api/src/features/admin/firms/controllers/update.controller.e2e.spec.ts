@@ -5,6 +5,7 @@ import { FirmFactory } from "#database/factories/firm.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
 import Address from "#models/address";
 import PaymentDetail from "#models/payment_detail";
+import Role from "#models/role";
 
 async function createUpdateFixture(name: string, orias: string) {
 	const firm = await FirmFactory.merge({
@@ -26,6 +27,9 @@ async function createUpdateFixture(name: string, orias: string) {
 test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	test("it should update the firm and owned relations", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
 		const firm = await createUpdateFixture("Original Firm", "51000001");
 
 		const response = await client
@@ -65,6 +69,9 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
 		const firstNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
 		const secondNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
 		const firm = await createUpdateFixture("Network Semantics Firm", "51000002");
@@ -97,6 +104,9 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 
 	test("it should ignore amundiOrgId supplied during update", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
 		const firm = await createUpdateFixture("Generated Amundi Firm", "51000008");
 		const initialAmundiOrgId = firm.amundiOrgId;
 
@@ -113,6 +123,9 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 
 	test("it should reject duplicate editable unique values", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
 		const target = await createUpdateFixture("Unique Target Firm", "51000003");
 		const existing = await createUpdateFixture("Unique Existing Firm", "51000004");
 
@@ -129,6 +142,9 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 
 	test("it should allow a no-op payload", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
 		const firm = await createUpdateFixture("No-op Firm", "51000005");
 
 		const response = await client
@@ -144,6 +160,9 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 
 	test("it should reject invalid owned fields and references", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
 		const firm = await createUpdateFixture("Validation Firm", "51000006");
 
 		for (const payload of [{ address: {} }, { paymentDetail: {} }, { networkId: 999_999_999 }]) {
@@ -159,6 +178,9 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 
 	test("it should reject malformed partial values", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
 		const firm = await createUpdateFixture("Malformed Firm", "51000007");
 
 		for (const payload of [
@@ -190,6 +212,9 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 
 	test("it should return not found for an unknown firmId", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
 
 		const response = await client
 			.put("/admin/firms/999999999")

@@ -1,6 +1,7 @@
 import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
+import Role from "#models/role";
 
 test.group("Features / Admin / Admins / Controllers / List Controller", () => {
 	test("it should return paginated admins with authorization metadata", async ({
@@ -11,6 +12,9 @@ test.group("Features / Admin / Admins / Controllers / List Controller", () => {
 			name: "Metadata Current Admin",
 			email: "metadata.current.admin@example.com",
 		}).create();
+		const currentRole = await Role.findOrFail(currentAdmin.roleId);
+		currentRole.authorizations = ["create:admin", "update:admin", "delete:admin"];
+		await currentRole.save();
 		const otherAdmin = await AdminFactory.merge({
 			name: "Metadata Other Admin",
 			email: "metadata.other.admin@example.com",

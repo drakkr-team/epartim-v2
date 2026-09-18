@@ -2,6 +2,7 @@ import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
+import Role from "#models/role";
 
 test.group("Features / Admin / Networks / Controllers / List Controller", () => {
 	test("it should return pagination, action metadata, and relation identifiers", async ({
@@ -9,6 +10,9 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network", "update:network", "delete:network"];
+		await role.save();
 		const network = await NetworkFactory.merge({ name: "List Contract Network" })
 			.with("address")
 			.with("paymentDetail")

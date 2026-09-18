@@ -3,6 +3,7 @@ import { test } from "@japa/runner";
 import { AdminFactory } from "#database/factories/admin.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
 import Network from "#models/network";
+import Role from "#models/role";
 
 const validPayload = {
 	name: "Réseau Démo",
@@ -28,6 +29,9 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network"];
+		await role.save();
 
 		const response = await client
 			.visit("admin.networks.create")
@@ -57,6 +61,9 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 
 	test("it should require the network and owned relation fields", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network"];
+		await role.save();
 
 		const response = await client
 			.visit("admin.networks.create")
@@ -80,6 +87,9 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 
 	test("it should reject duplicate names", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network"];
+		await role.save();
 		const existing = await NetworkFactory.with("address").with("paymentDetail").create();
 
 		const duplicateName = await client
@@ -98,6 +108,9 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network"];
+		await role.save();
 
 		const response = await client
 			.post("/admin/networks")
@@ -121,6 +134,9 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 
 	test("it should reject invalid coordinates, IBANs, and BICs", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network"];
+		await role.save();
 		const invalidPayloads = [
 			{
 				...validPayload,

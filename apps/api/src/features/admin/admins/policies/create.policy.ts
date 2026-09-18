@@ -4,7 +4,9 @@ import Admin from "#models/admin";
 import User from "#models/user";
 
 export default class CreateAdminPolicy extends BasePolicy {
-	handle(currentUser: Admin | User) {
-		return currentUser instanceof Admin;
+	async handle(currentUser: Admin | User) {
+		if (currentUser instanceof User) return false;
+
+		return currentUser.can("create:admin");
 	}
 }

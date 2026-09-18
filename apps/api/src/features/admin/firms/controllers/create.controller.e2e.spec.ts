@@ -4,6 +4,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import { FirmFactory } from "#database/factories/firm.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
 import Firm from "#models/firm";
+import Role from "#models/role";
 
 const validPayload = {
 	name: "Cabinet Martin",
@@ -30,6 +31,9 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm"];
+		await role.save();
 
 		const response = await client
 			.visit("admin.firms.create")
@@ -57,6 +61,9 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 
 	test("it should attach an existing network", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm"];
+		await role.save();
 		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
@@ -79,6 +86,9 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm"];
+		await role.save();
 		const { coordinates: _, ...address } = validPayload.address;
 
 		for (const [name, orias] of [
@@ -107,6 +117,9 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 
 	test("it should ignore amundiOrgId supplied during creation", async ({ client, assert }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm"];
+		await role.save();
 		const name = "Cabinet Amundi généré";
 
 		const response = await client
@@ -128,6 +141,9 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 
 	test("it should reject missing owned fields and malformed values", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm"];
+		await role.save();
 		const createFirmPath: string = "/admin/firms";
 		const invalidPayloads = [
 			{ ...validPayload, name: "", orias: "12345682" },
@@ -179,6 +195,9 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		client,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm"];
+		await role.save();
 		const existing = await FirmFactory.merge({
 			name: "Existing Cabinet",
 			amundiOrgId: "AMU-EXISTING",

@@ -7,6 +7,7 @@ import Address from "#models/address";
 import Firm from "#models/firm";
 import Network from "#models/network";
 import PaymentDetail from "#models/payment_detail";
+import Role from "#models/role";
 
 test.group("Features / Admin / Networks / Controllers / Delete Controller", () => {
 	test("it should physically delete an unused network and its owned records", async ({
@@ -14,6 +15,9 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["delete:network"];
+		await role.save();
 		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
@@ -33,6 +37,9 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["delete:network"];
+		await role.save();
 		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 		const firm = await FirmFactory.merge({ networkId: network.id })
 			.with("address")
@@ -54,6 +61,9 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 
 	test("it should return not found for an unknown networkId", async ({ client }) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["delete:network"];
+		await role.save();
 
 		const response = await client
 			.visit("admin.networks.delete", { networkId: 999_999 })

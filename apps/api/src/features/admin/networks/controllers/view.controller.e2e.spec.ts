@@ -2,6 +2,7 @@ import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
+import Role from "#models/role";
 
 test.group("Features / Admin / Networks / Controllers / View Controller", () => {
 	test("it should return a network with relation identifiers and action metadata", async ({
@@ -9,6 +10,9 @@ test.group("Features / Admin / Networks / Controllers / View Controller", () => 
 		assert,
 	}) => {
 		const admin = await AdminFactory.create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:network", "delete:network"];
+		await role.save();
 		const network = await NetworkFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
