@@ -17,7 +17,7 @@ export const InputRoot = forwardRef<HTMLInputElement, InputRootProps>(
 		const { ref: rightSlotRef, size: rightSlotSize } = useElementSize();
 
 		return (
-			<div className="relative flex w-full items-center has-[input[data-disabled]]:opacity-50">
+			<div className="relative flex items-center has-[input[data-disabled]]:opacity-50">
 				{leftSlot && (
 					<span
 						ref={leftSlotRef}
