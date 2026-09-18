@@ -1,8 +1,9 @@
-import { belongsTo, manyToMany } from "@adonisjs/lucid/orm";
-import type { BelongsTo, ManyToMany } from "@adonisjs/lucid/types/relations";
+import { belongsTo, hasOne, manyToMany } from "@adonisjs/lucid/orm";
+import type { BelongsTo, HasOne, ManyToMany } from "@adonisjs/lucid/types/relations";
 
 import { CompanySchema } from "#database/schema";
 import Address from "#models/address";
+import CompanyKycProfile from "#models/company_kyc_profile";
 import Contact from "#models/contact";
 import File from "#models/file";
 import PaymentDetail from "#models/payment_detail";
@@ -67,6 +68,9 @@ export default class Company extends CompanySchema {
 
 	@belongsTo(() => Contact, { foreignKey: "companySignerId" })
 	declare signer: BelongsTo<typeof Contact>;
+
+	@hasOne(() => CompanyKycProfile)
+	declare kycProfile: HasOne<typeof CompanyKycProfile>;
 
 	@manyToMany(() => Contact, { pivotTable: "company_contacts" })
 	declare contacts: ManyToMany<typeof Contact>;

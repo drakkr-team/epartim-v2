@@ -1,6 +1,7 @@
 import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 
+import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import File from "#models/file";
 import Subscription from "#models/subscription";
@@ -24,7 +25,11 @@ export default class DeleteSubscriptionDocumentService {
 
 			fileId = document.fileId;
 			await document.useTransaction(trx).delete();
-			await this.validateSubscriptionStepService.invalidate(subscription, trx);
+			await this.validateSubscriptionStepService.invalidate(
+				subscription,
+				trx,
+				SubscriptionStep.COMPANY_REFERENCES,
+			);
 		});
 
 		const file = await File.findOrFail(fileId!);

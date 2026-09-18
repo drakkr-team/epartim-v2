@@ -2,6 +2,7 @@ import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { Infer } from "@vinejs/vine/types";
 
+import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
@@ -43,7 +44,11 @@ export default class UpdateSignerService {
 			if (!company.companySignerId) {
 				await company.useTransaction(trx).merge({ companySignerId: signer.id }).save();
 			}
-			await this.validateSubscriptionStepService.invalidate(subscription, trx);
+			await this.validateSubscriptionStepService.invalidate(
+				subscription,
+				trx,
+				SubscriptionStep.COMPANY_REFERENCES,
+			);
 
 			return company;
 		});
