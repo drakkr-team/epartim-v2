@@ -8,11 +8,10 @@ const translationNamespace =
 
 type SignerSectionProps = {
 	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
-	onUpdateSigner: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["updateSigner"];
 };
 
 export function SignerSection(props: SignerSectionProps) {
-	const { form, onUpdateSigner } = props;
+	const { form } = props;
 	const { t } = useTranslation(translationNamespace);
 
 	return (
@@ -28,13 +27,7 @@ export function SignerSection(props: SignerSectionProps) {
 						</div>
 
 						<div className="mt-4 grid gap-4 rounded-md border border-secondary-3 p-4">
-							<ContactFields
-								form={form}
-								fields="signer"
-								idPrefix="signer"
-								onUpdate={onUpdateSigner}
-								phoneRequired
-							/>
+							<ContactFields form={form} fields="signer" idPrefix="signer" phoneRequired />
 						</div>
 					</section>
 				)

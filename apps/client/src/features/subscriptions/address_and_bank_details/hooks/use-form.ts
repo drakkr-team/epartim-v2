@@ -19,6 +19,19 @@ export function useAddressAndBankDetailsForm(params: UseAddressAndBankDetailsFor
 	const { subscriptionId, address, paymentDetail } = params;
 	const { mutate: update } = useUpdateAddressAndBankDetailsMutation(subscriptionId);
 
+	function updateAddressAndBankDetails(
+		addressAndBankDetails: AddressAndBankDetailsChanges,
+		onSuccess?: () => void,
+	) {
+		update(
+			{
+				params: { subscriptionId },
+				body: addressAndBankDetails,
+			},
+			{ onSuccess },
+		);
+	}
+
 	const form = useAppForm({
 		defaultValues: {
 			lineOne: address?.lineOne ?? "",
@@ -28,14 +41,30 @@ export function useAddressAndBankDetailsForm(params: UseAddressAndBankDetailsFor
 			iban: paymentDetail?.iban ?? "",
 			bic: paymentDetail?.bic ?? "",
 		},
+		listeners: {
+			onBlur: ({ fieldApi }) => {
+				if (!fieldApi.state.meta.isDirty || !fieldApi.state.meta.isValid) return;
+
+				const isPaymentDetail = fieldApi.name === "iban" || fieldApi.name === "bic";
+				const savedValue = fieldApi.state.value;
+				const value = String(savedValue).trim();
+				const normalizedValue = isPaymentDetail ? value.toUpperCase() : value;
+
+				updateAddressAndBankDetails(
+					(isPaymentDetail
+						? { paymentDetail: { [fieldApi.name]: normalizedValue || null } }
+						: {
+								address: { [fieldApi.name]: normalizedValue || null },
+							}) as AddressAndBankDetailsChanges,
+					() => {
+						if (Object.is(fieldApi.state.value, savedValue)) {
+							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
+						}
+					},
+				);
+			},
+		},
 	});
 
-	function updateAddressAndBankDetails(addressAndBankDetails: AddressAndBankDetailsChanges) {
-		update({
-			params: { subscriptionId },
-			body: addressAndBankDetails,
-		});
-	}
-
-	return { form, updateAddressAndBankDetails };
+	return { form };
 }

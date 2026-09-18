@@ -20,7 +20,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 	const { t } = useTranslation(
 		"features.subscriptions.address_and_bank_details.components.address-and-bank-details-form",
 	);
-	const { form, updateAddressAndBankDetails } = useAddressAndBankDetailsForm({
+	const { form } = useAddressAndBankDetailsForm({
 		subscriptionId,
 		address,
 		paymentDetail,
@@ -75,19 +75,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="lineOne"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.lineOne,
 							onBlur: addressAndBankDetailsSchema.shape.lineOne,
-						}}
-						listeners={{
-							onBlur: ({ value: lineOne, fieldApi }) => {
-								if (lineOne.trim().length === 0) {
-									updateAddressAndBankDetails({ address: { lineOne: null } });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateAddressAndBankDetails({ address: { lineOne: lineOne.trim() } });
-							},
 						}}
 					>
 						{(field) => (
@@ -104,15 +92,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="lineTwo"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.lineTwo,
 							onBlur: addressAndBankDetailsSchema.shape.lineTwo,
-						}}
-						listeners={{
-							onBlur: ({ value: lineTwo, fieldApi }) => {
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateAddressAndBankDetails({ address: { lineTwo: lineTwo.trim() || null } });
-							},
 						}}
 					>
 						{(field) => (
@@ -128,19 +108,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="zip"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.zip,
 							onBlur: addressAndBankDetailsSchema.shape.zip,
-						}}
-						listeners={{
-							onBlur: ({ value: zip, fieldApi }) => {
-								if (zip.trim().length === 0) {
-									updateAddressAndBankDetails({ address: { zip: null } });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateAddressAndBankDetails({ address: { zip: zip.trim() } });
-							},
 						}}
 					>
 						{(field) => (
@@ -157,19 +125,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="city"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.city,
 							onBlur: addressAndBankDetailsSchema.shape.city,
-						}}
-						listeners={{
-							onBlur: ({ value: city, fieldApi }) => {
-								if (city.trim().length === 0) {
-									updateAddressAndBankDetails({ address: { city: null } });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateAddressAndBankDetails({ address: { city: city.trim() } });
-							},
 						}}
 					>
 						{(field) => (
@@ -186,19 +142,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="iban"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.iban,
 							onBlur: addressAndBankDetailsSchema.shape.iban,
-						}}
-						listeners={{
-							onBlur: ({ value: iban, fieldApi }) => {
-								if (iban.trim().length === 0) {
-									updateAddressAndBankDetails({ paymentDetail: { iban: null } });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateAddressAndBankDetails({ paymentDetail: { iban: iban.trim().toUpperCase() } });
-							},
 						}}
 					>
 						{(field) => (
@@ -215,19 +159,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					<form.AppField
 						name="bic"
 						validators={{
-							onMount: addressAndBankDetailsSchema.shape.bic,
 							onBlur: addressAndBankDetailsSchema.shape.bic,
-						}}
-						listeners={{
-							onBlur: ({ value: bic, fieldApi }) => {
-								if (bic.trim().length === 0) {
-									updateAddressAndBankDetails({ paymentDetail: { bic: null } });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateAddressAndBankDetails({ paymentDetail: { bic: bic.trim().toUpperCase() } });
-							},
 						}}
 					>
 						{(field) => (

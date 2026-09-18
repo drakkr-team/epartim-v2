@@ -28,6 +28,7 @@ tmp/
 # Oh My OpenAgent
 .omo
 .context
+.humanlayer
 
 # IDEs
 .vscode

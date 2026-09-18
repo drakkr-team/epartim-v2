@@ -45,7 +45,6 @@ type PhoneNumberFieldProps = {
 	value: string;
 	onValueChange: (value: string) => void;
 	onBlur: () => void;
-	onCountryChange: (value: string) => void;
 	required?: boolean;
 	invalid: boolean;
 	errorMessages: string[];
@@ -123,7 +122,6 @@ export function PhoneNumberField(props: PhoneNumberFieldProps) {
 		value,
 		onValueChange,
 		onBlur,
-		onCountryChange,
 		required,
 		invalid,
 		errorMessages,
@@ -143,7 +141,7 @@ export function PhoneNumberField(props: PhoneNumberFieldProps) {
 
 		setCountry(nextCountry);
 		onValueChange(nextValue);
-		if (isInternationalPhoneNumber(nextValue)) onCountryChange(nextValue);
+		if (isInternationalPhoneNumber(nextValue)) onBlur();
 	}
 
 	return (

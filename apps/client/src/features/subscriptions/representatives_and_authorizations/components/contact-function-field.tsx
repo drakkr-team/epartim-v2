@@ -4,7 +4,6 @@ import z from "zod";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
-import type { ContactChanges } from "#/features/subscriptions/representatives_and_authorizations/components/contact-fields";
 import {
 	CONTACT_FUNCTIONS,
 	type ContactValues,
@@ -16,7 +15,6 @@ const translationNamespace =
 
 type ContactFunctionFieldProps = {
 	id: string;
-	onUpdate: (changes: ContactChanges) => void;
 	className?: string;
 };
 
@@ -26,7 +24,6 @@ const defaultValues: Pick<ContactValues, "function"> = {
 
 const defaultProps: ContactFunctionFieldProps = {
 	id: "",
-	onUpdate: () => {},
 	className: "md:col-span-3",
 };
 
@@ -34,7 +31,7 @@ export const ContactFunctionField = withFieldGroup({
 	defaultValues,
 	props: defaultProps,
 	render: function ContactFunctionField(props) {
-		const { group, id, onUpdate, className = "md:col-span-3" } = props;
+		const { group, id, className = "md:col-span-3" } = props;
 		const { t } = useTranslation(translationNamespace);
 		const options = CONTACT_FUNCTIONS.map((functionValue) => ({
 			value: functionValue,
@@ -47,15 +44,7 @@ export const ContactFunctionField = withFieldGroup({
 
 		return (
 			<div className={className}>
-				<group.AppField
-					name="function"
-					validators={{ onMount: functionSchema, onBlur: functionSchema }}
-					listeners={{
-						onBlur: ({ value: functionValue, fieldApi }) => {
-							if (fieldApi.state.meta.isValid) onUpdate({ function: functionValue });
-						},
-					}}
-				>
+				<group.AppField name="function" validators={{ onBlur: functionSchema }}>
 					{(field) => {
 						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
 

@@ -92,6 +92,48 @@ export function useRepresentativesAndAuthorizationsForm(
 	const { mutate: updateCorrespondent } = useUpdateCorrespondentMutation(subscriptionId);
 	const { mutate: updateAuthorizations } = useUpdateAuthorizationsMutation(subscriptionId);
 
+	function updateLegalAgentChanges(legalAgent: LegalAgentChanges, onSuccess?: () => void) {
+		updateLegalAgent(
+			{
+				params: { subscriptionId },
+				body: legalAgent,
+			},
+			{ onSuccess },
+		);
+	}
+
+	function updateSignerChanges(signer: SignerChanges, onSuccess?: () => void) {
+		updateSigner({ params: { subscriptionId }, body: signer }, { onSuccess });
+	}
+
+	function updateCorrespondentChanges(correspondent: CorrespondentChanges, onSuccess?: () => void) {
+		updateCorrespondent({ params: { subscriptionId }, body: correspondent }, { onSuccess });
+	}
+
+	function updateAuthorizationsChanges(
+		authorizations: AuthorizationValues[],
+		onSuccess?: () => void,
+	) {
+		updateAuthorizations(
+			{
+				params: { subscriptionId },
+				body: {
+					authorizations: authorizations.map((authorization) => ({
+						civility: authorization.civility,
+						firstName: authorization.firstName.trim() || null,
+						lastName: authorization.lastName.trim() || null,
+						email: authorization.email.trim() || null,
+						phoneNumber: authorization.phoneNumber.trim() || null,
+						function: authorization.function,
+						amundiPortalId: authorization.amundiPortalId.trim() || null,
+						authorizations: authorization.authorizations,
+					})),
+				},
+			},
+			{ onSuccess },
+		);
+	}
+
 	const form = useAppForm({
 		defaultValues: {
 			legalAgent: {
@@ -140,40 +182,64 @@ export function useRepresentativesAndAuthorizationsForm(
 				authorizations: authorization.authorizations ?? [],
 			})),
 		},
-	});
+		listeners: {
+			onBlur: ({ fieldApi, formApi }) => {
+				if (!fieldApi.state.meta.isDirty || !fieldApi.state.meta.isValid) return;
 
-	function updateLegalAgentChanges(legalAgent: LegalAgentChanges) {
-		updateLegalAgent({
-			params: { subscriptionId },
-			body: legalAgent,
-		});
-	}
+				const { name } = fieldApi;
+				const rawValue = fieldApi.state.value;
+				const markFieldAsSaved = () => {
+					if (Object.is(fieldApi.state.value, rawValue)) {
+						fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
+					}
+				};
 
-	function updateSignerChanges(signer: SignerChanges) {
-		updateSigner({ params: { subscriptionId }, body: signer });
-	}
+				if (name.startsWith("authorizations[")) {
+					updateAuthorizationsChanges(formApi.state.values.authorizations, markFieldAsSaved);
+					return;
+				}
 
-	function updateCorrespondentChanges(correspondent: CorrespondentChanges) {
-		updateCorrespondent({ params: { subscriptionId }, body: correspondent });
-	}
+				if (
+					name === "legalAgent.kind" ||
+					name === "signer.isSignatoryOnKbis" ||
+					name === "correspondent.isDifferent"
+				) {
+					return;
+				}
 
-	function updateAuthorizationsChanges(authorizations: AuthorizationValues[]) {
-		updateAuthorizations({
-			params: { subscriptionId },
-			body: {
-				authorizations: authorizations.map((authorization) => ({
-					civility: authorization.civility,
-					firstName: authorization.firstName.trim() || null,
-					lastName: authorization.lastName.trim() || null,
-					email: authorization.email.trim() || null,
-					phoneNumber: authorization.phoneNumber.trim() || null,
-					function: authorization.function,
-					amundiPortalId: authorization.amundiPortalId.trim() || null,
-					authorizations: authorization.authorizations,
-				})),
+				const value = typeof rawValue === "string" ? rawValue.trim() || null : rawValue;
+
+				if (name.startsWith("legalAgent.")) {
+					updateLegalAgentChanges(
+						{
+							[name.slice("legalAgent.".length)]: value,
+						} as LegalAgentChanges,
+						markFieldAsSaved,
+					);
+					return;
+				}
+
+				if (name.startsWith("signer.")) {
+					updateSignerChanges(
+						{
+							[name.slice("signer.".length)]: value,
+						} as SignerChanges,
+						markFieldAsSaved,
+					);
+					return;
+				}
+
+				if (name.startsWith("correspondent.")) {
+					updateCorrespondentChanges(
+						{
+							[name.slice("correspondent.".length)]: value,
+						} as CorrespondentChanges,
+						markFieldAsSaved,
+					);
+				}
 			},
-		});
-	}
+		},
+	});
 
 	return {
 		form,

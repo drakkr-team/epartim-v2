@@ -17,12 +17,11 @@ const translationNamespace =
 type AuthorizationCardProps = {
 	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
 	index: number;
-	onUpdate: () => void;
 	onRemove: () => void;
 };
 
 export function AuthorizationCard(props: AuthorizationCardProps) {
-	const { form, index, onUpdate, onRemove } = props;
+	const { form, index, onRemove } = props;
 	const { t } = useTranslation(translationNamespace);
 	const authorizationOptions = CONTACT_AUTHORIZATIONS.map((authorization) => ({
 		value: authorization,
@@ -56,7 +55,6 @@ export function AuthorizationCard(props: AuthorizationCardProps) {
 				form={form}
 				fields={`authorizations[${index}]`}
 				idPrefix={`authorization-${index}`}
-				onUpdate={onUpdate}
 				includeFunction
 				includePortalId
 				phoneRequired
@@ -64,12 +62,7 @@ export function AuthorizationCard(props: AuthorizationCardProps) {
 
 			<form.AppField
 				name={`authorizations[${index}].authorizations`}
-				validators={{ onMount: authorizationsSchema, onBlur: authorizationsSchema }}
-				listeners={{
-					onBlur: ({ fieldApi }) => {
-						if (fieldApi.state.meta.isValid) onUpdate();
-					},
-				}}
+				validators={{ onBlur: authorizationsSchema }}
 			>
 				{(field) => {
 					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;

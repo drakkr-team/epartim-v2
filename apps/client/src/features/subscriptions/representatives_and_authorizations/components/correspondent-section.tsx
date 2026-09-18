@@ -11,13 +11,10 @@ const translationNamespace =
 
 type CorrespondentSectionProps = {
 	form: ReturnType<typeof useRepresentativesAndAuthorizationsForm>["form"];
-	onUpdateCorrespondent: ReturnType<
-		typeof useRepresentativesAndAuthorizationsForm
-	>["updateCorrespondent"];
 };
 
 export function CorrespondentSection(props: CorrespondentSectionProps) {
-	const { form, onUpdateCorrespondent } = props;
+	const { form } = props;
 	const { t } = useTranslation(translationNamespace);
 
 	return (
@@ -48,7 +45,6 @@ export function CorrespondentSection(props: CorrespondentSectionProps) {
 								form={form}
 								fields="correspondent"
 								idPrefix="correspondent"
-								onUpdate={onUpdateCorrespondent}
 								includeFunction
 								includePortalId
 								phoneRequired
