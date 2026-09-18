@@ -6,14 +6,13 @@
 		"#/*": "./src/*"
 	},
 	"scripts": {
-		"postinstall": "pnpm run i18n:build",
+		"postinstall": "pnpm run i18n:merge",
 		"build": "vite build",
 		"preview": "vite preview",
 		"dev": "portless",
-		"dev:default": "concurrently --prefix none \"vite dev\" \"pnpm:i18n:dev\"",
+		"dev:app": "vite dev",
 		"typecheck": "tsc --noEmit",
-		"i18n:build": "node scripts/compile-locales.js",
-		"i18n:dev": "nodemon scripts/compile-locales.js --watch '**/locales/**/*.json' -e json -q"
+		"i18n:merge": "i18next-merger -l fr -g '**/locales/**' -o 'src/libs/i18n/build'"
 	},
 	"portless": {
 		"name": "admin.epartim",
@@ -56,9 +55,7 @@
 		"@types/react": "19.3.0",
 		"@types/react-dom": "19.3.0",
 		"@vitejs/plugin-react": "6.1.1",
-		"concurrently": "10.0.5",
-		"deepmerge-json": "1.5.0",
-		"nodemon": "3.1.14",
+		"@workspace/i18next-merger": "workspace:*",
 		"tailwindcss": "4.3.3",
 		"typescript": "6.0.3",
 		"vite": "8.3.0"
