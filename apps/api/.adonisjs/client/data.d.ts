@@ -8,8 +8,6 @@ export type Address = Awaited<ReturnType<typeof import("#presenters/address.pres
 
 export type Admin = Awaited<ReturnType<typeof import("#presenters/admin.presenter").default.prototype.toJSON>>;
 
-export type CompanyBeneficialOwner = Awaited<ReturnType<typeof import("#presenters/company_beneficial_owner.presenter").default.prototype.toJSON>>;
-
 export type CompanyKycProfile = Awaited<ReturnType<typeof import("#presenters/company_kyc_profile.presenter").default.prototype.toJSON>>;
 
 export type Company = Awaited<ReturnType<typeof import("#presenters/company.presenter").default.prototype.toJSON>>;
@@ -31,3 +29,5 @@ export type Role = Awaited<ReturnType<typeof import("#presenters/role.presenter"
 export type Subscription = Awaited<ReturnType<typeof import("#presenters/subscription.presenter").default.prototype.toJSON>>;
 
 export type User = Awaited<ReturnType<typeof import("#presenters/user.presenter").default.prototype.toJSON>>;
+
+export type CompanyBeneficialOwner = Awaited<ReturnType<typeof import("#presenters/company_beneficial_owner.presenter").default.prototype.toJSON>>;
