@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -53,11 +53,7 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 			}),
 		[t],
 	);
-	const isComplete = useCallback(
-		() => addressAndBankDetailsSchema.safeParse(form.state.values).success,
-		[addressAndBankDetailsSchema, form],
-	);
-	useRegisterSubscriptionStepForm(form, isComplete);
+	useRegisterSubscriptionStepForm(form);
 
 	return (
 		<Card render={<form noValidate />} className="p-6 sm:p-8">
@@ -78,7 +74,10 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 				<div className="grid gap-4 md:grid-cols-6">
 					<form.AppField
 						name="lineOne"
-						validators={{ onBlur: addressAndBankDetailsSchema.shape.lineOne }}
+						validators={{
+							onMount: addressAndBankDetailsSchema.shape.lineOne,
+							onBlur: addressAndBankDetailsSchema.shape.lineOne,
+						}}
 						listeners={{
 							onBlur: ({ value: lineOne, fieldApi }) => {
 								if (lineOne.trim().length === 0) {
@@ -104,7 +103,10 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 
 					<form.AppField
 						name="lineTwo"
-						validators={{ onBlur: addressAndBankDetailsSchema.shape.lineTwo }}
+						validators={{
+							onMount: addressAndBankDetailsSchema.shape.lineTwo,
+							onBlur: addressAndBankDetailsSchema.shape.lineTwo,
+						}}
 						listeners={{
 							onBlur: ({ value: lineTwo, fieldApi }) => {
 								if (!fieldApi.state.meta.isValid) return;
@@ -125,7 +127,10 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 
 					<form.AppField
 						name="zip"
-						validators={{ onBlur: addressAndBankDetailsSchema.shape.zip }}
+						validators={{
+							onMount: addressAndBankDetailsSchema.shape.zip,
+							onBlur: addressAndBankDetailsSchema.shape.zip,
+						}}
 						listeners={{
 							onBlur: ({ value: zip, fieldApi }) => {
 								if (zip.trim().length === 0) {
@@ -151,7 +156,10 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 
 					<form.AppField
 						name="city"
-						validators={{ onBlur: addressAndBankDetailsSchema.shape.city }}
+						validators={{
+							onMount: addressAndBankDetailsSchema.shape.city,
+							onBlur: addressAndBankDetailsSchema.shape.city,
+						}}
 						listeners={{
 							onBlur: ({ value: city, fieldApi }) => {
 								if (city.trim().length === 0) {
@@ -177,7 +185,10 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 
 					<form.AppField
 						name="iban"
-						validators={{ onBlur: addressAndBankDetailsSchema.shape.iban }}
+						validators={{
+							onMount: addressAndBankDetailsSchema.shape.iban,
+							onBlur: addressAndBankDetailsSchema.shape.iban,
+						}}
 						listeners={{
 							onBlur: ({ value: iban, fieldApi }) => {
 								if (iban.trim().length === 0) {
@@ -203,7 +214,10 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 
 					<form.AppField
 						name="bic"
-						validators={{ onBlur: addressAndBankDetailsSchema.shape.bic }}
+						validators={{
+							onMount: addressAndBankDetailsSchema.shape.bic,
+							onBlur: addressAndBankDetailsSchema.shape.bic,
+						}}
 						listeners={{
 							onBlur: ({ value: bic, fieldApi }) => {
 								if (bic.trim().length === 0) {
