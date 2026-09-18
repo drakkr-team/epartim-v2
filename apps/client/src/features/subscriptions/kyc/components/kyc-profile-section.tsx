@@ -10,7 +10,7 @@ import {
 	isCountryActivityBreakdownValid,
 } from "#/features/subscriptions/kyc/components/country-activity-breakdown";
 import { CountryMultiSelect } from "#/features/subscriptions/kyc/components/country-select";
-import type { useKycProfileForm } from "#/features/subscriptions/kyc/hooks/use-kyc-profile-form";
+import type { useKycProfileForm } from "#/features/subscriptions/kyc/hooks/use-form.ts";
 
 const namespace = "features.subscriptions.kyc";
 const geographyOptions = [
