@@ -44,7 +44,7 @@ export function BooleanField(props: BooleanFieldProps) {
 					type="button"
 					role="radio"
 					aria-checked={value === true}
-					variant={value === true ? "primary" : "default"}
+					variant={value === true ? "secondary" : "default"}
 					onClick={() => onValueChange(true)}
 				>
 					{yesLabel}
@@ -54,7 +54,7 @@ export function BooleanField(props: BooleanFieldProps) {
 					type="button"
 					role="radio"
 					aria-checked={value === false}
-					variant={value === false ? "primary" : "default"}
+					variant={value === false ? "secondary" : "default"}
 					onClick={() => onValueChange(false)}
 				>
 					{noLabel}
