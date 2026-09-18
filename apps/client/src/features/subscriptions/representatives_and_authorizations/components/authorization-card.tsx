@@ -72,7 +72,8 @@ export function AuthorizationCard(props: AuthorizationCardProps) {
 				}}
 			>
 				{(field) => {
-					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
+					const invalid =
+						field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
 
 					return (
 						<Field invalid={invalid} className="flex flex-col gap-3">
@@ -105,10 +106,9 @@ export function AuthorizationCard(props: AuthorizationCardProps) {
 								})}
 							</div>
 							{invalid &&
-								field.state.meta.errors
-									.flat()
-									.filter((error) => error !== undefined)
-									.map((error) => <Field.Error key={error.message}>{error.message}</Field.Error>)}
+								field.state.meta.errorMap.onBlur?.map((error) => (
+									<Field.Error key={error.message}>{error.message}</Field.Error>
+								))}
 						</Field>
 					);
 				}}

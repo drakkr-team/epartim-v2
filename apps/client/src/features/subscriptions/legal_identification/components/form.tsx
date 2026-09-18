@@ -239,7 +239,8 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 					>
 						{(field) => {
-							const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+							const isInvalid =
+								field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
 
 							return (
 								<Field name={field.name} invalid={isInvalid} className="flex flex-col gap-2">
@@ -271,12 +272,9 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 										</Select.Dropdown>
 									</Select>
 									{isInvalid &&
-										field.state.meta.errors
-											.flat()
-											.filter((error) => error !== undefined)
-											.map((error) => (
-												<Field.Error key={error.message}>{error.message}</Field.Error>
-											))}
+										field.state.meta.errorMap.onBlur?.map((error) => (
+											<Field.Error key={error.message}>{error.message}</Field.Error>
+										))}
 								</Field>
 							);
 						}}

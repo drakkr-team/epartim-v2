@@ -95,7 +95,8 @@ export const ContactFields = withFieldGroup({
 					}}
 				>
 					{(field) => {
-						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
+						const invalid =
+							field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
 
 						return (
 							<div className="md:col-span-2">
@@ -133,12 +134,9 @@ export const ContactFields = withFieldGroup({
 										</Select.Dropdown>
 									</Select>
 									{invalid &&
-										field.state.meta.errors
-											.flat()
-											.filter((error) => error !== undefined)
-											.map((error) => (
-												<Field.Error key={error.message}>{error.message}</Field.Error>
-											))}
+										field.state.meta.errorMap.onBlur?.map((error) => (
+											<Field.Error key={error.message}>{error.message}</Field.Error>
+										))}
 								</Field>
 							</div>
 						);
@@ -219,11 +217,10 @@ export const ContactFields = withFieldGroup({
 					}}
 				>
 					{(field) => {
-						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
-						const errorMessages = field.state.meta.errors
-							.flat()
-							.filter((error) => error !== undefined)
-							.map((error) => (typeof error === "string" ? error : error.message));
+						const invalid =
+							field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
+						const errorMessages =
+							field.state.meta.errorMap.onBlur?.map((error) => error.message) ?? [];
 
 						return (
 							<div className="md:col-span-3">

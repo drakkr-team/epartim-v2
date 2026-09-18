@@ -65,7 +65,8 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 				validators={{ onMount: legalAgentSchema.kind, onBlur: legalAgentSchema.kind }}
 			>
 				{(field) => {
-					const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
+					const invalid =
+						field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
 
 					return (
 						<Field name={field.name} invalid={invalid} className="flex flex-col gap-2">
@@ -110,10 +111,9 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 								</Select.Dropdown>
 							</Select>
 							{invalid &&
-								field.state.meta.errors
-									.flat()
-									.filter((error) => error !== undefined)
-									.map((error) => <Field.Error key={error.message}>{error.message}</Field.Error>)}
+								field.state.meta.errorMap.onBlur?.map((error) => (
+									<Field.Error key={error.message}>{error.message}</Field.Error>
+								))}
 						</Field>
 					);
 				}}
@@ -204,11 +204,10 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									validators={{ onMount: requiredBooleanSchema, onBlur: requiredBooleanSchema }}
 								>
 									{(field) => {
-										const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
-										const errorMessages = field.state.meta.errors
-											.flat()
-											.filter((error) => error !== undefined)
-											.map((error) => (typeof error === "string" ? error : error.message));
+										const invalid =
+											field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
+										const errorMessages =
+											field.state.meta.errorMap.onBlur?.map((error) => error.message) ?? [];
 
 										return (
 											<BooleanField
@@ -239,11 +238,10 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 									validators={{ onMount: requiredBooleanSchema, onBlur: requiredBooleanSchema }}
 								>
 									{(field) => {
-										const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
-										const errorMessages = field.state.meta.errors
-											.flat()
-											.filter((error) => error !== undefined)
-											.map((error) => (typeof error === "string" ? error : error.message));
+										const invalid =
+											field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
+										const errorMessages =
+											field.state.meta.errorMap.onBlur?.map((error) => error.message) ?? [];
 
 										return (
 											<BooleanField

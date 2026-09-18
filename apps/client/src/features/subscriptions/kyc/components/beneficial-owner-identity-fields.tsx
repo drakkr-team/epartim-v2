@@ -75,7 +75,8 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 					validators={{ onMount: identitySchema.birthDate, onBlur: identitySchema.birthDate }}
 				>
 					{(field) => {
-						const invalid = field.state.meta.isTouched && !field.state.meta.isValid;
+						const invalid =
+							field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
 
 						return (
 							<Field name={field.name} invalid={invalid} className="flex flex-col gap-2">
@@ -95,10 +96,9 @@ export function BeneficialOwnerIdentityFields(props: BeneficialOwnerIdentityFiel
 									selected={parseCalendarDate(field.state.value)}
 								/>
 								{invalid &&
-									field.state.meta.errors
-										.flat()
-										.filter((error) => error !== undefined)
-										.map((error) => <Field.Error key={error.message}>{error.message}</Field.Error>)}
+									field.state.meta.errorMap.onBlur?.map((error) => (
+										<Field.Error key={error.message}>{error.message}</Field.Error>
+									))}
 							</Field>
 						);
 					}}
