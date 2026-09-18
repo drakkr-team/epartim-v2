@@ -4,25 +4,6 @@ import type { CountryActivity } from "#/features/subscriptions/kyc/components/co
 import { useUpdateKycProfileMutation } from "#/features/subscriptions/kyc/hooks/use-update-profile-mutation";
 import { useAppForm } from "#/libs/form";
 
-export type KycProfileValues = {
-	regulatedActivity: boolean;
-	regulatedActivityReference: string;
-	listedCompany: boolean;
-	listedCompanyReference: string;
-	bicId: boolean;
-	bearerBondsStructure: boolean;
-	bearerBondsStructurePercentage: number | null;
-	countryOfActivity: NonNullable<CompanyKycProfile["countryOfActivity"]>;
-	countryOfActivityBreakdown: CountryActivity[];
-	countryOfActivityReference: string;
-	countryProvider: NonNullable<CompanyKycProfile["countryProvider"]>;
-	countryProviderCountries: string[];
-	countryProviderReference: string;
-	mainMarkets: NonNullable<CompanyKycProfile["mainMarkets"]>;
-	mainMarketsCountries: string[];
-	mainMarketsReference: string;
-};
-
 type UpdateKycProfileRequest = Parameters<
 	ReturnType<typeof useUpdateKycProfileMutation>["mutate"]
 >[0];
@@ -33,27 +14,6 @@ type UseKycProfileFormParams = {
 	profile: CompanyKycProfile | null;
 };
 
-function getKycProfileValues(profile: CompanyKycProfile | null): KycProfileValues {
-	return {
-		regulatedActivity: profile?.regulatedActivity ?? false,
-		regulatedActivityReference: profile?.regulatedActivityReference ?? "",
-		listedCompany: profile?.listedCompany ?? false,
-		listedCompanyReference: profile?.listedCompanyReference ?? "",
-		bicId: profile?.bicId ?? false,
-		bearerBondsStructure: profile?.bearerBondsStructure ?? false,
-		bearerBondsStructurePercentage: profile?.bearerBondsStructurePercentage ?? null,
-		countryOfActivity: profile?.countryOfActivity ?? "france_and_eu",
-		countryOfActivityBreakdown: profile?.countryOfActivityBreakdown ?? [],
-		countryOfActivityReference: profile?.countryOfActivityReference ?? "",
-		countryProvider: profile?.countryProvider ?? "france_and_eu",
-		countryProviderCountries: profile?.countryProviderCountries ?? [],
-		countryProviderReference: profile?.countryProviderReference ?? "",
-		mainMarkets: profile?.mainMarkets ?? "france_and_eu",
-		mainMarketsCountries: profile?.mainMarketsCountries ?? [],
-		mainMarketsReference: profile?.mainMarketsReference ?? "",
-	};
-}
-
 export function useKycProfileForm(params: UseKycProfileFormParams) {
 	const { subscriptionId, profile } = params;
 	const { mutate: updateProfile } = useUpdateKycProfileMutation(subscriptionId);
@@ -63,7 +23,24 @@ export function useKycProfileForm(params: UseKycProfileFormParams) {
 	}
 
 	const form = useAppForm({
-		defaultValues: getKycProfileValues(profile),
+		defaultValues: {
+			regulatedActivity: profile?.regulatedActivity ?? false,
+			regulatedActivityReference: profile?.regulatedActivityReference ?? "",
+			listedCompany: profile?.listedCompany ?? false,
+			listedCompanyReference: profile?.listedCompanyReference ?? "",
+			bicId: profile?.bicId ?? false,
+			bearerBondsStructure: profile?.bearerBondsStructure ?? false,
+			bearerBondsStructurePercentage: profile?.bearerBondsStructurePercentage ?? null,
+			countryOfActivity: profile?.countryOfActivity ?? "france_and_eu",
+			countryOfActivityBreakdown: (profile?.countryOfActivityBreakdown ?? []) as CountryActivity[],
+			countryOfActivityReference: profile?.countryOfActivityReference ?? "",
+			countryProvider: profile?.countryProvider ?? "france_and_eu",
+			countryProviderCountries: profile?.countryProviderCountries ?? [],
+			countryProviderReference: profile?.countryProviderReference ?? "",
+			mainMarkets: profile?.mainMarkets ?? "france_and_eu",
+			mainMarketsCountries: profile?.mainMarketsCountries ?? [],
+			mainMarketsReference: profile?.mainMarketsReference ?? "",
+		},
 		listeners: {
 			onBlur: ({ fieldApi, formApi }) => {
 				if (!fieldApi.state.meta.isDirty || !fieldApi.state.meta.isValid) return;
@@ -91,7 +68,7 @@ export function useKycProfileForm(params: UseKycProfileFormParams) {
 						formApi.setFieldValue("countryOfActivityReference", "");
 						updateKycProfile(
 							{
-								countryOfActivity: value as KycProfileValues["countryOfActivity"],
+								countryOfActivity: value as NonNullable<CompanyKycProfile["countryOfActivity"]>,
 								countryOfActivityBreakdown: null,
 								countryOfActivityReference: null,
 							},
@@ -105,7 +82,7 @@ export function useKycProfileForm(params: UseKycProfileFormParams) {
 						formApi.setFieldValue("countryProviderReference", "");
 						updateKycProfile(
 							{
-								countryProvider: value as KycProfileValues["countryProvider"],
+								countryProvider: value as NonNullable<CompanyKycProfile["countryProvider"]>,
 								countryProviderCountries: null,
 								countryProviderReference: null,
 							},
@@ -118,7 +95,7 @@ export function useKycProfileForm(params: UseKycProfileFormParams) {
 					formApi.setFieldValue("mainMarketsReference", "");
 					updateKycProfile(
 						{
-							mainMarkets: value as KycProfileValues["mainMarkets"],
+							mainMarkets: value as NonNullable<CompanyKycProfile["mainMarkets"]>,
 							mainMarketsCountries: null,
 							mainMarketsReference: null,
 						},
