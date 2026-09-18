@@ -8,6 +8,8 @@ export type Address = Awaited<ReturnType<typeof import("#presenters/address.pres
 
 export type Admin = Awaited<ReturnType<typeof import("#presenters/admin.presenter").default.prototype.toJSON>>;
 
+export type CompanyKycProfile = Awaited<ReturnType<typeof import("#presenters/company_kyc_profile.presenter").default.prototype.toJSON>>;
+
 export type Company = Awaited<ReturnType<typeof import("#presenters/company.presenter").default.prototype.toJSON>>;
 
 export type Contact = Awaited<ReturnType<typeof import("#presenters/contact.presenter").default.prototype.toJSON>>;

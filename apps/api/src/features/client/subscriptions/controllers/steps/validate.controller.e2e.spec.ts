@@ -7,11 +7,25 @@ import { PaymentDetailFactory } from "#database/factories/payment_detail.factory
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import { CompanyLegalForm } from "#models/company";
+import CompanyKycProfile from "#models/company_kyc_profile";
 import File from "#models/file";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 
 test.group("Features / Client / Subscriptions / Controllers / Steps / Validate Controller", () => {
+	async function createKycSubscription() {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({
+			completedSteps: [],
+			createdBy: user.id,
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+		const company = await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		await CompanyKycProfile.create({ companyId: company.id });
+
+		return { company, subscription, user };
+	}
+
 	async function createCompleteSubscription() {
 		const user = await UserFactory.create();
 		const subscription = await SubscriptionFactory.merge({
@@ -114,6 +128,18 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 			.loginAs(otherUser);
 
 		response.assertStatus(403);
+	});
+
+	test("it validates KYC without documents or holders", async ({ client, assert }) => {
+		const { subscription, user } = await createKycSubscription();
+
+		const response = await client
+			.visit("client.subscriptions.validate_step", { step: 2, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [2]);
 	});
 
 	test("it removes only the changed step after an automatic save", async ({ client, assert }) => {

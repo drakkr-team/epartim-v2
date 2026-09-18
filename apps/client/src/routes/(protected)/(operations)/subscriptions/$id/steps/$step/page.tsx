@@ -34,7 +34,7 @@ function SubscriptionStepPage() {
 	}
 
 	if (step === "2") {
-		return <KycStep isValidated={subscription.completedSteps?.includes(2) ?? false} />;
+		return <KycStep subscriptionId={id} subscription={subscription} />;
 	}
 
 	return <CompanyReferencesStep subscriptionId={id} subscription={subscription} />;

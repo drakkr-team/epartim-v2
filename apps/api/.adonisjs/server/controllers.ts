@@ -84,6 +84,7 @@ export const controllers = {
         },
         update: {
           AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),
+          KycProfile: () => import('#src/features/client/subscriptions/controllers/update/kyc_profile.controller'),
           LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
           representatives: {
             Authorizations: () => import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller'),

@@ -258,6 +258,12 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId/authorizations","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/authorizations","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/authorizations","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/authorizations","type":0,"val":"authorizations","end":""}],
     types: placeholder as Registry['client.subscriptions.update_authorizations']['types'],
   },
+  'client.subscriptions.update_kyc_profile': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/kyc-profile',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"kyc-profile","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_kyc_profile']['types'],
+  },
   'admin.account_management.authentication.login': {
     methods: ["POST"],
     pattern: '/admin/account-management/authentication/login',
