@@ -9,7 +9,7 @@ test.group("Features / Admin / Roles / Controllers / List Controller", () => {
 		client,
 		assert,
 	}) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -34,7 +34,7 @@ test.group("Features / Admin / Roles / Controllers / List Controller", () => {
 	});
 
 	test("it should return immutable super-admin metadata to a super-admin", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.isSuperAdmin = true;
 		await adminRole.save();

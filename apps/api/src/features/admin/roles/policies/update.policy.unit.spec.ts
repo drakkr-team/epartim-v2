@@ -9,7 +9,7 @@ import User from "#models/user";
 test.group("Features / Admin / Roles / Policies / Update Policy", () => {
 	test("it should allow only a super-admin to update custom roles", async ({ assert }) => {
 		const policy = new UpdateRolePolicy();
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		const targetRole = await RoleFactory.create();
 		role.authorizations = [];
@@ -27,7 +27,7 @@ test.group("Features / Admin / Roles / Policies / Update Policy", () => {
 
 	test("it should forbid updating the super-admin role", async ({ assert }) => {
 		const policy = new UpdateRolePolicy();
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:role"];
 		role.isSuperAdmin = true;

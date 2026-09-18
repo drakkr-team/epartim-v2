@@ -6,7 +6,7 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	test("it should delete an unused role", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
 		adminRole.isSuperAdmin = true;
@@ -23,13 +23,13 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	});
 
 	test("it should forbid deleting a role assigned to an admin", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
 		adminRole.isSuperAdmin = true;
 		await adminRole.save();
 		const role = await RoleFactory.create();
-		const assignedAdmin = await AdminFactory.create();
+		const assignedAdmin = await AdminFactory.with("role").create();
 		assignedAdmin.roleId = role.id;
 		await assignedAdmin.save();
 
@@ -43,7 +43,7 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	});
 
 	test("it should forbid deleting the super-admin role", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
 		adminRole.isSuperAdmin = true;
@@ -60,7 +60,7 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	});
 
 	test("it should forbid an admin without the delete role authorization", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -75,7 +75,7 @@ test.group("Features / Admin / Roles / Controllers / Delete Controller", () => {
 	});
 
 	test("it should return not found for an unknown roleId", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["delete:role"];
 		adminRole.isSuperAdmin = true;

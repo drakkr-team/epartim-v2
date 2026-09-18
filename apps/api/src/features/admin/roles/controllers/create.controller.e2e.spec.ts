@@ -5,7 +5,7 @@ import Role from "#models/role";
 
 test.group("Features / Admin / Roles / Controllers / Create Controller", () => {
 	test("it should create and return a role", async ({ client, assert }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["create:role"];
 		adminRole.isSuperAdmin = true;
@@ -32,7 +32,7 @@ test.group("Features / Admin / Roles / Controllers / Create Controller", () => {
 	});
 
 	test("it should forbid an admin without the create role authorization", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = [];
 		await adminRole.save();
@@ -47,7 +47,7 @@ test.group("Features / Admin / Roles / Controllers / Create Controller", () => {
 	});
 
 	test("it should reject invalid authorizations and duplicate names", async ({ client }) => {
-		const admin = await AdminFactory.create();
+		const admin = await AdminFactory.with("role").create();
 		const adminRole = await Role.findOrFail(admin.roleId);
 		adminRole.authorizations = ["create:role"];
 		adminRole.isSuperAdmin = true;
