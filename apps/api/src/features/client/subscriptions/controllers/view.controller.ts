@@ -35,25 +35,19 @@ export default class ViewSubscriptionController {
 		const paymentDetail = subscription.company.paymentDetailId
 			? await subscription.company.related("paymentDetail").query().first()
 			: null;
-		const [
-			legalAgent,
-			signer,
-			correspondent,
-			authorizations,
-			documents,
-			kycProfile,
-		] = await Promise.all([
-			subscription.company.related("legalAgent").query().first(),
-			subscription.company.related("signer").query().first(),
-			subscription.company.related("correspondent").query().first(),
-			subscription.company
-				.related("contacts")
-				.query()
-				.whereNotNull("authorizations")
-				.orderBy("contacts.id"),
-			this.documentRequirementsService.handle(subscription),
-			subscription.company.related("kycProfile").query().first(),
-		]);
+		const [legalAgent, signer, correspondent, authorizations, documents, kycProfile] =
+			await Promise.all([
+				subscription.company.related("legalAgent").query().first(),
+				subscription.company.related("signer").query().first(),
+				subscription.company.related("correspondent").query().first(),
+				subscription.company
+					.related("contacts")
+					.query()
+					.whereNotNull("authorizations")
+					.orderBy("contacts.id"),
+				this.documentRequirementsService.handle(subscription),
+				subscription.company.related("kycProfile").query().first(),
+			]);
 
 		return {
 			...this.subscriptionPresenter.toJSON(subscription),
