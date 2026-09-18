@@ -19,6 +19,13 @@ export function useAddressAndBankDetailsForm(params: UseAddressAndBankDetailsFor
 	const { subscriptionId, address, paymentDetail } = params;
 	const { mutate: update } = useUpdateAddressAndBankDetailsMutation(subscriptionId);
 
+	function updateAddressAndBankDetails(addressAndBankDetails: AddressAndBankDetailsChanges) {
+		update({
+			params: { subscriptionId },
+			body: addressAndBankDetails,
+		});
+	}
+
 	const form = useAppForm({
 		defaultValues: {
 			lineOne: address?.lineOne ?? "",
@@ -28,14 +35,24 @@ export function useAddressAndBankDetailsForm(params: UseAddressAndBankDetailsFor
 			iban: paymentDetail?.iban ?? "",
 			bic: paymentDetail?.bic ?? "",
 		},
+		listeners: {
+			onBlur: ({ fieldApi }) => {
+				const isPaymentDetail = fieldApi.name === "iban" || fieldApi.name === "bic";
+				const value = String(fieldApi.state.value).trim();
+				const normalizedValue = isPaymentDetail ? value.toUpperCase() : value;
+
+				if (normalizedValue.length > 0 && !fieldApi.state.meta.isValid) return;
+
+				updateAddressAndBankDetails(
+					(isPaymentDetail
+						? { paymentDetail: { [fieldApi.name]: normalizedValue || null } }
+						: {
+								address: { [fieldApi.name]: normalizedValue || null },
+							}) as AddressAndBankDetailsChanges,
+				);
+			},
+		},
 	});
 
-	function updateAddressAndBankDetails(addressAndBankDetails: AddressAndBankDetailsChanges) {
-		update({
-			params: { subscriptionId },
-			body: addressAndBankDetails,
-		});
-	}
-
-	return { form, updateAddressAndBankDetails };
+	return { form };
 }

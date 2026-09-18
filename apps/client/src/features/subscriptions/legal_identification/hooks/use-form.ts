@@ -26,6 +26,13 @@ export function useLegalIdentificationForm(params: UseLegalIdentificationFormPar
 	const legalForm = legalIdentification?.legalForm;
 	const companyHeadcount = Number(legalIdentification?.companyHeadcount);
 
+	function updateLegalIdentification(legalIdentification: LegalIdentificationChanges) {
+		update({
+			params: { subscriptionId },
+			body: { legalIdentification },
+		});
+	}
+
 	const form = useAppForm({
 		defaultValues: {
 			siren: legalIdentification?.siren ?? "",
@@ -38,14 +45,19 @@ export function useLegalIdentificationForm(params: UseLegalIdentificationFormPar
 			vatNumber: legalIdentification?.vatNumber ?? "",
 			financialYearClosingDay: legalIdentification?.financialYearClosingDay ?? "",
 		},
+		listeners: {
+			onBlur: ({ fieldApi }) => {
+				const rawValue = fieldApi.state.value;
+				const value = typeof rawValue === "string" ? rawValue.trim() || null : rawValue;
+
+				if (value !== null && !fieldApi.state.meta.isValid) return;
+
+				updateLegalIdentification({
+					[fieldApi.name]: value,
+				} as LegalIdentificationChanges);
+			},
+		},
 	});
 
-	function updateLegalIdentification(legalIdentification: LegalIdentificationChanges) {
-		update({
-			params: { subscriptionId },
-			body: { legalIdentification },
-		});
-	}
-
-	return { form, updateLegalIdentification };
+	return { form };
 }

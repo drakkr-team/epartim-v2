@@ -23,7 +23,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 	const { t } = useTranslation(
 		"features.subscriptions.legal_identification.components.legal-identification-form",
 	);
-	const { form, updateLegalIdentification } = useLegalIdentificationForm({
+	const { form } = useLegalIdentificationForm({
 		subscriptionId,
 		legalIdentification,
 	});
@@ -98,17 +98,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{
 							onBlur: legalIdentificationSchema.shape.siren,
 						}}
-						listeners={{
-							onBlur: ({ value: siren, fieldApi }) => {
-								if (siren.trim().length === 0) {
-									updateLegalIdentification({ siren: null });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateLegalIdentification({ siren: siren.trim() });
-							},
-						}}
 					>
 						{(field) => (
 							<field.TextField
@@ -123,17 +112,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						name="siret"
 						validators={{
 							onBlur: legalIdentificationSchema.shape.siret,
-						}}
-						listeners={{
-							onBlur: ({ value: siret, fieldApi }) => {
-								if (siret.trim().length === 0) {
-									updateLegalIdentification({ siret: null });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateLegalIdentification({ siret: siret.trim() });
-							},
 						}}
 					>
 						{(field) => (
@@ -150,17 +128,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{
 							onBlur: legalIdentificationSchema.shape.naf,
 						}}
-						listeners={{
-							onBlur: ({ value: naf, fieldApi }) => {
-								if (naf.trim().length === 0) {
-									updateLegalIdentification({ naf: null });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateLegalIdentification({ naf: naf.trim() });
-							},
-						}}
 					>
 						{(field) => (
 							<field.TextField
@@ -176,17 +143,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{
 							onBlur: legalIdentificationSchema.shape.vatNumber,
 						}}
-						listeners={{
-							onBlur: ({ value: vatNumber, fieldApi }) => {
-								if (vatNumber.trim().length === 0) {
-									updateLegalIdentification({ vatNumber: null });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateLegalIdentification({ vatNumber: vatNumber.trim() });
-							},
-						}}
 					>
 						{(field) => <field.TextField label={t("field.vatNumber.label")} required />}
 					</form.AppField>
@@ -195,17 +151,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						name="name"
 						validators={{
 							onBlur: legalIdentificationSchema.shape.name,
-						}}
-						listeners={{
-							onBlur: ({ value: name, fieldApi }) => {
-								if (name.trim().length === 0) {
-									updateLegalIdentification({ name: null });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateLegalIdentification({ name: name.trim() });
-							},
 						}}
 					>
 						{(field) => (
@@ -219,17 +164,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						name="legalForm"
 						validators={{
 							onBlur: legalIdentificationSchema.shape.legalForm,
-						}}
-						listeners={{
-							onBlur: ({ value: legalForm, fieldApi }) => {
-								if (legalForm === null) {
-									updateLegalIdentification({ legalForm: null });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateLegalIdentification({ legalForm });
-							},
 						}}
 					>
 						{(field) => {
@@ -281,17 +215,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						validators={{
 							onBlur: legalIdentificationSchema.shape.companyHeadcount,
 						}}
-						listeners={{
-							onBlur: ({ value: companyHeadcount, fieldApi }) => {
-								if (companyHeadcount === null) {
-									updateLegalIdentification({ companyHeadcount: null });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateLegalIdentification({ companyHeadcount });
-							},
-						}}
 					>
 						{(field) => (
 							<field.NumberField
@@ -306,19 +229,6 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						name="financialYearClosingDay"
 						validators={{
 							onBlur: legalIdentificationSchema.shape.financialYearClosingDay,
-						}}
-						listeners={{
-							onBlur: ({ value: financialYearClosingDay, fieldApi }) => {
-								if (financialYearClosingDay.trim().length === 0) {
-									updateLegalIdentification({ financialYearClosingDay: null });
-									return;
-								}
-								if (!fieldApi.state.meta.isValid) return;
-
-								updateLegalIdentification({
-									financialYearClosingDay: financialYearClosingDay.trim(),
-								});
-							},
 						}}
 					>
 						{(field) => (
