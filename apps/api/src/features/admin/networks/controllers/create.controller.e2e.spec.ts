@@ -113,10 +113,10 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		await role.save();
 
 		const response = await client
-			.post("/admin/networks")
+			.visit("admin.networks.create")
 			.withGuard("admin")
 			.loginAs(admin)
-			.json({
+			.unsafeJson({
 				...validPayload,
 				name: "Server Managed Identifiers",
 				amundiOrgId: "AMUNDI-FORCED",

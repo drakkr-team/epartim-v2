@@ -133,11 +133,12 @@ test.group("Features / Admin / Users / Controllers / List Controller", () => {
 	test("it should reject invalid pagination parameters", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.with("role").create();
 
-		for (const query of ["page=0", "perPage=0", "perPage=1.5"]) {
+		for (const query of [{ page: 0 }, { perPage: 0 }, { perPage: 1.5 }]) {
 			const response = await client
-				.get(`/admin/users?${query}`)
+				.visit("admin.users.list")
 				.withGuard("admin")
-				.loginAs(authenticatedAdmin);
+				.loginAs(authenticatedAdmin)
+				.qs(query);
 
 			response.assertStatus(422);
 		}

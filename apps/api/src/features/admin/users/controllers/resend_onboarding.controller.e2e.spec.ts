@@ -20,7 +20,7 @@ test.group("Features / Admin / Users / Controllers / Resend Onboarding Controlle
 		const targetUser = await UserFactory.apply("unactive").create();
 
 		const response = await client
-			.post(`/admin/users/${targetUser.id}/resend-onboarding`)
+			.visit("admin.users.resend_onboarding", { userId: targetUser.id })
 			.withGuard("admin")
 			.loginAs(currentAdmin);
 
@@ -36,7 +36,7 @@ test.group("Features / Admin / Users / Controllers / Resend Onboarding Controlle
 		const targetUser = await UserFactory.apply("active").create();
 
 		const response = await client
-			.post(`/admin/users/${targetUser.id}/resend-onboarding`)
+			.visit("admin.users.resend_onboarding", { userId: targetUser.id })
 			.withGuard("admin")
 			.loginAs(currentAdmin);
 
@@ -51,7 +51,7 @@ test.group("Features / Admin / Users / Controllers / Resend Onboarding Controlle
 		const targetUser = await UserFactory.apply("unactive").create();
 
 		const response = await client
-			.post(`/admin/users/${targetUser.id}/resend-onboarding`)
+			.visit("admin.users.resend_onboarding", { userId: targetUser.id })
 			.withGuard("admin")
 			.loginAs(currentAdmin);
 
@@ -62,7 +62,7 @@ test.group("Features / Admin / Users / Controllers / Resend Onboarding Controlle
 		const currentAdmin = await AdminFactory.with("role").create();
 
 		const response = await client
-			.post("/admin/users/2147483647/resend-onboarding")
+			.visit("admin.users.resend_onboarding", { userId: 2_147_483_647 })
 			.withGuard("admin")
 			.loginAs(currentAdmin);
 
@@ -72,7 +72,9 @@ test.group("Features / Admin / Users / Controllers / Resend Onboarding Controlle
 	test("it should reject unauthenticated requests", async ({ client }) => {
 		const targetUser = await UserFactory.apply("unactive").create();
 
-		const response = await client.post(`/admin/users/${targetUser.id}/resend-onboarding`);
+		const response = await client.visit("admin.users.resend_onboarding", {
+			userId: targetUser.id,
+		});
 
 		response.assertUnauthorized();
 		response.assertBodyContains({ code: "E_UNAUTHENTICATED" });

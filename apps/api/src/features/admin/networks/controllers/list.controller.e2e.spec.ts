@@ -109,7 +109,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 
 		for (const query of [{ page: 0 }, { perPage: 1.5 }]) {
 			const response = await client
-				.get("/admin/networks")
+				.visit("admin.networks.list")
 				.withGuard("admin")
 				.loginAs(admin)
 				.qs(query);
@@ -119,7 +119,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 
 		for (const orderBy of ["address_asc", "name_sideways"]) {
 			const response = await client
-				.get("/admin/networks")
+				.visit("admin.networks.list")
 				.withGuard("admin")
 				.loginAs(admin)
 				.qs({ orderBy });

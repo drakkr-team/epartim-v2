@@ -123,10 +123,10 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		const name = "Cabinet Amundi généré";
 
 		const response = await client
-			.post("/admin/firms")
+			.visit("admin.firms.create")
 			.withGuard("admin")
 			.loginAs(admin)
-			.json({
+			.unsafeJson({
 				...validPayload,
 				name,
 				orias: "12345692",
@@ -144,7 +144,6 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();
-		const createFirmPath: string = "/admin/firms";
 		const invalidPayloads = [
 			{ ...validPayload, name: "", orias: "12345682" },
 			{ ...validPayload, name: "Missing address", orias: "12345683", address: undefined },
@@ -182,10 +181,10 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 
 		for (const payload of invalidPayloads) {
 			const response = await client
-				.post(createFirmPath)
+				.visit("admin.firms.create")
 				.withGuard("admin")
 				.loginAs(admin)
-				.json(payload);
+				.unsafeJson(payload);
 
 			response.assertStatus(422);
 		}

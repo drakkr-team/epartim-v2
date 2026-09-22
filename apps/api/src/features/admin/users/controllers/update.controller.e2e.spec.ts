@@ -49,7 +49,7 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 		};
 
 		const response = await client
-			.put(`/admin/users/${targetUser.id}`)
+			.visit("admin.users.update", { userId: targetUser.id })
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
 			.json(payload as Pick<typeof payload, "firstName" | "lastName">);
@@ -71,10 +71,10 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 
 		for (const payload of [{}, { firstName: "Only" }, { firstName: " ", lastName: "User" }]) {
 			const response = await client
-				.put(`/admin/users/${targetUser.id}`)
+				.visit("admin.users.update", { userId: targetUser.id })
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin)
-				.json(payload);
+				.unsafeJson(payload);
 
 			response.assertStatus(422);
 		}
@@ -88,7 +88,7 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 
 		for (const id of ["999999", "0", "-1"]) {
 			const response = await client
-				.put(`/admin/users/${id}`)
+				.visit("admin.users.update", { userId: id })
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin)
 				.json({ firstName: "Updated", lastName: "User" });

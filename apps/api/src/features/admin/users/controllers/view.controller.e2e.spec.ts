@@ -49,7 +49,7 @@ test.group("Features / Admin / Users / Controllers / View Controller", () => {
 
 		for (const id of ["999999", "0", "-1"]) {
 			const response = await client
-				.get(`/admin/users/${id}`)
+				.visit("admin.users.view", { userId: id })
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin);
 

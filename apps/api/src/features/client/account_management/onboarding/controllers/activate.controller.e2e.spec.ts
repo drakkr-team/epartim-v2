@@ -21,7 +21,7 @@ test.group(
 			});
 
 			const response = await client
-				.post("/client/account-management/onboarding/activate")
+				.visit("client.account_management.onboarding.activate")
 				.json({ token, newPassword });
 
 			const reloadedUser = await User.findOrFail(user.id);
@@ -43,10 +43,10 @@ test.group(
 			});
 
 			await client
-				.post("/client/account-management/onboarding/activate")
+				.visit("client.account_management.onboarding.activate")
 				.json({ token, newPassword: "newpassword" });
 			const response = await client
-				.post("/client/account-management/onboarding/activate")
+				.visit("client.account_management.onboarding.activate")
 				.json({ token, newPassword: "otherpassword" });
 
 			response.assertBadRequest();
@@ -64,7 +64,7 @@ test.group(
 			});
 
 			const response = await client
-				.post("/client/account-management/onboarding/activate")
+				.visit("client.account_management.onboarding.activate")
 				.json({ token, newPassword: "newpassword" });
 
 			response.assertBadRequest();
@@ -73,7 +73,7 @@ test.group(
 
 		test("it should reject invalid input", async ({ client }) => {
 			const response = await client
-				.post("/client/account-management/onboarding/activate")
+				.visit("client.account_management.onboarding.activate")
 				.json({ token: "", newPassword: "short" });
 
 			response.assertStatus(422);
@@ -83,7 +83,7 @@ test.group(
 			const user = await UserFactory.apply("active").create();
 
 			const response = await client
-				.post("/client/account-management/onboarding/activate")
+				.visit("client.account_management.onboarding.activate")
 				.withGuard("client")
 				.loginAs(user)
 				.json({ token: "valid-token", newPassword: "newpassword" });

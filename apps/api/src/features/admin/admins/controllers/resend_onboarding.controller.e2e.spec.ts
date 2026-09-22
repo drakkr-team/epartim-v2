@@ -19,7 +19,7 @@ test.group("Features / Admin / Admins / Controllers / Resend Onboarding Controll
 		const targetAdmin = await AdminFactory.apply("unactive").with("role").create();
 
 		const response = await client
-			.post(`/admin/admins/${targetAdmin.id}/resend-onboarding`)
+			.visit("admin.admins.resend_onboarding", { adminId: targetAdmin.id })
 			.withGuard("admin")
 			.loginAs(currentAdmin);
 
@@ -35,7 +35,7 @@ test.group("Features / Admin / Admins / Controllers / Resend Onboarding Controll
 		const targetAdmin = await AdminFactory.apply("active").with("role").create();
 
 		const response = await client
-			.post(`/admin/admins/${targetAdmin.id}/resend-onboarding`)
+			.visit("admin.admins.resend_onboarding", { adminId: targetAdmin.id })
 			.withGuard("admin")
 			.loginAs(currentAdmin);
 
@@ -50,7 +50,7 @@ test.group("Features / Admin / Admins / Controllers / Resend Onboarding Controll
 		const targetAdmin = await AdminFactory.apply("unactive").with("role").create();
 
 		const response = await client
-			.post(`/admin/admins/${targetAdmin.id}/resend-onboarding`)
+			.visit("admin.admins.resend_onboarding", { adminId: targetAdmin.id })
 			.withGuard("admin")
 			.loginAs(currentAdmin);
 
@@ -61,7 +61,7 @@ test.group("Features / Admin / Admins / Controllers / Resend Onboarding Controll
 		const currentAdmin = await AdminFactory.with("role").create();
 
 		const response = await client
-			.post("/admin/admins/2147483647/resend-onboarding")
+			.visit("admin.admins.resend_onboarding", { adminId: 2_147_483_647 })
 			.withGuard("admin")
 			.loginAs(currentAdmin);
 
@@ -71,7 +71,9 @@ test.group("Features / Admin / Admins / Controllers / Resend Onboarding Controll
 	test("it should reject unauthenticated requests", async ({ client }) => {
 		const targetAdmin = await AdminFactory.apply("unactive").with("role").create();
 
-		const response = await client.post(`/admin/admins/${targetAdmin.id}/resend-onboarding`);
+		const response = await client.visit("admin.admins.resend_onboarding", {
+			adminId: targetAdmin.id,
+		});
 
 		response.assertUnauthorized();
 		response.assertBodyContains({ code: "E_UNAUTHENTICATED" });

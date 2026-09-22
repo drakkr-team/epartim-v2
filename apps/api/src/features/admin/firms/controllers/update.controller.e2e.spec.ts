@@ -33,7 +33,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		const firm = await createUpdateFixture("Original Firm", "51000001");
 
 		const response = await client
-			.put(`/admin/firms/${firm.id}`)
+			.visit("admin.firms.update", { firmId: firm.id })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({
@@ -78,7 +78,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		await firm.merge({ networkId: firstNetwork.id }).save();
 
 		const preserved = await client
-			.put(`/admin/firms/${firm.id}`)
+			.visit("admin.firms.update", { firmId: firm.id })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({ name: "Network Preserved Firm" });
@@ -86,7 +86,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		assert.equal(preserved.body().networkId, firstNetwork.id);
 
 		const detached = await client
-			.put(`/admin/firms/${firm.id}`)
+			.visit("admin.firms.update", { firmId: firm.id })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({ networkId: null });
@@ -94,7 +94,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		assert.isNull(detached.body().networkId);
 
 		const attached = await client
-			.put(`/admin/firms/${firm.id}`)
+			.visit("admin.firms.update", { firmId: firm.id })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({ networkId: secondNetwork.id });
@@ -111,10 +111,10 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		const initialAmundiOrgId = firm.amundiOrgId;
 
 		const response = await client
-			.put(`/admin/firms/${firm.id}`)
+			.visit("admin.firms.update", { firmId: firm.id })
 			.withGuard("admin")
 			.loginAs(admin)
-			.json({ amundiOrgId: "AMUNDI-FORCED" });
+			.unsafeJson({ amundiOrgId: "AMUNDI-FORCED" });
 
 		response.assertOk();
 		await firm.refresh();
@@ -131,7 +131,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 
 		for (const payload of [{ name: existing.name }, { orias: existing.orias }]) {
 			const response = await client
-				.put(`/admin/firms/${target.id}`)
+				.visit("admin.firms.update", { firmId: target.id })
 				.withGuard("admin")
 				.loginAs(admin)
 				.json(payload);
@@ -148,7 +148,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		const firm = await createUpdateFixture("No-op Firm", "51000005");
 
 		const response = await client
-			.put(`/admin/firms/${firm.id}`)
+			.visit("admin.firms.update", { firmId: firm.id })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({});
@@ -167,10 +167,10 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 
 		for (const payload of [{ address: {} }, { paymentDetail: {} }, { networkId: 999_999_999 }]) {
 			const response = await client
-				.put(`/admin/firms/${firm.id}`)
+				.visit("admin.firms.update", { firmId: firm.id })
 				.withGuard("admin")
 				.loginAs(admin)
-				.json(payload);
+				.unsafeJson(payload);
 
 			response.assertStatus(422);
 		}
@@ -201,7 +201,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 			},
 		]) {
 			const response = await client
-				.put(`/admin/firms/${firm.id}`)
+				.visit("admin.firms.update", { firmId: firm.id })
 				.withGuard("admin")
 				.loginAs(admin)
 				.json(payload);
@@ -217,7 +217,7 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		await role.save();
 
 		const response = await client
-			.put("/admin/firms/999999999")
+			.visit("admin.firms.update", { firmId: 999_999_999 })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({ name: "Missing Firm" });
@@ -226,7 +226,9 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 	});
 
 	test("it should reject unauthenticated requests", async ({ client }) => {
-		const response = await client.put("/admin/firms/1").json({ name: "Unauthorized Firm" });
+		const response = await client
+			.visit("admin.firms.update", { firmId: 1 })
+			.json({ name: "Unauthorized Firm" });
 
 		response.assertUnauthorized();
 		response.assertBodyContains({

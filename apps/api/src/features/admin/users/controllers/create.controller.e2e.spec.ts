@@ -27,7 +27,7 @@ test.group("Features / Admin / Users / Controllers / Create Controller", (group)
 		};
 
 		const response = await client
-			.post("/admin/users")
+			.visit("admin.users.create")
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
 			.json(payload as Pick<typeof payload, "firstName" | "lastName" | "email">);
