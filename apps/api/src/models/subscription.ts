@@ -5,6 +5,7 @@ import { SubscriptionSchema } from "#database/schema";
 import Company from "#models/company";
 import SubscriptionDocument from "#models/subscription_document";
 import User from "#models/user";
+import { jsonColumn } from "#src/utils/json_column";
 
 export const SubscriptionStatus = {
 	DRAFT: 0,
@@ -17,11 +18,7 @@ export const SubscriptionStatus = {
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus];
 
 export default class Subscription extends SubscriptionSchema {
-	@column({
-		prepare: (completedSteps: unknown[] | null) =>
-			completedSteps === null ? null : JSON.stringify(completedSteps),
-		consume: (completedSteps: unknown[] | null) => completedSteps,
-	})
+	@column(jsonColumn<unknown[]>())
 	declare completedSteps: unknown[] | null;
 
 	@belongsTo(() => User, { foreignKey: "createdBy" })

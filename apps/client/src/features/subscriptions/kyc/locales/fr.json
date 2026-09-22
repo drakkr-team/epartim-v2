@@ -1,0 +1,52 @@
+{
+	"features.subscriptions.kyc": {
+		"client": { "eyebrow": "I. Client", "title": "Informations KYC de l’entreprise" },
+		"field": {
+			"regulatedActivity": "L’entreprise exerce-t-elle une activité réglementée ?",
+			"regulatedActivityReference": "Régulateur et référence d’agrément",
+			"listedCompany": "L’entreprise est-elle cotée ?",
+			"listedCompanyReference": "Marché de cotation",
+			"bicId": "L’entreprise possède-t-elle un code BIC lié à SWIFT ?",
+			"bearerBondsStructure": "L’entreprise comporte-t-elle des bons au porteur ?",
+			"bearerBondsStructurePercentage": "Pourcentage de bons au porteur",
+			"countryOfActivity": "Pays d’activité",
+			"countryOfActivityBreakdown": "Répartition par pays",
+			"countryOfActivityAdd": "Ajouter un pays",
+			"countryOfActivityCountry": "Pays",
+			"countryOfActivityPercentageForCountry": "Part d’activité en {{country}}",
+			"countryOfActivityReference": "Pays et pourcentage d’activité",
+			"countryOfActivityRemove": "Supprimer {{country}}",
+			"countryOfActivitySearchEmpty": "Aucun pays trouvé.",
+			"countryOfActivitySearchPlaceholder": "Rechercher et ajouter un pays",
+			"countryOfActivityTotal": "Total : {{total}} %",
+			"countryProvider": "Pays des fournisseurs",
+			"countryProviderReference": "Pays des fournisseurs",
+			"countrySelection": "Sélectionnez les pays",
+			"mainMarkets": "Principaux marchés",
+			"mainMarketsReference": "Principaux marchés"
+		},
+		"validation": {
+			"required": "Ce champ est obligatoire.",
+			"max": "Cette valeur est trop longue.",
+			"percentage": "Saisissez un pourcentage entre 0 et 100.",
+			"countryOfActivityBreakdown": "Ajoutez au moins un pays.",
+			"countryOfActivityTotal": "La répartition doit totaliser 100 %."
+		}
+	},
+	"features.subscriptions.kyc.hooks.use-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Enregistrement indisponible",
+				"description": "La modification n'a pas pu être enregistrée."
+			},
+			"E_VALIDATION": {
+				"title": "Enregistrement refusé",
+				"description": "La valeur ne respecte pas le format attendu."
+			},
+			"E_UNEXPECTED": {
+				"title": "Enregistrement impossible",
+				"description": "Une erreur inattendue est survenue."
+			}
+		}
+	}
+}

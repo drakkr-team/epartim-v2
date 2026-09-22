@@ -3,6 +3,7 @@ import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
@@ -47,7 +48,11 @@ export default class UpdateCorrespondentService {
 				if (isSameAsLegal === true) {
 					await this.#clear(company, trx);
 				}
-				await this.validateSubscriptionStepService.invalidate(subscription, trx);
+				await this.validateSubscriptionStepService.invalidate(
+					subscription,
+					trx,
+					SubscriptionStep.COMPANY_REFERENCES,
+				);
 				return company;
 			}
 
@@ -67,7 +72,11 @@ export default class UpdateCorrespondentService {
 					.merge({ companyCorrespondentId: correspondent.id })
 					.save();
 			}
-			await this.validateSubscriptionStepService.invalidate(subscription, trx);
+			await this.validateSubscriptionStepService.invalidate(
+				subscription,
+				trx,
+				SubscriptionStep.COMPANY_REFERENCES,
+			);
 
 			return company;
 		});

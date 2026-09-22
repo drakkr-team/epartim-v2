@@ -53,6 +53,11 @@ router
 				controllers.features.client.subscriptions.update.representatives.Authorizations,
 			])
 			.as("update_authorizations");
+		router
+			.put("/:subscriptionId/kyc-profile", [
+				controllers.features.client.subscriptions.update.KycProfile,
+			])
+			.as("update_kyc_profile");
 	})
 	.use(middleware.auth({ guards: ["client"] }))
 	.prefix("/client/subscriptions")

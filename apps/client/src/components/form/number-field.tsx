@@ -18,7 +18,7 @@ export function NumberField(props: NumberFieldProps) {
 	const { label, description, required, disabled, inputProps } = props;
 
 	const field = useFieldContext<number | null>();
-	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const isInvalid = field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
 
 	return (
 		<Field
@@ -43,14 +43,9 @@ export function NumberField(props: NumberFieldProps) {
 			/>
 			{description && <Field.Description>{description}</Field.Description>}
 			{isInvalid &&
-				field.state.meta.errors
-					.flat()
-					.filter((error) => error !== undefined)
-					.map((error) => {
-						const message = typeof error === "string" ? error : error.message;
-
-						return <Field.Error key={message}>{message}</Field.Error>;
-					})}
+				field.state.meta.errorMap.onBlur?.map((error: { message: string }) => (
+					<Field.Error key={error.message}>{error.message}</Field.Error>
+				))}
 		</Field>
 	);
 }

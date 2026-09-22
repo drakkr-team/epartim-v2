@@ -107,6 +107,51 @@ export class CompanyContactSchema extends BaseModel {
   declare id: number
 }
 
+export class CompanyKycProfileSchema extends BaseModel {
+  static $columns = ['bearerBondsStructure', 'bearerBondsStructurePercentage', 'bicId', 'companyId', 'countryOfActivity', 'countryOfActivityBreakdown', 'countryOfActivityReference', 'countryProvider', 'countryProviderCountries', 'countryProviderReference', 'createdAt', 'id', 'listedCompany', 'listedCompanyReference', 'mainMarkets', 'mainMarketsCountries', 'mainMarketsReference', 'regulatedActivity', 'regulatedActivityReference', 'updatedAt'] as const
+  $columns = CompanyKycProfileSchema.$columns
+  @column()
+  declare bearerBondsStructure: boolean
+  @column()
+  declare bearerBondsStructurePercentage: string | null
+  @column()
+  declare bicId: boolean
+  @column()
+  declare companyId: number
+  @column()
+  declare countryOfActivity: string
+  @column()
+  declare countryOfActivityBreakdown: any | null
+  @column()
+  declare countryOfActivityReference: string | null
+  @column()
+  declare countryProvider: string
+  @column()
+  declare countryProviderCountries: any | null
+  @column()
+  declare countryProviderReference: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare listedCompany: boolean
+  @column()
+  declare listedCompanyReference: string | null
+  @column()
+  declare mainMarkets: string
+  @column()
+  declare mainMarketsCountries: any | null
+  @column()
+  declare mainMarketsReference: string | null
+  @column()
+  declare regulatedActivity: boolean
+  @column()
+  declare regulatedActivityReference: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class ContactSchema extends BaseModel {
   static $columns = ['amundiPortalId', 'authorizations', 'civility', 'createdAt', 'email', 'firstName', 'function', 'id', 'isSameAsLegal', 'isSignatoryOnKbis', 'kind', 'lastName', 'legalName', 'phoneNumber', 'updatedAt'] as const
   $columns = ContactSchema.$columns
