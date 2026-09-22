@@ -9,15 +9,16 @@ import { AdminsTableActionCell } from "#/features/admins/components/table/action
 import { useColumnVisibilityStore } from "#/hooks/use-column-visibility-store";
 import { orderByToSortingSate, sortingStateToOrderBy } from "#/utils/table";
 
+type Data = Admin & {
+	meta: {
+		canUpdate: boolean;
+		canDelete: boolean;
+		canResendOnboarding: boolean;
+	};
+};
+
 type UseAdminsTableParams = {
-	data: Array<
-		Admin & {
-			meta: {
-				canUpdate: boolean;
-				canDelete: boolean;
-			};
-		}
-	>;
+	data: Data[];
 	pagination: Pagination;
 	q?: string;
 	orderBy?: string;
@@ -35,14 +36,7 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 		defaultValue: {},
 	});
 
-	const columnHelper = createColumnHelper<
-		Admin & {
-			meta: {
-				canUpdate: boolean;
-				canDelete: boolean;
-			};
-		}
-	>();
+	const columnHelper = createColumnHelper<Data>();
 	const columns = useMemo(
 		() => [
 			columnHelper.accessor("id", {
