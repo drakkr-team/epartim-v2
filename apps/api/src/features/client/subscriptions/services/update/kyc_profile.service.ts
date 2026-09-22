@@ -20,9 +20,11 @@ export default class UpdateKycProfileService {
 			const company = await Company.findByOrFail("subscriptionId", subscription.id, {
 				client: trx,
 			});
-			const profile =
-				(await CompanyKycProfile.findBy("companyId", company.id, { client: trx })) ??
-				(await CompanyKycProfile.create({ companyId: company.id }, { client: trx }));
+			const profile = await CompanyKycProfile.firstOrCreate(
+				{ companyId: company.id },
+				{},
+				{ client: trx },
+			);
 
 			const {
 				bearerBondsStructurePercentage,

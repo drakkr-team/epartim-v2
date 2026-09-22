@@ -1,6 +1,7 @@
 import { column } from "@adonisjs/lucid/orm";
 
 import { ContactSchema } from "#database/schema";
+import { jsonColumn } from "#src/utils/json_column";
 
 export const ContactFunction = {
 	PDG: 1,
@@ -52,10 +53,6 @@ export default class Contact extends ContactSchema {
 	@column()
 	declare legalName: string | null;
 
-	@column({
-		prepare: (authorizations: ContactAuthorization[] | null) =>
-			authorizations === null ? null : JSON.stringify(authorizations),
-		consume: (authorizations: ContactAuthorization[] | null) => authorizations,
-	})
+	@column(jsonColumn<ContactAuthorization[]>())
 	declare authorizations: ContactAuthorization[] | null;
 }

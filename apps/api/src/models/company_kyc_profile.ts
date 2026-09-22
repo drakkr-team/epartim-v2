@@ -3,6 +3,7 @@ import type { BelongsTo } from "@adonisjs/lucid/types/relations";
 
 import { CompanyKycProfileSchema } from "#database/schema";
 import Company from "#models/company";
+import { jsonColumn } from "#src/utils/json_column";
 
 export const CompanyKycGeography = {
 	FRANCE_AND_EU: "france_and_eu",
@@ -12,13 +13,6 @@ export const CompanyKycGeography = {
 export type CompanyKycGeography = (typeof CompanyKycGeography)[keyof typeof CompanyKycGeography];
 
 export type CountryActivity = { country: string; percentage: number };
-
-function jsonColumn<T>() {
-	return {
-		prepare: (value: T | null) => (value === null ? null : JSON.stringify(value)),
-		consume: (value: T | null) => value,
-	};
-}
 
 export default class CompanyKycProfile extends CompanyKycProfileSchema {
 	declare countryOfActivity: CompanyKycGeography;
