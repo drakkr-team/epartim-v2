@@ -1,0 +1,13 @@
+{
+	"routes.(guest).onboarding": {
+		"headline": "Espace administrateur",
+		"title": "Activation de votre compte",
+		"description": "Choisissez votre mot de passe pour activer votre compte.",
+		"error": {
+			"invalid-token": {
+				"title": "Lien d'activation invalide",
+				"description": "Le lien d'activation que vous avez utilisé est invalide ou a expiré. Veuillez demander une nouvelle invitation."
+			}
+		}
+	}
+}

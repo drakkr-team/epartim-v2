@@ -1,0 +1,15 @@
+{
+	"features.account_management.onboarding.components.activate-form": {
+		"field": {
+			"newPassword": {
+				"label": "Nouveau mot de passe"
+			},
+			"newPasswordConfirmation": {
+				"label": "Confirmer le nouveau mot de passe"
+			}
+		},
+		"action": {
+			"resetPassword": "Activer mon compte"
+		}
+	}
+}

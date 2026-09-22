@@ -1,6 +1,11 @@
 import type { TuyauHTTPError } from "@tuyau/core/client";
 import type { TFunction } from "i18next";
 
+export function focusFirstInvalidInput() {
+	const invalidInput = document.querySelector<HTMLInputElement>('[aria-invalid="true"]');
+	invalidInput?.focus();
+}
+
 // biome-ignore lint/suspicious/noExplicitAny: ""
 export function convertTuyauErrorToFormErrorMap(error: TuyauHTTPError, t: TFunction<any>) {
 	if (error.isValidationError()) {

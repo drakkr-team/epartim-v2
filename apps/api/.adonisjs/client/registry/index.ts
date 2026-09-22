@@ -12,12 +12,6 @@ const routes = {
     tokens: [{"old":"/uploads/*","type":0,"val":"uploads","end":""},{"old":"/uploads/*","type":2,"val":"*","end":""}],
     types: placeholder as Registry['drive.fs.serve']['types'],
   },
-  'admin.account_management.onboarding.activate': {
-    methods: ["POST"],
-    pattern: '/admin/account_management/onboarding/activate',
-    tokens: [{"old":"/admin/account_management/onboarding/activate","type":0,"val":"admin","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"account_management","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"onboarding","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"activate","end":""}],
-    types: placeholder as Registry['admin.account_management.onboarding.activate']['types'],
-  },
   'admin.account_management.profile.view': {
     methods: ["GET","HEAD"],
     pattern: '/admin/account-management/profile',
@@ -287,6 +281,12 @@ const routes = {
     pattern: '/admin/account-management/authentication/logout',
     tokens: [{"old":"/admin/account-management/authentication/logout","type":0,"val":"admin","end":""},{"old":"/admin/account-management/authentication/logout","type":0,"val":"account-management","end":""},{"old":"/admin/account-management/authentication/logout","type":0,"val":"authentication","end":""},{"old":"/admin/account-management/authentication/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['admin.account_management.authentication.logout']['types'],
+  },
+  'admin.account_management.onboarding.activate': {
+    methods: ["POST"],
+    pattern: '/admin/account_management/onboarding/activate',
+    tokens: [{"old":"/admin/account_management/onboarding/activate","type":0,"val":"admin","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"account_management","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"onboarding","end":""},{"old":"/admin/account_management/onboarding/activate","type":0,"val":"activate","end":""}],
+    types: placeholder as Registry['admin.account_management.onboarding.activate']['types'],
   },
   'admin.account_management.password.forgot': {
     methods: ["POST"],

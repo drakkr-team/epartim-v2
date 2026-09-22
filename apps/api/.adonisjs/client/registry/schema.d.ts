@@ -19,18 +19,6 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'admin.account_management.onboarding.activate': {
-    methods: ["POST"]
-    pattern: '/admin/account_management/onboarding/activate'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default)['payloadSchema']>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'admin.account_management.profile.view': {
     methods: ["GET","HEAD"]
     pattern: '/admin/account-management/profile'
@@ -569,6 +557,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/account_management/authentication/controllers/logout.controller').default['handle']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/account_management/authentication/controllers/logout.controller').default['handle']>>>
+    }
+  }
+  'admin.account_management.onboarding.activate': {
+    methods: ["POST"]
+    pattern: '/admin/account_management/onboarding/activate'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'admin.account_management.password.forgot': {

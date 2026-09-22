@@ -9,15 +9,15 @@ export interface ApiDefinition {
   }
   admin: {
     accountManagement: {
-      onboarding: {
-        activate: typeof routes['admin.account_management.onboarding.activate']
-      }
       profile: {
         view: typeof routes['admin.account_management.profile.view']
       }
       authentication: {
         login: typeof routes['admin.account_management.authentication.login']
         logout: typeof routes['admin.account_management.authentication.logout']
+      }
+      onboarding: {
+        activate: typeof routes['admin.account_management.onboarding.activate']
       }
       password: {
         forgot: typeof routes['admin.account_management.password.forgot']
