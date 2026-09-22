@@ -5,6 +5,8 @@ import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Company from "#models/company";
 import CompanyKycProfile from "#models/company_kyc_profile";
+import File from "#models/file";
+import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 
 test.group("Features / Client / Subscriptions / Controllers / Update KYC", () => {
 	async function createSubscription() {
@@ -74,5 +76,36 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC", () =>
 		assert.isNull(profile.countryProviderCountries);
 		assert.isNull(profile.mainMarketsCountries);
 		assert.isNull(profile.regulatedActivityReference);
+	});
+
+	test("it removes the BIC document when the company no longer has a BIC", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		const company = await Company.findByOrFail("subscriptionId", subscription.id);
+		await CompanyKycProfile.create({ bicId: true, companyId: company.id });
+		const file = await File.create({
+			key: `subscriptions/${subscription.id}/bic.pdf`,
+			name: "bic.pdf",
+			size: 1_024,
+			type: "application/pdf",
+		});
+		const document = await SubscriptionDocument.create({
+			companyBeneficialOwnerId: null,
+			fileId: file.id,
+			subscriptionId: subscription.id,
+			type: SubscriptionDocumentType.BIC_IDENTIFICATION_CODE,
+		});
+
+		const response = await client
+			.visit("client.subscriptions.update_kyc_profile", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({ kycProfile: { bicId: false } });
+
+		response.assertOk();
+		assert.isNull(await SubscriptionDocument.find(document.id));
+		assert.isNull(await File.find(file.id));
 	});
 });

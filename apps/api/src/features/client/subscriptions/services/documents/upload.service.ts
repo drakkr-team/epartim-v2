@@ -18,13 +18,19 @@ export default class UploadSubscriptionDocumentService {
 
 	async handle(params: {
 		file: MultipartFile;
+		ownerId?: number;
 		subscription: Subscription;
 		type: SubscriptionDocumentType;
 	}) {
-		const { file, subscription, type } = params;
+		const { file, ownerId, subscription, type } = params;
+		const documentOwnerId = ownerId ?? null;
 		const requirements = await this.documentRequirementsService.handle(subscription);
 
-		if (!requirements.some((requirement) => requirement.type === type)) {
+		if (
+			!requirements.some(
+				(requirement) => requirement.type === type && requirement.ownerId === documentOwnerId,
+			)
+		) {
 			throw new DocumentNotRequiredException();
 		}
 
@@ -36,12 +42,17 @@ export default class UploadSubscriptionDocumentService {
 
 		try {
 			replacedFile = await db.transaction(async (trx) => {
-				const existingDocument = await SubscriptionDocument.query({ client: trx })
+				const documentQuery = SubscriptionDocument.query({ client: trx })
 					.where("subscriptionId", subscription.id)
 					.where("type", type)
 					.preload("file")
-					.forUpdate()
-					.first();
+					.forUpdate();
+				if (documentOwnerId === null) {
+					documentQuery.whereNull("companyBeneficialOwnerId");
+				} else {
+					documentQuery.where("companyBeneficialOwnerId", documentOwnerId);
+				}
+				const existingDocument = await documentQuery.first();
 
 				if (existingDocument) {
 					const existingFile = existingDocument.file;
@@ -50,7 +61,12 @@ export default class UploadSubscriptionDocumentService {
 				}
 
 				await SubscriptionDocument.create(
-					{ fileId: uploadedFile.id, subscriptionId: subscription.id, type },
+					{
+						companyBeneficialOwnerId: documentOwnerId,
+						fileId: uploadedFile.id,
+						subscriptionId: subscription.id,
+						type,
+					},
 					{ client: trx },
 				);
 

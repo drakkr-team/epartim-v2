@@ -2,7 +2,10 @@ import { inject } from "@adonisjs/core";
 import type { HttpContext } from "@adonisjs/core/http";
 
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
-import SubscriptionDocumentRequirementsService from "#features/client/subscriptions/services/documents/requirements.service";
+import SubscriptionDocumentRequirementsService, {
+	type SubscriptionDocumentRequirement,
+} from "#features/client/subscriptions/services/documents/requirements.service";
+import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import Subscription from "#models/subscription";
 import AddressPresenter from "#presenters/address.presenter";
 import CompanyPresenter from "#presenters/company.presenter";
@@ -42,7 +45,7 @@ export default class ViewSubscriptionController {
 			signer,
 			correspondent,
 			authorizations,
-			documents,
+			documentRequirements,
 			kycProfile,
 			beneficialOwners,
 		] = await Promise.all([
@@ -85,16 +88,28 @@ export default class ViewSubscriptionController {
 					this.companyBeneficialOwnerPresenter.toJSON(owner, owner.address, owner.roles),
 				),
 			},
-			documents: await Promise.all(
-				documents.map(async ({ document, label, type }) => ({
-					type,
-					label,
-					status: document ? "attached" : "pending",
-					file: document
-						? await this.filePresenter.toJSON(document.file, { disposition: "attachment" })
-						: null,
-				})),
+			documents: await this.#presentDocuments(
+				documentRequirements.filter(
+					(document) => document.step === SubscriptionStep.COMPANY_REFERENCES,
+				),
+			),
+			kycDocuments: await this.#presentDocuments(
+				documentRequirements.filter((document) => document.step === SubscriptionStep.KYC),
 			),
 		};
+	}
+
+	async #presentDocuments(documents: SubscriptionDocumentRequirement[]) {
+		return await Promise.all(
+			documents.map(async ({ document, label, ownerId, type }) => ({
+				file: document
+					? await this.filePresenter.toJSON(document.file, { disposition: "attachment" })
+					: null,
+				label,
+				ownerId,
+				status: document ? "attached" : "pending",
+				type,
+			})),
+		);
 	}
 }

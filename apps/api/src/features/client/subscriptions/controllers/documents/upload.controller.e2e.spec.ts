@@ -1,10 +1,15 @@
 import { test } from "@japa/runner";
 
+import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import { CompanyLegalForm } from "#models/company";
+import CompanyBeneficialOwner, {
+	CompanyBeneficialOwnerKind,
+} from "#models/company_beneficial_owner";
+import CompanyKycProfile from "#models/company_kyc_profile";
 import { ContactKind } from "#models/contact";
 import File from "#models/file";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
@@ -29,6 +34,23 @@ test.group(
 			}).create();
 
 			return { subscription, user };
+		}
+
+		async function createKycSubscriptionWithPhysicalOwner() {
+			const user = await UserFactory.create();
+			const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+			const company = await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+			const address = await AddressFactory.create();
+			const owner = await CompanyBeneficialOwner.create({
+				addressId: address.id,
+				companyId: company.id,
+				firstName: "Jeanne",
+				kind: CompanyBeneficialOwnerKind.PHYSICAL_PERSON,
+				lastName: "Dupont",
+			});
+			await CompanyKycProfile.create({ companyId: company.id });
+
+			return { owner, subscription, user };
 		}
 
 		test("it should upload, replace, and delete a required document", async ({
@@ -119,6 +141,43 @@ test.group(
 				.file("file", pdf, { contentType: "application/pdf", filename: "rib.pdf" });
 
 			unauthorizedResponse.assertStatus(403);
+		});
+
+		test("it should upload and delete a document for the specified KYC owner", async ({
+			client,
+			assert,
+		}) => {
+			const { owner, subscription, user } = await createKycSubscriptionWithPhysicalOwner();
+
+			const uploadResponse = await client
+				.visit("client.subscriptions.upload_document", {
+					documentType: SubscriptionDocumentType.BENEFICIAL_OWNER_ID,
+					subscriptionId: subscription.id,
+				})
+				.qs({ ownerId: owner.id })
+				.withGuard("client")
+				.loginAs(user)
+				.file("file", pdf, { contentType: "application/pdf", filename: "id.pdf" });
+
+			uploadResponse.assertCreated();
+			const document = await SubscriptionDocument.query()
+				.where("companyBeneficialOwnerId", owner.id)
+				.where("subscriptionId", subscription.id)
+				.firstOrFail();
+			assert.equal(document.type, SubscriptionDocumentType.BENEFICIAL_OWNER_ID);
+
+			const deleteResponse = await client
+				.visit("client.subscriptions.delete_document", {
+					documentType: SubscriptionDocumentType.BENEFICIAL_OWNER_ID,
+					subscriptionId: subscription.id,
+				})
+				.qs({ ownerId: owner.id })
+				.withGuard("client")
+				.loginAs(user);
+
+			deleteResponse.assertNoContent();
+			assert.isNull(await SubscriptionDocument.find(document.id));
+			assert.isNull(await File.find(uploadResponse.body().id));
 		});
 	},
 );

@@ -22,11 +22,13 @@ export default class UploadSubscriptionDocumentController {
 			throw new InvalidDocumentTypeException();
 		}
 
-		const { file } = await request.validateUsing(
+		const { file, query } = await request.validateUsing(
 			UploadSubscriptionDocumentController.payloadSchema,
+			{ data: { ...request.all(), query: request.qs() } },
 		);
 		const uploadedFile = await this.uploadSubscriptionDocumentService.handle({
 			file,
+			ownerId: query.ownerId,
 			subscription,
 			type: documentType,
 		});

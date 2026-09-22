@@ -7,6 +7,9 @@ import { PaymentDetailFactory } from "#database/factories/payment_detail.factory
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import { CompanyLegalForm } from "#models/company";
+import CompanyBeneficialOwner, {
+	CompanyBeneficialOwnerKind,
+} from "#models/company_beneficial_owner";
 import CompanyKycProfile from "#models/company_kyc_profile";
 import File from "#models/file";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
@@ -139,6 +142,66 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 			.loginAs(user);
 
 		response.assertOk();
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [2]);
+	});
+
+	test("it requires the BIC and one document for each KYC owner", async ({ client, assert }) => {
+		const { company, subscription, user } = await createKycSubscription();
+		const [physicalAddress, legalAddress] = await Promise.all([
+			AddressFactory.create(),
+			AddressFactory.create(),
+		]);
+		const [physicalOwner, legalOwner] = await Promise.all([
+			CompanyBeneficialOwner.create({
+				addressId: physicalAddress.id,
+				companyId: company.id,
+				firstName: "Jeanne",
+				kind: CompanyBeneficialOwnerKind.PHYSICAL_PERSON,
+				lastName: "Dupont",
+			}),
+			CompanyBeneficialOwner.create({
+				addressId: legalAddress.id,
+				companyId: company.id,
+				kind: CompanyBeneficialOwnerKind.LEGAL_ENTITY,
+				legalName: "Société Détentrice",
+			}),
+		]);
+		const profile = await CompanyKycProfile.findByOrFail("companyId", company.id);
+		await profile.merge({ bicId: true }).save();
+
+		const incompleteResponse = await client
+			.visit("client.subscriptions.validate_step", { step: 2, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		incompleteResponse.assertStatus(422);
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, []);
+
+		for (const [type, ownerId] of [
+			[SubscriptionDocumentType.BIC_IDENTIFICATION_CODE, null],
+			[SubscriptionDocumentType.BENEFICIAL_OWNER_ID, physicalOwner.id],
+			[SubscriptionDocumentType.BENEFICIAL_OWNER_RNE, legalOwner.id],
+		] as const) {
+			const file = await File.create({
+				key: `subscriptions/${subscription.id}/${type}-${ownerId ?? "bic"}.pdf`,
+				name: `${type}.pdf`,
+				size: 1_024,
+				type: "application/pdf",
+			});
+			await SubscriptionDocument.create({
+				companyBeneficialOwnerId: ownerId,
+				fileId: file.id,
+				subscriptionId: subscription.id,
+				type,
+			});
+		}
+
+		const completeResponse = await client
+			.visit("client.subscriptions.validate_step", { step: 2, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		completeResponse.assertOk();
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [2]);
 	});
 

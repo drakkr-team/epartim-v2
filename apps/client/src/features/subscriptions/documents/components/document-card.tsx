@@ -48,6 +48,7 @@ export function DocumentCard(props: DocumentCardProps) {
 		upload.mutate(
 			{
 				params: { documentType: document.type, subscriptionId },
+				query: { ownerId: document.ownerId ?? undefined },
 				body: { file },
 			},
 			{
@@ -59,7 +60,10 @@ export function DocumentCard(props: DocumentCardProps) {
 	function removeFile() {
 		setError(null);
 		remove.mutate(
-			{ params: { documentType: document.type, subscriptionId } },
+			{
+				params: { documentType: document.type, subscriptionId },
+				query: { ownerId: document.ownerId ?? undefined },
+			},
 			{
 				onError: () => setError(t("error.delete")),
 			},

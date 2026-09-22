@@ -8,6 +8,8 @@ import Company from "#models/company";
 import CompanyBeneficialOwner, {
 	CompanyBeneficialOwnerKind,
 } from "#models/company_beneficial_owner";
+import File from "#models/file";
+import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 
 test.group("Features / Client / Subscriptions / Controllers / Update KYC Owners", () => {
 	async function createSubscription() {
@@ -31,6 +33,18 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC Owners"
 		const company = await Company.findByOrFail("subscriptionId", subscription.id);
 		const owner = await CompanyBeneficialOwner.query().where("companyId", company.id).firstOrFail();
 		const addressId = owner.addressId;
+		const physicalOwnerFile = await File.create({
+			key: `subscriptions/${subscription.id}/owner-id.pdf`,
+			name: "owner-id.pdf",
+			size: 1_024,
+			type: "application/pdf",
+		});
+		const physicalOwnerDocument = await SubscriptionDocument.create({
+			companyBeneficialOwnerId: owner.id,
+			fileId: physicalOwnerFile.id,
+			subscriptionId: subscription.id,
+			type: SubscriptionDocumentType.BENEFICIAL_OWNER_ID,
+		});
 
 		const updateResponse = await client
 			.visit("client.subscriptions.update_kyc_owner", {
@@ -56,6 +70,21 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC Owners"
 		assert.equal(updatedOwner.legalName, "Société Exemple");
 		assert.isNull(updatedOwner.firstName);
 		assert.isNull(updatedOwner.birthDate);
+		assert.isNull(await SubscriptionDocument.find(physicalOwnerDocument.id));
+		assert.isNull(await File.find(physicalOwnerFile.id));
+
+		const legalOwnerFile = await File.create({
+			key: `subscriptions/${subscription.id}/owner-rne.pdf`,
+			name: "owner-rne.pdf",
+			size: 1_024,
+			type: "application/pdf",
+		});
+		const legalOwnerDocument = await SubscriptionDocument.create({
+			companyBeneficialOwnerId: owner.id,
+			fileId: legalOwnerFile.id,
+			subscriptionId: subscription.id,
+			type: SubscriptionDocumentType.BENEFICIAL_OWNER_RNE,
+		});
 
 		const deleteResponse = await client
 			.visit("client.subscriptions.delete_kyc_owner", {
@@ -68,5 +97,7 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC Owners"
 		deleteResponse.assertNoContent();
 		assert.isNull(await CompanyBeneficialOwner.find(owner.id));
 		assert.isNull(await Address.find(addressId));
+		assert.isNull(await SubscriptionDocument.find(legalOwnerDocument.id));
+		assert.isNull(await File.find(legalOwnerFile.id));
 	});
 });

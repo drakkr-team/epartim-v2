@@ -455,12 +455,12 @@ export interface Registry {
     methods: ["DELETE"]
     pattern: '/client/subscriptions/:subscriptionId/documents/:documentType'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/documents/delete.controller').default)['payloadSchema']>>
       paramsTuple: [ParamValue, ParamValue]
       params: { subscriptionId: ParamValue; documentType: ParamValue }
-      query: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/documents/delete.controller').default)['payloadSchema']>>
       response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/delete.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/delete.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.subscriptions.update_legal_identification': {

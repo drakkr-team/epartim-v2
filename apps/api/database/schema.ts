@@ -329,8 +329,10 @@ export class RoleSchema extends BaseModel {
 }
 
 export class SubscriptionDocumentSchema extends BaseModel {
-  static $columns = ['createdAt', 'fileId', 'id', 'subscriptionId', 'type', 'updatedAt'] as const
+  static $columns = ['companyBeneficialOwnerId', 'createdAt', 'fileId', 'id', 'subscriptionId', 'type', 'updatedAt'] as const
   $columns = SubscriptionDocumentSchema.$columns
+  @column()
+  declare companyBeneficialOwnerId: number | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
