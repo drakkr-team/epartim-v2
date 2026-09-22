@@ -5,7 +5,6 @@ type ParamValue = string | number | bigint | boolean
 export type ScannedRoutes = {
   ALL: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
-    'admin.account_management.onboarding.activate': { paramsTuple?: []; params?: {} }
     'admin.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'admin.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admins.create': { paramsTuple?: []; params?: {} }
@@ -51,6 +50,7 @@ export type ScannedRoutes = {
     'client.subscriptions.update_kyc_profile': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
+    'admin.account_management.onboarding.activate': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
     'client.account_management.authentication.login': { paramsTuple?: []; params?: {} }
@@ -94,7 +94,6 @@ export type ScannedRoutes = {
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
   }
   POST: {
-    'admin.account_management.onboarding.activate': { paramsTuple?: []; params?: {} }
     'admin.admins.create': { paramsTuple?: []; params?: {} }
     'admin.admins.resend_onboarding': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.firms.create': { paramsTuple?: []; params?: {} }
@@ -105,6 +104,7 @@ export type ScannedRoutes = {
     'client.subscriptions.validate_step': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'step': ParamValue} }
     'client.subscriptions.upload_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
     'admin.account_management.authentication.login': { paramsTuple?: []; params?: {} }
+    'admin.account_management.onboarding.activate': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
     'client.account_management.authentication.login': { paramsTuple?: []; params?: {} }

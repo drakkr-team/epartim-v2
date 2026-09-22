@@ -13,6 +13,7 @@ import { Route as guestLayoutRouteImport } from './routes/(guest)/layout'
 import { Route as protectedLayoutRouteImport } from './routes/(protected)/layout'
 import { Route as guestForgotPasswordPageRouteImport } from './routes/(guest)/forgot-password/page'
 import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
+import { Route as guestOnboardingPageRouteImport } from './routes/(guest)/onboarding/page'
 import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
 import { Route as protecteddashboardPageRouteImport } from './routes/(protected)/(dashboard)/page'
 import { Route as protectedAdminsPageRouteImport } from './routes/(protected)/admins/page'
@@ -48,6 +49,11 @@ const guestForgotPasswordPageRoute = guestForgotPasswordPageRouteImport.update({
 const guestLoginPageRoute = guestLoginPageRouteImport.update({
   id: '/login/',
   path: '/login/',
+  getParentRoute: () => guestLayoutRoute,
+} as any)
+const guestOnboardingPageRoute = guestOnboardingPageRouteImport.update({
+  id: '/onboarding/',
+  path: '/onboarding/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
 const guestResetPasswordPageRoute = guestResetPasswordPageRouteImport.update({
@@ -153,6 +159,7 @@ const protectedRolesRoleIdEditPageRoute =
 export interface FileRoutesByFullPath {
   '/forgot-password/': typeof guestForgotPasswordPageRoute
   '/login/': typeof guestLoginPageRoute
+  '/onboarding/': typeof guestOnboardingPageRoute
   '/reset-password/': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
   '/admins/': typeof protectedAdminsPageRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/forgot-password': typeof guestForgotPasswordPageRoute
   '/login': typeof guestLoginPageRoute
+  '/onboarding': typeof guestOnboardingPageRoute
   '/reset-password': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
   '/admins': typeof protectedAdminsPageRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/(protected)': typeof protectedLayoutRouteWithChildren
   '/(guest)/forgot-password/': typeof guestForgotPasswordPageRoute
   '/(guest)/login/': typeof guestLoginPageRoute
+  '/(guest)/onboarding/': typeof guestOnboardingPageRoute
   '/(guest)/reset-password/': typeof guestResetPasswordPageRoute
   '/(protected)/(dashboard)/': typeof protecteddashboardPageRoute
   '/(protected)/admins/': typeof protectedAdminsPageRoute
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/forgot-password/'
     | '/login/'
+    | '/onboarding/'
     | '/reset-password/'
     | '/'
     | '/admins/'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
   to:
     | '/forgot-password'
     | '/login'
+    | '/onboarding'
     | '/reset-password'
     | '/'
     | '/admins'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/(protected)'
     | '/(guest)/forgot-password/'
     | '/(guest)/login/'
+    | '/(guest)/onboarding/'
     | '/(guest)/reset-password/'
     | '/(protected)/(dashboard)/'
     | '/(protected)/admins/'
@@ -323,6 +335,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login/'
       preLoaderRoute: typeof guestLoginPageRouteImport
+      parentRoute: typeof guestLayoutRoute
+    }
+    '/(guest)/onboarding/': {
+      id: '/(guest)/onboarding/'
+      path: '/onboarding'
+      fullPath: '/onboarding/'
+      preLoaderRoute: typeof guestOnboardingPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
     '/(guest)/reset-password/': {
@@ -457,12 +476,14 @@ declare module '@tanstack/react-router' {
 interface guestLayoutRouteChildren {
   guestForgotPasswordPageRoute: typeof guestForgotPasswordPageRoute
   guestLoginPageRoute: typeof guestLoginPageRoute
+  guestOnboardingPageRoute: typeof guestOnboardingPageRoute
   guestResetPasswordPageRoute: typeof guestResetPasswordPageRoute
 }
 
 const guestLayoutRouteChildren: guestLayoutRouteChildren = {
   guestForgotPasswordPageRoute: guestForgotPasswordPageRoute,
   guestLoginPageRoute: guestLoginPageRoute,
+  guestOnboardingPageRoute: guestOnboardingPageRoute,
   guestResetPasswordPageRoute: guestResetPasswordPageRoute,
 }
 
