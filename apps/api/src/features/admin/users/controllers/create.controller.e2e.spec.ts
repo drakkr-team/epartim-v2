@@ -1,13 +1,20 @@
 import hash from "@adonisjs/core/services/hash";
+import { QueueManager } from "@adonisjs/queue";
 import { test } from "@japa/runner";
 
 import { AdminFactory } from "#database/factories/admin.factory";
 import { UserFactory } from "#database/factories/user.factory";
+import SendUserOnboardingNotificationJob from "#features/client/account_management/onboarding/jobs/send_onboarding_notification.job";
 import Role from "#models/role";
 import User from "#models/user";
 
-test.group("Features / Admin / Users / Controllers / Create Controller", () => {
+test.group("Features / Admin / Users / Controllers / Create Controller", (group) => {
+	group.each.teardown(() => {
+		QueueManager.restore();
+	});
+
 	test("it should create a user with normalized fields", async ({ client, assert }) => {
+		const fakeQueueManager = QueueManager.fake();
 		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["create:user"];
@@ -30,11 +37,13 @@ test.group("Features / Admin / Users / Controllers / Create Controller", () => {
 			firstName: "Élodie",
 			lastName: "Gestionnaire",
 			email: "new.user@example.com",
+			activatedAt: null,
 		});
 		assert.notProperty(response.body(), "password");
 
 		const createdUser = await User.findByOrFail("email", "new.user@example.com");
 		assert.isFalse(await hash.verify(createdUser.password, "provided-password"));
+		fakeQueueManager.assertPushed(SendUserOnboardingNotificationJob);
 	});
 
 	test("it should reject an email already used by a user", async ({ client }) => {

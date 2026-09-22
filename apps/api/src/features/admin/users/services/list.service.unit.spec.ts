@@ -74,4 +74,34 @@ test.group("Features / Admin / Users / Services / List Service", () => {
 			[secondUser.id, firstUser.id],
 		);
 	});
+
+	test("it should order users by activation date", async ({ assert }) => {
+		const firstUser = await UserFactory.merge({
+			firstName: "ActivationOrder First",
+			activatedAt: DateTime.fromISO("2025-01-01T00:00:00.000Z"),
+		}).create();
+		const secondUser = await UserFactory.merge({
+			firstName: "ActivationOrder Second",
+			activatedAt: DateTime.fromISO("2025-02-01T00:00:00.000Z"),
+		}).create();
+		const service = new ListUsersService();
+
+		const ascending = await service.handle({
+			q: "ActivationOrder",
+			orderBy: "activatedAt_asc",
+		});
+		const descending = await service.handle({
+			q: "ActivationOrder",
+			orderBy: "activatedAt_desc",
+		});
+
+		assert.deepEqual(
+			ascending.map((user) => user.id),
+			[firstUser.id, secondUser.id],
+		);
+		assert.deepEqual(
+			descending.map((user) => user.id),
+			[secondUser.id, firstUser.id],
+		);
+	});
 });

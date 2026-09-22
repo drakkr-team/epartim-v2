@@ -10,6 +10,7 @@ export default class UserPresenter {
 			lastName: user.lastName,
 			email: user.email,
 
+			activatedAt: user.activatedAt?.toJSDate() ?? null,
 			createdAt: user.createdAt.toJSDate(),
 			updatedAt: user.updatedAt.toJSDate(),
 		};

@@ -325,8 +325,10 @@ export class SubscriptionSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'firstName', 'id', 'lastName', 'password', 'updatedAt'] as const
+  static $columns = ['activatedAt', 'createdAt', 'email', 'firstName', 'id', 'lastName', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns
+  @column.dateTime()
+  declare activatedAt: DateTime | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()

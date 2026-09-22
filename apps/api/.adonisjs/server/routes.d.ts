@@ -32,6 +32,7 @@ export type ScannedRoutes = {
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'admin.users.delete': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
+    'admin.users.resend_onboarding': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
@@ -55,6 +56,7 @@ export type ScannedRoutes = {
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
     'client.account_management.authentication.login': { paramsTuple?: []; params?: {} }
     'client.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
+    'client.account_management.onboarding.activate': { paramsTuple?: []; params?: {} }
     'client.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'client.account_management.password.reset': { paramsTuple?: []; params?: {} }
     'client.account_management.password.update': { paramsTuple?: []; params?: {} }
@@ -100,6 +102,7 @@ export type ScannedRoutes = {
     'admin.networks.create': { paramsTuple?: []; params?: {} }
     'admin.roles.create': { paramsTuple?: []; params?: {} }
     'admin.users.create': { paramsTuple?: []; params?: {} }
+    'admin.users.resend_onboarding': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.validate_step': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'step': ParamValue} }
     'client.subscriptions.upload_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
@@ -108,6 +111,7 @@ export type ScannedRoutes = {
     'admin.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'admin.account_management.password.reset': { paramsTuple?: []; params?: {} }
     'client.account_management.authentication.login': { paramsTuple?: []; params?: {} }
+    'client.account_management.onboarding.activate': { paramsTuple?: []; params?: {} }
     'client.account_management.password.forgot': { paramsTuple?: []; params?: {} }
     'client.account_management.password.reset': { paramsTuple?: []; params?: {} }
   }
