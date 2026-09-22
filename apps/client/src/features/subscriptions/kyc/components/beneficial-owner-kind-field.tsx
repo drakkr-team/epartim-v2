@@ -46,7 +46,7 @@ export function BeneficialOwnerKindField(props: BeneficialOwnerKindFieldProps) {
 							<Button
 								key={option.value}
 								type="button"
-								variant={ownerKind === option.value ? "primary" : "default"}
+								variant={ownerKind === option.value ? "secondary" : "default"}
 								aria-pressed={ownerKind === option.value}
 								onClick={() => {
 									field.handleChange(option.value);

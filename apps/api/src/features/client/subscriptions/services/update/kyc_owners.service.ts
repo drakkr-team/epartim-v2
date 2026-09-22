@@ -34,6 +34,7 @@ export default class KycOwnersService {
 					companyId: company.id,
 					addressId: address.id,
 					kind: CompanyBeneficialOwnerKind.PHYSICAL_PERSON,
+					shareholdingPercentage: null,
 				},
 				{ client: trx },
 			);

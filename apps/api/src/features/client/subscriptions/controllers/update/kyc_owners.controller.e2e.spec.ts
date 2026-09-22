@@ -27,6 +27,7 @@ test.group("Features / Client / Subscriptions / Controllers / Update KYC Owners"
 			.loginAs(user);
 
 		createResponse.assertOk();
+		createResponse.assertBodyContains({ shareholdingPercentage: null });
 		const company = await Company.findByOrFail("subscriptionId", subscription.id);
 		const owner = await CompanyBeneficialOwner.query().where("companyId", company.id).firstOrFail();
 		const addressId = owner.addressId;

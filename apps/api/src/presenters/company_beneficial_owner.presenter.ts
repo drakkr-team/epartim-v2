@@ -13,7 +13,9 @@ export default class CompanyBeneficialOwnerPresenter {
 			legalName: owner.legalName,
 			function: owner.function,
 			shareholdingPercentage:
-				owner.shareholdingPercentage === null ? null : Number(owner.shareholdingPercentage),
+				owner.shareholdingPercentage === null || owner.shareholdingPercentage === undefined
+					? null
+					: Number(owner.shareholdingPercentage),
 			siren: owner.siren,
 			birthDate: owner.birthDate?.toISODate() ?? null,
 			birthCity: owner.birthCity,

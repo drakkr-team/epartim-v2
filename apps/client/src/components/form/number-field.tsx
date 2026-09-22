@@ -35,7 +35,7 @@ export function NumberField(props: NumberFieldProps) {
 			<NumberInput
 				id={field.name}
 				name={field.name}
-				value={field.state.value}
+				value={Number.isFinite(field.state.value) ? field.state.value : null}
 				disabled={disabled}
 				onValueCommitted={(value) => field.handleChange(value)}
 				onBlur={field.handleBlur}
