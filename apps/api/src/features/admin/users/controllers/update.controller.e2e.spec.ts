@@ -49,7 +49,7 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 		};
 
 		const response = await client
-			.patch(`/admin/users/${targetUser.id}`)
+			.put(`/admin/users/${targetUser.id}`)
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
 			.json(payload as Pick<typeof payload, "firstName" | "lastName">);
@@ -71,7 +71,7 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 
 		for (const payload of [{}, { firstName: "Only" }, { firstName: " ", lastName: "User" }]) {
 			const response = await client
-				.patch(`/admin/users/${targetUser.id}`)
+				.put(`/admin/users/${targetUser.id}`)
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin)
 				.json(payload);
@@ -88,7 +88,7 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 
 		for (const id of ["999999", "0", "-1"]) {
 			const response = await client
-				.patch(`/admin/users/${id}`)
+				.put(`/admin/users/${id}`)
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin)
 				.json({ firstName: "Updated", lastName: "User" });

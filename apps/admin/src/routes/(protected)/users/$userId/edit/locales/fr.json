@@ -1,0 +1,7 @@
+{
+	"routes.(protected).users.$userId.edit": {
+		"headline": "Gestion des distributeurs",
+		"title": "Modifier le distributeur",
+		"description": "Modifiez le prénom et le nom de ce distributeur."
+	}
+}

@@ -24,7 +24,7 @@ headers:
   name: Accept
   value: application/json
   id: null
-method: PATCH
+method: PUT
 name: Update user
 sortPriority: 0.0
 url: http://localhost:3333/admin/users/${[ USER_ID ]}

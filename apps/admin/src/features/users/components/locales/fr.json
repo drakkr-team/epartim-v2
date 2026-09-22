@@ -1,0 +1,28 @@
+{
+	"features.users.components.form": {
+		"field": {
+			"firstName": {
+				"label": "Prénom"
+			},
+			"lastName": {
+				"label": "Nom"
+			},
+			"email": {
+				"label": "Adresse e-mail"
+			}
+		},
+		"action": {
+			"create": "Envoyer l'invitation",
+			"update": "Enregistrer les modifications"
+		}
+	},
+	"features.users.components.delete-dialog": {
+		"title": "Supprimer ce distributeur ?",
+		"description": "Vous êtes sur le point de supprimer définitivement « {{name}} ».",
+		"consequences": "Cette opération supprimera le compte distributeur. Elle est définitive et ne peut pas être annulée.",
+		"action": {
+			"cancel": "Annuler",
+			"confirm": "Supprimer définitivement"
+		}
+	}
+}

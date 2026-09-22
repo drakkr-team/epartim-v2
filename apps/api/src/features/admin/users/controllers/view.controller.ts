@@ -2,6 +2,7 @@ import { inject } from "@adonisjs/core";
 import { HttpContext } from "@adonisjs/core/http";
 
 import DeleteUserPolicy from "#features/admin/users/policies/delete.policy";
+import ResendUserOnboardingPolicy from "#features/admin/users/policies/resend_onboarding.policy";
 import UpdateUserPolicy from "#features/admin/users/policies/update.policy";
 import ViewUserPolicy from "#features/admin/users/policies/view.policy";
 import User from "#models/user";
@@ -23,6 +24,7 @@ export default class ViewUserController {
 			meta: {
 				canUpdate: await bouncer.with(UpdateUserPolicy).allows("handle"),
 				canDelete: await bouncer.with(DeleteUserPolicy).allows("handle", user.id),
+				canResendOnboarding: await bouncer.with(ResendUserOnboardingPolicy).allows("handle", user),
 			},
 		};
 	}

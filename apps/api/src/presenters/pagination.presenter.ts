@@ -5,7 +5,7 @@ export default class PaginationPresenter {
 		return {
 			perPage: pagination.perPage,
 			currentPage: pagination.currentPage,
-			total: pagination.total,
+			total: pagination.lastPage,
 			firstPage: pagination.firstPage,
 			lastPage: pagination.lastPage,
 			isEmpty: pagination.isEmpty,

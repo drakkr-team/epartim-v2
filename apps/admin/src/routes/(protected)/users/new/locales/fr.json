@@ -1,0 +1,7 @@
+{
+	"routes.(protected).users.new": {
+		"headline": "Gestion des distributeurs",
+		"title": "Inviter un distributeur",
+		"description": "Renseignez son prénom, son nom et son adresse e-mail pour lui envoyer une invitation."
+	}
+}

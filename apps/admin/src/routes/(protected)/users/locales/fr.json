@@ -1,0 +1,19 @@
+{
+	"routes.(protected).users": {
+		"headline": "Gestion des distributeurs",
+		"title": "Distributeurs",
+		"description": "Gérez les comptes distributeurs autorisés à accéder à leur espace.",
+		"search": {
+			"placeholder": "Rechercher..."
+		},
+		"empty": {
+			"title": "Aucun distributeur",
+			"title-search": "Aucun résultat",
+			"description": "Aucun distributeur n'a encore été invité. Invitez-en un pour commencer.",
+			"description-search": "Aucun distributeur ne correspond à « {{search}} »."
+		},
+		"actions": {
+			"new": "Inviter un distributeur"
+		}
+	}
+}

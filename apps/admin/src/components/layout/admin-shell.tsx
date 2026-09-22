@@ -11,6 +11,7 @@ import {
 	NetworkIcon,
 	ShieldCheckIcon,
 	UserShieldIcon,
+	UsersIcon,
 } from "@workspace/ui-react/icons";
 
 import { useLogoutMutation } from "#/features/account_management/authentication/hooks/use-logout-mutation";
@@ -19,6 +20,7 @@ const navigationItems = [
 	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon, exact: true },
 	{ label: "Réseaux", to: "/networks", icon: NetworkIcon, exact: false },
 	{ label: "Cabinets", to: "/firms", icon: Building2Icon, exact: false },
+	{ label: "Distributeurs", to: "/users", icon: UsersIcon, exact: false },
 	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
 	{ label: "Rôles", to: "/roles", icon: ShieldCheckIcon, exact: false },
 ] as const;

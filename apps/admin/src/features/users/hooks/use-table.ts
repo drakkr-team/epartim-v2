@@ -3,13 +3,13 @@ import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/re
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { Admin, Pagination } from "@workspace/api/data";
+import type { Pagination, User } from "@workspace/api/data";
 
-import { AdminsTableActionCell } from "#/features/admins/components/table/action-cell";
+import { UsersTableActionCell } from "#/features/users/components/table/action-cell";
 import { useColumnVisibilityStore } from "#/hooks/use-column-visibility-store";
 import { orderByToSortingSate, sortingStateToOrderBy } from "#/utils/table";
 
-type Data = Admin & {
+type Data = User & {
 	meta: {
 		canUpdate: boolean;
 		canDelete: boolean;
@@ -17,22 +17,22 @@ type Data = Admin & {
 	};
 };
 
-type UseAdminsTableParams = {
+type UseUsersTableParams = {
 	data: Data[];
 	pagination: Pagination;
 	q?: string;
 	orderBy?: string;
 };
 
-export function useAdminsTable(params: UseAdminsTableParams) {
+export function useUsersTable(params: UseUsersTableParams) {
 	const { data, pagination, q, orderBy } = params;
 
-	const { t } = useTranslation("features.admins.hooks.use-table");
+	const { t } = useTranslation("features.users.hooks.use-table");
 	const navigate = useNavigate();
 	const router = useRouter();
 	const sorting = orderByToSortingSate(orderBy);
 	const { columnVisibility, setColumnVisibility } = useColumnVisibilityStore({
-		name: "admins-table-column-visibility",
+		name: "users-table-column-visibility",
 		defaultValue: {},
 	});
 
@@ -42,8 +42,11 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 			columnHelper.accessor("id", {
 				header: t("header.id"),
 			}),
-			columnHelper.accessor("name", {
-				header: t("header.name"),
+			columnHelper.accessor("firstName", {
+				header: t("header.firstName"),
+			}),
+			columnHelper.accessor("lastName", {
+				header: t("header.lastName"),
 			}),
 			columnHelper.accessor("email", {
 				header: t("header.email"),
@@ -62,7 +65,7 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 			}),
 			columnHelper.display({
 				id: "actions",
-				cell: (cell) => AdminsTableActionCell({ cell }),
+				cell: (cell) => UsersTableActionCell({ cell }),
 				meta: {
 					classNames: {
 						header: "w-0 p-0",
@@ -79,10 +82,9 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 		columns,
 		meta: {
 			rows: {
-				onClick: (row) =>
-					navigate({ to: "/admins/$adminId", params: { adminId: row.id.toString() } }),
+				onClick: (row) => navigate({ to: "/users/$userId", params: { userId: row.id.toString() } }),
 				onMouseEnter: (row) =>
-					router.preloadRoute({ to: "/admins/$adminId", params: { adminId: row.id.toString() } }),
+					router.preloadRoute({ to: "/users/$userId", params: { userId: row.id.toString() } }),
 			},
 		},
 		manualSorting: true,
