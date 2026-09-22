@@ -15,6 +15,7 @@ import { Route as protectedPageRouteImport } from './routes/(protected)/page'
 import { Route as protectedoperationsLayoutRouteImport } from './routes/(protected)/(operations)/layout'
 import { Route as guestForgotPasswordPageRouteImport } from './routes/(guest)/forgot-password/page'
 import { Route as guestLoginPageRouteImport } from './routes/(guest)/login/page'
+import { Route as guestOnboardingPageRouteImport } from './routes/(guest)/onboarding/page'
 import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
 import { Route as protectedoperationsSubscriptionsLayoutRouteImport } from './routes/(protected)/(operations)/subscriptions/layout'
 import { Route as protectedoperationsClientPortfolioPageRouteImport } from './routes/(protected)/(operations)/client-portfolio/page'
@@ -48,6 +49,11 @@ const guestForgotPasswordPageRoute = guestForgotPasswordPageRouteImport.update({
 const guestLoginPageRoute = guestLoginPageRouteImport.update({
   id: '/login/',
   path: '/login/',
+  getParentRoute: () => guestLayoutRoute,
+} as any)
+const guestOnboardingPageRoute = guestOnboardingPageRouteImport.update({
+  id: '/onboarding/',
+  path: '/onboarding/',
   getParentRoute: () => guestLayoutRoute,
 } as any)
 const guestResetPasswordPageRoute = guestResetPasswordPageRouteImport.update({
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/subscriptions': typeof protectedoperationsSubscriptionsLayoutRouteWithChildren
   '/forgot-password/': typeof guestForgotPasswordPageRoute
   '/login/': typeof guestLoginPageRoute
+  '/onboarding/': typeof guestOnboardingPageRoute
   '/reset-password/': typeof guestResetPasswordPageRoute
   '/client-portfolio/': typeof protectedoperationsClientPortfolioPageRoute
   '/subscriptions/': typeof protectedoperationsSubscriptionsPageRoute
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/': typeof protectedPageRoute
   '/forgot-password': typeof guestForgotPasswordPageRoute
   '/login': typeof guestLoginPageRoute
+  '/onboarding': typeof guestOnboardingPageRoute
   '/reset-password': typeof guestResetPasswordPageRoute
   '/client-portfolio': typeof protectedoperationsClientPortfolioPageRoute
   '/subscriptions': typeof protectedoperationsSubscriptionsPageRoute
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/(protected)/(operations)/subscriptions': typeof protectedoperationsSubscriptionsLayoutRouteWithChildren
   '/(guest)/forgot-password/': typeof guestForgotPasswordPageRoute
   '/(guest)/login/': typeof guestLoginPageRoute
+  '/(guest)/onboarding/': typeof guestOnboardingPageRoute
   '/(guest)/reset-password/': typeof guestResetPasswordPageRoute
   '/(protected)/(operations)/client-portfolio/': typeof protectedoperationsClientPortfolioPageRoute
   '/(protected)/(operations)/subscriptions/': typeof protectedoperationsSubscriptionsPageRoute
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/forgot-password/'
     | '/login/'
+    | '/onboarding/'
     | '/reset-password/'
     | '/client-portfolio/'
     | '/subscriptions/'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/forgot-password'
     | '/login'
+    | '/onboarding'
     | '/reset-password'
     | '/client-portfolio'
     | '/subscriptions'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/(protected)/(operations)/subscriptions'
     | '/(guest)/forgot-password/'
     | '/(guest)/login/'
+    | '/(guest)/onboarding/'
     | '/(guest)/reset-password/'
     | '/(protected)/(operations)/client-portfolio/'
     | '/(protected)/(operations)/subscriptions/'
@@ -209,6 +221,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof guestLoginPageRouteImport
       parentRoute: typeof guestLayoutRoute
     }
+    '/(guest)/onboarding/': {
+      id: '/(guest)/onboarding/'
+      path: '/onboarding'
+      fullPath: '/onboarding/'
+      preLoaderRoute: typeof guestOnboardingPageRouteImport
+      parentRoute: typeof guestLayoutRoute
+    }
     '/(guest)/reset-password/': {
       id: '/(guest)/reset-password/'
       path: '/reset-password'
@@ -257,12 +276,14 @@ declare module '@tanstack/react-router' {
 interface guestLayoutRouteChildren {
   guestForgotPasswordPageRoute: typeof guestForgotPasswordPageRoute
   guestLoginPageRoute: typeof guestLoginPageRoute
+  guestOnboardingPageRoute: typeof guestOnboardingPageRoute
   guestResetPasswordPageRoute: typeof guestResetPasswordPageRoute
 }
 
 const guestLayoutRouteChildren: guestLayoutRouteChildren = {
   guestForgotPasswordPageRoute: guestForgotPasswordPageRoute,
   guestLoginPageRoute: guestLoginPageRoute,
+  guestOnboardingPageRoute: guestOnboardingPageRoute,
   guestResetPasswordPageRoute: guestResetPasswordPageRoute,
 }
 

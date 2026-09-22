@@ -1,0 +1,48 @@
+{
+	"features.account_management.onboarding.hooks.use-activate-form": {
+		"validation": {
+			"newPassword": {
+				"required": "Le nouveau mot de passe est requis.",
+				"min": "Le mot de passe doit comporter au moins 8 caractères.",
+				"max": "Le mot de passe doit comporter au maximum 32 caractères."
+			},
+			"newPasswordConfirmation": {
+				"required": "La confirmation du nouveau mot de passe est requise.",
+				"mismatch": "Les mots de passe ne correspondent pas."
+			}
+		}
+	},
+
+	"features.account_management.onboarding.hooks.use-activate-mutation": {
+		"success": {
+			"title": "Compte activé avec succès.",
+			"description": "Votre compte a été activé. Vous pouvez maintenant accéder à votre espace distributeur."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Une erreur réseau est survenue.",
+				"description": "Veuillez vérifier votre connexion internet et réessayer."
+			},
+			"E_VALIDATION": {
+				"title": "Données invalides.",
+				"description": "Veuillez vérifier votre mot de passe et réessayer."
+			},
+			"E_INVALID_TOKEN": {
+				"title": "Lien d'activation invalide ou expiré.",
+				"description": "Le lien d'activation que vous avez utilisé est invalide ou a expiré. Veuillez demander une nouvelle invitation."
+			},
+			"E_GUEST_ONLY": {
+				"title": "Vous êtes déjà connecté.",
+				"description": "Veuillez vous déconnecter avant d'activer un autre compte."
+			},
+			"E_TOO_MANY_REQUESTS": {
+				"title": "Trop de tentatives d'activation.",
+				"description": "Veuillez attendre quelques minutes avant de réessayer."
+			},
+			"E_UNEXPECTED": {
+				"title": "Une erreur inattendue est survenue.",
+				"description": "Veuillez réessayer."
+			}
+		}
+	}
+}
