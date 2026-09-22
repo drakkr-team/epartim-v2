@@ -4,8 +4,8 @@ import type { BelongsTo, HasMany, HasOne } from "@adonisjs/lucid/types/relations
 import { SubscriptionSchema } from "#database/schema";
 import Company from "#models/company";
 import SubscriptionDocument from "#models/subscription_document";
-import { jsonColumn } from "#src/utils/json_column";
 import User from "#models/user";
+import { jsonColumn } from "#src/utils/json_column";
 
 export const SubscriptionStatus = {
 	DRAFT: 0,
