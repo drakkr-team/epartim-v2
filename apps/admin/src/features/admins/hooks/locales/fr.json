@@ -56,6 +56,31 @@
 		}
 	},
 
+	"features.admins.hooks.use-resend-onboarding-mutation": {
+		"success": {
+			"title": "Invitation renvoyée",
+			"description": "Une nouvelle invitation d'activation a bien été envoyée."
+		},
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion internet, puis réessayez."
+			},
+			"E_UNAUTHORIZED_ACCESS": {
+				"title": "Action non autorisée",
+				"description": "Vous n'avez pas l'autorisation de renvoyer l'invitation de cet administrateur. Contactez votre administrateur système si nécessaire."
+			},
+			"E_VALIDATION": {
+				"title": "Invitation impossible à renvoyer",
+				"description": "Cet administrateur ne peut pas recevoir de nouvelle invitation."
+			},
+			"E_UNEXPECTED": {
+				"title": "Un problème est survenu",
+				"description": "Réessayez dans quelques instants."
+			}
+		}
+	},
+
 	"features.admins.hooks.use-update-mutation": {
 		"success": {
 			"title": "Modifications enregistrées",

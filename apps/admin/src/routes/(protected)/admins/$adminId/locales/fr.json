@@ -5,6 +5,7 @@
 		"description": "Consultez les informations de cet administrateur.",
 		"action": {
 			"edit": "Modifier",
+			"resendOnboarding": "Renvoyer l'invitation",
 			"delete": "Supprimer"
 		},
 		"field": {

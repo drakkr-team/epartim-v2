@@ -7,9 +7,16 @@ import { Button } from "@workspace/ui-react/components/button";
 import { Card } from "@workspace/ui-react/components/card";
 import { Link } from "@workspace/ui-react/components/link";
 import { Menu } from "@workspace/ui-react/components/menu";
-import { EllipsisVerticalIcon, SquarePenIcon, TrashIcon } from "@workspace/ui-react/icons";
+import { Spinner } from "@workspace/ui-react/components/spinner";
+import {
+	EllipsisVerticalIcon,
+	MailIcon,
+	SquarePenIcon,
+	TrashIcon,
+} from "@workspace/ui-react/icons";
 
 import { DetailField } from "#/components/app/detail-field.tsx";
+import { useResendOnboardingMutation } from "#/features/admins/hooks/use-resend-onboarding-mutation.ts";
 import { api } from "#/libs/tuyau";
 
 export const Route = createFileRoute("/(protected)/admins/$adminId/")({
@@ -37,7 +44,15 @@ function Page() {
 	const { adminId } = Route.useParams();
 
 	const { data: admin } = useSuspenseQuery(api.admins.view.queryOptions({ params: { adminId } }));
-	const canDoActions = admin.meta.canUpdate || admin.meta.canDelete;
+	const canDoActions =
+		admin.meta.canUpdate || admin.meta.canDelete || admin.meta.canResendOnboarding;
+
+	const { mutateAsync: resendOnboarding, isPending: isResendingOnboarding } =
+		useResendOnboardingMutation();
+
+	const handleResendOnboarding = async () => {
+		await resendOnboarding({ params: { adminId: admin.id } });
+	};
 
 	return (
 		<main className="mx-auto grid max-w-xl gap-9">
@@ -63,6 +78,16 @@ function Page() {
 								>
 									<SquarePenIcon />
 									{t("action.edit")}
+								</Menu.Item>
+							)}
+							{admin.meta.canResendOnboarding && (
+								<Menu.Item
+									closeOnClick={false}
+									onClick={handleResendOnboarding}
+									disabled={isResendingOnboarding}
+								>
+									{isResendingOnboarding ? <Spinner /> : <MailIcon />}
+									{t("action.resendOnboarding")}
 								</Menu.Item>
 							)}
 							{admin.meta.canDelete && (
