@@ -37,12 +37,13 @@ export function BeneficialOwnersSection(props: BeneficialOwnersSectionProps) {
 			</div>
 			<form.Subscribe selector={(state) => state.values.owners}>
 				{(owners) => {
-					const total = owners.reduce(
-						(sum, owner) =>
-							sum +
-							(Number.isFinite(owner.shareholdingPercentage) ? owner.shareholdingPercentage : 0),
-						0,
-					);
+					const total = owners.reduce((sum, owner) => {
+						const percentage = owner.shareholdingPercentage;
+
+						return (
+							sum + (typeof percentage === "number" && Number.isFinite(percentage) ? percentage : 0)
+						);
+					}, 0);
 
 					return (
 						<>
