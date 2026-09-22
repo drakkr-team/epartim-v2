@@ -59,6 +59,7 @@ export interface ApiDefinition {
       view: typeof routes['admin.users.view']
       update: typeof routes['admin.users.update']
       delete: typeof routes['admin.users.delete']
+      resendOnboarding: typeof routes['admin.users.resend_onboarding']
     }
   }
   client: {
@@ -71,6 +72,9 @@ export interface ApiDefinition {
       authentication: {
         login: typeof routes['client.account_management.authentication.login']
         logout: typeof routes['client.account_management.authentication.logout']
+      }
+      onboarding: {
+        activate: typeof routes['client.account_management.onboarding.activate']
       }
       password: {
         forgot: typeof routes['client.account_management.password.forgot']

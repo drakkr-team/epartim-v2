@@ -174,6 +174,12 @@ const routes = {
     tokens: [{"old":"/admin/users/:userId","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId","type":0,"val":"users","end":""},{"old":"/admin/users/:userId","type":1,"val":"userId","end":""}],
     types: placeholder as Registry['admin.users.delete']['types'],
   },
+  'admin.users.resend_onboarding': {
+    methods: ["POST"],
+    pattern: '/admin/users/:userId/resend-onboarding',
+    tokens: [{"old":"/admin/users/:userId/resend-onboarding","type":0,"val":"admin","end":""},{"old":"/admin/users/:userId/resend-onboarding","type":0,"val":"users","end":""},{"old":"/admin/users/:userId/resend-onboarding","type":1,"val":"userId","end":""},{"old":"/admin/users/:userId/resend-onboarding","type":0,"val":"resend-onboarding","end":""}],
+    types: placeholder as Registry['admin.users.resend_onboarding']['types'],
+  },
   'client.account_management.profile.view': {
     methods: ["GET","HEAD"],
     pattern: '/client/account-management/profile',
@@ -311,6 +317,12 @@ const routes = {
     pattern: '/client/account-management/authentication/logout',
     tokens: [{"old":"/client/account-management/authentication/logout","type":0,"val":"client","end":""},{"old":"/client/account-management/authentication/logout","type":0,"val":"account-management","end":""},{"old":"/client/account-management/authentication/logout","type":0,"val":"authentication","end":""},{"old":"/client/account-management/authentication/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['client.account_management.authentication.logout']['types'],
+  },
+  'client.account_management.onboarding.activate': {
+    methods: ["POST"],
+    pattern: '/client/account-management/onboarding/activate',
+    tokens: [{"old":"/client/account-management/onboarding/activate","type":0,"val":"client","end":""},{"old":"/client/account-management/onboarding/activate","type":0,"val":"account-management","end":""},{"old":"/client/account-management/onboarding/activate","type":0,"val":"onboarding","end":""},{"old":"/client/account-management/onboarding/activate","type":0,"val":"activate","end":""}],
+    types: placeholder as Registry['client.account_management.onboarding.activate']['types'],
   },
   'client.account_management.password.forgot': {
     methods: ["POST"],

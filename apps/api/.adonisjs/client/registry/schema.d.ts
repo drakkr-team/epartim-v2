@@ -343,6 +343,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/delete.controller').default['handle']>>>
     }
   }
+  'admin.users.resend_onboarding': {
+    methods: ["POST"]
+    pattern: '/admin/users/:userId/resend-onboarding'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { userId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/resend_onboarding.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/users/controllers/resend_onboarding.controller').default['handle']>>>
+    }
+  }
   'client.account_management.profile.view': {
     methods: ["GET","HEAD"]
     pattern: '/client/account-management/profile'
@@ -617,6 +629,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/authentication/controllers/logout.controller').default['handle']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/authentication/controllers/logout.controller').default['handle']>>>
+    }
+  }
+  'client.account_management.onboarding.activate': {
+    methods: ["POST"]
+    pattern: '/client/account-management/onboarding/activate'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/account_management/onboarding/controllers/activate.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/account_management/onboarding/controllers/activate.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/account_management/onboarding/controllers/activate.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/onboarding/controllers/activate.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.account_management.password.forgot': {

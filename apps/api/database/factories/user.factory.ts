@@ -1,4 +1,5 @@
 import factory from "@adonisjs/lucid/factories";
+import { DateTime } from "luxon";
 
 import User from "#models/user";
 
@@ -16,6 +17,13 @@ export const UserFactory = factory
 			password: faker.internet.password(),
 			firstName,
 			lastName,
+			activatedAt: faker.helpers.maybe(() => DateTime.fromJSDate(faker.date.past())),
 		};
+	})
+	.state("active", (user) => {
+		user.activatedAt = DateTime.now();
+	})
+	.state("unactive", (user) => {
+		user.activatedAt = null;
 	})
 	.build();
