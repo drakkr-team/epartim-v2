@@ -5,6 +5,7 @@ import vine from "@vinejs/vine";
 import CreateAdminPolicy from "#features/admin/admins/policies/create.policy";
 import DeleteAdminPolicy from "#features/admin/admins/policies/delete.policy";
 import ListAdminsPolicy from "#features/admin/admins/policies/list.policy";
+import ResendAdminOnboardingPolicy from "#features/admin/admins/policies/resend_onboarding.policy";
 import UpdateAdminPolicy from "#features/admin/admins/policies/update.policy";
 import ListAdminsService from "#features/admin/admins/services/list.service";
 import AdminPresenter from "#presenters/admin.presenter";
@@ -29,21 +30,39 @@ export default class ListAdminsController {
 			orderBy,
 		} = await request.validateUsing(ListAdminsController.querySchema);
 
-		const admins = await this.listAdminsService.handle({ q, orderBy }).paginate(page, perPage);
+		const adminsPromise = this.listAdminsService.handle({ q, orderBy }).paginate(page, perPage);
+		const canCreatePromise = bouncer.with(CreateAdminPolicy).allows("handle");
+
+		const [admins, canCreate] = await Promise.all([adminsPromise, canCreatePromise]);
 
 		return {
 			meta: {
 				...this.paginationPresenter.toJSON(admins),
-				canCreate: await bouncer.with(CreateAdminPolicy).allows("handle"),
+				canCreate,
 			},
 			data: await Promise.all(
-				admins.all().map(async (admin) => ({
-					...this.adminPresenter.toJSON(admin),
-					meta: {
-						canUpdate: await bouncer.with(UpdateAdminPolicy).allows("handle"),
-						canDelete: await bouncer.with(DeleteAdminPolicy).allows("handle", admin.id),
-					},
-				})),
+				admins.all().map(async (admin) => {
+					const canUpdatePromise = bouncer.with(UpdateAdminPolicy).allows("handle");
+					const canDeletePromise = bouncer.with(DeleteAdminPolicy).allows("handle", admin.id);
+					const canResendOnboardingPromise = bouncer
+						.with(ResendAdminOnboardingPolicy)
+						.allows("handle", admin);
+
+					const [canUpdate, canDelete, canResendOnboarding] = await Promise.all([
+						canUpdatePromise,
+						canDeletePromise,
+						canResendOnboardingPromise,
+					]);
+
+					return {
+						...this.adminPresenter.toJSON(admin),
+						meta: {
+							canUpdate,
+							canDelete,
+							canResendOnboarding,
+						},
+					};
+				}),
 			),
 		};
 	}
