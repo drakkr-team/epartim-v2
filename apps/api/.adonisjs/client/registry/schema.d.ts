@@ -19,6 +19,18 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'admin.account_management.onboarding.activate': {
+    methods: ["POST"]
+    pattern: '/admin/account_management/onboarding/activate'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default)['payloadSchema']>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/account_management/onboarding/controllers/activate.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.account_management.profile.view': {
     methods: ["GET","HEAD"]
     pattern: '/admin/account-management/profile'
@@ -89,6 +101,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/admins/controllers/delete.controller').default['handle']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admins/controllers/delete.controller').default['handle']>>>
+    }
+  }
+  'admin.admins.resend_onboarding': {
+    methods: ["POST"]
+    pattern: '/admin/admins/:adminId/resend-onboarding'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { adminId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/admins/controllers/resend_onboarding.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admins/controllers/resend_onboarding.controller').default['handle']>>>
     }
   }
   'admin.firms.list': {

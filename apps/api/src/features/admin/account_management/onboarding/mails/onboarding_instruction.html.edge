@@ -1,0 +1,36 @@
+@layout.email()
+    @slot("header")
+        <mj-text font-size="32px" font-family="{{ fonts.serif }}" align="center" color="{{ colors.primary[11]["light"] }}" padding="0">
+            Bienvenue dans l'espace administrateur
+        </mj-text>
+    @end
+
+    @slot("content")
+        <mj-text font-size="14px" font-family="{{ fonts.sans }}" color="{{ colors.neutral[12]["light"] }}" line-height="1.5">
+            Bonjour <strong>{{ admin.name }}</strong>,
+        </mj-text>
+
+        <mj-text font-size="14px" font-family="{{ fonts.sans }}" color="{{ colors.neutral[12]["light"] }}" line-height="1.5">
+            Votre compte administrateur a été créé. Définissez votre mot de passe pour l'activer.
+        </mj-text>
+
+        <mj-spacer />
+
+        @!component("components/email/button", {
+            url: onboardingUrl,
+            text: 'Activer mon compte'
+        })
+
+        <mj-spacer />
+
+        <mj-text font-size="14px" font-family="{{ fonts.sans }}" color="{{ colors.neutral[12]["light"] }}" line-height="1.5">
+            Si le bouton ne fonctionne pas, copiez-collez ce lien dans votre navigateur : <a href="{{ onboardingUrl }}" style="color: {{ colors.primary[9]["light"] }};">{{ onboardingUrl }}</a>
+        </mj-text>
+    @end
+
+    @slot("footer")
+        <mj-text font-size="12px" font-family="{{ fonts.sans }}" color="{{ colors.neutral[11]["light"] }}" line-height="1.5">
+            Ce lien est valable pendant <strong>7 jours</strong>.
+        </mj-text>
+    @end
+@end
