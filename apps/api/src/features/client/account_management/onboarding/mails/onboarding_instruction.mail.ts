@@ -8,7 +8,7 @@ type UserOnboardingInstructionMailParams = {
 };
 
 export default class UserOnboardingInstructionMail extends BaseMail {
-	subject = "Vous avez été invité à rejoindre ePartim";
+	subject = "Vous avez été invité à rejoindre Epartim";
 
 	constructor(private params: UserOnboardingInstructionMailParams) {
 		super();

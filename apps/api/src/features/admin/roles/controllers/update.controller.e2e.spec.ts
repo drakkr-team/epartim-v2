@@ -14,7 +14,7 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 		const role = await RoleFactory.merge({ name: "Update Role", authorizations: [] }).create();
 
 		const response = await client
-			.put(`/admin/roles/${role.id}`)
+			.visit("admin.roles.update", { roleId: role.id })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({ authorizations: ["create:network"] });
@@ -36,7 +36,7 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 		const role = await RoleFactory.create();
 
 		const response = await client
-			.put(`/admin/roles/${role.id}`)
+			.visit("admin.roles.update", { roleId: role.id })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({ name: "Forbidden update" });
@@ -57,7 +57,7 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 		}).create();
 
 		const response = await client
-			.put(`/admin/roles/${role.id}`)
+			.visit("admin.roles.update", { roleId: role.id })
 			.withGuard("admin")
 			.loginAs(admin)
 			.json({ name: "Updated super administrator" });
@@ -75,10 +75,10 @@ test.group("Features / Admin / Roles / Controllers / Update Controller", () => {
 		const role = await RoleFactory.create();
 
 		const response = await client
-			.put(`/admin/roles/${role.id}`)
+			.visit("admin.roles.update", { roleId: role.id })
 			.withGuard("admin")
 			.loginAs(admin)
-			.json({ authorizations: ["role:read"] });
+			.unsafeJson({ authorizations: ["role:read"] });
 
 		response.assertStatus(422);
 	});

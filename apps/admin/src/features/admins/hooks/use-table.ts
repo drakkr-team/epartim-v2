@@ -121,7 +121,7 @@ export function useAdminsTable(params: UseAdminsTableParams) {
 				}),
 			});
 		},
-		pageCount: pagination.total,
+		pageCount: pagination.lastPage,
 		initialState: {
 			globalFilter: q,
 		},

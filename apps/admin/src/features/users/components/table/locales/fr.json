@@ -1,0 +1,8 @@
+{
+	"features.users.components.table.action-cell": {
+		"show": "Consulter",
+		"resendOnboarding": "Renvoyer l'invitation",
+		"edit": "Modifier",
+		"delete": "Supprimer"
+	}
+}

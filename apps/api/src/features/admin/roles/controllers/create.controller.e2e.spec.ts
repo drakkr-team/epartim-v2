@@ -55,10 +55,10 @@ test.group("Features / Admin / Roles / Controllers / Create Controller", () => {
 		await Role.create({ name: "Duplicate Role", authorizations: [] });
 
 		const invalidAuthorization = await client
-			.post("/admin/roles")
+			.visit("admin.roles.create")
 			.withGuard("admin")
 			.loginAs(admin)
-			.json({ name: "Operations", authorizations: ["role:read"] });
+			.unsafeJson({ name: "Operations", authorizations: ["role:read"] });
 		invalidAuthorization.assertStatus(422);
 
 		const duplicateName = await client

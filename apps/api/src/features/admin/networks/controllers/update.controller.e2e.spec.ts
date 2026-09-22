@@ -85,10 +85,10 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		const network = await createUpdateFixture("Same Unique Network", "AMUNDI-SAME");
 
 		const response = await client
-			.put(`/admin/networks/${network.id}`)
+			.visit("admin.networks.update", { networkId: network.id })
 			.withGuard("admin")
 			.loginAs(admin)
-			.json({
+			.unsafeJson({
 				amundiOrgId: null,
 				goCode: null,
 			});

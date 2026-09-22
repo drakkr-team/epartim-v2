@@ -8,7 +8,7 @@ router
 		router.get("/", [controllers.features.admin.users.List]);
 		router.post("/", [controllers.features.admin.users.Create]);
 		router.get("/:userId", [controllers.features.admin.users.View]);
-		router.patch("/:userId", [controllers.features.admin.users.Update]);
+		router.put("/:userId", [controllers.features.admin.users.Update]);
 		router.delete("/:userId", [controllers.features.admin.users.Delete]);
 
 		router.post("/:userId/resend-onboarding", [controllers.features.admin.users.ResendOnboarding]);

@@ -5,6 +5,7 @@ import vine from "@vinejs/vine";
 import CreateUserPolicy from "#features/admin/users/policies/create.policy";
 import DeleteUserPolicy from "#features/admin/users/policies/delete.policy";
 import ListUsersPolicy from "#features/admin/users/policies/list.policy";
+import ResendUserOnboardingPolicy from "#features/admin/users/policies/resend_onboarding.policy";
 import UpdateUserPolicy from "#features/admin/users/policies/update.policy";
 import ListUsersService from "#features/admin/users/services/list.service";
 import PaginationPresenter from "#presenters/pagination.presenter";
@@ -41,6 +42,9 @@ export default class ListUsersController {
 					meta: {
 						canUpdate: await bouncer.with(UpdateUserPolicy).allows("handle"),
 						canDelete: await bouncer.with(DeleteUserPolicy).allows("handle", user.id),
+						canResendOnboarding: await bouncer
+							.with(ResendUserOnboardingPolicy)
+							.allows("handle", user),
 					},
 				})),
 			),

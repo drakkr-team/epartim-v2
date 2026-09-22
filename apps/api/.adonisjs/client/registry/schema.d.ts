@@ -320,7 +320,7 @@ export interface Registry {
     }
   }
   'admin.users.update': {
-    methods: ["PATCH"]
+    methods: ["PUT"]
     pattern: '/admin/users/:userId'
     types: {
       body: ExtractBody<InferInput<(typeof import('#src/features/admin/users/controllers/update.controller').default)['payloadSchema']>>

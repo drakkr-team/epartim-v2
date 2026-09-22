@@ -16,7 +16,7 @@ test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 		const firm = await FirmFactory.with("address").with("paymentDetail").create();
 
 		const response = await client
-			.delete(`/admin/firms/${firm.id}`)
+			.visit("admin.firms.delete", { firmId: firm.id })
 			.withGuard("admin")
 			.loginAs(admin);
 
@@ -34,7 +34,7 @@ test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 		await role.save();
 
 		const response = await client
-			.delete("/admin/firms/999999999")
+			.visit("admin.firms.delete", { firmId: 999_999_999 })
 			.withGuard("admin")
 			.loginAs(admin);
 
@@ -42,7 +42,7 @@ test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 	});
 
 	test("it should reject unauthenticated requests", async ({ client }) => {
-		const response = await client.delete("/admin/firms/1");
+		const response = await client.visit("admin.firms.delete", { firmId: 1 });
 
 		response.assertUnauthorized();
 		response.assertBodyContains({

@@ -155,15 +155,19 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 	test("it should reject invalid pagination parameters", async ({ client }) => {
 		const admin = await AdminFactory.with("role").create();
 
-		for (const url of ["/admin/firms?page=0", "/admin/firms?perPage=1.5"]) {
-			const response = await client.get(url).withGuard("admin").loginAs(admin);
+		for (const query of [{ page: 0 }, { perPage: 1.5 }]) {
+			const response = await client
+				.visit("admin.firms.list")
+				.withGuard("admin")
+				.loginAs(admin)
+				.qs(query);
 
 			response.assertStatus(422);
 		}
 	});
 
 	test("it should reject unauthenticated requests", async ({ client }) => {
-		const response = await client.get("/admin/firms");
+		const response = await client.visit("admin.firms.list");
 
 		response.assertUnauthorized();
 		response.assertBodyContains({

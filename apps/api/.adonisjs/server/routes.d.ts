@@ -120,6 +120,7 @@ export type ScannedRoutes = {
     'admin.firms.update': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
     'admin.networks.update': { paramsTuple: [ParamValue]; params: {'networkId': ParamValue} }
     'admin.roles.update': { paramsTuple: [ParamValue]; params: {'roleId': ParamValue} }
+    'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.subscriptions.update_legal_identification': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_address_and_bank_details': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
@@ -140,9 +141,6 @@ export type ScannedRoutes = {
     'client.subscriptions.delete_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }
     'admin.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
     'client.account_management.authentication.logout': { paramsTuple?: []; params?: {} }
-  }
-  PATCH: {
-    'admin.users.update': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

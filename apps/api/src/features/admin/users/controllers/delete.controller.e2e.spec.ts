@@ -30,7 +30,7 @@ test.group("Features / Admin / Users / Controllers / Delete Controller", () => {
 
 		for (const id of ["999999", "0", "-1"]) {
 			const response = await client
-				.delete(`/admin/users/${id}`)
+				.visit("admin.users.delete", { userId: id })
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin);
 

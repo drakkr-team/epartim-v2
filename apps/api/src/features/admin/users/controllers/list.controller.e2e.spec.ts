@@ -65,6 +65,42 @@ test.group("Features / Admin / Users / Controllers / List Controller", () => {
 		);
 	});
 
+	test("it should return onboarding authorization metadata for every user", async ({
+		client,
+		assert,
+	}) => {
+		const authenticatedAdmin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(authenticatedAdmin.roleId);
+		role.authorizations = ["create:user"];
+		await role.save();
+		const inactiveUser = await UserFactory.apply("unactive")
+			.merge({ firstName: "OnboardingMetadataInactive" })
+			.create();
+		const activeUser = await UserFactory.apply("active")
+			.merge({ firstName: "OnboardingMetadataActive" })
+			.create();
+
+		const response = await client
+			.visit("admin.users.list")
+			.withGuard("admin")
+			.loginAs(authenticatedAdmin)
+			.qs({ q: "OnboardingMetadata" });
+
+		response.assertOk();
+
+		const onboardingMetadata = new Map(
+			response
+				.body()
+				.data.map((user: { id: number; meta: { canResendOnboarding: boolean } }) => [
+					user.id,
+					user.meta.canResendOnboarding,
+				]),
+		);
+
+		assert.strictEqual(onboardingMetadata.get(inactiveUser.id), true);
+		assert.strictEqual(onboardingMetadata.get(activeUser.id), false);
+	});
+
 	test("it should support sorting and stabilize equal values using the identifier", async ({
 		client,
 		assert,
@@ -97,11 +133,12 @@ test.group("Features / Admin / Users / Controllers / List Controller", () => {
 	test("it should reject invalid pagination parameters", async ({ client }) => {
 		const authenticatedAdmin = await AdminFactory.with("role").create();
 
-		for (const query of ["page=0", "perPage=0", "perPage=1.5"]) {
+		for (const query of [{ page: 0 }, { perPage: 0 }, { perPage: 1.5 }]) {
 			const response = await client
-				.get(`/admin/users?${query}`)
+				.visit("admin.users.list")
 				.withGuard("admin")
-				.loginAs(authenticatedAdmin);
+				.loginAs(authenticatedAdmin)
+				.qs(query);
 
 			response.assertStatus(422);
 		}
