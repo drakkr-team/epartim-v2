@@ -25,10 +25,9 @@ export function RoleCombobox(props: RoleComboboxProps) {
 			{ query: { q: search } },
 			{
 				initialPageParam: 1,
-				getNextPageParam: (lastPage) => {
-					const { currentPage, total, perPage } = lastPage.meta;
-					const pageCount = Math.ceil(total / perPage);
-					return currentPage < pageCount ? currentPage + 1 : undefined;
+				getNextPageParam: (page) => {
+					const { currentPage, lastPage } = page.meta;
+					return currentPage < lastPage ? lastPage + 1 : undefined;
 				},
 				select: (data) => {
 					return data.pages.flatMap((page) => page.data);

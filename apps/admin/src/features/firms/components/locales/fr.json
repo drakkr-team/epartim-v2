@@ -50,5 +50,11 @@
 			"cancel": "Annuler",
 			"confirm": "Supprimer définitivement"
 		}
+	},
+
+	"features.firms.components.combobox": {
+		"placeholder": "Sélectionner un cabinet",
+		"search": "Rechercher un cabinet...",
+		"empty": "Aucun cabinet trouvé"
 	}
 }
