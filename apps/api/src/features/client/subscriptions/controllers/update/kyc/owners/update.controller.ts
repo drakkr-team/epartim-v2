@@ -3,7 +3,7 @@ import type { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
-import KycOwnersService from "#features/client/subscriptions/services/update/kyc_owners.service";
+import KycOwnersService from "#features/client/subscriptions/services/update/kyc/owners.service";
 import Subscription from "#models/subscription";
 import CompanyBeneficialOwnerPresenter from "#presenters/company_beneficial_owner.presenter";
 import { UpdateKycOwnerSchema } from "#validators/subscription/kyc_owner.validator";

@@ -3,7 +3,7 @@ import type { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
-import UpdateKycProfileService from "#features/client/subscriptions/services/update/kyc_profile.service";
+import UpdateKycProfileService from "#features/client/subscriptions/services/update/kyc/profile.service";
 import Subscription from "#models/subscription";
 import CompanyKycProfilePresenter from "#presenters/company_kyc_profile.presenter";
 import { UpdateKycProfileSchema } from "#validators/subscription/kyc_profile.validator";
