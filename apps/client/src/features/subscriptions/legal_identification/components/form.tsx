@@ -143,7 +143,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: legalIdentificationSchema.shape.vatNumber,
 						}}
 					>
-					{(field) => <field.TextField label={t("field.vatNumber.label")} />}
+						{(field) => <field.TextField label={t("field.vatNumber.label")} />}
 					</form.AppField>
 
 					<form.AppField
