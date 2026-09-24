@@ -1,12 +1,15 @@
 import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
+import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
 import CompanyKycProfile, { CompanyKycGeography } from "#models/company_kyc_profile";
+import File from "#models/file";
 import Subscription from "#models/subscription";
+import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 import { UpdateKycProfileSchema } from "#validators/subscription/kyc_profile.validator";
 
 export type UpdateKycProfilePayload = Infer<typeof UpdateKycProfileSchema>;
@@ -16,7 +19,8 @@ export default class UpdateKycProfileService {
 	constructor(protected validateSubscriptionStepService: ValidateSubscriptionStepService) {}
 
 	async handle(subscription: Subscription, payload: UpdateKycProfilePayload) {
-		return db.transaction(async (trx) => {
+		let obsoleteFiles: File[] = [];
+		const profile = await db.transaction(async (trx) => {
 			const company = await Company.findByOrFail("subscriptionId", subscription.id, {
 				client: trx,
 			});
@@ -49,6 +53,9 @@ export default class UpdateKycProfileService {
 			});
 			this.#clearInactiveValues(profile);
 			await profile.useTransaction(trx).save();
+			if (!profile.bicId) {
+				obsoleteFiles = await this.#deleteBicDocuments(subscription.id, trx);
+			}
 			await this.validateSubscriptionStepService.invalidate(
 				subscription,
 				trx,
@@ -57,6 +64,20 @@ export default class UpdateKycProfileService {
 
 			return profile;
 		});
+		await Promise.all(obsoleteFiles.map((file) => file.delete()));
+
+		return profile;
+	}
+
+	async #deleteBicDocuments(subscriptionId: number, trx: TransactionClientContract) {
+		const documents = await SubscriptionDocument.query({ client: trx })
+			.where("subscriptionId", subscriptionId)
+			.where("type", SubscriptionDocumentType.BIC_IDENTIFICATION_CODE)
+			.whereNull("companyBeneficialOwnerId")
+			.preload("file");
+		await Promise.all(documents.map((document) => document.useTransaction(trx).delete()));
+
+		return documents.map((document) => document.file);
 	}
 
 	#clearInactiveValues(profile: CompanyKycProfile) {

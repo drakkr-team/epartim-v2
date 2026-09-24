@@ -455,12 +455,12 @@ export interface Registry {
     methods: ["DELETE"]
     pattern: '/client/subscriptions/:subscriptionId/documents/:documentType'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/documents/delete.controller').default)['payloadSchema']>>
       paramsTuple: [ParamValue, ParamValue]
       params: { subscriptionId: ParamValue; documentType: ParamValue }
-      query: {}
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/documents/delete.controller').default)['payloadSchema']>>
       response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/delete.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/documents/delete.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.subscriptions.update_legal_identification': {
@@ -539,12 +539,12 @@ export interface Registry {
     methods: ["PUT"]
     pattern: '/client/subscriptions/:subscriptionId/kyc-profile'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc_profile.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc/profile.controller').default)['payloadSchema']>>
       paramsTuple: [ParamValue]
       params: { subscriptionId: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc_profile.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_profile.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_profile.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc/profile.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/profile.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/profile.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.subscriptions.create_kyc_owner': {
@@ -555,20 +555,20 @@ export interface Registry {
       paramsTuple: [ParamValue]
       params: { subscriptionId: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_create.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_create.controller').default['handle']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/owners/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/owners/create.controller').default['handle']>>>
     }
   }
   'client.subscriptions.update_kyc_owner': {
     methods: ["PUT"]
     pattern: '/client/subscriptions/:subscriptionId/kyc-owners/:ownerId'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc/owners/update.controller').default)['payloadSchema']>>
       paramsTuple: [ParamValue, ParamValue]
       params: { subscriptionId: ParamValue; ownerId: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/kyc/owners/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/owners/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/owners/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.subscriptions.delete_kyc_owner': {
@@ -579,8 +579,8 @@ export interface Registry {
       paramsTuple: [ParamValue, ParamValue]
       params: { subscriptionId: ParamValue; ownerId: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_delete.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc_owner_delete.controller').default['handle']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/owners/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/owners/delete.controller').default['handle']>>>
     }
   }
   'admin.account_management.authentication.login': {

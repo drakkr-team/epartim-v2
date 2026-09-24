@@ -61,8 +61,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 				vatNumber: z
 					.string()
 					.trim()
-					.min(1, t("validation.required"))
-					.regex(/^FR\d{2}\d{9}$/, t("validation.vatNumber")),
+					.regex(/^(?:FR\d{2}\d{9})?$/, t("validation.vatNumber")),
 				financialYearClosingDay: z
 					.string()
 					.trim()
@@ -144,7 +143,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: legalIdentificationSchema.shape.vatNumber,
 						}}
 					>
-						{(field) => <field.TextField label={t("field.vatNumber.label")} required />}
+						{(field) => <field.TextField label={t("field.vatNumber.label")} />}
 					</form.AppField>
 
 					<form.AppField

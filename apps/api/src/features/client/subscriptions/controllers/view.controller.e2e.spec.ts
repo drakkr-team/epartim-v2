@@ -7,6 +7,10 @@ import { PaymentDetailFactory } from "#database/factories/payment_detail.factory
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import { CompanyLegalForm } from "#models/company";
+import CompanyBeneficialOwner, {
+	CompanyBeneficialOwnerKind,
+} from "#models/company_beneficial_owner";
+import CompanyKycProfile from "#models/company_kyc_profile";
 import { ContactKind } from "#models/contact";
 import File from "#models/file";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
@@ -111,6 +115,73 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 			],
 		);
 		assert.include(response.body().documents[2].label, "Extrait RNE");
+	});
+
+	test("it should return the KYC documents required by the BIC and each owner", async ({
+		client,
+		assert,
+	}) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		const company = await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		const [physicalAddress, legalAddress] = await Promise.all([
+			AddressFactory.create(),
+			AddressFactory.create(),
+		]);
+		const [physicalOwner, legalOwner] = await Promise.all([
+			CompanyBeneficialOwner.create({
+				addressId: physicalAddress.id,
+				companyId: company.id,
+				firstName: "Jeanne",
+				kind: CompanyBeneficialOwnerKind.PHYSICAL_PERSON,
+				lastName: "Dupont",
+			}),
+			CompanyBeneficialOwner.create({
+				addressId: legalAddress.id,
+				companyId: company.id,
+				kind: CompanyBeneficialOwnerKind.LEGAL_ENTITY,
+				legalName: "Société Détentrice",
+			}),
+		]);
+		await CompanyKycProfile.create({ bicId: true, companyId: company.id });
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		assert.deepEqual(
+			response
+				.body()
+				.kycDocuments.map((document: { ownerId: number | null; type: number }) => ({
+					ownerId: document.ownerId,
+					type: document.type,
+				}))
+				.sort((first: { type: number }, second: { type: number }) => first.type - second.type),
+			[
+				{ ownerId: null, type: SubscriptionDocumentType.BIC_IDENTIFICATION_CODE },
+				{ ownerId: physicalOwner.id, type: SubscriptionDocumentType.BENEFICIAL_OWNER_ID },
+				{ ownerId: legalOwner.id, type: SubscriptionDocumentType.BENEFICIAL_OWNER_RNE },
+			],
+		);
+		const physicalDocument = response
+			.body()
+			.kycDocuments.find(
+				(document: { type: number }) =>
+					document.type === SubscriptionDocumentType.BENEFICIAL_OWNER_ID,
+			);
+		const legalDocument = response
+			.body()
+			.kycDocuments.find(
+				(document: { type: number }) =>
+					document.type === SubscriptionDocumentType.BENEFICIAL_OWNER_RNE,
+			);
+		if (!physicalDocument || !legalDocument) {
+			throw new Error("Expected the documents required for both KYC owners");
+		}
+		assert.include(physicalDocument.label, "Jeanne Dupont");
+		assert.include(legalDocument.label, "moins de trois mois");
 	});
 
 	test("it should return a download URL for an attached document", async ({ client, assert }) => {

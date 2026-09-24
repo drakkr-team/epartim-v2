@@ -55,22 +55,22 @@ router
 			.as("update_authorizations");
 		router
 			.put("/:subscriptionId/kyc-profile", [
-				controllers.features.client.subscriptions.update.KycProfile,
+				controllers.features.client.subscriptions.update.kyc.Profile,
 			])
 			.as("update_kyc_profile");
 		router
 			.post("/:subscriptionId/kyc-owners", [
-				controllers.features.client.subscriptions.update.KycOwnerCreate,
+				controllers.features.client.subscriptions.update.kyc.owners.Create,
 			])
 			.as("create_kyc_owner");
 		router
 			.put("/:subscriptionId/kyc-owners/:ownerId", [
-				controllers.features.client.subscriptions.update.KycOwnerUpdate,
+				controllers.features.client.subscriptions.update.kyc.owners.Update,
 			])
 			.as("update_kyc_owner");
 		router
 			.delete("/:subscriptionId/kyc-owners/:ownerId", [
-				controllers.features.client.subscriptions.update.KycOwnerDelete,
+				controllers.features.client.subscriptions.update.kyc.owners.Delete,
 			])
 			.as("delete_kyc_owner");
 	})

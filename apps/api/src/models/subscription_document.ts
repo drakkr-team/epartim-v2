@@ -2,6 +2,7 @@ import { belongsTo } from "@adonisjs/lucid/orm";
 import type { BelongsTo } from "@adonisjs/lucid/types/relations";
 
 import { SubscriptionDocumentSchema } from "#database/schema";
+import CompanyBeneficialOwner from "#models/company_beneficial_owner";
 import File from "#models/file";
 import Subscription from "#models/subscription";
 
@@ -14,6 +15,9 @@ export const SubscriptionDocumentType = {
 	LEGAL_AGENT_KBIS: 6,
 	SIGNER_ID: 7,
 	SIGNER_POWER: 8,
+	BIC_IDENTIFICATION_CODE: 9,
+	BENEFICIAL_OWNER_ID: 10,
+	BENEFICIAL_OWNER_RNE: 11,
 } as const;
 
 export type SubscriptionDocumentType =
@@ -31,6 +35,9 @@ export function isSubscriptionDocumentType(value: unknown): value is Subscriptio
 export default class SubscriptionDocument extends SubscriptionDocumentSchema {
 	@belongsTo(() => Subscription)
 	declare subscription: BelongsTo<typeof Subscription>;
+
+	@belongsTo(() => CompanyBeneficialOwner)
+	declare companyBeneficialOwner: BelongsTo<typeof CompanyBeneficialOwner>;
 
 	@belongsTo(() => File)
 	declare file: BelongsTo<typeof File>;

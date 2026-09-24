@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Set SUBSCRIPTION_ID in your private Yaak environment. Replace 1 with the numeric document type to remove (1 is a RIB).
+description: Set SUBSCRIPTION_ID in your private Yaak environment. Replace 1 with the numeric document type to remove (1 is a RIB). Enable ownerId for a document belonging to a KYC owner.
 headers:
 - enabled: true
   name: Accept
@@ -19,7 +19,11 @@ method: DELETE
 name: Delete subscription document
 sortPriority: 5100.0
 url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/documents/1
-urlParameters: []
+urlParameters:
+- enabled: false
+  name: ownerId
+  value: ${[ KYC_OWNER_ID ]}
+  id: null
 settingSendCookies:
   enabled: false
   value: true

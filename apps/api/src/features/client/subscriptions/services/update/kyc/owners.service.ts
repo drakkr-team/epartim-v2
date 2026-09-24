@@ -12,7 +12,9 @@ import CompanyBeneficialOwner, {
 	CompanyBeneficialOwnerKind,
 } from "#models/company_beneficial_owner";
 import CompanyBeneficialOwnerRole from "#models/company_beneficial_owner_role";
+import File from "#models/file";
 import Subscription from "#models/subscription";
+import SubscriptionDocument from "#models/subscription_document";
 import { UpdateKycOwnerSchema } from "#validators/subscription/kyc_owner.validator";
 
 export type UpdateKycOwnerPayload = Infer<typeof UpdateKycOwnerSchema>;
@@ -49,9 +51,11 @@ export default class KycOwnersService {
 	}
 
 	async update(subscription: Subscription, ownerId: number, payload: UpdateKycOwnerPayload) {
-		return db.transaction(async (trx) => {
+		let obsoleteFiles: File[] = [];
+		const owner = await db.transaction(async (trx) => {
 			const owner = await this.#findOwner(subscription.id, ownerId, trx);
 			const { address, roles, ...ownerChanges } = payload.owner;
+			const hasChangedKind = ownerChanges.kind !== undefined && ownerChanges.kind !== owner.kind;
 			const { birthDate, shareholdingPercentage, ...ownerFields } = ownerChanges;
 			owner.merge({
 				...ownerFields,
@@ -70,6 +74,9 @@ export default class KycOwnersService {
 
 			if (address) await this.#updateAddress(owner, address, trx);
 			if (roles !== undefined && roles !== null) await this.#replaceRoles(owner, roles, trx);
+			if (hasChangedKind) {
+				obsoleteFiles = await this.#deleteOwnerDocuments(owner.id, trx);
+			}
 			await this.validateSubscriptionStepService.invalidate(
 				subscription,
 				trx,
@@ -78,12 +85,17 @@ export default class KycOwnersService {
 
 			return owner;
 		});
+		await Promise.all(obsoleteFiles.map((file) => file.delete()));
+
+		return owner;
 	}
 
 	async delete(subscription: Subscription, ownerId: number) {
-		return db.transaction(async (trx) => {
+		let obsoleteFiles: File[] = [];
+		await db.transaction(async (trx) => {
 			const owner = await this.#findOwner(subscription.id, ownerId, trx);
 			const addressId = owner.addressId;
+			obsoleteFiles = await this.#deleteOwnerDocuments(owner.id, trx);
 			await owner.useTransaction(trx).delete();
 			await Address.query({ client: trx }).where("id", addressId).delete();
 			await this.validateSubscriptionStepService.invalidate(
@@ -92,6 +104,7 @@ export default class KycOwnersService {
 				SubscriptionStep.KYC,
 			);
 		});
+		await Promise.all(obsoleteFiles.map((file) => file.delete()));
 	}
 
 	async #findOwner(subscriptionId: number, ownerId: number, trx: TransactionClientContract) {
@@ -123,6 +136,15 @@ export default class KycOwnersService {
 			roles.map((role) => ({ companyBeneficialOwnerId: owner.id, role })),
 			{ client: trx },
 		);
+	}
+
+	async #deleteOwnerDocuments(ownerId: number, trx: TransactionClientContract) {
+		const documents = await SubscriptionDocument.query({ client: trx })
+			.where("companyBeneficialOwnerId", ownerId)
+			.preload("file");
+		await Promise.all(documents.map((document) => document.useTransaction(trx).delete()));
+
+		return documents.map((document) => document.file);
 	}
 
 	#clearIncompatibleValues(owner: CompanyBeneficialOwner) {

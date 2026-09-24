@@ -60,6 +60,11 @@
 			"add": "Ajouter un détenteur de l’entreprise",
 			"remove": "Supprimer ce détenteur",
 			"item": "Détenteur {{index}}"
+		},
+		"documents": {
+			"eyebrow": "III. Documents requis",
+			"title": "Documents requis",
+			"description": "Joignez les pièces demandées selon le code BIC et la nature de chaque détenteur. Les extraits RNE ou équivalents Kbis doivent dater de moins de trois mois."
 		}
 	},
 	"features.subscriptions.kyc.hooks.use-mutation": {

@@ -2,7 +2,7 @@ import { inject } from "@adonisjs/core";
 import type { HttpContext } from "@adonisjs/core/http";
 
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
-import KycOwnersService from "#features/client/subscriptions/services/update/kyc_owners.service";
+import KycOwnersService from "#features/client/subscriptions/services/update/kyc/owners.service";
 import Subscription from "#models/subscription";
 
 @inject()

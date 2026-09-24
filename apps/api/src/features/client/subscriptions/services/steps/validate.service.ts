@@ -15,7 +15,10 @@ export default class ValidateSubscriptionStepService {
 		return db.transaction(async (trx) => {
 			const lockedSubscription = await this.#findForUpdate(subscription.id, trx);
 			if (step === SubscriptionStep.COMPANY_REFERENCES) {
-				await this.#validateCompanyReferences(lockedSubscription, trx);
+				await this.#validateDocuments(lockedSubscription, trx, step);
+			}
+			if (step === SubscriptionStep.KYC) {
+				await this.#validateDocuments(lockedSubscription, trx, step);
 			}
 
 			const completedSteps = this.#normalizeCompletedSteps(lockedSubscription.completedSteps, step);
@@ -42,14 +45,18 @@ export default class ValidateSubscriptionStepService {
 			.save();
 	}
 
-	async #validateCompanyReferences(subscription: Subscription, trx: TransactionClientContract) {
-		const requirements = await this.documentRequirementsService.handle(subscription, { trx });
+	async #validateDocuments(
+		subscription: Subscription,
+		trx: TransactionClientContract,
+		step: SubscriptionStep,
+	) {
+		const requirements = await this.documentRequirementsService.handle(subscription, { step, trx });
 		const errors = requirements.flatMap((requirement) =>
 			requirement.document
 				? []
 				: [
 						{
-							field: `documents.${requirement.type}`,
+							field: `documents.${requirement.type}.${requirement.ownerId ?? "subscription"}`,
 							message: "Ce document est obligatoire.",
 							rule: "required",
 						},
