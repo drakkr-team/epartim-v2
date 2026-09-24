@@ -20,12 +20,10 @@ export default class UpdateKycOwnerController {
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
 		const payload = await request.validateUsing(UpdateKycOwnerController.payloadSchema);
 		const owner = await this.kycOwnersService.update(subscription, Number(params.ownerId), payload);
-		const [address, roles] = await Promise.all([
-			owner.related("address").query().firstOrFail(),
-			owner.related("roles").query(),
-		]);
+		await owner.load("address");
+		await owner.load("roles");
 
-		return this.companyBeneficialOwnerPresenter.toJSON(owner, address, roles);
+		return this.companyBeneficialOwnerPresenter.toJSON(owner, owner.address, owner.roles);
 	}
 
 	static payloadSchema = vine.create(UpdateKycOwnerSchema);

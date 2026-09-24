@@ -1,7 +1,7 @@
 import vine from "@vinejs/vine";
 
+import { CompanyBeneficialOwnerRoleCode } from "#constants/company_beneficial_owner_role";
 import { CompanyBeneficialOwnerKind } from "#models/company_beneficial_owner";
-import { CompanyBeneficialOwnerRoleCode } from "#models/company_beneficial_owner_role";
 
 const OwnerKinds = Object.values(CompanyBeneficialOwnerKind);
 const OwnerRoles = Object.values(CompanyBeneficialOwnerRoleCode);
