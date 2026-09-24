@@ -1,4 +1,4 @@
-export const CompanyLegalForm = {
+export const COMPANY_LEGAL_FORMS = {
 	ASSOCIATION: 1,
 	EARL: 2,
 	GAEC: 3,
@@ -25,4 +25,4 @@ export const CompanyLegalForm = {
 	AUTRES: 24,
 } as const;
 
-export type CompanyLegalForm = (typeof CompanyLegalForm)[keyof typeof CompanyLegalForm];
+export type CompanyLegalForm = (typeof COMPANY_LEGAL_FORMS)[keyof typeof COMPANY_LEGAL_FORMS];

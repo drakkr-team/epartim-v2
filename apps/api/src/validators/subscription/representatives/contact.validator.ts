@@ -2,16 +2,16 @@ import vine from "@vinejs/vine";
 import { isPossiblePhoneNumber } from "libphonenumber-js/min";
 
 import {
-	ContactAuthorization,
-	ContactCivility,
-	ContactFunction,
-	ContactKind,
-} from "#models/contact";
+	CONTACT_AUTHORIZATIONS,
+	CONTACT_CIVILITIES,
+	CONTACT_FUNCTIONS,
+	CONTACT_KINDS,
+} from "#constants/contact";
 
-const ContactCivilities = Object.values(ContactCivility);
-const ContactFunctions = Object.values(ContactFunction);
-const ContactKinds = Object.values(ContactKind);
-const ContactAuthorizations = Object.values(ContactAuthorization);
+const ContactCivilities = Object.values(CONTACT_CIVILITIES);
+const ContactFunctions = Object.values(CONTACT_FUNCTIONS);
+const ContactKinds = Object.values(CONTACT_KINDS);
+const ContactAuthorizations = Object.values(CONTACT_AUTHORIZATIONS);
 
 const possiblePhoneNumber = vine.createRule(
 	(value, _, field) => {

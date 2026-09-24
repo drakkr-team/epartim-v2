@@ -1,0 +1,105 @@
+{
+	"features.companies.components.overview-card": {
+		"section": {
+			"general": "Informations générales",
+			"address": "Adresse",
+			"payment": "Coordonnées bancaires"
+		},
+
+		"field": {
+			"id": "Identifiant",
+			"name": "Nom",
+			"siren": "SIREN",
+			"siret": "SIRET",
+			"naf": "Code NAF",
+			"legalForm": "Forme juridique",
+			"companyHeadcount": "Effectif de l'entreprise",
+			"vatNumber": "Numéro de TVA",
+			"financialYearClosingDay": "Jour de clôture de l'exercice",
+			"createdAt": "Créé le",
+			"updatedAt": "Mis à jour le",
+			"address": {
+				"lineOne": "Adresse",
+				"lineTwo": "Complément d'adresse",
+				"city": "Ville",
+				"zip": "Code postal"
+			},
+			"paymentDetail": {
+				"iban": "IBAN",
+				"bic": "BIC"
+			}
+		},
+
+		"value": {
+			"empty": "Non renseigné",
+			"legalForm": {
+				"ASSOCIATION": "Association",
+				"EARL": "EARL",
+				"GAEC": "GAEC",
+				"GIE": "GIE",
+				"SA": "SA",
+				"SARL": "SARL",
+				"SAS": "SAS",
+				"SELARL": "SELARL",
+				"SOCIETE_ANONYME": "Société anonyme",
+				"SOCIETE_CIVILE": "Société civile",
+				"SPFPL": "SPFPL",
+				"SOCIETE_COOPERATIVE": "Société coopérative",
+				"SOCIETE_DE_DROIT_ETRANGER": "Société de droit étranger",
+				"SNC": "SNC",
+				"SCF": "SCF",
+				"ENTREPRISE_INDIVIDUELLE": "Entreprise individuelle",
+				"PROFESSION_LIBERALE": "Profession libérale",
+				"ENTREPRISE_ASSURANCES_OU_MUTUELLE_CODE_ASSURANCES": "Entreprise d'assurances ou mutuelle",
+				"SYNDICAT": "Syndicat",
+				"INSTITUTION_FINANCIERE_OU_BANCAIRE": "Institution financière ou bancaire",
+				"ORGANISME_PUBLIC": "Organisme public",
+				"ETABLISSEMENT_PUBLIC_LOCAL_EPIC": "Établissement public local (EPIC)",
+				"ETABLISSEMENTS_PUBLICS_LOCAUX_REGIE_PERSONNALISEE": "Établissement public local à régie personnalisée",
+				"AUTRES": "Autre"
+			}
+		}
+	},
+
+	"features.companies.components.legal-agent-card": {
+		"title": "Représentant légal",
+
+		"field": {
+			"id": "Identifiant",
+			"kind": "Nature",
+			"firstName": "Prénom",
+			"lastName": "Nom",
+			"email": "Email",
+			"phoneNumber": "Téléphone",
+			"civility": "Civilité",
+			"function": "Fonction"
+		},
+
+		"value": {
+			"empty": "Non renseigné",
+			"kind": {
+				"PERSONNE_PHYSIQUE": "Personne physique",
+				"PERSONNE_MORALE": "Personne morale"
+			},
+			"civility": {
+				"MONSIEUR": "Monsieur",
+				"MADAME": "Madame"
+			},
+			"fonction": {
+				"PDG": "PDG",
+				"GERANT": "Gérant",
+				"DG": "Directeur général",
+				"DF": "Directeur financier",
+				"DAF": "Directeur administratif et financier",
+				"RESPONSABLE_COMPTABLE": "Responsable comptable",
+				"DRH": "Directeur des ressources humaines",
+				"RH": "Ressources humaines",
+				"ASSISTANTE": "Assistant(e)",
+				"CORRESPONDANT_OPERATIONNEL_ES": "Correspondant opérationnel épargne salariale",
+				"PRESIDENT": "Président",
+				"REPRESENTANT_LEGAL": "Représentant légal",
+				"AUTRE": "Autre"
+			}
+		}
+	}
+}

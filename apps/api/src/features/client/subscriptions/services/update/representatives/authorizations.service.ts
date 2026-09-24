@@ -3,10 +3,11 @@ import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import { CONTACT_KINDS } from "#constants/contact";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
-import Contact, { ContactKind } from "#models/contact";
+import Contact from "#models/contact";
 import Subscription from "#models/subscription";
 import { UpdateAuthorizationsSchema } from "#validators/subscription/representatives/authorizations.validator";
 
@@ -72,7 +73,7 @@ export default class UpdateAuthorizationsService {
 	}
 
 	#applyRules(authorization: Contact) {
-		authorization.kind = ContactKind.PERSONNE_PHYSIQUE;
+		authorization.kind = CONTACT_KINDS.PERSONNE_PHYSIQUE;
 		authorization.legalName = null;
 		authorization.isSameAsLegal = null;
 		authorization.isSignatoryOnKbis = null;

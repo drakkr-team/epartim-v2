@@ -1,8 +1,9 @@
 import db from "@adonisjs/lucid/services/db";
 
+import { CONTACT_KINDS } from "#constants/contact";
 import Company from "#models/company";
 import CompanyKycProfile from "#models/company_kyc_profile";
-import Contact, { ContactKind } from "#models/contact";
+import Contact from "#models/contact";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
 
 export default class CreateSubscriptionService {
@@ -17,11 +18,11 @@ export default class CreateSubscriptionService {
 				{ client: trx },
 			);
 			const legalAgent = await Contact.create(
-				{ kind: ContactKind.PERSONNE_PHYSIQUE },
+				{ kind: CONTACT_KINDS.PERSONNE_PHYSIQUE },
 				{ client: trx },
 			);
 			const signer = await Contact.create(
-				{ kind: ContactKind.PERSONNE_PHYSIQUE, isSignatoryOnKbis: true },
+				{ kind: CONTACT_KINDS.PERSONNE_PHYSIQUE, isSignatoryOnKbis: true },
 				{ client: trx },
 			);
 			const company = await Company.create(

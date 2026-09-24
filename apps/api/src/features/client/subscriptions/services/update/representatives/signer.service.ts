@@ -2,10 +2,11 @@ import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { Infer } from "@vinejs/vine/types";
 
+import { CONTACT_KINDS } from "#constants/contact";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
-import Contact, { ContactKind } from "#models/contact";
+import Contact from "#models/contact";
 import Subscription from "#models/subscription";
 import { SignerSchema } from "#validators/subscription/representatives/contact.validator";
 
@@ -55,7 +56,7 @@ export default class UpdateSignerService {
 	}
 
 	#applyRules(signer: Contact) {
-		signer.kind = ContactKind.PERSONNE_PHYSIQUE;
+		signer.kind = CONTACT_KINDS.PERSONNE_PHYSIQUE;
 		signer.legalName = null;
 		signer.isSameAsLegal = null;
 		signer.amundiPortalId = null;

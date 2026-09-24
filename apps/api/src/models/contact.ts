@@ -1,47 +1,13 @@
 import { column } from "@adonisjs/lucid/orm";
 
+import type {
+	ContactAuthorization,
+	ContactCivility,
+	ContactFunction,
+	ContactKind,
+} from "#constants/contact";
 import { ContactSchema } from "#database/schema";
 import { jsonColumn } from "#src/utils/json_column";
-
-export const ContactFunction = {
-	PDG: 1,
-	GERANT: 2,
-	DG: 3,
-	DF: 4,
-	DAF: 5,
-	RESPONSABLE_COMPTABLE: 6,
-	DRH: 7,
-	RH: 8,
-	ASSISTANTE: 9,
-	CORRESPONDANT_OPERATIONNEL_ES: 10,
-	PRESIDENT: 11,
-	REPRESENTANT_LEGAL: 12,
-	AUTRE: 13,
-} as const;
-
-export type ContactFunction = (typeof ContactFunction)[keyof typeof ContactFunction];
-
-export const ContactKind = {
-	PERSONNE_PHYSIQUE: 1,
-	PERSONNE_MORALE: 2,
-} as const;
-
-export type ContactKind = (typeof ContactKind)[keyof typeof ContactKind];
-
-export const ContactCivility = {
-	MONSIEUR: 1,
-	MADAME: 2,
-} as const;
-
-export type ContactCivility = (typeof ContactCivility)[keyof typeof ContactCivility];
-
-export const ContactAuthorization = {
-	COMPTABLE: 1,
-	AGIR_ET_CONSULTER: 2,
-	ADMINISTRER: 3,
-} as const;
-
-export type ContactAuthorization = (typeof ContactAuthorization)[keyof typeof ContactAuthorization];
 
 export default class Contact extends ContactSchema {
 	declare civility: ContactCivility | null;

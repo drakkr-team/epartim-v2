@@ -1,10 +1,10 @@
 import { test } from "@japa/runner";
 
+import { CONTACT_AUTHORIZATIONS, CONTACT_CIVILITIES, CONTACT_FUNCTIONS } from "#constants/contact";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Company from "#models/company";
-import { ContactAuthorization, ContactCivility, ContactFunction } from "#models/contact";
 
 test.group("Features / Client / Subscriptions / Update Authorizations", () => {
 	test("it replaces the company authorizations", async ({ client, assert }) => {
@@ -19,13 +19,13 @@ test.group("Features / Client / Subscriptions / Update Authorizations", () => {
 			.json({
 				authorizations: [
 					{
-						civility: ContactCivility.MADAME,
+						civility: CONTACT_CIVILITIES.MADAME,
 						firstName: "Nora",
 						lastName: "Petit",
 						email: "nora.petit@example.test",
 						phoneNumber: "+33611111111",
-						function: ContactFunction.DAF,
-						authorizations: [ContactAuthorization.COMPTABLE, ContactAuthorization.ADMINISTRER],
+						function: CONTACT_FUNCTIONS.DAF,
+						authorizations: [CONTACT_AUTHORIZATIONS.COMPTABLE, CONTACT_AUTHORIZATIONS.ADMINISTRER],
 					},
 				],
 			});
@@ -36,8 +36,8 @@ test.group("Features / Client / Subscriptions / Update Authorizations", () => {
 		const authorizations = await company.related("contacts").query();
 		assert.lengthOf(authorizations, 1);
 		assert.deepEqual(authorizations[0].authorizations, [
-			ContactAuthorization.COMPTABLE,
-			ContactAuthorization.ADMINISTRER,
+			CONTACT_AUTHORIZATIONS.COMPTABLE,
+			CONTACT_AUTHORIZATIONS.ADMINISTRER,
 		]);
 	});
 

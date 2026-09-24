@@ -1,10 +1,11 @@
 import { test } from "@japa/runner";
 
+import { CONTACT_CIVILITIES } from "#constants/contact";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Company from "#models/company";
-import Contact, { ContactCivility } from "#models/contact";
+import Contact from "#models/contact";
 
 test.group("Features / Client / Subscriptions / Update Signer", () => {
 	test("it persists the declared signer", async ({ client, assert }) => {
@@ -17,7 +18,7 @@ test.group("Features / Client / Subscriptions / Update Signer", () => {
 			.withGuard("client")
 			.loginAs(user)
 			.json({
-				civility: ContactCivility.MADAME,
+				civility: CONTACT_CIVILITIES.MADAME,
 				firstName: "Claire",
 				lastName: "Martin",
 				email: "claire.martin@example.test",

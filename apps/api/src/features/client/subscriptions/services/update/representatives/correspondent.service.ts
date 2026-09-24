@@ -3,10 +3,11 @@ import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import { CONTACT_KINDS } from "#constants/contact";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
-import Contact, { ContactKind } from "#models/contact";
+import Contact from "#models/contact";
 import Subscription from "#models/subscription";
 import { CorrespondentSchema } from "#validators/subscription/representatives/contact.validator";
 
@@ -36,7 +37,7 @@ export default class UpdateCorrespondentService {
 
 			const legalAgent = await Contact.findOrFail(company.companyLegalAgentId, { client: trx });
 			const isSameAsLegal =
-				legalAgent.kind === ContactKind.PERSONNE_MORALE
+				legalAgent.kind === CONTACT_KINDS.PERSONNE_MORALE
 					? false
 					: (payload.isSameAsLegal ?? legalAgent.isSameAsLegal);
 
@@ -91,7 +92,7 @@ export default class UpdateCorrespondentService {
 	}
 
 	#applyRules(correspondent: Contact) {
-		correspondent.kind = ContactKind.PERSONNE_PHYSIQUE;
+		correspondent.kind = CONTACT_KINDS.PERSONNE_PHYSIQUE;
 		correspondent.legalName = null;
 		correspondent.isSameAsLegal = null;
 		correspondent.isSignatoryOnKbis = null;

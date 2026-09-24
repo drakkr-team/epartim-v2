@@ -1,12 +1,12 @@
 import { test } from "@japa/runner";
 
+import { COMPANY_LEGAL_FORMS } from "#constants/company";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
 import { PaymentDetailFactory } from "#database/factories/payment_detail.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
-import { CompanyLegalForm } from "#models/company";
 import CompanyKycProfile from "#models/company_kyc_profile";
 import File from "#models/file";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
@@ -50,7 +50,7 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 			companyCorrespondentId: correspondent.id,
 			companyLegalAgentId: legalAgent.id,
 			companySignerId: signer.id,
-			legalForm: CompanyLegalForm.SAS,
+			legalForm: COMPANY_LEGAL_FORMS.SAS,
 			paymentDetailId: paymentDetail.id,
 			subscriptionId: subscription.id,
 		}).create();

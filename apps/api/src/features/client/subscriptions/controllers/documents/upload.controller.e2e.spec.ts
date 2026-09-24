@@ -1,11 +1,11 @@
 import { test } from "@japa/runner";
 
+import { COMPANY_LEGAL_FORMS } from "#constants/company";
+import { CONTACT_KINDS } from "#constants/contact";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
-import { CompanyLegalForm } from "#models/company";
-import { ContactKind } from "#models/contact";
 import File from "#models/file";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 
@@ -18,12 +18,12 @@ test.group(
 			const user = await UserFactory.create();
 			const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
 			const legalAgent = await ContactFactory.merge({
-				kind: ContactKind.PERSONNE_PHYSIQUE,
+				kind: CONTACT_KINDS.PERSONNE_PHYSIQUE,
 			}).create();
 			const signer = await ContactFactory.merge({ isSignatoryOnKbis: true }).create();
 			await CompanyFactory.merge({
 				subscriptionId: subscription.id,
-				legalForm: CompanyLegalForm.SAS,
+				legalForm: COMPANY_LEGAL_FORMS.SAS,
 				companyLegalAgentId: legalAgent.id,
 				companySignerId: signer.id,
 			}).create();

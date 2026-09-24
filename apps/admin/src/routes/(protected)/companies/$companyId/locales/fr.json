@@ -1,0 +1,130 @@
+{
+	"routes.(protected).companies.$companyId": {
+		"headline": "Gestion des entreprises",
+		"description": "Consultez les informations et les relations de cette entreprise.",
+		"section": {
+			"general": "Informations générales",
+			"address": "Adresse",
+			"payment": "Coordonnées bancaires",
+			"legalAgent": "Représentant légal",
+			"signer": "Signataire du BSE",
+			"correspondent": "Correspondant entreprise",
+			"contacts": "Contacts et habilitations",
+			"contact": "Contact et habilitations {{index}}",
+			"kyc": "Profil KYC",
+			"documents": "Documents"
+		},
+		"field": {
+			"id": "Identifiant",
+			"name": "Raison sociale",
+			"siren": "SIREN",
+			"siret": "SIRET",
+			"naf": "Code NAF",
+			"legalForm": "Forme juridique",
+			"companyHeadcount": "Effectif",
+			"vatNumber": "N° de TVA intracommunautaire",
+			"financialYearClosingDay": "Clôture de l'exercice",
+			"createdAt": "Créée le",
+			"updatedAt": "Dernière modification",
+			"address": {
+				"lineOne": "Adresse",
+				"lineTwo": "Complément d'adresse",
+				"zip": "Code postal",
+				"city": "Ville",
+				"latitude": "Latitude",
+				"longitude": "Longitude"
+			},
+			"paymentDetail": {
+				"iban": "IBAN",
+				"bic": "BIC"
+			},
+			"contact": {
+				"id": "Identifiant",
+				"kind": "Nature",
+				"civility": "Civilité",
+				"firstName": "Prénom",
+				"lastName": "Nom",
+				"legalName": "Raison sociale",
+				"function": "Fonction",
+				"email": "E-mail",
+				"phoneNumber": "Téléphone",
+				"amundiPortalId": "Identifiant portail Amundi",
+				"isSignatoryOnKbis": "Signataire sur le Kbis",
+				"isSameAsLegal": "Identique au représentant légal",
+				"authorizations": "Habilitations"
+			},
+			"kyc": {
+				"regulatedActivity": "Activité réglementée",
+				"regulatedActivityReference": "Régulateur et référence d'agrément",
+				"listedCompany": "Entreprise cotée",
+				"listedCompanyReference": "Marché de cotation",
+				"bicId": "Code BIC lié à SWIFT",
+				"bearerBondsStructure": "Bons au porteur",
+				"bearerBondsStructurePercentage": "Pourcentage de bons au porteur",
+				"countryOfActivity": "Pays d'activité",
+				"countryOfActivityBreakdown": "Répartition par pays",
+				"countryOfActivityReference": "Précisions sur l'activité",
+				"countryProvider": "Pays des fournisseurs",
+				"countryProviderCountries": "Liste des pays fournisseurs",
+				"countryProviderReference": "Précisions sur les fournisseurs",
+				"mainMarkets": "Principaux marchés",
+				"mainMarketsCountries": "Liste des principaux marchés",
+				"mainMarketsReference": "Précisions sur les marchés"
+			},
+			"file": {
+				"name": "Nom du fichier",
+				"type": "Type",
+				"size": "Taille",
+				"sizeValue": "{{size, number}} octets",
+				"createdAt": "Ajouté le",
+				"updatedAt": "Dernière modification"
+			}
+		},
+		"contact": {
+			"kind": {
+				"1": "Personne physique",
+				"2": "Personne morale"
+			},
+			"civility": {
+				"1": "Monsieur",
+				"2": "Madame"
+			},
+			"function": {
+				"1": "PDG",
+				"2": "Gérant",
+				"3": "Directeur général",
+				"4": "Directeur financier",
+				"5": "Directeur administratif et financier",
+				"6": "Responsable comptable",
+				"7": "Directeur des ressources humaines",
+				"8": "Ressources humaines",
+				"9": "Assistant(e)",
+				"10": "Correspondant opérationnel épargne salariale",
+				"11": "Président",
+				"12": "Représentant légal",
+				"13": "Autre"
+			},
+			"authorization": {
+				"1": "Comptable",
+				"2": "Agir et consulter",
+				"3": "Administrer"
+			}
+		},
+		"geography": {
+			"france_and_eu": "France et UE",
+			"other": "Autre(s)"
+		},
+		"document": {
+			"bankDetailsDocument": "Relevé d'identité bancaire",
+			"legalAgentIdDocument": "Pièce d'identité du représentant légal",
+			"companyDetailsDocument": "Justificatif de l'entreprise",
+			"contactsStatusDocument": "Statuts des contacts"
+		},
+		"status": {
+			"notProvided": "Non renseigné",
+			"none": "Aucun contact rattaché.",
+			"yes": "Oui",
+			"no": "Non"
+		}
+	}
+}

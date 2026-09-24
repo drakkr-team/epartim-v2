@@ -1,7 +1,9 @@
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 
-import Company, { CompanyLegalForm } from "#models/company";
-import Contact, { ContactKind } from "#models/contact";
+import { COMPANY_LEGAL_FORMS, type CompanyLegalForm } from "#constants/company";
+import { CONTACT_KINDS } from "#constants/contact";
+import Company from "#models/company";
+import Contact from "#models/contact";
 import Subscription from "#models/subscription";
 import SubscriptionDocument, {
 	SubscriptionDocumentType,
@@ -42,7 +44,7 @@ export default class SubscriptionDocumentRequirementsService {
 			},
 		];
 
-		if (legalAgent?.kind !== ContactKind.PERSONNE_MORALE) {
+		if (legalAgent?.kind !== CONTACT_KINDS.PERSONNE_MORALE) {
 			requirements.push({
 				type: SubscriptionDocumentType.LEGAL_AGENT_ID,
 				label: "Pièce d'identité du représentant légal",
@@ -70,8 +72,8 @@ export default class SubscriptionDocumentRequirementsService {
 			}
 
 			if (
-				legalForm !== CompanyLegalForm.ENTREPRISE_INDIVIDUELLE &&
-				legalForm !== CompanyLegalForm.PROFESSION_LIBERALE
+				legalForm !== COMPANY_LEGAL_FORMS.ENTREPRISE_INDIVIDUELLE &&
+				legalForm !== COMPANY_LEGAL_FORMS.PROFESSION_LIBERALE
 			) {
 				requirements.push({
 					type: SubscriptionDocumentType.ARTICLES_OF_ASSOCIATION,
@@ -101,11 +103,11 @@ export default class SubscriptionDocumentRequirementsService {
 
 	#requiresOrganizationChart(legalForm: CompanyLegalForm) {
 		const legalForms: CompanyLegalForm[] = [
-			CompanyLegalForm.ASSOCIATION,
-			CompanyLegalForm.ENTREPRISE_ASSURANCES_OU_MUTUELLE_CODE_ASSURANCES,
-			CompanyLegalForm.SYNDICAT,
-			CompanyLegalForm.ORGANISME_PUBLIC,
-			CompanyLegalForm.ETABLISSEMENTS_PUBLICS_LOCAUX_REGIE_PERSONNALISEE,
+			COMPANY_LEGAL_FORMS.ASSOCIATION,
+			COMPANY_LEGAL_FORMS.ENTREPRISE_ASSURANCES_OU_MUTUELLE_CODE_ASSURANCES,
+			COMPANY_LEGAL_FORMS.SYNDICAT,
+			COMPANY_LEGAL_FORMS.ORGANISME_PUBLIC,
+			COMPANY_LEGAL_FORMS.ETABLISSEMENTS_PUBLICS_LOCAUX_REGIE_PERSONNALISEE,
 		];
 
 		return legalForms.includes(legalForm);
@@ -113,19 +115,19 @@ export default class SubscriptionDocumentRequirementsService {
 
 	#existenceProofLabel(legalForm: CompanyLegalForm) {
 		switch (legalForm) {
-			case CompanyLegalForm.ASSOCIATION:
+			case COMPANY_LEGAL_FORMS.ASSOCIATION:
 				return "Extrait du Journal officiel ou récépissé de préfecture";
-			case CompanyLegalForm.SCF:
+			case COMPANY_LEGAL_FORMS.SCF:
 				return "Attestation URSSAF de l'année en cours mentionnant le SIREN";
-			case CompanyLegalForm.ENTREPRISE_INDIVIDUELLE:
+			case COMPANY_LEGAL_FORMS.ENTREPRISE_INDIVIDUELLE:
 				return "Kbis, carte professionnelle ou attestation URSSAF";
-			case CompanyLegalForm.PROFESSION_LIBERALE:
+			case COMPANY_LEGAL_FORMS.PROFESSION_LIBERALE:
 				return "Carte professionnelle ou attestation URSSAF";
-			case CompanyLegalForm.ENTREPRISE_ASSURANCES_OU_MUTUELLE_CODE_ASSURANCES:
+			case COMPANY_LEGAL_FORMS.ENTREPRISE_ASSURANCES_OU_MUTUELLE_CODE_ASSURANCES:
 				return "Agrément ou arrêté ministériel publié au Journal officiel";
-			case CompanyLegalForm.SYNDICAT:
+			case COMPANY_LEGAL_FORMS.SYNDICAT:
 				return "Récépissé de mairie";
-			case CompanyLegalForm.ETABLISSEMENTS_PUBLICS_LOCAUX_REGIE_PERSONNALISEE:
+			case COMPANY_LEGAL_FORMS.ETABLISSEMENTS_PUBLICS_LOCAUX_REGIE_PERSONNALISEE:
 				return "Délibération de la collectivité territoriale";
 			default:
 				return "Extrait RNE ou équivalent Kbis de moins de trois mois, attestation du registre des métiers, carte professionnelle ou extrait du Journal officiel";

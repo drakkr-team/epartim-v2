@@ -1,9 +1,10 @@
 import factory from "@adonisjs/lucid/factories";
 
+import { COMPANY_LEGAL_FORMS } from "#constants/company";
 import { AddressFactory } from "#database/factories/address.factory";
 import { PaymentDetailFactory } from "#database/factories/payment_detail.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
-import Company, { CompanyLegalForm } from "#models/company";
+import Company from "#models/company";
 
 export const CompanyFactory = factory
 	.define(Company, ({ faker }) => ({
@@ -11,7 +12,7 @@ export const CompanyFactory = factory
 		siren: faker.string.numeric(9),
 		naf: `${faker.string.numeric(4)}${faker.string.alpha({ length: 1 }).toUpperCase()}`,
 		name: faker.company.name(),
-		legalForm: faker.helpers.arrayElement(Object.values(CompanyLegalForm)),
+		legalForm: faker.helpers.arrayElement(Object.values(COMPANY_LEGAL_FORMS)),
 		companyHeadcount: faker.number.int({ min: 1, max: 500 }).toString(),
 		vatNumber: `FR${faker.string.numeric(2)}${faker.string.numeric(9)}`,
 		financialYearClosingDay: "31/12",

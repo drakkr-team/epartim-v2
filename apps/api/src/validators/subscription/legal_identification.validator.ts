@@ -1,8 +1,8 @@
 import vine from "@vinejs/vine";
 
-import { CompanyLegalForm } from "#models/company";
+import { COMPANY_LEGAL_FORMS } from "#constants/company";
 
-const LegalForms = Object.values(CompanyLegalForm);
+const LegalForms = Object.values(COMPANY_LEGAL_FORMS);
 
 function requiredText() {
 	return vine.string().trim().minLength(1).maxLength(254);

@@ -1,10 +1,11 @@
 import { test } from "@japa/runner";
 
+import { CONTACT_CIVILITIES, CONTACT_KINDS } from "#constants/contact";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Company from "#models/company";
-import Contact, { ContactCivility, ContactKind } from "#models/contact";
+import Contact from "#models/contact";
 
 test.group("Features / Client / Subscriptions / Update Legal Agent", () => {
 	test("it persists a legal entity and keeps a distinct correspondent when it becomes a person", async ({
@@ -19,7 +20,7 @@ test.group("Features / Client / Subscriptions / Update Legal Agent", () => {
 			.visit("client.subscriptions.update_legal_agent", { subscriptionId: subscription.id })
 			.withGuard("client")
 			.loginAs(user)
-			.json({ kind: ContactKind.PERSONNE_MORALE, legalName: "Holding" });
+			.json({ kind: CONTACT_KINDS.PERSONNE_MORALE, legalName: "Holding" });
 
 		legalEntityResponse.assertOk();
 		assert.isNull(
@@ -44,8 +45,8 @@ test.group("Features / Client / Subscriptions / Update Legal Agent", () => {
 			.withGuard("client")
 			.loginAs(user)
 			.json({
-				kind: ContactKind.PERSONNE_PHYSIQUE,
-				civility: ContactCivility.MADAME,
+				kind: CONTACT_KINDS.PERSONNE_PHYSIQUE,
+				civility: CONTACT_CIVILITIES.MADAME,
 				firstName: "Alice",
 				lastName: "Martin",
 			});
@@ -55,7 +56,7 @@ test.group("Features / Client / Subscriptions / Update Legal Agent", () => {
 		const company = await Company.findByOrFail("subscriptionId", subscription.id);
 		const legalAgent = await Contact.findOrFail(company.companyLegalAgentId!);
 		const correspondent = await Contact.findOrFail(company.companyCorrespondentId!);
-		assert.equal(legalAgent.kind, ContactKind.PERSONNE_PHYSIQUE);
+		assert.equal(legalAgent.kind, CONTACT_KINDS.PERSONNE_PHYSIQUE);
 		assert.isNull(legalAgent.legalName);
 		assert.isFalse(legalAgent.isSameAsLegal!);
 		assert.equal(correspondent.firstName, "Louise");

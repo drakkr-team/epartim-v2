@@ -41,6 +41,9 @@
 		},
 		"value": {
 			"empty": "Non renseigné"
+		},
+		"action": {
+			"view": "Consulter l'entreprise"
 		}
 	}
 }

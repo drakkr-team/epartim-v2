@@ -1,10 +1,12 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { CompanyLegalForm } from "@workspace/api/constants/company";
+import { COMPANY_LEGAL_FORMS } from "@workspace/api/constants/company";
 import type { Company, Pagination } from "@workspace/api/data";
+import { Button } from "@workspace/ui-react/components/button";
+import { SquareArrowOutUpRightIcon } from "@workspace/ui-react/icons";
 
 import { useColumnVisibilityStore } from "#/hooks/use-column-visibility-store";
 import { orderByToSortingSate, sortingStateToOrderBy } from "#/utils/table";
@@ -27,6 +29,7 @@ export function useCompaniesTable(params: UseCompaniesTableParams) {
 
 	const { t } = useTranslation("features.companies.hooks.use-table");
 	const navigate = useNavigate();
+	const router = useRouter();
 	const sorting = orderByToSortingSate(orderBy);
 	const { columnVisibility, setColumnVisibility } = useColumnVisibilityStore({
 		name: "companies-table-column-visibility",
@@ -64,7 +67,7 @@ export function useCompaniesTable(params: UseCompaniesTableParams) {
 					const legalForm = props.getValue();
 					if (legalForm === null) return t("value.empty");
 
-					const key = Object.entries(CompanyLegalForm).find(
+					const key = Object.entries(COMPANY_LEGAL_FORMS).find(
 						([, value]) => value === legalForm,
 					)?.[0];
 					return key ? t(`legalForm.${key}`, { defaultValue: key }) : legalForm.toString();
@@ -94,6 +97,28 @@ export function useCompaniesTable(params: UseCompaniesTableParams) {
 				header: t("header.updatedAt"),
 				cell: (props) => props.getValue().toLocaleDateString("fr-FR"),
 			}),
+			columnHelper.display({
+				id: "actions",
+				cell: ({ row }) => (
+					<Button
+						variant="ghost"
+						size="icon-md"
+						aria-label={t("action.view")}
+						nativeButton={false}
+						render={
+							<Link to="/companies/$companyId" params={{ companyId: row.original.id.toString() }} />
+						}
+					>
+						<SquareArrowOutUpRightIcon />
+					</Button>
+				),
+				meta: {
+					classNames: {
+						header: "w-0 p-0",
+						cell: "p-1",
+					},
+				},
+			}),
 		],
 		[columnHelper, t],
 	);
@@ -101,6 +126,20 @@ export function useCompaniesTable(params: UseCompaniesTableParams) {
 	return useReactTable({
 		data,
 		columns,
+		meta: {
+			rows: {
+				onClick: (row) =>
+					navigate({
+						to: "/companies/$companyId",
+						params: { companyId: row.id.toString() },
+					}),
+				onMouseEnter: (row) =>
+					router.preloadRoute({
+						to: "/companies/$companyId",
+						params: { companyId: row.id.toString() },
+					}),
+			},
+		},
 		manualSorting: true,
 		manualPagination: true,
 		getCoreRowModel: getCoreRowModel(),

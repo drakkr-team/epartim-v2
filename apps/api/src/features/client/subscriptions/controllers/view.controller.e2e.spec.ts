@@ -1,13 +1,13 @@
 import { test } from "@japa/runner";
 
+import { COMPANY_LEGAL_FORMS } from "#constants/company";
+import { CONTACT_KINDS } from "#constants/contact";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
 import { PaymentDetailFactory } from "#database/factories/payment_detail.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
-import { CompanyLegalForm } from "#models/company";
-import { ContactKind } from "#models/contact";
 import File from "#models/file";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 
@@ -81,11 +81,13 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 	}) => {
 		const user = await UserFactory.create();
 		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
-		const legalAgent = await ContactFactory.merge({ kind: ContactKind.PERSONNE_PHYSIQUE }).create();
+		const legalAgent = await ContactFactory.merge({
+			kind: CONTACT_KINDS.PERSONNE_PHYSIQUE,
+		}).create();
 		const signer = await ContactFactory.merge({ isSignatoryOnKbis: false }).create();
 		await CompanyFactory.merge({
 			subscriptionId: subscription.id,
-			legalForm: CompanyLegalForm.SAS,
+			legalForm: COMPANY_LEGAL_FORMS.SAS,
 			companyLegalAgentId: legalAgent.id,
 			companySignerId: signer.id,
 		}).create();
@@ -152,7 +154,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
 		await CompanyFactory.merge({
 			subscriptionId: subscription.id,
-			legalForm: CompanyLegalForm.ETABLISSEMENT_PUBLIC_LOCAL_EPIC,
+			legalForm: COMPANY_LEGAL_FORMS.ETABLISSEMENT_PUBLIC_LOCAL_EPIC,
 		}).create();
 
 		const response = await client

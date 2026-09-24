@@ -2,10 +2,11 @@ import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { Infer } from "@vinejs/vine/types";
 
+import { CONTACT_KINDS } from "#constants/contact";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import Company from "#models/company";
-import Contact, { ContactKind } from "#models/contact";
+import Contact from "#models/contact";
 import Subscription from "#models/subscription";
 import { LegalAgentSchema } from "#validators/subscription/representatives/contact.validator";
 
@@ -52,7 +53,7 @@ export default class UpdateLegalAgentService {
 		legalAgent.isSignatoryOnKbis = null;
 		legalAgent.authorizations = null;
 
-		if (legalAgent.kind === ContactKind.PERSONNE_MORALE) {
+		if (legalAgent.kind === CONTACT_KINDS.PERSONNE_MORALE) {
 			legalAgent.civility = null;
 			legalAgent.firstName = null;
 			legalAgent.lastName = null;
@@ -61,7 +62,7 @@ export default class UpdateLegalAgentService {
 			return;
 		}
 
-		if (legalAgent.kind === ContactKind.PERSONNE_PHYSIQUE) {
+		if (legalAgent.kind === CONTACT_KINDS.PERSONNE_PHYSIQUE) {
 			legalAgent.legalName = null;
 		}
 	}

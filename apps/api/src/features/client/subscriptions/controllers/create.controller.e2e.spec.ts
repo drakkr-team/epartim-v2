@@ -1,8 +1,9 @@
 import { test } from "@japa/runner";
 
+import { CONTACT_KINDS } from "#constants/contact";
 import { UserFactory } from "#database/factories/user.factory";
 import Company from "#models/company";
-import Contact, { ContactKind } from "#models/contact";
+import Contact from "#models/contact";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
 
 test.group("Features / Client / Subscriptions / Controllers / Create Controller", () => {
@@ -32,7 +33,7 @@ test.group("Features / Client / Subscriptions / Controllers / Create Controller"
 
 		const legalAgent = await Contact.findOrFail(company.companyLegalAgentId!);
 		const signer = await Contact.findOrFail(company.companySignerId!);
-		assert.equal(legalAgent.kind, ContactKind.PERSONNE_PHYSIQUE);
+		assert.equal(legalAgent.kind, CONTACT_KINDS.PERSONNE_PHYSIQUE);
 		assert.equal(signer.isSignatoryOnKbis, true);
 	});
 

@@ -1,11 +1,12 @@
 import { test } from "@japa/runner";
 
+import { CONTACT_CIVILITIES } from "#constants/contact";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Company from "#models/company";
-import Contact, { ContactCivility } from "#models/contact";
+import Contact from "#models/contact";
 
 test.group("Features / Client / Subscriptions / Update Correspondent", () => {
 	test("it creates and clears a correspondent independently from the legal agent", async ({
@@ -26,7 +27,7 @@ test.group("Features / Client / Subscriptions / Update Correspondent", () => {
 			.loginAs(user)
 			.json({
 				isSameAsLegal: false,
-				civility: ContactCivility.MONSIEUR,
+				civility: CONTACT_CIVILITIES.MONSIEUR,
 				firstName: "Hugo",
 				lastName: "Dupont",
 				email: "hugo@example.test",

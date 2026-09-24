@@ -9,8 +9,6 @@ import File from "#models/file";
 import PaymentDetail from "#models/payment_detail";
 import Subscription from "#models/subscription";
 
-export { CompanyLegalForm } from "#constants/company";
-
 export default class Company extends CompanySchema {
 	@belongsTo(() => Subscription)
 	declare subscription: BelongsTo<typeof Subscription>;
