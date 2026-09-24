@@ -1,0 +1,37 @@
+type: http_request
+model: http_request
+id: rq_company_update
+createdAt: 2026-09-24T00:00:00.000000
+updatedAt: 2026-09-24T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_companies
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "name": "${[ faker.company.name() ]}",
+      "naf": "6201Z"
+    }
+bodyType: application/json
+description: Requires an authenticated admin with update:company. Set COMPANY_ID in your private Yaak environment.
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: PUT
+name: Update company
+sortPriority: 3000.0
+url: http://localhost:3333/admin/companies/${[ COMPANY_ID ]}
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true

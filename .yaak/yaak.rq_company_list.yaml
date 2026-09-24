@@ -1,0 +1,48 @@
+type: http_request
+model: http_request
+id: rq_company_list
+createdAt: 2026-09-24T00:00:00.000000
+updatedAt: 2026-09-24T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_companies
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: Requires an authenticated admin session.
+headers:
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: GET
+name: List companies
+sortPriority: 1000.0
+url: http://localhost:3333/admin/companies
+urlParameters:
+- enabled: true
+  name: page
+  value: '1'
+  id: null
+- enabled: true
+  name: perPage
+  value: '20'
+  id: null
+- enabled: false
+  name: q
+  value: Example
+  id: null
+- enabled: false
+  name: subscriptionId
+  value: ${[ SUBSCRIPTION_ID ]}
+  id: null
+- enabled: false
+  name: orderBy
+  value: name_asc
+  id: null
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true

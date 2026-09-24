@@ -1,5 +1,6 @@
 import "#features/admin/account_management/routes";
 import "#features/admin/admins/routes";
+import "#features/admin/companies/routes";
 import "#features/admin/firms/routes";
 import "#features/admin/networks/routes";
 import "#features/admin/roles/routes";

@@ -103,6 +103,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/admins/controllers/resend_onboarding.controller').default['handle']>>>
     }
   }
+  'admin.companies.list': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/companies'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#src/features/admin/companies/controllers/list.controller').default)['querySchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/companies/controllers/list.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/companies/controllers/list.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.companies.view': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/companies/:companyId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { companyId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/admin/companies/controllers/view.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/admin/companies/controllers/view.controller').default['handle']>>>
+    }
+  }
   'admin.firms.list': {
     methods: ["GET","HEAD"]
     pattern: '/admin/firms'

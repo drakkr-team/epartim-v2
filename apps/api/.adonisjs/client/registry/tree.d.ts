@@ -32,6 +32,10 @@ export interface ApiDefinition {
       delete: typeof routes['admin.admins.delete']
       resendOnboarding: typeof routes['admin.admins.resend_onboarding']
     }
+    companies: {
+      list: typeof routes['admin.companies.list']
+      view: typeof routes['admin.companies.view']
+    }
     firms: {
       list: typeof routes['admin.firms.list']
       create: typeof routes['admin.firms.create']

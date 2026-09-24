@@ -1,0 +1,46 @@
+{
+	"features.companies.hooks.use-table": {
+		"header": {
+			"id": "ID",
+			"name": "Nom",
+			"siren": "SIREN",
+			"siret": "SIRET",
+			"naf": "Code NAF",
+			"legalForm": "Forme juridique",
+			"companyHeadcount": "Effectif",
+			"vatNumber": "N° de TVA intracommunautaire",
+			"financialYearClosingDay": "Clôture de l'exercice",
+			"createdAt": "Créée le",
+			"updatedAt": "Dernière modification"
+		},
+		"legalForm": {
+			"ASSOCIATION": "Association",
+			"EARL": "EARL",
+			"GAEC": "GAEC",
+			"GIE": "GIE",
+			"SA": "SA",
+			"SARL": "SARL",
+			"SAS": "SAS",
+			"SELARL": "SELARL",
+			"SOCIETE_ANONYME": "Société anonyme",
+			"SOCIETE_CIVILE": "Société civile",
+			"SPFPL": "SPFPL",
+			"SOCIETE_COOPERATIVE": "Société coopérative",
+			"SOCIETE_DE_DROIT_ETRANGER": "Société de droit étranger",
+			"SNC": "SNC",
+			"SCF": "SCF",
+			"ENTREPRISE_INDIVIDUELLE": "Entreprise individuelle",
+			"PROFESSION_LIBERALE": "Profession libérale",
+			"ENTREPRISE_ASSURANCES_OU_MUTUELLE_CODE_ASSURANCES": "Entreprise d'assurances ou mutuelle",
+			"SYNDICAT": "Syndicat",
+			"INSTITUTION_FINANCIERE_OU_BANCAIRE": "Institution financière ou bancaire",
+			"ORGANISME_PUBLIC": "Organisme public",
+			"ETABLISSEMENT_PUBLIC_LOCAL_EPIC": "Établissement public local (EPIC)",
+			"ETABLISSEMENTS_PUBLICS_LOCAUX_REGIE_PERSONNALISEE": "Établissement public local à régie personnalisée",
+			"AUTRES": "Autre"
+		},
+		"value": {
+			"empty": "Non renseigné"
+		}
+	}
+}

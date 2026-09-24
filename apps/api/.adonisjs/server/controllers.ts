@@ -30,6 +30,10 @@ export const controllers = {
         Update: () => import('#src/features/admin/admins/controllers/update.controller'),
         View: () => import('#src/features/admin/admins/controllers/view.controller'),
       },
+      companies: {
+        List: () => import('#src/features/admin/companies/controllers/list.controller'),
+        View: () => import('#src/features/admin/companies/controllers/view.controller'),
+      },
       firms: {
         Create: () => import('#src/features/admin/firms/controllers/create.controller'),
         Delete: () => import('#src/features/admin/firms/controllers/delete.controller'),

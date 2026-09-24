@@ -54,6 +54,18 @@ const routes = {
     tokens: [{"old":"/admin/admins/:adminId/resend-onboarding","type":0,"val":"admin","end":""},{"old":"/admin/admins/:adminId/resend-onboarding","type":0,"val":"admins","end":""},{"old":"/admin/admins/:adminId/resend-onboarding","type":1,"val":"adminId","end":""},{"old":"/admin/admins/:adminId/resend-onboarding","type":0,"val":"resend-onboarding","end":""}],
     types: placeholder as Registry['admin.admins.resend_onboarding']['types'],
   },
+  'admin.companies.list': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/companies',
+    tokens: [{"old":"/admin/companies","type":0,"val":"admin","end":""},{"old":"/admin/companies","type":0,"val":"companies","end":""}],
+    types: placeholder as Registry['admin.companies.list']['types'],
+  },
+  'admin.companies.view': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/companies/:companyId',
+    tokens: [{"old":"/admin/companies/:companyId","type":0,"val":"admin","end":""},{"old":"/admin/companies/:companyId","type":0,"val":"companies","end":""},{"old":"/admin/companies/:companyId","type":1,"val":"companyId","end":""}],
+    types: placeholder as Registry['admin.companies.view']['types'],
+  },
   'admin.firms.list': {
     methods: ["GET","HEAD"],
     pattern: '/admin/firms',

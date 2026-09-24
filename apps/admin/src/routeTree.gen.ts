@@ -17,6 +17,7 @@ import { Route as guestOnboardingPageRouteImport } from './routes/(guest)/onboar
 import { Route as guestResetPasswordPageRouteImport } from './routes/(guest)/reset-password/page'
 import { Route as protecteddashboardPageRouteImport } from './routes/(protected)/(dashboard)/page'
 import { Route as protectedAdminsPageRouteImport } from './routes/(protected)/admins/page'
+import { Route as protectedCompaniesPageRouteImport } from './routes/(protected)/companies/page'
 import { Route as protectedFirmsPageRouteImport } from './routes/(protected)/firms/page'
 import { Route as protectedNetworksPageRouteImport } from './routes/(protected)/networks/page'
 import { Route as protectedRolesPageRouteImport } from './routes/(protected)/roles/page'
@@ -73,6 +74,11 @@ const protecteddashboardPageRoute = protecteddashboardPageRouteImport.update({
 const protectedAdminsPageRoute = protectedAdminsPageRouteImport.update({
   id: '/admins/',
   path: '/admins/',
+  getParentRoute: () => protectedLayoutRoute,
+} as any)
+const protectedCompaniesPageRoute = protectedCompaniesPageRouteImport.update({
+  id: '/companies/',
+  path: '/companies/',
   getParentRoute: () => protectedLayoutRoute,
 } as any)
 const protectedFirmsPageRoute = protectedFirmsPageRouteImport.update({
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/reset-password/': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
   '/admins/': typeof protectedAdminsPageRoute
+  '/companies/': typeof protectedCompaniesPageRoute
   '/firms/': typeof protectedFirmsPageRoute
   '/networks/': typeof protectedNetworksPageRoute
   '/roles/': typeof protectedRolesPageRoute
@@ -216,6 +223,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof guestResetPasswordPageRoute
   '/': typeof protecteddashboardPageRoute
   '/admins': typeof protectedAdminsPageRoute
+  '/companies': typeof protectedCompaniesPageRoute
   '/firms': typeof protectedFirmsPageRoute
   '/networks': typeof protectedNetworksPageRoute
   '/roles': typeof protectedRolesPageRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/(guest)/reset-password/': typeof guestResetPasswordPageRoute
   '/(protected)/(dashboard)/': typeof protecteddashboardPageRoute
   '/(protected)/admins/': typeof protectedAdminsPageRoute
+  '/(protected)/companies/': typeof protectedCompaniesPageRoute
   '/(protected)/firms/': typeof protectedFirmsPageRoute
   '/(protected)/networks/': typeof protectedNetworksPageRoute
   '/(protected)/roles/': typeof protectedRolesPageRoute
@@ -275,6 +284,7 @@ export interface FileRouteTypes {
     | '/reset-password/'
     | '/'
     | '/admins/'
+    | '/companies/'
     | '/firms/'
     | '/networks/'
     | '/roles/'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/'
     | '/admins'
+    | '/companies'
     | '/firms'
     | '/networks'
     | '/roles'
@@ -331,6 +342,7 @@ export interface FileRouteTypes {
     | '/(guest)/reset-password/'
     | '/(protected)/(dashboard)/'
     | '/(protected)/admins/'
+    | '/(protected)/companies/'
     | '/(protected)/firms/'
     | '/(protected)/networks/'
     | '/(protected)/roles/'
@@ -413,6 +425,13 @@ declare module '@tanstack/react-router' {
       path: '/admins'
       fullPath: '/admins/'
       preLoaderRoute: typeof protectedAdminsPageRouteImport
+      parentRoute: typeof protectedLayoutRoute
+    }
+    '/(protected)/companies/': {
+      id: '/(protected)/companies/'
+      path: '/companies'
+      fullPath: '/companies/'
+      preLoaderRoute: typeof protectedCompaniesPageRouteImport
       parentRoute: typeof protectedLayoutRoute
     }
     '/(protected)/firms/': {
@@ -572,6 +591,7 @@ const guestLayoutRouteWithChildren = guestLayoutRoute._addFileChildren(
 interface protectedLayoutRouteChildren {
   protecteddashboardPageRoute: typeof protecteddashboardPageRoute
   protectedAdminsPageRoute: typeof protectedAdminsPageRoute
+  protectedCompaniesPageRoute: typeof protectedCompaniesPageRoute
   protectedFirmsPageRoute: typeof protectedFirmsPageRoute
   protectedNetworksPageRoute: typeof protectedNetworksPageRoute
   protectedRolesPageRoute: typeof protectedRolesPageRoute
@@ -596,6 +616,7 @@ interface protectedLayoutRouteChildren {
 const protectedLayoutRouteChildren: protectedLayoutRouteChildren = {
   protecteddashboardPageRoute: protecteddashboardPageRoute,
   protectedAdminsPageRoute: protectedAdminsPageRoute,
+  protectedCompaniesPageRoute: protectedCompaniesPageRoute,
   protectedFirmsPageRoute: protectedFirmsPageRoute,
   protectedNetworksPageRoute: protectedNetworksPageRoute,
   protectedRolesPageRoute: protectedRolesPageRoute,

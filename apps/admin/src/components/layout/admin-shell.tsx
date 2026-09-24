@@ -6,6 +6,7 @@ import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
 import { Spinner } from "@workspace/ui-react/components/spinner";
 import {
 	Building2Icon,
+	BuildingIcon,
 	LayoutDashboardIcon,
 	LogOutIcon,
 	NetworkIcon,
@@ -20,6 +21,7 @@ const navigationItems = [
 	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon, exact: true },
 	{ label: "Réseaux", to: "/networks", icon: NetworkIcon, exact: false },
 	{ label: "Cabinets", to: "/firms", icon: Building2Icon, exact: false },
+	{ label: "Entreprises", to: "/companies", icon: BuildingIcon, exact: false },
 	{ label: "Distributeurs", to: "/users", icon: UsersIcon, exact: false },
 	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
 	{ label: "Rôles", to: "/roles", icon: ShieldCheckIcon, exact: false },

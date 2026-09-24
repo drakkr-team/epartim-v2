@@ -1,4 +1,11 @@
-export const AUTHORIZATIONS_RESOURCES = ["admin", "role", "user", "firm", "network"] as const;
+export const AUTHORIZATIONS_RESOURCES = [
+	"admin",
+	"role",
+	"user",
+	"firm",
+	"network",
+	"company",
+] as const;
 export type AuthorizationResources = (typeof AUTHORIZATIONS_RESOURCES)[number];
 
 export const AUTHORIZATIONS_ACTIONS = ["create", "update", "delete"] as const;

@@ -1,0 +1,28 @@
+type: http_request
+model: http_request
+id: rq_company_view
+createdAt: 2026-09-24T00:00:00.000000
+updatedAt: 2026-09-24T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_companies
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: Requires an authenticated admin. Set COMPANY_ID in your private Yaak environment.
+headers:
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: GET
+name: View company
+sortPriority: 2000.0
+url: http://localhost:3333/admin/companies/${[ COMPANY_ID ]}
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true

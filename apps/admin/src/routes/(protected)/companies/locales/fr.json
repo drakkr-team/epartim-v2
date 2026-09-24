@@ -1,0 +1,16 @@
+{
+	"routes.(protected).companies": {
+		"headline": "Gestion des entreprises",
+		"title": "Entreprises",
+		"description": "Consultez les entreprises associées aux souscriptions.",
+		"search": {
+			"placeholder": "Rechercher une entreprise par nom..."
+		},
+		"empty": {
+			"title": "Aucune entreprise",
+			"title-search": "Aucun résultat",
+			"description": "Aucune entreprise n'est disponible pour le moment.",
+			"description-search": "Aucune entreprise ne correspond à « {{search}} »."
+		}
+	}
+}

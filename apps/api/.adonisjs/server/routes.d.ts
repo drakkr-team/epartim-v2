@@ -12,6 +12,8 @@ export type ScannedRoutes = {
     'admin.admins.update': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.admins.delete': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
     'admin.admins.resend_onboarding': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.companies.list': { paramsTuple?: []; params?: {} }
+    'admin.companies.view': { paramsTuple: [ParamValue]; params: {'companyId': ParamValue} }
     'admin.firms.list': { paramsTuple?: []; params?: {} }
     'admin.firms.create': { paramsTuple?: []; params?: {} }
     'admin.firms.view': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
@@ -66,6 +68,8 @@ export type ScannedRoutes = {
     'admin.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'admin.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.companies.list': { paramsTuple?: []; params?: {} }
+    'admin.companies.view': { paramsTuple: [ParamValue]; params: {'companyId': ParamValue} }
     'admin.firms.list': { paramsTuple?: []; params?: {} }
     'admin.firms.view': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
     'admin.networks.list': { paramsTuple?: []; params?: {} }
@@ -83,6 +87,8 @@ export type ScannedRoutes = {
     'admin.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'admin.admins.list': { paramsTuple?: []; params?: {} }
     'admin.admins.view': { paramsTuple: [ParamValue]; params: {'adminId': ParamValue} }
+    'admin.companies.list': { paramsTuple?: []; params?: {} }
+    'admin.companies.view': { paramsTuple: [ParamValue]; params: {'companyId': ParamValue} }
     'admin.firms.list': { paramsTuple?: []; params?: {} }
     'admin.firms.view': { paramsTuple: [ParamValue]; params: {'firmId': ParamValue} }
     'admin.networks.list': { paramsTuple?: []; params?: {} }
