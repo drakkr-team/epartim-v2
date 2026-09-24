@@ -13,6 +13,16 @@
 			"firstName": "Prénom",
 			"lastName": "Nom",
 			"email": "Adresse e-mail",
+			"role": {
+				"label": "Rôle",
+				"option": {
+					"USER": "Distributeur",
+					"FIRM": "Cabinet",
+					"NETWORK": "Réseau",
+					"ADMIN": "Administrateur"
+				}
+			},
+			"firm": "Cabinet",
 			"activatedAt": "Activé le",
 			"createdAt": "Créé le",
 			"updatedAt": "Mis à jour le"

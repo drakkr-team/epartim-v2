@@ -6,11 +6,15 @@ import ResendUserOnboardingPolicy from "#features/admin/users/policies/resend_on
 import UpdateUserPolicy from "#features/admin/users/policies/update.policy";
 import ViewUserPolicy from "#features/admin/users/policies/view.policy";
 import User from "#models/user";
+import FirmPresenter from "#presenters/firm.presenter";
 import UserPresenter from "#presenters/user.presenter";
 
 @inject()
 export default class ViewUserController {
-	constructor(protected userPresenter: UserPresenter) {}
+	constructor(
+		protected userPresenter: UserPresenter,
+		protected firmPresenter: FirmPresenter,
+	) {}
 
 	async handle({ params, bouncer }: HttpContext) {
 		const { userId } = params;
@@ -18,9 +22,11 @@ export default class ViewUserController {
 		await bouncer.with(ViewUserPolicy).authorize("handle");
 
 		const user = await User.findOrFail(userId);
+		await user.load("firm");
 
 		return {
 			...this.userPresenter.toJSON(user),
+			firm: user.firmId ? this.firmPresenter.toJSON(user.firm) : null,
 			meta: {
 				canUpdate: await bouncer.with(UpdateUserPolicy).allows("handle"),
 				canDelete: await bouncer.with(DeleteUserPolicy).allows("handle", user.id),

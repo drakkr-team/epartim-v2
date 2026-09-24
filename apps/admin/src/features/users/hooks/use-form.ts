@@ -4,15 +4,23 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
+import { USER_ROLES, type UserRole } from "@workspace/api/constants/user";
+
 import { useCreateUserMutation } from "#/features/users/hooks/use-create-mutation";
 import { useUpdateUserMutation } from "#/features/users/hooks/use-update-mutation";
 import { useAppForm } from "#/libs/form";
-import { convertTuyauErrorToFormErrorMap } from "#/utils/form";
+import {
+	convertTuyauErrorToFormErrorMap,
+	focusFirstInvalidInput,
+	getDirtyValues,
+} from "#/utils/form";
 
 type UserFormValues = {
 	firstName: string;
 	lastName: string;
 	email: string;
+	role: UserRole;
+	firmId: number | null;
 };
 
 type UseCreateUserFormParams = {
@@ -39,8 +47,10 @@ export function useUserForm(params: UseUserFormParams) {
 			firstName: "",
 			lastName: "",
 			email: "",
+			role: USER_ROLES.USER,
+			firmId: null,
 			...params.defaultValues,
-		},
+		} as UserFormValues,
 		validationLogic: revalidateLogic(),
 		validators: {
 			onDynamic: z.object({
@@ -55,27 +65,21 @@ export function useUserForm(params: UseUserFormParams) {
 				email: z
 					.email({ error: t("validation.email.email") })
 					.max(254, { error: t("validation.email.max", { max: 254 }) }),
+				role: z.enum(USER_ROLES),
+				firmId: z.number().nullable(),
 			}),
 		},
-		onSubmitInvalid() {
-			const invalidInput = document.querySelector('[aria-invalid="true"]');
-
-			if (invalidInput instanceof HTMLInputElement) {
-				invalidInput.focus();
-			}
-		},
+		onSubmitInvalid: focusFirstInvalidInput,
 		onSubmit: async ({ value }) => {
 			if (params.action === "create") {
 				await createUser({ body: value });
 			}
 
 			if (params.action === "update") {
+				const body = getDirtyValues(params.defaultValues, value);
 				await updateUser({
 					params: { userId: params.userId },
-					body: {
-						firstName: value.firstName,
-						lastName: value.lastName,
-					},
+					body,
 				});
 			}
 		},

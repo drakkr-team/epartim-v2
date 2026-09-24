@@ -4,8 +4,10 @@ import { TuyauError } from "@tuyau/core/client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { USER_ROLES } from "@workspace/api/constants/user";
 import { Button } from "@workspace/ui-react/components/button";
 import { Card } from "@workspace/ui-react/components/card";
+import { Link } from "@workspace/ui-react/components/link";
 import { Menu } from "@workspace/ui-react/components/menu";
 import { Spinner } from "@workspace/ui-react/components/spinner";
 import {
@@ -102,6 +104,32 @@ function Page() {
 				<DetailField label={t("field.firstName")} value={user.firstName} />
 				<DetailField label={t("field.lastName")} value={user.lastName} />
 				<DetailField label={t("field.email")} value={user.email} />
+				<DetailField
+					label={t("field.role.label")}
+					value={t(
+						`field.role.option.${
+							Object.keys(USER_ROLES).find(
+								(key) => USER_ROLES[key as keyof typeof USER_ROLES] === user.role,
+							) as keyof typeof USER_ROLES
+						}`,
+					)}
+				/>
+				<DetailField
+					label={t("field.firm")}
+					value={
+						user.firm ? (
+							<Link
+								render={
+									<RouterLink to="/firms/$firmId" params={{ firmId: user.firm.id.toString() }} />
+								}
+							>
+								{user.firm.name}
+							</Link>
+						) : (
+							"-"
+						)
+					}
+				/>
 				<DetailField
 					label={t("field.activatedAt")}
 					value={user.activatedAt?.toLocaleDateString() ?? t("status.pendingActivation")}

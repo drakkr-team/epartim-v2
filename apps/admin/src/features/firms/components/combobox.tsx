@@ -2,26 +2,26 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { Network } from "@workspace/api/data";
+import type { Firm } from "@workspace/api/data";
 import { Combobox, type ComboboxProps } from "@workspace/ui-react/components/combobox";
 
 import { useLoadMoreWhileInView } from "#/hooks/use-load-more-while-in-view.ts";
 import { api } from "#/libs/tuyau.ts";
 
-type NetworkComboboxProps = Omit<ComboboxProps<Network>, "items" | "onInputValueChange">;
+type FirmComboboxProps = Omit<ComboboxProps<Firm>, "items" | "onInputValueChange" | "filter">;
 
-export function NetworkCombobox(props: NetworkComboboxProps) {
-	const { t } = useTranslation("features.networks.components.combobox");
+export function FirmCombobox(props: FirmComboboxProps) {
+	const { t } = useTranslation("features.firms.components.combobox");
 
 	const [search, setSearch] = useState("");
 
 	const {
-		data: networks,
+		data: firms,
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage,
 	} = useInfiniteQuery(
-		api.networks.list.infiniteQueryOptions(
+		api.firms.list.infiniteQueryOptions(
 			{ query: { q: search } },
 			{
 				initialPageParam: 1,
@@ -36,13 +36,13 @@ export function NetworkCombobox(props: NetworkComboboxProps) {
 		),
 	);
 	const loadMoreRef = useLoadMoreWhileInView({ hasNextPage, isFetchingNextPage, fetchNextPage });
-	const networkItems = networks ?? [];
+	const firmItems = firms ?? [];
 
 	return (
-		<Combobox items={networkItems} onInputValueChange={setSearch} {...props}>
+		<Combobox items={firmItems} onInputValueChange={setSearch} filter={null} {...props}>
 			<Combobox.Input>
 				<Combobox.Value>
-					{(item: Network | null | undefined) => {
+					{(item: Firm | null | undefined) => {
 						if (!item) return t("placeholder");
 
 						return item.name;
@@ -53,12 +53,12 @@ export function NetworkCombobox(props: NetworkComboboxProps) {
 			<Combobox.Dropdown>
 				<Combobox.SearchInput placeholder={t("search")} />
 
-				{networkItems.length === 0 && (
+				{firmItems.length === 0 && (
 					<Combobox.Empty className="p-3 text-neutral-11 text-sm">{t("empty")}</Combobox.Empty>
 				)}
 
 				<Combobox.List>
-					{(item: Network) => (
+					{(item: Firm) => (
 						<Combobox.Item key={item.id} value={item}>
 							{item.name}
 						</Combobox.Item>

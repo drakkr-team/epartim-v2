@@ -1,16 +1,19 @@
 import { test } from "@japa/runner";
 
+import { USER_ROLES } from "#constants/user";
 import { AdminFactory } from "#database/factories/admin.factory";
+import { FirmFactory } from "#database/factories/firm.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Role from "#models/role";
 
 test.group("Features / Admin / Users / Controllers / Update Controller", () => {
-	test("it should update and normalize a user name", async ({ client, assert }) => {
+	test("it should partially update and normalize a user", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["update:user"];
 		await role.save();
 		const targetUser = await UserFactory.create();
+		const originalLastName = targetUser.lastName;
 
 		const response = await client
 			.visit("admin.users.update", { userId: targetUser.id })
@@ -18,32 +21,34 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 			.loginAs(authenticatedAdmin)
 			.json({
 				firstName: "  Élodie  ",
-				lastName: "  Gestionnaire  ",
 			});
 
 		response.assertOk();
 		response.assertBodyContains({
 			id: targetUser.id,
 			firstName: "Élodie",
-			lastName: "Gestionnaire",
+			lastName: originalLastName,
 		});
 		assert.notProperty(response.body(), "password");
 		await targetUser.refresh();
 		assert.equal(targetUser.firstName, "Élodie");
-		assert.equal(targetUser.lastName, "Gestionnaire");
+		assert.equal(targetUser.lastName, originalLastName);
 	});
 
-	test("it should ignore every field except names", async ({ client, assert }) => {
+	test("it should update role and firm but ignore excluded fields", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["update:user"];
 		await role.save();
 		const targetUser = await UserFactory.create();
+		const firm = await FirmFactory.with("address").with("paymentDetail").create();
 		const originalEmail = targetUser.email;
 		const originalPassword = targetUser.password;
 		const payload = {
 			firstName: "Allowed",
 			lastName: "Name",
+			role: USER_ROLES.FIRM,
+			firmId: firm.id,
 			email: "changed@example.com",
 			password: "changed-password",
 		};
@@ -52,32 +57,41 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 			.visit("admin.users.update", { userId: targetUser.id })
 			.withGuard("admin")
 			.loginAs(authenticatedAdmin)
-			.json(payload as Pick<typeof payload, "firstName" | "lastName">);
+			.json(payload);
 
 		response.assertOk();
+		response.assertBodyContains({
+			role: USER_ROLES.FIRM,
+			firmId: firm.id,
+		});
 		await targetUser.refresh();
 		assert.equal(targetUser.firstName, "Allowed");
 		assert.equal(targetUser.lastName, "Name");
+		assert.equal(targetUser.role, USER_ROLES.FIRM);
+		assert.equal(targetUser.firmId, firm.id);
 		assert.equal(targetUser.email, originalEmail);
 		assert.equal(targetUser.password, originalPassword);
 	});
 
-	test("it should reject incomplete and invalid payloads", async ({ client }) => {
+	test("it should reject invalid payload values", async ({ client, assert }) => {
 		const authenticatedAdmin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["update:user"];
 		await role.save();
 		const targetUser = await UserFactory.create();
+		const statuses: number[] = [];
 
-		for (const payload of [{}, { firstName: "Only" }, { firstName: " ", lastName: "User" }]) {
+		for (const payload of [{ firstName: "A" }, { role: 999 }, { firmId: 2_147_483_647 }]) {
 			const response = await client
 				.visit("admin.users.update", { userId: targetUser.id })
 				.withGuard("admin")
 				.loginAs(authenticatedAdmin)
 				.unsafeJson(payload);
 
-			response.assertStatus(422);
+			statuses.push(response.status());
 		}
+
+		assert.deepEqual(statuses, [422, 422, 422]);
 	});
 
 	test("it should return not found for missing identifiers", async ({ client }) => {

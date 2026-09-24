@@ -325,7 +325,7 @@ export class SubscriptionSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['activatedAt', 'createdAt', 'email', 'firstName', 'id', 'lastName', 'password', 'updatedAt'] as const
+  static $columns = ['activatedAt', 'createdAt', 'email', 'firmId', 'firstName', 'id', 'lastName', 'password', 'role', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime()
   declare activatedAt: DateTime | null
@@ -334,6 +334,8 @@ export class UserSchema extends BaseModel {
   @column()
   declare email: string
   @column()
+  declare firmId: number | null
+  @column()
   declare firstName: string
   @column({ isPrimary: true })
   declare id: number
@@ -341,6 +343,8 @@ export class UserSchema extends BaseModel {
   declare lastName: string
   @column({ serializeAs: null })
   declare password: string
+  @column()
+  declare role: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

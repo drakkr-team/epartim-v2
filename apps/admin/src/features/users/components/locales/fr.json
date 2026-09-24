@@ -9,6 +9,18 @@
 			},
 			"email": {
 				"label": "Adresse e-mail"
+			},
+			"role": {
+				"label": "Rôle",
+				"option": {
+					"USER": "Distributeur",
+					"FIRM": "Cabinet",
+					"NETWORK": "Réseau",
+					"ADMIN": "Administrateur"
+				}
+			},
+			"firm": {
+				"label": "Cabinet"
 			}
 		},
 		"action": {
