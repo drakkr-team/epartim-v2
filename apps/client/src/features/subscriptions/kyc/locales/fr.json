@@ -23,14 +23,43 @@
 			"countryProviderReference": "Pays des fournisseurs",
 			"countrySelection": "Sélectionnez les pays",
 			"mainMarkets": "Principaux marchés",
-			"mainMarketsReference": "Principaux marchés"
+			"mainMarketsReference": "Principaux marchés",
+			"kind": "Nature",
+			"firstName": "Prénom",
+			"lastName": "Nom",
+			"legalName": "Raison sociale",
+			"birthDate": "Date de naissance",
+			"birthCity": "Ville de naissance",
+			"roles": "Qualité(s)",
+			"shareholdingPercentage": "Pourcentage de capital détenu",
+			"function": "Fonction / profession",
+			"nationality": "Nationalité",
+			"registrationCountry": "Pays d’immatriculation",
+			"lineOne": "Adresse",
+			"zip": "Code postal",
+			"city": "Ville"
 		},
+		"kind": { "physical": "Personne physique", "legal": "Personne morale" },
+		"action": { "clearBirthDate": "Effacer la date de naissance" },
+		"address": { "title": "Adresse postale" },
 		"validation": {
 			"required": "Ce champ est obligatoire.",
 			"max": "Cette valeur est trop longue.",
 			"percentage": "Saisissez un pourcentage entre 0 et 100.",
 			"countryOfActivityBreakdown": "Ajoutez au moins un pays.",
-			"countryOfActivityTotal": "La répartition doit totaliser 100 %."
+			"countryOfActivityTotal": "La répartition doit totaliser 100 %.",
+			"zip": "Saisissez un code postal à 5 chiffres."
+		},
+		"owners": {
+			"eyebrow": "II. Détenteurs de l’entreprise",
+			"title": "Détenteurs de l’entreprise",
+			"description": "La vérification des bénéficiaires effectifs et détenteurs relève de votre responsabilité. Vérifiez les informations et complétez-les si nécessaire.",
+			"warning": "Toute personne physique ou morale détentrice de plus de 25 % du capital et/ou dirigeante doit être mentionnée.",
+			"empty": "Aucun détenteur déclaré.",
+			"total": "Total de détention déclaré : {{total}} %",
+			"add": "Ajouter un détenteur de l’entreprise",
+			"remove": "Supprimer ce détenteur",
+			"item": "Détenteur {{index}}"
 		}
 	},
 	"features.subscriptions.kyc.hooks.use-mutation": {

@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import type { routes } from "@workspace/api/registry";
 
+import { BeneficialOwnersForm } from "#/features/subscriptions/kyc/components/beneficial-owners-form";
 import { KycProfileForm } from "#/features/subscriptions/kyc/components/form.tsx";
 import { SubscriptionStepFooter } from "#/features/subscriptions/steps/components/subscription-step-footer";
 import { SubscriptionStepHeader } from "#/features/subscriptions/steps/components/subscription-step-header";
@@ -25,6 +26,7 @@ export function KycStep(props: KycStepProps) {
 					title={t("step-two.title")}
 				/>
 				<KycProfileForm subscription={subscription} subscriptionId={subscriptionId} />
+				<BeneficialOwnersForm subscription={subscription} subscriptionId={subscriptionId} />
 				<SubscriptionStepFooter
 					currentStep={2}
 					stepLabel={t("step-two.short-title")}
