@@ -7,6 +7,7 @@ import { MinimumSeniorityMonths, SubscriptionAgreement } from "#constants/subscr
 import SubscriptionDocumentRequirementsService from "#features/client/subscriptions/services/documents/requirements.service";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import Subscription from "#models/subscription";
+import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
 
 @inject()
@@ -94,10 +95,11 @@ export default class ValidateSubscriptionStepService {
 				rule: "required",
 			});
 		}
-		if (
-			plan?.existingAgreements.includes(SubscriptionAgreement.OTHER) &&
-			!plan.otherAgreementDetails?.trim()
-		) {
+		const otherAgreement = await SubscriptionExistingAgreement.query({ client: trx })
+			.where("subscriptionId", subscription.id)
+			.where("type", SubscriptionAgreement.OTHER)
+			.first();
+		if (otherAgreement && !plan?.otherAgreementDetails?.trim()) {
 			errors.push({
 				field: "contractCharacteristics.otherAgreementDetails",
 				message: "Détaillez l’autre accord existant.",

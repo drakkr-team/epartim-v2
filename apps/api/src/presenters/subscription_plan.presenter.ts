@@ -1,8 +1,14 @@
+import { SubscriptionAgreement } from "#constants/subscription_agreement";
+import type SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
 import type SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
 export default class SubscriptionPlanPresenter {
-	toJSON(plan: SubscriptionPlan, adhesions: SubscriptionPlanAdhesion[]) {
+	toJSON(
+		plan: SubscriptionPlan,
+		adhesions: SubscriptionPlanAdhesion[],
+		existingAgreements: SubscriptionExistingAgreement[],
+	) {
 		return {
 			id: plan.id,
 			subscriptionId: plan.subscriptionId,
@@ -12,7 +18,9 @@ export default class SubscriptionPlanPresenter {
 					? null
 					: Number(plan.estimatedTransferAmountCents) / 100,
 			adhesionTypes: adhesions.map((adhesion) => adhesion.type),
-			existingAgreements: plan.existingAgreements,
+			existingAgreements: Object.values(SubscriptionAgreement).filter((type) =>
+				existingAgreements.some((agreement) => agreement.type === type),
+			),
 			otherAgreementDetails: plan.otherAgreementDetails,
 			minimumSeniorityMonths: plan.minimumSeniorityMonths,
 		};

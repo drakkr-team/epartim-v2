@@ -10,19 +10,20 @@ import ValidateSubscriptionStepService from "#features/client/subscriptions/serv
 import File from "#models/file";
 import Subscription from "#models/subscription";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
+import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
 import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 import { UpdateSubscriptionContractCharacteristicsSchema } from "#validators/subscription/contract_characteristics.validator";
 
-export type UpdateSubscriptionPlansPayload = Infer<
+export type UpdateContractCharacteristicsPayload = Infer<
 	typeof UpdateSubscriptionContractCharacteristicsSchema
 >;
 
 @inject()
-export default class UpdateSubscriptionPlansService {
+export default class UpdateContractCharacteristicsService {
 	constructor(protected validateSubscriptionStepService: ValidateSubscriptionStepService) {}
 
-	async handle(subscription: Subscription, payload: UpdateSubscriptionPlansPayload) {
+	async handle(subscription: Subscription, payload: UpdateContractCharacteristicsPayload) {
 		let obsoleteFiles: File[] = [];
 		const result = await db.transaction(async (trx) => {
 			await Subscription.query({ client: trx })
@@ -34,7 +35,6 @@ export default class UpdateSubscriptionPlansService {
 				{
 					existingDeviceTransfer: false,
 					estimatedTransferAmountCents: null,
-					existingAgreements: [],
 					otherAgreementDetails: null,
 					minimumSeniorityMonths: null,
 				},
@@ -50,7 +50,6 @@ export default class UpdateSubscriptionPlansService {
 			} = payload.contractCharacteristics;
 
 			plan.merge({
-				...(existingAgreements === undefined ? {} : { existingAgreements }),
 				...(otherAgreementDetails === undefined ? {} : { otherAgreementDetails }),
 				...(minimumSeniorityMonths === undefined ? {} : { minimumSeniorityMonths }),
 				...(existingDeviceTransfer === undefined ? {} : { existingDeviceTransfer }),
@@ -66,13 +65,21 @@ export default class UpdateSubscriptionPlansService {
 			if (!plan.existingDeviceTransfer) {
 				plan.estimatedTransferAmountCents = null;
 			}
-			if (!plan.existingAgreements.includes(SubscriptionAgreement.OTHER)) {
+			if (existingAgreements !== undefined) {
+				await this.#replaceExistingAgreements(subscription.id, existingAgreements, trx);
+				obsoleteFiles = await this.#deleteInactiveAgreementDocuments(
+					subscription.id,
+					existingAgreements,
+					trx,
+				);
+			}
+			const agreements = await SubscriptionExistingAgreement.query({ client: trx })
+				.where("subscriptionId", subscription.id)
+				.orderBy("type");
+			if (!agreements.some((agreement) => agreement.type === SubscriptionAgreement.OTHER)) {
 				plan.otherAgreementDetails = null;
 			}
 			await plan.useTransaction(trx).save();
-			if (existingAgreements !== undefined) {
-				obsoleteFiles = await this.#deleteInactiveAgreementDocuments(plan, trx);
-			}
 
 			if (adhesionTypes !== undefined) {
 				await this.#replaceAdhesions(plan, adhesionTypes, trx);
@@ -87,34 +94,68 @@ export default class UpdateSubscriptionPlansService {
 				.where("subscriptionPlanId", plan.id)
 				.orderBy("type");
 
-			return { plan, adhesions };
+			return { plan, adhesions, existingAgreements: agreements };
 		});
 		await Promise.all(obsoleteFiles.map((file) => file.delete()));
 		return result;
 	}
 
-	async #deleteInactiveAgreementDocuments(plan: SubscriptionPlan, trx: TransactionClientContract) {
+	async #replaceExistingAgreements(
+		subscriptionId: number,
+		agreementTypes: SubscriptionAgreement[],
+		trx: TransactionClientContract,
+	) {
+		if (agreementTypes.length === 0) {
+			await SubscriptionExistingAgreement.query({ client: trx })
+				.where("subscriptionId", subscriptionId)
+				.delete();
+			return;
+		}
+
+		await SubscriptionExistingAgreement.query({ client: trx })
+			.where("subscriptionId", subscriptionId)
+			.whereNotIn("type", agreementTypes)
+			.delete();
+		const existingAgreements = await SubscriptionExistingAgreement.query({ client: trx })
+			.where("subscriptionId", subscriptionId)
+			.select("type");
+		const existingTypes = new Set(existingAgreements.map((agreement) => agreement.type));
+		const additions = agreementTypes.filter((type) => !existingTypes.has(type));
+
+		if (additions.length > 0) {
+			await SubscriptionExistingAgreement.createMany(
+				additions.map((type) => ({ subscriptionId, type })),
+				{ client: trx },
+			);
+		}
+	}
+
+	async #deleteInactiveAgreementDocuments(
+		subscriptionId: number,
+		existingAgreements: SubscriptionAgreement[],
+		trx: TransactionClientContract,
+	) {
 		const inactiveTypes: SubscriptionDocumentType[] = [];
 
-		if (!plan.existingAgreements.includes(SubscriptionAgreement.PARTICIPATION)) {
+		if (!existingAgreements.includes(SubscriptionAgreement.PARTICIPATION)) {
 			inactiveTypes.push(SubscriptionDocumentType.PARTICIPATION_AGREEMENT);
 		}
-		if (!plan.existingAgreements.includes(SubscriptionAgreement.INCENTIVES)) {
+		if (!existingAgreements.includes(SubscriptionAgreement.INCENTIVES)) {
 			inactiveTypes.push(SubscriptionDocumentType.INCENTIVES_AGREEMENT);
 		}
-		if (!plan.existingAgreements.includes(SubscriptionAgreement.PPV)) {
+		if (!existingAgreements.includes(SubscriptionAgreement.PPV)) {
 			inactiveTypes.push(SubscriptionDocumentType.PPV_AGREEMENT);
 		}
-		if (!plan.existingAgreements.includes(SubscriptionAgreement.PPVE)) {
+		if (!existingAgreements.includes(SubscriptionAgreement.PPVE)) {
 			inactiveTypes.push(SubscriptionDocumentType.PPVE_AGREEMENT);
 		}
-		if (!plan.existingAgreements.includes(SubscriptionAgreement.OTHER)) {
+		if (!existingAgreements.includes(SubscriptionAgreement.OTHER)) {
 			inactiveTypes.push(SubscriptionDocumentType.OTHER_AGREEMENT);
 		}
 
 		if (inactiveTypes.length === 0) return [];
 		const documents = await SubscriptionDocument.query({ client: trx })
-			.where("subscriptionId", plan.subscriptionId)
+			.where("subscriptionId", subscriptionId)
 			.whereIn("type", inactiveTypes)
 			.preload("file");
 		await Promise.all(documents.map((document) => document.useTransaction(trx).delete()));

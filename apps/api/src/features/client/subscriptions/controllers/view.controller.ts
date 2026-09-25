@@ -51,6 +51,7 @@ export default class ViewSubscriptionController {
 			kycProfile,
 			beneficialOwners,
 			plan,
+			existingAgreements,
 		] = await Promise.all([
 			subscription.company.related("legalAgent").query().first(),
 			subscription.company.related("signer").query().first(),
@@ -69,6 +70,7 @@ export default class ViewSubscriptionController {
 				.preload("roles")
 				.orderBy("company_beneficial_owners.id"),
 			subscription.related("plan").query().preload("adhesions").first(),
+			subscription.related("existingAgreements").query().orderBy("type"),
 		]);
 
 		return {
@@ -96,7 +98,7 @@ export default class ViewSubscriptionController {
 				),
 			},
 			contractCharacteristics: plan
-				? this.subscriptionPlanPresenter.toJSON(plan, plan.adhesions)
+				? this.subscriptionPlanPresenter.toJSON(plan, plan.adhesions, existingAgreements)
 				: {
 						id: null,
 						subscriptionId: subscription.id,

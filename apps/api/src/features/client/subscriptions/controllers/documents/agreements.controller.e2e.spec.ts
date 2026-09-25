@@ -8,6 +8,7 @@ import { UserFactory } from "#database/factories/user.factory";
 import File from "#models/file";
 import Subscription from "#models/subscription";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
+import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
 import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
@@ -66,11 +67,16 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 		const { subscription, user, plan } = await createSubscription();
 		await plan
 			.merge({
-				existingAgreements: Object.values(SubscriptionAgreement),
 				minimumSeniorityMonths: 0,
 				otherAgreementDetails: "   ",
 			})
 			.save();
+		await SubscriptionExistingAgreement.createMany(
+			Object.values(SubscriptionAgreement).map((type) => ({
+				subscriptionId: subscription.id,
+				type,
+			})),
+		);
 		const missingDetails = await client
 			.visit("client.subscriptions.validate_step", { subscriptionId: subscription.id, step: 3 })
 			.withGuard("client")
@@ -150,12 +156,13 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 		assert,
 	}) => {
 		const { subscription, user, plan } = await createSubscription();
-		await plan
-			.merge({
-				existingAgreements: [SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.OTHER],
-				otherAgreementDetails: "CET",
-			})
-			.save();
+		await plan.merge({ otherAgreementDetails: "CET" }).save();
+		await SubscriptionExistingAgreement.createMany(
+			[SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.OTHER].map((type) => ({
+				subscriptionId: subscription.id,
+				type,
+			})),
+		);
 		const uploadedIds = [];
 		for (const documentType of [12, 16]) {
 			const upload = await client
@@ -205,7 +212,7 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 	test("it rejects unselected agreements, wrong owners, invalid formats and oversized files", async ({
 		client,
 	}) => {
-		const { subscription, user, plan } = await createSubscription();
+		const { subscription, user } = await createSubscription();
 		const unselected = await client
 			.visit("client.subscriptions.upload_document", {
 				subscriptionId: subscription.id,
@@ -215,7 +222,10 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 			.loginAs(user)
 			.file("file", pdf, { contentType: "application/pdf", filename: "agreement.pdf" });
 		unselected.assertStatus(422);
-		await plan.merge({ existingAgreements: [SubscriptionAgreement.PARTICIPATION] }).save();
+		await SubscriptionExistingAgreement.create({
+			subscriptionId: subscription.id,
+			type: SubscriptionAgreement.PARTICIPATION,
+		});
 		const wrongOwner = await client
 			.visit("client.subscriptions.upload_document", {
 				subscriptionId: subscription.id,
