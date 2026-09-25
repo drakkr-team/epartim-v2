@@ -61,4 +61,11 @@ export default await Env.create(new URL("../", import.meta.url), {
 	S3_SECRET_ACCESS_KEY: Env.schema.string.optionalWhen(process.env.DRIVE_DRIVER !== "s3"),
 	S3_REGION: Env.schema.string.optionalWhen(process.env.DRIVE_DRIVER !== "s3"),
 	S3_BUCKET: Env.schema.string.optionalWhen(process.env.DRIVE_DRIVER !== "s3"),
+
+	// DocuSign Config
+	DOCUSIGN_BASE_PATH: Env.schema.string({ format: "url", tld: true }),
+	DOCUSIGN_CLIENT_ID: Env.schema.string(),
+	DOCUSIGN_USER_ID: Env.schema.string(),
+	DOCUSIGN_ACCOUNT_ID: Env.schema.string(),
+	DOCUSIGN_RSA_PRIVATE_KEY: Env.schema.string(),
 });
