@@ -13,11 +13,14 @@ body:
       "contractCharacteristics": {
         "existingDeviceTransfer": true,
         "estimatedTransferAmount": 250000.50,
-        "adhesionTypes": [1, 2]
+        "adhesionTypes": [1, 2],
+        "existingAgreements": ["participation", "other_agreement"],
+        "otherAgreementDetails": "${[ faker.lorem.sentence() ]}",
+        "minimumSeniorityMonths": 0
       }
     }
 bodyType: application/json
-description: Set SUBSCRIPTION_ID in your private Yaak environment. The request requires an authenticated client session.
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Send only changed contractCharacteristics fields. existingAgreements accepts any distinct combination of participation, incentives, ppv, ppve and other_agreement, including []. Deselecting an agreement deletes its document; deselecting other_agreement also clears its details. Details have no business length limit. minimumSeniorityMonths accepts 0, 1, 2, 3 or null for an unanswered draft; 0 means no seniority. Returns 200 with the saved characteristics or 422 for invalid values. Changes invalidate step 3.'
 headers:
 - enabled: true
   name: Content-Type

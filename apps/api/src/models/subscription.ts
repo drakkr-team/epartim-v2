@@ -4,6 +4,7 @@ import type { BelongsTo, HasMany, HasOne } from "@adonisjs/lucid/types/relations
 import { SubscriptionSchema } from "#database/schema";
 import Company from "#models/company";
 import SubscriptionDocument from "#models/subscription_document";
+import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
 import User from "#models/user";
 import { jsonColumn } from "#src/utils/json_column";
@@ -30,6 +31,9 @@ export default class Subscription extends SubscriptionSchema {
 
 	@hasMany(() => SubscriptionDocument)
 	declare documents: HasMany<typeof SubscriptionDocument>;
+
+	@hasMany(() => SubscriptionExistingAgreement)
+	declare existingAgreements: HasMany<typeof SubscriptionExistingAgreement>;
 
 	@hasOne(() => SubscriptionPlan)
 	declare plan: HasOne<typeof SubscriptionPlan>;

@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Set SUBSCRIPTION_ID in your private Yaak environment. Attached document URLs are time-limited and trigger a download.
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Returns contractCharacteristics including existingAgreements, otherAgreementDetails and minimumSeniorityMonths, plus contractDocuments for selected agreements (pending or attached). Attached document URLs are time-limited and trigger a download.'
 headers:
 - enabled: true
   name: Accept

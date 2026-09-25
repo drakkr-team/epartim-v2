@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Set SUBSCRIPTION_ID in your private Yaak environment. The request requires an authenticated client session.
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Replace the step number in the URL with 1, 2 or 3. Step 3 requires an adhesion, a selected minimumSeniorityMonths (0 is valid), details when other_agreement is selected, and one document per selected agreement. Incomplete steps return 422 with field errors and remain unvalidated. Complete steps return 200.'
 headers:
 - enabled: true
   name: Accept
