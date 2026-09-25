@@ -1,5 +1,6 @@
 import { test } from "@japa/runner";
 
+import { MinimumSeniorityMonths, SubscriptionAgreement } from "#constants/subscription_agreement";
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
@@ -128,5 +129,94 @@ test.group("Features / Client / Subscriptions / Controllers / Update Plans", () 
 			.json({ contractCharacteristics: { existingDeviceTransfer: true } });
 
 		response.assertStatus(403);
+	});
+
+	test("it saves every combination of agreements including none", async ({ client, assert }) => {
+		const { subscription, user } = await createSubscription();
+		const choices = Object.values(SubscriptionAgreement);
+		for (let combination = 0; combination < 2 ** choices.length; combination++) {
+			const existingAgreements = choices.filter((_, index) => (combination & (1 << index)) !== 0);
+			const response = await client
+				.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+				.withGuard("client")
+				.loginAs(user)
+				.json({ contractCharacteristics: { existingAgreements } });
+			response.assertOk();
+			assert.deepEqual(response.body().existingAgreements, existingAgreements);
+			assert.deepEqual(
+				(await SubscriptionPlan.findByOrFail("subscriptionId", subscription.id)).existingAgreements,
+				existingAgreements,
+			);
+		}
+	});
+
+	test("it saves all seniorities and distinguishes no seniority from an unanswered draft", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		for (const minimumSeniorityMonths of [...MinimumSeniorityMonths, null]) {
+			const response = await client
+				.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+				.withGuard("client")
+				.loginAs(user)
+				.json({ contractCharacteristics: { minimumSeniorityMonths } });
+			response.assertOk();
+			assert.strictEqual(response.body().minimumSeniorityMonths, minimumSeniorityMonths);
+		}
+	});
+
+	test("it rejects invalid agreement and seniority values", async ({ client }) => {
+		const { subscription, user } = await createSubscription();
+		for (const contractCharacteristics of [
+			{ existingAgreements: ["invalid"] },
+			{ existingAgreements: ["participation", "participation"] },
+			{ minimumSeniorityMonths: -1 },
+			{ minimumSeniorityMonths: 4 },
+			{ minimumSeniorityMonths: 1.5 },
+		]) {
+			const response = await client
+				.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+				.withGuard("client")
+				.loginAs(user)
+				.unsafeJson({ contractCharacteristics });
+			response.assertStatus(422);
+		}
+	});
+
+	test("it preserves other agreement details on partial saves and clears them on deselection", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		const details = "Compte épargne-temps. ".repeat(100);
+		const response = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: {
+					existingAgreements: [SubscriptionAgreement.OTHER],
+					otherAgreementDetails: details,
+				},
+			});
+		response.assertOk();
+		assert.equal(response.body().otherAgreementDetails, details.trim());
+
+		const partialResponse = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({ contractCharacteristics: { minimumSeniorityMonths: 1 } });
+		partialResponse.assertOk();
+		assert.equal(partialResponse.body().otherAgreementDetails, details.trim());
+
+		const clearResponse = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({ contractCharacteristics: { existingAgreements: [] } });
+		clearResponse.assertOk();
+		assert.isNull(clearResponse.body().otherAgreementDetails);
 	});
 });

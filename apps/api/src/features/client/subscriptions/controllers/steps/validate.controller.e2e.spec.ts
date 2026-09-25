@@ -167,7 +167,11 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 		incompleteResponse.assertStatus(422);
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, []);
 
-		const plan = await SubscriptionPlan.create({ subscriptionId: subscription.id });
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		const plan = await SubscriptionPlan.create({
+			subscriptionId: subscription.id,
+			minimumSeniorityMonths: 0,
+		});
 		await SubscriptionPlanAdhesion.create({
 			subscriptionPlanId: plan.id,
 			type: SubscriptionPlanAdhesionType.PEI_EPARTIM,

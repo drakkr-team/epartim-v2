@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Set SUBSCRIPTION_ID in your private Yaak environment. Replace 1 with the numeric document type to remove (1 is a RIB). Enable ownerId for a document belonging to a KYC owner.
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Replace 1 with the document type: 1 RIB, 12 participation, 13 incentives, 14 PPV, 15 PPVE, 16 other agreement. Leave ownerId disabled for agreements; enable it only for KYC owner documents. Returns 204. Removing an agreement document invalidates only step 3; its agreement stays selected and the document becomes pending.'
 headers:
 - enabled: true
   name: Accept

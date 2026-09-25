@@ -8,9 +8,39 @@
 		"field": {
 			"existingDeviceTransfer": "Un transfert de dispositif existant est-il prévu ?",
 			"estimatedTransferAmount": "Montant du transfert estimé (actifs placés sur le dispositif existant)",
-			"adhesionTypes": "Adhésion"
+			"adhesionTypes": "Adhésion",
+			"otherAgreementDetails": "Autre (détailler)"
 		},
-		"action": { "yes": "Oui", "no": "Non" },
+		"action": { "yes": "Oui", "no": "Non", "learnMore": "En savoir plus" },
+		"agreements": {
+			"eyebrow": "II.",
+			"title": "Accords existants",
+			"description": "Accords déjà en place dans l’entreprise."
+		},
+		"agreement": {
+			"participation": "Accord de participation ou DUE",
+			"incentives": "Accord d’intéressement ou DUE",
+			"ppv": "Accord Prime de Partage de la Valeur (PPV) ou DUE",
+			"ppve": "Accord Plan de Partage de la Valorisation d’Entreprise (PPVE)",
+			"other_agreement": "Autre (CET, etc.)"
+		},
+		"agreementHelp": {
+			"participation": "La participation redistribue aux salariés une part des bénéfices de l’entreprise. Elle est mise en place par accord collectif ou, à défaut, par décision unilatérale de l’employeur (DUE).",
+			"incentives": "L’intéressement associe les salariés aux résultats ou aux performances de l’entreprise selon une formule de calcul définie dans l’accord ou la DUE.",
+			"ppv": "La prime de partage de la valeur (PPV) est une prime facultative versée par l’employeur, exonérée de cotisations sociales dans certaines limites, instituée par accord ou par DUE."
+		},
+		"seniority": {
+			"eyebrow": "III.",
+			"title": "Ancienneté minimale des bénéficiaires",
+			"description": "Condition d’ancienneté requise pour bénéficier des dispositifs.",
+			"months": "{{count}} mois",
+			"none": "Aucune ancienneté"
+		},
+		"documents": {
+			"eyebrow": "IV.",
+			"title": "Documents",
+			"description": "Joignez un justificatif pour chaque accord sélectionné. Formats acceptés : PDF, PNG, JPEG, CSV et XLSX. Taille maximale : 10 Mo par fichier."
+		},
 		"transferInformation": {
 			"title": "Transfert d’un dispositif existant",
 			"description": "Nous vous remercions de prendre contact avec l’équipe epartim : elle vous accompagnera dans la reprise des actifs (convention, relevé, liste des fonds)."
@@ -23,7 +53,9 @@
 		"validation": {
 			"estimatedTransferAmountPositive": "Le montant doit être positif.",
 			"estimatedTransferAmountPrecision": "Le montant doit comporter au plus deux décimales.",
-			"adhesionTypes": "Sélectionnez au moins une adhésion."
+			"adhesionTypes": "Sélectionnez au moins une adhésion.",
+			"otherAgreementDetails": "Détaillez l’autre accord existant.",
+			"minimumSeniorityMonths": "Sélectionnez une ancienneté minimale."
 		}
 	},
 	"features.subscriptions.contract_characteristics.hooks.use-update-mutation": {
