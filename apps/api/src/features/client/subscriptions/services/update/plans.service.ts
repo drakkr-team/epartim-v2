@@ -1,17 +1,24 @@
+import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import type { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
+import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
+import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import type Subscription from "#models/subscription";
 import SubscriptionPlan from "#models/subscription_plan";
-import SubscriptionPlanAdhesion, {
-	type SubscriptionPlanAdhesionType,
-} from "#models/subscription_plan_adhesion";
-import { UpdateSubscriptionPlansSchema } from "#validators/subscription/plans.validator";
+import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
+import { UpdateSubscriptionContractCharacteristicsSchema } from "#validators/subscription/contract_characteristics.validator";
 
-export type UpdateSubscriptionPlansPayload = Infer<typeof UpdateSubscriptionPlansSchema>;
+export type UpdateSubscriptionPlansPayload = Infer<
+	typeof UpdateSubscriptionContractCharacteristicsSchema
+>;
 
+@inject()
 export default class UpdateSubscriptionPlansService {
+	constructor(protected validateSubscriptionStepService: ValidateSubscriptionStepService) {}
+
 	async handle(subscription: Subscription, payload: UpdateSubscriptionPlansPayload) {
 		return db.transaction(async (trx) => {
 			const plan = await SubscriptionPlan.firstOrCreate(
@@ -41,6 +48,11 @@ export default class UpdateSubscriptionPlansService {
 			if (adhesionTypes !== undefined) {
 				await this.#replaceAdhesions(plan, adhesionTypes, trx);
 			}
+			await this.validateSubscriptionStepService.invalidate(
+				subscription,
+				trx,
+				SubscriptionStep.CONTRACT_CHARACTERISTICS,
+			);
 
 			const adhesions = await SubscriptionPlanAdhesion.query({ client: trx })
 				.where("subscriptionPlanId", plan.id)

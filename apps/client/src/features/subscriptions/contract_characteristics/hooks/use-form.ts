@@ -1,3 +1,4 @@
+import type { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 import type { routes } from "@workspace/api/registry";
 
 import { useUpdateSubscriptionPlansMutation } from "#/features/subscriptions/contract_characteristics/hooks/use-update-mutation";
@@ -9,8 +10,6 @@ type UpdateSubscriptionPlansRequest = Parameters<
 >[0];
 type ContractCharacteristicsChanges =
 	UpdateSubscriptionPlansRequest["body"]["contractCharacteristics"];
-
-export type SubscriptionPlanAdhesionType = 1 | 2 | 3;
 
 type UseContractCharacteristicsFormParams = {
 	subscriptionId: string;
@@ -42,20 +41,26 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 		},
 		listeners: {
 			onBlur: ({ fieldApi }) => {
-				if (
-					fieldApi.name !== "estimatedTransferAmount" ||
-					!fieldApi.state.meta.isDirty ||
-					!fieldApi.state.meta.isValid
-				) {
+				if (!fieldApi.state.meta.isDirty || !fieldApi.state.meta.isValid) return;
+
+				if (fieldApi.name === "estimatedTransferAmount") {
+					const amount = fieldApi.state.value as number | null;
+					updateContractCharacteristics({ estimatedTransferAmount: amount }, () => {
+						if (Object.is(fieldApi.state.value, amount)) {
+							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
+						}
+					});
 					return;
 				}
 
-				const amount = fieldApi.state.value as number | null;
-				updateContractCharacteristics({ estimatedTransferAmount: amount }, () => {
-					if (Object.is(fieldApi.state.value, amount)) {
-						fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
-					}
-				});
+				if (fieldApi.name === "adhesionTypes") {
+					const adhesionTypes = fieldApi.state.value as SubscriptionPlanAdhesionType[];
+					updateContractCharacteristics({ adhesionTypes }, () => {
+						if (Object.is(fieldApi.state.value, adhesionTypes)) {
+							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
+						}
+					});
+				}
 			},
 		},
 	});

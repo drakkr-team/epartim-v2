@@ -1,11 +1,11 @@
 import { test } from "@japa/runner";
 
+import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
+import Subscription from "#models/subscription";
 import SubscriptionPlan from "#models/subscription_plan";
-import SubscriptionPlanAdhesion, {
-	SubscriptionPlanAdhesionType,
-} from "#models/subscription_plan_adhesion";
+import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
 test.group("Features / Client / Subscriptions / Controllers / Update Plans", () => {
 	async function createSubscription() {
@@ -94,6 +94,27 @@ test.group("Features / Client / Subscriptions / Controllers / Update Plans", () 
 			.loginAs(user)
 			.json({ contractCharacteristics: { estimatedTransferAmount: 10.001 } });
 		precisionResponse.assertStatus(422);
+	});
+
+	test("it invalidates contract characteristics after an automatic save", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		await subscription.merge({ completedSteps: [3] }).save();
+
+		const response = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: {
+					adhesionTypes: [SubscriptionPlanAdhesionType.PEI_EPARTIM],
+				},
+			});
+
+		response.assertOk();
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, []);
 	});
 
 	test("it rejects changes to another user's subscription", async ({ client }) => {

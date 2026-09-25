@@ -6,7 +6,7 @@ import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/ac
 import UpdateSubscriptionPlansService from "#features/client/subscriptions/services/update/plans.service";
 import Subscription from "#models/subscription";
 import SubscriptionPlanPresenter from "#presenters/subscription_plan.presenter";
-import { UpdateSubscriptionPlansSchema } from "#validators/subscription/plans.validator";
+import { UpdateSubscriptionContractCharacteristicsSchema } from "#validators/subscription/contract_characteristics.validator";
 
 @inject()
 export default class UpdateSubscriptionPlansController {
@@ -27,5 +27,5 @@ export default class UpdateSubscriptionPlansController {
 		return this.subscriptionPlanPresenter.toJSON(plan, adhesions);
 	}
 
-	static payloadSchema = vine.create(UpdateSubscriptionPlansSchema);
+	static payloadSchema = vine.create(UpdateSubscriptionContractCharacteristicsSchema);
 }
