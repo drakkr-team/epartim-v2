@@ -19,7 +19,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 	test("it should return the legal identification and address and bank details", async ({
 		client,
 	}) => {
-		const user = await UserFactory.create();
+		const user = await UserFactory.merge({ firstName: "Claire", lastName: "Martin" }).create();
 		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
 		const address = await AddressFactory.create();
 		const paymentDetail = await PaymentDetailFactory.create();
@@ -37,6 +37,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 		response.assertOk();
 		response.assertBodyContains({
 			id: subscription.id,
+			creator: { name: "Claire Martin" },
 			legalIdentification: {
 				siren: company.siren,
 				name: company.name,

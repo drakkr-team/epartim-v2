@@ -33,7 +33,7 @@ export default class ViewSubscriptionController {
 	async handle({ bouncer, params }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
-		await subscription.load("company");
+		await Promise.all([subscription.load("company"), subscription.load("creator")]);
 		const address = subscription.company.addressId
 			? await subscription.company.related("address").query().first()
 			: null;
@@ -69,6 +69,9 @@ export default class ViewSubscriptionController {
 
 		return {
 			...this.subscriptionPresenter.toJSON(subscription),
+			creator: {
+				name: subscription.creator.name,
+			},
 			legalIdentification: this.companyPresenter.toJSON(subscription.company),
 			addressAndBankDetails: {
 				address: address ? this.addressPresenter.toJSON(address) : null,

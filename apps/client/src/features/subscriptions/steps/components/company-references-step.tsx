@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { routes } from "@workspace/api/registry";
 
 import { AddressAndBankDetailsForm } from "#/features/subscriptions/address_and_bank_details/components/form";
+import { SubscriptionSummary } from "#/features/subscriptions/components/subscription-summary";
 import { DocumentsChecklist } from "#/features/subscriptions/documents/components/documents-checklist";
 import { DocumentsSection } from "#/features/subscriptions/documents/components/documents-section";
 import { LegalIdentificationForm } from "#/features/subscriptions/legal_identification/components/form";
@@ -31,7 +32,7 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 
 	return (
 		<SubscriptionStepValidationProvider>
-			<main className="mx-auto grid w-full max-w-7xl gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_18rem]">
+			<main className="mx-auto grid w-full max-w-7xl gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
 				<div className="grid min-w-0 gap-8">
 					<SubscriptionStepHeader
 						description={t("step-one.description")}
@@ -39,6 +40,9 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 						isValidated={isValidated}
 						title={t("step-one.title")}
 					/>
+					<div className="lg:hidden">
+						<SubscriptionSummary subscription={subscription} />
+					</div>
 
 					<LegalIdentificationForm
 						subscriptionId={subscriptionId}
@@ -79,8 +83,11 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 				</div>
 
 				<aside className="hidden lg:block">
-					<div className="fixed right-8 bottom-6 z-10 w-72">
-						<DocumentsChecklist documents={subscription.documents} />
+					<div className="sticky top-8 grid gap-4">
+						<SubscriptionSummary subscription={subscription} />
+						{subscription.documents.length > 0 && (
+							<DocumentsChecklist documents={subscription.documents} />
+						)}
 					</div>
 				</aside>
 			</main>
