@@ -3,7 +3,7 @@ import type { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
-import UpdateSubscriptionPlansService from "#features/client/subscriptions/services/update/plans.service";
+import UpdateContractCharacteristicsService from "#features/client/subscriptions/services/update/contract_characteristics.service";
 import Subscription from "#models/subscription";
 import SubscriptionPlanPresenter from "#presenters/subscription_plan.presenter";
 import { UpdateSubscriptionContractCharacteristicsSchema } from "#validators/subscription/contract_characteristics.validator";
@@ -11,7 +11,7 @@ import { UpdateSubscriptionContractCharacteristicsSchema } from "#validators/sub
 @inject()
 export default class UpdateSubscriptionPlansController {
 	constructor(
-		protected updateSubscriptionPlansService: UpdateSubscriptionPlansService,
+		protected updateContractCharacteristicsService: UpdateContractCharacteristicsService,
 		protected subscriptionPlanPresenter: SubscriptionPlanPresenter,
 	) {}
 
@@ -19,7 +19,7 @@ export default class UpdateSubscriptionPlansController {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
 		const payload = await request.validateUsing(UpdateSubscriptionPlansController.payloadSchema);
-		const { plan, adhesions } = await this.updateSubscriptionPlansService.handle(
+		const { plan, adhesions } = await this.updateContractCharacteristicsService.handle(
 			subscription,
 			payload,
 		);
