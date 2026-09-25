@@ -1,5 +1,6 @@
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 
+import { SubscriptionAgreement } from "#constants/subscription_agreement";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import Company, { CompanyLegalForm } from "#models/company";
 import CompanyBeneficialOwner, {
@@ -12,6 +13,7 @@ import SubscriptionDocument, {
 	SubscriptionDocumentType,
 	type SubscriptionDocumentType as SubscriptionDocumentTypeValue,
 } from "#models/subscription_document";
+import type SubscriptionPlan from "#models/subscription_plan";
 
 export type SubscriptionDocumentRequirement = {
 	document: SubscriptionDocument | null;
@@ -38,6 +40,7 @@ export default class SubscriptionDocumentRequirementsService {
 			.query()
 			.orderBy("company_beneficial_owners.id");
 		const documents = await transactionSubscription.related("documents").query().preload("file");
+		const plan = await transactionSubscription.related("plan").query().first();
 
 		const requirements = this.#resolve({
 			beneficialOwners,
@@ -45,6 +48,7 @@ export default class SubscriptionDocumentRequirementsService {
 			documents,
 			kycProfile,
 			legalAgent,
+			plan,
 			signer,
 		});
 
@@ -59,9 +63,10 @@ export default class SubscriptionDocumentRequirementsService {
 		documents: SubscriptionDocument[];
 		kycProfile: CompanyKycProfile | null;
 		legalAgent: Contact | null;
+		plan: SubscriptionPlan | null;
 		signer: Contact | null;
 	}) {
-		const { beneficialOwners, company, documents, kycProfile, legalAgent, signer } = params;
+		const { beneficialOwners, company, documents, kycProfile, legalAgent, plan, signer } = params;
 		const documentsByRequirement = new Map(
 			documents.map((document) => [
 				this.#documentKey(
@@ -168,6 +173,51 @@ export default class SubscriptionDocumentRequirementsService {
 					owner.kind === CompanyBeneficialOwnerKind.PHYSICAL_PERSON
 						? SubscriptionDocumentType.BENEFICIAL_OWNER_ID
 						: SubscriptionDocumentType.BENEFICIAL_OWNER_RNE,
+			});
+		}
+
+		if (plan?.existingAgreements.includes(SubscriptionAgreement.PARTICIPATION)) {
+			requirements.push({
+				label: "Accord de participation ou DUE",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.PARTICIPATION_AGREEMENT,
+			});
+		}
+
+		if (plan?.existingAgreements.includes(SubscriptionAgreement.INCENTIVES)) {
+			requirements.push({
+				label: "Accord d’intéressement ou DUE",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.INCENTIVES_AGREEMENT,
+			});
+		}
+
+		if (plan?.existingAgreements.includes(SubscriptionAgreement.PPV)) {
+			requirements.push({
+				label: "Accord Prime de Partage de la Valeur (PPV) ou DUE",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.PPV_AGREEMENT,
+			});
+		}
+
+		if (plan?.existingAgreements.includes(SubscriptionAgreement.PPVE)) {
+			requirements.push({
+				label: "Accord Plan de Partage de la Valorisation d’Entreprise (PPVE)",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.PPVE_AGREEMENT,
+			});
+		}
+
+		if (plan?.existingAgreements.includes(SubscriptionAgreement.OTHER)) {
+			requirements.push({
+				label: "Autre accord (CET, etc.)",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.OTHER_AGREEMENT,
 			});
 		}
 

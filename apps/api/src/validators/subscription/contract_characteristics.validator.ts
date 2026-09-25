@@ -1,5 +1,6 @@
 import vine from "@vinejs/vine";
 
+import { MinimumSeniorityMonths, SubscriptionAgreement } from "#constants/subscription_agreement";
 import {
 	SubscriptionPlanAdhesionType,
 	type SubscriptionPlanAdhesionType as SubscriptionPlanAdhesionTypeValue,
@@ -14,6 +15,9 @@ const isValidAdhesionType = vine.createRule((value, _, field) => {
 });
 
 const ContractCharacteristicsSchema = vine.object({
+	existingAgreements: vine.array(vine.enum(SubscriptionAgreement)).distinct().optional(),
+	otherAgreementDetails: vine.string().trim().nullable().optional(),
+	minimumSeniorityMonths: vine.enum(MinimumSeniorityMonths).nullable().optional(),
 	existingDeviceTransfer: vine.boolean().optional(),
 	estimatedTransferAmount: vine
 		.number()

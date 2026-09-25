@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { routes } from "@workspace/api/registry";
 
 import { SubscriptionSummary } from "#/features/subscriptions/components/subscription-summary";
 import { ContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/components/form";
+import { DocumentsChecklist } from "#/features/subscriptions/documents/components/documents-checklist";
+import { DocumentsSection } from "#/features/subscriptions/documents/components/documents-section";
 import { SubscriptionStepFooter } from "#/features/subscriptions/steps/components/subscription-step-footer";
 import { SubscriptionStepHeader } from "#/features/subscriptions/steps/components/subscription-step-header";
 import { ValidateStepButton } from "#/features/subscriptions/steps/components/validate-step-button";
@@ -20,6 +23,11 @@ export function ContractCharacteristicsStep(props: ContractCharacteristicsStepPr
 	const { subscription, subscriptionId } = props;
 	const { t } = useTranslation("routes.(private).(operations).subscriptions.$id.steps.$step");
 	const isValidated = subscription.completedSteps?.includes(3) ?? false;
+	const { t: tContract } = useTranslation("features.subscriptions.contract_characteristics");
+	const [isValidationAttempted, setIsValidationAttempted] = useState(false);
+	const areDocumentsComplete = subscription.contractDocuments.every(
+		(document) => document.status === "attached",
+	);
 
 	return (
 		<SubscriptionStepValidationProvider>
@@ -38,6 +46,16 @@ export function ContractCharacteristicsStep(props: ContractCharacteristicsStepPr
 						subscription={subscription}
 						subscriptionId={subscriptionId}
 					/>
+					{subscription.contractDocuments.length > 0 && (
+						<DocumentsSection
+							description={tContract("documents.description")}
+							documents={subscription.contractDocuments}
+							eyebrow={tContract("documents.eyebrow")}
+							showRequiredErrors={isValidationAttempted}
+							subscriptionId={subscriptionId}
+							title={tContract("documents.title")}
+						/>
+					)}
 					<SubscriptionStepFooter
 						currentStep={3}
 						nextStep={isValidated ? 4 : undefined}
@@ -45,9 +63,9 @@ export function ContractCharacteristicsStep(props: ContractCharacteristicsStepPr
 						subscriptionId={subscriptionId}
 					>
 						<ValidateStepButton
-							areDocumentsComplete
+							areDocumentsComplete={areDocumentsComplete}
 							isValidated={isValidated}
-							onValidationAttempt={() => undefined}
+							onValidationAttempt={() => setIsValidationAttempted(true)}
 							step={3}
 							subscriptionId={subscriptionId}
 						/>
@@ -55,8 +73,11 @@ export function ContractCharacteristicsStep(props: ContractCharacteristicsStepPr
 				</div>
 
 				<aside className="hidden lg:block">
-					<div className="sticky top-8">
+					<div className="sticky top-8 grid gap-4">
 						<SubscriptionSummary subscription={subscription} />
+						{subscription.contractDocuments.length > 0 && (
+							<DocumentsChecklist documents={subscription.contractDocuments} />
+						)}
 					</div>
 				</aside>
 			</main>

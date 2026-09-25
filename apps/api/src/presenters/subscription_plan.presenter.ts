@@ -12,6 +12,9 @@ export default class SubscriptionPlanPresenter {
 					? null
 					: Number(plan.estimatedTransferAmountCents) / 100,
 			adhesionTypes: adhesions.map((adhesion) => adhesion.type),
+			existingAgreements: plan.existingAgreements,
+			otherAgreementDetails: plan.otherAgreementDetails,
+			minimumSeniorityMonths: plan.minimumSeniorityMonths,
 		};
 	}
 }

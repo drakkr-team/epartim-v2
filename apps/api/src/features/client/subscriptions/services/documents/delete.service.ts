@@ -3,6 +3,7 @@ import db from "@adonisjs/lucid/services/db";
 
 import DocumentNotRequiredException from "#exceptions/document_not_required.exception";
 import SubscriptionDocumentRequirementsService from "#features/client/subscriptions/services/documents/requirements.service";
+import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import File from "#models/file";
 import Subscription from "#models/subscription";
@@ -30,6 +31,12 @@ export default class DeleteSubscriptionDocumentService {
 				(item) => item.ownerId === documentOwnerId && item.type === type,
 			);
 			if (!requirement) throw new DocumentNotRequiredException();
+			if (requirement.step === SubscriptionStep.CONTRACT_CHARACTERISTICS) {
+				await Subscription.query({ client: trx })
+					.where("id", subscription.id)
+					.forUpdate()
+					.firstOrFail();
+			}
 
 			const documentQuery = SubscriptionDocument.query({ client: trx })
 				.where("subscriptionId", subscription.id)

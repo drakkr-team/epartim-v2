@@ -103,6 +103,9 @@ export default class ViewSubscriptionController {
 						existingDeviceTransfer: false,
 						estimatedTransferAmount: null,
 						adhesionTypes: [],
+						existingAgreements: [],
+						otherAgreementDetails: null,
+						minimumSeniorityMonths: null,
 					},
 			documents: await this.#presentDocuments(
 				documentRequirements.filter(
@@ -111,6 +114,11 @@ export default class ViewSubscriptionController {
 			),
 			kycDocuments: await this.#presentDocuments(
 				documentRequirements.filter((document) => document.step === SubscriptionStep.KYC),
+			),
+			contractDocuments: await this.#presentDocuments(
+				documentRequirements.filter(
+					(document) => document.step === SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				),
 			),
 		};
 	}
