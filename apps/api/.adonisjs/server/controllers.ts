@@ -101,6 +101,7 @@ export const controllers = {
             Profile: () => import('#src/features/client/subscriptions/controllers/update/kyc/profile.controller'),
           },
           LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
+          Plans: () => import('#src/features/client/subscriptions/controllers/update/plans.controller'),
           representatives: {
             Authorizations: () => import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller'),
             Correspondent: () => import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller'),

@@ -1,0 +1,43 @@
+{
+	"features.subscriptions.contract_characteristics": {
+		"devices": {
+			"eyebrow": "I.",
+			"title": "Dispositifs",
+			"description": "Transfert éventuel d’un dispositif existant et adhésions souscrites."
+		},
+		"field": {
+			"existingDeviceTransfer": "Un transfert de dispositif existant est-il prévu ?",
+			"estimatedTransferAmount": "Montant du transfert estimé (actifs placés sur le dispositif existant)",
+			"adhesionTypes": "Adhésion"
+		},
+		"action": { "yes": "Oui", "no": "Non" },
+		"transferInformation": {
+			"title": "Transfert d’un dispositif existant",
+			"description": "Nous vous remercions de prendre contact avec l’équipe epartim : elle vous accompagnera dans la reprise des actifs (convention, relevé, liste des fonds)."
+		},
+		"adhesion": {
+			"peiEpartim": "Au PEI epartim",
+			"perColiEpartim": "Au PER COL-I epartim",
+			"voluntaryParticipationAgreement": "Accord de participation volontaire"
+		},
+		"validation": {
+			"estimatedTransferAmount": "Saisissez un montant supérieur à 0 € avec au plus deux décimales."
+		}
+	},
+	"features.subscriptions.contract_characteristics.hooks.use-update-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Enregistrement indisponible",
+				"description": "La modification n’a pas pu être enregistrée."
+			},
+			"E_VALIDATION": {
+				"title": "Enregistrement refusé",
+				"description": "La valeur ne respecte pas le format attendu."
+			},
+			"E_UNEXPECTED": {
+				"title": "Enregistrement impossible",
+				"description": "Une erreur inattendue est survenue."
+			}
+		}
+	}
+}

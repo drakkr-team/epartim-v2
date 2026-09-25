@@ -347,6 +347,38 @@ export class SubscriptionDocumentSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class SubscriptionPlanAdhesionSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'subscriptionPlanId', 'type', 'updatedAt'] as const
+  $columns = SubscriptionPlanAdhesionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare subscriptionPlanId: number
+  @column()
+  declare type: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class SubscriptionPlanSchema extends BaseModel {
+  static $columns = ['createdAt', 'estimatedTransferAmountCents', 'existingDeviceTransfer', 'id', 'subscriptionId', 'updatedAt'] as const
+  $columns = SubscriptionPlanSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare estimatedTransferAmountCents: bigint | number | null
+  @column()
+  declare existingDeviceTransfer: boolean
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare subscriptionId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class SubscriptionSchema extends BaseModel {
   static $columns = ['approvedAt', 'completedAt', 'completedSteps', 'createdAt', 'createdBy', 'id', 'status', 'statusUpdatedAt', 'submittedAt', 'updatedAt'] as const
   $columns = SubscriptionSchema.$columns
