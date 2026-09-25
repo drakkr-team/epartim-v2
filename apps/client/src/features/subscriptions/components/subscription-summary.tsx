@@ -34,9 +34,7 @@ export function SubscriptionSummary(props: SubscriptionSummaryProps) {
 	return (
 		<section className="rounded-sm bg-secondary-12 p-5 shadow shadow-secondary-5">
 			<p className="font-bold text-primary-9 text-xs uppercase tracking-widest">{t("eyebrow")}</p>
-			<h2 className="mt-3 font-bold text-neutral-1 text-xl">
-				{legalIdentification?.name || emptyValue}
-			</h2>
+			<h2 className="mt-3 font-bold text-neutral-1 text-xl">EPARTIM</h2>
 
 			<dl className="mt-3">
 				{details.map((detail) => (
