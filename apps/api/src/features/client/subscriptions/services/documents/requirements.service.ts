@@ -13,7 +13,7 @@ import SubscriptionDocument, {
 	SubscriptionDocumentType,
 	type SubscriptionDocumentType as SubscriptionDocumentTypeValue,
 } from "#models/subscription_document";
-import type SubscriptionPlan from "#models/subscription_plan";
+import type SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 
 export type SubscriptionDocumentRequirement = {
 	document: SubscriptionDocument | null;
@@ -40,15 +40,15 @@ export default class SubscriptionDocumentRequirementsService {
 			.query()
 			.orderBy("company_beneficial_owners.id");
 		const documents = await transactionSubscription.related("documents").query().preload("file");
-		const plan = await transactionSubscription.related("plan").query().first();
+		const existingAgreements = await transactionSubscription.related("existingAgreements").query();
 
 		const requirements = this.#resolve({
 			beneficialOwners,
 			company,
 			documents,
+			existingAgreements,
 			kycProfile,
 			legalAgent,
-			plan,
 			signer,
 		});
 
@@ -61,12 +61,21 @@ export default class SubscriptionDocumentRequirementsService {
 		beneficialOwners: CompanyBeneficialOwner[];
 		company: Company;
 		documents: SubscriptionDocument[];
+		existingAgreements: SubscriptionExistingAgreement[];
 		kycProfile: CompanyKycProfile | null;
 		legalAgent: Contact | null;
-		plan: SubscriptionPlan | null;
 		signer: Contact | null;
 	}) {
-		const { beneficialOwners, company, documents, kycProfile, legalAgent, plan, signer } = params;
+		const {
+			beneficialOwners,
+			company,
+			documents,
+			existingAgreements,
+			kycProfile,
+			legalAgent,
+			signer,
+		} = params;
+		const agreementTypes = existingAgreements.map((agreement) => agreement.type);
 		const documentsByRequirement = new Map(
 			documents.map((document) => [
 				this.#documentKey(
@@ -176,7 +185,7 @@ export default class SubscriptionDocumentRequirementsService {
 			});
 		}
 
-		if (plan?.existingAgreements.includes(SubscriptionAgreement.PARTICIPATION)) {
+		if (agreementTypes.includes(SubscriptionAgreement.PARTICIPATION)) {
 			requirements.push({
 				label: "Accord de participation ou DUE",
 				ownerId: null,
@@ -185,7 +194,7 @@ export default class SubscriptionDocumentRequirementsService {
 			});
 		}
 
-		if (plan?.existingAgreements.includes(SubscriptionAgreement.INCENTIVES)) {
+		if (agreementTypes.includes(SubscriptionAgreement.INCENTIVES)) {
 			requirements.push({
 				label: "Accord d’intéressement ou DUE",
 				ownerId: null,
@@ -194,7 +203,7 @@ export default class SubscriptionDocumentRequirementsService {
 			});
 		}
 
-		if (plan?.existingAgreements.includes(SubscriptionAgreement.PPV)) {
+		if (agreementTypes.includes(SubscriptionAgreement.PPV)) {
 			requirements.push({
 				label: "Accord Prime de Partage de la Valeur (PPV) ou DUE",
 				ownerId: null,
@@ -203,7 +212,7 @@ export default class SubscriptionDocumentRequirementsService {
 			});
 		}
 
-		if (plan?.existingAgreements.includes(SubscriptionAgreement.PPVE)) {
+		if (agreementTypes.includes(SubscriptionAgreement.PPVE)) {
 			requirements.push({
 				label: "Accord Plan de Partage de la Valorisation d’Entreprise (PPVE)",
 				ownerId: null,
@@ -212,7 +221,7 @@ export default class SubscriptionDocumentRequirementsService {
 			});
 		}
 
-		if (plan?.existingAgreements.includes(SubscriptionAgreement.OTHER)) {
+		if (agreementTypes.includes(SubscriptionAgreement.OTHER)) {
 			requirements.push({
 				label: "Autre accord (CET, etc.)",
 				ownerId: null,

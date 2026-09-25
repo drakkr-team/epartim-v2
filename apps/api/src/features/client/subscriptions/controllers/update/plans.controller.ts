@@ -19,12 +19,10 @@ export default class UpdateSubscriptionPlansController {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
 		const payload = await request.validateUsing(UpdateSubscriptionPlansController.payloadSchema);
-		const { plan, adhesions } = await this.updateContractCharacteristicsService.handle(
-			subscription,
-			payload,
-		);
+		const { plan, adhesions, existingAgreements } =
+			await this.updateContractCharacteristicsService.handle(subscription, payload);
 
-		return this.subscriptionPlanPresenter.toJSON(plan, adhesions);
+		return this.subscriptionPlanPresenter.toJSON(plan, adhesions, existingAgreements);
 	}
 
 	static payloadSchema = vine.create(UpdateSubscriptionContractCharacteristicsSchema);
