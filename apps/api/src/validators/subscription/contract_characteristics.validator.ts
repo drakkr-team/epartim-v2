@@ -1,23 +1,14 @@
 import vine from "@vinejs/vine";
 
-import { SubscriptionPlanAdhesionType } from "#models/subscription_plan_adhesion";
+import {
+	SubscriptionPlanAdhesionType,
+	type SubscriptionPlanAdhesionType as SubscriptionPlanAdhesionTypeValue,
+} from "#constants/subscription_plan_adhesion";
 
 const adhesionTypes = new Set(Object.values(SubscriptionPlanAdhesionType));
 
-const hasAtMostTwoDecimalPlaces = vine.createRule((value, _, field) => {
-	if (typeof value !== "number") return;
-
-	const cents = value * 100;
-	if (
-		!Number.isSafeInteger(Math.round(cents)) ||
-		Math.abs(cents - Math.round(cents)) > Number.EPSILON * 100
-	) {
-		field.report("Le montant doit comporter au plus deux décimales.", "decimalPrecision", field);
-	}
-});
-
 const isValidAdhesionType = vine.createRule((value, _, field) => {
-	if (typeof value !== "number" || !adhesionTypes.has(value as SubscriptionPlanAdhesionType)) {
+	if (typeof value !== "number" || !adhesionTypes.has(value as SubscriptionPlanAdhesionTypeValue)) {
 		field.report("Le type d’adhésion est invalide.", "adhesionType", field);
 	}
 });
@@ -26,9 +17,9 @@ const ContractCharacteristicsSchema = vine.object({
 	existingDeviceTransfer: vine.boolean().optional(),
 	estimatedTransferAmount: vine
 		.number()
-		.min(0.01)
+		.positive()
+		.decimal([0, 2])
 		.max(Number.MAX_SAFE_INTEGER / 100)
-		.use(hasAtMostTwoDecimalPlaces())
 		.nullable()
 		.optional(),
 	adhesionTypes: vine
@@ -38,6 +29,6 @@ const ContractCharacteristicsSchema = vine.object({
 		.optional(),
 });
 
-export const UpdateSubscriptionPlansSchema = vine.object({
+export const UpdateSubscriptionContractCharacteristicsSchema = vine.object({
 	contractCharacteristics: ContractCharacteristicsSchema.partial(),
 });

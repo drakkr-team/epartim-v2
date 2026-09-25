@@ -1,5 +1,6 @@
 import { test } from "@japa/runner";
 
+import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
@@ -15,9 +16,7 @@ import { ContactKind } from "#models/contact";
 import File from "#models/file";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 import SubscriptionPlan from "#models/subscription_plan";
-import SubscriptionPlanAdhesion, {
-	SubscriptionPlanAdhesionType,
-} from "#models/subscription_plan_adhesion";
+import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
 test.group("Features / Client / Subscriptions / Controllers / View Controller", () => {
 	test("it should return the legal identification and address and bank details", async ({
