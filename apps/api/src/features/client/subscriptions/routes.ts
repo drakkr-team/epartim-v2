@@ -59,6 +59,9 @@ router
 			])
 			.as("update_kyc_profile");
 		router
+			.put("/:subscriptionId/plans", [controllers.features.client.subscriptions.update.Plans])
+			.as("update_plans");
+		router
 			.post("/:subscriptionId/kyc-owners", [
 				controllers.features.client.subscriptions.update.kyc.owners.Create,
 			])

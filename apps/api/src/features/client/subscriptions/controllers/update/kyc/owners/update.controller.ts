@@ -6,7 +6,7 @@ import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/ac
 import KycOwnersService from "#features/client/subscriptions/services/update/kyc/owners.service";
 import Subscription from "#models/subscription";
 import CompanyBeneficialOwnerPresenter from "#presenters/company_beneficial_owner.presenter";
-import { UpdateKycOwnerSchema } from "#validators/subscription/kyc_owner.validator";
+import { UpdateKycOwnerSchema } from "#validators/subscription/kyc/owner.validator";
 
 @inject()
 export default class UpdateKycOwnerController {

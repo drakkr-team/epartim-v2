@@ -547,6 +547,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/profile.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'client.subscriptions.update_plans': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/plans'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/plans.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/plans.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/plans.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/plans.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'client.subscriptions.create_kyc_owner': {
     methods: ["POST"]
     pattern: '/client/subscriptions/:subscriptionId/kyc-owners'

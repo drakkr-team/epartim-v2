@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import type { routes } from "@workspace/api/registry";
 
+import { SubscriptionSummary } from "#/features/subscriptions/components/subscription-summary";
 import { DocumentsChecklist } from "#/features/subscriptions/documents/components/documents-checklist";
 import { DocumentsSection } from "#/features/subscriptions/documents/components/documents-section";
 import { BeneficialOwnersForm } from "#/features/subscriptions/kyc/components/beneficial-owners-form";
@@ -23,17 +24,21 @@ export function KycStep(props: KycStepProps) {
 	const areDocumentsComplete = subscription.kycDocuments.every(
 		(document) => document.status === "attached",
 	);
+	const isValidated = subscription.completedSteps?.includes(2) ?? false;
 
 	return (
 		<SubscriptionStepValidationProvider>
-			<main className="mx-auto grid w-full max-w-7xl gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_18rem]">
+			<main className="mx-auto grid w-full max-w-7xl gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
 				<div className="grid min-w-0 gap-8">
 					<SubscriptionStepHeader
 						description={t("step-two.description")}
 						eyebrow={t("step-two.eyebrow")}
-						isValidated={subscription.completedSteps?.includes(2) ?? false}
+						isValidated={isValidated}
 						title={t("step-two.title")}
 					/>
+					<div className="lg:hidden">
+						<SubscriptionSummary subscription={subscription} />
+					</div>
 					<KycProfileForm subscription={subscription} subscriptionId={subscriptionId} />
 					<BeneficialOwnersForm subscription={subscription} subscriptionId={subscriptionId} />
 					<DocumentsSection
@@ -46,12 +51,13 @@ export function KycStep(props: KycStepProps) {
 					/>
 					<SubscriptionStepFooter
 						currentStep={2}
+						nextStep={isValidated ? 3 : undefined}
 						stepLabel={t("step-two.short-title")}
 						subscriptionId={subscriptionId}
 					>
 						<ValidateStepButton
 							areDocumentsComplete={areDocumentsComplete}
-							isValidated={subscription.completedSteps?.includes(2) ?? false}
+							isValidated={isValidated}
 							onValidationAttempt={() => setIsValidationAttempted(true)}
 							step={2}
 							subscriptionId={subscriptionId}
@@ -60,8 +66,11 @@ export function KycStep(props: KycStepProps) {
 				</div>
 
 				<aside className="hidden lg:block">
-					<div className="fixed right-8 bottom-6 z-10 w-72">
-						<DocumentsChecklist documents={subscription.kycDocuments} />
+					<div className="sticky top-8 grid gap-4">
+						<SubscriptionSummary subscription={subscription} />
+						{subscription.kycDocuments.length > 0 && (
+							<DocumentsChecklist documents={subscription.kycDocuments} />
+						)}
 					</div>
 				</aside>
 			</main>

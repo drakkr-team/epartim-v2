@@ -10,7 +10,7 @@ import CompanyKycProfile, { CompanyKycGeography } from "#models/company_kyc_prof
 import File from "#models/file";
 import Subscription from "#models/subscription";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
-import { UpdateKycProfileSchema } from "#validators/subscription/kyc_profile.validator";
+import { UpdateKycProfileSchema } from "#validators/subscription/kyc/profile.validator";
 
 export type UpdateKycProfilePayload = Infer<typeof UpdateKycProfileSchema>;
 

@@ -1,5 +1,6 @@
 import { test } from "@japa/runner";
 
+import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
@@ -14,12 +15,14 @@ import CompanyKycProfile from "#models/company_kyc_profile";
 import { ContactKind } from "#models/contact";
 import File from "#models/file";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
+import SubscriptionPlan from "#models/subscription_plan";
+import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
 test.group("Features / Client / Subscriptions / Controllers / View Controller", () => {
 	test("it should return the legal identification and address and bank details", async ({
 		client,
 	}) => {
-		const user = await UserFactory.create();
+		const user = await UserFactory.merge({ firstName: "Claire", lastName: "Martin" }).create();
 		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
 		const address = await AddressFactory.create();
 		const paymentDetail = await PaymentDetailFactory.create();
@@ -37,6 +40,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 		response.assertOk();
 		response.assertBodyContains({
 			id: subscription.id,
+			creator: { name: "Claire Martin" },
 			legalIdentification: {
 				siren: company.siren,
 				name: company.name,
@@ -75,6 +79,42 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 				signer: { id: signer.id },
 				correspondent: { id: correspondent.id },
 				authorizations: [{ id: authorization.id }],
+			},
+		});
+	});
+
+	test("it should return the contract characteristics", async ({ client }) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		const plan = await SubscriptionPlan.create({
+			subscriptionId: subscription.id,
+			existingDeviceTransfer: true,
+			estimatedTransferAmountCents: 12_345n,
+		});
+		await SubscriptionPlanAdhesion.createMany([
+			{ subscriptionPlanId: plan.id, type: SubscriptionPlanAdhesionType.PEI_EPARTIM },
+			{
+				subscriptionPlanId: plan.id,
+				type: SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
+			},
+		]);
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		response.assertBodyContains({
+			contractCharacteristics: {
+				id: plan.id,
+				existingDeviceTransfer: true,
+				estimatedTransferAmount: 123.45,
+				adhesionTypes: [
+					SubscriptionPlanAdhesionType.PEI_EPARTIM,
+					SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
+				],
 			},
 		});
 	});

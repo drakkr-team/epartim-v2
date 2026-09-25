@@ -1,5 +1,6 @@
 import { test } from "@japa/runner";
 
+import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
@@ -14,6 +15,8 @@ import CompanyKycProfile from "#models/company_kyc_profile";
 import File from "#models/file";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
+import SubscriptionPlan from "#models/subscription_plan";
+import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
 test.group("Features / Client / Subscriptions / Controllers / Steps / Validate Controller", () => {
 	async function createKycSubscription() {
@@ -143,6 +146,40 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 
 		response.assertOk();
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [2]);
+	});
+
+	test("it requires one adhesion to validate contract characteristics", async ({
+		client,
+		assert,
+	}) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({
+			completedSteps: [],
+			createdBy: user.id,
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+
+		const incompleteResponse = await client
+			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		incompleteResponse.assertStatus(422);
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, []);
+
+		const plan = await SubscriptionPlan.create({ subscriptionId: subscription.id });
+		await SubscriptionPlanAdhesion.create({
+			subscriptionPlanId: plan.id,
+			type: SubscriptionPlanAdhesionType.PEI_EPARTIM,
+		});
+
+		const completeResponse = await client
+			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		completeResponse.assertOk();
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [3]);
 	});
 
 	test("it requires the BIC and one document for each KYC owner", async ({ client, assert }) => {

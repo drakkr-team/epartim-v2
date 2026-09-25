@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@workspace/ui-react/components/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@workspace/ui-react/icons";
 
-const TOTAL_STEPS = 5;
+import { TOTAL_SUBSCRIPTION_STEPS } from "#/features/subscriptions/steps/step.constants";
 
 type SubscriptionStepFooterProps = {
 	children: ReactNode;
@@ -21,7 +21,7 @@ export function SubscriptionStepFooter(props: SubscriptionStepFooterProps) {
 	const currentStepLabel = t("current-step", {
 		current: String(currentStep).padStart(2, "0"),
 		label: stepLabel,
-		total: String(TOTAL_STEPS).padStart(2, "0"),
+		total: String(TOTAL_SUBSCRIPTION_STEPS).padStart(2, "0"),
 	});
 
 	return (

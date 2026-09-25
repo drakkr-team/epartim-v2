@@ -15,7 +15,7 @@ import CompanyBeneficialOwnerRole from "#models/company_beneficial_owner_role";
 import File from "#models/file";
 import Subscription from "#models/subscription";
 import SubscriptionDocument from "#models/subscription_document";
-import { UpdateKycOwnerSchema } from "#validators/subscription/kyc_owner.validator";
+import { UpdateKycOwnerSchema } from "#validators/subscription/kyc/owner.validator";
 
 export type UpdateKycOwnerPayload = Infer<typeof UpdateKycOwnerSchema>;
 
