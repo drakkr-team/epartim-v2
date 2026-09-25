@@ -1,6 +1,8 @@
 import DocusignSDK from "docusign-esign";
 import ky from "ky";
 
+import DocusignAuthenticationException from "#exceptions/docusign_authentication.exception";
+import DocusignRequestException from "#exceptions/docusign_request.exception";
 import env from "#start/env";
 
 export default abstract class DocusignBaseService {
@@ -23,6 +25,13 @@ export default abstract class DocusignBaseService {
 					}
 				},
 			],
+			beforeError: [
+				({ error }) => {
+					if (error instanceof DocusignAuthenticationException) return error;
+
+					throw new DocusignRequestException(error.message);
+				},
+			],
 		},
 	});
 
@@ -31,14 +40,20 @@ export default abstract class DocusignBaseService {
 			basePath: env.get("DOCUSIGN_BASE_PATH"),
 			oAuthBasePath: env.get("DOCUSIGN_BASE_PATH"),
 		});
-		const tokenResponse: { body: { access_token: string } } = await apiClient.requestJWTUserToken(
-			env.get("DOCUSIGN_CLIENT_ID"),
-			env.get("DOCUSIGN_USER_ID"),
-			["signature"],
-			Buffer.from(env.get("DOCUSIGN_RSA_PRIVATE_KEY").replaceAll("\\n", "\n")),
-			3600,
-		);
 
-		return tokenResponse.body.access_token;
+		try {
+			const tokenResponse: { body: { access_token: string } } = await apiClient.requestJWTUserToken(
+				env.get("DOCUSIGN_CLIENT_ID"),
+				env.get("DOCUSIGN_USER_ID"),
+				["signature"],
+				Buffer.from(env.get("DOCUSIGN_RSA_PRIVATE_KEY").replaceAll("\\n", "\n")),
+				3600,
+			);
+
+			return tokenResponse.body.access_token;
+		} catch (e) {
+			const error = e as Error;
+			throw new DocusignAuthenticationException(error.message);
+		}
 	}
 }
