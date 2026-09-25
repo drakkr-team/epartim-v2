@@ -114,7 +114,7 @@ export function DispositivesSection(props: DevicesSectionProps) {
 
 								<Card
 									role="note"
-									className="grid gap-4 rounded-sm border border-neutral-5 bg-neutral-2 p-5 sm:grid-cols-[auto_1fr]"
+									className="grid gap-4 rounded-sm border border-neutral-5 bg-neutral-2 p-4 sm:grid-cols-[auto_1fr]"
 								>
 									<div className="flex size-9 items-center justify-center rounded-full bg-secondary-12 text-primary-7">
 										<HeadphonesIcon aria-hidden="true" className="size-4" />
@@ -128,7 +128,7 @@ export function DispositivesSection(props: DevicesSectionProps) {
 										</p>
 										<a
 											href="mailto:admin@epartim.fr"
-											className="mt-3 inline-flex items-center gap-2 rounded-full border border-primary-7 px-2 py-1 font-medium text-secondary-12 text-sm"
+											className="mt-3 inline-flex items-center gap-2 rounded-full border border-primary-7 px-2 py-1 font-medium text-secondary-12 text-xs"
 										>
 											<MailIcon aria-hidden="true" className="size-3 text-primary-9" />
 											admin@epartim.fr
