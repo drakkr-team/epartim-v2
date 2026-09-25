@@ -27,6 +27,7 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 	const areDocumentsComplete = subscription.documents.every(
 		(document) => document.status === "attached",
 	);
+	const isValidated = subscription.completedSteps?.includes(1) ?? false;
 
 	return (
 		<SubscriptionStepValidationProvider>
@@ -35,7 +36,7 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 					<SubscriptionStepHeader
 						description={t("step-one.description")}
 						eyebrow={t("step-one.eyebrow")}
-						isValidated={subscription.completedSteps?.includes(1) ?? false}
+						isValidated={isValidated}
 						title={t("step-one.title")}
 					/>
 
@@ -63,13 +64,13 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 
 					<SubscriptionStepFooter
 						currentStep={1}
-						nextStep={2}
+						nextStep={isValidated ? 2 : undefined}
 						stepLabel={t("step-one.short-title")}
 						subscriptionId={subscriptionId}
 					>
 						<ValidateStepButton
 							areDocumentsComplete={areDocumentsComplete}
-							isValidated={subscription.completedSteps?.includes(1) ?? false}
+							isValidated={isValidated}
 							onValidationAttempt={() => setIsValidationAttempted(true)}
 							step={1}
 							subscriptionId={subscriptionId}

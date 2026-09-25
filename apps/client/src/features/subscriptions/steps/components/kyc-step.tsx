@@ -23,6 +23,7 @@ export function KycStep(props: KycStepProps) {
 	const areDocumentsComplete = subscription.kycDocuments.every(
 		(document) => document.status === "attached",
 	);
+	const isValidated = subscription.completedSteps?.includes(2) ?? false;
 
 	return (
 		<SubscriptionStepValidationProvider>
@@ -31,7 +32,7 @@ export function KycStep(props: KycStepProps) {
 					<SubscriptionStepHeader
 						description={t("step-two.description")}
 						eyebrow={t("step-two.eyebrow")}
-						isValidated={subscription.completedSteps?.includes(2) ?? false}
+						isValidated={isValidated}
 						title={t("step-two.title")}
 					/>
 					<KycProfileForm subscription={subscription} subscriptionId={subscriptionId} />
@@ -46,12 +47,13 @@ export function KycStep(props: KycStepProps) {
 					/>
 					<SubscriptionStepFooter
 						currentStep={2}
+						nextStep={isValidated ? 3 : undefined}
 						stepLabel={t("step-two.short-title")}
 						subscriptionId={subscriptionId}
 					>
 						<ValidateStepButton
 							areDocumentsComplete={areDocumentsComplete}
-							isValidated={subscription.completedSteps?.includes(2) ?? false}
+							isValidated={isValidated}
 							onValidationAttempt={() => setIsValidationAttempted(true)}
 							step={2}
 							subscriptionId={subscriptionId}

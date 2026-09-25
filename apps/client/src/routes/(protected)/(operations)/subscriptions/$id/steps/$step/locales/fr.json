@@ -15,6 +15,12 @@
 			"short-title": "KYC",
 			"title": "KYC bénéficiaires et risques",
 			"description": "Renseignez les informations de connaissance client de l’entreprise et de ses détenteurs."
+		},
+		"step-three": {
+			"eyebrow": "Étape 03 sur 05 · Bulletin de souscription",
+			"short-title": "Caractéristiques du contrat",
+			"title": "Caractéristiques du contrat",
+			"description": "Dispositifs, accords existants, versements volontaires et règles d'abondement du contrat."
 		}
 	}
 }
