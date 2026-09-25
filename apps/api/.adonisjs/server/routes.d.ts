@@ -49,6 +49,7 @@ export type ScannedRoutes = {
     'client.subscriptions.update_correspondent': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_authorizations': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_kyc_profile': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_plans': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.create_kyc_owner': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_kyc_owner': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'ownerId': ParamValue} }
     'client.subscriptions.delete_kyc_owner': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'ownerId': ParamValue} }
@@ -133,6 +134,7 @@ export type ScannedRoutes = {
     'client.subscriptions.update_correspondent': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_authorizations': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_kyc_profile': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.update_plans': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.update_kyc_owner': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'ownerId': ParamValue} }
     'client.account_management.password.update': { paramsTuple?: []; params?: {} }
   }

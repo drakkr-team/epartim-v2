@@ -15,6 +15,7 @@ import ContactPresenter from "#presenters/contact.presenter";
 import FilePresenter from "#presenters/file.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
+import SubscriptionPlanPresenter from "#presenters/subscription_plan.presenter";
 
 @inject()
 export default class ViewSubscriptionController {
@@ -28,6 +29,7 @@ export default class ViewSubscriptionController {
 		protected paymentDetailPresenter: PaymentDetailPresenter,
 		protected documentRequirementsService: SubscriptionDocumentRequirementsService,
 		protected filePresenter: FilePresenter,
+		protected subscriptionPlanPresenter: SubscriptionPlanPresenter,
 	) {}
 
 	async handle({ bouncer, params }: HttpContext) {
@@ -48,6 +50,7 @@ export default class ViewSubscriptionController {
 			documentRequirements,
 			kycProfile,
 			beneficialOwners,
+			plan,
 		] = await Promise.all([
 			subscription.company.related("legalAgent").query().first(),
 			subscription.company.related("signer").query().first(),
@@ -65,6 +68,7 @@ export default class ViewSubscriptionController {
 				.preload("address")
 				.preload("roles")
 				.orderBy("company_beneficial_owners.id"),
+			subscription.related("plan").query().preload("adhesions").first(),
 		]);
 
 		return {
@@ -91,6 +95,15 @@ export default class ViewSubscriptionController {
 					this.companyBeneficialOwnerPresenter.toJSON(owner, owner.address, owner.roles),
 				),
 			},
+			contractCharacteristics: plan
+				? this.subscriptionPlanPresenter.toJSON(plan, plan.adhesions)
+				: {
+						id: null,
+						subscriptionId: subscription.id,
+						existingDeviceTransfer: false,
+						estimatedTransferAmount: null,
+						adhesionTypes: [],
+					},
 			documents: await this.#presentDocuments(
 				documentRequirements.filter(
 					(document) => document.step === SubscriptionStep.COMPANY_REFERENCES,

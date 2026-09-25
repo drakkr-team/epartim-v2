@@ -276,6 +276,12 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"kyc-profile","end":""}],
     types: placeholder as Registry['client.subscriptions.update_kyc_profile']['types'],
   },
+  'client.subscriptions.update_plans': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/plans',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/plans","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/plans","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/plans","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/plans","type":0,"val":"plans","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_plans']['types'],
+  },
   'client.subscriptions.create_kyc_owner': {
     methods: ["POST"],
     pattern: '/client/subscriptions/:subscriptionId/kyc-owners',

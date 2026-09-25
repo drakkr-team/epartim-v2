@@ -4,6 +4,7 @@ import Company from "#models/company";
 import CompanyKycProfile from "#models/company_kyc_profile";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
+import SubscriptionPlan from "#models/subscription_plan";
 
 export default class CreateSubscriptionService {
 	async handle(userId: number) {
@@ -33,6 +34,7 @@ export default class CreateSubscriptionService {
 				{ client: trx },
 			);
 			await CompanyKycProfile.create({ companyId: company.id }, { client: trx });
+			await SubscriptionPlan.create({ subscriptionId: subscription.id }, { client: trx });
 
 			return subscription;
 		});

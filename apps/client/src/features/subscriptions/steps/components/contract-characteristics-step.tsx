@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { routes } from "@workspace/api/registry";
 
 import { SubscriptionSummary } from "#/features/subscriptions/components/subscription-summary";
+import { ContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/components/form";
 import { SubscriptionStepFooter } from "#/features/subscriptions/steps/components/subscription-step-footer";
 import { SubscriptionStepHeader } from "#/features/subscriptions/steps/components/subscription-step-header";
 
@@ -29,6 +30,7 @@ export function ContractCharacteristicsStep(props: ContractCharacteristicsStepPr
 				<div className="lg:hidden">
 					<SubscriptionSummary subscription={subscription} />
 				</div>
+				<ContractCharacteristicsForm subscription={subscription} subscriptionId={subscriptionId} />
 				<SubscriptionStepFooter
 					currentStep={3}
 					stepLabel={t("step-three.short-title")}

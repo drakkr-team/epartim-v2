@@ -14,6 +14,10 @@ import CompanyKycProfile from "#models/company_kyc_profile";
 import { ContactKind } from "#models/contact";
 import File from "#models/file";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
+import SubscriptionPlan from "#models/subscription_plan";
+import SubscriptionPlanAdhesion, {
+	SubscriptionPlanAdhesionType,
+} from "#models/subscription_plan_adhesion";
 
 test.group("Features / Client / Subscriptions / Controllers / View Controller", () => {
 	test("it should return the legal identification and address and bank details", async ({
@@ -76,6 +80,42 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 				signer: { id: signer.id },
 				correspondent: { id: correspondent.id },
 				authorizations: [{ id: authorization.id }],
+			},
+		});
+	});
+
+	test("it should return the contract characteristics", async ({ client }) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		const plan = await SubscriptionPlan.create({
+			subscriptionId: subscription.id,
+			existingDeviceTransfer: true,
+			estimatedTransferAmountCents: 12_345n,
+		});
+		await SubscriptionPlanAdhesion.createMany([
+			{ subscriptionPlanId: plan.id, type: SubscriptionPlanAdhesionType.PEI_EPARTIM },
+			{
+				subscriptionPlanId: plan.id,
+				type: SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
+			},
+		]);
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		response.assertBodyContains({
+			contractCharacteristics: {
+				id: plan.id,
+				existingDeviceTransfer: true,
+				estimatedTransferAmount: 123.45,
+				adhesionTypes: [
+					SubscriptionPlanAdhesionType.PEI_EPARTIM,
+					SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
+				],
 			},
 		});
 	});
