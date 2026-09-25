@@ -162,15 +162,16 @@ export function DispositivesSection(props: DevicesSectionProps) {
 														key={option.value}
 														htmlFor={id}
 														className={[
-															"flex min-h-24 cursor-pointer items-start gap-3 rounded-sm border p-4 transition",
+															"flex min-h-16 cursor-pointer items-start gap-3 rounded-sm border p-4 transition",
 															checked
-																? "border-primary-8 bg-secondary-2"
+																? "border-secondary-10 bg-secondary-2"
 																: "border-neutral-6 bg-neutral-1 hover:border-neutral-8",
 														].join(" ")}
 													>
 														<Checkbox
 															id={id}
 															checked={checked}
+															className="data-checked:border-secondary-9 data-checked:bg-secondary-9 data-checked:hover:not-data-disabled:border-secondary-10 data-checked:hover:not-data-disabled:bg-secondary-10"
 															onCheckedChange={(value) => {
 																const nextAdhesionTypes = value
 																	? [...adhesionTypes, option.value]
@@ -179,7 +180,7 @@ export function DispositivesSection(props: DevicesSectionProps) {
 																field.handleBlur();
 															}}
 														/>
-														<span className="font-semibold text-secondary-12 text-sm">
+														<span className="font-semibold text-secondary-12 text-xs">
 															{t(`adhesion.${option.label}`)}
 														</span>
 													</label>
