@@ -3,16 +3,9 @@ import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import { ValidationError } from "@vinejs/vine";
 
-import { MinimumSeniorityMonths, SubscriptionAgreement } from "#constants/subscription_agreement";
-import { SubscriptionMatchingDevice } from "#constants/subscription_matching_rules";
-import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import SubscriptionDocumentRequirementsService from "#features/client/subscriptions/services/documents/requirements.service";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
-import { matchingValidationIssues } from "#features/client/subscriptions/services/update/contract_characteristics/matching.validation";
 import Subscription from "#models/subscription";
-import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
-import SubscriptionPlan from "#models/subscription_plan";
-import { presentSubscriptionMatchingRules } from "#presenters/subscription_matching.presenter";
 
 @inject()
 export default class ValidateSubscriptionStepService {
@@ -28,7 +21,6 @@ export default class ValidateSubscriptionStepService {
 				await this.#validateDocuments(lockedSubscription, trx, step);
 			}
 			if (step === SubscriptionStep.CONTRACT_CHARACTERISTICS) {
-				await this.#validateContractCharacteristics(lockedSubscription, trx);
 				await this.#validateDocuments(lockedSubscription, trx, step);
 			}
 
@@ -73,89 +65,6 @@ export default class ValidateSubscriptionStepService {
 						},
 					],
 		);
-		if (errors.length > 0) throw new ValidationError(errors);
-	}
-
-	async #validateContractCharacteristics(
-		subscription: Subscription,
-		trx: TransactionClientContract,
-	) {
-		const plan = await SubscriptionPlan.query({ client: trx })
-			.where("subscriptionId", subscription.id)
-			.preload("adhesions")
-			.preload("matchingRules")
-			.first();
-		const errors = [];
-		if (!plan?.adhesions.length) {
-			errors.push({
-				field: "contractCharacteristics.adhesionTypes",
-				message: "Sélectionnez au moins une adhésion.",
-				rule: "required",
-			});
-		}
-		if (!MinimumSeniorityMonths.some((months) => months === plan?.minimumSeniorityMonths)) {
-			errors.push({
-				field: "contractCharacteristics.minimumSeniorityMonths",
-				message: "Sélectionnez une ancienneté minimale.",
-				rule: "required",
-			});
-		}
-		if (plan?.voluntaryPaymentsLimitedToPeriod) {
-			if (!plan.voluntaryPaymentPeriodStartDate) {
-				errors.push({
-					field: "contractCharacteristics.voluntaryPaymentPeriodStartDate",
-					message: "Renseignez la date de début de la période.",
-					rule: "required",
-				});
-			}
-			if (!plan.voluntaryPaymentPeriodEndDate) {
-				errors.push({
-					field: "contractCharacteristics.voluntaryPaymentPeriodEndDate",
-					message: "Renseignez la date de fin de la période.",
-					rule: "required",
-				});
-			}
-			if (
-				plan.voluntaryPaymentPeriodStartDate &&
-				plan.voluntaryPaymentPeriodEndDate &&
-				plan.voluntaryPaymentPeriodEndDate < plan.voluntaryPaymentPeriodStartDate
-			) {
-				errors.push({
-					field: "contractCharacteristics.voluntaryPaymentPeriodEndDate",
-					message: "La date de fin doit être postérieure ou égale à la date de début.",
-					rule: "afterOrEqual",
-				});
-			}
-		}
-		const otherAgreement = await SubscriptionExistingAgreement.query({ client: trx })
-			.where("subscriptionId", subscription.id)
-			.where("type", SubscriptionAgreement.OTHER)
-			.first();
-		if (otherAgreement && !plan?.otherAgreementDetails?.trim()) {
-			errors.push({
-				field: "contractCharacteristics.otherAgreementDetails",
-				message: "Détaillez l’autre accord existant.",
-				rule: "required",
-			});
-		}
-		if (plan) {
-			const hasBonusAgreement =
-				(await SubscriptionExistingAgreement.query({ client: trx })
-					.where("subscriptionId", subscription.id)
-					.whereIn("type", [SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.INCENTIVES])
-					.first()) !== null;
-			const matching = presentSubscriptionMatchingRules(plan.matchingRules);
-			for (const [device, adhesionType] of [
-				[SubscriptionMatchingDevice.PEI, SubscriptionPlanAdhesionType.PEI_EPARTIM],
-				[SubscriptionMatchingDevice.PER, SubscriptionPlanAdhesionType.PER_COLI_EPARTIM],
-			] as const) {
-				if (plan.adhesions.some((adhesion) => adhesion.type === adhesionType)) {
-					errors.push(
-						...matchingValidationIssues(device, matching[device], hasBonusAgreement, true),
-					);
-				}
-			}
-		}
 		if (errors.length > 0) throw new ValidationError(errors);
 	}
 

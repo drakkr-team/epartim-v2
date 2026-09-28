@@ -12,7 +12,7 @@ import type { MatchingChildProps } from "#/features/subscriptions/contract_chara
 const namespace = "features.subscriptions.contract_characteristics";
 
 export function MatchingUniformRuleSection(props: MatchingChildProps) {
-	const { device, form, matching, serverErrors } = props;
+	const { device, form, matching } = props;
 	const { t } = useTranslation(namespace);
 	return (
 		<section className="grid gap-5 rounded-sm border border-neutral-5 p-4 sm:p-5">
@@ -30,9 +30,8 @@ export function MatchingUniformRuleSection(props: MatchingChildProps) {
 							name={`${name}.rate`}
 							label={t("matching.rate")}
 							unit="percent"
-							serverError={serverErrors[`${name}.rate`]}
 						/>
-						<MatchingLimitFields form={form} name={name} serverErrors={serverErrors} />
+						<MatchingLimitFields form={form} name={name} />
 					</div>
 				);
 			})}

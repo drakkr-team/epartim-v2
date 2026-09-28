@@ -34,7 +34,6 @@ type MatchingNumberFieldProps = {
 	unit: MatchingNumberUnit;
 	max?: number;
 	schema?: z.ZodNumber;
-	serverError?: string;
 };
 
 export function MatchingNumberField({
@@ -44,7 +43,6 @@ export function MatchingNumberField({
 	unit,
 	max,
 	schema: customSchema,
-	serverError,
 }: MatchingNumberFieldProps) {
 	const { t } = useTranslation(namespace);
 	const required = t("matching.validation.requiredNumber");
@@ -78,7 +76,6 @@ export function MatchingNumberField({
 			{(field) => (
 				<field.NumberField
 					label={label}
-					externalError={serverError}
 					required
 					inputProps={{
 						locale: "fr-FR",
@@ -101,10 +98,9 @@ type MatchingLimitFieldsProps = {
 	form: MatchingForm;
 	name: MatchingLimitName;
 	max?: number;
-	serverErrors: Record<string, string>;
 };
 
-export function MatchingLimitFields({ form, name, max, serverErrors }: MatchingLimitFieldsProps) {
+export function MatchingLimitFields({ form, name, max }: MatchingLimitFieldsProps) {
 	const { t } = useTranslation(namespace);
 	const limitKindSchema = z.enum(SubscriptionMatchingLimitKind, {
 		error: t("matching.validation.requiredLimitKind"),
@@ -117,11 +113,9 @@ export function MatchingLimitFields({ form, name, max, serverErrors }: MatchingL
 			>
 				{(field) => {
 					const error = field.state.meta.errorMap.onBlur ?? field.state.meta.errorMap.onSubmit;
-					const serverError = serverErrors[field.name];
 					const invalid =
-						Boolean(serverError) ||
-						((field.state.meta.isTouched || field.state.meta.errorMap.onSubmit !== undefined) &&
-							error !== undefined);
+						(field.state.meta.isTouched || field.state.meta.errorMap.onSubmit !== undefined) &&
+						error !== undefined;
 					return (
 						<Field name={field.name} invalid={invalid} className="flex flex-col gap-2">
 							<Field.Label htmlFor={field.name} required>
@@ -150,9 +144,7 @@ export function MatchingLimitFields({ form, name, max, serverErrors }: MatchingL
 									))}
 								</Select.Dropdown>
 							</Select>
-							{serverError && <Field.Error>{serverError}</Field.Error>}
 							{invalid &&
-								!serverError &&
 								error?.map((issue) => (
 									<Field.Error key={issue.message}>{issue.message}</Field.Error>
 								))}
@@ -166,7 +158,6 @@ export function MatchingLimitFields({ form, name, max, serverErrors }: MatchingL
 				label={t("matching.limitAmount")}
 				unit="currency"
 				max={max}
-				serverError={serverErrors[`${name}.limitAmount`]}
 			/>
 		</div>
 	);

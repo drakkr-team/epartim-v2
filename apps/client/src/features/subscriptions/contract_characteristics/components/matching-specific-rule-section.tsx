@@ -10,7 +10,7 @@ import type { MatchingChildProps } from "#/features/subscriptions/contract_chara
 const namespace = "features.subscriptions.contract_characteristics";
 
 export function MatchingSpecificRuleSection(props: MatchingChildProps) {
-	const { device, form, matching, onChange, serverErrors } = props;
+	const { device, form, matching, onChange } = props;
 	const { t } = useTranslation(namespace);
 	const specificDetailsSchema = z
 		.string({ error: t("matching.validation.specificDetails") })
@@ -41,11 +41,9 @@ export function MatchingSpecificRuleSection(props: MatchingChildProps) {
 				>
 					{(field) => {
 						const error = field.state.meta.errorMap.onBlur ?? field.state.meta.errorMap.onSubmit;
-						const serverError = serverErrors[field.name];
 						const invalid =
-							Boolean(serverError) ||
-							((field.state.meta.isTouched || field.state.meta.errorMap.onSubmit !== undefined) &&
-								error !== undefined);
+							(field.state.meta.isTouched || field.state.meta.errorMap.onSubmit !== undefined) &&
+							error !== undefined;
 						return (
 							<Field name={field.name} invalid={invalid} className="grid gap-2">
 								<Field.Label htmlFor={field.name} required>
@@ -59,9 +57,7 @@ export function MatchingSpecificRuleSection(props: MatchingChildProps) {
 									onChange={(event) => field.handleChange(event.target.value)}
 									onBlur={field.handleBlur}
 								/>
-								{serverError && <Field.Error>{serverError}</Field.Error>}
 								{invalid &&
-									!serverError &&
 									error?.map((issue) => (
 										<Field.Error key={issue.message}>{issue.message}</Field.Error>
 									))}

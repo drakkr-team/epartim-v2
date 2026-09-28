@@ -8,7 +8,6 @@ type NumberFieldProps = {
 	description?: string;
 	required?: boolean;
 	disabled?: boolean;
-	externalError?: string;
 	inputProps?: Omit<
 		NumberInputProps,
 		"id" | "name" | "value" | "disabled" | "onValueCommitted" | "onBlur"
@@ -16,14 +15,13 @@ type NumberFieldProps = {
 };
 
 export function NumberField(props: NumberFieldProps) {
-	const { label, description, required, disabled, externalError, inputProps } = props;
+	const { label, description, required, disabled, inputProps } = props;
 
 	const field = useFieldContext<number | null>();
 	const errors = field.state.meta.errorMap.onBlur ?? field.state.meta.errorMap.onSubmit;
 	const isInvalid =
-		Boolean(externalError) ||
-		((field.state.meta.isTouched || field.state.meta.errorMap.onSubmit !== undefined) &&
-			errors !== undefined);
+		(field.state.meta.isTouched || field.state.meta.errorMap.onSubmit !== undefined) &&
+		errors !== undefined;
 
 	return (
 		<Field
@@ -47,9 +45,7 @@ export function NumberField(props: NumberFieldProps) {
 				{...inputProps}
 			/>
 			{description && <Field.Description>{description}</Field.Description>}
-			{externalError && <Field.Error>{externalError}</Field.Error>}
 			{isInvalid &&
-				!externalError &&
 				errors?.map((error: { message: string }) => (
 					<Field.Error key={error.message}>{error.message}</Field.Error>
 				))}

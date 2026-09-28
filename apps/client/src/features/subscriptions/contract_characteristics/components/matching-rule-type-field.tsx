@@ -12,7 +12,7 @@ import type { MatchingChildProps } from "#/features/subscriptions/contract_chara
 const namespace = "features.subscriptions.contract_characteristics";
 
 export function MatchingRuleTypeField(props: MatchingChildProps) {
-	const { device, matching, onChange, serverErrors } = props;
+	const { device, matching, onChange } = props;
 	const { t } = useTranslation(namespace);
 	const options =
 		device === SubscriptionMatchingDevice.PER
@@ -24,10 +24,7 @@ export function MatchingRuleTypeField(props: MatchingChildProps) {
 			: [SubscriptionMatchingRuleType.UNIFORM, SubscriptionMatchingRuleType.SENIORITY];
 
 	return (
-		<Field
-			invalid={Boolean(serverErrors[`matchingRules.${device}.ruleTypes`])}
-			className="grid gap-3"
-		>
+		<Field className="grid gap-3">
 			<Field.Label>{t("matching.ruleType")}</Field.Label>
 			<div className="grid gap-3 md:grid-cols-3">
 				{options.map((ruleType) => {
@@ -83,9 +80,6 @@ export function MatchingRuleTypeField(props: MatchingChildProps) {
 			</div>
 			{matching.ruleTypes.length === 0 && (
 				<Field.Description>{t("matching.none")}</Field.Description>
-			)}
-			{serverErrors[`matchingRules.${device}.ruleTypes`] && (
-				<Field.Error>{serverErrors[`matchingRules.${device}.ruleTypes`]}</Field.Error>
 			)}
 		</Field>
 	);

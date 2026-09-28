@@ -17,7 +17,7 @@ import type { MatchingChildProps } from "#/features/subscriptions/contract_chara
 const namespace = "features.subscriptions.contract_characteristics";
 
 export function MatchingSeniorityRuleSection(props: MatchingChildProps) {
-	const { device, form, matching, onChange, serverErrors } = props;
+	const { device, form, matching, onChange } = props;
 	const { t } = useTranslation(namespace);
 	const updatePeriods = (
 		paymentType: SubscriptionMatchingPaymentType,
@@ -54,7 +54,6 @@ export function MatchingSeniorityRuleSection(props: MatchingChildProps) {
 							period={period}
 							previousEnd={rule.periods[index - 1]?.toYears ?? null}
 							nextFrom={rule.periods[index + 1]?.fromYears ?? null}
-							serverErrors={serverErrors}
 							onRemove={() => updatePeriods(rule.paymentType, rule.periods.slice(0, -1), true)}
 						/>
 					))}

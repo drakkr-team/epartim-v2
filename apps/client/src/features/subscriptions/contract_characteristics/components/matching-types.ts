@@ -12,5 +12,4 @@ export type MatchingChildProps = {
 	form: MatchingForm;
 	matching: SubscriptionDeviceMatching;
 	onChange: MatchingChange;
-	serverErrors: Record<string, string>;
 };

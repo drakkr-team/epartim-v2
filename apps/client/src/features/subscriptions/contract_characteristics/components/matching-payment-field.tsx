@@ -29,7 +29,7 @@ export function emptyMatchingPeriod(): SubscriptionMatchingPeriod {
 type MatchingPaymentFieldProps = MatchingChildProps & { ruleType: RuleType };
 
 export function MatchingPaymentField(props: MatchingPaymentFieldProps) {
-	const { device, form, matching, ruleType, serverErrors } = props;
+	const { device, form, matching, ruleType } = props;
 	const { t } = useTranslation(namespace);
 	const options =
 		device === SubscriptionMatchingDevice.PER
@@ -81,11 +81,9 @@ export function MatchingPaymentField(props: MatchingPaymentFieldProps) {
 			{(field) => {
 				const selected = field.state.value;
 				const error = field.state.meta.errorMap.onBlur ?? field.state.meta.errorMap.onSubmit;
-				const serverError = serverErrors[field.name];
 				const invalid =
-					Boolean(serverError) ||
-					((field.state.meta.isTouched || field.state.meta.errorMap.onSubmit !== undefined) &&
-						error !== undefined);
+					(field.state.meta.isTouched || field.state.meta.errorMap.onSubmit !== undefined) &&
+					error !== undefined;
 				return (
 					<Field name={field.name} invalid={invalid} className="grid gap-3">
 						<Field.Label required>{t("matching.payments")}</Field.Label>
@@ -139,9 +137,7 @@ export function MatchingPaymentField(props: MatchingPaymentFieldProps) {
 								);
 							})}
 						</div>
-						{serverError && <Field.Error>{serverError}</Field.Error>}
 						{invalid &&
-							!serverError &&
 							error?.map((issue) => <Field.Error key={issue.message}>{issue.message}</Field.Error>)}
 					</Field>
 				);

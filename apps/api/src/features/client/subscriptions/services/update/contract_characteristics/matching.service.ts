@@ -1,10 +1,8 @@
 import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
-import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import { ValidationError } from "@vinejs/vine";
 import type { Infer } from "@vinejs/vine/types";
 
-import { SubscriptionAgreement } from "#constants/subscription_agreement";
 import {
 	type SubscriptionMatchingRecordType as MatchingRecordType,
 	type SubscriptionDeviceMatching,
@@ -15,10 +13,8 @@ import {
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
-import { matchingValidationIssues } from "#features/client/subscriptions/services/update/contract_characteristics/matching.validation";
 import SubscriptionPlanService from "#features/client/subscriptions/services/update/contract_characteristics/plan.service";
 import Subscription from "#models/subscription";
-import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionMatchingRule, {
 	type SubscriptionMatchingRuleDetails,
 } from "#models/subscription_matching_rule";
@@ -77,9 +73,6 @@ export default class SubscriptionMatchingService {
 				]);
 			}
 			const matching = normalizeDeviceMatching(payload.matching);
-			const hasBonusAgreement = await this.#hasBonusAgreement(subscription.id, trx);
-			const errors = matchingValidationIssues(payload.device, matching, hasBonusAgreement, false);
-			if (errors.length) throw new ValidationError(errors);
 
 			await SubscriptionMatchingRule.query({ client: trx })
 				.where("subscriptionPlanId", plan.id)
@@ -117,14 +110,5 @@ export default class SubscriptionMatchingService {
 			);
 			return matching;
 		});
-	}
-
-	async #hasBonusAgreement(subscriptionId: number, trx: TransactionClientContract) {
-		return (
-			(await SubscriptionExistingAgreement.query({ client: trx })
-				.where("subscriptionId", subscriptionId)
-				.whereIn("type", [SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.INCENTIVES])
-				.first()) !== null
-		);
 	}
 }

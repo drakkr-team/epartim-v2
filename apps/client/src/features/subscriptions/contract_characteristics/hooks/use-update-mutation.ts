@@ -40,12 +40,7 @@ export function useUpdateContractCharacteristicsMutations(subscriptionId: string
 			api.subscriptions.updateContractCharacteristicsAdhesions.mutationOptions(options),
 		),
 		updateMatching: useMutation(
-			api.subscriptions.updateContractCharacteristicsMatching.mutationOptions({
-				...options,
-				onError: (error: TuyauError) => {
-					if (!error.isValidationError()) options.onError(error);
-				},
-			}),
+			api.subscriptions.updateContractCharacteristicsMatching.mutationOptions(options),
 		),
 	};
 }

@@ -22,11 +22,10 @@ type ContractCharacteristicsFormProps = {
 
 export function ContractCharacteristicsForm(props: ContractCharacteristicsFormProps) {
 	const { subscription, subscriptionId } = props;
-	const { form, updateContractCharacteristics, matchingServerErrors, clearMatchingServerErrors } =
-		useContractCharacteristicsForm({
-			subscriptionId,
-			contractCharacteristics: subscription.contractCharacteristics,
-		});
+	const { form, updateContractCharacteristics } = useContractCharacteristicsForm({
+		subscriptionId,
+		contractCharacteristics: subscription.contractCharacteristics,
+	});
 	useRegisterSubscriptionStepForm(form);
 
 	return (
@@ -60,22 +59,12 @@ export function ContractCharacteristicsForm(props: ContractCharacteristicsFormPr
 					<>
 						{adhesionTypes.includes(SubscriptionPlanAdhesionType.PEI_EPARTIM) && (
 							<Card className="p-6 sm:p-8">
-								<MatchingSection
-									device={SubscriptionMatchingDevice.PEI}
-									form={form}
-									serverErrors={matchingServerErrors}
-									clearServerErrors={clearMatchingServerErrors}
-								/>
+								<MatchingSection device={SubscriptionMatchingDevice.PEI} form={form} />
 							</Card>
 						)}
 						{adhesionTypes.includes(SubscriptionPlanAdhesionType.PER_COLI_EPARTIM) && (
 							<Card className="p-6 sm:p-8">
-								<MatchingSection
-									device={SubscriptionMatchingDevice.PER}
-									form={form}
-									serverErrors={matchingServerErrors}
-									clearServerErrors={clearMatchingServerErrors}
-								/>
+								<MatchingSection device={SubscriptionMatchingDevice.PER} form={form} />
 							</Card>
 						)}
 					</>

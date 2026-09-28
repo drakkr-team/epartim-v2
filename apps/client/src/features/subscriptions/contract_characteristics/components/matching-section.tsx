@@ -18,23 +18,15 @@ const namespace = "features.subscriptions.contract_characteristics";
 type MatchingSectionProps = {
 	device: SubscriptionMatchingDevice;
 	form: ReturnType<typeof useContractCharacteristicsForm>["form"];
-	serverErrors: Record<string, string>;
-	clearServerErrors: (device: SubscriptionMatchingDevice) => void;
 };
 
-export function MatchingSection({
-	device,
-	form,
-	serverErrors,
-	clearServerErrors,
-}: MatchingSectionProps) {
+export function MatchingSection({ device, form }: MatchingSectionProps) {
 	const { t } = useTranslation(namespace);
 	return (
 		<form.AppField name={`matchingRules.${device}`}>
 			{(field) => {
 				const matching = field.state.value;
 				const onChange = (next: SubscriptionDeviceMatching, save = false) => {
-					clearServerErrors(device);
 					field.handleChange(next);
 					if (save) field.handleBlur();
 				};
@@ -43,7 +35,6 @@ export function MatchingSection({
 					form,
 					matching,
 					onChange,
-					serverErrors,
 				};
 				return (
 					<section aria-labelledby={`${device}-matching-heading`} className="grid gap-6">

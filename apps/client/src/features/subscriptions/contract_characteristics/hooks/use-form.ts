@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { SubscriptionAgreement } from "@workspace/api/constants/subscription_agreement";
 import type {
 	SubscriptionMatchingCalculationMethod,
@@ -7,12 +5,12 @@ import type {
 } from "@workspace/api/constants/subscription_matching";
 import {
 	emptySubscriptionDeviceMatching,
+	type SubscriptionDeviceMatching,
 	SubscriptionMatchingDevice,
 } from "@workspace/api/constants/subscription_matching_rules";
 import { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 import type { routes } from "@workspace/api/registry";
 
-import { matchingDraftSchema } from "#/features/subscriptions/contract_characteristics/components/matching-validation";
 import { useUpdateContractCharacteristicsMutations } from "#/features/subscriptions/contract_characteristics/hooks/use-update-mutation";
 import { useAppForm } from "#/libs/form";
 
@@ -32,16 +30,10 @@ type UpdateSubscriptionPlanAdhesionsRequest = NonNullable<
 		ReturnType<typeof useUpdateContractCharacteristicsMutations>["updateAdhesions"]["mutate"]
 	>[0]
 >;
-type UpdateSubscriptionMatchingRequest = NonNullable<
-	Parameters<
-		ReturnType<typeof useUpdateContractCharacteristicsMutations>["updateMatching"]["mutate"]
-	>[0]
->;
 type ContractCharacteristicsChanges =
 	| NonNullable<UpdateSubscriptionPlanRequest["body"]>
 	| NonNullable<UpdateSubscriptionAgreementsRequest["body"]>
-	| NonNullable<UpdateSubscriptionPlanAdhesionsRequest["body"]>
-	| NonNullable<UpdateSubscriptionMatchingRequest["body"]>;
+	| NonNullable<UpdateSubscriptionPlanAdhesionsRequest["body"]>;
 
 type UseContractCharacteristicsFormParams = {
 	subscriptionId: string;
@@ -50,47 +42,18 @@ type UseContractCharacteristicsFormParams = {
 
 export function useContractCharacteristicsForm(params: UseContractCharacteristicsFormParams) {
 	const { subscriptionId, contractCharacteristics } = params;
-	const [matchingServerErrors, setMatchingServerErrors] = useState<Record<string, string>>({});
 	const { updateAdhesions, updateAgreements, updateMatching, updatePlan } =
 		useUpdateContractCharacteristicsMutations(subscriptionId);
-	function clearMatchingServerErrors(device: SubscriptionMatchingDevice) {
-		setMatchingServerErrors((current) =>
-			Object.fromEntries(
-				Object.entries(current).filter(([field]) => !field.startsWith(`matchingRules.${device}.`)),
-			),
-		);
-	}
-	function setMatchingValidationErrors(
+
+	function updateMatchingRules(
 		device: SubscriptionMatchingDevice,
-		error: { response?: unknown; message: string },
+		matching: SubscriptionDeviceMatching,
+		onSuccess?: () => void,
 	) {
-		const response = error.response as
-			| { errors?: Array<{ field?: string; message?: string }> }
-			| undefined;
-		const errors = Array.isArray(response?.errors) ? response.errors : [];
-		const mapped = Object.fromEntries(
-			errors
-				.filter((issue) => issue.field && issue.message)
-				.map((issue) => {
-					const field = issue.field ?? "ruleTypes";
-					const relative = field
-						.replace(/^contractCharacteristics\.matchingRules\.(pei|per)\./, "")
-						.replace(/^matching\./, "")
-						.replace(/\.([0-9]+)(?=\.|$)/g, "[$1]");
-					return [
-						`matchingRules.${device}.${relative === "device" ? "ruleTypes" : relative}`,
-						issue.message ?? "",
-					];
-				}),
+		updateMatching.mutate(
+			{ params: { subscriptionId }, body: { device, matching } },
+			{ onSuccess },
 		);
-		setMatchingServerErrors((current) => ({
-			...Object.fromEntries(
-				Object.entries(current).filter(([field]) => !field.startsWith(`matchingRules.${device}.`)),
-			),
-			...(Object.keys(mapped).length === 0
-				? { [`matchingRules.${device}.ruleTypes`]: error.message }
-				: mapped),
-		}));
 	}
 
 	function updateContractCharacteristics(
@@ -104,25 +67,6 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 					body: changes as UpdateSubscriptionPlanAdhesionsRequest["body"],
 				},
 				{ onSuccess },
-			);
-			return;
-		}
-		if ("matching" in changes) {
-			const device = changes.device as SubscriptionMatchingDevice;
-			updateMatching.mutate(
-				{
-					params: { subscriptionId },
-					body: changes as UpdateSubscriptionMatchingRequest["body"],
-				},
-				{
-					onSuccess: () => {
-						clearMatchingServerErrors(device);
-						onSuccess?.();
-					},
-					onError: (error) => {
-						if (error.isValidationError()) setMatchingValidationErrors(device, error);
-					},
-				},
 			);
 			return;
 		}
@@ -166,8 +110,7 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 					!fieldApi.state.meta.isValid &&
 					fieldApi.name !== "otherAgreementDetails" &&
 					fieldApi.name !== "voluntaryPaymentPeriodStartDate" &&
-					fieldApi.name !== "voluntaryPaymentPeriodEndDate" &&
-					!fieldApi.name.startsWith("matchingRules.")
+					fieldApi.name !== "voluntaryPaymentPeriodEndDate"
 				) {
 					return;
 				}
@@ -200,19 +143,7 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 						: null;
 				if (matchingDevice) {
 					const matching = formApi.state.values.matchingRules[matchingDevice];
-					const agreements = formApi.state.values.existingAgreements;
-					const hasBonusAgreement =
-						agreements.includes(SubscriptionAgreement.PARTICIPATION) ||
-						agreements.includes(SubscriptionAgreement.INCENTIVES);
-					if (!matchingDraftSchema(matchingDevice, hasBonusAgreement).safeParse(matching).success)
-						return;
-					updateContractCharacteristics(
-						{
-							device: matchingDevice,
-							matching,
-						},
-						markFieldAsSaved,
-					);
+					updateMatchingRules(matchingDevice, matching, markFieldAsSaved);
 					return;
 				}
 
@@ -285,12 +216,10 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 				if (fieldApi.name === "adhesionTypes") {
 					const adhesionTypes = fieldApi.state.value as SubscriptionPlanAdhesionType[];
 					if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PEI_EPARTIM)) {
-						clearMatchingServerErrors(SubscriptionMatchingDevice.PEI);
 						formApi.setFieldValue("matchingRules.pei", emptySubscriptionDeviceMatching());
 						formApi.setFieldMeta("matchingRules.pei", (meta) => ({ ...meta, errorMap: {} }));
 					}
 					if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PER_COLI_EPARTIM)) {
-						clearMatchingServerErrors(SubscriptionMatchingDevice.PER);
 						formApi.setFieldValue("matchingRules.per", emptySubscriptionDeviceMatching());
 						formApi.setFieldMeta("matchingRules.per", (meta) => ({ ...meta, errorMap: {} }));
 					}
@@ -304,5 +233,5 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 		},
 	});
 
-	return { form, updateContractCharacteristics, matchingServerErrors, clearMatchingServerErrors };
+	return { form, updateContractCharacteristics };
 }

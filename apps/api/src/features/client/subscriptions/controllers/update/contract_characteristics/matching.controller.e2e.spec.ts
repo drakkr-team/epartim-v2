@@ -1,6 +1,5 @@
 import { test } from "@japa/runner";
 
-import { SubscriptionAgreement } from "#constants/subscription_agreement";
 import {
 	emptySubscriptionDeviceMatching,
 	type SubscriptionDeviceMatching,
@@ -14,7 +13,6 @@ import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Subscription from "#models/subscription";
-import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionMatchingRule from "#models/subscription_matching_rule";
 import SubscriptionPlan from "#models/subscription_plan";
 import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
@@ -106,10 +104,7 @@ test.group("Features / Client / Subscriptions / Contract Matching", () => {
 		view.assertBodyContains({ contractCharacteristics: { matchingRules: { pei: payload } } });
 	});
 
-	test("it keeps an incomplete rule as a draft but rejects step validation", async ({
-		client,
-		assert,
-	}) => {
+	test("it keeps an incomplete rule as a draft", async ({ client }) => {
 		const { user, subscription } = await createSubscription();
 		const response = await client
 			.visit("client.subscriptions.update_contract_characteristics_matching", {
@@ -122,18 +117,10 @@ test.group("Features / Client / Subscriptions / Contract Matching", () => {
 				matching: matching({ ruleTypes: [SubscriptionMatchingRuleType.UNIFORM] }),
 			});
 		response.assertOk();
-
-		const validation = await client
-			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
-			.withGuard("client")
-			.loginAs(user);
-		validation.assertStatus(422);
-		assert.include(validation.text(), "contractCharacteristics.matchingRules.pei.uniformRules");
 	});
 
-	test("it validates five contiguous seniority periods with an open final threshold", async ({
+	test("it saves five contiguous seniority periods with an open final threshold", async ({
 		client,
-		assert,
 	}) => {
 		const { user, subscription } = await createSubscription();
 		const periods = [
@@ -157,18 +144,9 @@ test.group("Features / Client / Subscriptions / Contract Matching", () => {
 				}),
 			});
 		response.assertOk();
-
-		const validation = await client
-			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
-			.withGuard("client")
-			.loginAs(user);
-		validation.assertOk();
-		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [3]);
 	});
 
-	test("it rejects one payment in two rules and an invalid unilateral ceiling", async ({
-		client,
-	}) => {
+	test("it leaves matching validation to the form", async ({ client }) => {
 		const { user, subscription } = await createSubscription(SubscriptionMatchingDevice.PER);
 		const duplicate = await client
 			.visit("client.subscriptions.update_contract_characteristics_matching", {
@@ -186,7 +164,12 @@ test.group("Features / Client / Subscriptions / Contract Matching", () => {
 					],
 				}),
 			});
-		duplicate.assertStatus(422);
+		duplicate.assertOk();
+		const duplicateValidation = await client
+			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+		duplicateValidation.assertOk();
 
 		const unilateral = matching({
 			ruleTypes: [SubscriptionMatchingRuleType.UNILATERAL],
@@ -199,20 +182,12 @@ test.group("Features / Client / Subscriptions / Contract Matching", () => {
 			.withGuard("client")
 			.loginAs(user)
 			.json({ device: SubscriptionMatchingDevice.PER, matching: unilateral });
-		withoutAgreement.assertStatus(422);
-
-		await SubscriptionExistingAgreement.create({
-			subscriptionId: subscription.id,
-			type: SubscriptionAgreement.PARTICIPATION,
-		});
-		const withAgreement = await client
-			.visit("client.subscriptions.update_contract_characteristics_matching", {
-				subscriptionId: subscription.id,
-			})
+		withoutAgreement.assertOk();
+		const ceilingValidation = await client
+			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
 			.withGuard("client")
-			.loginAs(user)
-			.json({ device: SubscriptionMatchingDevice.PER, matching: unilateral });
-		withAgreement.assertOk();
+			.loginAs(user);
+		ceilingValidation.assertOk();
 	});
 
 	test("it removes deselected rule data and clears a deselected device", async ({

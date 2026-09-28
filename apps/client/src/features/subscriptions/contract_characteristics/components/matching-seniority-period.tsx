@@ -20,12 +20,11 @@ type MatchingSeniorityPeriodProps = {
 	period: SubscriptionMatchingPeriod;
 	previousEnd: number | null;
 	nextFrom: number | null;
-	serverErrors: Record<string, string>;
 	onRemove: () => void;
 };
 
 export function MatchingSeniorityPeriod(props: MatchingSeniorityPeriodProps) {
-	const { form, name, index, count, period, previousEnd, nextFrom, onRemove, serverErrors } = props;
+	const { form, name, index, count, period, previousEnd, nextFrom, onRemove } = props;
 	const { t } = useTranslation(namespace);
 	const yearsSchema = z
 		.number({ error: t("matching.validation.requiredNumber") })
@@ -68,7 +67,6 @@ export function MatchingSeniorityPeriod(props: MatchingSeniorityPeriodProps) {
 					label={index === 4 ? t("matching.greaterThan") : t("matching.fromYears")}
 					unit="years"
 					schema={fromYearsSchema}
-					serverError={serverErrors[`${name}.fromYears`]}
 				/>
 				{index < 4 && (
 					<MatchingNumberField
@@ -77,7 +75,6 @@ export function MatchingSeniorityPeriod(props: MatchingSeniorityPeriodProps) {
 						label={t("matching.toYears")}
 						unit="years"
 						schema={toYearsSchema}
-						serverError={serverErrors[`${name}.toYears`]}
 					/>
 				)}
 			</div>
@@ -86,9 +83,8 @@ export function MatchingSeniorityPeriod(props: MatchingSeniorityPeriodProps) {
 				name={`${name}.rate`}
 				label={t("matching.rate")}
 				unit="percent"
-				serverError={serverErrors[`${name}.rate`]}
 			/>
-			<MatchingLimitFields form={form} name={name} serverErrors={serverErrors} />
+			<MatchingLimitFields form={form} name={name} />
 		</div>
 	);
 }

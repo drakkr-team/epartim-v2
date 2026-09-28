@@ -8,7 +8,7 @@ import type { MatchingChildProps } from "#/features/subscriptions/contract_chara
 const namespace = "features.subscriptions.contract_characteristics";
 
 export function MatchingUnilateralRuleSection(props: MatchingChildProps) {
-	const { device, form, serverErrors } = props;
+	const { device, form } = props;
 	const { t } = useTranslation(namespace);
 	return (
 		<section className="grid gap-4 rounded-sm border border-neutral-5 p-4 sm:p-5">
@@ -18,7 +18,6 @@ export function MatchingUnilateralRuleSection(props: MatchingChildProps) {
 					<MatchingLimitFields
 						form={form}
 						name={`matchingRules.${device}.unilateralRule`}
-						serverErrors={serverErrors}
 						max={
 							agreements.includes(SubscriptionAgreement.PARTICIPATION) ||
 							agreements.includes(SubscriptionAgreement.INCENTIVES)
