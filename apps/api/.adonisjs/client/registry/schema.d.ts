@@ -547,16 +547,40 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/kyc/profile.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'client.subscriptions.update_plans': {
+  'client.subscriptions.update_contract_characteristics_plan': {
     methods: ["PUT"]
-    pattern: '/client/subscriptions/:subscriptionId/plans'
+    pattern: '/client/subscriptions/:subscriptionId/contract-characteristics/plan'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/plans.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller').default)['payloadSchema']>>
       paramsTuple: [ParamValue]
       params: { subscriptionId: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/plans.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/plans.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/plans.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.update_contract_characteristics_agreements': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/contract-characteristics/agreements'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/contract_characteristics/agreements.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/contract_characteristics/agreements.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/agreements.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/agreements.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.update_contract_characteristics_adhesions': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/contract-characteristics/adhesions'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/contract_characteristics/adhesions.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/contract_characteristics/adhesions.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/adhesions.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/adhesions.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.subscriptions.create_kyc_owner': {

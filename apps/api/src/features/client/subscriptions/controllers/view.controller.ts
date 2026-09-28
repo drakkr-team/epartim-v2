@@ -1,6 +1,10 @@
 import { inject } from "@adonisjs/core";
 import type { HttpContext } from "@adonisjs/core/http";
 
+import {
+	SubscriptionMatchingCalculationMethod,
+	SubscriptionMatchingDistributionPeriod,
+} from "#constants/subscription_matching";
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
 import SubscriptionDocumentRequirementsService, {
 	type SubscriptionDocumentRequirement,
@@ -108,6 +112,8 @@ export default class ViewSubscriptionController {
 						existingAgreements: [],
 						otherAgreementDetails: null,
 						minimumSeniorityMonths: null,
+						matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
+						matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
 						voluntaryPaymentsLimitedToPeriod: false,
 						voluntaryPaymentPeriodStartDate: null,
 						voluntaryPaymentPeriodEndDate: null,

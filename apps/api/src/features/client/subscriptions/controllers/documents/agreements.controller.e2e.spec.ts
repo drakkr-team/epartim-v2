@@ -30,18 +30,17 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 		return { subscription, user, plan };
 	}
 
-	test("it requires an explicit seniority but accepts all four choices without agreements", async ({
+	test("it validates without seniority and accepts all four choices without agreements", async ({
 		client,
 		assert,
 	}) => {
 		const { subscription, user, plan } = await createSubscription();
-		const incomplete = await client
+		const withoutSeniority = await client
 			.visit("client.subscriptions.validate_step", { subscriptionId: subscription.id, step: 3 })
 			.withGuard("client")
 			.loginAs(user);
-		incomplete.assertStatus(422);
-		assert.include(incomplete.text(), "contractCharacteristics.minimumSeniorityMonths");
-		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [1, 2]);
+		withoutSeniority.assertOk();
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [1, 2, 3]);
 
 		for (const months of [0, 1, 2, 3]) {
 			await plan.merge({ minimumSeniorityMonths: months }).save();
@@ -60,7 +59,7 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [1, 2, 3]);
 	});
 
-	test("it requires the details and all five documents, then revalidates after a deletion", async ({
+	test("it requires all five documents, then revalidates after a deletion", async ({
 		client,
 		assert,
 	}) => {
@@ -77,20 +76,15 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 				type,
 			})),
 		);
-		const missingDetails = await client
-			.visit("client.subscriptions.validate_step", { subscriptionId: subscription.id, step: 3 })
-			.withGuard("client")
-			.loginAs(user);
-		missingDetails.assertStatus(422);
-		assert.include(missingDetails.text(), "contractCharacteristics.otherAgreementDetails");
-		await plan.merge({ otherAgreementDetails: "CET" }).save();
 		const missingDocuments = await client
 			.visit("client.subscriptions.validate_step", { subscriptionId: subscription.id, step: 3 })
 			.withGuard("client")
 			.loginAs(user);
 		missingDocuments.assertStatus(422);
+		assert.notInclude(missingDocuments.text(), "contractCharacteristics.otherAgreementDetails");
 		for (const type of agreementTypes)
 			assert.include(missingDocuments.text(), `documents.${type}.subscription`);
+		await plan.merge({ otherAgreementDetails: "CET" }).save();
 
 		for (const documentType of agreementTypes) {
 			const upload = await client
@@ -178,29 +172,29 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 		}
 		await subscription.merge({ completedSteps: [1, 2, 3] }).save();
 		const deselect = await client
-			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.visit("client.subscriptions.update_contract_characteristics_agreements", {
+				subscriptionId: subscription.id,
+			})
 			.withGuard("client")
 			.loginAs(user)
-			.json({
-				contractCharacteristics: { existingAgreements: [SubscriptionAgreement.PARTICIPATION] },
-			});
+			.json({ existingAgreements: [SubscriptionAgreement.PARTICIPATION] });
 		deselect.assertOk();
-		assert.isNull(deselect.body().otherAgreementDetails);
+		assert.isNull((await SubscriptionPlan.findOrFail(plan.id)).otherAgreementDetails);
 		assert.isNull(await File.find(uploadedIds[1]));
 		assert.isNotNull(await File.find(uploadedIds[0]));
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [1, 2]);
 
 		const reselect = await client
-			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.visit("client.subscriptions.update_contract_characteristics_agreements", {
+				subscriptionId: subscription.id,
+			})
 			.withGuard("client")
 			.loginAs(user)
 			.json({
-				contractCharacteristics: {
-					existingAgreements: [SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.OTHER],
-				},
+				existingAgreements: [SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.OTHER],
 			});
 		reselect.assertOk();
-		assert.isNull(reselect.body().otherAgreementDetails);
+		assert.isNull((await SubscriptionPlan.findOrFail(plan.id)).otherAgreementDetails);
 		assert.isNull(
 			await SubscriptionDocument.query()
 				.where("subscriptionId", subscription.id)
