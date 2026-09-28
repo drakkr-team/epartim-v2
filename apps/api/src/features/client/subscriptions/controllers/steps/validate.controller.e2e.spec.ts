@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+import { DateTime } from "luxon";
 
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
@@ -167,12 +168,70 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 		incompleteResponse.assertStatus(422);
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, []);
 
-		const plan = await SubscriptionPlan.create({ subscriptionId: subscription.id });
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		const plan = await SubscriptionPlan.create({
+			subscriptionId: subscription.id,
+			minimumSeniorityMonths: 0,
+		});
 		await SubscriptionPlanAdhesion.create({
 			subscriptionPlanId: plan.id,
 			type: SubscriptionPlanAdhesionType.PEI_EPARTIM,
 		});
 
+		const completeResponse = await client
+			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		completeResponse.assertOk();
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [3]);
+	});
+
+	test("it requires a complete and coherent voluntary payment period", async ({
+		client,
+		assert,
+	}) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({
+			completedSteps: [],
+			createdBy: user.id,
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		const plan = await SubscriptionPlan.create({
+			subscriptionId: subscription.id,
+			minimumSeniorityMonths: 0,
+			voluntaryPaymentsLimitedToPeriod: true,
+		});
+		await SubscriptionPlanAdhesion.create({
+			subscriptionPlanId: plan.id,
+			type: SubscriptionPlanAdhesionType.PEI_EPARTIM,
+		});
+
+		const missingDates = await client
+			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		missingDates.assertStatus(422);
+		assert.include(missingDates.text(), "contractCharacteristics.voluntaryPaymentPeriodStartDate");
+		assert.include(missingDates.text(), "contractCharacteristics.voluntaryPaymentPeriodEndDate");
+
+		await plan
+			.merge({
+				voluntaryPaymentPeriodStartDate: DateTime.fromISO("2026-12-31"),
+				voluntaryPaymentPeriodEndDate: DateTime.fromISO("2026-10-01"),
+			})
+			.save();
+		const invalidOrder = await client
+			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		invalidOrder.assertStatus(422);
+		assert.include(invalidOrder.text(), "contractCharacteristics.voluntaryPaymentPeriodEndDate");
+
+		await plan.merge({ voluntaryPaymentPeriodEndDate: DateTime.fromISO("2026-12-31") }).save();
 		const completeResponse = await client
 			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
 			.withGuard("client")

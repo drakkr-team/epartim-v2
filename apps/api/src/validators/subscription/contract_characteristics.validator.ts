@@ -1,5 +1,7 @@
 import vine from "@vinejs/vine";
+import { DateTime } from "luxon";
 
+import { MinimumSeniorityMonths, SubscriptionAgreement } from "#constants/subscription_agreement";
 import {
 	SubscriptionPlanAdhesionType,
 	type SubscriptionPlanAdhesionType as SubscriptionPlanAdhesionTypeValue,
@@ -13,7 +15,20 @@ const isValidAdhesionType = vine.createRule((value, _, field) => {
 	}
 });
 
+const isCalendarDate = vine.createRule((value, _, field) => {
+	if (
+		typeof value !== "string" ||
+		!/^\d{4}-\d{2}-\d{2}$/.test(value) ||
+		!DateTime.fromISO(value, { zone: "utc" }).isValid
+	) {
+		field.report("La date est invalide.", "date", field);
+	}
+});
+
 const ContractCharacteristicsSchema = vine.object({
+	existingAgreements: vine.array(vine.enum(SubscriptionAgreement)).distinct().optional(),
+	otherAgreementDetails: vine.string().trim().nullable().optional(),
+	minimumSeniorityMonths: vine.enum(MinimumSeniorityMonths).nullable().optional(),
 	existingDeviceTransfer: vine.boolean().optional(),
 	estimatedTransferAmount: vine
 		.number()
@@ -22,6 +37,9 @@ const ContractCharacteristicsSchema = vine.object({
 		.max(Number.MAX_SAFE_INTEGER / 100)
 		.nullable()
 		.optional(),
+	voluntaryPaymentsLimitedToPeriod: vine.boolean().optional(),
+	voluntaryPaymentPeriodStartDate: vine.string().trim().use(isCalendarDate()).nullable().optional(),
+	voluntaryPaymentPeriodEndDate: vine.string().trim().use(isCalendarDate()).nullable().optional(),
 	adhesionTypes: vine
 		.array(vine.number().use(isValidAdhesionType()))
 		.maxLength(adhesionTypes.size)

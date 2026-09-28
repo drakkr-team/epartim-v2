@@ -1,9 +1,12 @@
 import { test } from "@japa/runner";
+import { DateTime } from "luxon";
 
+import { MinimumSeniorityMonths, SubscriptionAgreement } from "#constants/subscription_agreement";
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import Subscription from "#models/subscription";
+import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
 import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
@@ -78,6 +81,54 @@ test.group("Features / Client / Subscriptions / Controllers / Update Plans", () 
 		);
 	});
 
+	test("it saves a voluntary payment period and clears it when disabled", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+
+		const enabledResponse = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: {
+					voluntaryPaymentsLimitedToPeriod: true,
+					voluntaryPaymentPeriodStartDate: "2026-10-01",
+					voluntaryPaymentPeriodEndDate: "2026-12-31",
+				},
+			});
+
+		enabledResponse.assertOk();
+		enabledResponse.assertBodyContains({
+			voluntaryPaymentsLimitedToPeriod: true,
+			voluntaryPaymentPeriodStartDate: "2026-10-01",
+			voluntaryPaymentPeriodEndDate: "2026-12-31",
+		});
+
+		const plan = await SubscriptionPlan.findByOrFail("subscriptionId", subscription.id);
+		assert.equal(plan.voluntaryPaymentPeriodStartDate?.toISODate(), "2026-10-01");
+		assert.equal(plan.voluntaryPaymentPeriodEndDate?.toISODate(), "2026-12-31");
+
+		const disabledResponse = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: { voluntaryPaymentsLimitedToPeriod: false },
+			});
+
+		disabledResponse.assertOk();
+		disabledResponse.assertBodyContains({
+			voluntaryPaymentsLimitedToPeriod: false,
+			voluntaryPaymentPeriodStartDate: null,
+			voluntaryPaymentPeriodEndDate: null,
+		});
+		const disabledPlan = await SubscriptionPlan.findByOrFail("subscriptionId", subscription.id);
+		assert.isNull(disabledPlan.voluntaryPaymentPeriodStartDate);
+		assert.isNull(disabledPlan.voluntaryPaymentPeriodEndDate);
+	});
+
 	test("it rejects invalid transfer amounts", async ({ client }) => {
 		const { subscription, user } = await createSubscription();
 
@@ -94,6 +145,47 @@ test.group("Features / Client / Subscriptions / Controllers / Update Plans", () 
 			.loginAs(user)
 			.json({ contractCharacteristics: { estimatedTransferAmount: 10.001 } });
 		precisionResponse.assertStatus(422);
+	});
+
+	test("it rejects invalid voluntary payment period dates", async ({ client }) => {
+		const { subscription, user } = await createSubscription();
+
+		const response = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: {
+					voluntaryPaymentPeriodStartDate: "2026-02-30",
+				},
+			});
+
+		response.assertStatus(422);
+	});
+
+	test("it rejects a voluntary payment period ending before its start", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		const plan = await SubscriptionPlan.create({
+			subscriptionId: subscription.id,
+			voluntaryPaymentsLimitedToPeriod: true,
+			voluntaryPaymentPeriodStartDate: DateTime.fromISO("2026-10-01"),
+			voluntaryPaymentPeriodEndDate: DateTime.fromISO("2026-12-31"),
+		});
+
+		const response = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: { voluntaryPaymentPeriodEndDate: "2026-09-30" },
+			});
+
+		response.assertStatus(422);
+		const unchangedPlan = await SubscriptionPlan.findOrFail(plan.id);
+		assert.equal(unchangedPlan.voluntaryPaymentPeriodEndDate?.toISODate(), "2026-12-31");
 	});
 
 	test("it invalidates contract characteristics after an automatic save", async ({
@@ -128,5 +220,146 @@ test.group("Features / Client / Subscriptions / Controllers / Update Plans", () 
 			.json({ contractCharacteristics: { existingDeviceTransfer: true } });
 
 		response.assertStatus(403);
+	});
+
+	test("it saves every combination of agreements including none", async ({ client, assert }) => {
+		const { subscription, user } = await createSubscription();
+		const choices = Object.values(SubscriptionAgreement);
+		for (let combination = 0; combination < 2 ** choices.length; combination++) {
+			const existingAgreements = choices.filter((_, index) => (combination & (1 << index)) !== 0);
+			const response = await client
+				.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+				.withGuard("client")
+				.loginAs(user)
+				.json({ contractCharacteristics: { existingAgreements } });
+			response.assertOk();
+			assert.deepEqual(response.body().existingAgreements, existingAgreements);
+			assert.sameMembers(
+				(await subscription.related("existingAgreements").query()).map(
+					(agreement) => agreement.type,
+				),
+				existingAgreements,
+			);
+		}
+	});
+
+	test("it preserves retained agreement rows and scopes replacements to the subscription", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		const { subscription: otherSubscription } = await createSubscription();
+		const retained = await SubscriptionExistingAgreement.create({
+			subscriptionId: subscription.id,
+			type: SubscriptionAgreement.PARTICIPATION,
+		});
+		const removed = await SubscriptionExistingAgreement.create({
+			subscriptionId: subscription.id,
+			type: SubscriptionAgreement.PPV,
+		});
+		const otherAgreement = await SubscriptionExistingAgreement.create({
+			subscriptionId: otherSubscription.id,
+			type: SubscriptionAgreement.PPV,
+		});
+
+		const replacement = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: {
+					existingAgreements: [
+						SubscriptionAgreement.PARTICIPATION,
+						SubscriptionAgreement.INCENTIVES,
+					],
+				},
+			});
+		replacement.assertOk();
+		assert.isNotNull(await SubscriptionExistingAgreement.find(retained.id));
+		assert.isNull(await SubscriptionExistingAgreement.find(removed.id));
+		assert.isNotNull(await SubscriptionExistingAgreement.find(otherAgreement.id));
+		const saved = await subscription.related("existingAgreements").query().orderBy("id");
+		assert.lengthOf(saved, 2);
+
+		const partial = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({ contractCharacteristics: { minimumSeniorityMonths: 0 } });
+		partial.assertOk();
+		assert.deepEqual(
+			(await subscription.related("existingAgreements").query().orderBy("id")).map(({ id }) => id),
+			saved.map(({ id }) => id),
+		);
+	});
+
+	test("it saves all seniorities and distinguishes no seniority from an unanswered draft", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		for (const minimumSeniorityMonths of [...MinimumSeniorityMonths, null]) {
+			const response = await client
+				.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+				.withGuard("client")
+				.loginAs(user)
+				.json({ contractCharacteristics: { minimumSeniorityMonths } });
+			response.assertOk();
+			assert.strictEqual(response.body().minimumSeniorityMonths, minimumSeniorityMonths);
+		}
+	});
+
+	test("it rejects invalid agreement and seniority values", async ({ client }) => {
+		const { subscription, user } = await createSubscription();
+		for (const contractCharacteristics of [
+			{ existingAgreements: ["invalid"] },
+			{ existingAgreements: ["participation", "participation"] },
+			{ minimumSeniorityMonths: -1 },
+			{ minimumSeniorityMonths: 4 },
+			{ minimumSeniorityMonths: 1.5 },
+		]) {
+			const response = await client
+				.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+				.withGuard("client")
+				.loginAs(user)
+				.unsafeJson({ contractCharacteristics });
+			response.assertStatus(422);
+		}
+	});
+
+	test("it preserves other agreement details on partial saves and clears them on deselection", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		const details = "Compte épargne-temps. ".repeat(100);
+		const response = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: {
+					existingAgreements: [SubscriptionAgreement.OTHER],
+					otherAgreementDetails: details,
+				},
+			});
+		response.assertOk();
+		assert.equal(response.body().otherAgreementDetails, details.trim());
+
+		const partialResponse = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({ contractCharacteristics: { minimumSeniorityMonths: 1 } });
+		partialResponse.assertOk();
+		assert.equal(partialResponse.body().otherAgreementDetails, details.trim());
+
+		const clearResponse = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({ contractCharacteristics: { existingAgreements: [] } });
+		clearResponse.assertOk();
+		assert.isNull(clearResponse.body().otherAgreementDetails);
 	});
 });
