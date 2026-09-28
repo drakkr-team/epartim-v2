@@ -92,6 +92,11 @@ export const controllers = {
         },
         update: {
           AddressAndBankDetails: () => import('#src/features/client/subscriptions/controllers/update/address_and_bank_details.controller'),
+          contractCharacteristics: {
+            Adhesions: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/adhesions.controller'),
+            Agreements: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/agreements.controller'),
+            Plan: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller'),
+          },
           kyc: {
             owners: {
               Create: () => import('#src/features/client/subscriptions/controllers/update/kyc/owners/create.controller'),
@@ -101,7 +106,6 @@ export const controllers = {
             Profile: () => import('#src/features/client/subscriptions/controllers/update/kyc/profile.controller'),
           },
           LegalIdentification: () => import('#src/features/client/subscriptions/controllers/update/legal_identification.controller'),
-          Plans: () => import('#src/features/client/subscriptions/controllers/update/plans.controller'),
           representatives: {
             Authorizations: () => import('#src/features/client/subscriptions/controllers/update/representatives/authorizations.controller'),
             Correspondent: () => import('#src/features/client/subscriptions/controllers/update/representatives/correspondent.controller'),
