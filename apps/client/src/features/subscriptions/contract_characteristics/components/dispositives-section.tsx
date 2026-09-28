@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
+import { emptySubscriptionDeviceMatching } from "@workspace/api/constants/subscription_matching_rules";
 import { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 import { Checkbox } from "@workspace/ui-react/components/checkbox";
 import { Field } from "@workspace/ui-react/components/field";
@@ -62,6 +63,18 @@ export function DispositivesSection(props: DevicesSectionProps) {
 		}
 
 		updateContractCharacteristics({ existingDeviceTransfer: true });
+	}
+
+	function clearInactiveMatchingRules(adhesionTypes: SubscriptionPlanAdhesionType[]) {
+		if (adhesionTypes.length === 0) return;
+		if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PEI_EPARTIM)) {
+			form.setFieldValue("matchingRules.pei", emptySubscriptionDeviceMatching());
+			form.setFieldMeta("matchingRules.pei", (meta) => ({ ...meta, errorMap: {} }));
+		}
+		if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PER_COLI_EPARTIM)) {
+			form.setFieldValue("matchingRules.per", emptySubscriptionDeviceMatching());
+			form.setFieldMeta("matchingRules.per", (meta) => ({ ...meta, errorMap: {} }));
+		}
 	}
 
 	return (
@@ -166,6 +179,7 @@ export function DispositivesSection(props: DevicesSectionProps) {
 																	? [...adhesionTypes, option.value]
 																	: adhesionTypes.filter((type) => type !== option.value);
 																field.handleChange(nextAdhesionTypes);
+																clearInactiveMatchingRules(nextAdhesionTypes);
 																field.handleBlur();
 															}}
 														/>

@@ -1,14 +1,13 @@
-import { SubscriptionAgreement } from "@workspace/api/constants/subscription_agreement";
+import type { SubscriptionAgreement } from "@workspace/api/constants/subscription_agreement";
 import type {
 	SubscriptionMatchingCalculationMethod,
 	SubscriptionMatchingDistributionPeriod,
 } from "@workspace/api/constants/subscription_matching";
 import {
-	emptySubscriptionDeviceMatching,
 	type SubscriptionDeviceMatching,
 	SubscriptionMatchingDevice,
 } from "@workspace/api/constants/subscription_matching_rules";
-import { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
+import type { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 import type { routes } from "@workspace/api/registry";
 
 import { useUpdateContractCharacteristicsMutations } from "#/features/subscriptions/contract_characteristics/hooks/use-update-mutation";
@@ -105,12 +104,13 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 		},
 		listeners: {
 			onBlur: ({ fieldApi, formApi }) => {
+				const { name } = fieldApi;
 				if (!fieldApi.state.meta.isDirty) return;
 				if (
 					!fieldApi.state.meta.isValid &&
-					fieldApi.name !== "otherAgreementDetails" &&
-					fieldApi.name !== "voluntaryPaymentPeriodStartDate" &&
-					fieldApi.name !== "voluntaryPaymentPeriodEndDate"
+					name !== "otherAgreementDetails" &&
+					name !== "voluntaryPaymentPeriodStartDate" &&
+					name !== "voluntaryPaymentPeriodEndDate"
 				) {
 					return;
 				}
@@ -122,23 +122,9 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 					}
 				};
 
-				if (fieldApi.name === "existingAgreements") {
-					const existingAgreements = rawValue as SubscriptionAgreement[];
-					if (!existingAgreements.includes(SubscriptionAgreement.OTHER)) {
-						formApi.setFieldValue("otherAgreementDetails", "");
-						formApi.setFieldMeta("otherAgreementDetails", (meta) => ({ ...meta, errorMap: {} }));
-						updateContractCharacteristics(
-							{ existingAgreements, otherAgreementDetails: null },
-							markFieldAsSaved,
-						);
-						return;
-					}
-					updateContractCharacteristics({ existingAgreements }, markFieldAsSaved);
-					return;
-				}
-				const matchingDevice = fieldApi.name.startsWith("matchingRules.pei")
+				const matchingDevice = name.startsWith("matchingRules.pei")
 					? SubscriptionMatchingDevice.PEI
-					: fieldApi.name.startsWith("matchingRules.per")
+					: name.startsWith("matchingRules.per")
 						? SubscriptionMatchingDevice.PER
 						: null;
 				if (matchingDevice) {
@@ -147,88 +133,27 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 					return;
 				}
 
-				if (fieldApi.name === "otherAgreementDetails") {
-					updateContractCharacteristics(
-						{ otherAgreementDetails: (rawValue as string).trim() || null },
-						markFieldAsSaved,
-					);
-					return;
-				}
-
-				if (fieldApi.name === "minimumSeniorityMonths") {
-					updateContractCharacteristics(
-						{ minimumSeniorityMonths: rawValue as 0 | 1 | 2 | 3 | null },
-						markFieldAsSaved,
-					);
-					return;
-				}
-
-				if (fieldApi.name === "matchingCalculationMethod") {
-					updateContractCharacteristics(
-						{ matchingCalculationMethod: rawValue as SubscriptionMatchingCalculationMethod },
-						markFieldAsSaved,
-					);
-					return;
-				}
-
-				if (fieldApi.name === "matchingDistributionPeriod") {
-					updateContractCharacteristics(
-						{ matchingDistributionPeriod: rawValue as SubscriptionMatchingDistributionPeriod },
-						markFieldAsSaved,
-					);
-					return;
-				}
-
-				if (fieldApi.name === "estimatedTransferAmount") {
-					const amount = fieldApi.state.value as number | null;
-					updateContractCharacteristics({ estimatedTransferAmount: amount }, () => {
-						if (Object.is(fieldApi.state.value, amount)) {
-							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
-						}
-					});
-					return;
-				}
-
 				if (
-					fieldApi.name === "voluntaryPaymentPeriodStartDate" ||
-					fieldApi.name === "voluntaryPaymentPeriodEndDate"
+					name === "voluntaryPaymentPeriodStartDate" ||
+					name === "voluntaryPaymentPeriodEndDate"
 				) {
-					const fieldName = fieldApi.name;
 					const date = rawValue as string | null;
 					const startDate =
-						fieldName === "voluntaryPaymentPeriodStartDate"
+						name === "voluntaryPaymentPeriodStartDate"
 							? date
 							: formApi.state.values.voluntaryPaymentPeriodStartDate;
 					const endDate =
-						fieldName === "voluntaryPaymentPeriodEndDate"
+						name === "voluntaryPaymentPeriodEndDate"
 							? date
 							: formApi.state.values.voluntaryPaymentPeriodEndDate;
 					if (startDate && endDate && endDate < startDate) return;
-
-					updateContractCharacteristics({ [fieldName]: date }, () => {
-						if (Object.is(fieldApi.state.value, date)) {
-							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
-						}
-					});
-					return;
 				}
 
-				if (fieldApi.name === "adhesionTypes") {
-					const adhesionTypes = fieldApi.state.value as SubscriptionPlanAdhesionType[];
-					if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PEI_EPARTIM)) {
-						formApi.setFieldValue("matchingRules.pei", emptySubscriptionDeviceMatching());
-						formApi.setFieldMeta("matchingRules.pei", (meta) => ({ ...meta, errorMap: {} }));
-					}
-					if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PER_COLI_EPARTIM)) {
-						formApi.setFieldValue("matchingRules.per", emptySubscriptionDeviceMatching());
-						formApi.setFieldMeta("matchingRules.per", (meta) => ({ ...meta, errorMap: {} }));
-					}
-					updateContractCharacteristics({ adhesionTypes }, () => {
-						if (Object.is(fieldApi.state.value, adhesionTypes)) {
-							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
-						}
-					});
-				}
+				const value = typeof rawValue === "string" ? rawValue.trim() || null : rawValue;
+				updateContractCharacteristics(
+					{ [name]: value } as ContractCharacteristicsChanges,
+					markFieldAsSaved,
+				);
 			},
 		},
 	});
