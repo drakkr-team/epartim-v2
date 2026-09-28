@@ -2,12 +2,12 @@ import { useTranslation } from "react-i18next";
 import z from "zod";
 
 import { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
-import { Card } from "@workspace/ui-react/components/card";
 import { Checkbox } from "@workspace/ui-react/components/checkbox";
 import { Field } from "@workspace/ui-react/components/field";
-import { HeadphonesIcon, MailIcon } from "@workspace/ui-react/icons";
+import { MailIcon } from "@workspace/ui-react/icons";
 
 import { BooleanField } from "#/features/subscriptions/components/boolean-field";
+import { InformationCard } from "#/features/subscriptions/components/information-card";
 import type { useContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
@@ -112,29 +112,18 @@ export function DispositivesSection(props: DevicesSectionProps) {
 									)}
 								</form.AppField>
 
-								<Card
-									role="note"
-									className="grid gap-4 rounded-sm border border-neutral-5 bg-neutral-2 p-4 sm:grid-cols-[auto_1fr]"
+								<InformationCard
+									description={t("transferInformation.description")}
+									title={t("transferInformation.title")}
 								>
-									<div className="flex size-9 items-center justify-center rounded-full bg-secondary-12 text-primary-7">
-										<HeadphonesIcon aria-hidden="true" className="size-4" />
-									</div>
-									<div>
-										<h3 className="font-bold text-secondary-12 text-sm">
-											{t("transferInformation.title")}
-										</h3>
-										<p className="mt-1 text-neutral-11 text-sm">
-											{t("transferInformation.description")}
-										</p>
-										<a
-											href="mailto:admin@epartim.fr"
-											className="mt-3 inline-flex items-center gap-2 rounded-full border border-primary-7 px-2 py-1 font-medium text-secondary-12 text-xs"
-										>
-											<MailIcon aria-hidden="true" className="size-3 text-primary-9" />
-											admin@epartim.fr
-										</a>
-									</div>
-								</Card>
+									<a
+										href="mailto:admin@epartim.fr"
+										className="mt-3 inline-flex items-center gap-2 rounded-full border border-primary-7 px-2 py-1 font-medium text-secondary-12 text-xs"
+									>
+										<MailIcon aria-hidden="true" className="size-3 text-primary-9" />
+										admin@epartim.fr
+									</a>
+								</InformationCard>
 							</div>
 						)}
 

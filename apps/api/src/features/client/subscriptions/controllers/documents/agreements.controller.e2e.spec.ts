@@ -178,29 +178,29 @@ test.group("Features / Client / Subscriptions / Controllers / Agreement Document
 		}
 		await subscription.merge({ completedSteps: [1, 2, 3] }).save();
 		const deselect = await client
-			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.visit("client.subscriptions.update_contract_characteristics_agreements", {
+				subscriptionId: subscription.id,
+			})
 			.withGuard("client")
 			.loginAs(user)
-			.json({
-				contractCharacteristics: { existingAgreements: [SubscriptionAgreement.PARTICIPATION] },
-			});
+			.json({ existingAgreements: [SubscriptionAgreement.PARTICIPATION] });
 		deselect.assertOk();
-		assert.isNull(deselect.body().otherAgreementDetails);
+		assert.isNull((await SubscriptionPlan.findOrFail(plan.id)).otherAgreementDetails);
 		assert.isNull(await File.find(uploadedIds[1]));
 		assert.isNotNull(await File.find(uploadedIds[0]));
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [1, 2]);
 
 		const reselect = await client
-			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.visit("client.subscriptions.update_contract_characteristics_agreements", {
+				subscriptionId: subscription.id,
+			})
 			.withGuard("client")
 			.loginAs(user)
 			.json({
-				contractCharacteristics: {
-					existingAgreements: [SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.OTHER],
-				},
+				existingAgreements: [SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.OTHER],
 			});
 		reselect.assertOk();
-		assert.isNull(reselect.body().otherAgreementDetails);
+		assert.isNull((await SubscriptionPlan.findOrFail(plan.id)).otherAgreementDetails);
 		assert.isNull(
 			await SubscriptionDocument.query()
 				.where("subscriptionId", subscription.id)
