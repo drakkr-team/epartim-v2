@@ -7,6 +7,7 @@ import type {
 } from "#constants/subscription_matching";
 import { SubscriptionPlanSchema } from "#database/schema";
 import Subscription from "#models/subscription";
+import SubscriptionMatchingRule from "#models/subscription_matching_rule";
 import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
 export default class SubscriptionPlan extends SubscriptionPlanSchema {
@@ -18,4 +19,7 @@ export default class SubscriptionPlan extends SubscriptionPlanSchema {
 
 	@hasMany(() => SubscriptionPlanAdhesion)
 	declare adhesions: HasMany<typeof SubscriptionPlanAdhesion>;
+
+	@hasMany(() => SubscriptionMatchingRule)
+	declare matchingRules: HasMany<typeof SubscriptionMatchingRule>;
 }

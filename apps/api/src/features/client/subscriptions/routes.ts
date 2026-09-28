@@ -74,6 +74,11 @@ router
 			])
 			.as("update_contract_characteristics_adhesions");
 		router
+			.put("/:subscriptionId/contract-characteristics/matching", [
+				controllers.features.client.subscriptions.update.contractCharacteristics.Matching,
+			])
+			.as("update_contract_characteristics_matching");
+		router
 			.post("/:subscriptionId/kyc-owners", [
 				controllers.features.client.subscriptions.update.kyc.owners.Create,
 			])

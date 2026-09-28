@@ -2,6 +2,7 @@ import { SubscriptionAgreement } from "#constants/subscription_agreement";
 import type SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
 import type SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
+import { presentSubscriptionMatchingRules } from "#presenters/subscription_matching.presenter";
 
 export default class SubscriptionPlanPresenter {
 	toJSON(
@@ -25,6 +26,7 @@ export default class SubscriptionPlanPresenter {
 			minimumSeniorityMonths: plan.minimumSeniorityMonths,
 			matchingCalculationMethod: plan.matchingCalculationMethod,
 			matchingDistributionPeriod: plan.matchingDistributionPeriod,
+			matchingRules: presentSubscriptionMatchingRules(plan.matchingRules),
 			voluntaryPaymentsLimitedToPeriod: plan.voluntaryPaymentsLimitedToPeriod,
 			voluntaryPaymentPeriodStartDate: plan.voluntaryPaymentPeriodStartDate?.toISODate() ?? null,
 			voluntaryPaymentPeriodEndDate: plan.voluntaryPaymentPeriodEndDate?.toISODate() ?? null,

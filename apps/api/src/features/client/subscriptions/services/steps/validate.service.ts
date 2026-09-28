@@ -4,11 +4,15 @@ import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import { ValidationError } from "@vinejs/vine";
 
 import { MinimumSeniorityMonths, SubscriptionAgreement } from "#constants/subscription_agreement";
+import { SubscriptionMatchingDevice } from "#constants/subscription_matching_rules";
+import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import SubscriptionDocumentRequirementsService from "#features/client/subscriptions/services/documents/requirements.service";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
+import { matchingValidationIssues } from "#features/client/subscriptions/services/update/contract_characteristics/matching.validation";
 import Subscription from "#models/subscription";
 import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
+import { presentSubscriptionMatchingRules } from "#presenters/subscription_matching.presenter";
 
 @inject()
 export default class ValidateSubscriptionStepService {
@@ -79,6 +83,7 @@ export default class ValidateSubscriptionStepService {
 		const plan = await SubscriptionPlan.query({ client: trx })
 			.where("subscriptionId", subscription.id)
 			.preload("adhesions")
+			.preload("matchingRules")
 			.first();
 		const errors = [];
 		if (!plan?.adhesions.length) {
@@ -132,6 +137,24 @@ export default class ValidateSubscriptionStepService {
 				message: "Détaillez l’autre accord existant.",
 				rule: "required",
 			});
+		}
+		if (plan) {
+			const hasBonusAgreement =
+				(await SubscriptionExistingAgreement.query({ client: trx })
+					.where("subscriptionId", subscription.id)
+					.whereIn("type", [SubscriptionAgreement.PARTICIPATION, SubscriptionAgreement.INCENTIVES])
+					.first()) !== null;
+			const matching = presentSubscriptionMatchingRules(plan.matchingRules);
+			for (const [device, adhesionType] of [
+				[SubscriptionMatchingDevice.PEI, SubscriptionPlanAdhesionType.PEI_EPARTIM],
+				[SubscriptionMatchingDevice.PER, SubscriptionPlanAdhesionType.PER_COLI_EPARTIM],
+			] as const) {
+				if (plan.adhesions.some((adhesion) => adhesion.type === adhesionType)) {
+					errors.push(
+						...matchingValidationIssues(device, matching[device], hasBonusAgreement, true),
+					);
+				}
+			}
 		}
 		if (errors.length > 0) throw new ValidationError(errors);
 	}

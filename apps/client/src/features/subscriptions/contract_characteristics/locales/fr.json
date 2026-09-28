@@ -53,9 +53,9 @@
 		"matchingCalculation": {
 			"eyebrow": "V.",
 			"title": "Choix et calcul de la règle d’abondement",
-			"description": "La règle d’abondement, une fois définie, est appliquée à partir de la date de mise en place et se renouvelle par tacite reconduction. Attention, l’abondement peut être calculé par Amundi seulement si un abondement en fonction de l’ancienneté est coché.",
+			"description": "La règle d’abondement, une fois définie, est appliquée à partir de la date de mise en place et se renouvelle par tacite reconduction.",
 			"option": {
-				"amundi": "Amundi ESR calcule l’abondement pour le compte de l’entreprise (applicable pour une règle d’abondement uniforme)",
+				"amundi": "Amundi ESR calcule l’abondement pour le compte de l’entreprise",
 				"company": "L’entreprise calcule et verse elle-même son abondement depuis son espace correspondant entreprise Amundi."
 			},
 			"support": {
@@ -73,6 +73,68 @@
 				"years": "Toute l’année (l’abondement sera calculé au fil des versements)",
 				"trimester": "Trimestre",
 				"semester": "Semestre"
+			}
+		},
+		"matching": {
+			"pei": {
+				"eyebrow": "VII.",
+				"title": "Abondement au PEI",
+				"description": "Définissez les règles d’abondement propres au PEI."
+			},
+			"per": {
+				"eyebrow": "VIII.",
+				"title": "Abondement au PER COL-I",
+				"description": "Définissez les règles d’abondement propres au PER COL-I."
+			},
+			"ruleType": "Règle d’abondement",
+			"rule": {
+				"uniform": "Abondement uniforme",
+				"seniority": "Abondement selon l’ancienneté",
+				"unilateral": "Abondement unilatéral"
+			},
+			"none": "Pas d’abondement",
+			"payments": "Versements à abonder",
+			"payment": {
+				"voluntary": "Versement volontaire",
+				"incentives": "Intéressement",
+				"participation": "Participation",
+				"ppv": "Prime de partage de la valeur (PPV)",
+				"paid_leave": "Monétisation des jours de congés"
+			},
+			"rate": "Taux d’abondement (%)",
+			"limitKind": "Nature du plafond",
+			"limitAmount": "Montant du plafond (€)",
+			"selectLimit": "Sélectionnez",
+			"limit": {
+				"legal": "Plafond légal",
+				"amount": "Montant"
+			},
+			"period": "Période n°{{count}}",
+			"fromYears": "De (années)",
+			"toYears": "Jusqu’à (années)",
+			"greaterThan": "Supérieur à (années)",
+			"addPeriod": "Ajouter une période",
+			"removePeriod": "Supprimer cette période",
+			"specificQuestion": "Y a-t-il une règle spécifique ?",
+			"specificDetails": "Description de la règle spécifique",
+			"specificInformation": "Si le calcul est confié à Amundi, contactez votre interlocuteur habituel pour la mise en place d’une règle spécifique.",
+			"validation": {
+				"requiredNumber": "Renseignez cette valeur.",
+				"requiredLimitKind": "Choisissez la nature du plafond.",
+				"wholeYears": "Saisissez un nombre entier d’années positif ou nul.",
+				"rateRange": "Saisissez un taux supérieur à 0 et inférieur ou égal à 300 %.",
+				"positiveAmount": "Le montant doit être positif.",
+				"amountPrecision": "Le montant doit comporter au plus deux décimales.",
+				"uniformPayment": "Sélectionnez au moins un versement pour l’abondement uniforme.",
+				"seniorityPayment": "Sélectionnez au moins un versement pour l’abondement selon l’ancienneté.",
+				"uniformDetails": "Complétez le taux et le plafond de chaque versement uniforme.",
+				"positiveDetails": "Saisissez des valeurs positives, un taux de 300 % au plus et des années entières.",
+				"periodDetails": "Complétez toutes les périodes d’ancienneté affichées.",
+				"periodRange": "La fin d’une période doit suivre son début.",
+				"periodContinuity": "Chaque période doit reprendre la fin de la précédente.",
+				"unilateralDetails": "Complétez le plafond unilatéral.",
+				"unilateralMaximum": "Le plafond unilatéral dépasse le montant autorisé.",
+				"specificDetails": "Décrivez la règle spécifique."
 			}
 		},
 		"documents": {

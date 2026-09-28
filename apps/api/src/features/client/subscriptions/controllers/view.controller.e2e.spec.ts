@@ -5,6 +5,7 @@ import {
 	SubscriptionMatchingCalculationMethod,
 	SubscriptionMatchingDistributionPeriod,
 } from "#constants/subscription_matching";
+import { emptySubscriptionMatchingRules } from "#constants/subscription_matching_rules";
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
@@ -149,6 +150,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 			contractCharacteristics: {
 				matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
 				matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
+				matchingRules: emptySubscriptionMatchingRules(),
 			},
 		});
 	});

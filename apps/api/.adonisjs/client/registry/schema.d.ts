@@ -583,6 +583,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/adhesions.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'client.subscriptions.update_contract_characteristics_matching': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/contract-characteristics/matching'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/contract_characteristics/matching.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/contract_characteristics/matching.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/matching.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_characteristics/matching.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'client.subscriptions.create_kyc_owner': {
     methods: ["POST"]
     pattern: '/client/subscriptions/:subscriptionId/kyc-owners'

@@ -5,6 +5,7 @@ import {
 	SubscriptionMatchingCalculationMethod,
 	SubscriptionMatchingDistributionPeriod,
 } from "#constants/subscription_matching";
+import { emptySubscriptionMatchingRules } from "#constants/subscription_matching_rules";
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
 import SubscriptionDocumentRequirementsService, {
 	type SubscriptionDocumentRequirement,
@@ -73,7 +74,7 @@ export default class ViewSubscriptionController {
 				.preload("address")
 				.preload("roles")
 				.orderBy("company_beneficial_owners.id"),
-			subscription.related("plan").query().preload("adhesions").first(),
+			subscription.related("plan").query().preload("adhesions").preload("matchingRules").first(),
 			subscription.related("existingAgreements").query().orderBy("type"),
 		]);
 
@@ -114,6 +115,7 @@ export default class ViewSubscriptionController {
 						minimumSeniorityMonths: null,
 						matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
 						matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
+						matchingRules: emptySubscriptionMatchingRules(),
 						voluntaryPaymentsLimitedToPeriod: false,
 						voluntaryPaymentPeriodStartDate: null,
 						voluntaryPaymentPeriodEndDate: null,
