@@ -4,6 +4,7 @@ import { UserFactory } from "#database/factories/user.factory";
 import Company from "#models/company";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
+import SubscriptionPlan from "#models/subscription_plan";
 
 test.group("Features / Client / Subscriptions / Controllers / Create Controller", () => {
 	test("it should create a draft subscription for the authenticated user", async ({
@@ -29,6 +30,9 @@ test.group("Features / Client / Subscriptions / Controllers / Create Controller"
 		assert.equal(subscription.status, SubscriptionStatus.DRAFT);
 		const company = await Company.findByOrFail("subscriptionId", subscription.id);
 		assert.equal(company.subscriptionId, subscription.id);
+		const plan = await SubscriptionPlan.findByOrFail("subscriptionId", subscription.id);
+		assert.isFalse(plan.existingDeviceTransfer);
+		assert.isNull(plan.estimatedTransferAmountCents);
 
 		const legalAgent = await Contact.findOrFail(company.companyLegalAgentId!);
 		const signer = await Contact.findOrFail(company.companySignerId!);

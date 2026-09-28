@@ -6,6 +6,7 @@ import { ValidationError } from "@vinejs/vine";
 import SubscriptionDocumentRequirementsService from "#features/client/subscriptions/services/documents/requirements.service";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import Subscription from "#models/subscription";
+import SubscriptionPlan from "#models/subscription_plan";
 
 @inject()
 export default class ValidateSubscriptionStepService {
@@ -19,6 +20,9 @@ export default class ValidateSubscriptionStepService {
 			}
 			if (step === SubscriptionStep.KYC) {
 				await this.#validateDocuments(lockedSubscription, trx, step);
+			}
+			if (step === SubscriptionStep.CONTRACT_CHARACTERISTICS) {
+				await this.#validateContractCharacteristics(lockedSubscription, trx);
 			}
 
 			const completedSteps = this.#normalizeCompletedSteps(lockedSubscription.completedSteps, step);
@@ -63,6 +67,25 @@ export default class ValidateSubscriptionStepService {
 					],
 		);
 		if (errors.length > 0) throw new ValidationError(errors);
+	}
+
+	async #validateContractCharacteristics(
+		subscription: Subscription,
+		trx: TransactionClientContract,
+	) {
+		const plan = await SubscriptionPlan.query({ client: trx })
+			.where("subscriptionId", subscription.id)
+			.preload("adhesions")
+			.first();
+		if (plan?.adhesions.length) return;
+
+		throw new ValidationError([
+			{
+				field: "contractCharacteristics.adhesionTypes",
+				message: "Sélectionnez au moins une adhésion.",
+				rule: "required",
+			},
+		]);
 	}
 
 	async #findForUpdate(subscriptionId: number, trx: TransactionClientContract) {

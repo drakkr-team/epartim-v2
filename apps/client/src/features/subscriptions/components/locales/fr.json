@@ -27,5 +27,16 @@
 			"placeholder": "Sélectionner une période",
 			"clear": "Effacer la période"
 		}
+	},
+	"features.subscriptions.components.subscription-summary": {
+		"eyebrow": "Dossier",
+		"empty": "—",
+		"reference": "Réf. BSE",
+		"reference-value": "BSE-{{year}}-{{id}}",
+		"siret": "SIRET",
+		"headcount": "Effectif",
+		"headcount-value_one": "{{count}} salarié",
+		"headcount-value_other": "{{count}} salariés",
+		"distributor": "Distributeur"
 	}
 }
