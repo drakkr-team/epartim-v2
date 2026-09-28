@@ -1,7 +1,5 @@
 import { test } from "@japa/runner";
-import { DateTime } from "luxon";
 
-import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { ContactFactory } from "#database/factories/contact.factory";
@@ -17,7 +15,6 @@ import File from "#models/file";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
 import SubscriptionPlan from "#models/subscription_plan";
-import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 
 test.group("Features / Client / Subscriptions / Controllers / Steps / Validate Controller", () => {
 	async function createKycSubscription() {
@@ -149,45 +146,7 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [2]);
 	});
 
-	test("it requires one adhesion to validate contract characteristics", async ({
-		client,
-		assert,
-	}) => {
-		const user = await UserFactory.create();
-		const subscription = await SubscriptionFactory.merge({
-			completedSteps: [],
-			createdBy: user.id,
-			status: SubscriptionStatus.DRAFT,
-		}).create();
-
-		const incompleteResponse = await client
-			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
-			.withGuard("client")
-			.loginAs(user);
-
-		incompleteResponse.assertStatus(422);
-		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, []);
-
-		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
-		const plan = await SubscriptionPlan.create({
-			subscriptionId: subscription.id,
-			minimumSeniorityMonths: 0,
-		});
-		await SubscriptionPlanAdhesion.create({
-			subscriptionPlanId: plan.id,
-			type: SubscriptionPlanAdhesionType.PEI_EPARTIM,
-		});
-
-		const completeResponse = await client
-			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
-			.withGuard("client")
-			.loginAs(user);
-
-		completeResponse.assertOk();
-		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [3]);
-	});
-
-	test("it requires a complete and coherent voluntary payment period", async ({
+	test("it validates contract characteristics without additional server validation", async ({
 		client,
 		assert,
 	}) => {
@@ -198,46 +157,14 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 			status: SubscriptionStatus.DRAFT,
 		}).create();
 		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
-		const plan = await SubscriptionPlan.create({
-			subscriptionId: subscription.id,
-			minimumSeniorityMonths: 0,
-			voluntaryPaymentsLimitedToPeriod: true,
-		});
-		await SubscriptionPlanAdhesion.create({
-			subscriptionPlanId: plan.id,
-			type: SubscriptionPlanAdhesionType.PEI_EPARTIM,
-		});
+		await SubscriptionPlan.create({ subscriptionId: subscription.id, minimumSeniorityMonths: 0 });
 
-		const missingDates = await client
+		const response = await client
 			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
 			.withGuard("client")
 			.loginAs(user);
 
-		missingDates.assertStatus(422);
-		assert.include(missingDates.text(), "contractCharacteristics.voluntaryPaymentPeriodStartDate");
-		assert.include(missingDates.text(), "contractCharacteristics.voluntaryPaymentPeriodEndDate");
-
-		await plan
-			.merge({
-				voluntaryPaymentPeriodStartDate: DateTime.fromISO("2026-12-31"),
-				voluntaryPaymentPeriodEndDate: DateTime.fromISO("2026-10-01"),
-			})
-			.save();
-		const invalidOrder = await client
-			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
-			.withGuard("client")
-			.loginAs(user);
-
-		invalidOrder.assertStatus(422);
-		assert.include(invalidOrder.text(), "contractCharacteristics.voluntaryPaymentPeriodEndDate");
-
-		await plan.merge({ voluntaryPaymentPeriodEndDate: DateTime.fromISO("2026-12-31") }).save();
-		const completeResponse = await client
-			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
-			.withGuard("client")
-			.loginAs(user);
-
-		completeResponse.assertOk();
+		response.assertOk();
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [3]);
 	});
 

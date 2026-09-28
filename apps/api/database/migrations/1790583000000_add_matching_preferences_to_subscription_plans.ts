@@ -3,8 +3,8 @@ import { BaseSchema } from "@adonisjs/lucid/schema";
 export default class extends BaseSchema {
 	async up() {
 		this.schema.alterTable("subscription_plans", (table) => {
-			table.string("matching_calculation_method").notNullable().defaultTo("amundi");
-			table.string("matching_distribution_period").notNullable().defaultTo("years");
+			table.integer("matching_calculation_method").unsigned().notNullable().defaultTo(1);
+			table.integer("matching_distribution_period").unsigned().notNullable().defaultTo(1);
 		});
 	}
 
