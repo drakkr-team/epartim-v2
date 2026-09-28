@@ -1,15 +1,15 @@
 export const SubscriptionMatchingCalculationMethod = {
-	AMUNDI: "amundi",
-	COMPANY: "company",
+	AMUNDI: 1,
+	COMPANY: 2,
 } as const;
 
 export type SubscriptionMatchingCalculationMethod =
 	(typeof SubscriptionMatchingCalculationMethod)[keyof typeof SubscriptionMatchingCalculationMethod];
 
 export const SubscriptionMatchingDistributionPeriod = {
-	YEARS: "years",
-	TRIMESTER: "trimester",
-	SEMESTER: "semester",
+	YEARS: 1,
+	TRIMESTER: 2,
+	SEMESTER: 3,
 } as const;
 
 export type SubscriptionMatchingDistributionPeriod =
