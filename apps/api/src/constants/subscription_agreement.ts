@@ -1,9 +1,9 @@
 export const SubscriptionAgreement = {
-	PARTICIPATION: "participation",
-	INCENTIVES: "incentives",
-	PPV: "ppv",
-	PPVE: "ppve",
-	OTHER: "other_agreement",
+	PARTICIPATION: 1,
+	INCENTIVES: 2,
+	PPV: 3,
+	PPVE: 4,
+	OTHER: 5,
 } as const;
 
 export type SubscriptionAgreement =

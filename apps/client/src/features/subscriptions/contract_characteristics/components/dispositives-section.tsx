@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
-import { SubscriptionMatchingDevice } from "@workspace/api/constants/subscription_matching_rules";
 import { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 import { Checkbox } from "@workspace/ui-react/components/checkbox";
 import { Field } from "@workspace/ui-react/components/field";
@@ -9,7 +8,10 @@ import { MailIcon } from "@workspace/ui-react/icons";
 
 import { BooleanField } from "#/features/subscriptions/components/boolean-field";
 import { InformationCard } from "#/features/subscriptions/components/information-card";
-import type { useContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
+import type {
+	MatchingDeviceKey,
+	useContractCharacteristicsForm,
+} from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
 const adhesionOptions = [
@@ -65,7 +67,7 @@ export function DispositivesSection(props: DevicesSectionProps) {
 		updateContractCharacteristics({ existingDeviceTransfer: true });
 	}
 
-	function clearMatchingRules(device: SubscriptionMatchingDevice) {
+	function clearMatchingRules(device: MatchingDeviceKey) {
 		form.setFieldValue(`matchingRules.${device}`, {
 			ruleTypes: [],
 			uniformRules: [],
@@ -80,10 +82,10 @@ export function DispositivesSection(props: DevicesSectionProps) {
 	function clearInactiveMatchingRules(adhesionTypes: SubscriptionPlanAdhesionType[]) {
 		if (adhesionTypes.length === 0) return;
 		if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PEI_EPARTIM)) {
-			clearMatchingRules(SubscriptionMatchingDevice.PEI);
+			clearMatchingRules("pei");
 		}
 		if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PER_COLI_EPARTIM)) {
-			clearMatchingRules(SubscriptionMatchingDevice.PER);
+			clearMatchingRules("per");
 		}
 	}
 

@@ -1,22 +1,22 @@
 import { useTranslation } from "react-i18next";
 
-import {
-	type SubscriptionDeviceMatching,
-	SubscriptionMatchingDevice,
-	SubscriptionMatchingRuleType,
-} from "@workspace/api/constants/subscription_matching_rules";
+import { SubscriptionMatchingRuleType } from "@workspace/api/constants/subscription_matching";
 
 import { MatchingRuleTypeField } from "#/features/subscriptions/contract_characteristics/components/matching-rule-type-field";
 import { MatchingSeniorityRuleSection } from "#/features/subscriptions/contract_characteristics/components/matching-seniority-rule-section";
 import { MatchingSpecificRuleSection } from "#/features/subscriptions/contract_characteristics/components/matching-specific-rule-section";
 import { MatchingUniformRuleSection } from "#/features/subscriptions/contract_characteristics/components/matching-uniform-rule-section";
 import { MatchingUnilateralRuleSection } from "#/features/subscriptions/contract_characteristics/components/matching-unilateral-rule-section";
-import type { useContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
+import type {
+	MatchingDeviceKey,
+	SubscriptionDeviceMatching,
+	useContractCharacteristicsForm,
+} from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
 
 type MatchingSectionProps = {
-	device: SubscriptionMatchingDevice;
+	device: MatchingDeviceKey;
 	form: ReturnType<typeof useContractCharacteristicsForm>["form"];
 };
 
@@ -58,7 +58,7 @@ export function MatchingSection({ device, form }: MatchingSectionProps) {
 							{matching.ruleTypes.includes(SubscriptionMatchingRuleType.SENIORITY) && (
 								<MatchingSeniorityRuleSection {...childProps} />
 							)}
-							{device === SubscriptionMatchingDevice.PER &&
+							{device === "per" &&
 								matching.ruleTypes.includes(SubscriptionMatchingRuleType.UNILATERAL) && (
 									<MatchingUnilateralRuleSection {...childProps} />
 								)}

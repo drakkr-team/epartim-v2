@@ -3,6 +3,7 @@ import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import { SubscriptionMatchingDevice } from "#constants/subscription_matching";
 import type { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionPlanAdhesionType as AdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
@@ -67,8 +68,10 @@ export default class SubscriptionPlanAdhesionsService {
 			return;
 		}
 		const selectedDevices = [
-			...(selectedTypes.includes(AdhesionType.PEI_EPARTIM) ? ["pei"] : []),
-			...(selectedTypes.includes(AdhesionType.PER_COLI_EPARTIM) ? ["per"] : []),
+			...(selectedTypes.includes(AdhesionType.PEI_EPARTIM) ? [SubscriptionMatchingDevice.PEI] : []),
+			...(selectedTypes.includes(AdhesionType.PER_COLI_EPARTIM)
+				? [SubscriptionMatchingDevice.PER]
+				: []),
 		];
 		if (selectedDevices.length === 0) {
 			await SubscriptionMatchingRule.query({ client: trx })

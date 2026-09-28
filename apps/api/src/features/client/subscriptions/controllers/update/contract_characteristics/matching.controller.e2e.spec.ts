@@ -1,12 +1,13 @@
 import { test } from "@japa/runner";
+import type { Infer } from "@vinejs/vine/types";
 
 import {
-	type SubscriptionDeviceMatching,
 	SubscriptionMatchingDevice,
 	SubscriptionMatchingLimitKind,
 	SubscriptionMatchingPaymentType,
+	SubscriptionMatchingRecordType,
 	SubscriptionMatchingRuleType,
-} from "#constants/subscription_matching_rules";
+} from "#constants/subscription_matching";
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
@@ -15,6 +16,9 @@ import Subscription from "#models/subscription";
 import SubscriptionMatchingRule from "#models/subscription_matching_rule";
 import SubscriptionPlan from "#models/subscription_plan";
 import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
+import { UpdateSubscriptionMatchingSchema } from "#validators/subscription/contract_characteristics/matching.validator";
+
+type SubscriptionDeviceMatching = Infer<typeof UpdateSubscriptionMatchingSchema>["matching"];
 
 const completeUniform = {
 	paymentType: SubscriptionMatchingPaymentType.VOLUNTARY,
@@ -97,11 +101,18 @@ test.group("Features / Client / Subscriptions / Contract Matching", () => {
 			.orderBy("type");
 		assert.deepEqual(
 			rows.map((row) => row.type),
-			["seniority", "specific", "uniform"],
+			[
+				SubscriptionMatchingRecordType.UNIFORM,
+				SubscriptionMatchingRecordType.SENIORITY,
+				SubscriptionMatchingRecordType.SPECIFIC,
+			],
 		);
-		assert.deepEqual(rows.find((row) => row.type === "uniform")?.details, {
-			payments: [completeUniform],
-		});
+		assert.deepEqual(
+			rows.find((row) => row.type === SubscriptionMatchingRuleType.UNIFORM)?.details,
+			{
+				payments: [completeUniform],
+			},
+		);
 
 		const view = await client
 			.visit("client.subscriptions.view", { subscriptionId: subscription.id })

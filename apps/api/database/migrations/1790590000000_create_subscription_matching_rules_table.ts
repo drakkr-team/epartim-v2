@@ -12,8 +12,8 @@ export default class extends BaseSchema {
 				.references("id")
 				.inTable("subscription_plans")
 				.onDelete("CASCADE");
-			table.string("device").notNullable();
-			table.string("type").notNullable();
+			table.integer("device").unsigned().notNullable();
+			table.integer("type").unsigned().notNullable();
 			table.jsonb("details").notNullable().defaultTo("{}");
 			table.unique(["subscription_plan_id", "device", "type"]);
 			table.timestamps(true, true);

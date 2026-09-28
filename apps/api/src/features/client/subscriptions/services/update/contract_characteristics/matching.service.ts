@@ -5,11 +5,10 @@ import type { Infer } from "@vinejs/vine/types";
 
 import {
 	type SubscriptionMatchingRecordType as MatchingRecordType,
-	type SubscriptionDeviceMatching,
 	SubscriptionMatchingDevice,
 	SubscriptionMatchingRecordType,
 	SubscriptionMatchingRuleType,
-} from "#constants/subscription_matching_rules";
+} from "#constants/subscription_matching";
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
@@ -22,6 +21,7 @@ import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 import { UpdateSubscriptionMatchingSchema } from "#validators/subscription/contract_characteristics/matching.validator";
 
 type Payload = Infer<typeof UpdateSubscriptionMatchingSchema>;
+type SubscriptionDeviceMatching = Payload["matching"];
 function normalizeDeviceMatching(matching: SubscriptionDeviceMatching): SubscriptionDeviceMatching {
 	const active = new Set(matching.ruleTypes);
 	return {

@@ -357,7 +357,7 @@ export class SubscriptionExistingAgreementSchema extends BaseModel {
   @column()
   declare subscriptionId: number
   @column()
-  declare type: string
+  declare type: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
@@ -370,13 +370,13 @@ export class SubscriptionMatchingRuleSchema extends BaseModel {
   @column()
   declare details: any
   @column()
-  declare device: string
+  declare device: number
   @column({ isPrimary: true })
   declare id: number
   @column()
   declare subscriptionPlanId: number
   @column()
-  declare type: string
+  declare type: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
@@ -408,9 +408,9 @@ export class SubscriptionPlanSchema extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
   @column()
-  declare matchingCalculationMethod: string
+  declare matchingCalculationMethod: number
   @column()
-  declare matchingDistributionPeriod: string
+  declare matchingDistributionPeriod: number
   @column()
   declare minimumSeniorityMonths: number | null
   @column()

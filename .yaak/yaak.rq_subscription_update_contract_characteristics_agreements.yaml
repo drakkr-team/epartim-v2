@@ -10,11 +10,11 @@ authenticationType: null
 body:
   text: |-
     {
-      "existingAgreements": ["participation", "other_agreement"],
+      "existingAgreements": [1, 5],
       "otherAgreementDetails": "${[ faker.lorem.sentence() ]}"
     }
 bodyType: application/json
-description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. existingAgreements accepts any distinct combination of participation, incentives, ppv, ppve and other_agreement, including []. Deselecting an agreement deletes its document; deselecting other_agreement also clears its details. Details have no business length limit. Returns 200 with the saved agreements or 422 for invalid values. Changes invalidate step 3.'
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. existingAgreements accepts any distinct combination of 1 (participation), 2 (incentives), 3 (PPV), 4 (PPVE), and 5 (other agreement), including []. Deselecting an agreement deletes its document; deselecting 5 also clears its details. Details have no business length limit. Returns 200 with the saved agreements or 422 for invalid values. Changes invalidate step 3.'
 headers:
 - enabled: true
   name: Content-Type

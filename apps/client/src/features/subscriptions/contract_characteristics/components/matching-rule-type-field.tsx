@@ -1,33 +1,28 @@
 import { useTranslation } from "react-i18next";
 
-import {
-	SubscriptionMatchingDevice,
-	SubscriptionMatchingRuleType,
-} from "@workspace/api/constants/subscription_matching_rules";
+import { SubscriptionMatchingRuleType } from "@workspace/api/constants/subscription_matching";
 import { Checkbox } from "@workspace/ui-react/components/checkbox";
 import { Field } from "@workspace/ui-react/components/field";
 
 import type { MatchingChildProps } from "#/features/subscriptions/contract_characteristics/components/matching-types";
 
 const namespace = "features.subscriptions.contract_characteristics";
+const ruleTypeOptions = [
+	{ value: SubscriptionMatchingRuleType.UNIFORM, label: "uniform" },
+	{ value: SubscriptionMatchingRuleType.SENIORITY, label: "seniority" },
+	{ value: SubscriptionMatchingRuleType.UNILATERAL, label: "unilateral" },
+] as const;
 
 export function MatchingRuleTypeField(props: MatchingChildProps) {
 	const { device, matching, onChange } = props;
 	const { t } = useTranslation(namespace);
-	const options =
-		device === SubscriptionMatchingDevice.PER
-			? [
-					SubscriptionMatchingRuleType.UNIFORM,
-					SubscriptionMatchingRuleType.SENIORITY,
-					SubscriptionMatchingRuleType.UNILATERAL,
-				]
-			: [SubscriptionMatchingRuleType.UNIFORM, SubscriptionMatchingRuleType.SENIORITY];
+	const options = device === "per" ? ruleTypeOptions : ruleTypeOptions.slice(0, 2);
 
 	return (
 		<Field className="grid gap-3">
 			<Field.Label>{t("matching.ruleType")}</Field.Label>
 			<div className="grid gap-3 md:grid-cols-3">
-				{options.map((ruleType) => {
+				{options.map(({ value: ruleType, label }) => {
 					const checked = matching.ruleTypes.includes(ruleType);
 					const id = `${device}-matching-${ruleType}`;
 					return (
@@ -72,7 +67,7 @@ export function MatchingRuleTypeField(props: MatchingChildProps) {
 								}}
 							/>
 							<span className="font-semibold text-secondary-12 text-sm">
-								{t(`matching.rule.${ruleType}`)}
+								{t(`matching.rule.${label}`)}
 							</span>
 						</label>
 					);

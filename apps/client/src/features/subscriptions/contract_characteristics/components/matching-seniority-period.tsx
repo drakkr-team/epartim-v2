@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
-import type { SubscriptionMatchingPeriod } from "@workspace/api/constants/subscription_matching_rules";
 import { Button } from "@workspace/ui-react/components/button";
 
 import {
@@ -9,6 +8,7 @@ import {
 	MatchingLimitFields,
 	MatchingNumberField,
 } from "#/features/subscriptions/contract_characteristics/components/matching-fields";
+import type { SubscriptionMatchingPeriod } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
 

@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
-import {
-	type SubscriptionMatchingDevice,
-	SubscriptionMatchingLimitKind,
-} from "@workspace/api/constants/subscription_matching_rules";
+import { SubscriptionMatchingLimitKind } from "@workspace/api/constants/subscription_matching";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
-import type { useContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
+import type {
+	MatchingDeviceKey,
+	useContractCharacteristicsForm,
+} from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
 const limitKinds = [
@@ -19,13 +19,13 @@ const limitKinds = [
 export type MatchingForm = ReturnType<typeof useContractCharacteristicsForm>["form"];
 export type MatchingNumberUnit = "years" | "percent" | "currency";
 type MatchingNumberName =
-	| `matchingRules.${SubscriptionMatchingDevice}.uniformRules[${number}].${"rate" | "limitAmount"}`
-	| `matchingRules.${SubscriptionMatchingDevice}.seniorityRules[${number}].periods[${number}].${"fromYears" | "toYears" | "rate" | "limitAmount"}`
-	| `matchingRules.${SubscriptionMatchingDevice}.unilateralRule.limitAmount`;
+	| `matchingRules.${MatchingDeviceKey}.uniformRules[${number}].${"rate" | "limitAmount"}`
+	| `matchingRules.${MatchingDeviceKey}.seniorityRules[${number}].periods[${number}].${"fromYears" | "toYears" | "rate" | "limitAmount"}`
+	| `matchingRules.${MatchingDeviceKey}.unilateralRule.limitAmount`;
 type MatchingLimitName =
-	| `matchingRules.${SubscriptionMatchingDevice}.uniformRules[${number}]`
-	| `matchingRules.${SubscriptionMatchingDevice}.seniorityRules[${number}].periods[${number}]`
-	| `matchingRules.${SubscriptionMatchingDevice}.unilateralRule`;
+	| `matchingRules.${MatchingDeviceKey}.uniformRules[${number}]`
+	| `matchingRules.${MatchingDeviceKey}.seniorityRules[${number}].periods[${number}]`
+	| `matchingRules.${MatchingDeviceKey}.unilateralRule`;
 
 type MatchingNumberFieldProps = {
 	form: MatchingForm;

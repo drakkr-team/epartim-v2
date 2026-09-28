@@ -1,12 +1,28 @@
 import {
-	type SubscriptionDeviceMatching,
+	SubscriptionMatchingDevice,
 	SubscriptionMatchingRecordType,
-	type SubscriptionMatchingRules,
-	type SubscriptionSeniorityRule,
-	type SubscriptionUniformRule,
-	type SubscriptionUnilateralRule,
-} from "#constants/subscription_matching_rules";
+	type SubscriptionMatchingRuleType,
+} from "#constants/subscription_matching";
 import type SubscriptionMatchingRule from "#models/subscription_matching_rule";
+import type {
+	SubscriptionSeniorityRule,
+	SubscriptionUniformRule,
+	SubscriptionUnilateralRule,
+} from "#models/subscription_matching_rule";
+
+type SubscriptionDeviceMatching = {
+	ruleTypes: SubscriptionMatchingRuleType[];
+	uniformRules: SubscriptionUniformRule[];
+	seniorityRules: SubscriptionSeniorityRule[];
+	unilateralRule: SubscriptionUnilateralRule | null;
+	specificRule: boolean;
+	specificRuleDetails: string | null;
+};
+
+type SubscriptionMatchingRules = {
+	pei: SubscriptionDeviceMatching;
+	per: SubscriptionDeviceMatching;
+};
 
 function emptyDeviceMatching(): SubscriptionDeviceMatching {
 	return {
@@ -27,7 +43,12 @@ export function presentSubscriptionMatchingRules(
 		per: emptyDeviceMatching(),
 	};
 	for (const rule of rules) {
-		const matching = result[rule.device];
+		const matching =
+			rule.device === SubscriptionMatchingDevice.PEI
+				? result.pei
+				: rule.device === SubscriptionMatchingDevice.PER
+					? result.per
+					: null;
 		if (!matching) continue;
 		switch (rule.type) {
 			case SubscriptionMatchingRecordType.UNIFORM:

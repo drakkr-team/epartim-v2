@@ -5,7 +5,7 @@ import {
 	SubscriptionMatchingLimitKind,
 	SubscriptionMatchingPaymentType,
 	SubscriptionMatchingRuleType,
-} from "#constants/subscription_matching_rules";
+} from "#constants/subscription_matching";
 
 const limitKind = vine.enum(SubscriptionMatchingLimitKind).nullable();
 const limitAmount = vine.number().positive().decimal([0, 2]).nullable();

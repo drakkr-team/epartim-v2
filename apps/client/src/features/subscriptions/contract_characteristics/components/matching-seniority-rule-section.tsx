@@ -2,17 +2,18 @@ import { useTranslation } from "react-i18next";
 
 import {
 	type SubscriptionMatchingPaymentType,
-	type SubscriptionMatchingPeriod,
 	SubscriptionMatchingRuleType,
-} from "@workspace/api/constants/subscription_matching_rules";
+} from "@workspace/api/constants/subscription_matching";
 import { Button } from "@workspace/ui-react/components/button";
 
 import {
 	emptyMatchingPeriod,
 	MatchingPaymentField,
+	paymentTypeLabels,
 } from "#/features/subscriptions/contract_characteristics/components/matching-payment-field";
 import { MatchingSeniorityPeriod } from "#/features/subscriptions/contract_characteristics/components/matching-seniority-period";
 import type { MatchingChildProps } from "#/features/subscriptions/contract_characteristics/components/matching-types";
+import type { SubscriptionMatchingPeriod } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
 
@@ -41,7 +42,7 @@ export function MatchingSeniorityRuleSection(props: MatchingChildProps) {
 			{matching.seniorityRules.map((rule, ruleIndex) => (
 				<div key={rule.paymentType} className="grid gap-4 border-neutral-5 border-t pt-5">
 					<h4 className="font-semibold text-secondary-12">
-						{t(`matching.payment.${rule.paymentType}`)}
+						{t(`matching.payment.${paymentTypeLabels[rule.paymentType]}`)}
 					</h4>
 					{rule.periods.map((period, index) => (
 						<MatchingSeniorityPeriod

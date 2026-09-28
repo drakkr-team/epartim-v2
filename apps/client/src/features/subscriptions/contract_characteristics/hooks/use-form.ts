@@ -1,12 +1,9 @@
 import type { SubscriptionAgreement } from "@workspace/api/constants/subscription_agreement";
-import type {
-	SubscriptionMatchingCalculationMethod,
-	SubscriptionMatchingDistributionPeriod,
-} from "@workspace/api/constants/subscription_matching";
 import {
-	type SubscriptionDeviceMatching,
+	type SubscriptionMatchingCalculationMethod,
 	SubscriptionMatchingDevice,
-} from "@workspace/api/constants/subscription_matching_rules";
+	type SubscriptionMatchingDistributionPeriod,
+} from "@workspace/api/constants/subscription_matching";
 import type { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 import type { routes } from "@workspace/api/registry";
 
@@ -14,6 +11,11 @@ import { useUpdateContractCharacteristicsMutations } from "#/features/subscripti
 import { useAppForm } from "#/libs/form";
 
 type Subscription = (typeof routes)["client.subscriptions.view"]["types"]["response"];
+export type SubscriptionDeviceMatching =
+	Subscription["contractCharacteristics"]["matchingRules"]["pei"];
+export type MatchingDeviceKey = keyof Subscription["contractCharacteristics"]["matchingRules"];
+export type SubscriptionMatchingPeriod =
+	SubscriptionDeviceMatching["seniorityRules"][number]["periods"][number];
 type UpdateSubscriptionPlanRequest = NonNullable<
 	Parameters<
 		ReturnType<typeof useUpdateContractCharacteristicsMutations>["updatePlan"]["mutate"]
@@ -45,12 +47,19 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 		useUpdateContractCharacteristicsMutations(subscriptionId);
 
 	function updateMatchingRules(
-		device: SubscriptionMatchingDevice,
+		deviceKey: MatchingDeviceKey,
 		matching: SubscriptionDeviceMatching,
 		onSuccess?: () => void,
 	) {
 		updateMatching.mutate(
-			{ params: { subscriptionId }, body: { device, matching } },
+			{
+				params: { subscriptionId },
+				body: {
+					device:
+						deviceKey === "pei" ? SubscriptionMatchingDevice.PEI : SubscriptionMatchingDevice.PER,
+					matching,
+				},
+			},
 			{ onSuccess },
 		);
 	}
@@ -123,9 +132,9 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 				};
 
 				const matchingDevice = name.startsWith("matchingRules.pei")
-					? SubscriptionMatchingDevice.PEI
+					? "pei"
 					: name.startsWith("matchingRules.per")
-						? SubscriptionMatchingDevice.PER
+						? "per"
 						: null;
 				if (matchingDevice) {
 					const matching = formApi.state.values.matchingRules[matchingDevice];

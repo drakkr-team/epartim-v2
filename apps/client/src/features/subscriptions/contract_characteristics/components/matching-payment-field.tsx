@@ -3,18 +3,24 @@ import z from "zod";
 
 import {
 	type SubscriptionMatchingRuleType as RuleType,
-	SubscriptionMatchingDevice,
 	SubscriptionMatchingLimitKind,
 	SubscriptionMatchingPaymentType,
-	type SubscriptionMatchingPeriod,
 	SubscriptionMatchingRuleType,
-} from "@workspace/api/constants/subscription_matching_rules";
+} from "@workspace/api/constants/subscription_matching";
 import { Checkbox } from "@workspace/ui-react/components/checkbox";
 import { Field } from "@workspace/ui-react/components/field";
 
 import type { MatchingChildProps } from "#/features/subscriptions/contract_characteristics/components/matching-types";
+import type { SubscriptionMatchingPeriod } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
+export const paymentTypeLabels = {
+	[SubscriptionMatchingPaymentType.VOLUNTARY]: "voluntary",
+	[SubscriptionMatchingPaymentType.INCENTIVES]: "incentives",
+	[SubscriptionMatchingPaymentType.PARTICIPATION]: "participation",
+	[SubscriptionMatchingPaymentType.PPV]: "ppv",
+	[SubscriptionMatchingPaymentType.PAID_LEAVE]: "paid_leave",
+} as const;
 const paymentTypes = [
 	SubscriptionMatchingPaymentType.VOLUNTARY,
 	SubscriptionMatchingPaymentType.INCENTIVES,
@@ -32,7 +38,7 @@ export function MatchingPaymentField(props: MatchingPaymentFieldProps) {
 	const { device, form, matching, ruleType } = props;
 	const { t } = useTranslation(namespace);
 	const options =
-		device === SubscriptionMatchingDevice.PER
+		device === "per"
 			? [...paymentTypes, SubscriptionMatchingPaymentType.PAID_LEAVE]
 			: [...paymentTypes];
 	const other =
@@ -131,7 +137,7 @@ export function MatchingPaymentField(props: MatchingPaymentFieldProps) {
 											}}
 										/>
 										<span className="text-secondary-12 text-sm">
-											{t(`matching.payment.${paymentType}`)}
+											{t(`matching.payment.${paymentTypeLabels[paymentType]}`)}
 										</span>
 									</label>
 								);
