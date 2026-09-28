@@ -61,4 +61,9 @@ export default await Env.create(new URL("../", import.meta.url), {
 	S3_SECRET_ACCESS_KEY: Env.schema.string.optionalWhen(process.env.DRIVE_DRIVER !== "s3"),
 	S3_REGION: Env.schema.string.optionalWhen(process.env.DRIVE_DRIVER !== "s3"),
 	S3_BUCKET: Env.schema.string.optionalWhen(process.env.DRIVE_DRIVER !== "s3"),
+
+	// FTP Config
+	FTP_HOST: Env.schema.string({ format: "host" }),
+	FTP_USER: Env.schema.string(),
+	FTP_PASSWORD: Env.schema.string.optional(),
 });
