@@ -42,11 +42,21 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 			existingAgreements: contractCharacteristics.existingAgreements as SubscriptionAgreement[],
 			otherAgreementDetails: contractCharacteristics.otherAgreementDetails ?? "",
 			minimumSeniorityMonths: contractCharacteristics.minimumSeniorityMonths,
+			voluntaryPaymentsLimitedToPeriod: contractCharacteristics.voluntaryPaymentsLimitedToPeriod,
+			voluntaryPaymentPeriodStartDate: contractCharacteristics.voluntaryPaymentPeriodStartDate,
+			voluntaryPaymentPeriodEndDate: contractCharacteristics.voluntaryPaymentPeriodEndDate,
 		},
 		listeners: {
 			onBlur: ({ fieldApi, formApi }) => {
 				if (!fieldApi.state.meta.isDirty) return;
-				if (!fieldApi.state.meta.isValid && fieldApi.name !== "otherAgreementDetails") return;
+				if (
+					!fieldApi.state.meta.isValid &&
+					fieldApi.name !== "otherAgreementDetails" &&
+					fieldApi.name !== "voluntaryPaymentPeriodStartDate" &&
+					fieldApi.name !== "voluntaryPaymentPeriodEndDate"
+				) {
+					return;
+				}
 
 				const rawValue = fieldApi.state.value;
 				const markFieldAsSaved = () => {
@@ -90,6 +100,30 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 					const amount = fieldApi.state.value as number | null;
 					updateContractCharacteristics({ estimatedTransferAmount: amount }, () => {
 						if (Object.is(fieldApi.state.value, amount)) {
+							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
+						}
+					});
+					return;
+				}
+
+				if (
+					fieldApi.name === "voluntaryPaymentPeriodStartDate" ||
+					fieldApi.name === "voluntaryPaymentPeriodEndDate"
+				) {
+					const fieldName = fieldApi.name;
+					const date = rawValue as string | null;
+					const startDate =
+						fieldName === "voluntaryPaymentPeriodStartDate"
+							? date
+							: formApi.state.values.voluntaryPaymentPeriodStartDate;
+					const endDate =
+						fieldName === "voluntaryPaymentPeriodEndDate"
+							? date
+							: formApi.state.values.voluntaryPaymentPeriodEndDate;
+					if (startDate && endDate && endDate < startDate) return;
+
+					updateContractCharacteristics({ [fieldName]: date }, () => {
+						if (Object.is(fieldApi.state.value, date)) {
 							fieldApi.setMeta((meta) => ({ ...meta, isDirty: false }));
 						}
 					});

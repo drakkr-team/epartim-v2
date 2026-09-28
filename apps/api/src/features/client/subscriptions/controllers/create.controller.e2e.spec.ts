@@ -33,6 +33,9 @@ test.group("Features / Client / Subscriptions / Controllers / Create Controller"
 		const plan = await SubscriptionPlan.findByOrFail("subscriptionId", subscription.id);
 		assert.isFalse(plan.existingDeviceTransfer);
 		assert.isNull(plan.estimatedTransferAmountCents);
+		assert.isFalse(plan.voluntaryPaymentsLimitedToPeriod);
+		assert.isNull(plan.voluntaryPaymentPeriodStartDate);
+		assert.isNull(plan.voluntaryPaymentPeriodEndDate);
 
 		const legalAgent = await Contact.findOrFail(company.companyLegalAgentId!);
 		const signer = await Contact.findOrFail(company.companySignerId!);

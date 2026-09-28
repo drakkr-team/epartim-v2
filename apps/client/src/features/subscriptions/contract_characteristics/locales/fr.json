@@ -9,9 +9,17 @@
 			"existingDeviceTransfer": "Un transfert de dispositif existant est-il prévu ?",
 			"estimatedTransferAmount": "Montant du transfert estimé (actifs placés sur le dispositif existant)",
 			"adhesionTypes": "Adhésion",
-			"otherAgreementDetails": "Autre (détailler)"
+			"otherAgreementDetails": "Autre (détailler)",
+			"voluntaryPaymentsLimitedToPeriod": "L’entreprise autorise les versements volontaires sur une période définie",
+			"voluntaryPaymentPeriodStartDate": "Du",
+			"voluntaryPaymentPeriodEndDate": "Au (inclus)"
 		},
-		"action": { "yes": "Oui", "no": "Non", "learnMore": "En savoir plus" },
+		"action": {
+			"yes": "Oui",
+			"no": "Non",
+			"learnMore": "En savoir plus",
+			"clearDate": "Effacer la date"
+		},
 		"agreements": {
 			"eyebrow": "II.",
 			"title": "Accords existants",
@@ -36,8 +44,14 @@
 			"months": "{{count}} mois",
 			"none": "Aucune ancienneté"
 		},
-		"documents": {
+		"voluntaryPaymentPeriod": {
 			"eyebrow": "IV.",
+			"title": "Périodicité du versement volontaire",
+			"description": "Fenêtre pendant laquelle les salariés peuvent effectuer des versements volontaires.",
+			"help": "Si non, les versements seront autorisés toute l’année."
+		},
+		"documents": {
+			"eyebrow": "V.",
 			"title": "Documents",
 			"description": "Joignez un justificatif pour chaque accord sélectionné. Formats acceptés : PDF, PNG, JPEG, CSV et XLSX. Taille maximale : 10 Mo par fichier."
 		},
@@ -55,7 +69,10 @@
 			"estimatedTransferAmountPrecision": "Le montant doit comporter au plus deux décimales.",
 			"adhesionTypes": "Sélectionnez au moins une adhésion.",
 			"otherAgreementDetails": "Détaillez l’autre accord existant.",
-			"minimumSeniorityMonths": "Sélectionnez une ancienneté minimale."
+			"minimumSeniorityMonths": "Sélectionnez une ancienneté minimale.",
+			"voluntaryPaymentPeriodStartDate": "Renseignez la date de début de la période.",
+			"voluntaryPaymentPeriodEndDate": "Renseignez la date de fin de la période.",
+			"voluntaryPaymentPeriodDateOrder": "La date de fin doit être postérieure ou égale à la date de début."
 		}
 	},
 	"features.subscriptions.contract_characteristics.hooks.use-update-mutation": {

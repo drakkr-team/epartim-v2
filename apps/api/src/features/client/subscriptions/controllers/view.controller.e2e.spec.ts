@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+import { DateTime } from "luxon";
 
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
@@ -91,6 +92,9 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 			subscriptionId: subscription.id,
 			existingDeviceTransfer: true,
 			estimatedTransferAmountCents: 12_345n,
+			voluntaryPaymentsLimitedToPeriod: true,
+			voluntaryPaymentPeriodStartDate: DateTime.fromISO("2026-10-01"),
+			voluntaryPaymentPeriodEndDate: DateTime.fromISO("2026-12-31"),
 		});
 		await SubscriptionPlanAdhesion.createMany([
 			{ subscriptionPlanId: plan.id, type: SubscriptionPlanAdhesionType.PEI_EPARTIM },
@@ -115,6 +119,9 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 					SubscriptionPlanAdhesionType.PEI_EPARTIM,
 					SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
 				],
+				voluntaryPaymentsLimitedToPeriod: true,
+				voluntaryPaymentPeriodStartDate: "2026-10-01",
+				voluntaryPaymentPeriodEndDate: "2026-12-31",
 			},
 		});
 	});

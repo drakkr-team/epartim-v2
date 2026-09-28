@@ -108,6 +108,9 @@ export default class ViewSubscriptionController {
 						existingAgreements: [],
 						otherAgreementDetails: null,
 						minimumSeniorityMonths: null,
+						voluntaryPaymentsLimitedToPeriod: false,
+						voluntaryPaymentPeriodStartDate: null,
+						voluntaryPaymentPeriodEndDate: null,
 					},
 			documents: await this.#presentDocuments(
 				documentRequirements.filter(

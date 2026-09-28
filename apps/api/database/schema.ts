@@ -378,7 +378,7 @@ export class SubscriptionPlanAdhesionSchema extends BaseModel {
 }
 
 export class SubscriptionPlanSchema extends BaseModel {
-  static $columns = ['createdAt', 'estimatedTransferAmountCents', 'existingDeviceTransfer', 'id', 'minimumSeniorityMonths', 'otherAgreementDetails', 'subscriptionId', 'updatedAt'] as const
+  static $columns = ['createdAt', 'estimatedTransferAmountCents', 'existingDeviceTransfer', 'id', 'minimumSeniorityMonths', 'otherAgreementDetails', 'subscriptionId', 'updatedAt', 'voluntaryPaymentPeriodEndDate', 'voluntaryPaymentPeriodStartDate', 'voluntaryPaymentsLimitedToPeriod'] as const
   $columns = SubscriptionPlanSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -396,6 +396,12 @@ export class SubscriptionPlanSchema extends BaseModel {
   declare subscriptionId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+  @column.date()
+  declare voluntaryPaymentPeriodEndDate: DateTime | null
+  @column.date()
+  declare voluntaryPaymentPeriodStartDate: DateTime | null
+  @column()
+  declare voluntaryPaymentsLimitedToPeriod: boolean
 }
 
 export class SubscriptionSchema extends BaseModel {

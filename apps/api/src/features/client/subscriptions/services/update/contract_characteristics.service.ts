@@ -1,7 +1,9 @@
 import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
+import { ValidationError } from "@vinejs/vine";
 import type { Infer } from "@vinejs/vine/types";
+import { DateTime } from "luxon";
 
 import { SubscriptionAgreement } from "#constants/subscription_agreement";
 import type { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
@@ -37,6 +39,9 @@ export default class UpdateContractCharacteristicsService {
 					estimatedTransferAmountCents: null,
 					otherAgreementDetails: null,
 					minimumSeniorityMonths: null,
+					voluntaryPaymentsLimitedToPeriod: false,
+					voluntaryPaymentPeriodStartDate: null,
+					voluntaryPaymentPeriodEndDate: null,
 				},
 				{ client: trx },
 			);
@@ -47,6 +52,9 @@ export default class UpdateContractCharacteristicsService {
 				existingAgreements,
 				otherAgreementDetails,
 				minimumSeniorityMonths,
+				voluntaryPaymentsLimitedToPeriod,
+				voluntaryPaymentPeriodStartDate,
+				voluntaryPaymentPeriodEndDate,
 			} = payload.contractCharacteristics;
 
 			plan.merge({
@@ -61,9 +69,43 @@ export default class UpdateContractCharacteristicsService {
 									? null
 									: BigInt(Math.round(estimatedTransferAmount * 100)),
 						}),
+				...(voluntaryPaymentsLimitedToPeriod === undefined
+					? {}
+					: { voluntaryPaymentsLimitedToPeriod }),
+				...(voluntaryPaymentPeriodStartDate === undefined
+					? {}
+					: {
+							voluntaryPaymentPeriodStartDate: voluntaryPaymentPeriodStartDate
+								? DateTime.fromISO(voluntaryPaymentPeriodStartDate)
+								: null,
+						}),
+				...(voluntaryPaymentPeriodEndDate === undefined
+					? {}
+					: {
+							voluntaryPaymentPeriodEndDate: voluntaryPaymentPeriodEndDate
+								? DateTime.fromISO(voluntaryPaymentPeriodEndDate)
+								: null,
+						}),
 			});
 			if (!plan.existingDeviceTransfer) {
 				plan.estimatedTransferAmountCents = null;
+			}
+			if (!plan.voluntaryPaymentsLimitedToPeriod) {
+				plan.voluntaryPaymentPeriodStartDate = null;
+				plan.voluntaryPaymentPeriodEndDate = null;
+			}
+			if (
+				plan.voluntaryPaymentPeriodStartDate &&
+				plan.voluntaryPaymentPeriodEndDate &&
+				plan.voluntaryPaymentPeriodEndDate < plan.voluntaryPaymentPeriodStartDate
+			) {
+				throw new ValidationError([
+					{
+						field: "contractCharacteristics.voluntaryPaymentPeriodEndDate",
+						message: "La date de fin doit être postérieure ou égale à la date de début.",
+						rule: "afterOrEqual",
+					},
+				]);
 			}
 			if (existingAgreements !== undefined) {
 				await this.#replaceExistingAgreements(subscription.id, existingAgreements, trx);

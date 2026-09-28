@@ -4,6 +4,7 @@ import { Card } from "@workspace/ui-react/components/card";
 import { DispositivesSection } from "#/features/subscriptions/contract_characteristics/components/dispositives-section.tsx";
 import { ExistingAgreementsSection } from "#/features/subscriptions/contract_characteristics/components/existing-agreements-section";
 import { MinimumSenioritySection } from "#/features/subscriptions/contract_characteristics/components/minimum-seniority-section";
+import { VoluntaryPaymentPeriodSection } from "#/features/subscriptions/contract_characteristics/components/voluntary-payment-period-section";
 import { useContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 
@@ -35,6 +36,12 @@ export function ContractCharacteristicsForm(props: ContractCharacteristicsFormPr
 			</Card>
 			<Card className="p-6 sm:p-8">
 				<MinimumSenioritySection form={form} />
+			</Card>
+			<Card className="p-6 sm:p-8">
+				<VoluntaryPaymentPeriodSection
+					form={form}
+					updateContractCharacteristics={updateContractCharacteristics}
+				/>
 			</Card>
 		</form>
 	);

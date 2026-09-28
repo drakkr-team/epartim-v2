@@ -95,6 +95,33 @@ export default class ValidateSubscriptionStepService {
 				rule: "required",
 			});
 		}
+		if (plan?.voluntaryPaymentsLimitedToPeriod) {
+			if (!plan.voluntaryPaymentPeriodStartDate) {
+				errors.push({
+					field: "contractCharacteristics.voluntaryPaymentPeriodStartDate",
+					message: "Renseignez la date de début de la période.",
+					rule: "required",
+				});
+			}
+			if (!plan.voluntaryPaymentPeriodEndDate) {
+				errors.push({
+					field: "contractCharacteristics.voluntaryPaymentPeriodEndDate",
+					message: "Renseignez la date de fin de la période.",
+					rule: "required",
+				});
+			}
+			if (
+				plan.voluntaryPaymentPeriodStartDate &&
+				plan.voluntaryPaymentPeriodEndDate &&
+				plan.voluntaryPaymentPeriodEndDate < plan.voluntaryPaymentPeriodStartDate
+			) {
+				errors.push({
+					field: "contractCharacteristics.voluntaryPaymentPeriodEndDate",
+					message: "La date de fin doit être postérieure ou égale à la date de début.",
+					rule: "afterOrEqual",
+				});
+			}
+		}
 		const otherAgreement = await SubscriptionExistingAgreement.query({ client: trx })
 			.where("subscriptionId", subscription.id)
 			.where("type", SubscriptionAgreement.OTHER)

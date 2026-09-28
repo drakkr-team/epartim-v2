@@ -1,4 +1,5 @@
 import { test } from "@japa/runner";
+import { DateTime } from "luxon";
 
 import { MinimumSeniorityMonths, SubscriptionAgreement } from "#constants/subscription_agreement";
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
@@ -80,6 +81,54 @@ test.group("Features / Client / Subscriptions / Controllers / Update Plans", () 
 		);
 	});
 
+	test("it saves a voluntary payment period and clears it when disabled", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+
+		const enabledResponse = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: {
+					voluntaryPaymentsLimitedToPeriod: true,
+					voluntaryPaymentPeriodStartDate: "2026-10-01",
+					voluntaryPaymentPeriodEndDate: "2026-12-31",
+				},
+			});
+
+		enabledResponse.assertOk();
+		enabledResponse.assertBodyContains({
+			voluntaryPaymentsLimitedToPeriod: true,
+			voluntaryPaymentPeriodStartDate: "2026-10-01",
+			voluntaryPaymentPeriodEndDate: "2026-12-31",
+		});
+
+		const plan = await SubscriptionPlan.findByOrFail("subscriptionId", subscription.id);
+		assert.equal(plan.voluntaryPaymentPeriodStartDate?.toISODate(), "2026-10-01");
+		assert.equal(plan.voluntaryPaymentPeriodEndDate?.toISODate(), "2026-12-31");
+
+		const disabledResponse = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: { voluntaryPaymentsLimitedToPeriod: false },
+			});
+
+		disabledResponse.assertOk();
+		disabledResponse.assertBodyContains({
+			voluntaryPaymentsLimitedToPeriod: false,
+			voluntaryPaymentPeriodStartDate: null,
+			voluntaryPaymentPeriodEndDate: null,
+		});
+		const disabledPlan = await SubscriptionPlan.findByOrFail("subscriptionId", subscription.id);
+		assert.isNull(disabledPlan.voluntaryPaymentPeriodStartDate);
+		assert.isNull(disabledPlan.voluntaryPaymentPeriodEndDate);
+	});
+
 	test("it rejects invalid transfer amounts", async ({ client }) => {
 		const { subscription, user } = await createSubscription();
 
@@ -96,6 +145,47 @@ test.group("Features / Client / Subscriptions / Controllers / Update Plans", () 
 			.loginAs(user)
 			.json({ contractCharacteristics: { estimatedTransferAmount: 10.001 } });
 		precisionResponse.assertStatus(422);
+	});
+
+	test("it rejects invalid voluntary payment period dates", async ({ client }) => {
+		const { subscription, user } = await createSubscription();
+
+		const response = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: {
+					voluntaryPaymentPeriodStartDate: "2026-02-30",
+				},
+			});
+
+		response.assertStatus(422);
+	});
+
+	test("it rejects a voluntary payment period ending before its start", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createSubscription();
+		const plan = await SubscriptionPlan.create({
+			subscriptionId: subscription.id,
+			voluntaryPaymentsLimitedToPeriod: true,
+			voluntaryPaymentPeriodStartDate: DateTime.fromISO("2026-10-01"),
+			voluntaryPaymentPeriodEndDate: DateTime.fromISO("2026-12-31"),
+		});
+
+		const response = await client
+			.visit("client.subscriptions.update_plans", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user)
+			.json({
+				contractCharacteristics: { voluntaryPaymentPeriodEndDate: "2026-09-30" },
+			});
+
+		response.assertStatus(422);
+		const unchangedPlan = await SubscriptionPlan.findOrFail(plan.id);
+		assert.equal(unchangedPlan.voluntaryPaymentPeriodEndDate?.toISODate(), "2026-12-31");
 	});
 
 	test("it invalidates contract characteristics after an automatic save", async ({
