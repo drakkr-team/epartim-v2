@@ -77,21 +77,3 @@ export type SubscriptionMatchingRules = Record<
 	SubscriptionMatchingDevice,
 	SubscriptionDeviceMatching
 >;
-
-export function emptySubscriptionDeviceMatching(): SubscriptionDeviceMatching {
-	return {
-		ruleTypes: [],
-		uniformRules: [],
-		seniorityRules: [],
-		unilateralRule: null,
-		specificRule: false,
-		specificRuleDetails: null,
-	};
-}
-
-export function emptySubscriptionMatchingRules(): SubscriptionMatchingRules {
-	return {
-		pei: emptySubscriptionDeviceMatching(),
-		per: emptySubscriptionDeviceMatching(),
-	};
-}

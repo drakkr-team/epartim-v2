@@ -5,7 +5,6 @@ import {
 	SubscriptionMatchingCalculationMethod,
 	SubscriptionMatchingDistributionPeriod,
 } from "#constants/subscription_matching";
-import { emptySubscriptionMatchingRules } from "#constants/subscription_matching_rules";
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
@@ -139,6 +138,14 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 		const user = await UserFactory.create();
 		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
 		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		const emptyMatching = {
+			ruleTypes: [],
+			uniformRules: [],
+			seniorityRules: [],
+			unilateralRule: null,
+			specificRule: false,
+			specificRuleDetails: null,
+		};
 
 		const response = await client
 			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
@@ -150,7 +157,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 			contractCharacteristics: {
 				matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
 				matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
-				matchingRules: emptySubscriptionMatchingRules(),
+				matchingRules: { pei: emptyMatching, per: emptyMatching },
 			},
 		});
 	});

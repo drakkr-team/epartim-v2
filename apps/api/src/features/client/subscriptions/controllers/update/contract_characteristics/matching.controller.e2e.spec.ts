@@ -1,7 +1,6 @@
 import { test } from "@japa/runner";
 
 import {
-	emptySubscriptionDeviceMatching,
 	type SubscriptionDeviceMatching,
 	SubscriptionMatchingDevice,
 	SubscriptionMatchingLimitKind,
@@ -33,7 +32,15 @@ const completePeriod = {
 };
 
 function matching(changes: Partial<SubscriptionDeviceMatching>): SubscriptionDeviceMatching {
-	return { ...emptySubscriptionDeviceMatching(), ...changes };
+	return {
+		ruleTypes: [],
+		uniformRules: [],
+		seniorityRules: [],
+		unilateralRule: null,
+		specificRule: false,
+		specificRuleDetails: null,
+		...changes,
+	};
 }
 
 test.group("Features / Client / Subscriptions / Contract Matching", () => {
@@ -216,7 +223,7 @@ test.group("Features / Client / Subscriptions / Contract Matching", () => {
 			.loginAs(user)
 			.json({
 				device: SubscriptionMatchingDevice.PEI,
-				matching: emptySubscriptionDeviceMatching(),
+				matching: matching({}),
 			});
 		cleared.assertOk();
 		assert.lengthOf(await SubscriptionMatchingRule.query().where("subscriptionPlanId", plan.id), 0);
@@ -251,7 +258,7 @@ test.group("Features / Client / Subscriptions / Contract Matching", () => {
 		const { user, subscription } = await createSubscription();
 		const request = {
 			device: SubscriptionMatchingDevice.PER,
-			matching: emptySubscriptionDeviceMatching(),
+			matching: matching({}),
 		};
 		const missingAdhesion = await client
 			.visit("client.subscriptions.update_contract_characteristics_matching", {

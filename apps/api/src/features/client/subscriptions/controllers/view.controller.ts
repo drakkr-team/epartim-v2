@@ -5,7 +5,6 @@ import {
 	SubscriptionMatchingCalculationMethod,
 	SubscriptionMatchingDistributionPeriod,
 } from "#constants/subscription_matching";
-import { emptySubscriptionMatchingRules } from "#constants/subscription_matching_rules";
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
 import SubscriptionDocumentRequirementsService, {
 	type SubscriptionDocumentRequirement,
@@ -20,6 +19,7 @@ import ContactPresenter from "#presenters/contact.presenter";
 import FilePresenter from "#presenters/file.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
+import { presentSubscriptionMatchingRules } from "#presenters/subscription_matching.presenter";
 import SubscriptionPlanPresenter from "#presenters/subscription_plan.presenter";
 
 @inject()
@@ -115,7 +115,7 @@ export default class ViewSubscriptionController {
 						minimumSeniorityMonths: null,
 						matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
 						matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
-						matchingRules: emptySubscriptionMatchingRules(),
+						matchingRules: presentSubscriptionMatchingRules([]),
 						voluntaryPaymentsLimitedToPeriod: false,
 						voluntaryPaymentPeriodStartDate: null,
 						voluntaryPaymentPeriodEndDate: null,

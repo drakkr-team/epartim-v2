@@ -1,5 +1,5 @@
 import {
-	emptySubscriptionMatchingRules,
+	type SubscriptionDeviceMatching,
 	SubscriptionMatchingRecordType,
 	type SubscriptionMatchingRules,
 	type SubscriptionSeniorityRule,
@@ -8,10 +8,24 @@ import {
 } from "#constants/subscription_matching_rules";
 import type SubscriptionMatchingRule from "#models/subscription_matching_rule";
 
+function emptyDeviceMatching(): SubscriptionDeviceMatching {
+	return {
+		ruleTypes: [],
+		uniformRules: [],
+		seniorityRules: [],
+		unilateralRule: null,
+		specificRule: false,
+		specificRuleDetails: null,
+	};
+}
+
 export function presentSubscriptionMatchingRules(
 	rules: SubscriptionMatchingRule[],
 ): SubscriptionMatchingRules {
-	const result = emptySubscriptionMatchingRules();
+	const result: SubscriptionMatchingRules = {
+		pei: emptyDeviceMatching(),
+		per: emptyDeviceMatching(),
+	};
 	for (const rule of rules) {
 		const matching = result[rule.device];
 		if (!matching) continue;
