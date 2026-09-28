@@ -138,6 +138,14 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 		const user = await UserFactory.create();
 		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
 		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		const emptyMatching = {
+			ruleTypes: [],
+			uniformRules: [],
+			seniorityRules: [],
+			unilateralRule: null,
+			specificRule: false,
+			specificRuleDetails: null,
+		};
 
 		const response = await client
 			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
@@ -149,6 +157,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 			contractCharacteristics: {
 				matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
 				matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
+				matchingRules: { pei: emptyMatching, per: emptyMatching },
 			},
 		});
 	});

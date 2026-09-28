@@ -99,6 +99,7 @@ export interface ApiDefinition {
       updateContractCharacteristicsPlan: typeof routes['client.subscriptions.update_contract_characteristics_plan']
       updateContractCharacteristicsAgreements: typeof routes['client.subscriptions.update_contract_characteristics_agreements']
       updateContractCharacteristicsAdhesions: typeof routes['client.subscriptions.update_contract_characteristics_adhesions']
+      updateContractCharacteristicsMatching: typeof routes['client.subscriptions.update_contract_characteristics_matching']
       createKycOwner: typeof routes['client.subscriptions.create_kyc_owner']
       updateKycOwner: typeof routes['client.subscriptions.update_kyc_owner']
       deleteKycOwner: typeof routes['client.subscriptions.delete_kyc_owner']

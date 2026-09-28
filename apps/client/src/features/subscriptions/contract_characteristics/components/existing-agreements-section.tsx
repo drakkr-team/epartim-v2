@@ -62,11 +62,17 @@ export function ExistingAgreementsSection({ form }: ExistingAgreementsSectionPro
 											checked={checked}
 											className="shrink-0 data-checked:border-secondary-9 data-checked:bg-secondary-9 data-checked:hover:not-data-disabled:border-secondary-10 data-checked:hover:not-data-disabled:bg-secondary-10"
 											onCheckedChange={(isChecked) => {
-												field.handleChange(
-													isChecked
-														? [...field.state.value, value]
-														: field.state.value.filter((agreement) => agreement !== value),
-												);
+												const existingAgreements = isChecked
+													? [...field.state.value, value]
+													: field.state.value.filter((agreement) => agreement !== value);
+												field.handleChange(existingAgreements);
+												if (!existingAgreements.includes(SubscriptionAgreement.OTHER)) {
+													form.setFieldValue("otherAgreementDetails", "");
+													form.setFieldMeta("otherAgreementDetails", (meta) => ({
+														...meta,
+														errorMap: {},
+													}));
+												}
 												field.handleBlur();
 											}}
 										/>

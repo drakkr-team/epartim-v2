@@ -3,11 +3,14 @@ import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 import type { Infer } from "@vinejs/vine/types";
 
+import { SubscriptionMatchingDevice } from "#constants/subscription_matching";
 import type { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
+import { SubscriptionPlanAdhesionType as AdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import SubscriptionPlanService from "#features/client/subscriptions/services/update/contract_characteristics/plan.service";
 import Subscription from "#models/subscription";
+import SubscriptionMatchingRule from "#models/subscription_matching_rule";
 import SubscriptionPlan from "#models/subscription_plan";
 import SubscriptionPlanAdhesion from "#models/subscription_plan_adhesion";
 import { UpdateSubscriptionPlanAdhesionsSchema } from "#validators/subscription/contract_characteristics/adhesions.validator";
@@ -59,7 +62,26 @@ export default class SubscriptionPlanAdhesionsService {
 			await SubscriptionPlanAdhesion.query({ client: trx })
 				.where("subscriptionPlanId", plan.id)
 				.delete();
+			await SubscriptionMatchingRule.query({ client: trx })
+				.where("subscriptionPlanId", plan.id)
+				.delete();
 			return;
+		}
+		const selectedDevices = [
+			...(selectedTypes.includes(AdhesionType.PEI_EPARTIM) ? [SubscriptionMatchingDevice.PEI] : []),
+			...(selectedTypes.includes(AdhesionType.PER_COLI_EPARTIM)
+				? [SubscriptionMatchingDevice.PER]
+				: []),
+		];
+		if (selectedDevices.length === 0) {
+			await SubscriptionMatchingRule.query({ client: trx })
+				.where("subscriptionPlanId", plan.id)
+				.delete();
+		} else {
+			await SubscriptionMatchingRule.query({ client: trx })
+				.where("subscriptionPlanId", plan.id)
+				.whereNotIn("device", selectedDevices)
+				.delete();
 		}
 
 		await SubscriptionPlanAdhesion.query({ client: trx })
