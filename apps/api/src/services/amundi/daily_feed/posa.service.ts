@@ -1,14 +1,14 @@
 import { parse } from "csv/sync";
 import { DateTime } from "luxon";
 
-import { POSA_CONTRACT_TYPES, POSA_FUNDS, PosaContractType, PosaFund } from "#constants/posa";
+import { POSA_DEVICE_TYPES, POSA_FUNDS, PosaDeviceType, PosaFund } from "#constants/posa";
 import Company from "#models/company";
 import Posa from "#models/posa";
 
 type PosaCsvRow = {
 	CD_ENT: string; // Company Amundi Id
-	CD_DISPO: string; // Contract code
-	TYPE_DISPO: string; // Type of contract
+	CD_DISPO: string; // Device code
+	TYPE_DISPO: string; // Type of device
 	CD_FONDS: string; // Fund code
 	ISIN_FCPE: string; // Fund reference (ISIN)
 	DT_VAL: DateTime; // Date of validity
@@ -17,7 +17,7 @@ type PosaCsvRow = {
 	"SUM(NB_PARTS_INDISPO)": number; // Number of unavailable parts
 };
 
-export default class AdmundiDailyFeedPosaService {
+export default class AmundiDailyFeedPosaService {
 	async import(csvBuffer: Uint8Array<ArrayBuffer>) {
 		const data = this.#parseCsv(csvBuffer);
 
@@ -25,23 +25,24 @@ export default class AdmundiDailyFeedPosaService {
 			const company = await Company.findBy("amundiId", row.CD_ENT);
 			if (!company) continue;
 
-			const contractType = POSA_CONTRACT_TYPES[
-				row.TYPE_DISPO as keyof typeof POSA_CONTRACT_TYPES
-			] as PosaContractType | undefined;
+			const deviceType = POSA_DEVICE_TYPES[
+				row.TYPE_DISPO as keyof typeof POSA_DEVICE_TYPES
+			] as PosaDeviceType | undefined;
 			const fund = POSA_FUNDS[row.ISIN_FCPE as keyof typeof POSA_FUNDS] as PosaFund | undefined;
 
-			if (!contractType) return console.warn("Unknown contract type:", row.TYPE_DISPO);
+			if (!deviceType) return console.warn("Unknown contract type:", row.TYPE_DISPO);
 			if (!fund) return console.warn("Unknown fund reference:", row.ISIN_FCPE);
 
 			await Posa.firstOrCreate(
 				{
 					companyId: row.CD_ENT,
-					contractType,
+					deviceCode: row.TYPE_DISPO,
 					fund,
 					valuationDate: row.DT_VAL,
 				},
 				{
 					rate: row.COURS,
+					deviceType,
 					availableShares: row["SUM(NB_PARTS_DISPO)"],
 					unavailableShares: row["SUM(NB_PARTS_INDISPO)"],
 				},

@@ -65,18 +65,18 @@ export class AmundiImportedDailyFeedSchema extends BaseModel {
 }
 
 export class CommissionRateSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'longTermCommissionRate', 'mediumTermCommissionRate', 'shortTermCommissionRate', 'updatedAt'] as const
+  static $columns = ['createdAt', 'id', 'longTermRatePercent', 'mediumTermRatePercent', 'shortTermRatePercent', 'updatedAt'] as const
   $columns = CommissionRateSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
   declare id: number
   @column()
-  declare longTermCommissionRate: number
+  declare longTermRatePercent: number
   @column()
-  declare mediumTermCommissionRate: number
+  declare mediumTermRatePercent: number
   @column()
-  declare shortTermCommissionRate: number
+  declare shortTermRatePercent: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
@@ -350,16 +350,18 @@ export class PaymentDetailSchema extends BaseModel {
 }
 
 export class PosaSchema extends BaseModel {
-  static $columns = ['availableShares', 'companyId', 'contractType', 'createdAt', 'fund', 'id', 'rate', 'unavailableShares', 'updatedAt', 'valuationDate'] as const
+  static $columns = ['availableShares', 'companyId', 'createdAt', 'deviceCode', 'deviceType', 'fund', 'id', 'rate', 'unavailableShares', 'updatedAt', 'valuationDate'] as const
   $columns = PosaSchema.$columns
   @column()
   declare availableShares: number
   @column()
   declare companyId: string
-  @column()
-  declare contractType: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column()
+  declare deviceCode: string
+  @column()
+  declare deviceType: number
   @column()
   declare fund: number
   @column({ isPrimary: true })

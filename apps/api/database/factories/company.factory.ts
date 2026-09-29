@@ -7,6 +7,7 @@ import Company, { CompanyLegalForm } from "#models/company";
 
 export const CompanyFactory = factory
 	.define(Company, ({ faker }) => ({
+		amundiId: faker.string.numeric(10),
 		siret: faker.string.numeric(14),
 		siren: faker.string.numeric(9),
 		naf: `${faker.string.numeric(4)}${faker.string.alpha({ length: 1 }).toUpperCase()}`,

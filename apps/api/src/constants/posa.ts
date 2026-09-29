@@ -1,10 +1,10 @@
-export const POSA_CONTRACT_TYPES = {
+export const POSA_DEVICE_TYPES = {
 	PEI: 1,
 	PERCOLI: 2,
 	PERCOL: 2,
 } as const;
 
-export type PosaContractType = (typeof POSA_CONTRACT_TYPES)[keyof typeof POSA_CONTRACT_TYPES];
+export type PosaDeviceType = (typeof POSA_DEVICE_TYPES)[keyof typeof POSA_DEVICE_TYPES];
 
 export const POSA_FUNDS = {
 	FR0013425030: 0, // GO Court Terme D
