@@ -1,4 +1,3 @@
-import { AmundiImportedDailyFeedSchema } from '#database/schema'
+import { AmundiImportedDailyFeedSchema } from "#database/schema";
 
-export default class AmundiImportedDailyFeed extends AmundiImportedDailyFeedSchema {
-}
+export default class AmundiImportedDailyFeed extends AmundiImportedDailyFeedSchema {}
