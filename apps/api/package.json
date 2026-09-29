@@ -30,6 +30,7 @@
 		"#features/*": "./src/features/*.js",
 		"#libs/*": "./src/libs/*.js",
 		"#generated/*": "./.adonisjs/server/*.js",
+		"#utils/*": "./src/utils/*.js",
 		"#validators/*": "./src/validators/*.js",
 		"#middlewares/*": "./src/middlewares/*.js",
 		"#policies/*": "./src/policies/*.js",
