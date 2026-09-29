@@ -3,6 +3,7 @@ import type { BelongsTo, HasMany } from "@adonisjs/lucid/types/relations";
 
 import { NetworkSchema } from "#database/schema";
 import Address from "#models/address";
+import CommissionRate from "#models/commission_rate";
 import Firm from "#models/firm";
 import PaymentDetail from "#models/payment_detail";
 
@@ -12,6 +13,9 @@ export default class Network extends NetworkSchema {
 
 	@belongsTo(() => PaymentDetail)
 	declare paymentDetail: BelongsTo<typeof PaymentDetail>;
+
+	@belongsTo(() => CommissionRate)
+	declare commissionRate: BelongsTo<typeof CommissionRate>;
 
 	@hasMany(() => Firm)
 	declare firms: HasMany<typeof Firm>;

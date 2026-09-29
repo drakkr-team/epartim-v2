@@ -64,6 +64,23 @@ export class AmundiImportedDailyFeedSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class CommissionRateSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'longTermCommissionRate', 'mediumTermCommissionRate', 'shortTermCommissionRate', 'updatedAt'] as const
+  $columns = CommissionRateSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare longTermCommissionRate: number
+  @column()
+  declare mediumTermCommissionRate: number
+  @column()
+  declare shortTermCommissionRate: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class CompanySchema extends BaseModel {
   static $columns = ['addressId', 'amundiId', 'bankDetailsDocumentId', 'companyCorrespondentId', 'companyDetailsDocumentId', 'companyHeadcount', 'companyLegalAgentId', 'companySignerId', 'contactsStatusDocumentId', 'createdAt', 'financialYearClosingDay', 'id', 'legalAgentIdDocumentId', 'legalForm', 'naf', 'name', 'paymentDetailId', 'siren', 'siret', 'subscriptionId', 'updatedAt', 'vatNumber'] as const
   $columns = CompanySchema.$columns
@@ -270,12 +287,14 @@ export class FileSchema extends BaseModel {
 }
 
 export class FirmSchema extends BaseModel {
-  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'id', 'name', 'networkId', 'orias', 'paymentDetailId', 'updatedAt'] as const
+  static $columns = ['addressId', 'amundiOrgId', 'commissionRateId', 'createdAt', 'id', 'name', 'networkId', 'orias', 'paymentDetailId', 'updatedAt'] as const
   $columns = FirmSchema.$columns
   @column()
   declare addressId: number
   @column()
   declare amundiOrgId: string | null
+  @column()
+  declare commissionRateId: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
@@ -293,12 +312,14 @@ export class FirmSchema extends BaseModel {
 }
 
 export class NetworkSchema extends BaseModel {
-  static $columns = ['addressId', 'amundiOrgId', 'createdAt', 'goCode', 'id', 'name', 'paymentDetailId', 'updatedAt'] as const
+  static $columns = ['addressId', 'amundiOrgId', 'commissionRateId', 'createdAt', 'goCode', 'id', 'name', 'paymentDetailId', 'updatedAt'] as const
   $columns = NetworkSchema.$columns
   @column()
   declare addressId: number
   @column()
   declare amundiOrgId: string | null
+  @column()
+  declare commissionRateId: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
