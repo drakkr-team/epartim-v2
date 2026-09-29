@@ -6,6 +6,7 @@ import app from "@adonisjs/core/services/app";
 import { unzip } from "fflate";
 
 import ftp from "#libs/ftp";
+import AmundiImportedDailyFeed from "#models/amundi_imported_daily_feed";
 import AdmundiDailyFeedPosaService from "#services/amundi/daily_feed/posa.service";
 import { deleteLocalFiles } from "#utils/local_file";
 
@@ -43,11 +44,14 @@ export default class AmundiDailyFeedService {
 			const archivesFilesLocalPaths: string[] = [];
 
 			await client.cd(FTP_DAILY_FEED_ARCHIVES_PATH);
-			const ftpFiles = await client.list();
+			const ftpFiles = (await client.list()).reverse();
 
 			// FTP action cant be performed concurrently due to potential connection issues, hence using a for loop
-			for (const [index, ftpFile] of ftpFiles.entries()) {
-				if (index > 1) continue; // To Check in DB if ftpFile has already been processed
+			for (const ftpFile of ftpFiles) {
+				const alreadyImported = await AmundiImportedDailyFeed.findBy("ref", ftpFile.uniqueID);
+				if (alreadyImported) continue;
+
+				await AmundiImportedDailyFeed.create({ ref: ftpFile.uniqueID, fileName: ftpFile.name });
 
 				const archiveLocalPath = `${TMP_ARCHIVES_LOCAL_DIR}/${ftpFile.name}`;
 

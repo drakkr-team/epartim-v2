@@ -49,11 +49,28 @@ export class AdminSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class AmundiImportedDailyFeedSchema extends BaseModel {
+  static $columns = ['createdAt', 'fileName', 'id', 'ref', 'updatedAt'] as const
+  $columns = AmundiImportedDailyFeedSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare fileName: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare ref: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class CompanySchema extends BaseModel {
-  static $columns = ['addressId', 'bankDetailsDocumentId', 'companyCorrespondentId', 'companyDetailsDocumentId', 'companyHeadcount', 'companyLegalAgentId', 'companySignerId', 'contactsStatusDocumentId', 'createdAt', 'financialYearClosingDay', 'id', 'legalAgentIdDocumentId', 'legalForm', 'naf', 'name', 'paymentDetailId', 'siren', 'siret', 'subscriptionId', 'updatedAt', 'vatNumber'] as const
+  static $columns = ['addressId', 'amundiId', 'bankDetailsDocumentId', 'companyCorrespondentId', 'companyDetailsDocumentId', 'companyHeadcount', 'companyLegalAgentId', 'companySignerId', 'contactsStatusDocumentId', 'createdAt', 'financialYearClosingDay', 'id', 'legalAgentIdDocumentId', 'legalForm', 'naf', 'name', 'paymentDetailId', 'siren', 'siret', 'subscriptionId', 'updatedAt', 'vatNumber'] as const
   $columns = CompanySchema.$columns
   @column()
   declare addressId: number | null
+  @column()
+  declare amundiId: string | null
   @column()
   declare bankDetailsDocumentId: number | null
   @column()
@@ -309,6 +326,31 @@ export class PaymentDetailSchema extends BaseModel {
   declare id: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+}
+
+export class PosaSchema extends BaseModel {
+  static $columns = ['availableShares', 'companyId', 'contractType', 'createdAt', 'fund', 'id', 'rate', 'unavailableShares', 'updatedAt', 'valuationDate'] as const
+  $columns = PosaSchema.$columns
+  @column()
+  declare availableShares: number
+  @column()
+  declare companyId: string
+  @column()
+  declare contractType: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare fund: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare rate: number
+  @column()
+  declare unavailableShares: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+  @column.date()
+  declare valuationDate: DateTime
 }
 
 export class RoleSchema extends BaseModel {
