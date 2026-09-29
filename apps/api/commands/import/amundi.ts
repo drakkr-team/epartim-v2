@@ -1,6 +1,7 @@
 import { mkdir, readFile, unlink } from "node:fs/promises";
 import { promisify } from "node:util";
 
+import { inject } from "@adonisjs/core";
 import { BaseCommand } from "@adonisjs/core/ace";
 import type { CommandOptions } from "@adonisjs/core/types/ace";
 import { parse } from "csv/sync";
@@ -8,6 +9,7 @@ import { unzip } from "fflate";
 import { DateTime } from "luxon";
 
 import ftp from "#libs/ftp";
+import AdmundiDailyFeedPosaService from "#services/amundi/daily_feed/posa.service";
 
 const TMP_DIR = "tmp/import/amundi";
 
@@ -31,7 +33,8 @@ export default class ImportAmundi extends BaseCommand {
 		startApp: true,
 	};
 
-	async run() {
+	@inject()
+	async run(posaService: AdmundiDailyFeedPosaService) {
 		const filesPath = await ftp(async (client) => {
 			const filesPath: string[] = [];
 
@@ -57,29 +60,9 @@ export default class ImportAmundi extends BaseCommand {
 			const archivebuffer = await readFile(filePath);
 			const archiveContents = await promisify(unzip)(archivebuffer);
 
-			const entries = Object.entries(archiveContents).map(([fileName, buffer]) => {
+			const entries = Object.entries(archiveContents).map(async ([fileName, buffer]) => {
 				if (fileName.startsWith("GOEE_POSA1") && fileName.endsWith(".csv")) {
-					const content = parse<PosaRow>(buffer, {
-						columns: true,
-						delimiter: "|",
-						skip_empty_lines: true,
-						cast: (value, context) => {
-							if (
-								["COURS", "SUM(NB_PARTS_DISPO)", "SUM(NB_PARTS_INDISPO)"].includes(
-									context.column.toString(),
-								)
-							) {
-								return parseFloat(value);
-							}
-
-							if (context.column === "DT_VAL") {
-								return DateTime.fromFormat(value, "dd/MM/yyyy");
-							}
-
-							return value;
-						},
-					});
-					console.log(content);
+					await posaService.import(buffer);
 				}
 
 				return null;
