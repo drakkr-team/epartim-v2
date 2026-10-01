@@ -10,7 +10,7 @@ type NumberFieldProps = {
 	disabled?: boolean;
 	inputProps?: Omit<
 		NumberInputProps,
-		"id" | "name" | "value" | "disabled" | "onValueCommitted" | "onBlur"
+		"id" | "name" | "value" | "disabled" | "onValueCommitted" | "onValueChange" | "onBlur"
 	>;
 };
 
@@ -38,6 +38,7 @@ export function NumberField(props: NumberFieldProps) {
 				value={field.state.value}
 				disabled={disabled}
 				onValueCommitted={(value) => field.handleChange(value)}
+				onValueChange={(value) => field.handleChange(value)}
 				onBlur={field.handleBlur}
 				{...inputProps}
 			/>

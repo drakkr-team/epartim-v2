@@ -7,7 +7,7 @@ import z from "zod";
 import { useCreateNetworkMutation } from "#/features/networks/hooks/use-create-mutation";
 import { useUpdateNetworkMutation } from "#/features/networks/hooks/use-update-mutation";
 import { useAppForm } from "#/libs/form";
-import { convertTuyauErrorToFormErrorMap } from "#/utils/form";
+import { convertTuyauErrorToFormErrorMap, getDirtyValues } from "#/utils/form";
 
 export type NetworkFormValues = {
 	name: string;
@@ -24,6 +24,11 @@ export type NetworkFormValues = {
 	paymentDetail: {
 		iban: string;
 		bic: string;
+	};
+	commissionRate: {
+		shortTermRatePercent: number;
+		mediumTermRatePercent: number;
+		longTermRatePercent: number;
 	};
 };
 
@@ -59,6 +64,11 @@ export function useNetworkForm(params: UseNetworkFormParams) {
 			paymentDetail: {
 				iban: "",
 				bic: "",
+			},
+			commissionRate: {
+				shortTermRatePercent: 0,
+				mediumTermRatePercent: 0,
+				longTermRatePercent: 0,
 			},
 			...params.defaultValues,
 		},
@@ -117,6 +127,20 @@ export function useNetworkForm(params: UseNetworkFormParams) {
 							t("validation.paymentDetail.bic.format"),
 						),
 				}),
+				commissionRate: z.object({
+					shortTermRatePercent: z
+						.number({ error: t("validation.commissionRate.shortTermRatePercent.number") })
+						.min(0, t("validation.commissionRate.shortTermRatePercent.min"))
+						.max(100, t("validation.commissionRate.shortTermRatePercent.max")),
+					mediumTermRatePercent: z
+						.number({ error: t("validation.commissionRate.mediumTermRatePercent.number") })
+						.min(0, t("validation.commissionRate.mediumTermRatePercent.min"))
+						.max(100, t("validation.commissionRate.mediumTermRatePercent.max")),
+					longTermRatePercent: z
+						.number({ error: t("validation.commissionRate.longTermRatePercent.number") })
+						.min(0, t("validation.commissionRate.longTermRatePercent.min"))
+						.max(100, t("validation.commissionRate.longTermRatePercent.max")),
+				}),
 			}),
 		},
 		onSubmitInvalid() {
@@ -130,19 +154,11 @@ export function useNetworkForm(params: UseNetworkFormParams) {
 
 			if (params.action === "update") {
 				const { defaultValues } = params;
+				const body = getDirtyValues(defaultValues, value);
 
 				await updateNetwork({
 					params: { networkId: params.networkId },
-					body: {
-						...(value.name !== defaultValues.name && { name: value.name }),
-						...(JSON.stringify(value.address) !== JSON.stringify(defaultValues.address) && {
-							address: value.address,
-						}),
-						...(JSON.stringify(value.paymentDetail) !==
-							JSON.stringify(defaultValues.paymentDetail) && {
-							paymentDetail: value.paymentDetail,
-						}),
-					},
+					body,
 				});
 			}
 		},

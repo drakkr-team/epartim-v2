@@ -11,13 +11,17 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm", "update:firm", "delete:firm"];
 		await role.save();
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const firm = await FirmFactory.merge({
 			name: "List Contract Firm",
 			networkId: network.id,
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		const response = await client
@@ -72,6 +76,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 		const second = await FirmFactory.merge({
 			name: "NameOnly Firm Two",
@@ -80,6 +85,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		const pageResponse = await client
@@ -112,14 +118,21 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		assert,
 	}) => {
 		const admin = await AdminFactory.with("role").create();
-		const firstNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
-		const secondNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
+		const firstNetwork = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
+		const secondNetwork = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const matchingFirm = await FirmFactory.merge({
 			name: "Filtered Firm",
 			networkId: firstNetwork.id,
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 		await FirmFactory.merge({
 			name: "Other Network Firm",
@@ -127,6 +140,7 @@ test.group("Features / Admin / Firms / Controllers / List Controller", () => {
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		const response = await client

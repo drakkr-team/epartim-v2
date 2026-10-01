@@ -41,7 +41,10 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 		role.authorizations = ["update:user"];
 		await role.save();
 		const targetUser = await UserFactory.create();
-		const firm = await FirmFactory.with("address").with("paymentDetail").create();
+		const firm = await FirmFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const originalEmail = targetUser.email;
 		const originalPassword = targetUser.password;
 		const payload = {

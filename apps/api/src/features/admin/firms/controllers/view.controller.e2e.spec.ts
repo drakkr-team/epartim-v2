@@ -14,13 +14,23 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm", "delete:firm"];
 		await role.save();
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const firm = await FirmFactory.merge({
 			name: "Viewed Firm",
 			networkId: network.id,
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate", 1, (rate) =>
+				rate.merge({
+					shortTermRatePercent: 12.5,
+					mediumTermRatePercent: 25,
+					longTermRatePercent: 37.5,
+				}),
+			)
 			.create();
 
 		const response = await client
@@ -36,6 +46,14 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 		assert.equal(body.paymentDetailId, firm.paymentDetailId);
 		assert.equal(body.address.id, firm.addressId);
 		assert.equal(body.paymentDetail.id, firm.paymentDetailId);
+		assert.deepEqual(body.commissionRate, {
+			id: firm.commissionRateId,
+			shortTermRatePercent: firm.commissionRate.shortTermRatePercent,
+			mediumTermRatePercent: firm.commissionRate.mediumTermRatePercent,
+			longTermRatePercent: firm.commissionRate.longTermRatePercent,
+			createdAt: firm.commissionRate.createdAt.toJSDate().toISOString(),
+			updatedAt: firm.commissionRate.updatedAt.toJSDate().toISOString(),
+		});
 		assert.isNotNull(body.network);
 		assert.equal(body.network?.id, network.id);
 		assert.equal(body.network?.name, network.name);
@@ -50,6 +68,7 @@ test.group("Features / Admin / Firms / Controllers / View Controller", () => {
 		const firm = await FirmFactory.merge({ networkId: null })
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		const response = await client

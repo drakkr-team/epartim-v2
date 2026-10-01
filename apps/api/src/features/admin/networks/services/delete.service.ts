@@ -7,11 +7,13 @@ export default class DeleteNetworkService {
 		const network = await Network.findOrFail(networkId);
 		await network.load("address");
 		await network.load("paymentDetail");
+		await network.load("commissionRate");
 
 		return db.transaction(async (trx) => {
 			await network.useTransaction(trx).delete();
 			await network.address.useTransaction(trx).delete();
 			await network.paymentDetail.useTransaction(trx).delete();
+			await network.commissionRate.useTransaction(trx).delete();
 		});
 	}
 }
