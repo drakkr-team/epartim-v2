@@ -4,6 +4,7 @@ import { AdminFactory } from "#database/factories/admin.factory";
 import { FirmFactory } from "#database/factories/firm.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
 import Address from "#models/address";
+import CommissionRate from "#models/commission_rate";
 import PaymentDetail from "#models/payment_detail";
 import Role from "#models/role";
 
@@ -49,6 +50,11 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 					iban: "fr76 3000 6000 0112 3456 7890 189",
 					bic: "agri fr pp",
 				},
+				commissionRate: {
+					shortTermRatePercent: 0,
+					mediumTermRatePercent: 12.5,
+					longTermRatePercent: 100,
+				},
 			});
 
 		response.assertOk();
@@ -63,6 +69,87 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		const paymentDetail = await PaymentDetail.findOrFail(firm.paymentDetailId);
 		assert.equal(paymentDetail.iban, "FR76 3000 6000 0112 3456 7890 189");
 		assert.equal(paymentDetail.bic, "AGRI FR PP");
+		const commissionRate = await CommissionRate.findOrFail(firm.commissionRateId);
+		assert.equal(commissionRate.shortTermRatePercent, 0);
+		assert.equal(commissionRate.mediumTermRatePercent, 12.5);
+		assert.equal(commissionRate.longTermRatePercent, 100);
+		await firm.refresh();
+		assert.equal(firm.commissionRateId, commissionRate.id);
+	});
+
+	test("it should preserve commission rates when omitted from an update", async ({
+		client,
+		assert,
+	}) => {
+		const admin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
+		const firm = await createUpdateFixture("Preserved Rate Firm", "51000009");
+		const commissionRate = await CommissionRate.findOrFail(firm.commissionRateId);
+		await commissionRate
+			.merge({
+				shortTermRatePercent: 12.5,
+				mediumTermRatePercent: 25,
+				longTermRatePercent: 37.5,
+			})
+			.save();
+
+		const response = await client
+			.visit("admin.firms.update", { firmId: firm.id })
+			.withGuard("admin")
+			.loginAs(admin)
+			.json({ name: "Renamed Preserved Rate Firm" });
+
+		response.assertOk();
+		await firm.refresh();
+		await commissionRate.refresh();
+		assert.equal(firm.commissionRateId, commissionRate.id);
+		assert.equal(commissionRate.shortTermRatePercent, 12.5);
+		assert.equal(commissionRate.mediumTermRatePercent, 25);
+		assert.equal(commissionRate.longTermRatePercent, 37.5);
+	});
+
+	test("it should reject incomplete or invalid commission rate updates", async ({
+		client,
+		assert,
+	}) => {
+		const admin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
+		const firm = await createUpdateFixture("Invalid Rate Update Firm", "51000010");
+		const rates = {
+			shortTermRatePercent: 12.5,
+			mediumTermRatePercent: 25,
+			longTermRatePercent: 37.5,
+		};
+		const commissionRate = await CommissionRate.findOrFail(firm.commissionRateId);
+		await commissionRate.merge(rates).save();
+
+		for (const invalidRate of [
+			{},
+			{ mediumTermRatePercent: 25, longTermRatePercent: 37.5 },
+			{ shortTermRatePercent: 12.5, longTermRatePercent: 37.5 },
+			{ shortTermRatePercent: 12.5, mediumTermRatePercent: 25 },
+			...Object.keys(rates).flatMap((field) =>
+				[-0.5, 100.5, "invalid", null].map((value) => ({ ...rates, [field]: value })),
+			),
+		]) {
+			const response = await client
+				.visit("admin.firms.update", { firmId: firm.id })
+				.withGuard("admin")
+				.loginAs(admin)
+				.unsafeJson({ name: "Rejected Rate Update", commissionRate: invalidRate });
+
+			response.assertStatus(422);
+			await firm.refresh();
+			await commissionRate.refresh();
+			assert.equal(firm.name, "Invalid Rate Update Firm");
+			assert.equal(commissionRate.shortTermRatePercent, rates.shortTermRatePercent);
+			assert.equal(commissionRate.mediumTermRatePercent, rates.mediumTermRatePercent);
+			assert.equal(commissionRate.longTermRatePercent, rates.longTermRatePercent);
+		}
 	});
 
 	test("it should preserve, detach, and attach the network explicitly", async ({
