@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Logo } from "@workspace/ui-react/components/logo";
 import { Sidebar as UiSidebar } from "@workspace/ui-react/components/sidebar";
@@ -16,19 +17,22 @@ import {
 
 import { useLogoutMutation } from "#/features/account_management/authentication/hooks/use-logout-mutation";
 
-const referenceItems = [
-	{ label: "Réseaux", to: "/networks", icon: NetworkIcon, exact: false },
-	{ label: "Cabinets", to: "/firms", icon: Building2Icon, exact: false },
-	{ label: "Distributeurs", to: "/users", icon: UsersIcon, exact: false },
-] as const;
-
-const managementItems = [
-	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
-	{ label: "Rôles", to: "/roles", icon: ShieldCheckIcon, exact: false },
-] as const;
-
 export function AdminShell({ children }: PropsWithChildren) {
+	const { t } = useTranslation("components.layout.admin-shell");
+
 	const { mutateAsync: logout, isPending: isLoggingOut } = useLogoutMutation();
+
+	const referenceItems = [
+		{ label: t("networks"), to: "/networks", icon: NetworkIcon, exact: false },
+		{ label: t("firms"), to: "/firms", icon: Building2Icon, exact: false },
+		{ label: t("users"), to: "/users", icon: UsersIcon, exact: false },
+	] as const;
+
+	const managementItems = [
+		{ label: t("admins"), to: "/admins", icon: UserShieldIcon, exact: false },
+		{ label: t("roles"), to: "/roles", icon: ShieldCheckIcon, exact: false },
+	] as const;
+
 	return (
 		<div className="flex min-h-svh text-neutral-12">
 			<UiSidebar>
@@ -41,13 +45,13 @@ export function AdminShell({ children }: PropsWithChildren) {
 						{({ isActive }) => (
 							<UiSidebar.Item active={isActive}>
 								<LayoutDashboardIcon />
-								Tableau de bord
+								{t("dashboard")}
 							</UiSidebar.Item>
 						)}
 					</Link>
 
 					<UiSidebar.Group>
-						<UiSidebar.GroupLabel>Référentiels</UiSidebar.GroupLabel>
+						<UiSidebar.GroupLabel>{t("references")}</UiSidebar.GroupLabel>
 						<div className="mt-2 grid gap-1">
 							{referenceItems.map((item) => {
 								const Icon = item.icon;
@@ -67,7 +71,7 @@ export function AdminShell({ children }: PropsWithChildren) {
 					</UiSidebar.Group>
 
 					<UiSidebar.Group>
-						<UiSidebar.GroupLabel>Gestion</UiSidebar.GroupLabel>
+						<UiSidebar.GroupLabel>{t("management")}</UiSidebar.GroupLabel>
 						<div className="mt-2 grid gap-1">
 							{managementItems.map((item) => {
 								const Icon = item.icon;
@@ -90,7 +94,7 @@ export function AdminShell({ children }: PropsWithChildren) {
 				<UiSidebar.Footer>
 					<UiSidebar.Item onClick={logout} disabled={isLoggingOut}>
 						{isLoggingOut ? <Spinner /> : <LogOutIcon />}
-						Se déconnecter
+						{t("logout")}
 					</UiSidebar.Item>
 				</UiSidebar.Footer>
 			</UiSidebar>
