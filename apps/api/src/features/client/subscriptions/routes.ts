@@ -59,6 +59,21 @@ router
 			])
 			.as("update_kyc_profile");
 		router
+			.put("/:subscriptionId/contract-characteristics/plan", [
+				controllers.features.client.subscriptions.update.contractCharacteristics.Plan,
+			])
+			.as("update_contract_characteristics_plan");
+		router
+			.put("/:subscriptionId/contract-characteristics/agreements", [
+				controllers.features.client.subscriptions.update.contractCharacteristics.Agreements,
+			])
+			.as("update_contract_characteristics_agreements");
+		router
+			.put("/:subscriptionId/contract-characteristics/adhesions", [
+				controllers.features.client.subscriptions.update.contractCharacteristics.Adhesions,
+			])
+			.as("update_contract_characteristics_adhesions");
+		router
 			.post("/:subscriptionId/kyc-owners", [
 				controllers.features.client.subscriptions.update.kyc.owners.Create,
 			])

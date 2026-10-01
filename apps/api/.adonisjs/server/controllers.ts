@@ -107,6 +107,11 @@ export const controllers = {
             LegalAgent: () => import('#src/features/client/subscriptions/controllers/update/representatives/legal_agent.controller'),
             Signer: () => import('#src/features/client/subscriptions/controllers/update/representatives/signer.controller'),
           },
+          contractCharacteristics: {
+            Adhesions: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/adhesions.controller'),
+            Agreements: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/agreements.controller'),
+            Plan: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller'),
+          },
         },
         View: () => import('#src/features/client/subscriptions/controllers/view.controller'),
       },

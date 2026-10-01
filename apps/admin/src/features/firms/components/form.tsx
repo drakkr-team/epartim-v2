@@ -149,6 +149,42 @@ export function FirmForm(props: FirmFormProps) {
 				</form.AppField>
 			</div>
 
+			<Separator />
+
+			<div className="grid grid-cols-2 gap-4">
+				<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
+					{t("section.commission")}
+				</h2>
+
+				<form.AppField name="commissionRate.shortTermRatePercent">
+					{(field) => (
+						<field.NumberField
+							required
+							label={t("field.commissionRate.shortTermRatePercent.label")}
+							inputProps={{ min: 0, max: 100, step: 0.01 }}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="commissionRate.mediumTermRatePercent">
+					{(field) => (
+						<field.NumberField
+							required
+							label={t("field.commissionRate.mediumTermRatePercent.label")}
+							inputProps={{ min: 0, max: 100, step: 0.01 }}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="commissionRate.longTermRatePercent">
+					{(field) => (
+						<field.NumberField
+							required
+							label={t("field.commissionRate.longTermRatePercent.label")}
+							inputProps={{ min: 0, max: 100, step: 0.01 }}
+						/>
+					)}
+				</form.AppField>
+			</div>
+
 			<div className="mt-2 flex justify-end gap-2">
 				<Button variant="default" nativeButton={false} render={<Link to=".." />}>
 					{t("action.cancel")}

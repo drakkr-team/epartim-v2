@@ -1,6 +1,10 @@
 import { inject } from "@adonisjs/core";
 import type { HttpContext } from "@adonisjs/core/http";
 
+import {
+	SubscriptionMatchingCalculationMethod,
+	SubscriptionMatchingDistributionPeriod,
+} from "#constants/subscription_matching";
 import AccessSubscriptionPolicy from "#features/client/subscriptions/policies/access.policy";
 import SubscriptionDocumentRequirementsService, {
 	type SubscriptionDocumentRequirement,
@@ -15,6 +19,7 @@ import ContactPresenter from "#presenters/contact.presenter";
 import FilePresenter from "#presenters/file.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
+import SubscriptionPlanPresenter from "#presenters/subscription_plan.presenter";
 
 @inject()
 export default class ViewSubscriptionController {
@@ -28,12 +33,13 @@ export default class ViewSubscriptionController {
 		protected paymentDetailPresenter: PaymentDetailPresenter,
 		protected documentRequirementsService: SubscriptionDocumentRequirementsService,
 		protected filePresenter: FilePresenter,
+		protected subscriptionPlanPresenter: SubscriptionPlanPresenter,
 	) {}
 
 	async handle({ bouncer, params }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
-		await subscription.load("company");
+		await Promise.all([subscription.load("company"), subscription.load("creator")]);
 		const address = subscription.company.addressId
 			? await subscription.company.related("address").query().first()
 			: null;
@@ -48,6 +54,8 @@ export default class ViewSubscriptionController {
 			documentRequirements,
 			kycProfile,
 			beneficialOwners,
+			plan,
+			existingAgreements,
 		] = await Promise.all([
 			subscription.company.related("legalAgent").query().first(),
 			subscription.company.related("signer").query().first(),
@@ -65,10 +73,15 @@ export default class ViewSubscriptionController {
 				.preload("address")
 				.preload("roles")
 				.orderBy("company_beneficial_owners.id"),
+			subscription.related("plan").query().preload("adhesions").first(),
+			subscription.related("existingAgreements").query().orderBy("type"),
 		]);
 
 		return {
 			...this.subscriptionPresenter.toJSON(subscription),
+			creator: {
+				name: subscription.creator.name,
+			},
 			legalIdentification: this.companyPresenter.toJSON(subscription.company),
 			addressAndBankDetails: {
 				address: address ? this.addressPresenter.toJSON(address) : null,
@@ -88,6 +101,23 @@ export default class ViewSubscriptionController {
 					this.companyBeneficialOwnerPresenter.toJSON(owner, owner.address, owner.roles),
 				),
 			},
+			contractCharacteristics: plan
+				? this.subscriptionPlanPresenter.toJSON(plan, plan.adhesions, existingAgreements)
+				: {
+						id: null,
+						subscriptionId: subscription.id,
+						existingDeviceTransfer: false,
+						estimatedTransferAmount: null,
+						adhesionTypes: [],
+						existingAgreements: [],
+						otherAgreementDetails: null,
+						minimumSeniorityMonths: null,
+						matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
+						matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
+						voluntaryPaymentsLimitedToPeriod: false,
+						voluntaryPaymentPeriodStartDate: null,
+						voluntaryPaymentPeriodEndDate: null,
+					},
 			documents: await this.#presentDocuments(
 				documentRequirements.filter(
 					(document) => document.step === SubscriptionStep.COMPANY_REFERENCES,
@@ -95,6 +125,11 @@ export default class ViewSubscriptionController {
 			),
 			kycDocuments: await this.#presentDocuments(
 				documentRequirements.filter((document) => document.step === SubscriptionStep.KYC),
+			),
+			contractDocuments: await this.#presentDocuments(
+				documentRequirements.filter(
+					(document) => document.step === SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				),
 			),
 		};
 	}

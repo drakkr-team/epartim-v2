@@ -14,6 +14,7 @@ import CompanyKycProfile from "#models/company_kyc_profile";
 import File from "#models/file";
 import Subscription, { SubscriptionStatus } from "#models/subscription";
 import SubscriptionDocument, { SubscriptionDocumentType } from "#models/subscription_document";
+import SubscriptionPlan from "#models/subscription_plan";
 
 test.group("Features / Client / Subscriptions / Controllers / Steps / Validate Controller", () => {
 	async function createKycSubscription() {
@@ -143,6 +144,28 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 
 		response.assertOk();
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [2]);
+	});
+
+	test("it validates contract characteristics without additional server validation", async ({
+		client,
+		assert,
+	}) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({
+			completedSteps: [],
+			createdBy: user.id,
+			status: SubscriptionStatus.DRAFT,
+		}).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+		await SubscriptionPlan.create({ subscriptionId: subscription.id, minimumSeniorityMonths: 0 });
+
+		const response = await client
+			.visit("client.subscriptions.validate_step", { step: 3, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [3]);
 	});
 
 	test("it requires the BIC and one document for each KYC owner", async ({ client, assert }) => {

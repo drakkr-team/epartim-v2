@@ -20,6 +20,9 @@ export default class ValidateSubscriptionStepService {
 			if (step === SubscriptionStep.KYC) {
 				await this.#validateDocuments(lockedSubscription, trx, step);
 			}
+			if (step === SubscriptionStep.CONTRACT_CHARACTERISTICS) {
+				await this.#validateDocuments(lockedSubscription, trx, step);
+			}
 
 			const completedSteps = this.#normalizeCompletedSteps(lockedSubscription.completedSteps, step);
 			await lockedSubscription.useTransaction(trx).merge({ completedSteps }).save();

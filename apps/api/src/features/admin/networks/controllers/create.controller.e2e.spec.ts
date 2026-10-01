@@ -21,6 +21,11 @@ const validPayload = {
 		iban: "fr76 3000 6000 0112 3456 7890 189",
 		bic: "agri fr pp",
 	},
+	commissionRate: {
+		shortTermRatePercent: 12.5,
+		mediumTermRatePercent: 25,
+		longTermRatePercent: 37.5,
+	},
 };
 
 test.group("Features / Admin / Networks / Controllers / Create Controller", () => {
@@ -52,11 +57,105 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 			.where("name", validPayload.name)
 			.preload("address")
 			.preload("paymentDetail")
+			.preload("commissionRate")
 			.firstOrFail();
 		assert.equal(network.address.id, body.addressId);
 		assert.equal(network.paymentDetail.id, body.paymentDetailId);
+		assert.equal(
+			network.commissionRate.shortTermRatePercent,
+			validPayload.commissionRate.shortTermRatePercent,
+		);
+		assert.equal(
+			network.commissionRate.mediumTermRatePercent,
+			validPayload.commissionRate.mediumTermRatePercent,
+		);
+		assert.equal(
+			network.commissionRate.longTermRatePercent,
+			validPayload.commissionRate.longTermRatePercent,
+		);
 		assert.equal(network.paymentDetail.iban, "FR76 3000 6000 0112 3456 7890 189");
 		assert.equal(network.paymentDetail.bic, "AGRI FR PP");
+	});
+
+	test("it should accept commission rates at both inclusive boundaries", async ({
+		client,
+		assert,
+	}) => {
+		const admin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network"];
+		await role.save();
+
+		for (const rate of [0, 100]) {
+			const commissionRate = {
+				shortTermRatePercent: rate,
+				mediumTermRatePercent: rate,
+				longTermRatePercent: rate,
+			};
+			const response = await client
+				.visit("admin.networks.create")
+				.withGuard("admin")
+				.loginAs(admin)
+				.json({ ...validPayload, name: `Rate Boundary ${rate}`, commissionRate });
+
+			response.assertCreated();
+			const network = await Network.query()
+				.where("id", response.body().id)
+				.preload("commissionRate")
+				.firstOrFail();
+			assert.equal(network.commissionRate.shortTermRatePercent, rate);
+			assert.equal(network.commissionRate.mediumTermRatePercent, rate);
+			assert.equal(network.commissionRate.longTermRatePercent, rate);
+		}
+	});
+
+	test("it should require a commission rate object and every nested field", async ({ client }) => {
+		const admin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network"];
+		await role.save();
+		const invalidRates = [
+			{ commissionRate: undefined, field: "commissionRate" },
+			{ commissionRate: {}, field: "commissionRate.shortTermRatePercent" },
+			...Object.keys(validPayload.commissionRate).map((field) => ({
+				commissionRate: { ...validPayload.commissionRate, [field]: undefined },
+				field: `commissionRate.${field}`,
+			})),
+		];
+
+		for (const { commissionRate, field } of invalidRates) {
+			const response = await client
+				.visit("admin.networks.create")
+				.withGuard("admin")
+				.loginAs(admin)
+				.unsafeJson({ ...validPayload, commissionRate });
+
+			response.assertStatus(422);
+			response.assertBodyContains({ errors: [{ field, rule: "required" }] });
+		}
+	});
+
+	test("it should reject out of range and nonnumeric commission rates", async ({ client }) => {
+		const admin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:network"];
+		await role.save();
+
+		for (const field of Object.keys(validPayload.commissionRate)) {
+			for (const value of [-0.5, 100.5, "invalid", null]) {
+				const response = await client
+					.visit("admin.networks.create")
+					.withGuard("admin")
+					.loginAs(admin)
+					.unsafeJson({
+						...validPayload,
+						commissionRate: { ...validPayload.commissionRate, [field]: value },
+					});
+
+				response.assertStatus(422);
+				response.assertBodyContains({ errors: [{ field: `commissionRate.${field}` }] });
+			}
+		}
 	});
 
 	test("it should require the network and owned relation fields", async ({ client }) => {
@@ -90,7 +189,10 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network"];
 		await role.save();
-		const existing = await NetworkFactory.with("address").with("paymentDetail").create();
+		const existing = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 
 		const duplicateName = await client
 			.visit("admin.networks.create")

@@ -1,0 +1,13 @@
+{
+	"components.layout.admin-shell": {
+		"dashboard": "Tableau de bord",
+		"references": "Référentiels",
+		"networks": "Réseaux",
+		"firms": "Cabinets",
+		"users": "Distributeurs",
+		"management": "Gestion",
+		"admins": "Administrateurs",
+		"roles": "Rôles",
+		"logout": "Se déconnecter"
+	}
+}

@@ -14,7 +14,7 @@ body:
     name: file
     file: ''
 bodyType: multipart/form-data
-description: Set SUBSCRIPTION_ID in your private Yaak environment, use the numeric document type (1 for a RIB), and select an accepted test file. Enable ownerId for a document belonging to a KYC owner.
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment and select a test file locally. Document types: 1 RIB, 12 participation, 13 incentives, 14 PPV, 15 PPVE, 16 other agreement. Agreement documents require the corresponding selected agreement and no ownerId; enable ownerId only for KYC owner documents. One file per agreement, replaced by each upload. PDF, PNG, JPG/JPEG, CSV and XLSX up to 10 MiB. Returns 201 or 422 for invalid files or documents not required. Agreement uploads invalidate step 3.'
 headers:
 - enabled: true
   name: Content-Type

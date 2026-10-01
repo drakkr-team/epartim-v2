@@ -1,6 +1,7 @@
 import factory from "@adonisjs/lucid/factories";
 
 import { AddressFactory } from "#database/factories/address.factory";
+import { CommissionRateFactory } from "#database/factories/commission_rate.factory";
 import { PaymentDetailFactory } from "#database/factories/payment_detail.factory";
 import Network from "#models/network";
 
@@ -12,4 +13,5 @@ export const NetworkFactory = factory
 	}))
 	.relation("address", () => AddressFactory)
 	.relation("paymentDetail", () => PaymentDetailFactory)
+	.relation("commissionRate", () => CommissionRateFactory)
 	.build();

@@ -64,6 +64,26 @@
 					}
 				}
 			},
+			"commissionRate": {
+				"shortTermRatePercent": {
+					"required": "Le taux à court terme est requis.",
+					"number": "Saisissez un taux à court terme valide.",
+					"min": "Le taux à court terme doit être supérieur ou égal à 0 %.",
+					"max": "Le taux à court terme doit être inférieur ou égal à 100 %."
+				},
+				"mediumTermRatePercent": {
+					"required": "Le taux à moyen terme est requis.",
+					"number": "Saisissez un taux à moyen terme valide.",
+					"min": "Le taux à moyen terme doit être supérieur ou égal à 0 %.",
+					"max": "Le taux à moyen terme doit être inférieur ou égal à 100 %."
+				},
+				"longTermRatePercent": {
+					"required": "Le taux à long terme est requis.",
+					"number": "Saisissez un taux à long terme valide.",
+					"min": "Le taux à long terme doit être supérieur ou égal à 0 %.",
+					"max": "Le taux à long terme doit être inférieur ou égal à 100 %."
+				}
+			},
 			"paymentDetail": {
 				"iban": {
 					"required": "L'IBAN est requis.",

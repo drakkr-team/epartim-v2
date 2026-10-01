@@ -13,7 +13,16 @@ test.group("Features / Admin / Networks / Controllers / View Controller", () => 
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network", "delete:network"];
 		await role.save();
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate", 1, (rate) =>
+				rate.merge({
+					shortTermRatePercent: 12.5,
+					mediumTermRatePercent: 25,
+					longTermRatePercent: 37.5,
+				}),
+			)
+			.create();
 
 		const response = await client
 			.visit("admin.networks.view", { networkId: network.id })
@@ -27,6 +36,12 @@ test.group("Features / Admin / Networks / Controllers / View Controller", () => 
 		assert.equal(body.paymentDetailId, network.paymentDetailId);
 		assert.equal(body.address.id, network.addressId);
 		assert.equal(body.paymentDetail.id, network.paymentDetailId);
+		assert.equal(body.commissionRate.id, network.commissionRateId);
+		assert.equal(body.commissionRate.shortTermRatePercent, 12.5);
+		assert.equal(body.commissionRate.mediumTermRatePercent, 25);
+		assert.equal(body.commissionRate.longTermRatePercent, 37.5);
+		assert.property(body.commissionRate, "createdAt");
+		assert.property(body.commissionRate, "updatedAt");
 		assert.notProperty(body, "paymentDetails");
 		assert.property(body, "createdAt");
 		assert.property(body, "updatedAt");

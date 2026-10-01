@@ -276,6 +276,24 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/kyc-profile","type":0,"val":"kyc-profile","end":""}],
     types: placeholder as Registry['client.subscriptions.update_kyc_profile']['types'],
   },
+  'client.subscriptions.update_contract_characteristics_plan': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/contract-characteristics/plan',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/plan","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/plan","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/plan","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/plan","type":0,"val":"contract-characteristics","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/plan","type":0,"val":"plan","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_contract_characteristics_plan']['types'],
+  },
+  'client.subscriptions.update_contract_characteristics_agreements': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/contract-characteristics/agreements',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/agreements","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/agreements","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/agreements","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/agreements","type":0,"val":"contract-characteristics","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/agreements","type":0,"val":"agreements","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_contract_characteristics_agreements']['types'],
+  },
+  'client.subscriptions.update_contract_characteristics_adhesions': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/contract-characteristics/adhesions',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/adhesions","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/adhesions","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/adhesions","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/adhesions","type":0,"val":"contract-characteristics","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/adhesions","type":0,"val":"adhesions","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_contract_characteristics_adhesions']['types'],
+  },
   'client.subscriptions.create_kyc_owner': {
     methods: ["POST"],
     pattern: '/client/subscriptions/:subscriptionId/kyc-owners',

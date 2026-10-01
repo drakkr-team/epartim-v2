@@ -3,6 +3,7 @@ import { test } from "@japa/runner";
 import { AdminFactory } from "#database/factories/admin.factory";
 import { FirmFactory } from "#database/factories/firm.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
+import CommissionRate from "#models/commission_rate";
 import Firm from "#models/firm";
 import Role from "#models/role";
 
@@ -22,6 +23,11 @@ const validPayload = {
 	paymentDetail: {
 		iban: "fr76 3000 6000 0112 3456 7890 189",
 		bic: "agri fr pp",
+	},
+	commissionRate: {
+		shortTermRatePercent: 12.5,
+		mediumTermRatePercent: 25,
+		longTermRatePercent: 37.5,
 	},
 };
 
@@ -54,9 +60,90 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 			.where("name", validPayload.name)
 			.preload("address")
 			.preload("paymentDetail")
+			.preload("commissionRate")
 			.firstOrFail();
 		assert.equal(firm.address.id, response.body().addressId);
 		assert.equal(firm.paymentDetail.id, response.body().paymentDetailId);
+		assert.equal(
+			firm.commissionRate.shortTermRatePercent,
+			validPayload.commissionRate.shortTermRatePercent,
+		);
+		assert.equal(
+			firm.commissionRate.mediumTermRatePercent,
+			validPayload.commissionRate.mediumTermRatePercent,
+		);
+		assert.equal(
+			firm.commissionRate.longTermRatePercent,
+			validPayload.commissionRate.longTermRatePercent,
+		);
+	});
+
+	test("it should accept commission rate boundaries", async ({ client, assert }) => {
+		const admin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm"];
+		await role.save();
+
+		for (const rate of [0, 100]) {
+			const commissionRate = {
+				shortTermRatePercent: rate,
+				mediumTermRatePercent: rate,
+				longTermRatePercent: rate,
+			};
+			const response = await client
+				.visit("admin.firms.create")
+				.withGuard("admin")
+				.loginAs(admin)
+				.json({
+					...validPayload,
+					name: `Boundary Firm ${rate}`,
+					orias: rate === 0 ? "12345693" : "12345694",
+					commissionRate,
+				});
+
+			response.assertCreated();
+			const firm = await Firm.findOrFail(response.body().id);
+			const storedRate = await CommissionRate.findOrFail(firm.commissionRateId);
+			assert.equal(storedRate.shortTermRatePercent, rate);
+			assert.equal(storedRate.mediumTermRatePercent, rate);
+			assert.equal(storedRate.longTermRatePercent, rate);
+		}
+	});
+
+	test("it should reject missing or invalid commission rates without creating records", async ({
+		client,
+		assert,
+	}) => {
+		const admin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["create:firm"];
+		await role.save();
+		const initialRates = await CommissionRate.all();
+
+		for (const commissionRate of [
+			undefined,
+			null,
+			{},
+			{ mediumTermRatePercent: 25, longTermRatePercent: 37.5 },
+			{ shortTermRatePercent: 12.5, longTermRatePercent: 37.5 },
+			{ shortTermRatePercent: 12.5, mediumTermRatePercent: 25 },
+			...Object.keys(validPayload.commissionRate).flatMap((field) =>
+				[-0.5, 100.5, "invalid", null].map((value) => ({
+					...validPayload.commissionRate,
+					[field]: value,
+				})),
+			),
+		]) {
+			const response = await client
+				.visit("admin.firms.create")
+				.withGuard("admin")
+				.loginAs(admin)
+				.unsafeJson({ ...validPayload, name: "Invalid Rate Firm", commissionRate });
+
+			response.assertStatus(422);
+			assert.isNull(await Firm.findBy("name", "Invalid Rate Firm"));
+			assert.lengthOf(await CommissionRate.all(), initialRates.length);
+		}
 	});
 
 	test("it should attach an existing network", async ({ client }) => {
@@ -64,7 +151,10 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 
 		const response = await client
 			.visit("admin.firms.create")
@@ -204,6 +294,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 		const invalidPayloads = [
 			{ ...validPayload, name: existing.name, orias: "12345689" },

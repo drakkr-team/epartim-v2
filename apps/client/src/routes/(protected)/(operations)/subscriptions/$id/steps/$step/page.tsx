@@ -5,13 +5,15 @@ import { Spinner } from "@workspace/ui-react/components/spinner";
 
 import { useSubscriptionQuery } from "#/features/subscriptions/hooks/use-subscription-query";
 import { CompanyReferencesStep } from "#/features/subscriptions/steps/components/company-references-step";
+import { ContractCharacteristicsStep } from "#/features/subscriptions/steps/components/contract-characteristics-step";
 import { KycStep } from "#/features/subscriptions/steps/components/kyc-step";
+import { SUPPORTED_SUBSCRIPTION_STEPS } from "#/features/subscriptions/steps/step.constants";
 
-const supportedSteps = ["1", "2"] as const;
+const supportedSteps = SUPPORTED_SUBSCRIPTION_STEPS.map(String);
 
 export const Route = createFileRoute("/(protected)/(operations)/subscriptions/$id/steps/$step/")({
 	beforeLoad: ({ params }) => {
-		if (!supportedSteps.includes(params.step as (typeof supportedSteps)[number])) throw notFound();
+		if (!supportedSteps.includes(params.step)) throw notFound();
 	},
 	component: SubscriptionStepPage,
 });
@@ -35,6 +37,9 @@ function SubscriptionStepPage() {
 
 	if (step === "2") {
 		return <KycStep subscriptionId={id} subscription={subscription} />;
+	}
+	if (step === "3") {
+		return <ContractCharacteristicsStep subscriptionId={id} subscription={subscription} />;
 	}
 
 	return <CompanyReferencesStep subscriptionId={id} subscription={subscription} />;

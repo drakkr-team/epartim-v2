@@ -1,5 +1,6 @@
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
 
+import { SubscriptionAgreement } from "#constants/subscription_agreement";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import Company, { CompanyLegalForm } from "#models/company";
 import CompanyBeneficialOwner, {
@@ -12,6 +13,7 @@ import SubscriptionDocument, {
 	SubscriptionDocumentType,
 	type SubscriptionDocumentType as SubscriptionDocumentTypeValue,
 } from "#models/subscription_document";
+import type SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 
 export type SubscriptionDocumentRequirement = {
 	document: SubscriptionDocument | null;
@@ -38,11 +40,13 @@ export default class SubscriptionDocumentRequirementsService {
 			.query()
 			.orderBy("company_beneficial_owners.id");
 		const documents = await transactionSubscription.related("documents").query().preload("file");
+		const existingAgreements = await transactionSubscription.related("existingAgreements").query();
 
 		const requirements = this.#resolve({
 			beneficialOwners,
 			company,
 			documents,
+			existingAgreements,
 			kycProfile,
 			legalAgent,
 			signer,
@@ -57,11 +61,21 @@ export default class SubscriptionDocumentRequirementsService {
 		beneficialOwners: CompanyBeneficialOwner[];
 		company: Company;
 		documents: SubscriptionDocument[];
+		existingAgreements: SubscriptionExistingAgreement[];
 		kycProfile: CompanyKycProfile | null;
 		legalAgent: Contact | null;
 		signer: Contact | null;
 	}) {
-		const { beneficialOwners, company, documents, kycProfile, legalAgent, signer } = params;
+		const {
+			beneficialOwners,
+			company,
+			documents,
+			existingAgreements,
+			kycProfile,
+			legalAgent,
+			signer,
+		} = params;
+		const agreementTypes = existingAgreements.map((agreement) => agreement.type);
 		const documentsByRequirement = new Map(
 			documents.map((document) => [
 				this.#documentKey(
@@ -168,6 +182,51 @@ export default class SubscriptionDocumentRequirementsService {
 					owner.kind === CompanyBeneficialOwnerKind.PHYSICAL_PERSON
 						? SubscriptionDocumentType.BENEFICIAL_OWNER_ID
 						: SubscriptionDocumentType.BENEFICIAL_OWNER_RNE,
+			});
+		}
+
+		if (agreementTypes.includes(SubscriptionAgreement.PARTICIPATION)) {
+			requirements.push({
+				label: "Accord de participation ou DUE",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.PARTICIPATION_AGREEMENT,
+			});
+		}
+
+		if (agreementTypes.includes(SubscriptionAgreement.INCENTIVES)) {
+			requirements.push({
+				label: "Accord d’intéressement ou DUE",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.INCENTIVES_AGREEMENT,
+			});
+		}
+
+		if (agreementTypes.includes(SubscriptionAgreement.PPV)) {
+			requirements.push({
+				label: "Accord Prime de Partage de la Valeur (PPV) ou DUE",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.PPV_AGREEMENT,
+			});
+		}
+
+		if (agreementTypes.includes(SubscriptionAgreement.PPVE)) {
+			requirements.push({
+				label: "Accord Plan de Partage de la Valorisation d’Entreprise (PPVE)",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.PPVE_AGREEMENT,
+			});
+		}
+
+		if (agreementTypes.includes(SubscriptionAgreement.OTHER)) {
+			requirements.push({
+				label: "Autre accord (CET, etc.)",
+				ownerId: null,
+				step: SubscriptionStep.CONTRACT_CHARACTERISTICS,
+				type: SubscriptionDocumentType.OTHER_AGREEMENT,
 			});
 		}
 

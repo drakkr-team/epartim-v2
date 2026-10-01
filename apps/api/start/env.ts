@@ -68,4 +68,9 @@ export default await Env.create(new URL("../", import.meta.url), {
 	DOCUSIGN_USER_ID: Env.schema.string(),
 	DOCUSIGN_ACCOUNT_ID: Env.schema.string(),
 	DOCUSIGN_RSA_PRIVATE_KEY: Env.schema.string(),
+
+	// FTP Config
+	FTP_HOST: Env.schema.string({ format: "host" }),
+	FTP_USER: Env.schema.string(),
+	FTP_PASSWORD: Env.schema.string.optional(),
 });
