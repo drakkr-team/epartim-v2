@@ -110,10 +110,41 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		assert.equal(commissionRate.longTermRatePercent, 37.5);
 	});
 
-	test("it should reject incomplete or invalid commission rate updates", async ({
+	test("it should partially update commission rates and preserve omitted or null fields", async ({
 		client,
 		assert,
 	}) => {
+		const admin = await AdminFactory.with("role").create();
+		const role = await Role.findOrFail(admin.roleId);
+		role.authorizations = ["update:firm"];
+		await role.save();
+		const firm = await createUpdateFixture("Partial Rate Firm", "51000011");
+		const rates = {
+			shortTermRatePercent: 12.5,
+			mediumTermRatePercent: 25,
+			longTermRatePercent: 37.5,
+		};
+		const commissionRate = await CommissionRate.findOrFail(firm.commissionRateId);
+		await commissionRate.merge(rates).save();
+
+		const response = await client
+			.visit("admin.firms.update", { firmId: firm.id })
+			.withGuard("admin")
+			.loginAs(admin)
+			.unsafeJson({
+				commissionRate: { shortTermRatePercent: 0, mediumTermRatePercent: null },
+			});
+
+		response.assertOk();
+		await firm.refresh();
+		await commissionRate.refresh();
+		assert.equal(firm.commissionRateId, commissionRate.id);
+		assert.equal(commissionRate.shortTermRatePercent, 0);
+		assert.equal(commissionRate.mediumTermRatePercent, rates.mediumTermRatePercent);
+		assert.equal(commissionRate.longTermRatePercent, rates.longTermRatePercent);
+	});
+
+	test("it should reject invalid commission rate updates", async ({ client, assert }) => {
 		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
@@ -128,12 +159,8 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		await commissionRate.merge(rates).save();
 
 		for (const invalidRate of [
-			{},
-			{ mediumTermRatePercent: 25, longTermRatePercent: 37.5 },
-			{ shortTermRatePercent: 12.5, longTermRatePercent: 37.5 },
-			{ shortTermRatePercent: 12.5, mediumTermRatePercent: 25 },
 			...Object.keys(rates).flatMap((field) =>
-				[-0.5, 100.5, "invalid", null].map((value) => ({ ...rates, [field]: value })),
+				[-0.5, 100.5, "invalid"].map((value) => ({ ...rates, [field]: value })),
 			),
 		]) {
 			const response = await client
@@ -240,34 +267,45 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		role.authorizations = ["update:firm"];
 		await role.save();
 		const firm = await createUpdateFixture("No-op Firm", "51000005");
+		await firm.load("commissionRate");
 
-		const response = await client
-			.visit("admin.firms.update", { firmId: firm.id })
-			.withGuard("admin")
-			.loginAs(admin)
-			.json({});
+		for (const payload of [{}, { address: {}, paymentDetail: {}, commissionRate: {} }]) {
+			const response = await client
+				.visit("admin.firms.update", { firmId: firm.id })
+				.withGuard("admin")
+				.loginAs(admin)
+				.json(payload);
 
-		response.assertOk();
-		assert.equal(response.body().addressId, firm.addressId);
-		assert.equal(response.body().paymentDetailId, firm.paymentDetailId);
+			response.assertOk();
+			assert.equal(response.body().addressId, firm.addressId);
+			assert.equal(response.body().paymentDetailId, firm.paymentDetailId);
+			await firm.refresh();
+			assert.equal(firm.commissionRateId, firm.commissionRate.id);
+			assert.equal((await Address.findOrFail(firm.addressId)).city, "Paris");
+			const paymentDetail = await PaymentDetail.findOrFail(firm.paymentDetailId);
+			assert.equal(paymentDetail.iban, "FR7630006000011234567890189");
+			assert.equal(paymentDetail.bic, "AGRIFRPP");
+			const commissionRate = await CommissionRate.findOrFail(firm.commissionRateId);
+			assert.equal(commissionRate.shortTermRatePercent, firm.commissionRate.shortTermRatePercent);
+			assert.equal(commissionRate.mediumTermRatePercent, firm.commissionRate.mediumTermRatePercent);
+			assert.equal(commissionRate.longTermRatePercent, firm.commissionRate.longTermRatePercent);
+		}
 	});
 
-	test("it should reject invalid owned fields and references", async ({ client }) => {
+	test("it should reject an unknown network reference", async ({ client }) => {
 		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
 		const firm = await createUpdateFixture("Validation Firm", "51000006");
 
-		for (const payload of [{ address: {} }, { paymentDetail: {} }, { networkId: 999_999_999 }]) {
-			const response = await client
-				.visit("admin.firms.update", { firmId: firm.id })
-				.withGuard("admin")
-				.loginAs(admin)
-				.unsafeJson(payload);
+		const response = await client
+			.visit("admin.firms.update", { firmId: firm.id })
+			.withGuard("admin")
+			.loginAs(admin)
+			.json({ networkId: 999_999_999 });
 
-			response.assertStatus(422);
-		}
+		response.assertStatus(422);
 	});
 
 	test("it should reject malformed partial values", async ({ client }) => {

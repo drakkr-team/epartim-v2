@@ -129,32 +129,31 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		assert.equal(rate.longTermRatePercent, commissionRate.longTermRatePercent);
 	});
 
-	test("it should require all nested fields when commission rates are supplied", async ({
+	test("it should partially update commission rates and preserve omitted or null fields", async ({
 		client,
+		assert,
 	}) => {
 		const admin = await AdminFactory.with("role").create();
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network"];
 		await role.save();
 		const network = await createUpdateFixture("Incomplete Rates", "AMUNDI-INCOMPLETE");
-		const invalidRates = [
-			{ commissionRate: {}, field: "commissionRate.shortTermRatePercent" },
-			...Object.keys(originalCommissionRate).map((field) => ({
-				commissionRate: { ...originalCommissionRate, [field]: undefined },
-				field: `commissionRate.${field}`,
-			})),
-		];
+		const commissionRateId = network.commissionRateId;
+		const response = await client
+			.visit("admin.networks.update", { networkId: network.id })
+			.withGuard("admin")
+			.loginAs(admin)
+			.unsafeJson({
+				commissionRate: { shortTermRatePercent: 0, mediumTermRatePercent: null },
+			});
 
-		for (const { commissionRate, field } of invalidRates) {
-			const response = await client
-				.visit("admin.networks.update", { networkId: network.id })
-				.withGuard("admin")
-				.loginAs(admin)
-				.unsafeJson({ commissionRate });
-
-			response.assertStatus(422);
-			response.assertBodyContains({ errors: [{ field, rule: "required" }] });
-		}
+		response.assertOk();
+		await network.refresh();
+		const rate = await CommissionRate.findOrFail(network.commissionRateId);
+		assert.equal(network.commissionRateId, commissionRateId);
+		assert.equal(rate.shortTermRatePercent, 0);
+		assert.equal(rate.mediumTermRatePercent, originalCommissionRate.mediumTermRatePercent);
+		assert.equal(rate.longTermRatePercent, originalCommissionRate.longTermRatePercent);
 	});
 
 	test("it should reject invalid commission rates without changing stored rates", async ({
@@ -168,7 +167,7 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		const network = await createUpdateFixture("Invalid Rates", "AMUNDI-INVALID-RATES");
 
 		for (const field of Object.keys(originalCommissionRate)) {
-			for (const value of [-0.5, 100.5, "invalid", null]) {
+			for (const value of [-0.5, 100.5, "invalid"]) {
 				const response = await client
 					.visit("admin.networks.update", { networkId: network.id })
 					.withGuard("admin")
@@ -260,15 +259,27 @@ test.group("Features / Admin / Networks / Controllers / Update Controller", () =
 		await role.save();
 		const network = await createUpdateFixture("Empty Payload Target", "AMUNDI-EMPTY");
 
-		const response = await client
-			.visit("admin.networks.update", { networkId: network.id })
-			.withGuard("admin")
-			.loginAs(admin)
-			.json({});
+		for (const payload of [{}, { address: {}, paymentDetail: {}, commissionRate: {} }]) {
+			const response = await client
+				.visit("admin.networks.update", { networkId: network.id })
+				.withGuard("admin")
+				.loginAs(admin)
+				.json(payload);
 
-		response.assertOk();
-		assert.equal(response.body().addressId, network.addressId);
-		assert.equal(response.body().paymentDetailId, network.paymentDetailId);
+			response.assertOk();
+			assert.equal(response.body().addressId, network.addressId);
+			assert.equal(response.body().paymentDetailId, network.paymentDetailId);
+			const persisted = await Network.findOrFail(network.id);
+			assert.equal(persisted.commissionRateId, network.commissionRateId);
+			assert.equal((await Address.findOrFail(network.addressId)).city, "Paris");
+			const paymentDetail = await PaymentDetail.findOrFail(network.paymentDetailId);
+			assert.equal(paymentDetail.iban, "FR7630006000011234567890189");
+			assert.equal(paymentDetail.bic, "AGRIFRPP");
+			const rate = await CommissionRate.findOrFail(network.commissionRateId);
+			assert.equal(rate.shortTermRatePercent, originalCommissionRate.shortTermRatePercent);
+			assert.equal(rate.mediumTermRatePercent, originalCommissionRate.mediumTermRatePercent);
+			assert.equal(rate.longTermRatePercent, originalCommissionRate.longTermRatePercent);
+		}
 	});
 
 	test("it should reject invalid partial values", async ({ client }) => {
