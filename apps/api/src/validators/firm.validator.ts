@@ -1,8 +1,14 @@
 import vine from "@vinejs/vine";
 
-import { CreateAddressSchema } from "#validators/address.validator";
-import { CreateCommissionRateSchema } from "#validators/commission_rate.validator";
-import { CreatePaymentDetailSchema } from "#validators/payment_detail.validator";
+import { CreateAddressSchema, UpdateAddressSchema } from "#validators/address.validator";
+import {
+	CreateCommissionRateSchema,
+	UpdateCommissionRateSchema,
+} from "#validators/commission_rate.validator";
+import {
+	CreatePaymentDetailSchema,
+	UpdatePaymentDetailSchema,
+} from "#validators/payment_detail.validator";
 
 export const CreateFirmSchema = vine.object({
 	name: vine.string().trim().minLength(1).maxLength(254).unique({
@@ -19,4 +25,11 @@ export const CreateFirmSchema = vine.object({
 	commissionRate: CreateCommissionRateSchema,
 });
 
-export const UpdateFirmSchema = CreateFirmSchema.partial();
+export const UpdateFirmSchema = vine
+	.object({
+		...CreateFirmSchema.omit(["address", "commissionRate", "paymentDetail"]),
+		address: UpdateAddressSchema,
+		commissionRate: UpdateCommissionRateSchema,
+		paymentDetail: UpdatePaymentDetailSchema,
+	})
+	.partial();

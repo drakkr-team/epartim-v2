@@ -12,7 +12,8 @@
 			"general": "Informations générales",
 			"address": "Adresse",
 			"payment": "Coordonnées bancaires",
-			"firms": "Cabinets rattachés"
+			"firms": "Cabinets rattachés",
+			"commission": "Taux de commission"
 		},
 		"field": {
 			"id": "Identifiant",
@@ -26,6 +27,11 @@
 				"lineTwo": "Complément d'adresse",
 				"city": "Ville",
 				"zip": "Code postal"
+			},
+			"commissionRate": {
+				"shortTermRatePercent": "Court terme",
+				"mediumTermRatePercent": "Moyen terme",
+				"longTermRatePercent": "Long terme"
 			},
 			"paymentDetail": {
 				"iban": "IBAN",
