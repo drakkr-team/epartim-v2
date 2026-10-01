@@ -7,11 +7,13 @@ export default class DeleteFirmService {
 		const firm = await Firm.findOrFail(firmId);
 		await firm.load("address");
 		await firm.load("paymentDetail");
+		await firm.load("commissionRate");
 
 		return db.transaction(async (trx) => {
 			await firm.useTransaction(trx).delete();
 			await firm.address.useTransaction(trx).delete();
 			await firm.paymentDetail.useTransaction(trx).delete();
+			await firm.commissionRate.useTransaction(trx).delete();
 		});
 	}
 }

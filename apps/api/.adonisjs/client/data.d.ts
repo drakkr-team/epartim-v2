@@ -33,3 +33,5 @@ export type SubscriptionPlan = Awaited<ReturnType<typeof import("#presenters/sub
 export type Subscription = Awaited<ReturnType<typeof import("#presenters/subscription.presenter").default.prototype.toJSON>>;
 
 export type User = Awaited<ReturnType<typeof import("#presenters/user.presenter").default.prototype.toJSON>>;
+
+export type CommissionRate = Awaited<ReturnType<typeof import("#presenters/commission_rate.presenter").default.prototype.toJSON>>;

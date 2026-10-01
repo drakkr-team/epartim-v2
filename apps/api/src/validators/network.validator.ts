@@ -1,6 +1,7 @@
 import vine from "@vinejs/vine";
 
 import { CreateAddressSchema } from "#validators/address.validator";
+import { CreateCommissionRateSchema } from "#validators/commission_rate.validator";
 import { CreatePaymentDetailSchema } from "#validators/payment_detail.validator";
 
 export const CreateNetworkSchema = vine.object({
@@ -10,6 +11,7 @@ export const CreateNetworkSchema = vine.object({
 	}),
 	address: CreateAddressSchema,
 	paymentDetail: CreatePaymentDetailSchema,
+	commissionRate: CreateCommissionRateSchema,
 });
 
 export const UpdateNetworkSchema = CreateNetworkSchema.partial();

@@ -56,6 +56,7 @@ export default class extends BaseSchema {
 				.unsigned()
 				.references("id")
 				.inTable("commission_rates")
+				.onDelete("RESTRICT")
 				.notNullable()
 				.alter();
 		});
@@ -66,6 +67,7 @@ export default class extends BaseSchema {
 				.unsigned()
 				.references("id")
 				.inTable("commission_rates")
+				.onDelete("RESTRICT")
 				.notNullable()
 				.alter();
 		});

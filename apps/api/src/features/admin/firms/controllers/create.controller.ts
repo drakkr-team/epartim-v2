@@ -21,20 +21,14 @@ export default class CreateFirmController {
 		const {
 			address: addressPayload,
 			paymentDetail: paymentDetailPayload,
+			commissionRate: commissionRatePayload,
 			...firmPayload
 		} = await request.validateUsing(CreateFirmController.payloadSchema);
 
 		const firm = await db.transaction(async (trx) => {
 			const address = await Address.create(addressPayload, { client: trx });
 			const paymentDetail = await PaymentDetail.create(paymentDetailPayload, { client: trx });
-			const commissionRate = await CommissionRate.create(
-				{
-					shortTermRatePercent: 0,
-					mediumTermRatePercent: 0,
-					longTermRatePercent: 0,
-				},
-				{ client: trx },
-			);
+			const commissionRate = await CommissionRate.create(commissionRatePayload, { client: trx });
 			const firm = await Firm.create(
 				{
 					...firmPayload,

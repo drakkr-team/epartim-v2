@@ -7,12 +7,16 @@ export default class extends BaseSeeder {
 	static environment = ["development"];
 
 	async run() {
-		const networks = await NetworkFactory.with("address").with("paymentDetail").createMany(10);
+		const networks = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.createMany(10);
 
 		for (const network of networks) {
 			await FirmFactory.merge({ networkId: network.id })
 				.with("address")
 				.with("paymentDetail")
+				.with("commissionRate")
 				.createMany(2);
 		}
 	}
