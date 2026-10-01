@@ -27,9 +27,7 @@ export default class CommissionService {
 			commissionRate,
 		);
 
-		const total = shortTermCommission + mediumTermCommission + longTermCommission;
-
-		return total === 0 ? null : total;
+		return shortTermCommission + mediumTermCommission + longTermCommission;
 	}
 
 	async #getCommissionRate(company: Company) {
@@ -91,8 +89,8 @@ export default class CommissionService {
 			posas.reduce((sum, posa) => {
 				const sharesSum = posa.availableShares + posa.unavailableShares;
 				const total = sharesSum * posa.rate;
-				const totalQuarter = total / 4;
-				return sum + totalQuarter;
+				const totalByQuarter = total / 4;
+				return sum + totalByQuarter;
 			}, 0) * commissionRateForTerm()
 		);
 	}

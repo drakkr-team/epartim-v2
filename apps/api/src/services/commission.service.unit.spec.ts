@@ -1,16 +1,16 @@
 import { test } from "@japa/runner";
 import { DateTime } from "luxon";
 
-import type { PosaDeviceType } from "#constants/posa";
-import { POSA_FUNDS } from "#constants/posa";
+import { POSA_FUNDS, type PosaDeviceType } from "#constants/posa";
+import { CommissionRateFactory } from "#database/factories/commission_rate.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { FirmFactory } from "#database/factories/firm.factory";
 import { NetworkFactory } from "#database/factories/network.factory";
+import { PosaFactory } from "#database/factories/posa.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
-import CommissionRate from "#models/commission_rate";
+import type CommissionRate from "#models/commission_rate";
 import type Company from "#models/company";
-import Posa from "#models/posa";
 import CommissionService from "#services/commission.service";
 
 function validDate(value: string): DateTime<true> {
@@ -24,26 +24,23 @@ function validDate(value: string): DateTime<true> {
 async function createCompany(
 	withNetwork = false,
 	firmRates: Partial<
-		Pick<
-			CommissionRate,
-			"shortTermRatePercent" | "mediumTermRatePercent" | "longTermRatePercent"
-		>
+		Pick<CommissionRate, "shortTermRatePercent" | "mediumTermRatePercent" | "longTermRatePercent">
 	> = {},
 ) {
-	const firmRate = await CommissionRate.create({
+	const firmRate = await CommissionRateFactory.merge({
 		shortTermRatePercent: 0.2,
 		mediumTermRatePercent: 0.8,
 		longTermRatePercent: 0.4,
 		...firmRates,
-	});
+	}).create();
 	const network = withNetwork
 		? await NetworkFactory.merge({
 				commissionRateId: (
-					await CommissionRate.create({
+					await CommissionRateFactory.merge({
 						shortTermRatePercent: 0.8,
 						mediumTermRatePercent: 0.2,
 						longTermRatePercent: 0.6,
-					})
+					}).create()
 				).id,
 			})
 				.with("address")
@@ -79,7 +76,7 @@ async function addFund(
 	if (companyId === null) {
 		throw new TypeError("The test company must have an Amundi ID");
 	}
-	await Posa.create({
+	await PosaFactory.merge({
 		companyId,
 		deviceType,
 		deviceCode,
@@ -88,7 +85,7 @@ async function addFund(
 		unavailableShares,
 		rate,
 		valuationDate: date,
-	});
+	}).create();
 }
 
 test.group("Services / Commission Service", () => {
@@ -165,7 +162,7 @@ test.group("Services / Commission Service", () => {
 		assert.equal(commission, 20);
 	});
 
-	test("it should return null when the company has no funds on the closing date", async ({
+	test("it should return 0 when the company has no funds on the closing date", async ({
 		assert,
 	}) => {
 		const company = await createCompany();
@@ -173,453 +170,6 @@ test.group("Services / Commission Service", () => {
 
 		const commission = await new CommissionService().compute(company, date);
 
-		assert.equal(commission, null);
-	});
-
-	test("real data test", async ({ assert }) => {
-		const firm = await FirmFactory.with("address")
-			.with("paymentDetail")
-			.with("commissionRate", 1, (record) =>
-				record.merge({
-					shortTermRatePercent: 0.9,
-					mediumTermRatePercent: 0.9,
-					longTermRatePercent: 0.2,
-				}),
-			)
-			.create();
-		const company = await CompanyFactory.with("address")
-			.with("paymentDetail")
-			.with("subscription", 1, (record) =>
-				record.with("creator", 1, (record) => record.merge({ firmId: firm.id })),
-			)
-			.create();
-		const date = validDate("2026-06-30");
-
-		
-
-		const commission = await new CommissionService().compute(company, date);
-
-		console.log(commission);
+		assert.equal(commission, 0);
 	});
 });
-
-const bidule = [
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001164583",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "84.0445",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "17.0993",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162832",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "260.9135",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6774",
-		ISIN_FCPE: "LU1303940784",
-		DT_VAL: "30/06/2026",
-		COURS: "28.28",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "7.8025",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001164583",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "84.0445",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162832",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6523",
-		ISIN_FCPE: "FR0013425063",
-		DT_VAL: "30/06/2026",
-		COURS: "111.26",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "251.578",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162833",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6525",
-		ISIN_FCPE: "FR0013425048",
-		DT_VAL: "30/06/2026",
-		COURS: "146.65",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "272.646",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001164583",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6523",
-		ISIN_FCPE: "FR0013425063",
-		DT_VAL: "30/06/2026",
-		COURS: "111.26",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "85.9869",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162832",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6525",
-		ISIN_FCPE: "FR0013425048",
-		DT_VAL: "30/06/2026",
-		COURS: "146.65",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "623.4491",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "17.0993",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6525",
-		ISIN_FCPE: "FR0013425048",
-		DT_VAL: "30/06/2026",
-		COURS: "146.65",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "24.7868",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162832",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "260.9135",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6774",
-		ISIN_FCPE: "LU1303940784",
-		DT_VAL: "30/06/2026",
-		COURS: "28.28",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "7.9751",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6523",
-		ISIN_FCPE: "FR0013425063",
-		DT_VAL: "30/06/2026",
-		COURS: "111.26",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "26.1572",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001164583",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "84.0445",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "17.0993",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162832",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "260.9135",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6774",
-		ISIN_FCPE: "LU1303940784",
-		DT_VAL: "30/06/2026",
-		COURS: "28.28",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "7.8025",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001164583",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "84.0445",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162832",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6523",
-		ISIN_FCPE: "FR0013425063",
-		DT_VAL: "30/06/2026",
-		COURS: "111.26",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "251.578",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162833",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6525",
-		ISIN_FCPE: "FR0013425048",
-		DT_VAL: "30/06/2026",
-		COURS: "146.65",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "272.646",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001164583",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6523",
-		ISIN_FCPE: "FR0013425063",
-		DT_VAL: "30/06/2026",
-		COURS: "111.26",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "85.9869",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162832",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6525",
-		ISIN_FCPE: "FR0013425048",
-		DT_VAL: "30/06/2026",
-		COURS: "146.65",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "623.4491",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "17.0993",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6525",
-		ISIN_FCPE: "FR0013425048",
-		DT_VAL: "30/06/2026",
-		COURS: "146.65",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "24.7868",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162832",
-		TYPE_DISPO: "PEI",
-		CD_FONDS: "6521",
-		ISIN_FCPE: "FR0013425030",
-		DT_VAL: "30/06/2026",
-		COURS: "109.06",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "260.9135",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6774",
-		ISIN_FCPE: "LU1303940784",
-		DT_VAL: "30/06/2026",
-		COURS: "28.28",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "7.9751",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "6523",
-		ISIN_FCPE: "FR0013425063",
-		DT_VAL: "30/06/2026",
-		COURS: "111.26",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": "26.1572",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-	{
-		CD_ENT: "1162832",
-		CD_DISPO: "0001162838",
-		TYPE_DISPO: "PERCOLI",
-		CD_FONDS: "9551",
-		ISIN_FCPE: "FR0010106500",
-		DT_VAL: "30/06/2026",
-		COURS: "543.92",
-		"SUM(NB_PARTS_DISPO)": "0",
-		"SUM(NB_PARTS_INDISPO)": ".439",
-	},
-];

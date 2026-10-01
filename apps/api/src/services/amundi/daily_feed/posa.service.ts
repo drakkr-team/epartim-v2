@@ -25,9 +25,9 @@ export default class AmundiDailyFeedPosaService {
 			const company = await Company.findBy("amundiId", row.CD_ENT);
 			if (!company) continue;
 
-			const deviceType = POSA_DEVICE_TYPES[
-				row.TYPE_DISPO as keyof typeof POSA_DEVICE_TYPES
-			] as PosaDeviceType | undefined;
+			const deviceType = POSA_DEVICE_TYPES[row.TYPE_DISPO as keyof typeof POSA_DEVICE_TYPES] as
+				| PosaDeviceType
+				| undefined;
 			const fund = POSA_FUNDS[row.ISIN_FCPE as keyof typeof POSA_FUNDS] as PosaFund | undefined;
 
 			if (!deviceType) return console.warn("Unknown contract type:", row.TYPE_DISPO);
