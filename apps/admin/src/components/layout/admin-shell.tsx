@@ -16,18 +16,19 @@ import {
 
 import { useLogoutMutation } from "#/features/account_management/authentication/hooks/use-logout-mutation";
 
-const navigationItems = [
-	{ label: "Tableau de bord", to: "/", icon: LayoutDashboardIcon, exact: true },
+const referenceItems = [
 	{ label: "Réseaux", to: "/networks", icon: NetworkIcon, exact: false },
 	{ label: "Cabinets", to: "/firms", icon: Building2Icon, exact: false },
 	{ label: "Distributeurs", to: "/users", icon: UsersIcon, exact: false },
+] as const;
+
+const managementItems = [
 	{ label: "Administrateurs", to: "/admins", icon: UserShieldIcon, exact: false },
 	{ label: "Rôles", to: "/roles", icon: ShieldCheckIcon, exact: false },
 ] as const;
 
 export function AdminShell({ children }: PropsWithChildren) {
 	const { mutateAsync: logout, isPending: isLoggingOut } = useLogoutMutation();
-
 	return (
 		<div className="flex min-h-svh text-neutral-12">
 			<UiSidebar>
@@ -36,27 +37,52 @@ export function AdminShell({ children }: PropsWithChildren) {
 				</UiSidebar.Header>
 
 				<UiSidebar.Body>
-					<nav aria-label="Navigation principale">
-						<UiSidebar.Group>
-							<UiSidebar.GroupLabel>Gestion</UiSidebar.GroupLabel>
-							<div className="mt-2 grid gap-1">
-								{navigationItems.map((item) => {
-									const Icon = item.icon;
+					<Link to="/" activeOptions={{ exact: true }}>
+						<UiSidebar.Item>
+							<LayoutDashboardIcon />
+							Tableau de bord
+						</UiSidebar.Item>
+					</Link>
 
-									return (
-										<Link activeOptions={{ exact: item.exact }} key={item.to} to={item.to}>
-											{({ isActive }) => (
-												<UiSidebar.Item active={isActive}>
-													<Icon />
-													{item.label}
-												</UiSidebar.Item>
-											)}
-										</Link>
-									);
-								})}
-							</div>
-						</UiSidebar.Group>
-					</nav>
+					<UiSidebar.Group>
+						<UiSidebar.GroupLabel>Référentiels</UiSidebar.GroupLabel>
+						<div className="mt-2 grid gap-1">
+							{referenceItems.map((item) => {
+								const Icon = item.icon;
+
+								return (
+									<Link activeOptions={{ exact: item.exact }} key={item.to} to={item.to}>
+										{({ isActive }) => (
+											<UiSidebar.Item active={isActive}>
+												<Icon />
+												{item.label}
+											</UiSidebar.Item>
+										)}
+									</Link>
+								);
+							})}
+						</div>
+					</UiSidebar.Group>
+
+					<UiSidebar.Group>
+						<UiSidebar.GroupLabel>Gestion</UiSidebar.GroupLabel>
+						<div className="mt-2 grid gap-1">
+							{managementItems.map((item) => {
+								const Icon = item.icon;
+
+								return (
+									<Link activeOptions={{ exact: item.exact }} key={item.to} to={item.to}>
+										{({ isActive }) => (
+											<UiSidebar.Item active={isActive}>
+												<Icon />
+												{item.label}
+											</UiSidebar.Item>
+										)}
+									</Link>
+								);
+							})}
+						</div>
+					</UiSidebar.Group>
 				</UiSidebar.Body>
 
 				<UiSidebar.Footer>
