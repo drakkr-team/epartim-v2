@@ -50,8 +50,33 @@
 			"description": "Fenêtre pendant laquelle les salariés peuvent effectuer des versements volontaires.",
 			"help": "Si non, les versements seront autorisés toute l’année."
 		},
-		"documents": {
+		"matchingCalculation": {
 			"eyebrow": "V.",
+			"title": "Choix et calcul de la règle d’abondement",
+			"description": "La règle d’abondement, une fois définie, est appliquée à partir de la date de mise en place et se renouvelle par tacite reconduction. Attention, l’abondement peut être calculé par Amundi seulement si un abondement en fonction de l’ancienneté est coché.",
+			"option": {
+				"amundi": "Amundi ESR calcule l’abondement pour le compte de l’entreprise (applicable pour une règle d’abondement uniforme)",
+				"company": "L’entreprise calcule et verse elle-même son abondement depuis son espace correspondant entreprise Amundi."
+			},
+			"support": {
+				"title": "Besoin d’être accompagné ?",
+				"description": "Rapprochez-vous de votre interlocuteur habituel pour être accompagné si ce n’est pas encore fait.",
+				"phoneOne": "Administration 06 45 72 03 99",
+				"phoneTwo": "Administration 07 85 94 56 10"
+			}
+		},
+		"matchingDistribution": {
+			"eyebrow": "VI.",
+			"title": "Périodicité du prélèvement de l’abondement",
+			"description": "Rythme auquel l’abondement est prélevé sur le compte de l’entreprise.",
+			"option": {
+				"years": "Toute l’année (l’abondement sera calculé au fil des versements)",
+				"trimester": "Trimestre",
+				"semester": "Semestre"
+			}
+		},
+		"documents": {
+			"eyebrow": "VII.",
 			"title": "Documents",
 			"description": "Joignez un justificatif pour chaque accord sélectionné. Formats acceptés : PDF, PNG, JPEG, CSV et XLSX. Taille maximale : 10 Mo par fichier."
 		},

@@ -1,6 +1,10 @@
 import { test } from "@japa/runner";
 import { DateTime } from "luxon";
 
+import {
+	SubscriptionMatchingCalculationMethod,
+	SubscriptionMatchingDistributionPeriod,
+} from "#constants/subscription_matching";
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { AddressFactory } from "#database/factories/address.factory";
 import { CompanyFactory } from "#database/factories/company.factory";
@@ -95,6 +99,8 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 			voluntaryPaymentsLimitedToPeriod: true,
 			voluntaryPaymentPeriodStartDate: DateTime.fromISO("2026-10-01"),
 			voluntaryPaymentPeriodEndDate: DateTime.fromISO("2026-12-31"),
+			matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
+			matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.TRIMESTER,
 		});
 		await SubscriptionPlanAdhesion.createMany([
 			{ subscriptionPlanId: plan.id, type: SubscriptionPlanAdhesionType.PEI_EPARTIM },
@@ -122,6 +128,27 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 				voluntaryPaymentsLimitedToPeriod: true,
 				voluntaryPaymentPeriodStartDate: "2026-10-01",
 				voluntaryPaymentPeriodEndDate: "2026-12-31",
+				matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
+				matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.TRIMESTER,
+			},
+		});
+	});
+
+	test("it returns default matching preferences before a plan is created", async ({ client }) => {
+		const user = await UserFactory.create();
+		const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+		await CompanyFactory.merge({ subscriptionId: subscription.id }).create();
+
+		const response = await client
+			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		response.assertBodyContains({
+			contractCharacteristics: {
+				matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
+				matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
 			},
 		});
 	});

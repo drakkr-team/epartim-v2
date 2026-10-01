@@ -1,16 +1,34 @@
 import { SubscriptionAgreement } from "@workspace/api/constants/subscription_agreement";
+import type {
+	SubscriptionMatchingCalculationMethod,
+	SubscriptionMatchingDistributionPeriod,
+} from "@workspace/api/constants/subscription_matching";
 import type { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 import type { routes } from "@workspace/api/registry";
 
-import { useUpdateSubscriptionPlansMutation } from "#/features/subscriptions/contract_characteristics/hooks/use-update-mutation";
+import { useUpdateContractCharacteristicsMutations } from "#/features/subscriptions/contract_characteristics/hooks/use-update-mutation";
 import { useAppForm } from "#/libs/form";
 
 type Subscription = (typeof routes)["client.subscriptions.view"]["types"]["response"];
-type UpdateSubscriptionPlansRequest = Parameters<
-	ReturnType<typeof useUpdateSubscriptionPlansMutation>["mutate"]
->[0];
+type UpdateSubscriptionPlanRequest = NonNullable<
+	Parameters<
+		ReturnType<typeof useUpdateContractCharacteristicsMutations>["updatePlan"]["mutate"]
+	>[0]
+>;
+type UpdateSubscriptionAgreementsRequest = NonNullable<
+	Parameters<
+		ReturnType<typeof useUpdateContractCharacteristicsMutations>["updateAgreements"]["mutate"]
+	>[0]
+>;
+type UpdateSubscriptionPlanAdhesionsRequest = NonNullable<
+	Parameters<
+		ReturnType<typeof useUpdateContractCharacteristicsMutations>["updateAdhesions"]["mutate"]
+	>[0]
+>;
 type ContractCharacteristicsChanges =
-	UpdateSubscriptionPlansRequest["body"]["contractCharacteristics"];
+	| NonNullable<UpdateSubscriptionPlanRequest["body"]>
+	| NonNullable<UpdateSubscriptionAgreementsRequest["body"]>
+	| NonNullable<UpdateSubscriptionPlanAdhesionsRequest["body"]>;
 
 type UseContractCharacteristicsFormParams = {
 	subscriptionId: string;
@@ -19,17 +37,35 @@ type UseContractCharacteristicsFormParams = {
 
 export function useContractCharacteristicsForm(params: UseContractCharacteristicsFormParams) {
 	const { subscriptionId, contractCharacteristics } = params;
-	const { mutate: update } = useUpdateSubscriptionPlansMutation(subscriptionId);
+	const { updateAdhesions, updateAgreements, updatePlan } =
+		useUpdateContractCharacteristicsMutations(subscriptionId);
 
 	function updateContractCharacteristics(
 		changes: ContractCharacteristicsChanges,
 		onSuccess?: () => void,
 	) {
-		update(
-			{
-				params: { subscriptionId },
-				body: { contractCharacteristics: changes },
-			},
+		if ("adhesionTypes" in changes) {
+			updateAdhesions.mutate(
+				{
+					params: { subscriptionId },
+					body: changes as UpdateSubscriptionPlanAdhesionsRequest["body"],
+				},
+				{ onSuccess },
+			);
+			return;
+		}
+		if ("existingAgreements" in changes || "otherAgreementDetails" in changes) {
+			updateAgreements.mutate(
+				{
+					params: { subscriptionId },
+					body: changes as UpdateSubscriptionAgreementsRequest["body"],
+				},
+				{ onSuccess },
+			);
+			return;
+		}
+		updatePlan.mutate(
+			{ params: { subscriptionId }, body: changes as UpdateSubscriptionPlanRequest["body"] },
 			{ onSuccess },
 		);
 	}
@@ -42,6 +78,10 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 			existingAgreements: contractCharacteristics.existingAgreements as SubscriptionAgreement[],
 			otherAgreementDetails: contractCharacteristics.otherAgreementDetails ?? "",
 			minimumSeniorityMonths: contractCharacteristics.minimumSeniorityMonths,
+			matchingCalculationMethod:
+				contractCharacteristics.matchingCalculationMethod as SubscriptionMatchingCalculationMethod,
+			matchingDistributionPeriod:
+				contractCharacteristics.matchingDistributionPeriod as SubscriptionMatchingDistributionPeriod,
 			voluntaryPaymentsLimitedToPeriod: contractCharacteristics.voluntaryPaymentsLimitedToPeriod,
 			voluntaryPaymentPeriodStartDate: contractCharacteristics.voluntaryPaymentPeriodStartDate,
 			voluntaryPaymentPeriodEndDate: contractCharacteristics.voluntaryPaymentPeriodEndDate,
@@ -91,6 +131,22 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 				if (fieldApi.name === "minimumSeniorityMonths") {
 					updateContractCharacteristics(
 						{ minimumSeniorityMonths: rawValue as 0 | 1 | 2 | 3 | null },
+						markFieldAsSaved,
+					);
+					return;
+				}
+
+				if (fieldApi.name === "matchingCalculationMethod") {
+					updateContractCharacteristics(
+						{ matchingCalculationMethod: rawValue as SubscriptionMatchingCalculationMethod },
+						markFieldAsSaved,
+					);
+					return;
+				}
+
+				if (fieldApi.name === "matchingDistributionPeriod") {
+					updateContractCharacteristics(
+						{ matchingDistributionPeriod: rawValue as SubscriptionMatchingDistributionPeriod },
 						markFieldAsSaved,
 					);
 					return;

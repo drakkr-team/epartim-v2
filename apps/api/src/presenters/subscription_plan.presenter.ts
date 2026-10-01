@@ -23,6 +23,8 @@ export default class SubscriptionPlanPresenter {
 			),
 			otherAgreementDetails: plan.otherAgreementDetails,
 			minimumSeniorityMonths: plan.minimumSeniorityMonths,
+			matchingCalculationMethod: plan.matchingCalculationMethod,
+			matchingDistributionPeriod: plan.matchingDistributionPeriod,
 			voluntaryPaymentsLimitedToPeriod: plan.voluntaryPaymentsLimitedToPeriod,
 			voluntaryPaymentPeriodStartDate: plan.voluntaryPaymentPeriodStartDate?.toISODate() ?? null,
 			voluntaryPaymentPeriodEndDate: plan.voluntaryPaymentPeriodEndDate?.toISODate() ?? null,

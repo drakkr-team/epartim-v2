@@ -8,11 +8,11 @@ import { ChevronDownIcon } from "@workspace/ui-react/icons";
 import type { useContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const agreementOptions = [
-	{ value: SubscriptionAgreement.PARTICIPATION, hasHelp: true },
-	{ value: SubscriptionAgreement.INCENTIVES, hasHelp: true },
-	{ value: SubscriptionAgreement.PPV, hasHelp: true },
-	{ value: SubscriptionAgreement.PPVE, hasHelp: false },
-	{ value: SubscriptionAgreement.OTHER, hasHelp: false },
+	{ value: SubscriptionAgreement.PARTICIPATION, label: "participation", hasHelp: true },
+	{ value: SubscriptionAgreement.INCENTIVES, label: "incentives", hasHelp: true },
+	{ value: SubscriptionAgreement.PPV, label: "ppv", hasHelp: true },
+	{ value: SubscriptionAgreement.PPVE, label: "ppve", hasHelp: false },
+	{ value: SubscriptionAgreement.OTHER, label: "other_agreement", hasHelp: false },
 ] as const;
 
 type ExistingAgreementsSectionProps = {
@@ -40,7 +40,7 @@ export function ExistingAgreementsSection({ form }: ExistingAgreementsSectionPro
 			<form.AppField name="existingAgreements">
 				{(field) => (
 					<div className="grid items-start gap-4 md:grid-cols-2">
-						{agreementOptions.map(({ value, hasHelp }) => {
+						{agreementOptions.map(({ value, label, hasHelp }) => {
 							const checked = field.state.value.includes(value);
 							const id = `existing-agreement-${value}`;
 							return (
@@ -71,7 +71,7 @@ export function ExistingAgreementsSection({ form }: ExistingAgreementsSectionPro
 											}}
 										/>
 										<span className="font-semibold text-secondary-12 text-xs">
-											{t(`agreement.${value}`)}
+											{t(`agreement.${label}`)}
 										</span>
 									</label>
 									{hasHelp && (
@@ -83,7 +83,7 @@ export function ExistingAgreementsSection({ form }: ExistingAgreementsSectionPro
 													className="size-4 transition-transform group-open:rotate-180"
 												/>
 											</summary>
-											<p className="mt-2 text-neutral-11 text-sm">{t(`agreementHelp.${value}`)}</p>
+											<p className="mt-2 text-neutral-11 text-sm">{t(`agreementHelp.${label}`)}</p>
 										</details>
 									)}
 								</div>

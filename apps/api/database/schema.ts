@@ -357,7 +357,7 @@ export class SubscriptionExistingAgreementSchema extends BaseModel {
   @column()
   declare subscriptionId: number
   @column()
-  declare type: string
+  declare type: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
@@ -378,7 +378,7 @@ export class SubscriptionPlanAdhesionSchema extends BaseModel {
 }
 
 export class SubscriptionPlanSchema extends BaseModel {
-  static $columns = ['createdAt', 'estimatedTransferAmountCents', 'existingDeviceTransfer', 'id', 'minimumSeniorityMonths', 'otherAgreementDetails', 'subscriptionId', 'updatedAt', 'voluntaryPaymentPeriodEndDate', 'voluntaryPaymentPeriodStartDate', 'voluntaryPaymentsLimitedToPeriod'] as const
+  static $columns = ['createdAt', 'estimatedTransferAmountCents', 'existingDeviceTransfer', 'id', 'matchingCalculationMethod', 'matchingDistributionPeriod', 'minimumSeniorityMonths', 'otherAgreementDetails', 'subscriptionId', 'updatedAt', 'voluntaryPaymentPeriodEndDate', 'voluntaryPaymentPeriodStartDate', 'voluntaryPaymentsLimitedToPeriod'] as const
   $columns = SubscriptionPlanSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -388,6 +388,10 @@ export class SubscriptionPlanSchema extends BaseModel {
   declare existingDeviceTransfer: boolean
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare matchingCalculationMethod: number
+  @column()
+  declare matchingDistributionPeriod: number
   @column()
   declare minimumSeniorityMonths: number | null
   @column()
