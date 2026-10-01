@@ -9,6 +9,7 @@ async function createNetwork(name: string, values: Partial<Network> = {}) {
 	return NetworkFactory.merge({ name, ...values })
 		.with("address")
 		.with("paymentDetail")
+		.with("commissionRate")
 		.create();
 }
 

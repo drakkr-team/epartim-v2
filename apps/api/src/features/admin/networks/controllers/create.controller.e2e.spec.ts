@@ -52,9 +52,13 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 			.where("name", validPayload.name)
 			.preload("address")
 			.preload("paymentDetail")
+			.preload("commissionRate")
 			.firstOrFail();
 		assert.equal(network.address.id, body.addressId);
 		assert.equal(network.paymentDetail.id, body.paymentDetailId);
+		assert.equal(network.commissionRate.shortTermRatePercent, 0);
+		assert.equal(network.commissionRate.mediumTermRatePercent, 0);
+		assert.equal(network.commissionRate.longTermRatePercent, 0);
 		assert.equal(network.paymentDetail.iban, "FR76 3000 6000 0112 3456 7890 189");
 		assert.equal(network.paymentDetail.bic, "AGRI FR PP");
 	});
@@ -90,7 +94,10 @@ test.group("Features / Admin / Networks / Controllers / Create Controller", () =
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:network"];
 		await role.save();
-		const existing = await NetworkFactory.with("address").with("paymentDetail").create();
+		const existing = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 
 		const duplicateName = await client
 			.visit("admin.networks.create")

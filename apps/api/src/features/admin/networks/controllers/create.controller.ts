@@ -5,6 +5,7 @@ import vine from "@vinejs/vine";
 
 import CreateNetworkPolicy from "#features/admin/networks/policies/create.policy";
 import Address from "#models/address";
+import CommissionRate from "#models/commission_rate";
 import Network from "#models/network";
 import PaymentDetail from "#models/payment_detail";
 import NetworkPresenter from "#presenters/network.presenter";
@@ -26,11 +27,20 @@ export default class CreateNetworkController {
 		const network = await db.transaction(async (trx) => {
 			const address = await Address.create(addressPayload, { client: trx });
 			const paymentDetail = await PaymentDetail.create(paymentDetailPayload, { client: trx });
+			const commissionRate = await CommissionRate.create(
+				{
+					shortTermRatePercent: 0,
+					mediumTermRatePercent: 0,
+					longTermRatePercent: 0,
+				},
+				{ client: trx },
+			);
 			const network = await Network.create(
 				{
 					...networkPayload,
 					addressId: address.id,
 					paymentDetailId: paymentDetail.id,
+					commissionRateId: commissionRate.id,
 				},
 				{ client: trx },
 			);

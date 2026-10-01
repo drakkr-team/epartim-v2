@@ -16,6 +16,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 		const network = await NetworkFactory.merge({ name: "List Contract Network" })
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		const response = await client
@@ -70,6 +71,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 		const second = await NetworkFactory.merge({
 			name: "NameOnly Match Two",
@@ -77,6 +79,7 @@ test.group("Features / Admin / Networks / Controllers / List Controller", () => 
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		const pageResponse = await client

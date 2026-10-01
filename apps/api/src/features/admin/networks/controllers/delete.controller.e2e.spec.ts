@@ -18,7 +18,10 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:network"];
 		await role.save();
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 
 		const response = await client
 			.visit("admin.networks.delete", { networkId: network.id })
@@ -40,10 +43,14 @@ test.group("Features / Admin / Networks / Controllers / Delete Controller", () =
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:network"];
 		await role.save();
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const firm = await FirmFactory.merge({ networkId: network.id })
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		const response = await client

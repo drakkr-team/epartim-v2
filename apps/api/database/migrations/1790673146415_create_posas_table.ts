@@ -14,14 +14,15 @@ export default class extends BaseSchema {
 				.inTable("companies")
 				.onDelete("CASCADE");
 
-			table.integer("contract_type").unsigned().notNullable();
+			table.string("device_code").notNullable();
+			table.integer("device_type").unsigned().notNullable();
 			table.integer("fund").unsigned().notNullable();
 			table.float("rate").notNullable();
 			table.float("available_shares").notNullable();
 			table.float("unavailable_shares").notNullable();
 			table.date("valuation_date").notNullable();
 
-			table.unique(["company_id", "contract_type", "fund", "valuation_date"]);
+			table.unique(["company_id", "device_code", "fund", "valuation_date"]);
 
 			table.timestamps(true, true);
 		});

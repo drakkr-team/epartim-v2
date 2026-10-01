@@ -15,6 +15,7 @@ async function createUpdateFixture(name: string, orias: string) {
 	})
 		.with("address")
 		.with("paymentDetail")
+		.with("commissionRate")
 		.create();
 	await Address.query().where("id", Number(firm.addressId)).update({ city: "Paris" });
 	await PaymentDetail.query().where("id", Number(firm.paymentDetailId)).update({
@@ -72,8 +73,14 @@ test.group("Features / Admin / Firms / Controllers / Update Controller", () => {
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:firm"];
 		await role.save();
-		const firstNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
-		const secondNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
+		const firstNetwork = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
+		const secondNetwork = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const firm = await createUpdateFixture("Network Semantics Firm", "51000002");
 		await firm.merge({ networkId: firstNetwork.id }).save();
 

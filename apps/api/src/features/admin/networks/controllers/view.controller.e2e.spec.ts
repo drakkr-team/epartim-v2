@@ -13,7 +13,10 @@ test.group("Features / Admin / Networks / Controllers / View Controller", () => 
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["update:network", "delete:network"];
 		await role.save();
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 
 		const response = await client
 			.visit("admin.networks.view", { networkId: network.id })
