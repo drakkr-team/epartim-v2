@@ -21,20 +21,14 @@ export default class CreateNetworkController {
 		const {
 			address: addressPayload,
 			paymentDetail: paymentDetailPayload,
+			commissionRate: commissionRatePayload,
 			...networkPayload
 		} = await request.validateUsing(CreateNetworkController.payloadSchema);
 
 		const network = await db.transaction(async (trx) => {
 			const address = await Address.create(addressPayload, { client: trx });
 			const paymentDetail = await PaymentDetail.create(paymentDetailPayload, { client: trx });
-			const commissionRate = await CommissionRate.create(
-				{
-					shortTermRatePercent: 0,
-					mediumTermRatePercent: 0,
-					longTermRatePercent: 0,
-				},
-				{ client: trx },
-			);
+			const commissionRate = await CommissionRate.create(commissionRatePayload, { client: trx });
 			const network = await Network.create(
 				{
 					...networkPayload,

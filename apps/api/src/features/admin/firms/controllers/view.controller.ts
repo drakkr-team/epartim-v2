@@ -6,6 +6,7 @@ import UpdateFirmPolicy from "#features/admin/firms/policies/update.policy";
 import ViewFirmPolicy from "#features/admin/firms/policies/view.policy";
 import Firm from "#models/firm";
 import AddressPresenter from "#presenters/address.presenter";
+import CommissionRatePresenter from "#presenters/commission_rate.presenter";
 import FirmPresenter from "#presenters/firm.presenter";
 import NetworkPresenter from "#presenters/network.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
@@ -17,6 +18,7 @@ export default class ViewFirmController {
 		protected addressPresenter: AddressPresenter,
 		protected paymentDetailPresenter: PaymentDetailPresenter,
 		protected networkPresenter: NetworkPresenter,
+		protected commissionRatePresenter: CommissionRatePresenter,
 	) {}
 
 	async handle({ params, bouncer }: HttpContext) {
@@ -25,14 +27,22 @@ export default class ViewFirmController {
 		await bouncer.with(ViewFirmPolicy).authorize("handle");
 
 		const firm = await Firm.findOrFail(firmId);
-		await firm.load("address");
-		await firm.load("paymentDetail");
-		await firm.load("network");
+		const addressPromise = firm.load("address");
+		const paymentDetailPromise = firm.load("paymentDetail");
+		const networkPromise = firm.load("network");
+		const commissionRatePromise = firm.load("commissionRate");
+		await Promise.all([
+			addressPromise,
+			paymentDetailPromise,
+			networkPromise,
+			commissionRatePromise,
+		]);
 
 		return {
 			...this.firmPresenter.toJSON(firm),
 			address: this.addressPresenter.toJSON(firm.address),
 			paymentDetail: this.paymentDetailPresenter.toJSON(firm.paymentDetail),
+			commissionRate: this.commissionRatePresenter.toJSON(firm.commissionRate),
 			network: firm.network ? this.networkPresenter.toJSON(firm.network) : null,
 			meta: {
 				canUpdate: await bouncer.with(UpdateFirmPolicy).allows("handle"),

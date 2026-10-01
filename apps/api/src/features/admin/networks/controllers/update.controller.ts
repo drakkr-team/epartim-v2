@@ -5,6 +5,7 @@ import vine from "@vinejs/vine";
 
 import UpdateNetworkPolicy from "#features/admin/networks/policies/update.policy";
 import Address from "#models/address";
+import CommissionRate from "#models/commission_rate";
 import Network from "#models/network";
 import PaymentDetail from "#models/payment_detail";
 import NetworkPresenter from "#presenters/network.presenter";
@@ -22,6 +23,7 @@ export default class UpdateNetworkController {
 		const {
 			address: addressPayload,
 			paymentDetail: paymentDetailPayload,
+			commissionRate: commissionRatePayload,
 			...networkPayload
 		} = await request.validateUsing(UpdateNetworkController.payloadSchema);
 
@@ -38,6 +40,13 @@ export default class UpdateNetworkController {
 					client: trx,
 				});
 				await paymentDetail.useTransaction(trx).merge(paymentDetailPayload).save();
+			}
+
+			if (commissionRatePayload) {
+				const commissionRate = await CommissionRate.findOrFail(network.commissionRateId, {
+					client: trx,
+				});
+				await commissionRate.useTransaction(trx).merge(commissionRatePayload).save();
 			}
 
 			await network.useTransaction(trx).merge(networkPayload).save();

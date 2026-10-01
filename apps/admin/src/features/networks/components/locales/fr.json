@@ -3,7 +3,8 @@
 		"section": {
 			"general": "Informations générales",
 			"address": "Adresse",
-			"payment": "Coordonnées bancaires"
+			"payment": "Coordonnées bancaires",
+			"commission": "Taux de commission"
 		},
 		"field": {
 			"name": {
@@ -21,6 +22,17 @@
 				},
 				"city": {
 					"label": "Ville"
+				}
+			},
+			"commissionRate": {
+				"shortTermRatePercent": {
+					"label": "Court terme (%)"
+				},
+				"mediumTermRatePercent": {
+					"label": "Moyen terme (%)"
+				},
+				"longTermRatePercent": {
+					"label": "Long terme (%)"
 				}
 			},
 			"paymentDetail": {
