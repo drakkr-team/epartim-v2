@@ -38,10 +38,12 @@ export function AdminShell({ children }: PropsWithChildren) {
 
 				<UiSidebar.Body>
 					<Link to="/" activeOptions={{ exact: true }}>
-						<UiSidebar.Item>
-							<LayoutDashboardIcon />
-							Tableau de bord
-						</UiSidebar.Item>
+						{({ isActive }) => (
+							<UiSidebar.Item active={isActive}>
+								<LayoutDashboardIcon />
+								Tableau de bord
+							</UiSidebar.Item>
+						)}
 					</Link>
 
 					<UiSidebar.Group>
