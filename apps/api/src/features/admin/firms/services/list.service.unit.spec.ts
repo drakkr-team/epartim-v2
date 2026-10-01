@@ -10,6 +10,7 @@ async function createFirm(name: string, values: Partial<Firm> = {}) {
 	return FirmFactory.merge({ name, ...values })
 		.with("address")
 		.with("paymentDetail")
+		.with("commissionRate")
 		.create();
 }
 
@@ -51,7 +52,10 @@ test.group("Features / Admin / Firms / Services / List Service", () => {
 	});
 
 	test("it should filter by network identifier", async ({ assert }) => {
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const matching = await createFirm("Matching Network Firm", {
 			networkId: network.id,
 			orias: "20000005",
@@ -67,8 +71,14 @@ test.group("Features / Admin / Firms / Services / List Service", () => {
 	});
 
 	test("it should support both directions for every whitelisted sort field", async ({ assert }) => {
-		const firstNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
-		const secondNetwork = await NetworkFactory.with("address").with("paymentDetail").create();
+		const firstNetwork = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
+		const secondNetwork = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const first = await createFirm("Sort Firm Alpha", {
 			amundiOrgId: "FIRM-AMUNDI-A",
 			orias: "30000001",
@@ -126,7 +136,10 @@ test.group("Features / Admin / Firms / Services / List Service", () => {
 	});
 
 	test("it should return firms without preloading relations", async ({ assert }) => {
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const created = await createFirm("Preloaded Firm Relations", {
 			networkId: network.id,
 			orias: "40000001",

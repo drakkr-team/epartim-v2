@@ -14,6 +14,7 @@ test.group("Features / Admin / Firms / Services / Delete Service", () => {
 		const firm = await FirmFactory.merge({ name: "Rollback Delete Firm" })
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 		await NetworkFactory.merge({
 			name: "Rollback Firm Address Reference",
@@ -21,6 +22,7 @@ test.group("Features / Admin / Firms / Services / Delete Service", () => {
 			addressId: firm.addressId,
 		})
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		await assert.rejects(() => new DeleteFirmService().handle(firm.id));

@@ -13,7 +13,10 @@ test.group("Features / Admin / Firms / Controllers / Delete Controller", () => {
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["delete:firm"];
 		await role.save();
-		const firm = await FirmFactory.with("address").with("paymentDetail").create();
+		const firm = await FirmFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 
 		const response = await client
 			.visit("admin.firms.delete", { firmId: firm.id })

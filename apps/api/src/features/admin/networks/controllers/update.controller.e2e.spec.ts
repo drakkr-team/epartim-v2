@@ -11,6 +11,7 @@ async function createUpdateFixture(name: string, amundiOrgId: string) {
 	const network = await NetworkFactory.merge({ name, amundiOrgId, goCode: "112000" })
 		.with("address")
 		.with("paymentDetail")
+		.with("commissionRate")
 		.create();
 	await Address.query().where("id", String(network.addressId)).update({
 		lineOne: "10 Original Street",

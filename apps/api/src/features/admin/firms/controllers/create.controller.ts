@@ -5,6 +5,7 @@ import vine from "@vinejs/vine";
 
 import CreateFirmPolicy from "#features/admin/firms/policies/create.policy";
 import Address from "#models/address";
+import CommissionRate from "#models/commission_rate";
 import Firm from "#models/firm";
 import PaymentDetail from "#models/payment_detail";
 import FirmPresenter from "#presenters/firm.presenter";
@@ -26,11 +27,20 @@ export default class CreateFirmController {
 		const firm = await db.transaction(async (trx) => {
 			const address = await Address.create(addressPayload, { client: trx });
 			const paymentDetail = await PaymentDetail.create(paymentDetailPayload, { client: trx });
+			const commissionRate = await CommissionRate.create(
+				{
+					shortTermRatePercent: 0,
+					mediumTermRatePercent: 0,
+					longTermRatePercent: 0,
+				},
+				{ client: trx },
+			);
 			const firm = await Firm.create(
 				{
 					...firmPayload,
 					addressId: address.id,
 					paymentDetailId: paymentDetail.id,
+					commissionRateId: commissionRate.id,
 				},
 				{ client: trx },
 			);

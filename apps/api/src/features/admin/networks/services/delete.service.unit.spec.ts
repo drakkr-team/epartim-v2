@@ -10,10 +10,14 @@ import PaymentDetail from "#models/payment_detail";
 
 test.group("Features / Admin / Networks / Services / Delete Service", () => {
 	test("it should delete referenced networks and clear the firm relation", async ({ assert }) => {
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const firm = await FirmFactory.merge({ networkId: network.id })
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		await new DeleteNetworkService().handle(network.id);
@@ -30,6 +34,7 @@ test.group("Features / Admin / Networks / Services / Delete Service", () => {
 		const network = await NetworkFactory.merge({ name: "Rollback Delete Target" })
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 		await NetworkFactory.merge({
 			name: "Rollback Address Reference",
@@ -37,6 +42,7 @@ test.group("Features / Admin / Networks / Services / Delete Service", () => {
 			addressId: network.addressId,
 		})
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 
 		await assert.rejects(() => new DeleteNetworkService().handle(network.id));

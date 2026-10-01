@@ -54,9 +54,13 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 			.where("name", validPayload.name)
 			.preload("address")
 			.preload("paymentDetail")
+			.preload("commissionRate")
 			.firstOrFail();
 		assert.equal(firm.address.id, response.body().addressId);
 		assert.equal(firm.paymentDetail.id, response.body().paymentDetailId);
+		assert.equal(firm.commissionRate.shortTermRatePercent, 0);
+		assert.equal(firm.commissionRate.mediumTermRatePercent, 0);
+		assert.equal(firm.commissionRate.longTermRatePercent, 0);
 	});
 
 	test("it should attach an existing network", async ({ client }) => {
@@ -64,7 +68,10 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		const role = await Role.findOrFail(admin.roleId);
 		role.authorizations = ["create:firm"];
 		await role.save();
-		const network = await NetworkFactory.with("address").with("paymentDetail").create();
+		const network = await NetworkFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 
 		const response = await client
 			.visit("admin.firms.create")
@@ -204,6 +211,7 @@ test.group("Features / Admin / Firms / Controllers / Create Controller", () => {
 		})
 			.with("address")
 			.with("paymentDetail")
+			.with("commissionRate")
 			.create();
 		const invalidPayloads = [
 			{ ...validPayload, name: existing.name, orias: "12345689" },

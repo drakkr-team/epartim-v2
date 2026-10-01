@@ -21,7 +21,10 @@ test.group("Features / Admin / Users / Controllers / Create Controller", (group)
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["create:user"];
 		await role.save();
-		const firm = await FirmFactory.with("address").with("paymentDetail").create();
+		const firm = await FirmFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
 		const payload = {
 			firstName: "  Élodie  ",
 			lastName: "  Gestionnaire  ",
