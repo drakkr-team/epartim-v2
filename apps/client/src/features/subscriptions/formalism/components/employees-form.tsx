@@ -4,7 +4,7 @@ import { Card } from "@workspace/ui-react/components/card";
 
 import { EmployeesSection } from "#/features/subscriptions/formalism/components/employees-section";
 import { useFormalismEmployeesForm } from "#/features/subscriptions/formalism/hooks/use-employees-form";
-import type { Formalism } from "#/features/subscriptions/formalism/hooks/use-group-form";
+import type { Formalism } from "#/features/subscriptions/formalism/hooks/use-form";
 import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 
 type FormalismEmployeesFormProps = {

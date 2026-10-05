@@ -8,11 +8,11 @@ import { Select } from "@workspace/ui-react/components/select";
 import { Trash2Icon } from "@workspace/ui-react/icons";
 
 import { BooleanField } from "#/features/subscriptions/components/boolean-field";
-import type { useFormalismGroupForm } from "#/features/subscriptions/formalism/hooks/use-group-form";
+import type { useFormalismForm } from "#/features/subscriptions/formalism/hooks/use-form";
 
 type CseMemberFieldsProps = {
-	form: ReturnType<typeof useFormalismGroupForm>["form"];
-	member: ReturnType<typeof useFormalismGroupForm>["form"]["state"]["values"]["members"][number];
+	form: ReturnType<typeof useFormalismForm>["form"];
+	member: ReturnType<typeof useFormalismForm>["form"]["state"]["values"]["members"][number];
 	index: number;
 	group: number;
 	mandatedMemberId: number | null;

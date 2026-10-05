@@ -1,6 +1,9 @@
 import type { routes } from "@workspace/api/registry";
 
-import { useFormalismMutations } from "#/features/subscriptions/formalism/hooks/use-mutations";
+import { useCreateFormalismMemberMutation } from "#/features/subscriptions/formalism/hooks/use-create-member-mutation";
+import { useDeleteFormalismMemberMutation } from "#/features/subscriptions/formalism/hooks/use-delete-member-mutation";
+import { useUpdateFormalismMemberMutation } from "#/features/subscriptions/formalism/hooks/use-update-member-mutation";
+import { useUpdateFormalismMutation } from "#/features/subscriptions/formalism/hooks/use-update-mutation";
 import { useAppForm } from "#/libs/form";
 
 export type Formalism =
@@ -26,11 +29,14 @@ function memberValues(member: FormalismGroup["members"][number]) {
 		email: member.email ?? "",
 	};
 }
-export function useFormalismGroupForm(subscriptionId: string, group: FormalismGroup) {
-	const mutations = useFormalismMutations(subscriptionId);
+export function useFormalismForm(subscriptionId: string, group: FormalismGroup) {
+	const updateMutation = useUpdateFormalismMutation(subscriptionId);
+	const createMemberMutation = useCreateFormalismMemberMutation(subscriptionId);
+	const updateMemberMutation = useUpdateFormalismMemberMutation(subscriptionId);
+	const deleteMemberMutation = useDeleteFormalismMemberMutation(subscriptionId);
 	const params = { subscriptionId, group: String(group.group) };
-	type GroupBody = NonNullable<Parameters<typeof mutations.updateGroup.mutate>[0]>["body"];
-	type MemberBody = NonNullable<Parameters<typeof mutations.updateMember.mutate>[0]>["body"];
+	type GroupBody = NonNullable<Parameters<typeof updateMutation.mutate>[0]>["body"];
+	type MemberBody = NonNullable<Parameters<typeof updateMemberMutation.mutate>[0]>["body"];
 	const form = useAppForm({
 		defaultValues: groupValues(group),
 		listeners: {
@@ -51,7 +57,7 @@ export function useFormalismGroupForm(subscriptionId: string, group: FormalismGr
 				if (match) {
 					const member = formApi.state.values.members[Number(match[1])];
 					if (member)
-						mutations.updateMember.mutate(
+						updateMemberMutation.mutate(
 							{
 								params: { ...params, memberId: String(member.id) },
 								body: { [match[2]]: value } as MemberBody,
@@ -59,7 +65,7 @@ export function useFormalismGroupForm(subscriptionId: string, group: FormalismGr
 							{ onSuccess },
 						);
 				} else
-					mutations.updateGroup.mutate(
+					updateMutation.mutate(
 						{ params, body: { [fieldApi.name]: value } as GroupBody },
 						{ onSuccess },
 					);
@@ -84,13 +90,13 @@ export function useFormalismGroupForm(subscriptionId: string, group: FormalismGr
 		);
 	}
 	function changeMethod(method: NonNullable<FormalismGroup["method"]>) {
-		mutations.updateGroup.mutate(
+		updateMutation.mutate(
 			{ params, body: { method } },
 			{ onSuccess: (result) => form.reset(groupValues(result)) },
 		);
 	}
 	function createMember() {
-		mutations.createMember.mutate(
+		createMemberMutation.mutate(
 			{ params },
 			{
 				onSuccess: (member) =>
@@ -99,7 +105,7 @@ export function useFormalismGroupForm(subscriptionId: string, group: FormalismGr
 		);
 	}
 	function deleteMember(memberId: number) {
-		mutations.deleteMember.mutate(
+		deleteMemberMutation.mutate(
 			{ params: { ...params, memberId: String(memberId) } },
 			{
 				onSuccess: () => {
@@ -113,7 +119,7 @@ export function useFormalismGroupForm(subscriptionId: string, group: FormalismGr
 		);
 	}
 	function copyPeople(source: FormalismGroup) {
-		mutations.updateGroup.mutate(
+		updateMutation.mutate(
 			{
 				params,
 				body: {

@@ -12,11 +12,11 @@ import { ConfirmFormalismChange } from "#/features/subscriptions/formalism/compo
 import type {
 	Formalism,
 	FormalismGroup,
-	useFormalismGroupForm,
-} from "#/features/subscriptions/formalism/hooks/use-group-form";
+	useFormalismForm,
+} from "#/features/subscriptions/formalism/hooks/use-form";
 
 type MethodSectionProps = Pick<
-	ReturnType<typeof useFormalismGroupForm>,
+	ReturnType<typeof useFormalismForm>,
 	"form" | "changeMethod" | "hasPeople"
 > & {
 	group: FormalismGroup;

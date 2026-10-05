@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
-import type { useFormalismGroupForm } from "#/features/subscriptions/formalism/hooks/use-group-form";
+import type { useFormalismForm } from "#/features/subscriptions/formalism/hooks/use-form";
 
-type CseVoteFieldsProps = { form: ReturnType<typeof useFormalismGroupForm>["form"]; group: number };
+type CseVoteFieldsProps = { form: ReturnType<typeof useFormalismForm>["form"]; group: number };
 
 export function CseVoteFields({ form, group }: CseVoteFieldsProps) {
 	const { t } = useTranslation("features.subscriptions.formalism");
