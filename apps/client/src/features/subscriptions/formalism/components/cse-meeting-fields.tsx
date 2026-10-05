@@ -4,10 +4,10 @@ import z from "zod";
 import { DatePicker } from "@workspace/ui-react/components/date-picker";
 import { Field } from "@workspace/ui-react/components/field";
 
-import type { useFormalismGroupForm } from "#/features/subscriptions/formalism/hooks/use-group-form";
+import type { useFormalismForm } from "#/features/subscriptions/formalism/hooks/use-form";
 import { formatCalendarDate, parseCalendarDate } from "#/utils/helpers/date";
 
-type Props = { form: ReturnType<typeof useFormalismGroupForm>["form"]; group: number };
+type Props = { form: ReturnType<typeof useFormalismForm>["form"]; group: number };
 export function CseMeetingFields({ form, group }: Props) {
 	const { t } = useTranslation("features.subscriptions.formalism");
 	const required = z

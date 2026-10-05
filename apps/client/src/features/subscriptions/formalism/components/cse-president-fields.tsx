@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
-import type { useFormalismGroupForm } from "#/features/subscriptions/formalism/hooks/use-group-form";
+import type { useFormalismForm } from "#/features/subscriptions/formalism/hooks/use-form";
 
 type CsePresidentFieldsProps = {
-	form: ReturnType<typeof useFormalismGroupForm>["form"];
+	form: ReturnType<typeof useFormalismForm>["form"];
 	group: number;
 };
 

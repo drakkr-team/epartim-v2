@@ -16,11 +16,11 @@ import { CsePresidentFields } from "#/features/subscriptions/formalism/component
 import { CseVoteFields } from "#/features/subscriptions/formalism/components/cse-vote-fields";
 import type {
 	Formalism,
-	useFormalismGroupForm,
-} from "#/features/subscriptions/formalism/hooks/use-group-form";
+	useFormalismForm,
+} from "#/features/subscriptions/formalism/hooks/use-form";
 
 type CseSectionProps = Pick<
-	ReturnType<typeof useFormalismGroupForm>,
+	ReturnType<typeof useFormalismForm>,
 	"form" | "createMember" | "deleteMember" | "copyPeople"
 > & { group: number; formalism: Formalism; busy: boolean };
 

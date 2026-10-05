@@ -8,8 +8,8 @@ import { MethodSection } from "#/features/subscriptions/formalism/components/met
 import {
 	type Formalism,
 	type FormalismGroup,
-	useFormalismGroupForm,
-} from "#/features/subscriptions/formalism/hooks/use-group-form";
+	useFormalismForm,
+} from "#/features/subscriptions/formalism/hooks/use-form";
 import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
 
 type FormalismFormProps = {
@@ -28,7 +28,7 @@ export function FormalismForm({
 	devices,
 }: FormalismFormProps) {
 	const { form, changeMethod, createMember, deleteMember, copyPeople, hasPeople } =
-		useFormalismGroupForm(subscriptionId, group);
+		useFormalismForm(subscriptionId, group);
 	useRegisterSubscriptionStepForm(form);
 	const busy =
 		useIsMutating({

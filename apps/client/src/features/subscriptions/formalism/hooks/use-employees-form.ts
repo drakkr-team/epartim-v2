@@ -1,5 +1,8 @@
-import type { Formalism } from "#/features/subscriptions/formalism/hooks/use-group-form";
-import { useFormalismMutations } from "#/features/subscriptions/formalism/hooks/use-mutations";
+import { useCreateFormalismEmployeeMutation } from "#/features/subscriptions/formalism/hooks/use-create-employee-mutation";
+import { useDeleteFormalismEmployeeMutation } from "#/features/subscriptions/formalism/hooks/use-delete-employee-mutation";
+import type { Formalism } from "#/features/subscriptions/formalism/hooks/use-form";
+import { useImportFormalismEmployeesMutation } from "#/features/subscriptions/formalism/hooks/use-import-employees-mutation";
+import { useUpdateFormalismEmployeeMutation } from "#/features/subscriptions/formalism/hooks/use-update-employee-mutation";
 import { useAppForm } from "#/libs/form";
 
 function employeeValues(employee: Formalism["employees"][number]) {
@@ -14,8 +17,11 @@ export function useFormalismEmployeesForm(
 	subscriptionId: string,
 	employees: Formalism["employees"],
 ) {
-	const mutations = useFormalismMutations(subscriptionId);
-	type EmployeeBody = NonNullable<Parameters<typeof mutations.updateEmployee.mutate>[0]>["body"];
+	const createEmployeeMutation = useCreateFormalismEmployeeMutation(subscriptionId);
+	const updateEmployeeMutation = useUpdateFormalismEmployeeMutation(subscriptionId);
+	const deleteEmployeeMutation = useDeleteFormalismEmployeeMutation(subscriptionId);
+	const importEmployeesMutation = useImportFormalismEmployeesMutation(subscriptionId);
+	type EmployeeBody = NonNullable<Parameters<typeof updateEmployeeMutation.mutate>[0]>["body"];
 	const form = useAppForm({
 		defaultValues: { employees: employees.map(employeeValues) },
 		listeners: {
@@ -27,7 +33,7 @@ export function useFormalismEmployeesForm(
 				if (!employee) return;
 				const rawValue = fieldApi.state.value;
 				const value = typeof rawValue === "string" ? rawValue.trim() || null : rawValue;
-				mutations.updateEmployee.mutate(
+				updateEmployeeMutation.mutate(
 					{
 						params: { subscriptionId, employeeId: String(employee.id) },
 						body: { [match[2]]: value } as EmployeeBody,
@@ -43,7 +49,7 @@ export function useFormalismEmployeesForm(
 		},
 	});
 	function createEmployee() {
-		mutations.createEmployee.mutate(
+		createEmployeeMutation.mutate(
 			{ params: { subscriptionId } },
 			{
 				onSuccess: (employee) =>
@@ -52,7 +58,7 @@ export function useFormalismEmployeesForm(
 		);
 	}
 	function deleteEmployee(employeeId: number) {
-		mutations.deleteEmployee.mutate(
+		deleteEmployeeMutation.mutate(
 			{ params: { subscriptionId, employeeId: String(employeeId) } },
 			{
 				onSuccess: () =>
@@ -75,6 +81,6 @@ export function useFormalismEmployeesForm(
 		createEmployee,
 		deleteEmployee,
 		mergeImportedEmployees,
-		importMutation: mutations.importEmployees,
+		importMutation: importEmployeesMutation,
 	};
 }
