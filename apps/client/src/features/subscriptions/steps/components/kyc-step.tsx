@@ -33,7 +33,6 @@ export function KycStep(props: KycStepProps) {
 					<SubscriptionStepHeader
 						description={t("step-two.description")}
 						eyebrow={t("step-two.eyebrow")}
-						isValidated={isValidated}
 						title={t("step-two.title")}
 					/>
 					<div className="lg:hidden">

@@ -9,6 +9,7 @@ import { ContractCharacteristicsStep } from "#/features/subscriptions/steps/comp
 import { ContractFeesStep } from "#/features/subscriptions/steps/components/contract-fees-step";
 import { FormalismStep } from "#/features/subscriptions/steps/components/formalism-step";
 import { KycStep } from "#/features/subscriptions/steps/components/kyc-step";
+import { SubscriptionStepNavigation } from "#/features/subscriptions/steps/components/subscription-step-navigation";
 import { SUPPORTED_SUBSCRIPTION_STEPS } from "#/features/subscriptions/steps/step.constants";
 
 const supportedSteps = SUPPORTED_SUBSCRIPTION_STEPS.map(String);
@@ -37,16 +38,25 @@ function SubscriptionStepPage() {
 		return <p className="text-error-10">{t("error")}</p>;
 	}
 
-	if (step === "5") return <FormalismStep subscriptionId={id} subscription={subscription} />;
-	if (step === "2") {
-		return <KycStep subscriptionId={id} subscription={subscription} />;
-	}
-	if (step === "3") {
-		return <ContractCharacteristicsStep subscriptionId={id} subscription={subscription} />;
-	}
-	if (step === "4") {
-		return <ContractFeesStep subscriptionId={id} subscription={subscription} />;
-	}
+	const Step =
+		step === "2"
+			? KycStep
+			: step === "3"
+				? ContractCharacteristicsStep
+				: step === "4"
+					? ContractFeesStep
+					: step === "5"
+						? FormalismStep
+						: CompanyReferencesStep;
 
-	return <CompanyReferencesStep subscriptionId={id} subscription={subscription} />;
+	return (
+		<div className="mx-auto -mt-4 grid w-full max-w-7xl gap-8 sm:-mt-8">
+			<SubscriptionStepNavigation
+				completedSteps={subscription.completedSteps}
+				currentStep={Number(step)}
+				subscriptionId={id}
+			/>
+			<Step subscriptionId={id} subscription={subscription} />
+		</div>
+	);
 }
