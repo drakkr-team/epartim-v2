@@ -11,10 +11,6 @@ import type {
 } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
-const limitKinds = [
-	{ value: SubscriptionMatchingLimitKind.LEGAL, label: "legal" },
-	{ value: SubscriptionMatchingLimitKind.AMOUNT, label: "amount" },
-] as const;
 
 export type MatchingForm = ReturnType<typeof useContractCharacteristicsForm>["form"];
 export type MatchingNumberUnit = "years" | "percent" | "currency";
@@ -102,6 +98,10 @@ type MatchingLimitFieldsProps = {
 
 export function MatchingLimitFields({ form, name, max }: MatchingLimitFieldsProps) {
 	const { t } = useTranslation(namespace);
+	const limitKinds = [
+		{ value: SubscriptionMatchingLimitKind.LEGAL, label: t("matching.limit.legal") },
+		{ value: SubscriptionMatchingLimitKind.AMOUNT, label: t("matching.limit.amount") },
+	];
 	const limitKindSchema = z.enum(SubscriptionMatchingLimitKind, {
 		error: t("matching.validation.requiredLimitKind"),
 	});
@@ -134,12 +134,8 @@ export function MatchingLimitFields({ form, name, max }: MatchingLimitFieldsProp
 								</Select.Input>
 								<Select.Dropdown>
 									{limitKinds.map((option) => (
-										<Select.Option
-											key={option.value}
-											value={option.value}
-											label={t(`matching.limit.${option.label}`)}
-										>
-											{t(`matching.limit.${option.label}`)}
+										<Select.Option key={option.value} value={option.value} label={option.label}>
+											{option.label}
 										</Select.Option>
 									))}
 								</Select.Dropdown>
