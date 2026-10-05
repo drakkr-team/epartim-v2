@@ -17,10 +17,7 @@ export function OperationsServicesSection() {
 				<p className="mt-1 text-neutral-11 text-sm">{t("operations.description")}</p>
 			</div>
 			<OperationsServicesTable />
-			<div className="grid gap-2 text-neutral-11 text-xs">
-				<p>{t("operations.note")}</p>
-				<p>{t("operations.directPaymentNote")}</p>
-			</div>
+			<p className="text-neutral-11 text-xs">{t("operations.note")}</p>
 		</section>
 	);
 }

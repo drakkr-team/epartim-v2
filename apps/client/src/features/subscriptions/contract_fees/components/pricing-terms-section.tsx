@@ -107,9 +107,14 @@ export function PricingTermsSection({ form, contractFees }: PricingTermsSectionP
 					);
 				}}
 			</form.AppField>
-			<form.Subscribe selector={(state) => state.values.pricingOffer}>
-				{(pricingOffer) => (
-					<PricingTermsTable pricingOffer={pricingOffer} contractFees={contractFees} />
+			<form.Subscribe selector={(state) => state.values}>
+				{({ pricingOffer, entryFeePayer, entryFeeRate }) => (
+					<PricingTermsTable
+						pricingOffer={pricingOffer}
+						entryFeePayer={entryFeePayer}
+						entryFeeRate={entryFeeRate}
+						contractFees={contractFees}
+					/>
 				)}
 			</form.Subscribe>
 		</section>

@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 
-import { Badge } from "@workspace/ui-react/components/badge";
 import { Table } from "@workspace/ui-react/components/table";
 
 const currency = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
@@ -17,7 +16,6 @@ export function OperationsServicesTable() {
 		{ key: "complexReporting", amount: t("operations.table.onQuote") },
 		{ key: "individualCorrection", amount: currency.format(50) },
 		{ key: "otherCorrections", amount: t("operations.table.onQuote") },
-		{ key: "directPayment", amount: currency.format(2) },
 	] as const;
 
 	return (
@@ -33,14 +31,7 @@ export function OperationsServicesTable() {
 				{rows.map((row) => (
 					<Table.Row key={row.key}>
 						<Table.Cell className="min-w-48 whitespace-normal font-medium">
-							<div className="flex flex-wrap items-center gap-2">
-								<span>{t(`operations.table.rows.${row.key}.label`)}</span>
-								{row.key === "directPayment" && (
-									<Badge color="warning" size="sm" withDot={false}>
-										{t("operations.table.toConfirm")}
-									</Badge>
-								)}
-							</div>
+							{t(`operations.table.rows.${row.key}.label`)}
 						</Table.Cell>
 						<Table.Cell className="min-w-32 whitespace-normal text-neutral-11">
 							{t(`operations.table.rows.${row.key}.frequency`)}

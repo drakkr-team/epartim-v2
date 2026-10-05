@@ -23,11 +23,11 @@
 				"rows": {
 					"annualAccount": {
 						"label": "Forfait annuel de tenue de compte",
-						"frequency": "Par an"
+						"frequency": "Annuelle"
 					},
 					"employeeAccount": {
 						"label": "Frais de tenue de compte par salarié",
-						"frequency": "Par salarié et par an"
+						"frequency": "Annuelle"
 					},
 					"entryFees": {
 						"label": "Droits d’entrée si pris en charge par l’entreprise",
@@ -76,13 +76,11 @@
 			"title": "Opérations et services",
 			"description": "Prestations facturées à l’unité, hors taxes, identiques pour tous les tarifs.",
 			"note": "Grille identique pour les deux tarifs. Les frais de transfert collectif sont à la charge de l’entreprise (CG, Annexe 1, 1.2.2.8(c) et Annexe 2, 2.2.2.8).",
-			"directPaymentNote": "Paiement direct net du prélèvement à la source : montant repris de la version précédente des CG, absent des grilles transmises. Les CG renvoient au bulletin de souscription pour ce tarif (Annexe 5, 5.2) : à confirmer ou à retirer.",
 			"table": {
 				"service": "Opération ou service",
 				"frequency": "Base",
 				"amount": "Tarif unitaire HT",
 				"onQuote": "Sur devis",
-				"toConfirm": "À confirmer",
 				"rows": {
 					"collectiveTransfer": {
 						"label": "Transfert collectif des avoirs vers un autre teneur de compte conservateur de parts",
@@ -119,10 +117,6 @@
 					"otherCorrections": {
 						"label": "Autres régularisations",
 						"frequency": "Devis préalable (CG, Annexe 5, 5.4)"
-					},
-					"directPayment": {
-						"label": "Paiement direct net du prélèvement à la source",
-						"frequency": "Par salarié et par opération"
 					}
 				}
 			}
