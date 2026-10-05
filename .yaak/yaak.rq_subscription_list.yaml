@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Requires an authenticated client session.
+description: 'Requires an authenticated client session. The status query accepts draft, validating or finalized. The validating group includes waiting for Epartim validation (status 5), waiting for signatures (status 1) and to be sent (status 2). Returns paginated subscriptions and meta.statusCounts for each group.'
 headers:
 - enabled: true
   name: Accept

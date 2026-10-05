@@ -15,6 +15,9 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		const draftSubscription = await SubscriptionFactory.merge({
 			status: SubscriptionStatus.DRAFT,
 		}).create();
+		const waitingForEpartimValidationSubscription = await SubscriptionFactory.apply(
+			"waitingForEpartimValidation",
+		).create();
 		const waitingForSignaturesSubscription = await SubscriptionFactory.merge({
 			status: SubscriptionStatus.WAITING_FOR_SIGNATURES,
 		}).create();
@@ -30,6 +33,7 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 
 		for (const subscription of [
 			draftSubscription,
+			waitingForEpartimValidationSubscription,
 			waitingForSignaturesSubscription,
 			toBeSentSubscription,
 			completeSubscription,
@@ -50,11 +54,15 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		response.assertOk();
 		assert.sameMembers(
 			response.body().data.map((subscription) => subscription.id),
-			[waitingForSignaturesSubscription.id, toBeSentSubscription.id],
+			[
+				waitingForEpartimValidationSubscription.id,
+				waitingForSignaturesSubscription.id,
+				toBeSentSubscription.id,
+			],
 		);
 		assert.deepEqual(response.body().meta.statusCounts, {
 			draft: 1,
-			validating: 2,
+			validating: 3,
 			finalized: 2,
 		});
 	});

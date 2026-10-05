@@ -103,7 +103,7 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 	});
 
 	for (const lastStep of [1, 2, 3, 4, 5]) {
-		test(`it waits for signatures when step ${lastStep} completes the five steps`, async ({
+		test(`it waits for Epartim validation when step ${lastStep} completes the five steps`, async ({
 			client,
 			assert,
 		}) => {
@@ -122,10 +122,10 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 					.loginAs(user);
 
 				response.assertOk();
-				assert.equal(response.body().status, SubscriptionStatus.WAITING_FOR_SIGNATURES);
+				assert.equal(response.body().status, SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION);
 				assert.deepEqual(response.body().completedSteps, [1, 2, 3, 4, 5]);
 				await subscription.refresh();
-				assert.equal(subscription.status, SubscriptionStatus.WAITING_FOR_SIGNATURES);
+				assert.equal(subscription.status, SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION);
 				assert.deepEqual(subscription.completedSteps, [1, 2, 3, 4, 5]);
 			}
 		});
@@ -156,6 +156,7 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 	}) => {
 		const { subscription, user } = await createCompleteSubscription();
 		for (const status of [
+			SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION,
 			SubscriptionStatus.WAITING_FOR_SIGNATURES,
 			SubscriptionStatus.TO_BE_SENT,
 			SubscriptionStatus.COMPLETE,

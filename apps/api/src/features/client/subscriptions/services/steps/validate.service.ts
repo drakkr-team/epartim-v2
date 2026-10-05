@@ -31,7 +31,7 @@ export default class ValidateSubscriptionStepService {
 					completedSteps.includes(requiredStep),
 				)
 			) {
-				lockedSubscription.status = SubscriptionStatus.WAITING_FOR_SIGNATURES;
+				lockedSubscription.status = SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION;
 			}
 			await lockedSubscription.useTransaction(trx).merge({ completedSteps }).save();
 
