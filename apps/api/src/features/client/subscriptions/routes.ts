@@ -84,6 +84,46 @@ router
 			])
 			.as("update_contract_fees");
 		router
+			.put("/:subscriptionId/formalism/:group", [
+				controllers.features.client.subscriptions.update.formalism.Group,
+			])
+			.as("update_formalism_group");
+		router
+			.post("/:subscriptionId/formalism/:group/members", [
+				controllers.features.client.subscriptions.update.formalism.members.Create,
+			])
+			.as("create_formalism_member");
+		router
+			.put("/:subscriptionId/formalism/:group/members/:memberId", [
+				controllers.features.client.subscriptions.update.formalism.members.Update,
+			])
+			.as("update_formalism_member");
+		router
+			.delete("/:subscriptionId/formalism/:group/members/:memberId", [
+				controllers.features.client.subscriptions.update.formalism.members.Delete,
+			])
+			.as("delete_formalism_member");
+		router
+			.post("/:subscriptionId/formalism/employees", [
+				controllers.features.client.subscriptions.update.formalism.employees.Create,
+			])
+			.as("create_formalism_employee");
+		router
+			.put("/:subscriptionId/formalism/employees/:employeeId", [
+				controllers.features.client.subscriptions.update.formalism.employees.Update,
+			])
+			.as("update_formalism_employee");
+		router
+			.delete("/:subscriptionId/formalism/employees/:employeeId", [
+				controllers.features.client.subscriptions.update.formalism.employees.Delete,
+			])
+			.as("delete_formalism_employee");
+		router
+			.post("/:subscriptionId/formalism/employees/import", [
+				controllers.features.client.subscriptions.update.formalism.employees.Import,
+			])
+			.as("import_formalism_employees");
+		router
 			.post("/:subscriptionId/kyc-owners", [
 				controllers.features.client.subscriptions.update.kyc.owners.Create,
 			])

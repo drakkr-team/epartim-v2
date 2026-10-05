@@ -607,6 +607,102 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/contract_fees.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'client.subscriptions.update_formalism_group': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/formalism/:group'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/group.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; group: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/group.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/group.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/group.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.create_formalism_member': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/formalism/:group/members'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; group: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/members/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/members/create.controller').default['handle']>>>
+    }
+  }
+  'client.subscriptions.update_formalism_member': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/formalism/:group/members/:memberId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/members/update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue, ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; group: ParamValue; memberId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/members/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/members/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/members/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.delete_formalism_member': {
+    methods: ["DELETE"]
+    pattern: '/client/subscriptions/:subscriptionId/formalism/:group/members/:memberId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; group: ParamValue; memberId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/members/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/members/delete.controller').default['handle']>>>
+    }
+  }
+  'client.subscriptions.create_formalism_employee': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/formalism/employees'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/create.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/create.controller').default['handle']>>>
+    }
+  }
+  'client.subscriptions.update_formalism_employee': {
+    methods: ["PUT"]
+    pattern: '/client/subscriptions/:subscriptionId/formalism/employees/:employeeId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/employees/update.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; employeeId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/employees/update.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/update.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/update.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.delete_formalism_employee': {
+    methods: ["DELETE"]
+    pattern: '/client/subscriptions/:subscriptionId/formalism/employees/:employeeId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; employeeId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/delete.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/delete.controller').default['handle']>>>
+    }
+  }
+  'client.subscriptions.import_formalism_employees': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/formalism/employees/import'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/subscription/formalism.validator').ImportFormalismEmployeesSchema)>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/subscription/formalism.validator').ImportFormalismEmployeesSchema)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/import.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/import.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'client.subscriptions.create_kyc_owner': {
     methods: ["POST"]
     pattern: '/client/subscriptions/:subscriptionId/kyc-owners'

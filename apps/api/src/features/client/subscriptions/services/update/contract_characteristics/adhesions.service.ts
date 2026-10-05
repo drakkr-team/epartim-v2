@@ -9,6 +9,7 @@ import { SubscriptionPlanAdhesionType as AdhesionType } from "#constants/subscri
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import SubscriptionPlanService from "#features/client/subscriptions/services/update/contract_characteristics/plan.service";
+import SubscriptionFormalismService from "#features/client/subscriptions/services/update/formalism/formalism.service";
 import Subscription from "#models/subscription";
 import SubscriptionMatchingRule from "#models/subscription_matching_rule";
 import SubscriptionPlan from "#models/subscription_plan";
@@ -24,6 +25,7 @@ export default class SubscriptionPlanAdhesionsService {
 	constructor(
 		protected validateSubscriptionStepService: ValidateSubscriptionStepService,
 		protected subscriptionPlanService: SubscriptionPlanService,
+		protected formalismService: SubscriptionFormalismService,
 	) {}
 
 	async handle(subscription: Subscription, payload: UpdateSubscriptionPlanAdhesionsPayload) {
@@ -35,7 +37,12 @@ export default class SubscriptionPlanAdhesionsService {
 
 			const plan = await this.subscriptionPlanService.getOrCreate(subscription.id, trx);
 			if (payload.adhesionTypes !== undefined) {
+				const previous = await this.list(plan, trx);
+				const changed =
+					previous.length !== payload.adhesionTypes.length ||
+					previous.some((adhesion) => !payload.adhesionTypes?.includes(adhesion.type));
 				await this.#replace(plan, payload.adhesionTypes as SubscriptionPlanAdhesionType[], trx);
+				if (changed) await this.formalismService.synchronize(subscription, trx);
 			}
 			await this.validateSubscriptionStepService.invalidate(
 				subscription,

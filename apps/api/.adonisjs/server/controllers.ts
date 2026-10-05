@@ -99,6 +99,20 @@ export const controllers = {
             Plan: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller'),
           },
           ContractFees: () => import('#src/features/client/subscriptions/controllers/update/contract_fees.controller'),
+          formalism: {
+            employees: {
+              Create: () => import('#src/features/client/subscriptions/controllers/update/formalism/employees/create.controller'),
+              Delete: () => import('#src/features/client/subscriptions/controllers/update/formalism/employees/delete.controller'),
+              Import: () => import('#src/features/client/subscriptions/controllers/update/formalism/employees/import.controller'),
+              Update: () => import('#src/features/client/subscriptions/controllers/update/formalism/employees/update.controller'),
+            },
+            Group: () => import('#src/features/client/subscriptions/controllers/update/formalism/group.controller'),
+            members: {
+              Create: () => import('#src/features/client/subscriptions/controllers/update/formalism/members/create.controller'),
+              Delete: () => import('#src/features/client/subscriptions/controllers/update/formalism/members/delete.controller'),
+              Update: () => import('#src/features/client/subscriptions/controllers/update/formalism/members/update.controller'),
+            },
+          },
           kyc: {
             owners: {
               Create: () => import('#src/features/client/subscriptions/controllers/update/kyc/owners/create.controller'),
