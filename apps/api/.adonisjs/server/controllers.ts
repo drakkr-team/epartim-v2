@@ -98,6 +98,7 @@ export const controllers = {
             Matching: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/matching.controller'),
             Plan: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller'),
           },
+          ContractFees: () => import('#src/features/client/subscriptions/controllers/update/contract_fees.controller'),
           kyc: {
             owners: {
               Create: () => import('#src/features/client/subscriptions/controllers/update/kyc/owners/create.controller'),

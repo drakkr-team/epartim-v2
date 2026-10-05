@@ -1,0 +1,154 @@
+{
+	"features.subscriptions.contract_fees": {
+		"pricing": {
+			"eyebrow": "I · Conditions tarifaires",
+			"title": "Conditions tarifaires",
+			"description": "L’offre est présélectionnée selon l’effectif de l’entreprise. Les montants sont hors taxes et la tarification enregistrée est conservée lorsque l’effectif évolue.",
+			"offer": "Tarif applicable",
+			"offers": {
+				"1": "Offre epartim moins de 11 salariés",
+				"2": "Offre epartim 11 salariés et plus"
+			},
+			"freeOffer": "Offre libre",
+			"adminOnly": "Réservée à l’administrateur epartim",
+			"table": {
+				"title": "Grille tarifaire à la charge de l’entreprise",
+				"service": "Prestation",
+				"frequency": "Périodicité / fréquence",
+				"amount": "Montant HT",
+				"included": "0,00 € (inclus)",
+				"entryFeeRange": "De 0 % à 4,5 %",
+				"free": "Gratuit",
+				"currentRate": "Tarif en vigueur",
+				"rows": {
+					"annualAccount": {
+						"label": "Forfait annuel de tenue de compte",
+						"frequency": "Annuelle"
+					},
+					"employeeAccount": {
+						"label": "Frais de tenue de compte par salarié",
+						"frequency": "Annuelle"
+					},
+					"entryFees": {
+						"label": "Droits d’entrée si pris en charge par l’entreprise",
+						"frequency": "Par opération"
+					},
+					"amundiOperation": {
+						"label": "Délégation à Amundi ESR d’une opération collective",
+						"frequency": "Par opération"
+					},
+					"companyOperation": {
+						"label": "Opération collective prise en charge par l’entreprise",
+						"frequency": "Par opération"
+					},
+					"placementChoices": {
+						"label": "Délégation à Amundi ESR de l’interrogation des choix de placement lors d’une opération collective (bulletin d’option)",
+						"frequency": "Par bénéficiaire interrogé"
+					},
+					"digitalBulletin": {
+						"label": "Envoi par e-mail ou en ligne du bulletin d’option",
+						"frequency": "Par bulletin"
+					},
+					"paperBulletin": {
+						"label": "Envoi du bulletin d’option par courrier",
+						"frequency": "Par bulletin"
+					},
+					"postage": {
+						"label": "Frais d’affranchissement des envois par courrier",
+						"frequency": "Par envoi"
+					}
+				}
+			}
+		},
+		"entry": {
+			"eyebrow": "II · Droits d’entrée",
+			"title": "Droits d’entrée sur les versements",
+			"description": "Les droits d’entrée sur les parts de la SICAV EPARTIM sont à la charge des épargnants ou pris en charge par l’entreprise, dans la limite de 4,5 % des versements.",
+			"payers": {
+				"1": "À la charge des épargnants",
+				"2": "Pris en charge par l’entreprise"
+			},
+			"rate": "Taux des droits d’entrée (%)",
+			"rateDescription": "Pourcentage des versements, de 0 à 4,5 % maximum."
+		},
+		"operations": {
+			"eyebrow": "III · Opérations et services",
+			"title": "Opérations et services",
+			"description": "Prestations facturées à l’unité, hors taxes, identiques pour tous les tarifs.",
+			"note": "Grille identique pour les deux tarifs. Les frais de transfert collectif sont à la charge de l’entreprise (CG, Annexe 1, 1.2.2.8(c) et Annexe 2, 2.2.2.8).",
+			"table": {
+				"service": "Opération ou service",
+				"frequency": "Base",
+				"amount": "Tarif unitaire HT",
+				"onQuote": "Sur devis",
+				"rows": {
+					"collectiveTransfer": {
+						"label": "Transfert collectif des avoirs vers un autre teneur de compte conservateur de parts",
+						"frequency": "Par opération"
+					},
+					"digitalCommunication": {
+						"label": "Communication digitale à destination des épargnants",
+						"frequency": "Par projet"
+					},
+					"recentDocumentSearch": {
+						"label": "Recherche de document de moins d’un an",
+						"frequency": "Par document"
+					},
+					"olderDocumentSearch": {
+						"label": "Recherche de document de plus d’un an",
+						"frequency": "Par document"
+					},
+					"accountStatement": {
+						"label": "Relevé de compte à la demande",
+						"frequency": "Par bénéficiaire"
+					},
+					"simpleReporting": {
+						"label": "Demande de reporting simple",
+						"frequency": "Par demande"
+					},
+					"complexReporting": {
+						"label": "Demande de reporting complexe",
+						"frequency": "Par demande"
+					},
+					"individualCorrection": {
+						"label": "Régularisation (correction ou suppression d’une instruction de l’entreprise pour un individu)",
+						"frequency": "Par opération individuelle"
+					},
+					"otherCorrections": {
+						"label": "Autres régularisations",
+						"frequency": "Devis préalable (CG, Annexe 5, 5.4)"
+					}
+				}
+			}
+		},
+		"savers": {
+			"eyebrow": "IV · Frais à la charge des épargnants",
+			"title": "Frais à la charge des épargnants",
+			"description": "Guide tarifaire annexé au règlement des plans, identique pour tous les clients (CG, Annexe 5, 5.6).",
+			"information": "Les conditions tarifaires générales des opérations d’épargne salariale des bénéficiaires sont disponibles dans le guide tarifaire annexé au règlement des plans."
+		},
+		"validation": {
+			"pricingOffer": "Sélectionnez une offre tarifaire.",
+			"entryFeePayer": "Sélectionnez le payeur des droits d’entrée.",
+			"entryFeeRateRequired": "Renseignez le taux des droits d’entrée.",
+			"entryFeeRateRange": "Le taux doit être compris entre 0 et 4,5 %.",
+			"entryFeeRatePrecision": "Le taux doit comporter au maximum deux décimales."
+		}
+	},
+	"features.subscriptions.contract_fees.hooks.use-update-mutation": {
+		"error": {
+			"E_NETWORK": {
+				"title": "Connexion impossible",
+				"description": "Vérifiez votre connexion et réessayez."
+			},
+			"E_VALIDATION": {
+				"title": "Données invalides",
+				"description": "Vérifiez les frais du contrat et réessayez."
+			},
+			"E_UNEXPECTED": {
+				"title": "Une erreur est survenue",
+				"description": "Les frais du contrat n’ont pas pu être enregistrés. Réessayez."
+			}
+		}
+	}
+}

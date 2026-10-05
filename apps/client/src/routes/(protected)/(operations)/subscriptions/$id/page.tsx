@@ -16,7 +16,7 @@ export const Route = createFileRoute("/(protected)/(operations)/subscriptions/$i
 		const step =
 			SUPPORTED_SUBSCRIPTION_STEPS.find(
 				(candidate) => !subscription.completedSteps?.includes(candidate),
-			) ?? 3;
+			) ?? SUPPORTED_SUBSCRIPTION_STEPS.at(-1);
 
 		throw redirect({
 			to: "/subscriptions/$id/steps/$step",

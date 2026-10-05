@@ -79,6 +79,11 @@ router
 			])
 			.as("update_contract_characteristics_matching");
 		router
+			.put("/:subscriptionId/contract-fees", [
+				controllers.features.client.subscriptions.update.ContractFees,
+			])
+			.as("update_contract_fees");
+		router
 			.post("/:subscriptionId/kyc-owners", [
 				controllers.features.client.subscriptions.update.kyc.owners.Create,
 			])
