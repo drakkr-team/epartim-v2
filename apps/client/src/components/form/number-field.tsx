@@ -4,6 +4,7 @@ import { NumberInput, type NumberInputProps } from "@workspace/ui-react/componen
 import { useFieldContext } from "#/libs/form";
 
 type NumberFieldProps = {
+	id?: string;
 	label?: string;
 	description?: string;
 	required?: boolean;
@@ -15,7 +16,7 @@ type NumberFieldProps = {
 };
 
 export function NumberField(props: NumberFieldProps) {
-	const { label, description, required, disabled, inputProps } = props;
+	const { id, label, description, required, disabled, inputProps } = props;
 
 	const field = useFieldContext<number | null>();
 	const errors = field.state.meta.errorMap.onBlur ?? field.state.meta.errorMap.onSubmit;
@@ -31,12 +32,12 @@ export function NumberField(props: NumberFieldProps) {
 			className="flex flex-col gap-2"
 		>
 			{label && (
-				<Field.Label htmlFor={field.name} required={required}>
+				<Field.Label htmlFor={id ?? field.name} required={required}>
 					{label}
 				</Field.Label>
 			)}
 			<NumberInput
-				id={field.name}
+				id={id ?? field.name}
 				name={field.name}
 				value={Number.isFinite(field.state.value) ? field.state.value : null}
 				disabled={disabled}
