@@ -48,6 +48,10 @@ export default class ValidateSubscriptionStepService {
 		const completedSteps = this.#normalizeCompletedSteps(lockedSubscription.completedSteps);
 		if (!completedSteps.includes(step)) return;
 
+		if (lockedSubscription.isWaitingForEpartimValidation) {
+			lockedSubscription.status = SubscriptionStatus.DRAFT;
+		}
+
 		await lockedSubscription
 			.useTransaction(trx)
 			.merge({
