@@ -15,6 +15,7 @@ const badgeVariants = tv({
 			success: { root: "bg-success-3 text-success-11", dot: "bg-success-9" },
 			warning: { root: "bg-warning-3 text-warning-11", dot: "bg-warning-9" },
 			error: { root: "bg-error-3 text-error-11", dot: "bg-error-9" },
+			brown: { root: "bg-brown-3 text-brown-11", dot: "bg-brown-9" },
 		},
 		size: {
 			sm: { root: "h-5 gap-1.5 px-2 text-2xs", dot: "size-1" },

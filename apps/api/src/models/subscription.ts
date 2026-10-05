@@ -16,6 +16,7 @@ export const SubscriptionStatus = {
 	TO_BE_SENT: 2,
 	COMPLETE: 3,
 	ERROR: 4,
+	WAITING_FOR_EPARTIM_VALIDATION: 5,
 } as const;
 
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus];
@@ -44,6 +45,10 @@ export default class Subscription extends SubscriptionSchema {
 
 	get isDraft() {
 		return this.status === SubscriptionStatus.DRAFT;
+	}
+
+	get isWaitingForEpartimValidation() {
+		return this.status === SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION;
 	}
 
 	get isWaitingForSignatures() {

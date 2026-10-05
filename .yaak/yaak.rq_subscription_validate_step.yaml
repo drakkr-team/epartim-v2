@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Replace the step number with 1, 2, 3, 4 or 5. Form validation is performed by the client before submission, after pending field saves. The API checks required documents for steps 1 to 3; steps 4 and 5 have no documents. Returns 200 with the subscription and updated completedSteps. When all five steps are validated, regardless of order, a draft subscription transitions to waiting for signatures (status 1) in the same transaction. Other statuses are preserved. Returns 422 for missing required documents or an unsupported step, 401 if unauthenticated, 403 for another creator, and 404 if missing.'
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Replace the step number with 1, 2, 3, 4 or 5. Form validation is performed by the client before submission, after pending field saves. The API checks required documents for steps 1 to 3; steps 4 and 5 have no documents. Returns 200 with the subscription and updated completedSteps. When all five steps are validated, regardless of order, a draft subscription transitions to waiting for Epartim validation (status 5) in the same transaction and appears in the validating list tab. Other statuses are preserved. Returns 422 for missing required documents or an unsupported step, 401 if unauthenticated, 403 for another creator, and 404 if missing.'
 headers:
 - enabled: true
   name: Accept
