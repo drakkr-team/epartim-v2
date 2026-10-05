@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
@@ -8,19 +7,13 @@ import {
 } from "@workspace/api/constants/subscription_formalism";
 import { Field } from "@workspace/ui-react/components/field";
 
-import { ConfirmFormalismChange } from "#/features/subscriptions/formalism/components/confirm-formalism-change";
 import type {
-	Formalism,
 	FormalismGroup,
 	useFormalismForm,
 } from "#/features/subscriptions/formalism/hooks/use-form";
 
-type MethodSectionProps = Pick<
-	ReturnType<typeof useFormalismForm>,
-	"form" | "changeMethod" | "hasPeople"
-> & {
+type MethodSectionProps = Pick<ReturnType<typeof useFormalismForm>, "form" | "changeMethod"> & {
 	group: FormalismGroup;
-	formalism: Formalism;
 	headcount: string | null;
 	devices: string;
 	busy: boolean;
@@ -29,37 +22,15 @@ type MethodSectionProps = Pick<
 export function MethodSection({
 	form,
 	changeMethod,
-	hasPeople,
 	group,
-	formalism,
 	headcount,
 	devices,
 	busy,
 }: MethodSectionProps) {
 	const { t } = useTranslation("features.subscriptions.formalism");
-	const [confirmation, setConfirmation] = useState<SubscriptionFormalismMethod | null>(null);
 	const methods = getAvailableFormalismMethods(group.group, headcount);
 	function chooseMethod(method: SubscriptionFormalismMethod) {
-		const values = form.state.values;
-		if (method === values.method) return;
-		const discardsCse =
-			values.method === SubscriptionFormalismMethod.CSE &&
-			(hasPeople() ||
-				values.meetingDate ||
-				values.meetingCity ||
-				values.closingTime ||
-				[values.votesFor, values.votesAgainst, values.votesAbstentions].some(
-					(value) => value !== null,
-				));
-		const discardsEmployees =
-			values.method === SubscriptionFormalismMethod.RATIFICATION &&
-			formalism.employees.length > 0 &&
-			!formalism.groups.some(
-				(other) =>
-					other.group !== group.group && other.method === SubscriptionFormalismMethod.RATIFICATION,
-			);
-		if (discardsCse || discardsEmployees) setConfirmation(method);
-		else changeMethod(method);
+		if (method !== form.state.values.method) changeMethod(method);
 	}
 
 	return (
@@ -162,14 +133,6 @@ export function MethodSection({
 					</>
 				)}
 			</form.Subscribe>
-			<ConfirmFormalismChange
-				open={confirmation !== null}
-				onCancel={() => setConfirmation(null)}
-				onConfirm={() => {
-					if (confirmation !== null) changeMethod(confirmation);
-					setConfirmation(null);
-				}}
-			/>
 		</section>
 	);
 }

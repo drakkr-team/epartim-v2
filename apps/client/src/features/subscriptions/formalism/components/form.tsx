@@ -27,8 +27,10 @@ export function FormalismForm({
 	headcount,
 	devices,
 }: FormalismFormProps) {
-	const { form, changeMethod, createMember, deleteMember, copyPeople, hasPeople } =
-		useFormalismForm(subscriptionId, group);
+	const { form, changeMethod, createMember, deleteMember, copyPeople } = useFormalismForm(
+		subscriptionId,
+		group,
+	);
 	useRegisterSubscriptionStepForm(form);
 	const busy =
 		useIsMutating({
@@ -44,9 +46,7 @@ export function FormalismForm({
 			<MethodSection
 				form={form}
 				changeMethod={changeMethod}
-				hasPeople={hasPeople}
 				group={group}
-				formalism={formalism}
 				headcount={headcount}
 				devices={devices}
 				busy={busy}

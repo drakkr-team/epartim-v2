@@ -5,7 +5,7 @@ import { ValidationError } from "@vinejs/vine";
 
 import SubscriptionDocumentRequirementsService from "#features/client/subscriptions/services/documents/requirements.service";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
-import Subscription from "#models/subscription";
+import Subscription, { SubscriptionStatus } from "#models/subscription";
 
 @inject()
 export default class ValidateSubscriptionStepService {
@@ -25,6 +25,14 @@ export default class ValidateSubscriptionStepService {
 			}
 
 			const completedSteps = this.#normalizeCompletedSteps(lockedSubscription.completedSteps, step);
+			if (
+				lockedSubscription.isDraft &&
+				Object.values(SubscriptionStep).every((requiredStep) =>
+					completedSteps.includes(requiredStep),
+				)
+			) {
+				lockedSubscription.status = SubscriptionStatus.WAITING_FOR_SIGNATURES;
+			}
 			await lockedSubscription.useTransaction(trx).merge({ completedSteps }).save();
 
 			return lockedSubscription;

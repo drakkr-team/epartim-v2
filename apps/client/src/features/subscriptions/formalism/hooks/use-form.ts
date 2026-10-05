@@ -72,23 +72,6 @@ export function useFormalismForm(subscriptionId: string, group: FormalismGroup) 
 			},
 		},
 	});
-	function hasPeople() {
-		const values = form.state.values;
-		return !!(
-			values.presidentFirstName ||
-			values.presidentLastName ||
-			values.presidentEmail ||
-			values.mandatedMemberId ||
-			values.members.some(
-				(member) =>
-					member.firstName ||
-					member.lastName ||
-					member.email ||
-					member.function !== null ||
-					member.attending !== null,
-			)
-		);
-	}
 	function changeMethod(method: NonNullable<FormalismGroup["method"]>) {
 		updateMutation.mutate(
 			{ params, body: { method } },
@@ -153,5 +136,5 @@ export function useFormalismForm(subscriptionId: string, group: FormalismGroup) 
 			},
 		);
 	}
-	return { form, changeMethod, createMember, deleteMember, copyPeople, hasPeople };
+	return { form, changeMethod, createMember, deleteMember, copyPeople };
 }

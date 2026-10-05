@@ -80,7 +80,7 @@
 			"eyebrow": "Ratification aux deux tiers",
 			"title": "Informations des salariés",
 			"description": "Ajoutez les salariés appelés à ratifier la mise en place. Cette liste est commune aux dispositifs utilisant la ratification.",
-			"shared": "Renseignez les salariés dans la liste commune située plus bas.",
+			"shared": "La liste des salariés est commune aux dispositifs utilisant la ratification aux deux tiers.",
 			"employee": "Salarié {{index}}",
 			"headcount": "La liste contient {{count}} salarié(s), pour un effectif déclaré de {{headcount}}. Vérifiez la liste avant de valider ; cet écart n’est pas bloquant."
 		},
@@ -101,15 +101,7 @@
 			"removeEmployee": "Supprimer le salarié {{index}}",
 			"copyPeople": "Reprendre les personnes du PEI/PER",
 			"downloadTemplate": "Télécharger le fichier type",
-			"import": "Importer un CSV",
-			"cancel": "Annuler",
-			"confirm": "Confirmer"
-		},
-		"confirm": {
-			"method": {
-				"title": "Changer le mode de mise en place ?",
-				"description": "Les informations qui ne sont plus nécessaires seront supprimées. La liste des salariés sera conservée si un autre dispositif utilise encore la ratification."
-			}
+			"import": "Importer un CSV"
 		},
 		"validation": {
 			"required": "Ce champ est obligatoire.",

@@ -31,7 +31,7 @@ export function FormalismStep({
 	const groups = subscription.formalism.groups.filter((group) =>
 		activeGroups.includes(group.group),
 	);
-	const hasRatification = groups.some(
+	const ratificationGroup = groups.find(
 		(group) => group.method === SubscriptionFormalismMethod.RATIFICATION,
 	);
 	return (
@@ -62,7 +62,7 @@ export function FormalismStep({
 						</Card>
 					)}
 					{headcount &&
-						groups.map((group) => (
+						groups.flatMap((group) => [
 							<FormalismForm
 								key={group.group}
 								subscriptionId={subscriptionId}
@@ -73,15 +73,16 @@ export function FormalismStep({
 									.join(" · ")}
 								formalism={subscription.formalism}
 								headcount={headcount}
-							/>
-						))}
-					{headcount && hasRatification && (
-						<FormalismEmployeesForm
-							subscriptionId={subscriptionId}
-							employees={subscription.formalism.employees}
-							headcount={headcount}
-						/>
-					)}
+							/>,
+							group.group === ratificationGroup?.group && (
+								<FormalismEmployeesForm
+									key="employees"
+									subscriptionId={subscriptionId}
+									employees={subscription.formalism.employees}
+									headcount={headcount}
+								/>
+							),
+						])}
 					<SubscriptionStepFooter
 						currentStep={5}
 						stepLabel={t("shortTitle")}
