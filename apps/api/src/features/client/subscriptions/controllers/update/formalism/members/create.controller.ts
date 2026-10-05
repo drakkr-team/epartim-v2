@@ -8,11 +8,12 @@ import { validateFormalismGroup } from "#validators/subscription/formalism.valid
 
 @inject()
 export default class CreateFormalismMemberController {
-	constructor(protected service: SubscriptionFormalismMembersService) {}
+	constructor(protected subscriptionFormalismMembersService: SubscriptionFormalismMembersService) {}
+
 	async handle({ bouncer, params }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
-		const group = await validateFormalismGroup(params.group);
-		return this.service.create(subscription, group);
+		const group = validateFormalismGroup(params.group);
+		return this.subscriptionFormalismMembersService.create(subscription, group);
 	}
 }

@@ -7,10 +7,13 @@ import Subscription from "#models/subscription";
 
 @inject()
 export default class CreateFormalismEmployeeController {
-	constructor(protected service: SubscriptionFormalismEmployeesService) {}
+	constructor(
+		protected subscriptionFormalismEmployeesService: SubscriptionFormalismEmployeesService,
+	) {}
+
 	async handle({ bouncer, params }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
-		return this.service.create(subscription);
+		return this.subscriptionFormalismEmployeesService.create(subscription);
 	}
 }

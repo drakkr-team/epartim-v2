@@ -611,12 +611,12 @@ export interface Registry {
     methods: ["PUT"]
     pattern: '/client/subscriptions/:subscriptionId/formalism/:group'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/group.controller').default)['payloadSchema']>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/formalism.controller').default)['payloadSchema']>>
       paramsTuple: [ParamValue, ParamValue]
       params: { subscriptionId: ParamValue; group: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/group.controller').default)['payloadSchema']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/group.controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/group.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/formalism.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/formalism.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/formalism.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.subscriptions.create_formalism_member': {
@@ -695,10 +695,10 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/client/subscriptions/:subscriptionId/formalism/employees/import'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/subscription/formalism.validator').ImportFormalismEmployeesSchema)>>
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/employees/import.controller').default)['payloadSchema']>>
       paramsTuple: [ParamValue]
       params: { subscriptionId: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/subscription/formalism.validator').ImportFormalismEmployeesSchema)>>
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/update/formalism/employees/import.controller').default)['payloadSchema']>>
       response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/import.controller').default['handle']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/update/formalism/employees/import.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }

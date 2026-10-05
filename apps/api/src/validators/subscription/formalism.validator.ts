@@ -73,9 +73,9 @@ export const UpdateFormalismGroupSchema = vine.object({
 		.use(singleMandatedMember())
 		.optional(),
 });
-export const ImportFormalismEmployeesSchema = vine.create(
-	vine.object({ file: vine.file({ size: "10mb", extnames: ["csv"] }) }),
-);
+export const ImportFormalismEmployeesSchema = vine.object({
+	file: vine.file({ size: "10mb", extnames: ["csv"] }),
+});
 export const ImportedFormalismEmployeeSchema = vine.create(
 	vine.object({
 		firstName: vine.string().trim().minLength(1).maxLength(254),

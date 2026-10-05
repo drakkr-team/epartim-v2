@@ -1,8 +1,10 @@
 import { BaseSchema } from "@adonisjs/lucid/schema";
 
 export default class extends BaseSchema {
+	protected tableName = "subscription_formalisms";
+
 	async up() {
-		this.schema.createTable("subscription_formalisms", (table) => {
+		this.schema.createTable(this.tableName, (table) => {
 			table.increments("id").notNullable();
 			table
 				.integer("subscription_id")
@@ -31,7 +33,7 @@ export default class extends BaseSchema {
 				.integer("subscription_formalism_id")
 				.notNullable()
 				.references("id")
-				.inTable("subscription_formalisms")
+				.inTable(this.tableName)
 				.onDelete("CASCADE");
 			table.string("first_name", 254).nullable();
 			table.string("last_name", 254).nullable();
@@ -60,6 +62,6 @@ export default class extends BaseSchema {
 	async down() {
 		this.schema.dropTable("subscription_formalism_employees");
 		this.schema.dropTable("subscription_cse_members");
-		this.schema.dropTable("subscription_formalisms");
+		this.schema.dropTable(this.tableName);
 	}
 }

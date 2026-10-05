@@ -8,11 +8,17 @@ import { validateFormalismPersonId } from "#validators/subscription/formalism.va
 
 @inject()
 export default class DeleteFormalismEmployeeController {
-	constructor(protected service: SubscriptionFormalismEmployeesService) {}
+	constructor(
+		protected subscriptionFormalismEmployeesService: SubscriptionFormalismEmployeesService,
+	) {}
+
 	async handle({ bouncer, params, response }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
-		await this.service.delete(subscription, await validateFormalismPersonId(params.employeeId));
+		await this.subscriptionFormalismEmployeesService.delete(
+			subscription,
+			validateFormalismPersonId(params.employeeId),
+		);
 		return response.noContent();
 	}
 }

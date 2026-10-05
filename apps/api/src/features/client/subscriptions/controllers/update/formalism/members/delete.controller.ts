@@ -11,15 +11,16 @@ import {
 
 @inject()
 export default class DeleteFormalismMemberController {
-	constructor(protected service: SubscriptionFormalismMembersService) {}
+	constructor(protected subscriptionFormalismMembersService: SubscriptionFormalismMembersService) {}
+
 	async handle({ bouncer, params, response }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
-		const group = await validateFormalismGroup(params.group);
-		await this.service.delete(
+		const group = validateFormalismGroup(params.group);
+		await this.subscriptionFormalismMembersService.delete(
 			subscription,
 			group,
-			await validateFormalismPersonId(params.memberId),
+			validateFormalismPersonId(params.memberId),
 		);
 		return response.noContent();
 	}

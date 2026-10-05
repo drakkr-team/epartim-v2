@@ -106,7 +106,7 @@ export const controllers = {
               Import: () => import('#src/features/client/subscriptions/controllers/update/formalism/employees/import.controller'),
               Update: () => import('#src/features/client/subscriptions/controllers/update/formalism/employees/update.controller'),
             },
-            Group: () => import('#src/features/client/subscriptions/controllers/update/formalism/group.controller'),
+            Formalism: () => import('#src/features/client/subscriptions/controllers/update/formalism/formalism.controller'),
             members: {
               Create: () => import('#src/features/client/subscriptions/controllers/update/formalism/members/create.controller'),
               Delete: () => import('#src/features/client/subscriptions/controllers/update/formalism/members/delete.controller'),

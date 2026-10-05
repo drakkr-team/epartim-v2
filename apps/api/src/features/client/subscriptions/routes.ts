@@ -85,7 +85,7 @@ router
 			.as("update_contract_fees");
 		router
 			.put("/:subscriptionId/formalism/:group", [
-				controllers.features.client.subscriptions.update.formalism.Group,
+				controllers.features.client.subscriptions.update.formalism.Formalism,
 			])
 			.as("update_formalism_group");
 		router

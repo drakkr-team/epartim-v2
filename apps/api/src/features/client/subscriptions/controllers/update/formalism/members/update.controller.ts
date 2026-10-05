@@ -13,18 +13,20 @@ import {
 
 @inject()
 export default class UpdateFormalismMemberController {
-	constructor(protected service: SubscriptionFormalismMembersService) {}
+	constructor(protected subscriptionFormalismMembersService: SubscriptionFormalismMembersService) {}
+
 	async handle({ bouncer, params, request }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
-		const group = await validateFormalismGroup(params.group);
+		const group = validateFormalismGroup(params.group);
 		const payload = await request.validateUsing(UpdateFormalismMemberController.payloadSchema);
-		return this.service.update(
+		return this.subscriptionFormalismMembersService.update(
 			subscription,
 			group,
-			await validateFormalismPersonId(params.memberId),
+			validateFormalismPersonId(params.memberId),
 			payload,
 		);
 	}
+
 	static payloadSchema = vine.create(UpdateFormalismMemberSchema);
 }

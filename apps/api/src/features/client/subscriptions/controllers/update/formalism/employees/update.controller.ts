@@ -12,16 +12,20 @@ import {
 
 @inject()
 export default class UpdateFormalismEmployeeController {
-	constructor(protected service: SubscriptionFormalismEmployeesService) {}
+	constructor(
+		protected subscriptionFormalismEmployeesService: SubscriptionFormalismEmployeesService,
+	) {}
+
 	async handle({ bouncer, params, request }: HttpContext) {
 		const subscription = await Subscription.findOrFail(params.subscriptionId);
 		await bouncer.with(AccessSubscriptionPolicy).authorize("handle", subscription);
 		const payload = await request.validateUsing(UpdateFormalismEmployeeController.payloadSchema);
-		return this.service.update(
+		return this.subscriptionFormalismEmployeesService.update(
 			subscription,
-			await validateFormalismPersonId(params.employeeId),
+			validateFormalismPersonId(params.employeeId),
 			payload,
 		);
 	}
+
 	static payloadSchema = vine.create(UpdateFormalismPersonSchema);
 }
