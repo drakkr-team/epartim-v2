@@ -71,6 +71,68 @@
 			"rate": "Taux des droits d’entrée (%)",
 			"rateDescription": "Pourcentage des versements, de 0 à 4,5 % maximum."
 		},
+		"operations": {
+			"eyebrow": "III · Opérations et services",
+			"title": "Opérations et services",
+			"description": "Prestations facturées à l’unité, hors taxes, identiques pour tous les tarifs.",
+			"note": "Grille identique pour les deux tarifs. Les frais de transfert collectif sont à la charge de l’entreprise (CG, Annexe 1, 1.2.2.8(c) et Annexe 2, 2.2.2.8).",
+			"directPaymentNote": "Paiement direct net du prélèvement à la source : montant repris de la version précédente des CG, absent des grilles transmises. Les CG renvoient au bulletin de souscription pour ce tarif (Annexe 5, 5.2) : à confirmer ou à retirer.",
+			"table": {
+				"service": "Opération ou service",
+				"frequency": "Base",
+				"amount": "Tarif unitaire HT",
+				"onQuote": "Sur devis",
+				"toConfirm": "À confirmer",
+				"rows": {
+					"collectiveTransfer": {
+						"label": "Transfert collectif des avoirs vers un autre teneur de compte conservateur de parts",
+						"frequency": "Par opération"
+					},
+					"digitalCommunication": {
+						"label": "Communication digitale à destination des épargnants",
+						"frequency": "Par projet"
+					},
+					"recentDocumentSearch": {
+						"label": "Recherche de document de moins d’un an",
+						"frequency": "Par document"
+					},
+					"olderDocumentSearch": {
+						"label": "Recherche de document de plus d’un an",
+						"frequency": "Par document"
+					},
+					"accountStatement": {
+						"label": "Relevé de compte à la demande",
+						"frequency": "Par bénéficiaire"
+					},
+					"simpleReporting": {
+						"label": "Demande de reporting simple",
+						"frequency": "Par demande"
+					},
+					"complexReporting": {
+						"label": "Demande de reporting complexe",
+						"frequency": "Par demande"
+					},
+					"individualCorrection": {
+						"label": "Régularisation (correction ou suppression d’une instruction de l’entreprise pour un individu)",
+						"frequency": "Par opération individuelle"
+					},
+					"otherCorrections": {
+						"label": "Autres régularisations",
+						"frequency": "Devis préalable (CG, Annexe 5, 5.4)"
+					},
+					"directPayment": {
+						"label": "Paiement direct net du prélèvement à la source",
+						"frequency": "Par salarié et par opération"
+					}
+				}
+			}
+		},
+		"savers": {
+			"eyebrow": "IV · Frais à la charge des épargnants",
+			"title": "Frais à la charge des épargnants",
+			"description": "Guide tarifaire annexé au règlement des plans, identique pour tous les clients (CG, Annexe 5, 5.6).",
+			"information": "Les conditions tarifaires générales des opérations d’épargne salariale des bénéficiaires sont disponibles dans le guide tarifaire annexé au règlement des plans."
+		},
 		"validation": {
 			"pricingOffer": "Sélectionnez une offre tarifaire.",
 			"entryFeePayer": "Sélectionnez le payeur des droits d’entrée.",
