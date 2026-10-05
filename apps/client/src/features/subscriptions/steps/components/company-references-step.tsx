@@ -37,7 +37,6 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 					<SubscriptionStepHeader
 						description={t("step-one.description")}
 						eyebrow={t("step-one.eyebrow")}
-						isValidated={isValidated}
 						title={t("step-one.title")}
 					/>
 					<div className="lg:hidden">

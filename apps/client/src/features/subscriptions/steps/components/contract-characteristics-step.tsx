@@ -36,7 +36,6 @@ export function ContractCharacteristicsStep(props: ContractCharacteristicsStepPr
 					<SubscriptionStepHeader
 						description={t("step-three.description")}
 						eyebrow={t("step-three.eyebrow")}
-						isValidated={isValidated}
 						title={t("step-three.title")}
 					/>
 					<div className="lg:hidden">

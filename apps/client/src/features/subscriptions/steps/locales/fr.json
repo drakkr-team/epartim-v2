@@ -23,8 +23,21 @@
 			}
 		}
 	},
-	"features.subscriptions.steps.subscription-step-header": {
-		"validated": "Étape validée"
+	"features.subscriptions.steps.subscription-step-navigation": {
+		"label": "Étapes de la souscription",
+		"step": "Étape {{number}}",
+		"steps": {
+			"1": "Réf. entreprise",
+			"2": "KYC",
+			"3": "Caractéristiques",
+			"4": "Frais du contrat",
+			"5": "Formalisme"
+		},
+		"status": {
+			"validated": "Validée",
+			"current": "En cours",
+			"pending": "À compléter"
+		}
 	},
 	"features.subscriptions.steps.subscription-step-footer": {
 		"action": {

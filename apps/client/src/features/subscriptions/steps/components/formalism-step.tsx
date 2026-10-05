@@ -42,7 +42,6 @@ export function FormalismStep({
 						title={t("title")}
 						description={t("description")}
 						eyebrow={t("eyebrow")}
-						isValidated={isValidated}
 					/>
 					<div className="lg:hidden">
 						<SubscriptionSummary subscription={subscription} />
