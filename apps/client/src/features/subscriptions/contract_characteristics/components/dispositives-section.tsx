@@ -8,7 +8,10 @@ import { MailIcon } from "@workspace/ui-react/icons";
 
 import { BooleanField } from "#/features/subscriptions/components/boolean-field";
 import { InformationCard } from "#/features/subscriptions/components/information-card";
-import type { useContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
+import type {
+	MatchingDeviceKey,
+	useContractCharacteristicsForm,
+} from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 
 const namespace = "features.subscriptions.contract_characteristics";
 const adhesionOptions = [
@@ -62,6 +65,28 @@ export function DispositivesSection(props: DevicesSectionProps) {
 		}
 
 		updateContractCharacteristics({ existingDeviceTransfer: true });
+	}
+
+	function clearMatchingRules(device: MatchingDeviceKey) {
+		form.setFieldValue(`matchingRules.${device}`, {
+			ruleTypes: [],
+			uniformRules: [],
+			seniorityRules: [],
+			unilateralRule: null,
+			specificRule: false,
+			specificRuleDetails: null,
+		});
+		form.setFieldMeta(`matchingRules.${device}`, (meta) => ({ ...meta, errorMap: {} }));
+	}
+
+	function clearInactiveMatchingRules(adhesionTypes: SubscriptionPlanAdhesionType[]) {
+		if (adhesionTypes.length === 0) return;
+		if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PEI_EPARTIM)) {
+			clearMatchingRules("pei");
+		}
+		if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PER_COLI_EPARTIM)) {
+			clearMatchingRules("per");
+		}
 	}
 
 	return (
@@ -166,6 +191,7 @@ export function DispositivesSection(props: DevicesSectionProps) {
 																	? [...adhesionTypes, option.value]
 																	: adhesionTypes.filter((type) => type !== option.value);
 																field.handleChange(nextAdhesionTypes);
+																clearInactiveMatchingRules(nextAdhesionTypes);
 																field.handleBlur();
 															}}
 														/>

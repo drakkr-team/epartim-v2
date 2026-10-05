@@ -427,6 +427,25 @@ export class SubscriptionExistingAgreementSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class SubscriptionMatchingRuleSchema extends BaseModel {
+  static $columns = ['createdAt', 'details', 'device', 'id', 'subscriptionPlanId', 'type', 'updatedAt'] as const
+  $columns = SubscriptionMatchingRuleSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare details: any
+  @column()
+  declare device: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare subscriptionPlanId: number
+  @column()
+  declare type: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class SubscriptionPlanAdhesionSchema extends BaseModel {
   static $columns = ['createdAt', 'id', 'subscriptionPlanId', 'type', 'updatedAt'] as const
   $columns = SubscriptionPlanAdhesionSchema.$columns

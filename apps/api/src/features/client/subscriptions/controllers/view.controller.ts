@@ -19,6 +19,7 @@ import ContactPresenter from "#presenters/contact.presenter";
 import FilePresenter from "#presenters/file.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
+import { presentSubscriptionMatchingRules } from "#presenters/subscription_matching.presenter";
 import SubscriptionPlanPresenter from "#presenters/subscription_plan.presenter";
 
 @inject()
@@ -73,7 +74,7 @@ export default class ViewSubscriptionController {
 				.preload("address")
 				.preload("roles")
 				.orderBy("company_beneficial_owners.id"),
-			subscription.related("plan").query().preload("adhesions").first(),
+			subscription.related("plan").query().preload("adhesions").preload("matchingRules").first(),
 			subscription.related("existingAgreements").query().orderBy("type"),
 		]);
 
@@ -114,6 +115,7 @@ export default class ViewSubscriptionController {
 						minimumSeniorityMonths: null,
 						matchingCalculationMethod: SubscriptionMatchingCalculationMethod.AMUNDI,
 						matchingDistributionPeriod: SubscriptionMatchingDistributionPeriod.YEARS,
+						matchingRules: presentSubscriptionMatchingRules([]),
 						voluntaryPaymentsLimitedToPeriod: false,
 						voluntaryPaymentPeriodStartDate: null,
 						voluntaryPaymentPeriodEndDate: null,

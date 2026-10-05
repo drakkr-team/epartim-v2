@@ -39,5 +39,8 @@ export function useUpdateContractCharacteristicsMutations(subscriptionId: string
 		updateAdhesions: useMutation(
 			api.subscriptions.updateContractCharacteristicsAdhesions.mutationOptions(options),
 		),
+		updateMatching: useMutation(
+			api.subscriptions.updateContractCharacteristicsMatching.mutationOptions(options),
+		),
 	};
 }
