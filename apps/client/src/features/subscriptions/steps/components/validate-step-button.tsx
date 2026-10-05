@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@workspace/ui-react/components/button";
 import { toast } from "@workspace/ui-react/components/toast";
 
-import { TOTAL_SUBSCRIPTION_STEPS } from "#/features/subscriptions/steps/step.constants";
+import { SUPPORTED_SUBSCRIPTION_STEPS } from "#/features/subscriptions/steps/step.constants";
 import { useSubscriptionStepValidation } from "#/features/subscriptions/steps/step-validation-context";
 import { api } from "#/libs/tuyau";
 import { toastifyTuyauError } from "#/utils/tuyau";
@@ -14,7 +14,7 @@ import { toastifyTuyauError } from "#/utils/tuyau";
 type ValidateStepButtonProps = {
 	areDocumentsComplete: boolean;
 	isValidated: boolean;
-	onValidationAttempt: () => void;
+	onValidationAttempt?: () => void;
 	step: number;
 	subscriptionId: string;
 };
@@ -48,7 +48,8 @@ export function ValidateStepButton(props: ValidateStepButtonProps) {
 				toast.success(t("success.title"), { description: t("success.description") });
 
 				const nextStep = step + 1;
-				if (nextStep > TOTAL_SUBSCRIPTION_STEPS) return;
+				if (!SUPPORTED_SUBSCRIPTION_STEPS.some((supportedStep) => supportedStep === nextStep))
+					return;
 
 				await navigate({
 					to: "/subscriptions/$id/steps/$step",
@@ -95,7 +96,7 @@ export function ValidateStepButton(props: ValidateStepButtonProps) {
 			variant={isValidated ? "secondary" : "primary"}
 			disabled={isValidated || !isReadyToValidate || isSaving || validation.isPending}
 			onClick={() => {
-				onValidationAttempt();
+				onValidationAttempt?.();
 				setIsValidationRequested(true);
 			}}
 		>

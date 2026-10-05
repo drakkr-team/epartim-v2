@@ -6,6 +6,7 @@ import { Spinner } from "@workspace/ui-react/components/spinner";
 import { useSubscriptionQuery } from "#/features/subscriptions/hooks/use-subscription-query";
 import { CompanyReferencesStep } from "#/features/subscriptions/steps/components/company-references-step";
 import { ContractCharacteristicsStep } from "#/features/subscriptions/steps/components/contract-characteristics-step";
+import { ContractFeesStep } from "#/features/subscriptions/steps/components/contract-fees-step";
 import { KycStep } from "#/features/subscriptions/steps/components/kyc-step";
 import { SUPPORTED_SUBSCRIPTION_STEPS } from "#/features/subscriptions/steps/step.constants";
 
@@ -40,6 +41,9 @@ function SubscriptionStepPage() {
 	}
 	if (step === "3") {
 		return <ContractCharacteristicsStep subscriptionId={id} subscription={subscription} />;
+	}
+	if (step === "4") {
+		return <ContractFeesStep subscriptionId={id} subscription={subscription} />;
 	}
 
 	return <CompanyReferencesStep subscriptionId={id} subscription={subscription} />;

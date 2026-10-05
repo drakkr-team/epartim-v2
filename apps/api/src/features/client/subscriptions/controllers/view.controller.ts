@@ -19,6 +19,7 @@ import ContactPresenter from "#presenters/contact.presenter";
 import FilePresenter from "#presenters/file.presenter";
 import PaymentDetailPresenter from "#presenters/payment_detail.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
+import SubscriptionContractFeePresenter from "#presenters/subscription_contract_fee.presenter";
 import { presentSubscriptionMatchingRules } from "#presenters/subscription_matching.presenter";
 import SubscriptionPlanPresenter from "#presenters/subscription_plan.presenter";
 
@@ -35,6 +36,7 @@ export default class ViewSubscriptionController {
 		protected documentRequirementsService: SubscriptionDocumentRequirementsService,
 		protected filePresenter: FilePresenter,
 		protected subscriptionPlanPresenter: SubscriptionPlanPresenter,
+		protected subscriptionContractFeePresenter: SubscriptionContractFeePresenter,
 	) {}
 
 	async handle({ bouncer, params }: HttpContext) {
@@ -57,6 +59,7 @@ export default class ViewSubscriptionController {
 			beneficialOwners,
 			plan,
 			existingAgreements,
+			contractFees,
 		] = await Promise.all([
 			subscription.company.related("legalAgent").query().first(),
 			subscription.company.related("signer").query().first(),
@@ -76,6 +79,7 @@ export default class ViewSubscriptionController {
 				.orderBy("company_beneficial_owners.id"),
 			subscription.related("plan").query().preload("adhesions").preload("matchingRules").first(),
 			subscription.related("existingAgreements").query().orderBy("type"),
+			subscription.related("contractFees").query().first(),
 		]);
 
 		return {
@@ -120,6 +124,10 @@ export default class ViewSubscriptionController {
 						voluntaryPaymentPeriodStartDate: null,
 						voluntaryPaymentPeriodEndDate: null,
 					},
+			contractFees: this.subscriptionContractFeePresenter.toJSON(
+				contractFees,
+				subscription.company.companyHeadcount,
+			),
 			documents: await this.#presentDocuments(
 				documentRequirements.filter(
 					(document) => document.step === SubscriptionStep.COMPANY_REFERENCES,

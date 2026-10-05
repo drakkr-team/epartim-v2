@@ -3,6 +3,7 @@ import type { BelongsTo, HasMany, HasOne } from "@adonisjs/lucid/types/relations
 
 import { SubscriptionSchema } from "#database/schema";
 import Company from "#models/company";
+import SubscriptionContractFee from "#models/subscription_contract_fee";
 import SubscriptionDocument from "#models/subscription_document";
 import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
 import SubscriptionPlan from "#models/subscription_plan";
@@ -37,6 +38,9 @@ export default class Subscription extends SubscriptionSchema {
 
 	@hasOne(() => SubscriptionPlan)
 	declare plan: HasOne<typeof SubscriptionPlan>;
+
+	@hasOne(() => SubscriptionContractFee)
+	declare contractFees: HasOne<typeof SubscriptionContractFee>;
 
 	get isDraft() {
 		return this.status === SubscriptionStatus.DRAFT;

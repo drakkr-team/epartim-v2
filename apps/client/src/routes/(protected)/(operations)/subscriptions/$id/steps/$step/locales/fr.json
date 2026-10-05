@@ -21,6 +21,12 @@
 			"short-title": "Caractéristiques du contrat",
 			"title": "Caractéristiques du contrat",
 			"description": "Dispositifs, accords existants, versements volontaires et règles d'abondement du contrat."
+		},
+		"step-four": {
+			"eyebrow": "Étape 04 sur 05 · Frais du contrat",
+			"short-title": "Frais du contrat",
+			"title": "Frais du contrat",
+			"description": "Conditions tarifaires appliquées au contrat et droits d’entrée sur les versements."
 		}
 	}
 }

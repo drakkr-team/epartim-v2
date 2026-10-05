@@ -393,6 +393,29 @@ export class RoleSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class SubscriptionContractFeeSchema extends BaseModel {
+  static $columns = ['annualAccountFeeCents', 'annualAccountFeePerEmployeeCents', 'createdAt', 'entryFeePayer', 'entryFeeRateBasisPoints', 'id', 'pricingOffer', 'subscriptionId', 'updatedAt'] as const
+  $columns = SubscriptionContractFeeSchema.$columns
+  @column()
+  declare annualAccountFeeCents: bigint | number
+  @column()
+  declare annualAccountFeePerEmployeeCents: bigint | number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare entryFeePayer: number | null
+  @column()
+  declare entryFeeRateBasisPoints: number | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare pricingOffer: number
+  @column()
+  declare subscriptionId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class SubscriptionDocumentSchema extends BaseModel {
   static $columns = ['companyBeneficialOwnerId', 'createdAt', 'fileId', 'id', 'subscriptionId', 'type', 'updatedAt'] as const
   $columns = SubscriptionDocumentSchema.$columns

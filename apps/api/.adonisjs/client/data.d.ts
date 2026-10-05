@@ -30,6 +30,8 @@ export type PaymentDetail = Awaited<ReturnType<typeof import("#presenters/paymen
 
 export type Role = Awaited<ReturnType<typeof import("#presenters/role.presenter").default.prototype.toJSON>>;
 
+export type SubscriptionContractFee = Awaited<ReturnType<typeof import("#presenters/subscription_contract_fee.presenter").default.prototype.toJSON>>;
+
 export type SubscriptionMatching = Awaited<ReturnType<typeof import("#presenters/subscription_matching.presenter").default.prototype.toJSON>>;
 
 export type SubscriptionPlan = Awaited<ReturnType<typeof import("#presenters/subscription_plan.presenter").default.prototype.toJSON>>;

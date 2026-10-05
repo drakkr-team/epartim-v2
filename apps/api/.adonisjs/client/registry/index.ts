@@ -300,6 +300,12 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/matching","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/matching","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/matching","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/matching","type":0,"val":"contract-characteristics","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-characteristics/matching","type":0,"val":"matching","end":""}],
     types: placeholder as Registry['client.subscriptions.update_contract_characteristics_matching']['types'],
   },
+  'client.subscriptions.update_contract_fees': {
+    methods: ["PUT"],
+    pattern: '/client/subscriptions/:subscriptionId/contract-fees',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/contract-fees","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-fees","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-fees","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/contract-fees","type":0,"val":"contract-fees","end":""}],
+    types: placeholder as Registry['client.subscriptions.update_contract_fees']['types'],
+  },
   'client.subscriptions.create_kyc_owner': {
     methods: ["POST"],
     pattern: '/client/subscriptions/:subscriptionId/kyc-owners',
