@@ -7,6 +7,7 @@ import { useSubscriptionQuery } from "#/features/subscriptions/hooks/use-subscri
 import { CompanyReferencesStep } from "#/features/subscriptions/steps/components/company-references-step";
 import { ContractCharacteristicsStep } from "#/features/subscriptions/steps/components/contract-characteristics-step";
 import { ContractFeesStep } from "#/features/subscriptions/steps/components/contract-fees-step";
+import { FormalismStep } from "#/features/subscriptions/steps/components/formalism-step";
 import { KycStep } from "#/features/subscriptions/steps/components/kyc-step";
 import { SUPPORTED_SUBSCRIPTION_STEPS } from "#/features/subscriptions/steps/step.constants";
 
@@ -36,6 +37,7 @@ function SubscriptionStepPage() {
 		return <p className="text-error-10">{t("error")}</p>;
 	}
 
+	if (step === "5") return <FormalismStep subscriptionId={id} subscription={subscription} />;
 	if (step === "2") {
 		return <KycStep subscriptionId={id} subscription={subscription} />;
 	}

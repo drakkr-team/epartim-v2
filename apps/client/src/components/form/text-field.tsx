@@ -4,6 +4,7 @@ import { Input, type InputProps } from "@workspace/ui-react/components/input";
 import { useFieldContext } from "#/libs/form";
 
 type TextFieldProps = {
+	id?: string;
 	label?: string;
 	description?: string;
 	required?: boolean;
@@ -15,7 +16,7 @@ type TextFieldProps = {
 };
 
 export function TextField(props: TextFieldProps) {
-	const { label, description, required, disabled, inputProps } = props;
+	const { id, label, description, required, disabled, inputProps } = props;
 
 	const field = useFieldContext<string>();
 	const isInvalid = field.state.meta.isTouched && field.state.meta.errorMap.onBlur !== undefined;
@@ -28,12 +29,12 @@ export function TextField(props: TextFieldProps) {
 			className="flex flex-col gap-2"
 		>
 			{label && (
-				<Field.Label htmlFor={field.name} required={required}>
+				<Field.Label htmlFor={id ?? field.name} required={required}>
 					{label}
 				</Field.Label>
 			)}
 			<Input
-				id={field.name}
+				id={id ?? field.name}
 				name={field.name}
 				value={field.state.value}
 				aria-invalid={isInvalid}
