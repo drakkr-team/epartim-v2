@@ -146,6 +146,27 @@ function Page() {
 						value={firm.paymentDetail.bic ?? t("status.notProvided")}
 					/>
 				</div>
+
+				<Separator />
+
+				<div className="grid grid-cols-2 gap-4">
+					<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
+						{t("section.commission")}
+					</h2>
+
+					<DetailField
+						label={t("field.commissionRate.shortTermRatePercent")}
+						value={`${firm.commissionRate.shortTermRatePercent.toLocaleString("fr-FR")} %`}
+					/>
+					<DetailField
+						label={t("field.commissionRate.mediumTermRatePercent")}
+						value={`${firm.commissionRate.mediumTermRatePercent.toLocaleString("fr-FR")} %`}
+					/>
+					<DetailField
+						label={t("field.commissionRate.longTermRatePercent")}
+						value={`${firm.commissionRate.longTermRatePercent.toLocaleString("fr-FR")} %`}
+					/>
+				</div>
 			</Card>
 
 			<DeleteFirmDialog

@@ -5,6 +5,7 @@ import vine from "@vinejs/vine";
 
 import UpdateFirmPolicy from "#features/admin/firms/policies/update.policy";
 import Address from "#models/address";
+import CommissionRate from "#models/commission_rate";
 import Firm from "#models/firm";
 import PaymentDetail from "#models/payment_detail";
 import FirmPresenter from "#presenters/firm.presenter";
@@ -22,6 +23,7 @@ export default class UpdateFirmController {
 		const {
 			address: addressPayload,
 			paymentDetail: paymentDetailPayload,
+			commissionRate: commissionRatePayload,
 			...firmPayload
 		} = await request.validateUsing(UpdateFirmController.payloadSchema);
 
@@ -36,6 +38,13 @@ export default class UpdateFirmController {
 			if (paymentDetailPayload) {
 				const paymentDetail = await PaymentDetail.findOrFail(firm.paymentDetailId, { client: trx });
 				await paymentDetail.useTransaction(trx).merge(paymentDetailPayload).save();
+			}
+
+			if (commissionRatePayload) {
+				const commissionRate = await CommissionRate.findOrFail(firm.commissionRateId, {
+					client: trx,
+				});
+				await commissionRate.useTransaction(trx).merge(commissionRatePayload).save();
 			}
 
 			await firm.useTransaction(trx).merge(firmPayload).save();

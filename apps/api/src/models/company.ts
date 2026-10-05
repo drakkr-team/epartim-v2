@@ -8,6 +8,7 @@ import CompanyKycProfile from "#models/company_kyc_profile";
 import Contact from "#models/contact";
 import File from "#models/file";
 import PaymentDetail from "#models/payment_detail";
+import Posa from "#models/posa";
 import Subscription from "#models/subscription";
 
 export const CompanyLegalForm = {
@@ -78,4 +79,7 @@ export default class Company extends CompanySchema {
 
 	@manyToMany(() => Contact, { pivotTable: "company_contacts" })
 	declare contacts: ManyToMany<typeof Contact>;
+
+	@hasMany(() => Posa, { localKey: "amundiId" })
+	declare posas: HasMany<typeof Posa>;
 }

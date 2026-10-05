@@ -95,8 +95,8 @@ export const controllers = {
           contractCharacteristics: {
             Adhesions: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/adhesions.controller'),
             Agreements: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/agreements.controller'),
-            Plan: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller'),
             Matching: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/matching.controller'),
+            Plan: () => import('#src/features/client/subscriptions/controllers/update/contract_characteristics/plan.controller'),
           },
           kyc: {
             owners: {

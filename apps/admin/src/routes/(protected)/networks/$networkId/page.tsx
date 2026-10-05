@@ -169,6 +169,27 @@ function Page() {
 						value={network.paymentDetail.bic ?? t("status.notProvided")}
 					/>
 				</div>
+
+				<Separator />
+
+				<div className="grid grid-cols-2 gap-4">
+					<h2 className="col-span-2 font-semibold text-lg text-secondary-12">
+						{t("section.commission")}
+					</h2>
+
+					<DetailField
+						label={t("field.commissionRate.shortTermRatePercent")}
+						value={`${network.commissionRate.shortTermRatePercent.toLocaleString("fr-FR")} %`}
+					/>
+					<DetailField
+						label={t("field.commissionRate.mediumTermRatePercent")}
+						value={`${network.commissionRate.mediumTermRatePercent.toLocaleString("fr-FR")} %`}
+					/>
+					<DetailField
+						label={t("field.commissionRate.longTermRatePercent")}
+						value={`${network.commissionRate.longTermRatePercent.toLocaleString("fr-FR")} %`}
+					/>
+				</div>
 			</Card>
 
 			<Card className="grid gap-4">
