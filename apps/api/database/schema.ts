@@ -416,6 +416,31 @@ export class SubscriptionContractFeeSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class SubscriptionCseMemberSchema extends BaseModel {
+  static $columns = ['attending', 'createdAt', 'email', 'firstName', 'function', 'id', 'lastName', 'mandated', 'subscriptionFormalismId', 'updatedAt'] as const
+  $columns = SubscriptionCseMemberSchema.$columns
+  @column()
+  declare attending: boolean | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string | null
+  @column()
+  declare firstName: string | null
+  @column()
+  declare function: number | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare lastName: string | null
+  @column()
+  declare mandated: boolean
+  @column()
+  declare subscriptionFormalismId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class SubscriptionDocumentSchema extends BaseModel {
   static $columns = ['companyBeneficialOwnerId', 'createdAt', 'fileId', 'id', 'subscriptionId', 'type', 'updatedAt'] as const
   $columns = SubscriptionDocumentSchema.$columns
@@ -448,6 +473,62 @@ export class SubscriptionExistingAgreementSchema extends BaseModel {
   declare type: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+}
+
+export class SubscriptionFormalismEmployeeSchema extends BaseModel {
+  static $columns = ['createdAt', 'email', 'firstName', 'id', 'lastName', 'subscriptionId', 'updatedAt'] as const
+  $columns = SubscriptionFormalismEmployeeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string | null
+  @column()
+  declare firstName: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare lastName: string | null
+  @column()
+  declare subscriptionId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class SubscriptionFormalismSchema extends BaseModel {
+  static $columns = ['closingTime', 'createdAt', 'group', 'id', 'meetingCity', 'meetingDate', 'method', 'methodInvalidated', 'presidentEmail', 'presidentFirstName', 'presidentLastName', 'subscriptionId', 'updatedAt', 'votesAbstentions', 'votesAgainst', 'votesFor'] as const
+  $columns = SubscriptionFormalismSchema.$columns
+  @column()
+  declare closingTime: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare group: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare meetingCity: string | null
+  @column.date()
+  declare meetingDate: DateTime | null
+  @column()
+  declare method: number | null
+  @column()
+  declare methodInvalidated: boolean
+  @column()
+  declare presidentEmail: string | null
+  @column()
+  declare presidentFirstName: string | null
+  @column()
+  declare presidentLastName: string | null
+  @column()
+  declare subscriptionId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+  @column()
+  declare votesAbstentions: number | null
+  @column()
+  declare votesAgainst: number | null
+  @column()
+  declare votesFor: number | null
 }
 
 export class SubscriptionMatchingRuleSchema extends BaseModel {

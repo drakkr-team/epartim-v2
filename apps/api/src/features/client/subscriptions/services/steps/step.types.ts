@@ -3,6 +3,7 @@ export const SubscriptionStep = {
 	KYC: 2,
 	CONTRACT_CHARACTERISTICS: 3,
 	CONTRACT_FEES: 4,
+	FORMALISM: 5,
 } as const;
 
 export type SubscriptionStep = (typeof SubscriptionStep)[keyof typeof SubscriptionStep];

@@ -1,0 +1,37 @@
+type: http_request
+model: http_request
+id: rq_subscription_delete_formalism_employee
+createdAt: 2026-10-05T00:00:00.000000
+updatedAt: 2026-10-05T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscriptions
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID and resource IDs in your private Yaak environment. Successful changes invalidate step 5. Returns 200 (204 for deletion), 401 if unauthenticated, 403 for another creator, 404 for a missing or unrelated resource, and 422 for invalid values or an unavailable method. Requires active ratification. Deletes only an employee of this subscription.'
+headers:
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: DELETE
+name: Delete ratification employee
+sortPriority: 2907.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/formalism/employees/${[ FORMALISM_EMPLOYEE_ID ]}
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

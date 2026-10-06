@@ -13,7 +13,7 @@ body:
       "adhesionTypes": [1, 2]
     }
 bodyType: application/json
-description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. adhesionTypes accepts a distinct combination of PEI epartim (1), PER COL-I epartim (2) and voluntary participation agreement (3), including []. Returns 200 with the saved adhesions or 422 for invalid values. Changes invalidate step 3.'
+description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. adhesionTypes accepts a distinct combination of PEI epartim (1), PER COL-I epartim (2) and voluntary participation agreement (3), including []. Returns 200 with the saved adhesions or 422 for invalid values. Changes invalidate step 3. An actual device selection change also invalidates step 5, removes inactive formalism groups and cleans employees only when no ratification remains; compatible data is retained.'
 headers:
 - enabled: true
   name: Content-Type

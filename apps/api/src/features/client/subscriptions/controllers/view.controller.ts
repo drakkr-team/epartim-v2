@@ -10,6 +10,7 @@ import SubscriptionDocumentRequirementsService, {
 	type SubscriptionDocumentRequirement,
 } from "#features/client/subscriptions/services/documents/requirements.service";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
+import SubscriptionFormalismService from "#features/client/subscriptions/services/update/formalism/formalism.service";
 import Subscription from "#models/subscription";
 import AddressPresenter from "#presenters/address.presenter";
 import CompanyPresenter from "#presenters/company.presenter";
@@ -27,6 +28,7 @@ import SubscriptionPlanPresenter from "#presenters/subscription_plan.presenter";
 export default class ViewSubscriptionController {
 	constructor(
 		protected subscriptionPresenter: SubscriptionPresenter,
+		protected formalismService: SubscriptionFormalismService,
 		protected companyPresenter: CompanyPresenter,
 		protected companyKycProfilePresenter: CompanyKycProfilePresenter,
 		protected companyBeneficialOwnerPresenter: CompanyBeneficialOwnerPresenter,
@@ -84,6 +86,7 @@ export default class ViewSubscriptionController {
 
 		return {
 			...this.subscriptionPresenter.toJSON(subscription),
+			formalism: await this.formalismService.snapshot(subscription.id),
 			creator: {
 				name: subscription.creator.name,
 			},
