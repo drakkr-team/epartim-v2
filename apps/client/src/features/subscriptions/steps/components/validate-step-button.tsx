@@ -44,7 +44,10 @@ export function ValidateStepButton(props: ValidateStepButtonProps) {
 	const validation = useMutation(
 		api.subscriptions.validateStep.mutationOptions({
 			onSuccess: async () => {
-				await queryClient.invalidateQueries({ queryKey: api.subscriptions.view.pathKey() });
+				await Promise.all([
+					queryClient.invalidateQueries({ queryKey: api.subscriptions.view.pathKey() }),
+					queryClient.invalidateQueries({ queryKey: api.subscriptions.list.pathKey() }),
+				]);
 				toast.success(t("success.title"), { description: t("success.description") });
 
 				const nextStep = step + 1;

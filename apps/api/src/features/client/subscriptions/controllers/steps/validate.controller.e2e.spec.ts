@@ -102,11 +102,86 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [1]);
 	});
 
+	for (const lastStep of [1, 2, 3, 4, 5]) {
+		test(`it waits for Epartim validation when step ${lastStep} completes the five steps`, async ({
+			client,
+			assert,
+		}) => {
+			const { subscription, user } = await createCompleteSubscription();
+			await subscription
+				.merge({ completedSteps: [1, 2, 3, 4, 5].filter((step) => step !== lastStep) })
+				.save();
+
+			for (let attempt = 0; attempt < 2; attempt++) {
+				const response = await client
+					.visit("client.subscriptions.validate_step", {
+						step: lastStep,
+						subscriptionId: subscription.id,
+					})
+					.withGuard("client")
+					.loginAs(user);
+
+				response.assertOk();
+				assert.equal(response.body().status, SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION);
+				assert.deepEqual(response.body().completedSteps, [1, 2, 3, 4, 5]);
+				await subscription.refresh();
+				assert.equal(subscription.status, SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION);
+				assert.deepEqual(subscription.completedSteps, [1, 2, 3, 4, 5]);
+			}
+		});
+	}
+
+	test("it keeps a draft when step five is validated but another step is missing", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createCompleteSubscription();
+		await subscription.merge({ completedSteps: [1, 2, 3, 3, 6] }).save();
+
+		const response = await client
+			.visit("client.subscriptions.validate_step", { step: 5, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertOk();
+		assert.equal(response.body().status, SubscriptionStatus.DRAFT);
+		await subscription.refresh();
+		assert.equal(subscription.status, SubscriptionStatus.DRAFT);
+		assert.notInclude(subscription.completedSteps, 4);
+	});
+
+	test("it preserves non-draft statuses when validating all five steps again", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createCompleteSubscription();
+		for (const status of [
+			SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION,
+			SubscriptionStatus.WAITING_FOR_SIGNATURES,
+			SubscriptionStatus.TO_BE_SENT,
+			SubscriptionStatus.COMPLETE,
+			SubscriptionStatus.ERROR,
+		]) {
+			await subscription.merge({ completedSteps: [1, 2, 3, 4, 5], status }).save();
+
+			const response = await client
+				.visit("client.subscriptions.validate_step", { step: 5, subscriptionId: subscription.id })
+				.withGuard("client")
+				.loginAs(user);
+
+			response.assertOk();
+			assert.equal(response.body().status, status);
+			await subscription.refresh();
+			assert.equal(subscription.status, status);
+		}
+	});
+
 	test("it rejects incomplete data and required documents without completing the step", async ({
 		client,
 		assert,
 	}) => {
 		const { subscription, user } = await createCompleteSubscription();
+		await subscription.merge({ completedSteps: [2, 3, 4, 5] }).save();
 		const document = await SubscriptionDocument.query()
 			.where("subscriptionId", subscription.id)
 			.where("type", SubscriptionDocumentType.BANK_DETAILS)
@@ -119,7 +194,9 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 			.loginAs(user);
 
 		response.assertStatus(422);
-		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, []);
+		await subscription.refresh();
+		assert.deepEqual(subscription.completedSteps, [2, 3, 4, 5]);
+		assert.equal(subscription.status, SubscriptionStatus.DRAFT);
 	});
 
 	test("it rejects access to another user's subscription", async ({ client }) => {
@@ -144,6 +221,118 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 
 		response.assertOk();
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [2]);
+	});
+
+	test("it returns to draft after an automatic save and waits for Epartim after revalidation", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createCompleteSubscription();
+		await subscription
+			.merge({
+				completedSteps: [1, 2, 3, 4, 5],
+				status: SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION,
+			})
+			.save();
+		const companyName = `Updated company ${subscription.id}`;
+
+		const response = await client
+			.visit("client.subscriptions.update_legal_identification", {
+				subscriptionId: subscription.id,
+			})
+			.withGuard("client")
+			.loginAs(user)
+			.json({ legalIdentification: { name: companyName } });
+
+		response.assertOk();
+		await subscription.refresh();
+		assert.equal(subscription.status, SubscriptionStatus.DRAFT);
+		assert.deepEqual(subscription.completedSteps, [2, 3, 4, 5]);
+
+		const draftListResponse = await client
+			.visit("client.subscriptions.list")
+			.withGuard("client")
+			.loginAs(user)
+			.qs({ q: companyName, status: "draft" });
+
+		draftListResponse.assertOk();
+		assert.deepEqual(
+			draftListResponse.body().data.map((item) => item.id),
+			[subscription.id],
+		);
+		assert.deepEqual(draftListResponse.body().meta.statusCounts, {
+			draft: 1,
+			validating: 0,
+			finalized: 0,
+		});
+
+		const revalidationResponse = await client
+			.visit("client.subscriptions.validate_step", { step: 1, subscriptionId: subscription.id })
+			.withGuard("client")
+			.loginAs(user);
+
+		revalidationResponse.assertOk();
+		assert.equal(
+			revalidationResponse.body().status,
+			SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION,
+		);
+		await subscription.refresh();
+		assert.equal(subscription.status, SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION);
+		assert.deepEqual(subscription.completedSteps, [1, 2, 3, 4, 5]);
+	});
+
+	test("it returns to draft after a required document invalidates an Epartim pending subscription", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createCompleteSubscription();
+		await subscription
+			.merge({
+				completedSteps: [1, 2, 3, 4, 5],
+				status: SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION,
+			})
+			.save();
+
+		const response = await client
+			.visit("client.subscriptions.delete_document", {
+				documentType: SubscriptionDocumentType.BANK_DETAILS,
+				subscriptionId: subscription.id,
+			})
+			.withGuard("client")
+			.loginAs(user);
+
+		response.assertNoContent();
+		await subscription.refresh();
+		assert.equal(subscription.status, SubscriptionStatus.DRAFT);
+		assert.deepEqual(subscription.completedSteps, [2, 3, 4, 5]);
+	});
+
+	test("it preserves later statuses when invalidating a completed step", async ({
+		client,
+		assert,
+	}) => {
+		const { subscription, user } = await createCompleteSubscription();
+		for (const status of [
+			SubscriptionStatus.WAITING_FOR_SIGNATURES,
+			SubscriptionStatus.TO_BE_SENT,
+			SubscriptionStatus.COMPLETE,
+			SubscriptionStatus.ERROR,
+		]) {
+			await subscription.merge({ completedSteps: [1, 2, 3, 4, 5], status }).save();
+
+			const response = await client
+				.visit("client.subscriptions.update_legal_identification", {
+					subscriptionId: subscription.id,
+				})
+				.withGuard("client")
+				.loginAs(user)
+				.json({ legalIdentification: { name: `Updated company ${status}` } });
+
+			response.assertOk();
+			await subscription.refresh();
+			assert.equal(subscription.status, status);
+			assert.deepEqual(subscription.completedSteps, [2, 3, 4, 5]);
+		}
 	});
 
 	test("it validates contract characteristics without additional server validation", async ({

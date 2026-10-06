@@ -9,7 +9,11 @@ export type SubscriptionListStatus = (typeof subscriptionListStatuses)[number];
 
 const tabsListStatus: Record<SubscriptionListStatus, readonly number[]> = {
 	draft: [SubscriptionStatus.DRAFT],
-	validating: [SubscriptionStatus.WAITING_FOR_SIGNATURES, SubscriptionStatus.TO_BE_SENT],
+	validating: [
+		SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION,
+		SubscriptionStatus.WAITING_FOR_SIGNATURES,
+		SubscriptionStatus.TO_BE_SENT,
+	],
 	finalized: [SubscriptionStatus.COMPLETE, SubscriptionStatus.ERROR],
 };
 

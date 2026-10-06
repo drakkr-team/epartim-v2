@@ -10,6 +10,7 @@ const COLORS: NonNullable<BadgeProps["color"]>[] = [
 	"success",
 	"warning",
 	"error",
+	"brown",
 ];
 
 const SIZES: NonNullable<BadgeProps["size"]>[] = ["sm", "md", "lg"];
@@ -36,6 +37,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const EpartimValidation: Story = {
+	args: {
+		children: "À valider par Epartim",
+		color: "brown",
+	},
+};
 
 export const Colors: Story = {
 	render: () => (

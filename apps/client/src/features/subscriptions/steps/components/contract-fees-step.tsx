@@ -32,6 +32,7 @@ export function ContractFeesStep({ subscription, subscriptionId }: ContractFeesS
 					<ContractFeesForm subscription={subscription} subscriptionId={subscriptionId} />
 					<SubscriptionStepFooter
 						currentStep={4}
+						nextStep={5}
 						stepLabel={t("step-four.short-title")}
 						subscriptionId={subscriptionId}
 					>

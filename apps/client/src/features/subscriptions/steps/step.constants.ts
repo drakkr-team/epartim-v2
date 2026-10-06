@@ -1,2 +1,2 @@
-export const SUPPORTED_SUBSCRIPTION_STEPS = [1, 2, 3, 4] as const;
+export const SUPPORTED_SUBSCRIPTION_STEPS = [1, 2, 3, 4, 5] as const;
 export const TOTAL_SUBSCRIPTION_STEPS = 5;

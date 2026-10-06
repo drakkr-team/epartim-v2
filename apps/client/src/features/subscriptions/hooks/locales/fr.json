@@ -23,6 +23,7 @@
 			"to-be-sent": "À envoyer",
 			"complete": "Finalisée",
 			"error": "Erreur",
+			"waiting-for-epartim-validation": "À valider par Epartim",
 			"unknown": "Statut inconnu"
 		},
 		"action": {

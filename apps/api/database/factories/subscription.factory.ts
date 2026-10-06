@@ -11,6 +11,9 @@ export const SubscriptionFactory = factory
 	.state("draft", (subscription) => {
 		subscription.status = SubscriptionStatus.DRAFT;
 	})
+	.state("waitingForEpartimValidation", (subscription) => {
+		subscription.status = SubscriptionStatus.WAITING_FOR_EPARTIM_VALIDATION;
+	})
 	.state("waitingForSignatures", (subscription) => {
 		subscription.status = SubscriptionStatus.WAITING_FOR_SIGNATURES;
 	})

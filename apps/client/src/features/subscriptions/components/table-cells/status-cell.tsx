@@ -9,6 +9,7 @@ const subscriptionStatuses = [
 	{ translationKey: "to-be-sent", color: "info" },
 	{ translationKey: "complete", color: "success" },
 	{ translationKey: "error", color: "error" },
+	{ translationKey: "waiting-for-epartim-validation", color: "brown" },
 ] as const;
 
 export function SubscriptionStatusCell({ status }: Pick<Subscription, "status">) {

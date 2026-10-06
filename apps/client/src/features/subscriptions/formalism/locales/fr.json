@@ -1,0 +1,130 @@
+{
+	"features.subscriptions.formalism": {
+		"title": "Formalisme mise en place",
+		"shortTitle": "Formalisme",
+		"eyebrow": "Étape 05 sur 05 · Formalisme",
+		"description": "Choisissez le mode de mise en place des dispositifs et renseignez les personnes concernées.",
+		"methodsDescription": "Le mode choisi détermine les informations à renseigner pour ce dispositif.",
+		"selectedDevices": "Dispositifs concernés : {{devices}}",
+		"device": {
+			"1": "PEI epartim",
+			"2": "PER COL-I epartim",
+			"3": "Participation volontaire"
+		},
+		"methodInvalidated": "Le choix précédent n’est plus disponible après la modification de l’effectif. Sélectionnez un nouveau mode de mise en place.",
+		"missingHeadcount": "Renseignez l’effectif de l’entreprise pour choisir le mode de mise en place.",
+		"missingDevices": "Sélectionnez au moins un dispositif à l’étape 3 pour renseigner son formalisme.",
+		"group": {
+			"1": {
+				"eyebrow": "PEI / PER COL-I",
+				"title": "Formalisme pour le PEI / PER COL-I"
+			},
+			"2": {
+				"eyebrow": "Participation volontaire",
+				"title": "Formalisme pour la participation volontaire"
+			}
+		},
+		"method": {
+			"1": {
+				"title": "CSE",
+				"description": "Accord avec le comité social et économique."
+			},
+			"2": {
+				"title": "Ratification aux deux tiers",
+				"description": "Ratification par les deux tiers des salariés."
+			},
+			"3": {
+				"title": "DUE",
+				"description": "Décision unilatérale de l’employeur."
+			}
+		},
+		"due": {
+			"title": "Mise en place par décision unilatérale",
+			"description": "En présence d’un CSE ou de délégués syndicaux, vérifiez les obligations de négociation et de consultation préalable. En cas d’échec des négociations, un procès-verbal de désaccord est nécessaire. Le choix de ce mode ne vaut pas déclaration d’absence de représentants du personnel.",
+			"noFields": "Aucune information complémentaire ni document à déposer à cette étape."
+		},
+		"cse": {
+			"meeting": "Informations relatives à la réunion",
+			"president": "Président du CSE — signataire pour l’entreprise",
+			"presidentDescription": "Le président est présent et ne participe pas au vote. S’il n’est pas le représentant légal, il doit disposer d’une délégation de pouvoir.",
+			"members": "Membres du CSE",
+			"membersDescription": "Renseignez les élus présents participant au vote et les élus absents. Indiquez les suppléants uniquement lorsqu’ils siègent en remplacement d’un titulaire absent.",
+			"member": "Membre {{index}}",
+			"present": "Présent",
+			"absent": "Absent",
+			"votes": "Résultat du vote",
+			"votesDescription": "{{count}} membre(s) présent(s), hors président. L’adoption nécessite une majorité de voix pour."
+		},
+		"function": {
+			"1": "Secrétaire",
+			"2": "Autre"
+		},
+		"field": {
+			"meetingDate": "Date de la réunion",
+			"meetingCity": "Lieu de la réunion",
+			"closingTime": "Heure de fin de séance",
+			"presidentLastName": "Nom",
+			"presidentFirstName": "Prénom",
+			"presidentEmail": "Email",
+			"lastName": "Nom",
+			"firstName": "Prénom",
+			"email": "Email",
+			"function": "Qualité",
+			"attending": "Présence à la réunion",
+			"mandatedMember": "Représentant mandaté pour le CSE",
+			"votesFor": "Pour",
+			"votesAgainst": "Contre",
+			"votesAbstentions": "Abstentions"
+		},
+		"ratification": {
+			"eyebrow": "Ratification aux deux tiers",
+			"title": "Informations des salariés",
+			"description": "Ajoutez les salariés appelés à ratifier la mise en place. Cette liste est commune aux dispositifs utilisant la ratification.",
+			"shared": "La liste des salariés est commune aux dispositifs utilisant la ratification aux deux tiers.",
+			"employee": "Salarié {{index}}",
+			"headcount": "La liste contient {{count}} salarié(s), pour un effectif déclaré de {{headcount}}. Vérifiez la liste avant de valider ; cet écart n’est pas bloquant."
+		},
+		"import": {
+			"description": "Déposez un fichier CSV ici ou utilisez le bouton d’import. Colonnes : nom, prénom, email. Séparateur virgule ou point-virgule. Taille maximale : 10 Mo. Les salariés sont ajoutés à la liste existante.",
+			"format": "Sélectionnez un fichier CSV. Les fichiers Excel ne sont pas pris en charge.",
+			"size": "Le fichier ne doit pas dépasser 10 Mo.",
+			"pending": "Import en cours…",
+			"result": "{{added}} salarié(s) ajouté(s) · {{skipped}} déjà présent(s)."
+		},
+		"action": {
+			"stepOne": "Compléter l’étape 1",
+			"stepThree": "Compléter l’étape 3",
+			"clearDate": "Effacer la date",
+			"addMember": "Ajouter un membre",
+			"removeMember": "Supprimer le membre {{index}}",
+			"addEmployee": "Ajouter un salarié",
+			"removeEmployee": "Supprimer le salarié {{index}}",
+			"copyPeople": "Reprendre les personnes du PEI/PER",
+			"downloadTemplate": "Télécharger le fichier type",
+			"import": "Importer un CSV"
+		},
+		"validation": {
+			"required": "Ce champ est obligatoire.",
+			"length": "Saisissez au maximum 254 caractères.",
+			"email": "Renseignez une adresse email valide.",
+			"date": "Renseignez une date valide.",
+			"time": "Renseignez une heure valide au format HH:mm.",
+			"cityLength": "Le lieu doit contenir au maximum 120 caractères.",
+			"method": "Sélectionnez un mode de mise en place disponible.",
+			"members": "Renseignez au moins un membre élu du CSE.",
+			"mandated": "Sélectionnez le représentant mandaté parmi les membres du CSE.",
+			"votes": "Renseignez un nombre entier positif ou nul.",
+			"voteTotal": "Le total des votes doit correspondre au nombre d’élus présents : {{count}} (hors président).",
+			"voteMajority": "Les voix pour doivent dépasser la moitié des membres présents, hors président.",
+			"employees": "Ajoutez au moins un salarié pour la ratification.",
+			"duplicateEmail": "Chaque salarié doit avoir une adresse email distincte."
+		},
+		"error": {
+			"network": "Connexion impossible",
+			"retry": "Vérifiez votre connexion et réessayez.",
+			"validation": "Données invalides",
+			"check": "Vérifiez les informations saisies et réessayez.",
+			"unexpected": "Enregistrement impossible"
+		}
+	}
+}
