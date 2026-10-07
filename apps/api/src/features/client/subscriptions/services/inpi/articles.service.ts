@@ -59,9 +59,11 @@ export default class SubscriptionInpiArticlesService {
 			return existing.file;
 		if (existing && !payload.replaceExisting)
 			throw new DocumentReplacementConfirmationRequiredException();
-		const file = await this.fileService.uploadPdf({
+		const file = await this.fileService.upload({
 			buffer,
 			name: `statuts_${article.siren}.pdf`,
+			extension: "pdf",
+			contentType: "application/pdf",
 			path: `subscriptions/${subscription.id}`,
 		});
 		try {

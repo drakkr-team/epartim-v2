@@ -14,21 +14,6 @@ type FileUploadParams = { path?: string } & (
 );
 
 export default class FileService {
-	async uploadPdf(params: { buffer: Buffer; name: string; path: string }) {
-		const key = `${params.path}/${stringHelper.uuid()}.pdf`;
-		await drive.use().put(key, params.buffer, { contentType: "application/pdf" });
-		try {
-			return await File.create({
-				key,
-				name: params.name,
-				size: params.buffer.length,
-				type: "application/pdf",
-			});
-		} catch (error) {
-			await drive.use().delete(key);
-			throw error;
-		}
-	}
 	async getUrl(file: File, options: FileUrlOptions = {}) {
 		const { disposition = "inline" } = options;
 		const disk = drive.use();
