@@ -2,6 +2,7 @@ import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { Infer } from "@vinejs/vine/types";
 
+import ChangeSubscriptionCompanyService from "#features/client/subscriptions/services/company_change.service";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import SubscriptionFormalismService from "#features/client/subscriptions/services/update/formalism/formalism.service";
@@ -16,6 +17,7 @@ export default class UpdateLegalIdentificationService {
 	constructor(
 		protected validateSubscriptionStepService: ValidateSubscriptionStepService,
 		protected formalismService: SubscriptionFormalismService,
+		protected companyChangeService: ChangeSubscriptionCompanyService,
 	) {}
 
 	async handle(subscription: Subscription, payload: UpdateLegalIdentificationPayload) {
@@ -25,6 +27,15 @@ export default class UpdateLegalIdentificationService {
 				client: trx,
 			});
 			const { companyHeadcount, ...legalIdentification } = payload.legalIdentification;
+			if (legalIdentification.siren !== undefined) {
+				await this.companyChangeService.handle(
+					subscription,
+					company,
+					legalIdentification.siren,
+					payload.confirmCompanyChange ?? false,
+					trx,
+				);
+			}
 			const nextHeadcount =
 				companyHeadcount === undefined
 					? company.companyHeadcount

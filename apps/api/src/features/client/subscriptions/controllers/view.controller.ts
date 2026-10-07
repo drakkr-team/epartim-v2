@@ -149,12 +149,13 @@ export default class ViewSubscriptionController {
 
 	async #presentDocuments(documents: SubscriptionDocumentRequirement[]) {
 		return await Promise.all(
-			documents.map(async ({ document, label, ownerId, type }) => ({
+			documents.map(async ({ document, label, ownerId, rneUrl, type }) => ({
 				file: document
 					? await this.filePresenter.toJSON(document.file, { disposition: "attachment" })
 					: null,
 				label,
 				ownerId,
+				rneUrl: rneUrl ?? null,
 				status: document ? "attached" : "pending",
 				type,
 			})),

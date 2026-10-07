@@ -115,21 +115,4 @@ test.group("Features / Client / Subscriptions / INPI preview", (group) => {
 		await company.refresh();
 		assert.equal(company.name, "Sauvegarde récente");
 	});
-
-	test("manual SIREN changes remain compatible before prefill is introduced", async ({
-		client,
-		assert,
-	}) => {
-		const { user, company, params } = await dossier();
-		await company.merge({ siren: SIREN, name: "Saisie" }).save();
-		const response = await client
-			.visit("client.subscriptions.update_legal_identification", params)
-			.withGuard("client")
-			.loginAs(user)
-			.json({ legalIdentification: { siren: "987654321" } });
-		response.assertOk();
-		await company.refresh();
-		assert.equal(company.siren, "987654321");
-		assert.equal(company.name, "Saisie");
-	});
 });

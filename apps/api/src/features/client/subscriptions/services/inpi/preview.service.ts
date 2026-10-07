@@ -24,6 +24,12 @@ export type SubscriptionInpiPreview = InpiCompany & {
 	articles: InpiArticle[];
 };
 
+export type InpiImportResult = {
+	subscriptionId: number;
+	companyChanged: boolean;
+	createdOwnerIds: number[];
+};
+
 @inject()
 export default class PreviewSubscriptionInpiService {
 	constructor(
@@ -89,5 +95,52 @@ export default class PreviewSubscriptionInpiService {
 		const preview = JSON.parse(data) as SubscriptionInpiPreview;
 		if (preview.subscriptionId !== subscriptionId) throw new InpiPreviewExpiredException();
 		return preview;
+	}
+
+	async claim(
+		subscriptionId: number,
+		previewId: string,
+		selectionHash: string,
+	): Promise<
+		| { preview: SubscriptionInpiPreview; result?: never }
+		| { result: InpiImportResult; preview?: never }
+	> {
+		const result = await redis.eval(
+			`
+			if redis.call('hget', KEYS[1], 'subscriptionId') ~= ARGV[1] then return {0} end
+			local state = redis.call('hget', KEYS[1], 'state')
+			if state == 'ready' then
+				redis.call('hset', KEYS[1], 'state', 'applying', 'selectionHash', ARGV[2])
+				return {1, redis.call('hget', KEYS[1], 'data')}
+			end
+			if state == 'applied' and redis.call('hget', KEYS[1], 'selectionHash') == ARGV[2] then
+				return {2, redis.call('hget', KEYS[1], 'result')}
+			end
+			return {0}
+		`,
+			1,
+			`inpi:preview:${previewId}`,
+			String(subscriptionId),
+			selectionHash,
+		);
+		if (!Array.isArray(result) || typeof result[1] !== "string")
+			throw new InpiPreviewExpiredException();
+		if (result[0] === 2) return { result: JSON.parse(result[1]) as InpiImportResult };
+		if (result[0] !== 1) throw new InpiPreviewExpiredException();
+		return { preview: JSON.parse(result[1]) as SubscriptionInpiPreview };
+	}
+
+	async complete(previewId: string, selectionHash: string, result: InpiImportResult) {
+		await redis.eval(
+			`
+			if redis.call('hget', KEYS[1], 'state') ~= 'applying' or redis.call('hget', KEYS[1], 'selectionHash') ~= ARGV[1] then return 0 end
+			redis.call('hset', KEYS[1], 'state', 'applied', 'result', ARGV[2])
+			return 1
+		`,
+			1,
+			`inpi:preview:${previewId}`,
+			selectionHash,
+			JSON.stringify(result),
+		);
 	}
 }

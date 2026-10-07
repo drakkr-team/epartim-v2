@@ -11,10 +11,18 @@ router
 			])
 			.as("inpi.preview");
 		router
+			.post("/:subscriptionId/inpi/apply", [controllers.features.client.subscriptions.inpi.Apply])
+			.as("inpi.apply");
+		router
 			.get("/:subscriptionId/inpi/previews/:previewId/articles/:actId", [
 				controllers.features.client.subscriptions.inpi.PreviewArticles,
 			])
 			.as("inpi.preview_articles");
+		router
+			.post("/:subscriptionId/inpi/articles", [
+				controllers.features.client.subscriptions.inpi.ImportArticles,
+			])
+			.as("inpi.import_articles");
 		router.get("/", [controllers.features.client.subscriptions.List]);
 		router.post("/", [controllers.features.client.subscriptions.Create]);
 		router.get("/:subscriptionId", [controllers.features.client.subscriptions.View]);

@@ -85,6 +85,17 @@ export function DocumentCard(props: DocumentCardProps) {
 				>
 					{document.label}
 				</h3>
+				{document.rneUrl && (
+					<Link
+						href={document.rneUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="mt-2 block text-xs leading-5 underline"
+					>
+						{t("action.download-rne")}
+						<span className="sr-only"> {t("action.new-tab")}</span>
+					</Link>
+				)}
 				{document.file ? (
 					<Link
 						download={document.file.name}

@@ -1,0 +1,52 @@
+type: http_request
+model: http_request
+id: rq_subscription_inpi_apply
+createdAt: 2026-09-04T00:00:00.000000
+updatedAt: 2026-09-04T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscription_inpi
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "previewId": "${[ INPI_PREVIEW_ID ]}",
+      "fields": [
+        "name",
+        "siret"
+      ],
+      "ownerIds": [],
+      "legalAgentId": null,
+      "confirmCompanyChange": false
+    }
+bodyType: application/json
+description: "Requires the subscription creator client session. Set SUBSCRIPTION_ID and all referenced ids in private variables. Applies only selected fields and people from the preview. Copy person ids from the preview into ownerIds or legalAgentId. Set confirmCompanyChange only after reviewing the change. A company change preserves all unselected fields and documents; all available proposals are preselected by default, including replacements of existing values, and can be deselected. The legal representative requires an explicit choice. The user must verify retained data against the new SIREN. Repeated identical calls do not create duplicate people. Returns 200; 409 for consumed/expired/stale previews, status, or missing confirmation; 422 for invalid selections."
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: POST
+name: Apply INPI selection
+sortPriority: 2000.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/inpi/apply
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

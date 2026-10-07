@@ -78,7 +78,10 @@ export default class UploadSubscriptionDocumentService {
 
 				if (existingDocument) {
 					const existingFile = existingDocument.file;
-					await existingDocument.useTransaction(trx).merge({ fileId: uploadedFile.id }).save();
+					await existingDocument
+						.useTransaction(trx)
+						.merge({ fileId: uploadedFile.id, inpiActId: null, inpiSiren: null })
+						.save();
 					return existingFile;
 				}
 

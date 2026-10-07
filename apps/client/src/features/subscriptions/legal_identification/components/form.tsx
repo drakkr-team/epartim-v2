@@ -7,6 +7,8 @@ import { Card } from "@workspace/ui-react/components/card";
 import { Field } from "@workspace/ui-react/components/field";
 import { Select } from "@workspace/ui-react/components/select";
 
+import type { InpiPreview } from "#/features/subscriptions/inpi/types";
+import { SirenField } from "#/features/subscriptions/legal_identification/components/siren-field";
 import {
 	LEGAL_FORMS,
 	useLegalIdentificationForm,
@@ -16,10 +18,14 @@ import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/
 type LegalIdentificationFormProps = {
 	subscriptionId: string;
 	legalIdentification: Company | null;
+	inpiEnabled: boolean;
+	onInpiPreview: (preview: InpiPreview) => void;
+	onCompanyChange: () => void;
 };
 
 export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
-	const { subscriptionId, legalIdentification } = props;
+	const { subscriptionId, legalIdentification, inpiEnabled, onInpiPreview, onCompanyChange } =
+		props;
 	const { t } = useTranslation(
 		"features.subscriptions.legal_identification.components.legal-identification-form",
 	);
@@ -97,11 +103,15 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 							onBlur: legalIdentificationSchema.shape.siren,
 						}}
 					>
-						{(field) => (
-							<field.TextField
+						{() => (
+							<SirenField
 								label={t("field.siren.label")}
-								required
-								inputProps={{ inputMode: "numeric", maxLength: 9 }}
+								subscriptionId={subscriptionId}
+								currentSiren={legalIdentification?.siren ?? null}
+								currentName={legalIdentification?.name ?? null}
+								inpiEnabled={inpiEnabled}
+								onPreview={onInpiPreview}
+								onCompanyChange={onCompanyChange}
 							/>
 						)}
 					</form.AppField>
@@ -152,7 +162,7 @@ export function LegalIdentificationForm(props: LegalIdentificationFormProps) {
 						}}
 					>
 						{(field) => (
-							<div className="md:col-span-2">
+							<div className="md:col-span-3">
 								<field.TextField label={t("field.name.label")} required />
 							</div>
 						)}

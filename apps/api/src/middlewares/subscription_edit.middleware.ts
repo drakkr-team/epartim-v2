@@ -21,7 +21,13 @@ export default class SubscriptionEditMiddleware {
 				!["GET", "HEAD"].includes(ctx.request.method()) &&
 				ctx.route?.name !== "client.subscriptions.inpi.preview";
 			const expected = ctx.request.header("x-subscription-revision");
-			if (isMutation && expected !== undefined && expected !== String(subscription.editRevision)) {
+			// INPI apply checks its preview revision and consumes it atomically in Redis.
+			if (
+				isMutation &&
+				expected !== undefined &&
+				ctx.route?.name !== "client.subscriptions.inpi.apply" &&
+				expected !== String(subscription.editRevision)
+			) {
 				throw new SubscriptionEditConflictException();
 			}
 			await next();
