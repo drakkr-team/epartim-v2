@@ -6,15 +6,17 @@ import { cn } from "tailwind-variants";
 import type { Subscription } from "@workspace/api/data";
 import { CheckIcon, ChevronRightIcon } from "@workspace/ui-react/icons";
 
+import type { SubscriptionCompletion } from "#/features/subscriptions/steps/completion/subscription-completion";
 import { SUPPORTED_SUBSCRIPTION_STEPS } from "#/features/subscriptions/steps/step.constants";
 
 type SubscriptionStepNavigationProps = Pick<Subscription, "completedSteps"> & {
+	completion: SubscriptionCompletion;
 	currentStep: number;
 	subscriptionId: string;
 };
 
 export function SubscriptionStepNavigation(props: SubscriptionStepNavigationProps) {
-	const { completedSteps, currentStep, subscriptionId } = props;
+	const { completedSteps, completion, currentStep, subscriptionId } = props;
 	const { t } = useTranslation("features.subscriptions.steps.subscription-step-navigation");
 	const navigationRef = useRef<HTMLElement>(null);
 
@@ -36,11 +38,13 @@ export function SubscriptionStepNavigation(props: SubscriptionStepNavigationProp
 					const isValidated = completedSteps?.includes(step) ?? false;
 					const status = isValidated ? "validated" : isCurrent ? "current" : "pending";
 					const number = String(step).padStart(2, "0");
+					const progress = completion[step];
 
 					return (
-						<li key={step} className="flex min-w-44 flex-1 items-center gap-1" data-step={step}>
+						<li key={step} className="flex min-w-max flex-1 items-center gap-1" data-step={step}>
 							<Link
 								activeOptions={{ exact: true }}
+								aria-current={isCurrent ? "step" : undefined}
 								className={cn(
 									"flex min-w-0 flex-1 items-center gap-2 rounded-sm border px-2.5 py-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-secondary-12 focus-visible:outline-offset-2",
 									isCurrent
@@ -69,11 +73,27 @@ export function SubscriptionStepNavigation(props: SubscriptionStepNavigationProp
 									</span>
 									<span
 										className={cn(
-											"whitespace-nowrap font-semibold text-xs",
+											"flex items-baseline gap-2 whitespace-nowrap font-semibold text-xs",
 											isCurrent ? "text-secondary-12" : "text-neutral-11",
 										)}
 									>
-										{t(`steps.${step}`)}
+										<span>{t(`steps.${step}`)}</span>
+										<span className="shrink-0 text-primary-9 tabular-nums">
+											<span aria-hidden="true">
+												{progress === null
+													? "—"
+													: t("completion.value", { percentage: progress.percentage })}
+											</span>
+											<span className="sr-only">
+												{progress === null
+													? t("completion.unavailable")
+													: t("completion.label", {
+															percentage: progress.percentage,
+															completed: progress.completed,
+															required: progress.required,
+														})}
+											</span>
+										</span>
 									</span>
 									<span
 										className={cn(

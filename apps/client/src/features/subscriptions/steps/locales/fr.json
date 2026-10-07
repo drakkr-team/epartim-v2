@@ -26,6 +26,11 @@
 	"features.subscriptions.steps.subscription-step-navigation": {
 		"label": "Étapes de la souscription",
 		"step": "Étape {{number}}",
+		"completion": {
+			"value": "{{percentage}} %",
+			"label": "Complétion : {{percentage}} %, {{completed}} éléments complets sur {{required}} requis",
+			"unavailable": "Complétion indisponible : renseignez les prérequis de l’étape"
+		},
 		"steps": {
 			"1": "Réf. entreprise",
 			"2": "KYC",

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "@workspace/ui-react/components/spinner";
 
 import { useSubscriptionQuery } from "#/features/subscriptions/hooks/use-subscription-query";
+import { getSubscriptionCompletion } from "#/features/subscriptions/steps/completion/subscription-completion";
 import { CompanyReferencesStep } from "#/features/subscriptions/steps/components/company-references-step";
 import { ContractCharacteristicsStep } from "#/features/subscriptions/steps/components/contract-characteristics-step";
 import { ContractFeesStep } from "#/features/subscriptions/steps/components/contract-fees-step";
@@ -53,6 +54,7 @@ function SubscriptionStepPage() {
 		<div className="mx-auto -mt-4 grid w-full max-w-7xl gap-8 sm:-mt-8">
 			<SubscriptionStepNavigation
 				completedSteps={subscription.completedSteps}
+				completion={getSubscriptionCompletion(subscription)}
 				currentStep={Number(step)}
 				subscriptionId={id}
 			/>
