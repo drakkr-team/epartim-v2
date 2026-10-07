@@ -5,6 +5,6 @@ import User from "#models/user";
 
 export default class ListSubscriptionsPolicy extends BasePolicy {
 	handle(currentUser: Admin | User) {
-		return currentUser instanceof User;
+		return currentUser instanceof User && currentUser.can("list:subscription");
 	}
 }

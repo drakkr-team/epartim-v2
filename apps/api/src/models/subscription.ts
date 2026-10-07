@@ -1,8 +1,10 @@
-import { belongsTo, column, hasMany, hasOne } from "@adonisjs/lucid/orm";
+import { belongsTo, column, hasMany, hasOne, scope } from "@adonisjs/lucid/orm";
 import type { BelongsTo, HasMany, HasOne } from "@adonisjs/lucid/types/relations";
 
+import { USER_ROLES } from "#constants/user";
 import { SubscriptionSchema } from "#database/schema";
 import Company from "#models/company";
+import Firm from "#models/firm";
 import SubscriptionContractFee from "#models/subscription_contract_fee";
 import SubscriptionDocument from "#models/subscription_document";
 import SubscriptionExistingAgreement from "#models/subscription_existing_agreement";
@@ -22,6 +24,40 @@ export const SubscriptionStatus = {
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus];
 
 export default class Subscription extends SubscriptionSchema {
+	static accessibleTo = scope((query, user: User) => {
+		if (user.role === USER_ROLES.ADMIN) return;
+		if (!Object.values(USER_ROLES).includes(user.role)) {
+			query.whereIn("subscriptions.id", []);
+			return;
+		}
+
+		query.where((access) => {
+			access.where("subscriptions.created_by", user.id);
+			const firmId = user.firmId;
+			if (firmId == null) return;
+
+			if (user.role === USER_ROLES.FIRM) {
+				access.orWhereIn(
+					"subscriptions.created_by",
+					User.query().select("id").where("firm_id", firmId),
+				);
+			}
+			if (user.role === USER_ROLES.NETWORK) {
+				access.orWhereIn(
+					"subscriptions.created_by",
+					User.query()
+						.select("id")
+						.whereHas("firm", (firm) =>
+							firm.whereIn(
+								"network_id",
+								Firm.query().select("network_id").where("id", firmId).whereNotNull("network_id"),
+							),
+						),
+				);
+			}
+		});
+	});
+
 	@column(jsonColumn<unknown[]>())
 	declare completedSteps: unknown[] | null;
 

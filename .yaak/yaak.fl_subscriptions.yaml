@@ -7,7 +7,7 @@ workspaceId: wk_W95zdiewKu
 folderId: null
 authentication: {}
 authenticationType: null
-description: 'All subscription routes require the creator client session. Responses expose x-subscription-revision; mutations accept the same header and reject stale revisions with 409. INPI apply validates the preview revision instead. Reads and writes are serialized per dossier. Invalidating a completed subscription step through an update or document change returns a subscription waiting for Epartim validation (status 5) to draft (status 0), in the same transaction. Other completed steps and later statuses are preserved. Validating all five steps again returns a draft to waiting for Epartim validation.'
+description: 'All subscription routes require an authenticated client session. Client subscription access uses fixed roles: USER (0) own dossiers, FIRM (1) current cabinet, NETWORK (2) current cabinet network, ADMIN (3) all dossiers. Read and write scopes are identical and follow the current creator affiliation. Missing affiliation falls back to own dossiers; dossiers without a creator require ADMIN. Back-office Admin sessions are not client sessions. Responses expose x-subscription-revision; mutations accept the same header and reject stale revisions with 409. INPI apply validates the preview revision instead. Reads and writes are serialized per dossier. Invalidating a completed subscription step through an update or document change returns a subscription waiting for Epartim validation (status 5) to draft (status 0), in the same transaction. Other completed steps and later statuses are preserved. Validating all five steps again returns a draft to waiting for Epartim validation.'
 headers: []
 name: Subscriptions
 sortPriority: 0.0

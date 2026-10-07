@@ -17,6 +17,10 @@
 	"features.users.hooks.use-form": {
 		"leave-confirmation": "Les modifications non enregistrées seront perdues. Voulez-vous quitter cette page ?",
 		"validation": {
+			"firmId": {
+				"required": "Le cabinet est requis.",
+				"database.exists": "Sélectionnez un cabinet existant."
+			},
 			"firstName": {
 				"required": "Le prénom est requis.",
 				"min": "Le prénom doit contenir au moins {{min}} caractères.",

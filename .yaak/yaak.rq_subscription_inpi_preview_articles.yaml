@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: "Requires the subscription creator client session. Set SUBSCRIPTION_ID and all referenced ids in private variables. Streams a private PDF without attaching it. Set INPI_PREVIEW_ID and INPI_ACT_ID from the preview in your private environment. Returns application/pdf; 409 for expired preview or status, 422 for unavailable/invalid document, 503 for upstream failure."
+description: "Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID and all referenced ids in private variables. Streams a private PDF without attaching it. Set INPI_PREVIEW_ID and INPI_ACT_ID from the preview in your private environment. Returns application/pdf; 409 for expired preview or status, 422 for unavailable/invalid document, 503 for upstream failure."
 headers:
 - enabled: true
   name: Content-Type

@@ -6,7 +6,7 @@ export default class extends BaseSchema {
 	async up() {
 		this.schema.alterTable(this.tableName, (table) => {
 			table.integer("role").defaultTo(0).notNullable();
-			table.integer("firm_id").references("id").inTable("firms").onDelete("SET NULL").nullable();
+			table.integer("firm_id").references("id").inTable("firms").onDelete("RESTRICT").notNullable();
 		});
 	}
 

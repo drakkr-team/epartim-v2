@@ -1,6 +1,8 @@
 import factory from "@adonisjs/lucid/factories";
 import { DateTime } from "luxon";
 
+import { USER_ROLES } from "#constants/user";
+import { FirmFactory } from "#database/factories/firm.factory";
 import User from "#models/user";
 
 export const UserFactory = factory
@@ -13,6 +15,7 @@ export const UserFactory = factory
 		});
 
 		return {
+			role: USER_ROLES.USER,
 			email,
 			password: faker.internet.password(),
 			firstName,
@@ -25,5 +28,14 @@ export const UserFactory = factory
 	})
 	.state("unactive", (user) => {
 		user.activatedAt = null;
+	})
+	.before("create", async (_builder, user, ctx) => {
+		if (user.firmId !== undefined) return;
+		const firm = await FirmFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.useCtx(ctx)
+			.create();
+		user.firmId = firm.id;
 	})
 	.build();

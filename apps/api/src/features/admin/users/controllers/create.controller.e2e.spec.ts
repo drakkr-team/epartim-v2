@@ -74,7 +74,7 @@ test.group("Features / Admin / Users / Controllers / Create Controller", (group)
 				lastName: "User",
 				email: existingUser.email,
 				role: USER_ROLES.USER,
-				firmId: null,
+				firmId: existingUser.firmId,
 			});
 
 		response.assertStatus(422);
@@ -101,8 +101,28 @@ test.group("Features / Admin / Users / Controllers / Create Controller", (group)
 		response.assertStatus(422);
 	});
 
+	test("it requires a firm and rejects an explicit null", async ({ client, assert }) => {
+		const admin = await AdminFactory.with("role").create();
+		await (await Role.findOrFail(admin.roleId)).merge({ authorizations: ["create:user"] }).save();
+		for (const firmPayload of [{}, { firmId: null }]) {
+			const response = await client
+				.visit("admin.users.create")
+				.withGuard("admin")
+				.loginAs(admin)
+				.unsafeJson({
+					firstName: "Required",
+					lastName: "Firm",
+					email: "required-firm@example.com",
+					role: USER_ROLES.USER,
+					...firmPayload,
+				});
+			response.assertStatus(422);
+		}
+		assert.isNull(await User.findBy("email", "required-firm@example.com"));
+	});
+
 	test("it should require admin authentication", async ({ client }) => {
-		const response = await client.visit("admin.users.create").json({
+		const response = await client.visit("admin.users.create").unsafeJson({
 			firstName: "New",
 			lastName: "User",
 			email: "new.user@example.com",

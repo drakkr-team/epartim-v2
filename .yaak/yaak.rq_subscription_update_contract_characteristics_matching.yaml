@@ -28,7 +28,7 @@ body:
       }
     }
 bodyType: application/json
-description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. device accepts 1 (PEI) or 2 (PER). ruleTypes accepts 1 (uniform), 2 (seniority), and 3 (unilateral, PER only). paymentType accepts 1 (voluntary), 2 (incentives), 3 (participation), 4 (PPV), and 5 (paid leave, PER only). limitKind accepts 1 (legal) or 2 (amount). A payment type belongs to only one rule. Incomplete values can be saved as a draft; step 3 validation requires every active rule to be complete. Limits are entered manually, including legal limits. Replacing a device removes deselected rules. Returns the saved device matching in 200; authentication, access, missing subscription and validation errors return 401, 403, 404 and 422. Changes invalidate step 3.'
+description: 'Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID in your private Yaak environment. device accepts 1 (PEI) or 2 (PER). ruleTypes accepts 1 (uniform), 2 (seniority), and 3 (unilateral, PER only). paymentType accepts 1 (voluntary), 2 (incentives), 3 (participation), 4 (PPV), and 5 (paid leave, PER only). limitKind accepts 1 (legal) or 2 (amount). A payment type belongs to only one rule. Incomplete values can be saved as a draft; step 3 validation requires every active rule to be complete. Limits are entered manually, including legal limits. Replacing a device removes deselected rules. Returns the saved device matching in 200; authentication, access, missing subscription and validation errors return 401, 403, 404 and 422. Changes invalidate step 3.'
 headers:
 - enabled: true
   name: Content-Type

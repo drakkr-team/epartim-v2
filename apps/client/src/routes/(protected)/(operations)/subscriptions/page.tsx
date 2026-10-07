@@ -80,10 +80,12 @@ function SubscriptionsPage() {
 		<main className="grid gap-9">
 			<PageHeader
 				actions={
-					<Button onClick={() => createSubscription({})} disabled={isPending} variant="primary">
-						<PlusIcon />
-						{t("action.new-subscription")}
-					</Button>
+					subscriptions.meta.canCreate && (
+						<Button onClick={() => createSubscription({})} disabled={isPending} variant="primary">
+							<PlusIcon />
+							{t("action.new-subscription")}
+						</Button>
+					)
 				}
 				description={t("description")}
 				section={tRoute("operations")}

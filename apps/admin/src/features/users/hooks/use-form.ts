@@ -66,20 +66,22 @@ export function useUserForm(params: UseUserFormParams) {
 					.email({ error: t("validation.email.email") })
 					.max(254, { error: t("validation.email.max", { max: 254 }) }),
 				role: z.enum(USER_ROLES),
-				firmId: z.number().nullable(),
+				firmId: z.number({ error: t("validation.firmId.required") }),
 			}),
 		},
 		onSubmitInvalid: focusFirstInvalidInput,
 		onSubmit: async ({ value }) => {
+			if (value.firmId === null) return;
+
 			if (params.action === "create") {
-				await createUser({ body: value });
+				await createUser({ body: { ...value, firmId: value.firmId } });
 			}
 
 			if (params.action === "update") {
 				const body = getDirtyValues(params.defaultValues, value);
 				await updateUser({
 					params: { userId: params.userId },
-					body,
+					body: { ...body, firmId: body.firmId ?? undefined },
 				});
 			}
 		},

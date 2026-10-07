@@ -8,7 +8,7 @@ import Firm from "#models/firm";
 
 export const FirmFactory = factory
 	.define(Firm, ({ faker }) => ({
-		name: faker.company.name(),
+		name: `${faker.company.name()} ${faker.string.uuid()}`,
 		amundiOrgId: faker.helpers.maybe(() => faker.string.alphanumeric(12).toUpperCase()),
 		orias: faker.string.numeric(8),
 	}))

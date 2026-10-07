@@ -15,7 +15,7 @@ body:
       "entryFeeRate": 2.5
     }
 bodyType: application/json
-description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Send changed fields only. pricingOffer: 1 (under 11 employees), 2 (11 or more); free offers are not accepted. A new record defaults to the headcount-based offer. The offer and annual prices are retained after headcount changes. entryFeePayer: 1 (savers), 2 (company), or null for a draft. entryFeeRate: 0 to 4.5 inclusive, at most two decimals, or null for a draft. Changing the payer preserves the rate. Returns 200 with contract fees in euros and percent, 422 for invalid values, 401 for unauthenticated access, 403 for another creator, or 404 if missing. Changes invalidate only step 4.'
+description: 'Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID in your private Yaak environment. Send changed fields only. pricingOffer: 1 (under 11 employees), 2 (11 or more); free offers are not accepted. A new record defaults to the headcount-based offer. The offer and annual prices are retained after headcount changes. entryFeePayer: 1 (savers), 2 (company), or null for a draft. entryFeeRate: 0 to 4.5 inclusive, at most two decimals, or null for a draft. Changing the payer preserves the rate. Returns 200 with contract fees in euros and percent, 422 for invalid values, 401 for unauthenticated access, 403 outside the authorized scope, or 404 if missing. Changes invalidate only step 4.'
 headers:
 - enabled: true
   name: Content-Type

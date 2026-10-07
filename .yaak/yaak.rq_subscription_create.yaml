@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: ''
+description: 'Access follows the role scopes documented in the Subscriptions folder.'
 headers:
 - enabled: true
   name: Accept
