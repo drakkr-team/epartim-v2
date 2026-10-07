@@ -19,6 +19,7 @@ router.use([
 ]);
 
 export const middleware = router.named({
+	subscriptionEdit: () => import("#middlewares/subscription_edit.middleware"),
 	auth: () => import("#middlewares/auth_middleware"),
 	guest: () => import("#middlewares/guest_middleware"),
 });

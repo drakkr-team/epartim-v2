@@ -4,6 +4,7 @@ export default class SubscriptionPresenter {
 	toJSON(subscription: Subscription) {
 		return {
 			id: subscription.id,
+			editRevision: subscription.editRevision,
 
 			createdBy: subscription.createdBy,
 			status: subscription.status,

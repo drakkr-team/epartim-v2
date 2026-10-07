@@ -1,0 +1,31 @@
+type: folder
+model: folder
+id: fl_subscription_inpi
+createdAt: 2026-09-04T00:00:00.000000
+updatedAt: 2026-09-04T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscriptions
+authentication: {}
+authenticationType: null
+description: "INPI company and articles previews. Registry data is not applied to the subscription. Authentication credentials stay on the API server. Never put INPI credentials or tokens in this shared workspace."
+headers: []
+name: INPI
+sortPriority: 0.0
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0
+settingRequestMessageSize:
+  enabled: false
+  value: 0

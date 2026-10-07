@@ -5,6 +5,16 @@ import { middleware } from "#start/kernel";
 
 router
 	.group(() => {
+		router
+			.post("/:subscriptionId/inpi/preview", [
+				controllers.features.client.subscriptions.inpi.Preview,
+			])
+			.as("inpi.preview");
+		router
+			.get("/:subscriptionId/inpi/previews/:previewId/articles/:actId", [
+				controllers.features.client.subscriptions.inpi.PreviewArticles,
+			])
+			.as("inpi.preview_articles");
 		router.get("/", [controllers.features.client.subscriptions.List]);
 		router.post("/", [controllers.features.client.subscriptions.Create]);
 		router.get("/:subscriptionId", [controllers.features.client.subscriptions.View]);
@@ -140,5 +150,6 @@ router
 			.as("delete_kyc_owner");
 	})
 	.use(middleware.auth({ guards: ["client"] }))
+	.use(middleware.subscriptionEdit())
 	.prefix("/client/subscriptions")
 	.as("client.subscriptions");

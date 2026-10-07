@@ -198,6 +198,18 @@ const routes = {
     tokens: [{"old":"/client/account-management/profile","type":0,"val":"client","end":""},{"old":"/client/account-management/profile","type":0,"val":"account-management","end":""},{"old":"/client/account-management/profile","type":0,"val":"profile","end":""}],
     types: placeholder as Registry['client.account_management.profile.delete']['types'],
   },
+  'client.subscriptions.inpi.preview': {
+    methods: ["POST"],
+    pattern: '/client/subscriptions/:subscriptionId/inpi/preview',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":0,"val":"inpi","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":0,"val":"preview","end":""}],
+    types: placeholder as Registry['client.subscriptions.inpi.preview']['types'],
+  },
+  'client.subscriptions.inpi.preview_articles': {
+    methods: ["GET","HEAD"],
+    pattern: '/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"inpi","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"previews","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":1,"val":"previewId","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"articles","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":1,"val":"actId","end":""}],
+    types: placeholder as Registry['client.subscriptions.inpi.preview_articles']['types'],
+  },
   'client.subscriptions.list': {
     methods: ["GET","HEAD"],
     pattern: '/client/subscriptions',

@@ -36,6 +36,8 @@ export type ScannedRoutes = {
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
     'client.account_management.profile.update': { paramsTuple?: []; params?: {} }
     'client.account_management.profile.delete': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.inpi.preview': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
+    'client.subscriptions.inpi.preview_articles': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'previewId': ParamValue,'actId': ParamValue} }
     'client.subscriptions.list': { paramsTuple?: []; params?: {} }
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
@@ -91,6 +93,7 @@ export type ScannedRoutes = {
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.inpi.preview_articles': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'previewId': ParamValue,'actId': ParamValue} }
     'client.subscriptions.list': { paramsTuple?: []; params?: {} }
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
   }
@@ -108,6 +111,7 @@ export type ScannedRoutes = {
     'admin.users.list': { paramsTuple?: []; params?: {} }
     'admin.users.view': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
     'client.account_management.profile.view': { paramsTuple?: []; params?: {} }
+    'client.subscriptions.inpi.preview_articles': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'previewId': ParamValue,'actId': ParamValue} }
     'client.subscriptions.list': { paramsTuple?: []; params?: {} }
     'client.subscriptions.view': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
   }
@@ -119,6 +123,7 @@ export type ScannedRoutes = {
     'admin.roles.create': { paramsTuple?: []; params?: {} }
     'admin.users.create': { paramsTuple?: []; params?: {} }
     'admin.users.resend_onboarding': { paramsTuple: [ParamValue]; params: {'userId': ParamValue} }
+    'client.subscriptions.inpi.preview': { paramsTuple: [ParamValue]; params: {'subscriptionId': ParamValue} }
     'client.subscriptions.create': { paramsTuple?: []; params?: {} }
     'client.subscriptions.validate_step': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'step': ParamValue} }
     'client.subscriptions.upload_document': { paramsTuple: [ParamValue,ParamValue]; params: {'subscriptionId': ParamValue,'documentType': ParamValue} }

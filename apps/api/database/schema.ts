@@ -597,7 +597,7 @@ export class SubscriptionPlanSchema extends BaseModel {
 }
 
 export class SubscriptionSchema extends BaseModel {
-  static $columns = ['approvedAt', 'completedAt', 'completedSteps', 'createdAt', 'createdBy', 'id', 'status', 'statusUpdatedAt', 'submittedAt', 'updatedAt'] as const
+  static $columns = ['approvedAt', 'completedAt', 'completedSteps', 'createdAt', 'createdBy', 'editRevision', 'id', 'status', 'statusUpdatedAt', 'submittedAt', 'updatedAt'] as const
   $columns = SubscriptionSchema.$columns
   @column.dateTime()
   declare approvedAt: DateTime | null
@@ -609,6 +609,8 @@ export class SubscriptionSchema extends BaseModel {
   declare createdAt: DateTime
   @column()
   declare createdBy: number | null
+  @column()
+  declare editRevision: number
   @column({ isPrimary: true })
   declare id: number
   @column()

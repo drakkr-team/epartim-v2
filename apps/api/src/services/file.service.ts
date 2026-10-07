@@ -8,6 +8,11 @@ export type FileUrlOptions = {
 	disposition?: "attachment" | "inline";
 };
 
+type FileUploadParams = { path?: string } & (
+	| { file: MultipartFile }
+	| { buffer: Buffer; name: string; extension: string; contentType: string }
+);
+
 export default class FileService {
 	async getUrl(file: File, options: FileUrlOptions = {}) {
 		const { disposition = "inline" } = options;
@@ -25,22 +30,46 @@ export default class FileService {
 		});
 	}
 
-	async upload(params: { file: MultipartFile; path?: string }) {
-		const { file, path } = params;
+	async upload(params: FileUploadParams) {
+		const { path } = params;
+		const metadata =
+			"file" in params
+				? {
+						extension: params.file.extname,
+						name: params.file.clientName,
+						size: params.file.size,
+						type:
+							params.file.type && params.file.extname
+								? `${params.file.type}/${params.file.extname}`
+								: null,
+					}
+				: {
+						extension: params.extension,
+						name: params.name,
+						size: params.buffer.length,
+						type: params.contentType,
+					};
 
-		const extension = file.extname?.replace(/[^a-z0-9]/gi, "").toLowerCase();
+		const extension = metadata.extension?.replace(/[^a-z0-9]/gi, "").toLowerCase();
 		const fileName = extension ? `${stringHelper.uuid()}.${extension}` : stringHelper.uuid();
 		const key = path ? `${path}/${fileName}` : fileName;
-		const type = file.type && file.extname ? `${file.type}/${file.extname}` : null;
 
-		await file.moveToDisk(key, {
-			moveAs: "stream",
-		});
-		return await File.create({
-			key,
-			name: file.clientName,
-			size: file.size,
-			type: type,
-		});
+		if ("file" in params) {
+			await params.file.moveToDisk(key, { moveAs: "stream" });
+		} else {
+			await drive.use().put(key, params.buffer, { contentType: params.contentType });
+		}
+
+		try {
+			return await File.create({
+				key,
+				name: metadata.name,
+				size: metadata.size,
+				type: metadata.type,
+			});
+		} catch (error) {
+			await drive.use().delete(key);
+			throw error;
+		}
 	}
 }

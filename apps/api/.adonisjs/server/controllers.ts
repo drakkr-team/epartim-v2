@@ -86,6 +86,10 @@ export const controllers = {
           Delete: () => import('#src/features/client/subscriptions/controllers/documents/delete.controller'),
           Upload: () => import('#src/features/client/subscriptions/controllers/documents/upload.controller'),
         },
+        inpi: {
+          PreviewArticles: () => import('#src/features/client/subscriptions/controllers/inpi/preview_articles.controller'),
+          Preview: () => import('#src/features/client/subscriptions/controllers/inpi/preview.controller'),
+        },
         List: () => import('#src/features/client/subscriptions/controllers/list.controller'),
         steps: {
           Validate: () => import('#src/features/client/subscriptions/controllers/steps/validate.controller'),
