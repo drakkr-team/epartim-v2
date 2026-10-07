@@ -89,6 +89,7 @@ export function FormalismStep({
 					>
 						<ValidateStepButton
 							areDocumentsComplete={!!headcount && groups.length > 0}
+							incompleteMessage={t(!headcount ? "missingHeadcount" : "missingDevices")}
 							isValidated={isValidated}
 							step={5}
 							subscriptionId={subscriptionId}

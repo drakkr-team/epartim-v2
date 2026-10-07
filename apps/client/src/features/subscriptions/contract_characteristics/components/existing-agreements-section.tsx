@@ -42,6 +42,8 @@ export function ExistingAgreementsSection({ form }: ExistingAgreementsSectionPro
 					<div className="grid items-start gap-4 md:grid-cols-2">
 						{agreementOptions.map(({ value, label, hasHelp }) => {
 							const checked = field.state.value.includes(value);
+							if (value === SubscriptionAgreement.PPVE && !checked) return null;
+
 							const id = `existing-agreement-${value}`;
 							return (
 								<div

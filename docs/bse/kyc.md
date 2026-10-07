@@ -16,6 +16,7 @@ Construire l'etape KYC pour identifier les beneficiaires effectifs, dirigeants, 
 
 - Une personne physique exige les informations d'identite et la piece associee.
 - Une personne morale exige un justificatif legal adapte.
+- Aucun justificatif BIC n'est demande, meme lorsque l'entreprise declare un code BIC.
 - Les donnees de naissance ne s'appliquent pas aux personnes morales.
 - La somme des pourcentages de detention ne peut pas depasser 100 %.
 - La fonction est requise sauf cas documente pour l'actionnaire principal.

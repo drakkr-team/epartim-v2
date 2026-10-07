@@ -56,7 +56,6 @@ export function AuthorizationsSection(props: AuthorizationsSectionProps) {
 					<h3 id="authorizations-heading" className="font-bold text-base text-secondary-12">
 						{t("authorizations.title")}
 					</h3>
-					<p className="mt-1 text-neutral-11 text-sm">{t("authorizations.description")}</p>
 				</div>
 				<Button type="button" onClick={addAuthorization}>
 					<PlusIcon />

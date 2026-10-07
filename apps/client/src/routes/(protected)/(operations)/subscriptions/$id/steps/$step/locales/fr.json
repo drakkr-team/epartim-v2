@@ -7,14 +7,13 @@
 		"step-one": {
 			"eyebrow": "Étape 01 sur 05 · Références entreprise",
 			"short-title": "Réf. entreprise",
-			"title": "Références entreprise",
-			"description": "Renseignez les informations de l'entreprise pour préparer le bulletin de souscription."
+			"title": "Références entreprise"
 		},
 		"step-two": {
 			"eyebrow": "Étape 02 sur 05 · KYC",
 			"short-title": "KYC",
-			"title": "KYC bénéficiaires et risques",
-			"description": "Renseignez les informations de connaissance client de l’entreprise et de ses détenteurs."
+			"title": "KYC",
+			"description": "Le KYC (Know Your Customer) est une procédure réglementaire qui consiste à identifier et vérifier l’identité d’un client ou d’une entreprise avant d’ouvrir un dispositif financier. Cette obligation découle des règles de lutte contre le blanchiment et le financement du terrorisme."
 		},
 		"step-three": {
 			"eyebrow": "Étape 03 sur 05 · Bulletin de souscription",

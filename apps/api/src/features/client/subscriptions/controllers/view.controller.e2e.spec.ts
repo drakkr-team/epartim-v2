@@ -200,7 +200,7 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 		assert.include(response.body().documents[2].label, "Extrait RNE");
 	});
 
-	test("it should return the KYC documents required by the BIC and each owner", async ({
+	test("it should return each owner document and preserve a hidden legacy BIC document", async ({
 		client,
 		assert,
 	}) => {
@@ -227,6 +227,17 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 			}),
 		]);
 		await CompanyKycProfile.create({ bicId: true, companyId: company.id });
+		const legacyBicFile = await File.create({
+			key: `subscriptions/${subscription.id}/legacy-bic.pdf`,
+			name: "legacy-bic.pdf",
+			size: 1_024,
+			type: "application/pdf",
+		});
+		const legacyBicDocument = await SubscriptionDocument.create({
+			fileId: legacyBicFile.id,
+			subscriptionId: subscription.id,
+			type: SubscriptionDocumentType.BIC_IDENTIFICATION_CODE,
+		});
 
 		const response = await client
 			.visit("client.subscriptions.view", { subscriptionId: subscription.id })
@@ -243,7 +254,6 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 				}))
 				.sort((first: { type: number }, second: { type: number }) => first.type - second.type),
 			[
-				{ ownerId: null, type: SubscriptionDocumentType.BIC_IDENTIFICATION_CODE },
 				{ ownerId: physicalOwner.id, type: SubscriptionDocumentType.BENEFICIAL_OWNER_ID },
 				{ ownerId: legalOwner.id, type: SubscriptionDocumentType.BENEFICIAL_OWNER_RNE },
 			],
@@ -265,6 +275,8 @@ test.group("Features / Client / Subscriptions / Controllers / View Controller", 
 		}
 		assert.include(physicalDocument.label, "Jeanne Dupont");
 		assert.include(legalDocument.label, "moins de trois mois");
+		assert.isNotNull(await SubscriptionDocument.find(legacyBicDocument.id));
+		assert.isNotNull(await File.find(legacyBicFile.id));
 	});
 
 	test("it should return a download URL for an attached document", async ({ client, assert }) => {

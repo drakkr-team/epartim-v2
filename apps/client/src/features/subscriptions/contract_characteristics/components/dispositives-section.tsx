@@ -100,7 +100,6 @@ export function DispositivesSection(props: DevicesSectionProps) {
 						<h2 id="devices-heading" className="mt-2 font-bold text-secondary-12 text-xl">
 							{t("devices.title")}
 						</h2>
-						<p className="mt-1 text-neutral-11 text-sm">{t("devices.description")}</p>
 					</div>
 
 					<div className="grid gap-6">

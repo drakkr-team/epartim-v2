@@ -34,11 +34,7 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 		<SubscriptionStepValidationProvider>
 			<main className="mx-auto grid w-full max-w-7xl gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
 				<div className="grid min-w-0 gap-8">
-					<SubscriptionStepHeader
-						description={t("step-one.description")}
-						eyebrow={t("step-one.eyebrow")}
-						title={t("step-one.title")}
-					/>
+					<SubscriptionStepHeader eyebrow={t("step-one.eyebrow")} title={t("step-one.title")} />
 					<div className="lg:hidden">
 						<SubscriptionSummary subscription={subscription} />
 					</div>
@@ -67,7 +63,7 @@ export function CompanyReferencesStep(props: CompanyReferencesStepProps) {
 
 					<SubscriptionStepFooter
 						currentStep={1}
-						nextStep={isValidated ? 2 : undefined}
+						nextStep={2}
 						stepLabel={t("step-one.short-title")}
 						subscriptionId={subscriptionId}
 					>

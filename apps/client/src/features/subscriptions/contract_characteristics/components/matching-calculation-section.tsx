@@ -30,6 +30,7 @@ export function MatchingCalculationSection({ form }: MatchingCalculationSectionP
 					{t("matchingCalculation.title")}
 				</h2>
 				<p className="mt-1 text-neutral-11 text-sm">{t("matchingCalculation.description")}</p>
+				<p className="mt-2 text-neutral-11 text-sm">{t("matchingCalculation.seniorityWarning")}</p>
 			</div>
 
 			<form.AppField name="matchingCalculationMethod">

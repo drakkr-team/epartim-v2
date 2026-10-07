@@ -1,6 +1,6 @@
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@workspace/ui-react/components/button";
@@ -13,6 +13,7 @@ import { toastifyTuyauError } from "#/utils/tuyau";
 
 type ValidateStepButtonProps = {
 	areDocumentsComplete: boolean;
+	incompleteMessage?: string;
 	isValidated: boolean;
 	onValidationAttempt?: () => void;
 	step: number;
@@ -29,18 +30,32 @@ function scrollToFirstInvalidElement() {
 }
 
 export function ValidateStepButton(props: ValidateStepButtonProps) {
-	const { areDocumentsComplete, isValidated, onValidationAttempt, step, subscriptionId } = props;
+	const {
+		areDocumentsComplete,
+		incompleteMessage,
+		isValidated,
+		onValidationAttempt,
+		step,
+		subscriptionId,
+	} = props;
 	const { t } = useTranslation("features.subscriptions.steps.validate-step-button");
 	const { canValidate: areFormsValid, validateForms } = useSubscriptionStepValidation();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const [isValidationRequested, setIsValidationRequested] = useState(false);
+	const hintId = useId();
 	const isSaving =
 		useIsMutating({
 			predicate: (mutation) =>
 				mutation.options.scope?.id.startsWith(`subscription:${subscriptionId}:`) ?? false,
 		}) > 0;
 	const isReadyToValidate = areDocumentsComplete && areFormsValid;
+	let unavailableReason: string | undefined;
+	if (!isValidated) {
+		if (isSaving) unavailableReason = t("unavailable.saving");
+		else if (!areDocumentsComplete) unavailableReason = incompleteMessage;
+		else if (!areFormsValid) unavailableReason = t("unavailable.fields");
+	}
 	const validation = useMutation(
 		api.subscriptions.validateStep.mutationOptions({
 			onSuccess: async () => {
@@ -94,16 +109,22 @@ export function ValidateStepButton(props: ValidateStepButtonProps) {
 	}, [isSaving, isValidationRequested, validateStep]);
 
 	return (
-		<Button
-			type="button"
-			variant={isValidated ? "secondary" : "primary"}
-			disabled={isValidated || !isReadyToValidate || isSaving || validation.isPending}
-			onClick={() => {
-				onValidationAttempt?.();
-				setIsValidationRequested(true);
-			}}
-		>
-			{t(isValidated ? "action.validated" : "action.validate")}
-		</Button>
+		<div className="grid max-w-64 justify-items-start gap-2">
+			<Button
+				type="button"
+				variant={isValidated ? "secondary" : "primary"}
+				disabled={isValidated || !isReadyToValidate || isSaving || validation.isPending}
+				aria-describedby={unavailableReason ? hintId : undefined}
+				onClick={() => {
+					onValidationAttempt?.();
+					setIsValidationRequested(true);
+				}}
+			>
+				{t(isValidated ? "action.validated" : "action.validate")}
+			</Button>
+			<p id={hintId} role="status" className="text-neutral-11 text-xs empty:hidden">
+				{unavailableReason}
+			</p>
+		</div>
 	);
 }

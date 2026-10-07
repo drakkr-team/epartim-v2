@@ -2,7 +2,6 @@
 	"features.subscriptions.documents.components.documents-section": {
 		"eyebrow": "IV. Documents à joindre",
 		"title": "Documents à joindre",
-		"description": "La liste des pièces s'adapte aux informations saisies : forme juridique, type de représentant légal et signataire sur le Kbis.",
 		"status": {
 			"pending": "Requis",
 			"attached": "Joint"

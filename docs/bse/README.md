@@ -7,6 +7,7 @@ noms de fichiers adaptes au projet v2.
 
 ## Documents
 
+- [Suivi des retours clients sur la souscription](client-feedback-actions.md)
 - [Parcours complet de souscription](full-subscription-flow.md)
 - [Socle souscription et statuts](subscription-statuses.md)
 - [References entreprise](company-references.md)

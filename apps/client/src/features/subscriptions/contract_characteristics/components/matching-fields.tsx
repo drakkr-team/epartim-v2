@@ -129,13 +129,24 @@ export function MatchingLimitFields({ form, name, max }: MatchingLimitFieldsProp
 									if (!open) field.handleBlur();
 								}}
 							>
-								<Select.Input id={field.name} className="w-full">
-									<Select.Value placeholder={t("matching.selectLimit")} />
+								<Select.Input
+									id={field.name}
+									className="h-auto min-h-10 w-full py-2 sm:h-auto sm:min-h-9"
+								>
+									<Select.Value
+										className="whitespace-normal text-left"
+										placeholder={t("matching.selectLimit")}
+									/>
 								</Select.Input>
 								<Select.Dropdown>
 									{limitKinds.map((option) => (
-										<Select.Option key={option.value} value={option.value} label={option.label}>
-											{option.label}
+										<Select.Option
+											key={option.value}
+											value={option.value}
+											label={option.label}
+											className="h-auto min-h-9 py-2"
+										>
+											<span className="whitespace-normal">{option.label}</span>
 										</Select.Option>
 									))}
 								</Select.Dropdown>

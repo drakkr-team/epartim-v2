@@ -143,6 +143,32 @@ test.group(
 			unauthorizedResponse.assertStatus(403);
 		});
 
+		test("it rejects a BIC document even when the company has a BIC", async ({
+			client,
+			assert,
+		}) => {
+			const { owner, subscription, user } = await createKycSubscriptionWithPhysicalOwner();
+			const profile = await CompanyKycProfile.findByOrFail("companyId", owner.companyId);
+			await profile.merge({ bicId: true }).save();
+
+			const response = await client
+				.visit("client.subscriptions.upload_document", {
+					documentType: SubscriptionDocumentType.BIC_IDENTIFICATION_CODE,
+					subscriptionId: subscription.id,
+				})
+				.withGuard("client")
+				.loginAs(user)
+				.file("file", pdf, { contentType: "application/pdf", filename: "bic.pdf" });
+
+			response.assertStatus(422);
+			assert.isNull(
+				await SubscriptionDocument.query()
+					.where("subscriptionId", subscription.id)
+					.where("type", SubscriptionDocumentType.BIC_IDENTIFICATION_CODE)
+					.first(),
+			);
+		});
+
 		test("it should upload and delete a document for the specified KYC owner", async ({
 			client,
 			assert,

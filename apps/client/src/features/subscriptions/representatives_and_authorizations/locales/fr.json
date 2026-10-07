@@ -2,27 +2,22 @@
 	"features.subscriptions.representatives_and_authorizations.components.representatives-and-authorizations-form": {
 		"eyebrow": "III. Représentant et habilitations",
 		"title": "Représentant, signataire et habilitations",
-		"description": "Identifiez les personnes qui représentent l'entreprise, signent le BSE ou disposent d'habilitations Amundi.",
 		"legalAgent": {
 			"title": "Représentant légal",
-			"description": "Le représentant légal peut être une personne physique ou une personne morale.",
 			"kind": "Nature du représentant légal"
 		},
 		"signer": {
 			"title": "Signataire du BSE",
-			"description": "Le signataire est toujours une personne physique, destinataire de la signature DocuSign.",
 			"onKbis": "Le nom du signataire apparaît sur le Kbis ou l'extrait RNE ?"
 		},
 		"correspondent": {
 			"title": "Correspondant entreprise",
-			"description": "Le correspondant entreprise est le contact principal transmis à Amundi.",
 			"isDifferent": "Le correspondant entreprise est-il différent du représentant légal ?",
 			"forcedDifferent": "Le correspondant entreprise doit être une personne physique distincte du représentant légal personne morale."
 		},
 		"authorizations": {
 			"title": "Habilitations Amundi",
 			"rights": "Accès à l'espace entreprise Amundi",
-			"description": "Ajoutez une habilitation uniquement lorsqu'une personne doit recevoir des droits Amundi.",
 			"empty": "Aucune habilitation ajoutée.",
 			"add": "Ajouter une habilitation",
 			"remove": "Supprimer l'habilitation",
@@ -45,7 +40,7 @@
 			"phoneNumber": "Téléphone mobile",
 			"countryCallingCode": "Pays et indicatif",
 			"function": "Fonction",
-			"amundiPortalId": "Identifiant portail Amundi"
+			"amundiPortalId": "Identifiant de connexion à l’espace entreprise d’Amundi, si déjà créé"
 		},
 		"civility": {
 			"1": "Monsieur",

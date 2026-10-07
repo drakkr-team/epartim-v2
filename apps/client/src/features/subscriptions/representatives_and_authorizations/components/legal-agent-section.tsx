@@ -57,7 +57,6 @@ export function LegalAgentSection(props: LegalAgentSectionProps) {
 				<h3 id="legal-agent-heading" className="font-bold text-base text-secondary-12">
 					{t("legalAgent.title")}
 				</h3>
-				<p className="mt-1 text-neutral-11 text-sm">{t("legalAgent.description")}</p>
 			</div>
 
 			<form.AppField name="legalAgent.kind" validators={{ onBlur: legalAgentSchema.kind }}>
