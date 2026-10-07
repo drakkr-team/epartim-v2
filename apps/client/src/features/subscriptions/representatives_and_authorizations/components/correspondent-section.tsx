@@ -34,7 +34,6 @@ export function CorrespondentSection(props: CorrespondentSectionProps) {
 							<h3 id="correspondent-heading" className="font-bold text-base text-secondary-12">
 								{t("correspondent.title")}
 							</h3>
-							<p className="mt-1 text-neutral-11 text-sm">{t("correspondent.description")}</p>
 						</div>
 
 						<div className="mt-4 grid gap-4 rounded-md border border-secondary-3 p-4">

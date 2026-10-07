@@ -45,7 +45,6 @@ export function RepresentativesAndAuthorizationsForm(
 					>
 						{t("title")}
 					</h2>
-					<p className="mt-1 text-neutral-11 text-sm">{t("description")}</p>
 				</div>
 
 				<LegalAgentSection

@@ -2,8 +2,7 @@
 	"features.subscriptions.contract_characteristics": {
 		"devices": {
 			"eyebrow": "I.",
-			"title": "Dispositifs",
-			"description": "Transfert éventuel d’un dispositif existant et adhésions souscrites."
+			"title": "Dispositifs"
 		},
 		"field": {
 			"existingDeviceTransfer": "Un transfert de dispositif existant est-il prévu ?",
@@ -23,7 +22,7 @@
 		"agreements": {
 			"eyebrow": "II.",
 			"title": "Accords existants",
-			"description": "Accords déjà en place dans l’entreprise."
+			"description": "L’entreprise a préalablement mis en place"
 		},
 		"agreement": {
 			"participation": "Accord de participation ou DUE",
@@ -47,7 +46,6 @@
 		"voluntaryPaymentPeriod": {
 			"eyebrow": "IV.",
 			"title": "Périodicité du versement volontaire",
-			"description": "Fenêtre pendant laquelle les salariés peuvent effectuer des versements volontaires.",
 			"help": "Si non, les versements seront autorisés toute l’année."
 		},
 		"matchingCalculation": {
@@ -63,7 +61,8 @@
 				"description": "Rapprochez-vous de votre interlocuteur habituel pour être accompagné si ce n’est pas encore fait.",
 				"phoneOne": "Administration 06 45 72 03 99",
 				"phoneTwo": "Administration 07 85 94 56 10"
-			}
+			},
+			"seniorityWarning": "Attention, l’abondement ne peut pas être calculé par Amundi si un abondement en fonction de l’ancienneté est coché."
 		},
 		"matchingDistribution": {
 			"eyebrow": "VI.",
@@ -107,7 +106,7 @@
 			"selectLimit": "Sélectionnez",
 			"limit": {
 				"legal": "Plafond légal",
-				"amount": "Montant"
+				"amount": "Montant (dans la limite du plafond légal)"
 			},
 			"period": "Période n°{{count}}",
 			"fromYears": "De (années)",
@@ -149,7 +148,7 @@
 		"adhesion": {
 			"peiEpartim": "Au PEI epartim",
 			"perColiEpartim": "Au PER COL-I epartim",
-			"voluntaryParticipationAgreement": "Accord de participation volontaire"
+			"voluntaryParticipationAgreement": "Souscrire à notre accord de participation volontaire"
 		},
 		"validation": {
 			"estimatedTransferAmountPositive": "Le montant doit être positif.",

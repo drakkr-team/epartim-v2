@@ -6,7 +6,6 @@ import Company, { CompanyLegalForm } from "#models/company";
 import CompanyBeneficialOwner, {
 	CompanyBeneficialOwnerKind,
 } from "#models/company_beneficial_owner";
-import CompanyKycProfile from "#models/company_kyc_profile";
 import Contact, { ContactKind } from "#models/contact";
 import Subscription from "#models/subscription";
 import SubscriptionDocument, {
@@ -34,7 +33,6 @@ export default class SubscriptionDocumentRequirementsService {
 		const transactionSubscription = client ? subscription.useTransaction(client) : subscription;
 		const legalAgent = await transactionCompany.related("legalAgent").query().first();
 		const signer = await transactionCompany.related("signer").query().first();
-		const kycProfile = await transactionCompany.related("kycProfile").query().first();
 		const beneficialOwners = await transactionCompany
 			.related("beneficialOwners")
 			.query()
@@ -47,7 +45,6 @@ export default class SubscriptionDocumentRequirementsService {
 			company,
 			documents,
 			existingAgreements,
-			kycProfile,
 			legalAgent,
 			signer,
 		});
@@ -62,19 +59,10 @@ export default class SubscriptionDocumentRequirementsService {
 		company: Company;
 		documents: SubscriptionDocument[];
 		existingAgreements: SubscriptionExistingAgreement[];
-		kycProfile: CompanyKycProfile | null;
 		legalAgent: Contact | null;
 		signer: Contact | null;
 	}) {
-		const {
-			beneficialOwners,
-			company,
-			documents,
-			existingAgreements,
-			kycProfile,
-			legalAgent,
-			signer,
-		} = params;
+		const { beneficialOwners, company, documents, existingAgreements, legalAgent, signer } = params;
 		const agreementTypes = existingAgreements.map((agreement) => agreement.type);
 		const documentsByRequirement = new Map(
 			documents.map((document) => [
@@ -159,15 +147,6 @@ export default class SubscriptionDocumentRequirementsService {
 					label: "Pouvoir donné au signataire",
 				},
 			);
-		}
-
-		if (kycProfile?.bicId) {
-			requirements.push({
-				label: "Code d’identification BIC",
-				ownerId: null,
-				step: SubscriptionStep.KYC,
-				type: SubscriptionDocumentType.BIC_IDENTIFICATION_CODE,
-			});
 		}
 
 		for (const owner of beneficialOwners) {

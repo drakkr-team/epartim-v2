@@ -68,7 +68,6 @@ export function AddressAndBankDetailsForm(props: AddressAndBankDetailsFormProps)
 					>
 						{t("title")}
 					</h2>
-					<p className="mt-1 text-neutral-11 text-sm">{t("description")}</p>
 				</div>
 
 				<div className="grid gap-4 md:grid-cols-6">

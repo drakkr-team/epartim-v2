@@ -2,7 +2,6 @@
 	"features.subscriptions.legal_identification.components.legal-identification-form": {
 		"eyebrow": "I. Identification légale",
 		"title": "Identification légale",
-		"description": "Renseignez les informations d'identification de l'entreprise.",
 		"field": {
 			"siren": { "label": "SIREN" },
 			"siret": { "label": "SIRET" },

@@ -357,7 +357,7 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, [3]);
 	});
 
-	test("it requires the BIC and one document for each KYC owner", async ({ client, assert }) => {
+	test("it requires each KYC owner document without a BIC document", async ({ client, assert }) => {
 		const { company, subscription, user } = await createKycSubscription();
 		const [physicalAddress, legalAddress] = await Promise.all([
 			AddressFactory.create(),
@@ -390,12 +390,11 @@ test.group("Features / Client / Subscriptions / Controllers / Steps / Validate C
 		assert.deepEqual((await Subscription.findOrFail(subscription.id)).completedSteps, []);
 
 		for (const [type, ownerId] of [
-			[SubscriptionDocumentType.BIC_IDENTIFICATION_CODE, null],
 			[SubscriptionDocumentType.BENEFICIAL_OWNER_ID, physicalOwner.id],
 			[SubscriptionDocumentType.BENEFICIAL_OWNER_RNE, legalOwner.id],
 		] as const) {
 			const file = await File.create({
-				key: `subscriptions/${subscription.id}/${type}-${ownerId ?? "bic"}.pdf`,
+				key: `subscriptions/${subscription.id}/${type}-${ownerId}.pdf`,
 				name: `${type}.pdf`,
 				size: 1_024,
 				type: "application/pdf",

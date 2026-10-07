@@ -20,7 +20,7 @@ type DocumentsSectionProps = {
 export function DocumentsSection(props: DocumentsSectionProps) {
 	const { t } = useTranslation("features.subscriptions.documents.components.documents-section");
 	const {
-		description = t("description"),
+		description,
 		documents,
 		eyebrow = t("eyebrow"),
 		showRequiredErrors = false,
@@ -36,7 +36,7 @@ export function DocumentsSection(props: DocumentsSectionProps) {
 					<h2 id="documents-heading" className="mt-2 font-bold text-secondary-12 text-xl">
 						{title}
 					</h2>
-					<p className="mt-1 text-neutral-11 text-sm">{description}</p>
+					{description && <p className="mt-1 text-neutral-11 text-sm">{description}</p>}
 				</div>
 
 				<div className="grid gap-4 md:grid-cols-2">

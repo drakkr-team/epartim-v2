@@ -23,7 +23,6 @@ export function SignerSection(props: SignerSectionProps) {
 							<h3 id="signer-heading" className="font-bold text-base text-secondary-12">
 								{t("signer.title")}
 							</h3>
-							<p className="mt-1 text-neutral-11 text-sm">{t("signer.description")}</p>
 						</div>
 
 						<div className="mt-4 grid gap-4 rounded-md border border-secondary-3 p-4">

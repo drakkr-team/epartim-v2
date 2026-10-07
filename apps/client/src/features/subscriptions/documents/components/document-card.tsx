@@ -80,7 +80,7 @@ export function DocumentCard(props: DocumentCardProps) {
 			<FileTextIcon className="mt-0.5 size-5 shrink-0 text-primary-9" aria-hidden="true" />
 			<div className="min-w-0">
 				<h3
-					className="truncate font-semibold text-secondary-12 text-xs leading-5"
+					className="wrap-break-word whitespace-normal font-semibold text-secondary-12 text-xs leading-5"
 					title={document.label}
 				>
 					{document.label}

@@ -25,14 +25,14 @@ export function SubscriptionStepFooter(props: SubscriptionStepFooterProps) {
 	});
 
 	return (
-		<footer className="flex flex-col gap-4 rounded-md border border-neutral-4 bg-neutral-1 p-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+		<footer className="flex flex-col flex-wrap gap-4 rounded-md border border-neutral-4 bg-neutral-1 p-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
 			<div className="flex min-w-0 flex-wrap items-center gap-x-8 gap-y-3">
 				<Button nativeButton={false} variant="ghost" render={<Link to="/subscriptions" />}>
 					{t("action.quit")}
 				</Button>
 				<p className="font-medium text-neutral-11 text-xs sm:text-xs">{currentStepLabel}</p>
 			</div>
-			<div className="flex shrink-0 flex-wrap items-center gap-3">
+			<div className="flex max-w-full flex-wrap items-center gap-3">
 				{currentStep > 1 && (
 					<Button
 						nativeButton={false}

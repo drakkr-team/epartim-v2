@@ -41,7 +41,6 @@ export function KycStep(props: KycStepProps) {
 					<KycProfileForm subscription={subscription} subscriptionId={subscriptionId} />
 					<BeneficialOwnersForm subscription={subscription} subscriptionId={subscriptionId} />
 					<DocumentsSection
-						description={tKyc("documents.description")}
 						documents={subscription.kycDocuments}
 						eyebrow={tKyc("documents.eyebrow")}
 						showRequiredErrors={isValidationAttempted}
@@ -50,7 +49,7 @@ export function KycStep(props: KycStepProps) {
 					/>
 					<SubscriptionStepFooter
 						currentStep={2}
-						nextStep={isValidated ? 3 : undefined}
+						nextStep={3}
 						stepLabel={t("step-two.short-title")}
 						subscriptionId={subscriptionId}
 					>

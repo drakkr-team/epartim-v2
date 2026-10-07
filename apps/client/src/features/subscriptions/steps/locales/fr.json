@@ -21,6 +21,10 @@
 				"title": "Validation impossible",
 				"description": "Une erreur inattendue est survenue."
 			}
+		},
+		"unavailable": {
+			"saving": "Enregistrement des modifications en cours…",
+			"fields": "Complétez les champs obligatoires et corrigez les erreurs signalées pour valider cette étape."
 		}
 	},
 	"features.subscriptions.steps.subscription-step-navigation": {

@@ -61,9 +61,6 @@ export function VoluntaryPaymentPeriodSection(props: VoluntaryPaymentPeriodSecti
 						>
 							{t("voluntaryPaymentPeriod.title")}
 						</h2>
-						<p className="mt-1 text-neutral-11 text-sm">
-							{t("voluntaryPaymentPeriod.description")}
-						</p>
 					</div>
 
 					<BooleanField

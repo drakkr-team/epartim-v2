@@ -75,17 +75,22 @@ export function PricingTermsTable({
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
-					{rows.map((row) => (
-						<Table.Row key={row.key}>
-							<Table.Cell className="min-w-48 whitespace-normal font-medium">
-								{t(`pricing.table.rows.${row.key}.label`)}
-							</Table.Cell>
-							<Table.Cell className="min-w-32 whitespace-normal text-neutral-11">
-								{t(`pricing.table.rows.${row.key}.frequency`)}
-							</Table.Cell>
-							<Table.Cell className="whitespace-nowrap">{row.amount}</Table.Cell>
-						</Table.Row>
-					))}
+					{rows
+						.filter(
+							(row) =>
+								row.key !== "entryFees" || entryFeePayer === SubscriptionEntryFeePayer.COMPANY,
+						)
+						.map((row) => (
+							<Table.Row key={row.key}>
+								<Table.Cell className="min-w-48 whitespace-normal font-medium">
+									{t(`pricing.table.rows.${row.key}.label`)}
+								</Table.Cell>
+								<Table.Cell className="min-w-32 whitespace-normal text-neutral-11">
+									{t(`pricing.table.rows.${row.key}.frequency`)}
+								</Table.Cell>
+								<Table.Cell className="whitespace-nowrap">{row.amount}</Table.Cell>
+							</Table.Row>
+						))}
 				</Table.Body>
 			</Table>
 		</div>

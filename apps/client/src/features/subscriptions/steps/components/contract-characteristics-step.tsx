@@ -57,7 +57,7 @@ export function ContractCharacteristicsStep(props: ContractCharacteristicsStepPr
 					)}
 					<SubscriptionStepFooter
 						currentStep={3}
-						nextStep={isValidated ? 4 : undefined}
+						nextStep={4}
 						stepLabel={t("step-three.short-title")}
 						subscriptionId={subscriptionId}
 					>
