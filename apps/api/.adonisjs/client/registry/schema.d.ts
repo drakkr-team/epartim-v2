@@ -391,6 +391,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/account_management/profile/controllers/delete.controller').default['handle']>>>
     }
   }
+  'client.subscriptions.inpi.preview': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/inpi/preview'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/inpi/preview.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/inpi/preview.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/preview.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/preview.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.inpi.preview_articles': {
+    methods: ["GET","HEAD"]
+    pattern: '/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue, ParamValue]
+      params: { subscriptionId: ParamValue; previewId: ParamValue; actId: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#src/features/client/subscriptions/controllers/inpi/preview_articles.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/preview_articles.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/preview_articles.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'client.subscriptions.list': {
     methods: ["GET","HEAD"]
     pattern: '/client/subscriptions'

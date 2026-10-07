@@ -34,6 +34,8 @@ export type SubscriptionContractFee = Awaited<ReturnType<typeof import("#present
 
 export type SubscriptionFormalism = Awaited<ReturnType<typeof import("#presenters/subscription_formalism.presenter").default.prototype.toJSON>>;
 
+export type SubscriptionInpiPreview = Awaited<ReturnType<typeof import("#presenters/subscription_inpi_preview.presenter").default.prototype.toJSON>>;
+
 export type SubscriptionMatching = Awaited<ReturnType<typeof import("#presenters/subscription_matching.presenter").default.prototype.toJSON>>;
 
 export type SubscriptionPlan = Awaited<ReturnType<typeof import("#presenters/subscription_plan.presenter").default.prototype.toJSON>>;

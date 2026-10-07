@@ -8,7 +8,7 @@ const corsConfig = defineConfig({
 	origin: app.inDev ? true : env.get("CORS_AUTHORIZED_ORIGINS", "").split(","),
 	methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
 	headers: true,
-	exposeHeaders: [],
+	exposeHeaders: ["x-subscription-revision"],
 	credentials: true,
 	maxAge: 90,
 });

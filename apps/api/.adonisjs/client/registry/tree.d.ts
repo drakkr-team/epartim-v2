@@ -83,6 +83,10 @@ export interface ApiDefinition {
       }
     }
     subscriptions: {
+      inpi: {
+        preview: typeof routes['client.subscriptions.inpi.preview']
+        previewArticles: typeof routes['client.subscriptions.inpi.preview_articles']
+      }
       list: typeof routes['client.subscriptions.list']
       create: typeof routes['client.subscriptions.create']
       view: typeof routes['client.subscriptions.view']

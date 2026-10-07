@@ -1,0 +1,45 @@
+type: http_request
+model: http_request
+id: rq_subscription_inpi_preview
+createdAt: 2026-09-04T00:00:00.000000
+updatedAt: 2026-09-04T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscription_inpi
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "siren": "${[ faker.string.numeric({ length: 9 }) ]}"
+    }
+bodyType: application/json
+description: "Requires the subscription creator client session. Set SUBSCRIPTION_ID and all referenced ids in private variables. Searches INPI without business writes. Returns a preview valid for 15 minutes, selectable fields, people, warnings, and articles. Each field with a non-null proposed value has selected=true, including replacements of existing values. The client preselects all proposed KYC people and leaves the legal representative unselected. Store its id as INPI_PREVIEW_ID in your private environment. Errors: 401, 403, 404, 409 (status), 422, 429, 503."
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: POST
+name: Preview INPI company
+sortPriority: 2000.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/inpi/preview
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0

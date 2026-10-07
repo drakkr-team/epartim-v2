@@ -1,0 +1,41 @@
+type: http_request
+model: http_request
+id: rq_subscription_inpi_preview_articles
+createdAt: 2026-09-04T00:00:00.000000
+updatedAt: 2026-09-04T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscription_inpi
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: "Requires the subscription creator client session. Set SUBSCRIPTION_ID and all referenced ids in private variables. Streams a private PDF without attaching it. Set INPI_PREVIEW_ID and INPI_ACT_ID from the preview in your private environment. Returns application/pdf; 409 for expired preview or status, 422 for unavailable/invalid document, 503 for upstream failure."
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/pdf
+  id: null
+method: GET
+name: Preview INPI articles
+sortPriority: 2000.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/inpi/previews/${[ INPI_PREVIEW_ID ]}/articles/${[ INPI_ACT_ID ]}
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0
