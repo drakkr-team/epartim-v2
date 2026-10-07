@@ -23,7 +23,6 @@ export function ContractFeesStep({ subscription, subscriptionId }: ContractFeesS
 					<SubscriptionStepHeader
 						description={t("step-four.description")}
 						eyebrow={t("step-four.eyebrow")}
-						isValidated={isValidated}
 						title={t("step-four.title")}
 					/>
 					<div className="lg:hidden">
