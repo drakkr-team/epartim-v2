@@ -159,6 +159,37 @@
 			"voluntaryPaymentPeriodStartDate": "Renseignez la date de début de la période.",
 			"voluntaryPaymentPeriodEndDate": "Renseignez la date de fin de la période.",
 			"voluntaryPaymentPeriodDateOrder": "La date de fin doit être postérieure ou égale à la date de début."
+		},
+		"participation": {
+			"eyebrow": "IX.",
+			"title": "Adhésion à l’Accord de participation volontaire",
+			"duration": "Durée",
+			"years_one": "1 an",
+			"years_other": "{{count}} ans",
+			"indefinite": "Indéterminée",
+			"startDate": "Ouvert le",
+			"endDate": "Et clos le",
+			"seniority": "Condition d’ancienneté",
+			"noSeniority": "Sans condition",
+			"salaryPercentage": "Pourcentage de la RSP réparti proportionnellement aux salaires (%)",
+			"presencePercentage": "Pourcentage de la RSP réparti selon la durée de présence (%)",
+			"equalPercentage": "Pourcentage de la RSP réparti de manière égalitaire (%)",
+			"calculationFormula": "Formule de calcul de la RSP",
+			"select": "Sélectionnez",
+			"formula": {
+				"1": "Formule légale : ½ × (bénéfice net fiscal − 5 % des capitaux propres) × (salaires / valeur ajoutée)",
+				"2": "Formule dérogatoire 1 : ½ × bénéfice net comptable",
+				"3": "Formule dérogatoire 2 : bénéfice net comptable − 5 % des capitaux propres",
+				"4": "Formule dérogatoire 3 : bénéfice net fiscal − 5 % des capitaux propres",
+				"5": "Formule dérogatoire 4 : ½ × bénéfice net fiscal"
+			},
+			"validation": {
+				"required": "Renseignez ce champ.",
+				"date": "La date est invalide.",
+				"dateOrder": "La date de clôture doit être strictement postérieure à la date d’ouverture.",
+				"percentageRange": "Saisissez un pourcentage entre 0 et 100 %.",
+				"percentagePrecision": "Le pourcentage doit comporter au plus deux décimales."
+			}
 		}
 	},
 	"features.subscriptions.contract_characteristics.hooks.use-update-mutation": {

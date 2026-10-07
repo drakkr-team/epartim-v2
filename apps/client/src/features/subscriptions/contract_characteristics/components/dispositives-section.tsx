@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import z from "zod";
 
+import { canSelectVoluntaryParticipation } from "@workspace/api/constants/subscription_participation";
 import { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 import { Checkbox } from "@workspace/ui-react/components/checkbox";
 import { Field } from "@workspace/ui-react/components/field";
@@ -25,13 +26,14 @@ const adhesionOptions = [
 
 type DevicesSectionProps = {
 	form: ReturnType<typeof useContractCharacteristicsForm>["form"];
+	companyHeadcount: string | null;
 	updateContractCharacteristics: ReturnType<
 		typeof useContractCharacteristicsForm
 	>["updateContractCharacteristics"];
 };
 
 export function DispositivesSection(props: DevicesSectionProps) {
-	const { form, updateContractCharacteristics } = props;
+	const { form, updateContractCharacteristics, companyHeadcount } = props;
 	const { t } = useTranslation(namespace);
 	const estimatedTransferAmountSchema = z
 		.number({ error: t("validation.estimatedTransferAmountPositive") })
@@ -86,6 +88,23 @@ export function DispositivesSection(props: DevicesSectionProps) {
 		}
 		if (!adhesionTypes.includes(SubscriptionPlanAdhesionType.PER_COLI_EPARTIM)) {
 			clearMatchingRules("per");
+		}
+	}
+
+	function clearVoluntaryParticipation() {
+		const names = [
+			"voluntaryParticipationDuration",
+			"voluntaryParticipationStartDate",
+			"voluntaryParticipationEndDate",
+			"voluntaryParticipationMinimumSeniorityMonths",
+			"voluntaryParticipationSalaryPercentage",
+			"voluntaryParticipationPresencePercentage",
+			"voluntaryParticipationEqualPercentage",
+			"voluntaryParticipationFormula",
+		] as const;
+		for (const name of names) {
+			form.setFieldValue(name, null);
+			form.setFieldMeta(name, (meta) => ({ ...meta, errorMap: {}, isDirty: false }));
 		}
 	}
 
@@ -166,40 +185,53 @@ export function DispositivesSection(props: DevicesSectionProps) {
 									>
 										<Field.Label required>{t("field.adhesionTypes")}</Field.Label>
 										<div className="grid gap-3 md:grid-cols-3">
-											{adhesionOptions.map((option) => {
-												const checked = adhesionTypes.includes(option.value);
-												const id = `adhesion-${option.value}`;
+											{adhesionOptions
+												.filter(
+													(option) =>
+														option.value !==
+															SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT ||
+														canSelectVoluntaryParticipation(companyHeadcount),
+												)
+												.map((option) => {
+													const checked = adhesionTypes.includes(option.value);
+													const id = `adhesion-${option.value}`;
 
-												return (
-													<label
-														key={option.value}
-														htmlFor={id}
-														className={[
-															"flex min-h-16 cursor-pointer items-start gap-3 rounded-sm border p-4 transition",
-															checked
-																? "border-secondary-10 bg-secondary-2"
-																: "border-neutral-6 bg-neutral-1 hover:border-neutral-8",
-														].join(" ")}
-													>
-														<Checkbox
-															id={id}
-															checked={checked}
-															className="data-checked:border-secondary-9 data-checked:bg-secondary-9 data-checked:hover:not-data-disabled:border-secondary-10 data-checked:hover:not-data-disabled:bg-secondary-10"
-															onCheckedChange={(value) => {
-																const nextAdhesionTypes = value
-																	? [...adhesionTypes, option.value]
-																	: adhesionTypes.filter((type) => type !== option.value);
-																field.handleChange(nextAdhesionTypes);
-																clearInactiveMatchingRules(nextAdhesionTypes);
-																field.handleBlur();
-															}}
-														/>
-														<span className="font-semibold text-secondary-12 text-xs">
-															{t(`adhesion.${option.label}`)}
-														</span>
-													</label>
-												);
-											})}
+													return (
+														<label
+															key={option.value}
+															htmlFor={id}
+															className={[
+																"flex min-h-16 cursor-pointer items-start gap-3 rounded-sm border p-4 transition",
+																checked
+																	? "border-secondary-10 bg-secondary-2"
+																	: "border-neutral-6 bg-neutral-1 hover:border-neutral-8",
+															].join(" ")}
+														>
+															<Checkbox
+																id={id}
+																checked={checked}
+																className="data-checked:border-secondary-9 data-checked:bg-secondary-9 data-checked:hover:not-data-disabled:border-secondary-10 data-checked:hover:not-data-disabled:bg-secondary-10"
+																onCheckedChange={(value) => {
+																	const nextAdhesionTypes = value
+																		? [...adhesionTypes, option.value]
+																		: adhesionTypes.filter((type) => type !== option.value);
+																	field.handleChange(nextAdhesionTypes);
+																	clearInactiveMatchingRules(nextAdhesionTypes);
+																	if (
+																		!nextAdhesionTypes.includes(
+																			SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
+																		)
+																	)
+																		clearVoluntaryParticipation();
+																	field.handleBlur();
+																}}
+															/>
+															<span className="font-semibold text-secondary-12 text-xs">
+																{t(`adhesion.${option.label}`)}
+															</span>
+														</label>
+													);
+												})}
 										</div>
 										{invalid &&
 											field.state.meta.errorMap.onBlur?.map((error) => (

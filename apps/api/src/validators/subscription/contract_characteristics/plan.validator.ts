@@ -6,6 +6,10 @@ import {
 	SubscriptionMatchingCalculationMethod,
 	SubscriptionMatchingDistributionPeriod,
 } from "#constants/subscription_matching";
+import {
+	SubscriptionParticipationDuration,
+	SubscriptionParticipationFormula,
+} from "#constants/subscription_participation";
 
 const isCalendarDate = vine.createRule((value, _, field) => {
 	if (
@@ -17,8 +21,32 @@ const isCalendarDate = vine.createRule((value, _, field) => {
 	}
 });
 
+const percentage = () => vine.number().min(0).max(100).decimal([0, 2]).nullable().optional();
+
 export const UpdateSubscriptionPlanSchema = vine
 	.object({
+		voluntaryParticipationDuration: vine
+			.enum(SubscriptionParticipationDuration)
+			.nullable()
+			.optional(),
+		voluntaryParticipationStartDate: vine
+			.string()
+			.trim()
+			.use(isCalendarDate())
+			.nullable()
+			.optional(),
+		voluntaryParticipationEndDate: vine.string().trim().use(isCalendarDate()).nullable().optional(),
+		voluntaryParticipationMinimumSeniorityMonths: vine
+			.enum(MinimumSeniorityMonths)
+			.nullable()
+			.optional(),
+		voluntaryParticipationSalaryPercentage: percentage(),
+		voluntaryParticipationPresencePercentage: percentage(),
+		voluntaryParticipationEqualPercentage: percentage(),
+		voluntaryParticipationFormula: vine
+			.enum(SubscriptionParticipationFormula)
+			.nullable()
+			.optional(),
 		minimumSeniorityMonths: vine.enum(MinimumSeniorityMonths).nullable().optional(),
 		matchingCalculationMethod: vine.enum(SubscriptionMatchingCalculationMethod).optional(),
 		matchingDistributionPeriod: vine.enum(SubscriptionMatchingDistributionPeriod).optional(),

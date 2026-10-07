@@ -570,7 +570,7 @@ export class SubscriptionPlanAdhesionSchema extends BaseModel {
 }
 
 export class SubscriptionPlanSchema extends BaseModel {
-  static $columns = ['createdAt', 'estimatedTransferAmountCents', 'existingDeviceTransfer', 'id', 'matchingCalculationMethod', 'matchingDistributionPeriod', 'minimumSeniorityMonths', 'otherAgreementDetails', 'subscriptionId', 'updatedAt', 'voluntaryPaymentPeriodEndDate', 'voluntaryPaymentPeriodStartDate', 'voluntaryPaymentsLimitedToPeriod'] as const
+  static $columns = ['createdAt', 'estimatedTransferAmountCents', 'existingDeviceTransfer', 'id', 'matchingCalculationMethod', 'matchingDistributionPeriod', 'minimumSeniorityMonths', 'otherAgreementDetails', 'subscriptionId', 'updatedAt', 'voluntaryParticipationDuration', 'voluntaryParticipationEndDate', 'voluntaryParticipationEqualBasisPoints', 'voluntaryParticipationFormula', 'voluntaryParticipationMinimumSeniorityMonths', 'voluntaryParticipationPresenceBasisPoints', 'voluntaryParticipationSalaryBasisPoints', 'voluntaryParticipationStartDate', 'voluntaryPaymentPeriodEndDate', 'voluntaryPaymentPeriodStartDate', 'voluntaryPaymentsLimitedToPeriod'] as const
   $columns = SubscriptionPlanSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -592,6 +592,22 @@ export class SubscriptionPlanSchema extends BaseModel {
   declare subscriptionId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+  @column()
+  declare voluntaryParticipationDuration: number | null
+  @column.date()
+  declare voluntaryParticipationEndDate: DateTime | null
+  @column()
+  declare voluntaryParticipationEqualBasisPoints: number | null
+  @column()
+  declare voluntaryParticipationFormula: number | null
+  @column()
+  declare voluntaryParticipationMinimumSeniorityMonths: number | null
+  @column()
+  declare voluntaryParticipationPresenceBasisPoints: number | null
+  @column()
+  declare voluntaryParticipationSalaryBasisPoints: number | null
+  @column.date()
+  declare voluntaryParticipationStartDate: DateTime | null
   @column.date()
   declare voluntaryPaymentPeriodEndDate: DateTime | null
   @column.date()
@@ -637,7 +653,7 @@ export class UserSchema extends BaseModel {
   @column()
   declare email: string
   @column()
-  declare firmId: number
+  declare firmId: number | null
   @column()
   declare firstName: string
   @column({ isPrimary: true })

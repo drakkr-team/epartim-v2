@@ -1,6 +1,7 @@
 import { test } from "@japa/runner";
 
 import { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
+import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
 import SubscriptionPlan from "#models/subscription_plan";
@@ -12,6 +13,10 @@ test.group(
 		async function createSubscription() {
 			const user = await UserFactory.create();
 			const subscription = await SubscriptionFactory.merge({ createdBy: user.id }).create();
+			await CompanyFactory.merge({
+				subscriptionId: subscription.id,
+				companyHeadcount: "50",
+			}).create();
 
 			return { subscription, user };
 		}

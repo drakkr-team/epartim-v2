@@ -112,6 +112,14 @@ function planFixture(): ContractCharacteristicsInput {
 			existingAgreements: [],
 			otherAgreementDetails: null,
 			minimumSeniorityMonths: 0,
+			voluntaryParticipationDuration: null,
+			voluntaryParticipationStartDate: null,
+			voluntaryParticipationEndDate: null,
+			voluntaryParticipationMinimumSeniorityMonths: null,
+			voluntaryParticipationSalaryPercentage: null,
+			voluntaryParticipationPresencePercentage: null,
+			voluntaryParticipationEqualPercentage: null,
+			voluntaryParticipationFormula: null,
 			matchingCalculationMethod: 1,
 			matchingDistributionPeriod: 1,
 			matchingRules: { pei: matching(), per: matching() },
@@ -297,7 +305,7 @@ test("active matching rules require payments, rates and limits; hidden rules do 
 	assert.equal(contractCharacteristicsCompletion(input)?.percentage, 100);
 	matching.uniformRules[0].rate = 301;
 	assert.ok((contractCharacteristicsCompletion(input)?.percentage ?? 100) < 100);
-	input.contractCharacteristics.adhesionTypes = [3];
+	input.contractCharacteristics.adhesionTypes = [2];
 	assert.equal(contractCharacteristicsCompletion(input)?.percentage, 100);
 });
 
@@ -416,4 +424,31 @@ test("CSE requires a mandated member email and coherent majority votes, includin
 	group.votesAgainst = 0;
 	group.members[0].email = null;
 	assert.ok((formalismCompletion(input)?.percentage ?? 100) < 100);
+});
+
+test("participation only contributes its eight required fields when selected", () => {
+	const input = planFixture();
+	const before = contractCharacteristicsCompletion(input);
+	input.contractCharacteristics.adhesionTypes = [1, 3];
+	const empty = contractCharacteristicsCompletion(input);
+	assert.equal(empty?.required, (before?.required ?? 0) + 8);
+	assert.equal(empty?.completed, before?.completed);
+	Object.assign(input.contractCharacteristics, {
+		voluntaryParticipationDuration: 0,
+		voluntaryParticipationStartDate: "2026-01-01",
+		voluntaryParticipationEndDate: "2027-06-30",
+		voluntaryParticipationMinimumSeniorityMonths: 0,
+		voluntaryParticipationSalaryPercentage: 100,
+		voluntaryParticipationPresencePercentage: 33.33,
+		voluntaryParticipationEqualPercentage: 0,
+		voluntaryParticipationFormula: 5,
+	});
+	assert.equal(contractCharacteristicsCompletion(input)?.percentage, 100);
+	input.contractCharacteristics.voluntaryParticipationEndDate = "2026-01-01";
+	assert.equal(contractCharacteristicsCompletion(input)?.completed, (empty?.required ?? 0) - 1);
+	input.contractCharacteristics.voluntaryParticipationEndDate = "2027-06-30";
+	input.contractCharacteristics.voluntaryParticipationSalaryPercentage = 33.333;
+	assert.equal(contractCharacteristicsCompletion(input)?.completed, (empty?.required ?? 0) - 1);
+	input.contractCharacteristics.adhesionTypes = [1];
+	assert.equal(contractCharacteristicsCompletion(input)?.percentage, 100);
 });
