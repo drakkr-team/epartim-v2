@@ -14,7 +14,7 @@ body:
       "otherAgreementDetails": "${[ faker.lorem.sentence() ]}"
     }
 bodyType: application/json
-description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. existingAgreements accepts any distinct combination of 1 (participation), 2 (incentives), 3 (PPV), 4 (PPVE), and 5 (other agreement), including []. Deselecting an agreement deletes its document; deselecting 5 also clears its details. Details have no business length limit. Returns 200 with the saved agreements or 422 for invalid values. Changes invalidate step 3.'
+description: 'Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID in your private Yaak environment. existingAgreements accepts any distinct combination of 1 (participation), 2 (incentives), 3 (PPV), 4 (PPVE), and 5 (other agreement), including []. Deselecting an agreement deletes its document; deselecting 5 also clears its details. Details have no business length limit. Returns 200 with the saved agreements or 422 for invalid values. Changes invalidate step 3.'
 headers:
 - enabled: true
   name: Content-Type

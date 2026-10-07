@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: 'Requires an authenticated client session. The status query accepts draft, validating or finalized. The validating group includes waiting for Epartim validation (status 5), waiting for signatures (status 1) and to be sent (status 2). Returns paginated subscriptions and meta.statusCounts for each group.'
+description: 'Requires an authenticated client session. The status query accepts draft, validating or finalized. The validating group includes waiting for Epartim validation (status 5), waiting for signatures (status 1) and to be sent (status 2). Returns paginated subscriptions and meta.statusCounts for each group. Access follows the role scopes documented in the Subscriptions folder. Pagination totals, search results and status counts use the same authorized scope. Returns meta.canCreate.'
 headers:
 - enabled: true
   name: Accept

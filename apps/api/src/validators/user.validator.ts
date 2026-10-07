@@ -12,7 +12,14 @@ export const CreateUserSchema = vine.object({
 		column: "email",
 	}),
 	role: vine.enum(USER_ROLES),
-	firmId: vine.number().exists({ table: "firms", column: "id" }).nullable(),
+	firmId: vine.number().exists({ table: "firms", column: "id" }),
 });
 
-export const UpdateUserSchema = CreateUserSchema.partial().omit(["email"]);
+export const UpdateUserSchema = vine.object({
+	...CreateUserSchema.partial().omit(["email", "firmId"]),
+	firmId: vine
+		.number()
+		.exists({ table: "firms", column: "id" })
+		.optional()
+		.requiredWhen((field) => field.value !== undefined),
+});

@@ -20,7 +20,7 @@ body:
       "confirmCompanyChange": false
     }
 bodyType: application/json
-description: "Requires the subscription creator client session. Set SUBSCRIPTION_ID and all referenced ids in private variables. Applies only selected fields and people from the preview. Copy person ids from the preview into ownerIds or legalAgentId. Set confirmCompanyChange only after reviewing the change. A company change preserves all unselected fields and documents; all available proposals are preselected by default, including replacements of existing values, and can be deselected. The legal representative requires an explicit choice. The user must verify retained data against the new SIREN. Repeated identical calls do not create duplicate people. Returns 200; 409 for consumed/expired/stale previews, status, or missing confirmation; 422 for invalid selections."
+description: "Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID and all referenced ids in private variables. Applies only selected fields and people from the preview. Copy person ids from the preview into ownerIds or legalAgentId. Set confirmCompanyChange only after reviewing the change. A company change preserves all unselected fields and documents; all available proposals are preselected by default, including replacements of existing values, and can be deselected. The legal representative requires an explicit choice. The user must verify retained data against the new SIREN. Repeated identical calls do not create duplicate people. Returns 200; 409 for consumed/expired/stale previews, status, or missing confirmation; 422 for invalid selections."
 headers:
 - enabled: true
   name: Content-Type

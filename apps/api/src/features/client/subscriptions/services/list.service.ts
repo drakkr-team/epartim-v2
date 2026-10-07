@@ -2,6 +2,7 @@ import type { ModelQueryBuilderContract } from "@adonisjs/lucid/types/model";
 import { DateTime } from "luxon";
 
 import Subscription, { SubscriptionStatus } from "#models/subscription";
+import User from "#models/user";
 
 export const subscriptionListStatuses = ["draft", "validating", "finalized"] as const;
 
@@ -28,14 +29,15 @@ type ListSubscriptionsParams = {
 type SubscriptionStatusCounts = Record<SubscriptionListStatus, number>;
 
 export default class ListSubscriptionsService {
-	handle(params: ListSubscriptionsParams = {}) {
-		return this.#buildQuery(params).orderBy("created_at", "desc").orderBy("id", "desc");
+	handle(user: User, params: ListSubscriptionsParams = {}) {
+		return this.#buildQuery(user, params).orderBy("created_at", "desc").orderBy("id", "desc");
 	}
 
 	async getStatusCounts(
+		user: User,
 		params: Pick<ListSubscriptionsParams, "q" | "progress" | "createdAtFrom" | "createdAtTo">,
 	): Promise<SubscriptionStatusCounts> {
-		const subscriptions = await this.#buildQuery(params)
+		const subscriptions = await this.#buildQuery(user, params)
 			.select("status")
 			.count("* as total")
 			.groupBy("status");
@@ -56,10 +58,11 @@ export default class ListSubscriptionsService {
 		return counts;
 	}
 
-	#buildQuery(params: ListSubscriptionsParams) {
+	#buildQuery(user: User, params: ListSubscriptionsParams) {
 		const { createdAtFrom, createdAtTo, progress, q, status } = params;
 
 		return Subscription.query()
+			.apply((scopes) => scopes.accessibleTo(user))
 			.if(q, (query) => this.#searchQuery(query, q!))
 			.if(progress !== undefined, (query) => this.#progressQuery(query, progress!))
 			.if(createdAtFrom && !createdAtTo, (query) =>

@@ -22,7 +22,7 @@ body:
       ]
     }
 bodyType: application/json
-description: Set SUBSCRIPTION_ID in your private Yaak environment. Empty fields are sent as null to support partial autosaves.
+description: 'Set SUBSCRIPTION_ID in your private Yaak environment. Empty fields are sent as null to support partial autosaves. Access follows the role scopes documented in the Subscriptions folder.'
 headers:
 - enabled: true
   name: Content-Type

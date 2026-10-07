@@ -1,6 +1,7 @@
 import { test } from "@japa/runner";
 import { DateTime } from "luxon";
 
+import { USER_ROLES } from "#constants/user";
 import { CompanyFactory } from "#database/factories/company.factory";
 import { SubscriptionFactory } from "#database/factories/subscription.factory";
 import { UserFactory } from "#database/factories/user.factory";
@@ -48,7 +49,7 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		const response = await client
 			.visit("client.subscriptions.list")
 			.withGuard("client")
-			.loginAs(await UserFactory.create())
+			.loginAs(await UserFactory.merge({ role: USER_ROLES.ADMIN }).create())
 			.qs({ q: search, status: "validating" });
 
 		response.assertOk();
@@ -83,7 +84,7 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		const response = await client
 			.visit("client.subscriptions.list")
 			.withGuard("client")
-			.loginAs(await UserFactory.create())
+			.loginAs(await UserFactory.merge({ role: USER_ROLES.ADMIN }).create())
 			.qs({ q: reference });
 
 		response.assertOk();
@@ -131,7 +132,7 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		const response = await client
 			.visit("client.subscriptions.list")
 			.withGuard("client")
-			.loginAs(await UserFactory.create())
+			.loginAs(await UserFactory.merge({ role: USER_ROLES.ADMIN }).create())
 			.qs({
 				createdAtFrom: "2026-09-04",
 				createdAtTo: "2026-09-04",
@@ -153,7 +154,7 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		const singleDateResponse = await client
 			.visit("client.subscriptions.list")
 			.withGuard("client")
-			.loginAs(await UserFactory.create())
+			.loginAs(await UserFactory.merge({ role: USER_ROLES.ADMIN }).create())
 			.qs({ createdAtFrom: "2026-09-04", progress: 3, status: "draft" });
 
 		singleDateResponse.assertOk();
@@ -167,7 +168,7 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		const response = await client
 			.visit("client.subscriptions.list")
 			.withGuard("client")
-			.loginAs(await UserFactory.create())
+			.loginAs(await UserFactory.merge({ role: USER_ROLES.ADMIN }).create())
 			.qs({ createdAtFrom: "2026-09-05", createdAtTo: "2026-09-04" });
 
 		response.assertStatus(422);
@@ -177,14 +178,14 @@ test.group("Features / Client / Subscriptions / Controllers / List Controller", 
 		const response = await client
 			.visit("client.subscriptions.list")
 			.withGuard("client")
-			.loginAs(await UserFactory.create())
+			.loginAs(await UserFactory.merge({ role: USER_ROLES.ADMIN }).create())
 			.qs({ progress: 6 });
 
 		response.assertStatus(422);
 	});
 
 	test("it returns paginated subscriptions with their companies", async ({ client, assert }) => {
-		const user = await UserFactory.create();
+		const user = await UserFactory.merge({ role: USER_ROLES.ADMIN }).create();
 		const otherUser = await UserFactory.create();
 		const initialResponse = await client
 			.visit("client.subscriptions.list")

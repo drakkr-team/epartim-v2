@@ -20,7 +20,7 @@ body:
       "voluntaryPaymentPeriodEndDate": "2026-12-31"
     }
 bodyType: application/json
-description: 'Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Send only changed plan fields. minimumSeniorityMonths accepts 0, 1, 2, 3 or null for an unanswered draft; 0 means no seniority. matchingCalculationMethod accepts 1 (Amundi) or 2 (company) and defaults to 1. matchingDistributionPeriod accepts 1 (years), 2 (trimester) or 3 (semester) and defaults to 1. voluntaryPaymentsLimitedToPeriod defaults to false. When true, voluntaryPaymentPeriodStartDate and voluntaryPaymentPeriodEndDate accept partial drafts as ISO calendar dates; disabling it clears both dates. Returns 200 with the saved plan or 422 for invalid values. Changes invalidate step 3.'
+description: 'Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID in your private Yaak environment. Send only changed plan fields. minimumSeniorityMonths accepts 0, 1, 2, 3 or null for an unanswered draft; 0 means no seniority. matchingCalculationMethod accepts 1 (Amundi) or 2 (company) and defaults to 1. matchingDistributionPeriod accepts 1 (years), 2 (trimester) or 3 (semester) and defaults to 1. voluntaryPaymentsLimitedToPeriod defaults to false. When true, voluntaryPaymentPeriodStartDate and voluntaryPaymentPeriodEndDate accept partial drafts as ISO calendar dates; disabling it clears both dates. Returns 200 with the saved plan or 422 for invalid values. Changes invalidate step 3.'
 headers:
 - enabled: true
   name: Content-Type

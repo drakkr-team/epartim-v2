@@ -6,6 +6,6 @@ import User from "#models/user";
 
 export default class AccessSubscriptionPolicy extends BasePolicy {
 	handle(currentUser: Admin | User, subscription: Subscription) {
-		return currentUser instanceof User && subscription.createdBy === currentUser.id;
+		return currentUser instanceof User && currentUser.can("access:subscription", subscription);
 	}
 }

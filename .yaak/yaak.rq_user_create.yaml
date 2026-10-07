@@ -12,10 +12,12 @@ body:
     {
       "firstName": "${[ faker.person.firstName() ]}",
       "lastName": "${[ faker.person.lastName() ]}",
-      "email": "${[ faker.internet.email() ]}"
+      "email": "${[ faker.internet.email() ]}",
+      "role": 0,
+      "firmId": ${[ FIRM_ID ]}
     }
 bodyType: application/json
-description: ''
+description: 'Requires an admin session with create:user. A valid firmId is required for every user role. Set FIRM_ID in your private Yaak environment.'
 headers:
 - enabled: true
   name: Content-Type

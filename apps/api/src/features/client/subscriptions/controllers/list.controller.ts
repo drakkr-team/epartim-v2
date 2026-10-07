@@ -2,10 +2,12 @@ import { inject } from "@adonisjs/core";
 import type { HttpContext } from "@adonisjs/core/http";
 import vine from "@vinejs/vine";
 
+import CreateSubscriptionPolicy from "#features/client/subscriptions/policies/create.policy";
 import ListSubscriptionsPolicy from "#features/client/subscriptions/policies/list.policy";
 import ListSubscriptionsService, {
 	subscriptionListStatuses,
 } from "#features/client/subscriptions/services/list.service";
+import User from "#models/user";
 import CompanyPresenter from "#presenters/company.presenter";
 import PaginationPresenter from "#presenters/pagination.presenter";
 import SubscriptionPresenter from "#presenters/subscription.presenter";
@@ -20,8 +22,9 @@ export default class ListSubscriptionsController {
 		protected paginationPresenter: PaginationPresenter,
 	) {}
 
-	async handle({ request, bouncer }: HttpContext) {
+	async handle({ auth, request, bouncer }: HttpContext) {
 		await bouncer.with(ListSubscriptionsPolicy).authorize("handle");
+		const user = auth.user as User;
 
 		const {
 			page = 1,
@@ -32,7 +35,7 @@ export default class ListSubscriptionsController {
 			createdAtFrom,
 			createdAtTo,
 		} = await request.validateUsing(ListSubscriptionsController.querySchema);
-		const subscriptionsQuery = this.listSubscriptionsService.handle({
+		const subscriptionsQuery = this.listSubscriptionsService.handle(user, {
 			q,
 			status,
 			progress,
@@ -45,7 +48,8 @@ export default class ListSubscriptionsController {
 		return {
 			meta: {
 				...this.paginationPresenter.toJSON(subscriptions),
-				statusCounts: await this.listSubscriptionsService.getStatusCounts({
+				canCreate: await bouncer.with(CreateSubscriptionPolicy).allows("handle"),
+				statusCounts: await this.listSubscriptionsService.getStatusCounts(user, {
 					q,
 					progress,
 					createdAtFrom,

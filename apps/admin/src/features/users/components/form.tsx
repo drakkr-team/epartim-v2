@@ -92,7 +92,7 @@ export function UserForm(props: UserFormProps) {
 
 			<form.AppField name="firmId">
 				{(field) => (
-					<field.GenericField label={t("field.firm.label")}>
+					<field.GenericField label={t("field.firm.label")} required>
 						<FirmCombobox
 							defaultValue={props.defaultValues?.firm}
 							onValueChange={(value) =>

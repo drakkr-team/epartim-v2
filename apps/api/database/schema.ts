@@ -637,7 +637,7 @@ export class UserSchema extends BaseModel {
   @column()
   declare email: string
   @column()
-  declare firmId: number | null
+  declare firmId: number
   @column()
   declare firstName: string
   @column({ isPrimary: true })

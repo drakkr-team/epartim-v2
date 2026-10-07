@@ -16,7 +16,7 @@ body:
       }
     }
 bodyType: application/json
-description: 'Changing or clearing siren requires confirmCompanyChange=true for populated dossiers and is allowed only in draft (0) or waiting for validation (5). A confirmed SIREN change preserves all other existing fields and documents for user review, clears all five completed steps, and returns the dossier to draft. Otherwise 409. Requires the client session of the subscription creator. Set SUBSCRIPTION_ID in your private Yaak environment. Send changed legalIdentification fields only. An actual companyHeadcount change also invalidates step 5 and clears unavailable formalism methods with methodInvalidated=true, retaining compatible formalism data. Returns 200, 422 for invalid values, 401 if unauthenticated, 403 for another creator, or 404 if missing.'
+description: 'Changing or clearing siren requires confirmCompanyChange=true for populated dossiers and is allowed only in draft (0) or waiting for validation (5). A confirmed SIREN change preserves all other existing fields and documents for user review, clears all five completed steps, and returns the dossier to draft. Otherwise 409. Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID in your private Yaak environment. Send changed legalIdentification fields only. An actual companyHeadcount change also invalidates step 5 and clears unavailable formalism methods with methodInvalidated=true, retaining compatible formalism data. Returns 200, 422 for invalid values, 401 if unauthenticated, 403 outside the authorized scope, or 404 if missing.'
 headers:
 - enabled: true
   name: Content-Type

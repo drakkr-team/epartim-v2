@@ -35,7 +35,7 @@ function SubscriptionStepPage() {
 		);
 	}
 
-	if (isError || !subscription) {
+	if (isError || !subscription || !subscription.meta.canUpdate) {
 		return <p className="text-error-10">{t("error")}</p>;
 	}
 

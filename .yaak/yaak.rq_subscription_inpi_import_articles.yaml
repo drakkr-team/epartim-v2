@@ -15,7 +15,7 @@ body:
       "replaceExisting": false
     }
 bodyType: application/json
-description: "Requires the subscription creator client session. Set SUBSCRIPTION_ID and all referenced ids in private variables. Attaches articles independently of selected fields, for the current company SIREN. Review PDF first. Set replaceExisting=true explicitly to replace a file. Returns 201 file metadata; 409 for replacement confirmation, wrong company, expired preview or status; 422 for unavailable PDF; 503 for upstream failure."
+description: "Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID and all referenced ids in private variables. Attaches articles independently of selected fields, for the current company SIREN. Review PDF first. Set replaceExisting=true explicitly to replace a file. Returns 201 file metadata; 409 for replacement confirmation, wrong company, expired preview or status; 422 for unavailable PDF; 503 for upstream failure."
 headers:
 - enabled: true
   name: Content-Type

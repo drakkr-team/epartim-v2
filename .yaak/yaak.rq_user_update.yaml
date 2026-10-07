@@ -14,7 +14,7 @@ body:
       "lastName": "${[ faker.person.lastName() ]}"
     }
 bodyType: application/json
-description: Set USER_ID in your private Yaak environment.
+description: Set USER_ID in your private Yaak environment. Requires an admin session with update:user. firmId is optional in partial updates but cannot be null; set FIRM_ID privately when changing the cabinet.
 headers:
 - enabled: true
   name: Content-Type

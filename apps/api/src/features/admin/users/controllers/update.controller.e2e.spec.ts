@@ -84,7 +84,12 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 		const targetUser = await UserFactory.create();
 		const statuses: number[] = [];
 
-		for (const payload of [{ firstName: "A" }, { role: 999 }, { firmId: 2_147_483_647 }]) {
+		for (const payload of [
+			{ firstName: "A" },
+			{ role: 999 },
+			{ firmId: 2_147_483_647 },
+			{ firmId: null },
+		]) {
 			const response = await client
 				.visit("admin.users.update", { userId: targetUser.id })
 				.withGuard("admin")
@@ -94,7 +99,7 @@ test.group("Features / Admin / Users / Controllers / Update Controller", () => {
 			statuses.push(response.status());
 		}
 
-		assert.deepEqual(statuses, [422, 422, 422]);
+		assert.deepEqual(statuses, [422, 422, 422, 422]);
 	});
 
 	test("it should return not found for missing identifiers", async ({ client }) => {

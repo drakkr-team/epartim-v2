@@ -86,9 +86,12 @@ export default class ViewSubscriptionController {
 
 		return {
 			...this.subscriptionPresenter.toJSON(subscription),
+			meta: {
+				canUpdate: await bouncer.with(AccessSubscriptionPolicy).allows("handle", subscription),
+			},
 			formalism: await this.formalismService.snapshot(subscription.id),
 			creator: {
-				name: subscription.creator.name,
+				name: subscription.creator?.name ?? null,
 			},
 			legalIdentification: this.companyPresenter.toJSON(subscription.company),
 			addressAndBankDetails: {

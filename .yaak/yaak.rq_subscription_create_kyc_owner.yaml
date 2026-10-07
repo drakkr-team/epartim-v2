@@ -9,7 +9,7 @@ authentication: {}
 authenticationType: null
 body: {}
 bodyType: null
-description: Set SUBSCRIPTION_ID in your private Yaak environment. The request requires an authenticated client session.
+description: 'Set SUBSCRIPTION_ID in your private Yaak environment. The request requires an authenticated client session. Access follows the role scopes documented in the Subscriptions folder.'
 headers:
 - enabled: true
   name: Accept
