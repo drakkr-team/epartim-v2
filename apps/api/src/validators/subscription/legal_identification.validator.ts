@@ -35,4 +35,5 @@ const LegalIdentificationSchema = vine.object({
 
 export const UpdateLegalIdentificationSchema = vine.object({
 	legalIdentification: LegalIdentificationSchema.partial(),
+	confirmCompanyChange: vine.boolean().optional(),
 });

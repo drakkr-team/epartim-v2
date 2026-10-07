@@ -204,11 +204,23 @@ const routes = {
     tokens: [{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":0,"val":"inpi","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/preview","type":0,"val":"preview","end":""}],
     types: placeholder as Registry['client.subscriptions.inpi.preview']['types'],
   },
+  'client.subscriptions.inpi.apply': {
+    methods: ["POST"],
+    pattern: '/client/subscriptions/:subscriptionId/inpi/apply',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/inpi/apply","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/apply","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/apply","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/apply","type":0,"val":"inpi","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/apply","type":0,"val":"apply","end":""}],
+    types: placeholder as Registry['client.subscriptions.inpi.apply']['types'],
+  },
   'client.subscriptions.inpi.preview_articles': {
     methods: ["GET","HEAD"],
     pattern: '/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId',
     tokens: [{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"inpi","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"previews","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":1,"val":"previewId","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":0,"val":"articles","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId","type":1,"val":"actId","end":""}],
     types: placeholder as Registry['client.subscriptions.inpi.preview_articles']['types'],
+  },
+  'client.subscriptions.inpi.import_articles': {
+    methods: ["POST"],
+    pattern: '/client/subscriptions/:subscriptionId/inpi/articles',
+    tokens: [{"old":"/client/subscriptions/:subscriptionId/inpi/articles","type":0,"val":"client","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/articles","type":0,"val":"subscriptions","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/articles","type":1,"val":"subscriptionId","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/articles","type":0,"val":"inpi","end":""},{"old":"/client/subscriptions/:subscriptionId/inpi/articles","type":0,"val":"articles","end":""}],
+    types: placeholder as Registry['client.subscriptions.inpi.import_articles']['types'],
   },
   'client.subscriptions.list': {
     methods: ["GET","HEAD"],

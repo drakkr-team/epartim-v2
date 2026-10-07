@@ -1,12 +1,15 @@
+import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
+
 import {
 	SubscriptionMatchingCalculationMethod,
 	SubscriptionMatchingDistributionPeriod,
 } from "#constants/subscription_matching";
+import CompanyChangeConfirmationRequiredException from "#exceptions/company_change_confirmation_required.exception";
 import SubscriptionNotEditableException from "#exceptions/subscription_not_editable.exception";
 import Company from "#models/company";
 import { CompanyKycGeography } from "#models/company_kyc_profile";
 import Contact from "#models/contact";
-import Subscription from "#models/subscription";
+import Subscription, { SubscriptionStatus } from "#models/subscription";
 import SubscriptionFormalism from "#models/subscription_formalism";
 
 function hasValues(attributes: Record<string, unknown>, ignored: string[] = []) {
@@ -123,5 +126,26 @@ export default class ChangeSubscriptionCompanyService {
 		)
 			return true;
 		return false;
+	}
+
+	async handle(
+		subscription: Subscription,
+		company: Company,
+		siren: string | null,
+		confirmed: boolean,
+		trx: TransactionClientContract,
+	) {
+		if (siren === company.siren) return false;
+		this.assertEditable(subscription);
+		const requiresConfirmation = await this.requiresConfirmation(subscription, company, siren);
+		if (requiresConfirmation && !confirmed) throw new CompanyChangeConfirmationRequiredException();
+		if (requiresConfirmation) {
+			await subscription
+				.useTransaction(trx)
+				.merge({ completedSteps: [], status: SubscriptionStatus.DRAFT })
+				.save();
+		}
+		company.siren = siren;
+		return requiresConfirmation;
 	}
 }

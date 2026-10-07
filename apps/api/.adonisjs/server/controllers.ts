@@ -87,6 +87,8 @@ export const controllers = {
           Upload: () => import('#src/features/client/subscriptions/controllers/documents/upload.controller'),
         },
         inpi: {
+          Apply: () => import('#src/features/client/subscriptions/controllers/inpi/apply.controller'),
+          ImportArticles: () => import('#src/features/client/subscriptions/controllers/inpi/import_articles.controller'),
           PreviewArticles: () => import('#src/features/client/subscriptions/controllers/inpi/preview_articles.controller'),
           Preview: () => import('#src/features/client/subscriptions/controllers/inpi/preview.controller'),
         },

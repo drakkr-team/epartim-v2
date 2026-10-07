@@ -13,6 +13,8 @@
 			"upload": "Téléverser {{document}}",
 			"replace": "Remplacer {{document}}",
 			"download": "Télécharger {{document}}",
+			"download-rne": "Télécharger l’extrait RNE sur l’Annuaire des entreprises",
+			"new-tab": "(nouvel onglet)",
 			"delete": "Supprimer {{document}}"
 		},
 		"error": {

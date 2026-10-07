@@ -10,7 +10,12 @@ import {
 } from "react";
 
 type StepForm = {
-	state: { isFieldsValid: boolean; isFieldsValidating: boolean; values: unknown };
+	state: {
+		isFieldsValid: boolean;
+		isFieldsValidating: boolean;
+		values: unknown;
+		fieldMeta?: Record<string, { isDirty?: boolean; isDefaultValue?: boolean } | undefined>;
+	};
 	store: { subscribe: (listener: () => void) => { unsubscribe: () => void } };
 	validateAllFields: (cause: "submit") => Promise<unknown>;
 };
@@ -25,6 +30,7 @@ type StepValidationContextValue = {
 	canValidate: boolean;
 	registerForm: (form: StepForm) => () => void;
 	validateForms: () => Promise<boolean>;
+	hasUnsavedChanges: (ignored?: { form: StepForm; field: string }) => boolean;
 };
 
 const StepValidationContext = createContext<StepValidationContextValue | null>(null);
@@ -107,9 +113,21 @@ export function SubscriptionStepValidationProvider({ children }: { children: Rea
 
 	const canValidate =
 		formCanValidate.size > 0 && [...formCanValidate.values()].every((canValidate) => canValidate);
+	const hasUnsavedChanges = useCallback(
+		(ignored?: { form: StepForm; field: string }) =>
+			[...forms.current.keys()].some((form) =>
+				Object.entries(form.state.fieldMeta ?? {}).some(
+					([field, meta]) =>
+						!(ignored?.form.store === form.store && ignored.field === field) &&
+						meta?.isDirty &&
+						meta.isDefaultValue !== true,
+				),
+			),
+		[],
+	);
 	const value = useMemo(
-		() => ({ canValidate, registerForm, validateForms }),
-		[canValidate, registerForm, validateForms],
+		() => ({ canValidate, registerForm, validateForms, hasUnsavedChanges }),
+		[canValidate, registerForm, validateForms, hasUnsavedChanges],
 	);
 
 	return <StepValidationContext.Provider value={value}>{children}</StepValidationContext.Provider>;

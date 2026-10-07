@@ -7,7 +7,7 @@ workspaceId: wk_W95zdiewKu
 folderId: fl_subscriptions
 authentication: {}
 authenticationType: null
-description: "INPI company and articles previews. Registry data is not applied to the subscription. Authentication credentials stay on the API server. Never put INPI credentials or tokens in this shared workspace."
+description: "Manual INPI prefill: preview, select, apply, and independently preview/import articles. Authentication credentials stay on the API server. Never put INPI credentials or tokens in this shared workspace."
 headers: []
 name: INPI
 sortPriority: 0.0

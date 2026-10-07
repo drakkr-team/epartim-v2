@@ -18,6 +18,7 @@ export type SubscriptionDocumentRequirement = {
 	document: SubscriptionDocument | null;
 	label: string;
 	ownerId: number | null;
+	rneUrl?: string | null;
 	step: SubscriptionStep;
 	type: SubscriptionDocumentTypeValue;
 };
@@ -74,7 +75,7 @@ export default class SubscriptionDocumentRequirementsService {
 			]),
 		);
 		const requirements: Array<
-			Pick<SubscriptionDocumentRequirement, "label" | "ownerId" | "step" | "type">
+			Pick<SubscriptionDocumentRequirement, "label" | "ownerId" | "rneUrl" | "step" | "type">
 		> = [
 			{
 				ownerId: null,
@@ -107,7 +108,7 @@ export default class SubscriptionDocumentRequirementsService {
 				ownerId: null,
 				step: SubscriptionStep.COMPANY_REFERENCES,
 				type: SubscriptionDocumentType.EXISTENCE_PROOF,
-				label: this.#existenceProofLabel(legalForm),
+				...this.#existenceProof(legalForm, company.siren),
 			});
 
 			if (this.#requiresOrganizationChart(legalForm)) {
@@ -241,24 +242,31 @@ export default class SubscriptionDocumentRequirementsService {
 		return legalForms.includes(legalForm);
 	}
 
-	#existenceProofLabel(legalForm: CompanyLegalForm) {
+	#existenceProof(legalForm: CompanyLegalForm, siren: string | null) {
 		switch (legalForm) {
 			case CompanyLegalForm.ASSOCIATION:
-				return "Extrait du Journal officiel ou récépissé de préfecture";
+				return { label: "Extrait du Journal officiel ou récépissé de préfecture" };
 			case CompanyLegalForm.SCF:
-				return "Attestation URSSAF de l'année en cours mentionnant le SIREN";
+				return { label: "Attestation URSSAF de l'année en cours mentionnant le SIREN" };
 			case CompanyLegalForm.ENTREPRISE_INDIVIDUELLE:
-				return "Kbis, carte professionnelle ou attestation URSSAF";
+				return { label: "Kbis, carte professionnelle ou attestation URSSAF" };
 			case CompanyLegalForm.PROFESSION_LIBERALE:
-				return "Carte professionnelle ou attestation URSSAF";
+				return { label: "Carte professionnelle ou attestation URSSAF" };
 			case CompanyLegalForm.ENTREPRISE_ASSURANCES_OU_MUTUELLE_CODE_ASSURANCES:
-				return "Agrément ou arrêté ministériel publié au Journal officiel";
+				return { label: "Agrément ou arrêté ministériel publié au Journal officiel" };
 			case CompanyLegalForm.SYNDICAT:
-				return "Récépissé de mairie";
+				return { label: "Récépissé de mairie" };
 			case CompanyLegalForm.ETABLISSEMENTS_PUBLICS_LOCAUX_REGIE_PERSONNALISEE:
-				return "Délibération de la collectivité territoriale";
+				return { label: "Délibération de la collectivité territoriale" };
 			default:
-				return "Extrait RNE ou équivalent Kbis de moins de trois mois, attestation du registre des métiers, carte professionnelle ou extrait du Journal officiel";
+				return {
+					label:
+						"Extrait RNE ou équivalent Kbis de moins de trois mois, attestation du registre des métiers, carte professionnelle ou extrait du Journal officiel",
+					rneUrl:
+						siren && /^\d{9}$/.test(siren)
+							? `https://annuaire-entreprises.data.gouv.fr/entreprise/${siren}`
+							: null,
+				};
 		}
 	}
 }

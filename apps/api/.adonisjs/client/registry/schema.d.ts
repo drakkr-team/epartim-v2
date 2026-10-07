@@ -403,6 +403,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/preview.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'client.subscriptions.inpi.apply': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/inpi/apply'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/inpi/apply.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/inpi/apply.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/apply.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/apply.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'client.subscriptions.inpi.preview_articles': {
     methods: ["GET","HEAD"]
     pattern: '/client/subscriptions/:subscriptionId/inpi/previews/:previewId/articles/:actId'
@@ -413,6 +425,18 @@ export interface Registry {
       query: ExtractQueryForGet<InferInput<(typeof import('#src/features/client/subscriptions/controllers/inpi/preview_articles.controller').default)['payloadSchema']>>
       response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/preview_articles.controller').default['handle']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/preview_articles.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'client.subscriptions.inpi.import_articles': {
+    methods: ["POST"]
+    pattern: '/client/subscriptions/:subscriptionId/inpi/articles'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#src/features/client/subscriptions/controllers/inpi/import_articles.controller').default)['payloadSchema']>>
+      paramsTuple: [ParamValue]
+      params: { subscriptionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#src/features/client/subscriptions/controllers/inpi/import_articles.controller').default)['payloadSchema']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/import_articles.controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#src/features/client/subscriptions/controllers/inpi/import_articles.controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.subscriptions.list': {

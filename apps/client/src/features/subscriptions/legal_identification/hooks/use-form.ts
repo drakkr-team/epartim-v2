@@ -53,6 +53,7 @@ export function useLegalIdentificationForm(params: UseLegalIdentificationFormPar
 		},
 		listeners: {
 			onBlur: ({ fieldApi }) => {
+				if (fieldApi.name === "siren") return;
 				if (!fieldApi.state.meta.isDirty || !fieldApi.state.meta.isValid) return;
 
 				const rawValue = fieldApi.state.value;

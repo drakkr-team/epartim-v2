@@ -1,0 +1,97 @@
+{
+	"features.subscriptions.inpi": {
+		"title": "Informations proposées par l’INPI",
+		"description": "Vérifiez les propositions INPI et choisissez les informations à enregistrer dans ce dossier.",
+		"apply": "Appliquer la sélection",
+		"applying": "Enregistrement…",
+		"applied": "La sélection est enregistrée. Vérifiez les informations conservées et complétez les champs manquants.",
+		"close": "Fermer",
+		"cancel": "Annuler",
+		"empty": "Non renseigné",
+		"unsaved": "Terminez ou corrigez les saisies en cours et attendez leur enregistrement avant d’ouvrir la recherche.",
+		"steps": {
+			"companyReferences": "Étape 1 — Références entreprise",
+			"kyc": "Étape 2 — KYC"
+		},
+		"company": {
+			"title": "Entreprise",
+			"description": "Tous les champs disponibles sont présélectionnés. Les valeurs cochées remplaceront celles du dossier. Décochez les champs que vous ne souhaitez pas importer.",
+			"current": "Actuel : {{value}}",
+			"proposed": "INPI : {{value}}"
+		},
+		"fields": {
+			"name": "Raison sociale",
+			"siret": "SIRET du siège",
+			"naf": "Code APE / NAF",
+			"legalForm": "Forme juridique",
+			"financialYearClosingDay": "Clôture de l’exercice",
+			"addressLineOne": "Adresse du siège",
+			"addressLineTwo": "Complément d’adresse",
+			"addressZip": "Code postal",
+			"addressCity": "Ville"
+		},
+		"people": {
+			"description": "Les personnes proposées sont présélectionnées. Décochez celles que vous ne souhaitez pas ajouter au KYC et vérifiez les fonctions et rôles proposés. Les personnes existantes, leurs coordonnées et leurs justificatifs sont conservés.",
+			"empty": "Aucune personne exploitable n’a été trouvée. Vous pouvez les renseigner manuellement.",
+			"legalAgent": "Représentant légal à préremplir",
+			"legalAgentDescription": "Choisissez le représentant légal à préremplir ou conservez celui du dossier. Ses coordonnées et justificatifs existants sont conservés.",
+			"keepLegalAgent": "Conserver le représentant actuel",
+			"owners": "Personnes à ajouter au KYC",
+			"unknownFunction": "Fonction à compléter",
+			"rolesToComplete": "Rôles à compléter"
+		},
+		"roles": {
+			"1": "Dirigeant",
+			"2": "Bénéficiaire effectif",
+			"3": "Mandataire",
+			"4": "Actionnaire"
+		},
+		"change": {
+			"title": "Confirmer le changement d’entreprise",
+			"companies": "{{previous}} → {{next}}",
+			"description": "Les informations et documents déjà présents sont conservés, sauf les valeurs que vous choisissez de remplacer par les propositions INPI. Ils peuvent concerner l’entreprise précédente : vérifiez leur cohérence avec le nouveau SIREN. Les cinq étapes devront être validées à nouveau.",
+			"confirm": "Je confirme le changement d’entreprise et vérifierai la véracité des informations et justificatifs conservés.",
+			"manualDescription": "Le SIREN va être modifié. Toutes les informations saisies et les documents joints sont conservés. Ils peuvent concerner l’entreprise précédente : vérifiez leur cohérence avec le nouveau SIREN et corrigez-les si nécessaire. Les cinq étapes devront être validées à nouveau.",
+			"action": "Confirmer le changement"
+		},
+		"articles": {
+			"title": "Statuts de l’entreprise",
+			"description": "Les statuts disponibles les plus récents peuvent être joints séparément au dossier.",
+			"date": "Date de dépôt : {{date}}",
+			"preview": "Consulter le PDF",
+			"replace": "Je souhaite remplacer les statuts actuellement joints.",
+			"applyFirst": "Enregistrez d’abord l’entreprise sélectionnée pour pouvoir joindre ses statuts.",
+			"import": "Joindre les statuts",
+			"importing": "Téléchargement…",
+			"imported": "Statuts joints",
+			"empty": "Aucun statut exploitable n’est disponible. Vous pouvez joindre votre propre document.",
+			"refreshPreview": "Les statuts sont joints. Relancez une recherche pour préremplir d’autres informations à partir du dossier actualisé."
+		},
+		"warnings": {
+			"unsupported_company_type": "Cette structure INPI n’est pas exploitable. Complétez les informations manuellement.",
+			"headquarters_siret_missing": "Le SIRET du siège n’a pas pu être identifié avec certitude.",
+			"legal_form_unknown": "La forme juridique reçue ne possède pas de correspondance certaine dans ce dossier.",
+			"closing_day_invalid": "La date de clôture reçue n’est pas valide.",
+			"restricted_diffusion": "Les restrictions de diffusion ne permettent pas de proposer ces données.",
+			"address_not_supported": "Une adresse reçue ne peut pas être représentée complètement dans les champs disponibles.",
+			"partial_person_birth_date": "Une date de naissance est partielle ou invalide et devra être complétée.",
+			"articles_unavailable": "Les statuts n’ont pas pu être récupérés. Les autres propositions restent disponibles.",
+			"incomplete": "Certaines informations devront être complétées manuellement."
+		},
+		"errors": {
+			"E_NETWORK": "La connexion a échoué. Vérifiez le dossier avant de réessayer.",
+			"E_UNEXPECTED": "L’opération n’a pas pu aboutir. La saisie manuelle reste disponible.",
+			"E_INPI_UNAVAILABLE": "L’INPI est temporairement indisponible. Réessayez plus tard ou poursuivez manuellement.",
+			"E_INPI_COMPANY_NOT_FOUND": "Aucune entreprise n’a été trouvée pour ce SIREN.",
+			"E_INPI_PREVIEW_EXPIRED": "Cet aperçu a expiré, a déjà été utilisé ou le dossier a changé. Rechargez le dossier et relancez la recherche.",
+			"E_SUBSCRIPTION_EDIT_CONFLICT": "Le dossier a changé ou une sauvegarde est en cours. Rechargez-le avant de poursuivre.",
+			"E_SUBSCRIPTION_NOT_EDITABLE": "Le statut du dossier ne permet plus ce préremplissage.",
+			"E_INPI_DOCUMENT_UNAVAILABLE": "Ce document est indisponible, invalide ou dépasse la limite de 10 Mo.",
+			"E_DOCUMENT_REPLACEMENT_CONFIRMATION_REQUIRED": "Confirmez le remplacement des statuts existants.",
+			"E_COMPANY_CHANGE_CONFIRMATION_REQUIRED": "Confirmez le changement d’entreprise avant de poursuivre.",
+			"E_TOO_MANY_REQUESTS": "Trop de demandes ont été effectuées. Patientez avant de réessayer.",
+			"E_VALIDATION_ERROR": "Vérifiez le SIREN et les informations sélectionnées."
+		},
+		"button": "Compléter avec l’INPI"
+	}
+}

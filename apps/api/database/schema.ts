@@ -442,7 +442,7 @@ export class SubscriptionCseMemberSchema extends BaseModel {
 }
 
 export class SubscriptionDocumentSchema extends BaseModel {
-  static $columns = ['companyBeneficialOwnerId', 'createdAt', 'fileId', 'id', 'subscriptionId', 'type', 'updatedAt'] as const
+  static $columns = ['companyBeneficialOwnerId', 'createdAt', 'fileId', 'id', 'inpiActId', 'inpiSiren', 'subscriptionId', 'type', 'updatedAt'] as const
   $columns = SubscriptionDocumentSchema.$columns
   @column()
   declare companyBeneficialOwnerId: number | null
@@ -452,6 +452,10 @@ export class SubscriptionDocumentSchema extends BaseModel {
   declare fileId: number
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare inpiActId: string | null
+  @column()
+  declare inpiSiren: string | null
   @column()
   declare subscriptionId: number
   @column()

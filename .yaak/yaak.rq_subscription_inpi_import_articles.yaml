@@ -1,0 +1,47 @@
+type: http_request
+model: http_request
+id: rq_subscription_inpi_import_articles
+createdAt: 2026-09-04T00:00:00.000000
+updatedAt: 2026-09-04T00:00:00.000000
+workspaceId: wk_W95zdiewKu
+folderId: fl_subscription_inpi
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "previewId": "${[ INPI_PREVIEW_ID ]}",
+      "actId": "${[ INPI_ACT_ID ]}",
+      "replaceExisting": false
+    }
+bodyType: application/json
+description: "Requires the subscription creator client session. Set SUBSCRIPTION_ID and all referenced ids in private variables. Attaches articles independently of selected fields, for the current company SIREN. Review PDF first. Set replaceExisting=true explicitly to replace a file. Returns 201 file metadata; 409 for replacement confirmation, wrong company, expired preview or status; 422 for unavailable PDF; 503 for upstream failure."
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: null
+- enabled: true
+  name: Accept
+  value: application/json
+  id: null
+method: POST
+name: Import INPI articles
+sortPriority: 2000.0
+url: http://localhost:3333/client/subscriptions/${[ SUBSCRIPTION_ID ]}/inpi/articles
+urlParameters: []
+settingSendCookies:
+  enabled: false
+  value: true
+settingStoreCookies:
+  enabled: false
+  value: true
+settingValidateCertificates:
+  enabled: false
+  value: true
+settingFollowRedirects:
+  enabled: false
+  value: true
+settingRequestTimeout:
+  enabled: false
+  value: 0
