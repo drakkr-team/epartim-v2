@@ -322,18 +322,30 @@ test("seniority periods must be continuous and the fifth period has no end", () 
 	assert.ok((contractCharacteristicsCompletion(input)?.percentage ?? 100) < 100);
 });
 
-test("zero entry fee is complete, with a known headcount and saved payer", () => {
+test("zero entry fee is complete with a saved payer", () => {
 	const input: Parameters<typeof contractFeesCompletion>[0] = {
-		legalIdentification: { companyHeadcount: "10" },
 		contractFees: { pricingOffer: 1, entryFeePayer: 1, entryFeeRate: 0 },
 	};
 	assert.equal(contractFeesCompletion(input)?.percentage, 100);
 	input.contractFees.entryFeeRate = 4.51;
 	assert.equal(contractFeesCompletion(input)?.percentage, 66);
-	assert.equal(
-		contractFeesCompletion({ ...input, legalIdentification: { companyHeadcount: null } }),
-		null,
-	);
+});
+
+test("contract fees progress as fields are saved even without a company headcount", () => {
+	const contractFees: Parameters<typeof contractFeesCompletion>[0]["contractFees"] = {
+		pricingOffer: 1,
+		entryFeePayer: null,
+		entryFeeRate: null,
+	};
+	const input = {
+		legalIdentification: { companyHeadcount: null },
+		contractFees,
+	};
+	assert.deepEqual(contractFeesCompletion(input), { completed: 1, required: 3, percentage: 33 });
+	input.contractFees.entryFeePayer = 1;
+	assert.deepEqual(contractFeesCompletion(input), { completed: 2, required: 3, percentage: 66 });
+	input.contractFees.entryFeeRate = 3;
+	assert.deepEqual(contractFeesCompletion(input), { completed: 3, required: 3, percentage: 100 });
 });
 
 test("formalism is unavailable until headcount and devices are known", () => {
