@@ -12,6 +12,11 @@ tests.
 - [Acteurs et acces](actors-and-access/README.md)
 - [BSE](bse/README.md)
 - [Schema base de donnees cible](database/schema.md)
+- [Schema actuel de la base (JSON ChartDB)](database/ChartDB-EpartimV2.json)
+
+Le JSON ChartDB représente le schéma actuel défini par les migrations de
+`apps/api/database/migrations`. Il peut être importé dans ChartDB et doit être
+mis à jour dans le même changement que toute évolution du schéma de la base.
 
 ## Sources de travail
 

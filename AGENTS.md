@@ -116,6 +116,7 @@ pnpm --filter @workspace/ui-theme generate:tailwind
 
 ## NOTES
 
+- The current database diagram is versioned in `docs/database/ChartDB-EpartimV2.json` (ChartDB, PostgreSQL). Whenever a migration creates, alters, renames, or drops a table, column, index, or foreign key, update this JSON in the same change to match the resulting schema, including types, nullability, defaults, uniqueness, and foreign-key delete rules. Preserve existing ChartDB IDs and layout where possible, refresh `updatedAt`, and verify that index and relationship references resolve. `docs/database/schema.md` describes the target schema; migrations remain the source of truth for the current schema.
 - The versioned Yaak workspace lives in `.yaak/`. Add every new or changed API route to Yaak, keeping its method, path, parameters, request body, and authentication requirements aligned with the implementation. Use English names for Yaak folders and requests; use Faker for generated test data, and private Yaak variables for real account IDs, credentials, and tokens. Never store credentials or tokens in a shared Yaak environment.
 - Root `turbo dev` is persistent and uncached.
 - API `dev` depends on `docker-compose` and `worker` sidecar tasks.
