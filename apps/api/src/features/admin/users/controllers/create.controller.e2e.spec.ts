@@ -63,7 +63,14 @@ test.group("Features / Admin / Users / Controllers / Create Controller", (group)
 		const role = await Role.findOrFail(authenticatedAdmin.roleId);
 		role.authorizations = ["create:user"];
 		await role.save();
-		const existingUser = await UserFactory.merge({ email: "existing@example.com" }).create();
+		const firm = await FirmFactory.with("address")
+			.with("paymentDetail")
+			.with("commissionRate")
+			.create();
+		const existingUser = await UserFactory.merge({
+			email: "existing@example.com",
+			firmId: firm.id,
+		}).create();
 
 		const response = await client
 			.visit("admin.users.create")
@@ -74,7 +81,7 @@ test.group("Features / Admin / Users / Controllers / Create Controller", (group)
 				lastName: "User",
 				email: existingUser.email,
 				role: USER_ROLES.USER,
-				firmId: existingUser.firmId,
+				firmId: firm.id,
 			});
 
 		response.assertStatus(422);

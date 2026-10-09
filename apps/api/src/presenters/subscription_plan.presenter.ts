@@ -24,6 +24,24 @@ export default class SubscriptionPlanPresenter {
 			),
 			otherAgreementDetails: plan.otherAgreementDetails,
 			minimumSeniorityMonths: plan.minimumSeniorityMonths,
+			voluntaryParticipationDuration: plan.voluntaryParticipationDuration,
+			voluntaryParticipationStartDate: plan.voluntaryParticipationStartDate?.toISODate() ?? null,
+			voluntaryParticipationEndDate: plan.voluntaryParticipationEndDate?.toISODate() ?? null,
+			voluntaryParticipationMinimumSeniorityMonths:
+				plan.voluntaryParticipationMinimumSeniorityMonths,
+			voluntaryParticipationSalaryPercentage:
+				plan.voluntaryParticipationSalaryBasisPoints === null
+					? null
+					: plan.voluntaryParticipationSalaryBasisPoints / 100,
+			voluntaryParticipationPresencePercentage:
+				plan.voluntaryParticipationPresenceBasisPoints === null
+					? null
+					: plan.voluntaryParticipationPresenceBasisPoints / 100,
+			voluntaryParticipationEqualPercentage:
+				plan.voluntaryParticipationEqualBasisPoints === null
+					? null
+					: plan.voluntaryParticipationEqualBasisPoints / 100,
+			voluntaryParticipationFormula: plan.voluntaryParticipationFormula,
 			matchingCalculationMethod: plan.matchingCalculationMethod,
 			matchingDistributionPeriod: plan.matchingDistributionPeriod,
 			matchingRules: presentSubscriptionMatchingRules(plan.matchingRules),

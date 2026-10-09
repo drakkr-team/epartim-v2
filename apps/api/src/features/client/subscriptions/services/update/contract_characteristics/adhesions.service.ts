@@ -1,15 +1,18 @@
 import { inject } from "@adonisjs/core";
 import db from "@adonisjs/lucid/services/db";
 import type { TransactionClientContract } from "@adonisjs/lucid/types/database";
+import { ValidationError } from "@vinejs/vine";
 import type { Infer } from "@vinejs/vine/types";
 
 import { SubscriptionMatchingDevice } from "#constants/subscription_matching";
+import { canSelectVoluntaryParticipation } from "#constants/subscription_participation";
 import type { SubscriptionPlanAdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionPlanAdhesionType as AdhesionType } from "#constants/subscription_plan_adhesion";
 import { SubscriptionStep } from "#features/client/subscriptions/services/steps/step.types";
 import ValidateSubscriptionStepService from "#features/client/subscriptions/services/steps/validate.service";
 import SubscriptionPlanService from "#features/client/subscriptions/services/update/contract_characteristics/plan.service";
 import SubscriptionFormalismService from "#features/client/subscriptions/services/update/formalism/formalism.service";
+import Company from "#models/company";
 import Subscription from "#models/subscription";
 import SubscriptionMatchingRule from "#models/subscription_matching_rule";
 import SubscriptionPlan from "#models/subscription_plan";
@@ -38,6 +41,23 @@ export default class SubscriptionPlanAdhesionsService {
 			const plan = await this.subscriptionPlanService.getOrCreate(subscription.id, trx);
 			if (payload.adhesionTypes !== undefined) {
 				const previous = await this.list(plan, trx);
+				if (
+					payload.adhesionTypes.includes(AdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT) &&
+					!previous.some(
+						(adhesion) => adhesion.type === AdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
+					)
+				) {
+					const company = await Company.findBy("subscriptionId", subscription.id, { client: trx });
+					if (!canSelectVoluntaryParticipation(company?.companyHeadcount))
+						throw new ValidationError([
+							{
+								field: "adhesionTypes",
+								message:
+									"L’accord de participation volontaire nécessite un effectif renseigné de 50 salariés ou moins.",
+								rule: "headcount",
+							},
+						]);
+				}
 				const changed =
 					previous.length !== payload.adhesionTypes.length ||
 					previous.some((adhesion) => !payload.adhesionTypes?.includes(adhesion.type));
@@ -65,6 +85,10 @@ export default class SubscriptionPlanAdhesionsService {
 		selectedTypes: SubscriptionPlanAdhesionType[],
 		trx: TransactionClientContract,
 	) {
+		if (!selectedTypes.includes(AdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT)) {
+			this.subscriptionPlanService.clearVoluntaryParticipation(plan);
+			await plan.useTransaction(trx).save();
+		}
 		if (selectedTypes.length === 0) {
 			await SubscriptionPlanAdhesion.query({ client: trx })
 				.where("subscriptionPlanId", plan.id)

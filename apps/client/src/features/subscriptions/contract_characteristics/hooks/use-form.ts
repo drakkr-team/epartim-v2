@@ -102,6 +102,18 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 			existingAgreements: contractCharacteristics.existingAgreements as SubscriptionAgreement[],
 			otherAgreementDetails: contractCharacteristics.otherAgreementDetails ?? "",
 			minimumSeniorityMonths: contractCharacteristics.minimumSeniorityMonths,
+			voluntaryParticipationDuration: contractCharacteristics.voluntaryParticipationDuration,
+			voluntaryParticipationStartDate: contractCharacteristics.voluntaryParticipationStartDate,
+			voluntaryParticipationEndDate: contractCharacteristics.voluntaryParticipationEndDate,
+			voluntaryParticipationMinimumSeniorityMonths:
+				contractCharacteristics.voluntaryParticipationMinimumSeniorityMonths,
+			voluntaryParticipationSalaryPercentage:
+				contractCharacteristics.voluntaryParticipationSalaryPercentage,
+			voluntaryParticipationPresencePercentage:
+				contractCharacteristics.voluntaryParticipationPresencePercentage,
+			voluntaryParticipationEqualPercentage:
+				contractCharacteristics.voluntaryParticipationEqualPercentage,
+			voluntaryParticipationFormula: contractCharacteristics.voluntaryParticipationFormula,
 			matchingCalculationMethod:
 				contractCharacteristics.matchingCalculationMethod as SubscriptionMatchingCalculationMethod,
 			matchingDistributionPeriod:
@@ -117,6 +129,9 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 				if (!fieldApi.state.meta.isDirty) return;
 				if (
 					!fieldApi.state.meta.isValid &&
+					name !== "adhesionTypes" &&
+					name !== "voluntaryParticipationStartDate" &&
+					name !== "voluntaryParticipationEndDate" &&
 					name !== "otherAgreementDetails" &&
 					name !== "voluntaryPaymentPeriodStartDate" &&
 					name !== "voluntaryPaymentPeriodEndDate"
@@ -140,6 +155,17 @@ export function useContractCharacteristicsForm(params: UseContractCharacteristic
 					const matching = formApi.state.values.matchingRules[matchingDevice];
 					updateMatchingRules(matchingDevice, matching, markFieldAsSaved);
 					return;
+				}
+
+				if (
+					name === "voluntaryParticipationStartDate" ||
+					name === "voluntaryParticipationEndDate"
+				) {
+					const {
+						voluntaryParticipationStartDate: startDate,
+						voluntaryParticipationEndDate: endDate,
+					} = formApi.state.values;
+					if (startDate && endDate && endDate <= startDate) return;
 				}
 
 				if (

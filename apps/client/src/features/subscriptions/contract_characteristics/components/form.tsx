@@ -8,6 +8,7 @@ import { MatchingCalculationSection } from "#/features/subscriptions/contract_ch
 import { MatchingDistributionSection } from "#/features/subscriptions/contract_characteristics/components/matching-distribution-section";
 import { MatchingSection } from "#/features/subscriptions/contract_characteristics/components/matching-section";
 import { MinimumSenioritySection } from "#/features/subscriptions/contract_characteristics/components/minimum-seniority-section";
+import { VoluntaryParticipationSection } from "#/features/subscriptions/contract_characteristics/components/voluntary-participation-section";
 import { VoluntaryPaymentPeriodSection } from "#/features/subscriptions/contract_characteristics/components/voluntary-payment-period-section";
 import { useContractCharacteristicsForm } from "#/features/subscriptions/contract_characteristics/hooks/use-form";
 import { useRegisterSubscriptionStepForm } from "#/features/subscriptions/steps/step-validation-context";
@@ -31,6 +32,7 @@ export function ContractCharacteristicsForm(props: ContractCharacteristicsFormPr
 		<form noValidate className="grid gap-8">
 			<Card className="p-6 sm:p-8">
 				<DispositivesSection
+					companyHeadcount={subscription.legalIdentification.companyHeadcount}
 					form={form}
 					updateContractCharacteristics={updateContractCharacteristics}
 				/>
@@ -64,6 +66,13 @@ export function ContractCharacteristicsForm(props: ContractCharacteristicsFormPr
 						{adhesionTypes.includes(SubscriptionPlanAdhesionType.PER_COLI_EPARTIM) && (
 							<Card className="p-6 sm:p-8">
 								<MatchingSection device="per" form={form} />
+							</Card>
+						)}
+						{adhesionTypes.includes(
+							SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
+						) && (
+							<Card className="p-6 sm:p-8">
+								<VoluntaryParticipationSection form={form} />
 							</Card>
 						)}
 					</>

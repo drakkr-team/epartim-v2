@@ -17,10 +17,18 @@ body:
       "matchingDistributionPeriod": 2,
       "voluntaryPaymentsLimitedToPeriod": true,
       "voluntaryPaymentPeriodStartDate": "2026-10-01",
-      "voluntaryPaymentPeriodEndDate": "2026-12-31"
+      "voluntaryPaymentPeriodEndDate": "2026-12-31",
+      "voluntaryParticipationDuration": 0,
+      "voluntaryParticipationStartDate": "2026-01-01",
+      "voluntaryParticipationEndDate": "2026-12-31",
+      "voluntaryParticipationMinimumSeniorityMonths": 0,
+      "voluntaryParticipationSalaryPercentage": 33.33,
+      "voluntaryParticipationPresencePercentage": 33.33,
+      "voluntaryParticipationEqualPercentage": 33.34,
+      "voluntaryParticipationFormula": 1
     }
 bodyType: application/json
-description: 'Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID in your private Yaak environment. Send only changed plan fields. minimumSeniorityMonths accepts 0, 1, 2, 3 or null for an unanswered draft; 0 means no seniority. matchingCalculationMethod accepts 1 (Amundi) or 2 (company) and defaults to 1. matchingDistributionPeriod accepts 1 (years), 2 (trimester) or 3 (semester) and defaults to 1. voluntaryPaymentsLimitedToPeriod defaults to false. When true, voluntaryPaymentPeriodStartDate and voluntaryPaymentPeriodEndDate accept partial drafts as ISO calendar dates; disabling it clears both dates. Returns 200 with the saved plan or 422 for invalid values. Changes invalidate step 3.'
+description: 'voluntaryParticipationDuration accepts 0 (indefinite), 1, 2 or 3; voluntaryParticipationMinimumSeniorityMonths accepts 0, 1, 2 or 3; voluntaryParticipationFormula accepts 1 (legal) and 2-5 (the four contractual derogatory formulas). voluntaryParticipationStartDate and voluntaryParticipationEndDate accept nullable ISO calendar draft dates; closure must strictly follow opening. voluntaryParticipationSalaryPercentage, voluntaryParticipationPresencePercentage and voluntaryParticipationEqualPercentage accept nullable values from 0 to 100 with at most two decimal places. Each answer is saved independently, without a sum constraint. These fields require selected adhesion type 3. Requires a client session with access to this subscription (see folder access rules). Set SUBSCRIPTION_ID in your private Yaak environment. Send only changed plan fields. Select adhesion 3 before sending participation fields. minimumSeniorityMonths accepts 0, 1, 2, 3 or null for an unanswered draft; 0 means no seniority. matchingCalculationMethod accepts 1 (Amundi) or 2 (company) and defaults to 1. matchingDistributionPeriod accepts 1 (years), 2 (trimester) or 3 (semester) and defaults to 1. voluntaryPaymentsLimitedToPeriod defaults to false. When true, voluntaryPaymentPeriodStartDate and voluntaryPaymentPeriodEndDate accept partial drafts as ISO calendar dates; disabling it clears both dates. Returns 200 with the saved plan or 422 for invalid values. Changes invalidate step 3.'
 headers:
 - enabled: true
   name: Content-Type

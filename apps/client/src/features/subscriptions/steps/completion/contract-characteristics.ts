@@ -8,6 +8,10 @@ import {
 	SubscriptionMatchingPaymentType,
 	SubscriptionMatchingRuleType,
 } from "@workspace/api/constants/subscription_matching";
+import {
+	SubscriptionParticipationDuration,
+	SubscriptionParticipationFormula,
+} from "@workspace/api/constants/subscription_participation";
 import { SubscriptionPlanAdhesionType } from "@workspace/api/constants/subscription_plan_adhesion";
 
 import {
@@ -127,5 +131,29 @@ export function contractCharacteristicsCompletion({
 		requirements.push(...matchingFields(plan.matchingRules.pei, "pei", unilateralMaximum));
 	if (plan.adhesionTypes.some((type) => type === SubscriptionPlanAdhesionType.PER_COLI_EPARTIM))
 		requirements.push(...matchingFields(plan.matchingRules.per, "per", unilateralMaximum));
+	if (
+		plan.adhesionTypes.some(
+			(type) => type === SubscriptionPlanAdhesionType.VOLUNTARY_PARTICIPATION_AGREEMENT,
+		)
+	) {
+		const percentage = z
+			.number()
+			.min(0)
+			.max(100)
+			.refine((value) => Math.abs(value * 100 - Math.round(value * 100)) <= 1e-9);
+		requirements.push(
+			valid(z.enum(SubscriptionParticipationDuration), plan.voluntaryParticipationDuration),
+			valid(calendarDate, plan.voluntaryParticipationStartDate),
+			valid(calendarDate, plan.voluntaryParticipationEndDate) &&
+				(!plan.voluntaryParticipationStartDate ||
+					(plan.voluntaryParticipationEndDate !== null &&
+						plan.voluntaryParticipationEndDate > plan.voluntaryParticipationStartDate)),
+			valid(z.number().int().min(0).max(3), plan.voluntaryParticipationMinimumSeniorityMonths),
+			valid(percentage, plan.voluntaryParticipationSalaryPercentage),
+			valid(percentage, plan.voluntaryParticipationPresencePercentage),
+			valid(percentage, plan.voluntaryParticipationEqualPercentage),
+			valid(z.enum(SubscriptionParticipationFormula), plan.voluntaryParticipationFormula),
+		);
+	}
 	return summarizeCompletion(requirements);
 }
